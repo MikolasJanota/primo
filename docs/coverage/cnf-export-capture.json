@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "source_git": "262c436ee8e00b8965242470f9fcb5f22c1e0a38",
+  "baseline_qualified_git": "62daa0506df1e086e8079f0ddb47d183b9254986",
+  "scope": "Capture generated Boolean CNF for structured single-query QF_UF inputs; retain separate conflicting-fact sequences.",
+  "status": "implemented and focused emission smoke passed; full qualification pending SLURM allocation",
+  "changes": [
+    "Capture each initial clause through BooleanClausifier::ClauseObserver before SAT insertion.",
+    "Declare fresh Boolean auxiliary names and include their defining clauses.",
+    "Use the ordinary frontend; remove the special Boolean preservation mode.",
+    "Accept nested Boolean structure and frontend definitions; keep nonincremental and extended-term boundaries."
+  ],
+  "local_smoke": {
+    "source_git": "262c436ee8e00b8965242470f9fcb5f22c1e0a38",
+    "execution": "one explicitly bounded individual smoke run on the workstation; all batch solver checks remain on SLURM",
+    "command": "timeout --kill-after=3s 30 <SLURM-built-primo> --quiet --max-theory-conflicts=100 --export-cnf results/cnf-export-structured-smoke/external-1.sexp external/1.smt2",
+    "binary_sha256": "fd046adef486d65994dd0773375747038c78c6128177b7562e6f3f07e955f2a0",
+    "input_sha256": "5b326057d75847dc836f3df1f8de4842015b2b8464089a510068bab6ac102d97",
+    "tracked_example_sha256": "5b326057d75847dc836f3df1f8de4842015b2b8464089a510068bab6ac102d97",
+    "artifact": "results/cnf-export-structured-smoke/external-1.sexp",
+    "artifact_sha256": "e7602f443e7f6f0435bb373bb21b4f799239a6f601b814e2f6a7cb2dd0fead26",
+    "result": "unsat",
+    "exit_code": 0,
+    "cnf_clauses": 6,
+    "theory_conflicts": 2,
+    "auxiliary_boolean_variables": 1,
+    "checker": "none; emission smoke only"
+  },
+  "slurm": {
+    "build_job": "336020",
+    "build_status": "COMPLETED, exit 0:0",
+    "gate_job": "336308",
+    "last_observed_gate_status": "PENDING (Priority)",
+    "scheduler_start_estimate": "2026-11-03T08:51:00 as displayed by SLURM; estimate can change",
+    "gate_command": "PRIMO_EXPECTED_GIT=262c436e PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> PIP_NO_INDEX=1 PIP_FIND_LINKS=<offline-Ruff-wheel-directory> sbatch scripts/slurm_cnf_export_gate.sbatch (supply workspace, cmake executable and matching C++ header manifest)",
+    "planned_gate": "Exact nested example, make check, existing 1000-case reference gate extended with structured Boolean inputs, make asan-test. These have not run for this revision yet.",
+    "planned_artifacts": "results/cnf-export-336308/ on the prepared SLURM workspace",
+    "resources": {
+      "cpus": 4,
+      "memory_gib": 16,
+      "wall_minutes": 45
+    }
+  },
+  "verification": {
+    "syntax": "Strict C++20 syntax checks with IPASIR enabled passed for modified C++ paths.",
+    "lint": "make lint and Ruff on tests/cnf_export_cli.py passed.",
+    "docs": "make docs and make docs-check-links passed: 268 pages, 34571 local links, 1135 unique Git links, zero failures; rendered sections/downloads inspected in the preceding revision and changed source links reviewed.",
+    "static": "Changed-source advisory include scan ran; two existing missing-direct-include recommendations in clausifier.cpp were repaired. Prior whole-tree static scan remains a diagnostic baseline, not a clean verdict for this revision.",
+    "batch": "slurm_validate_sbatch.py and bash -n passed.",
+    "borrow_review": "Observer copies clauses while callback arguments live and must not mutate/reenter the clausifier, term manager or backend. Binding runs after registration and names auxiliaries without creating core terms; input emission seals afterward.",
+    "unrun": "Fresh full test/fuzz/sanitizer results remain pending; the preceding restricted-CNF qualification does not qualify this revised source."
+  },
+  "documentation_review": {
+    "reviewer": "review_exporter_docs, independent read-only",
+    "baseline": "62daa050",
+    "verdict": "ready",
+    "finding": "DOC-04 resolved by including symbols/sorts and text processing in binding complexity.",
+    "files_sha256": {
+      "docs/reference/qf-uf-conflicts.md": "625845b35d653e1ebb8b3c48c6af19a894673712abd32696e4561008e7cf5308",
+      "docs/reference/options.md": "a34d981158ad6b0cca42f45600a068264a19a17e6a740e0b5c460b095fa6a7bf",
+      "docs/implementation/frontend.md": "3bd8109682e9317c3064ac5490b220c172034ff459600712b835579c83ab57b5",
+      "docs/implementation/euf.md": "f3eaccbcd267758167f93e22b218469d2b17b26aea09a818352bd221c6f74071",
+      "docs/examples/primo-help.txt": "9f21c61a2bb414b8ce5367728629ffa034ae2d3d54fa422b99c980f5c4efad5b",
+      "docs/examples/qf-uf-export.smt2": "5b326057d75847dc836f3df1f8de4842015b2b8464089a510068bab6ac102d97",
+      "docs/_config.yml": "c626925e87284e2dd857c17c735ba7e1308873687169b26961b2324721a1eca1"
+    },
+    "unchecked": "Runtime gate and external GitHub publication availability."
+  },
+  "artifacts": "results/cnf-export-structured-smoke/; results/cnf-export-capture-262c436e/; future SLURM results/cnf-export-336308/",
+  "limitations": "No product checker, derivations, propositional proof, or CNF conversion proof. No performance/default claim. ite and other extended terms still need separate lowering. Completion is blocked on the queued mandatory gate, not on source implementation."
+}

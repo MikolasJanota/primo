@@ -35,6 +35,9 @@ sphinx:
   config:
     bibtex_reference_style: label
     extlinks:
+      cnfcapturesource:
+        - "https://github.com/primo-solver/primo/blob/262c436ee8e00b8965242470f9fcb5f22c1e0a38/%s"
+        - "%s"
       conflictexportsource:
         - "https://github.com/primo-solver/primo/blob/99fbd15a3cb8508f6d45ca9feb2d10919cb0813c/%s"
         - "%s"

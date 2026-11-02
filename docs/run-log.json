@@ -3,6 +3,46 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-02-qf-uf-structured-cnf-capture",
+      "date": "2026-11-02",
+      "kind": "output-capture-fix-smoke-and-pending-qualification",
+      "evidence_status": "implemented and focused emission smoke passed; full qualification pending SLURM allocation",
+      "commit": "262c436ee8e00b8965242470f9fcb5f22c1e0a38",
+      "report": "docs/coverage/cnf-export-capture.json",
+      "jobs": {
+        "build_job": "336020",
+        "build_status": "COMPLETED, exit 0:0",
+        "gate_job": "336308",
+        "last_observed_gate_status": "PENDING (Priority)",
+        "scheduler_start_estimate": "2026-11-03T08:51:00 as displayed by SLURM; estimate can change",
+        "gate_command": "PRIMO_EXPECTED_GIT=262c436e PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> PIP_NO_INDEX=1 PIP_FIND_LINKS=<offline-Ruff-wheel-directory> sbatch scripts/slurm_cnf_export_gate.sbatch (supply workspace, cmake executable and matching C++ header manifest)",
+        "planned_gate": "Exact nested example, make check, existing 1000-case reference gate extended with structured Boolean inputs, make asan-test. These have not run for this revision yet.",
+        "planned_artifacts": "results/cnf-export-336308/ on the prepared SLURM workspace",
+        "resources": {
+          "cpus": 4,
+          "memory_gib": 16,
+          "wall_minutes": 45
+        }
+      },
+      "smoke": {
+        "source_git": "262c436ee8e00b8965242470f9fcb5f22c1e0a38",
+        "execution": "one explicitly bounded individual smoke run on the workstation; all batch solver checks remain on SLURM",
+        "command": "timeout --kill-after=3s 30 <SLURM-built-primo> --quiet --max-theory-conflicts=100 --export-cnf results/cnf-export-structured-smoke/external-1.sexp external/1.smt2",
+        "binary_sha256": "fd046adef486d65994dd0773375747038c78c6128177b7562e6f3f07e955f2a0",
+        "input_sha256": "5b326057d75847dc836f3df1f8de4842015b2b8464089a510068bab6ac102d97",
+        "tracked_example_sha256": "5b326057d75847dc836f3df1f8de4842015b2b8464089a510068bab6ac102d97",
+        "artifact": "results/cnf-export-structured-smoke/external-1.sexp",
+        "artifact_sha256": "e7602f443e7f6f0435bb373bb21b4f799239a6f601b814e2f6a7cb2dd0fead26",
+        "result": "unsat",
+        "exit_code": 0,
+        "cnf_clauses": 6,
+        "theory_conflicts": 2,
+        "auxiliary_boolean_variables": 1,
+        "checker": "none; emission smoke only"
+      },
+      "limitations": "No product checker, derivations, propositional proof, or CNF conversion proof. No performance/default claim. ite and other extended terms still need separate lowering. Completion is blocked on the queued mandatory gate, not on source implementation."
+    },
+    {
       "id": "2026-11-02-qf-uf-cnf-export",
       "date": "2026-11-02",
       "kind": "output-format-feature-qualification",

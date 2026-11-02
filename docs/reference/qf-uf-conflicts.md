@@ -206,20 +206,21 @@ that value without parsing, validating, or consulting solver state. Its caller
 must provide well-sorted SMT-LIB text. There are no borrowed references in the
 stored document.
 
-The SMT adapter `export_qf_uf_cnf` owns one `Frontend`, its term manager, and the
+The SMT adapter {cnfcapturesource}`export_qf_uf_cnf <src/smt/qf_uf_export.cpp>` owns one `Frontend`, its term manager, and the
 output document until solving and serialization finish. It validates the whole
 command sequence and the ground fragment, and prints declarations for all
 symbols in that frontend. The {source}`term printer <src/smtlib/term_printer.hpp>`
 supplies term-text utilities.
 
-`BooleanClausifier::ClauseObserver` is an optional synchronous callback at the
-clausifier-to-SAT boundary. Each clause passes through one insertion helper,
+{cnfcapturesource}`BooleanClausifier::ClauseObserver <src/smt/clausifier.hpp>`
+is an optional synchronous callback at the
+clausifier-to-SAT boundary. Each clause passes through one {cnfcapturesource}`insertion helper <src/smt/clausifier.cpp>`,
 which invokes the observer and then forwards the same clause to the backend.
 The observer must copy data it retains and must not mutate the clausifier,
 term manager, or backend, or reenter clausification.
 Without an observer, the ordinary clause insertion path remains active.
 
-`QfUfConflictCollector` borrows the adapter's term manager and document during
+{cnfcapturesource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` borrows the adapter's term manager and document during
 the solve. The observer copies initial clauses as SAT literals while the
 clausifier is still building its atom mapping. After the ordinary Boolean
 argument registry is complete, the collector copies that mapping into an owned
