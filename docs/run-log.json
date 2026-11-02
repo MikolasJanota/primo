@@ -3,6 +3,75 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-02-qf-uf-theory-lemma-reduction",
+      "date": "2026-11-02",
+      "kind": "optional-lemma-reduction-smoke-and-pending-qualification",
+      "evidence_status": "implemented and bounded MUS emission smoke passed; full qualification pending SLURM allocation",
+      "commit": "2fbf238f5e523d19d66aa0612023f94cad472b68",
+      "post_snapshot_hygiene": {
+        "commit": "fd4d37f476234622439b860b5e93948098cc0b98",
+        "change": "Add the direct InconclusiveReason include, already present transitively in the feature snapshot. No algorithm or behavior change.",
+        "verification": "Strict C++20 syntax, make lint, targeted include-cleaner passed."
+      },
+      "branch": "docs/qf-uf-conflict-format",
+      "report": "docs/coverage/theory-lemma-reduction.json",
+      "jobs": {
+        "build_job": "337186",
+        "build_status": "COMPLETED, exit 0:0",
+        "gate_job": "337415",
+        "planned_gate": "make check, round-robin none/core/mus 1000-case reference gate with independent propositional sufficiency and MUS deletion checks, make asan-test",
+        "resources": {
+          "cpus": 4,
+          "memory_gib": 16,
+          "wall_minutes": 45
+        },
+        "last_observed_gate_status": "PENDING (Priority)",
+        "scheduler_start_estimate": "2026-11-03T20:48:00 as displayed by SLURM; estimate can change",
+        "focused_job": "337542",
+        "focused_job_status": "CANCELLED by agent while pending: next-day estimate, duplicate of queued full gate; no tests executed",
+        "planned_artifacts": "results/cnf-export-337415/ on prepared SLURM workspace",
+        "command": "PRIMO_EXPECTED_GIT=2fbf238f PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> PIP_NO_INDEX=1 PIP_FIND_LINKS=<offline-Ruff-wheel-directory> sbatch scripts/slurm_cnf_export_gate.sbatch (supply workspace, cmake executable and matching C++ header manifest)"
+      },
+      "smoke": {
+        "source_git": "2fbf238f5e523d19d66aa0612023f94cad472b68",
+        "build_job": "337186",
+        "execution": "one bounded individual local smoke using SLURM-built binary; no local batch tests",
+        "command": "timeout --kill-after=3s 30s <SLURM-built-primo> --quiet --stats --max-theory-conflicts=100 --export-cnf results/cnf-mus-smoke/external-1.sexp --export-cnf-reduction=mus external/1.smt2",
+        "input_sha256": "5b326057d75847dc836f3df1f8de4842015b2b8464089a510068bab6ac102d97",
+        "tracked_example_sha256": "5b326057d75847dc836f3df1f8de4842015b2b8464089a510068bab6ac102d97",
+        "binary_sha256": "84e402f58fbd062d1db0bf1127140b016e7e2065f61c55618e8df07b6b6b6514",
+        "artifact_sha256": "e7602f443e7f6f0435bb373bb21b4f799239a6f601b814e2f6a7cb2dd0fead26",
+        "result": "unsat",
+        "exit_code": 0,
+        "checker": "none; emission and requested reduction completion smoke only",
+        "statistics": {
+          ":export.theory.conflicts-collected": "2",
+          ":export.reduction.sat-calls": "3",
+          ":export.reduction.core-removed": "0",
+          ":export.reduction.block-queries": "2",
+          ":export.reduction.binary-queries": "0",
+          ":export.reduction.max-block-size": "1",
+          ":export.reduction.completed": "1",
+          ":export.theory.conflicts-removed": "0",
+          ":export.cnf.clauses": "6",
+          ":export.theory.conflicts": "2"
+        },
+        "artifacts": "results/cnf-mus-smoke/"
+      },
+      "planned_fuzz": {
+        "command": "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 --out results/cnf-export-337415/fuzz",
+        "generator": "tests/cnf_export_cli.py at feature source snapshot",
+        "reference": "contrib/local/bin/z3 -in",
+        "seed": 20261102,
+        "count": 1000,
+        "timeout_per_process_seconds": 10,
+        "modes": "round-robin none/core/mus",
+        "validation": "Each conflict is theory-inconsistent; selected clauses propositionally UNSAT; drop each retained MUS member and require propositional SAT. Development checks, not a shipped checker.",
+        "results": "not run; no fuzz pass counts claimed"
+      },
+      "limitations": "No product checker or CNF-conversion proof. The reduction SAT oracle does not validate theory conflicts. Internal assumption reuse does not support incremental SMT-LIB. No standalone reduction time budget; cancellation applies. Native proof-derived cores and selector-free replay alternatives are documented, not implemented. Full qualification is pending, not complete."
+    },
+    {
       "id": "2026-11-02-qf-uf-structured-cnf-capture",
       "date": "2026-11-02",
       "kind": "output-capture-fix-qualification",
