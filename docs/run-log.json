@@ -3,6 +3,85 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-02-lia-integrality-fuzz-gates-2e120fa",
+      "date": "2026-11-02",
+      "commit": "2e120fa",
+      "branch": "lia-integrality",
+      "kind": "slurm-fuzz-gate",
+      "scope": "M5 correctness gates for the four default-off integrality options (docs/papers/mip-presolve-integrality.md): merge gates per option and with all options, QF_UFLIA model and mutation gates with all options, Release and ASan unit tests.",
+      "environment": {
+        "host": "CIIRC SLURM cluster, partition compute; remote workdir /home/janotmik/primo-lia-integrality",
+        "build": "build-slurm-rel (Release, banner git 2e120fa, cadical-3.0.0-7b99c07) built by scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --extra-target all; ASan Debug build-slurm-asan with GCCcore 11.3.0 g++ (-DPRIMO_SANITIZERS=address)",
+        "reference": "z3 from /home/janotmik/primo-lia-integrality/contrib/local/bin; Dolmen from contrib/local/bin with --strict=false"
+      },
+      "commands": {
+        "unit_tests": "job 335558 (scratch m5-tests.sbatch): ctest --test-dir build-slurm-rel -j8; then cmake Debug -DPRIMO_SANITIZERS=address with GCCcore 11.3.0 into build-slurm-asan and its ctest. Rerun of the ASan ctest in 337185 with LD_LIBRARY_PATH=/export/eb/software/GCCcore/11.3.0/lib64",
+        "seeds": "job 335559: python3 scripts/build_fuzz_seed_corpus.py --root tmp/QF_LIA --out tmp/seeds/qf_lia_division (32 families, 61 seeds)",
+        "qf_lia_all": "sbatch --dependency=afterok:335559 --export=ALL,PRIMO_WORKDIR=/home/janotmik/primo-lia-integrality,PRIMO_FUZZ_SOLVER_EXTRA_ARGS='--lia-round-integer-bounds --lia-primitive-int-rows --lia-integer-slacks --lia-patch-integral-moves',PRIMO_FUZZ_OPFUZZ_SEEDS=/home/janotmik/primo-lia-integrality/tmp/seeds/qf_lia_division,PRIMO_FUZZ_YINYANG_SEEDS=/home/janotmik/primo-lia-integrality/tmp/seeds/qf_lia_division,PRIMO_FUZZ_OUT_ROOT=/home/janotmik/primo-lia-integrality/fuzz-results/m5-lia-all-2e120fa scripts/slurm_qf_lia_model_fuzz_gate.sbatch (default 8x500 FuzzSMT -ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4, 5 s; 1 opfuzz task; 2 typefuzz tasks, 1500 s wall each)",
+        "qf_lia_per_option": "for opt in round-integer-bounds primitive-int-rows integer-slacks patch-integral-moves: sbatch --array=0-1 --export=ALL,PRIMO_WORKDIR=/home/janotmik/primo-lia-integrality,PRIMO_FUZZ_SOLVER_EXTRA_ARGS=--lia-$opt,PRIMO_FUZZ_FUZZSMT_SHARDS=2,PRIMO_FUZZ_FUZZSMT_COUNT=500,PRIMO_FUZZ_OPFUZZ_TASKS=0,PRIMO_FUZZ_YINYANG_SHARDS=0,PRIMO_FUZZ_OUT_ROOT=/home/janotmik/primo-lia-integrality/fuzz-results/m5-lia-$opt-2e120fa scripts/slurm_qf_lia_model_fuzz_gate.sbatch",
+        "qf_uflia_model": "sbatch --export=ALL,PRIMO_WORKDIR=/home/janotmik/primo-lia-integrality,PRIMO_FUZZ_SOLVER_ARGS='--lia-round-integer-bounds --lia-primitive-int-rows --lia-integer-slacks --lia-patch-integral-moves',PRIMO_FUZZ_OUT_DIR=/home/janotmik/primo-lia-integrality/fuzz-results/m5-uflia-model-all-2e120fa scripts/slurm_qf_uflia_model_fuzz_gate.sbatch (default 4x750)",
+        "qf_uflia_mutation": "sbatch --export=ALL,PRIMO_WORKDIR=/home/janotmik/primo-lia-integrality,PRIMO_FUZZ_SOLVER_ARGS='--lia-round-integer-bounds --lia-primitive-int-rows --lia-integer-slacks --lia-patch-integral-moves',PRIMO_FUZZ_OUT_ROOT=/home/janotmik/primo-lia-integrality/fuzz-results/m5-uflia-mutation-all-2e120fa scripts/slurm_qf_uflia_mutation_fuzz_gate.sbatch",
+        "follow_up": "job 337185 (scratch m5-followup.sbatch): ASan ctest rerun; scripts/validate_model.py --require-dolmen-pass --timeout 10 --dolmen-timeout 10 --dolmen-arg=--strict=false on the two FuzzSMT shards whose stage 1 exited on one REFERENCE_UNUSABLE row before model validation (m5-lia-all shard-1, m5-lia-round-integer-bounds shard-0); all 100 distinct non-PASS FuzzSMT files rerun with no options and with all options at 30 s"
+      },
+      "seeds": "FuzzSMT seed base = SLURM job id % 900000 + 100000 plus the shard: all-options 435561-435568; per-option gates 435562-435563 (round), 435563-435564 (primitive), 435564-435565 (slacks), 435565-435566 (patch). The per-option gates therefore reuse inputs of the all-options gate under a different option set; they are option differentials, not 4000 additional independent cases.",
+      "jobs": {
+        "unit_tests": "335558",
+        "seeds": "335559",
+        "qf_lia_all": "335561",
+        "qf_lia_per_option": "335562 round, 335563 primitive, 335564 slacks, 335565 patch",
+        "qf_uflia_model": "335566",
+        "qf_uflia_mutation": "335567",
+        "follow_up": "337185"
+      },
+      "artifacts": "/home/janotmik/primo-lia-integrality/fuzz-results/m5-*-2e120fa/ (generated inputs, summary.csv, model-validation/, opfuzz/ and yinyang/ bugs and logs)",
+      "results": {
+        "unit_tests": "Release ctest 45/45. The ASan ctest in 335558 did not start (primo: libasan.so.6 not found; the build itself succeeded); the 337185 rerun passed 45/45.",
+        "qf_lia_all": "FuzzSMT 4000: PASS 3928, TIMEOUT 71 (Primo timeout, z3 answered), REFERENCE_UNUSABLE 1 (z3 timeout, Primo sat), wrong 0, crash 0, parser/type errors 0. Dolmen model validation: 3487 sat pass, 0 invalid models, 458 unsat, 55 solver timeouts. opfuzz task 8 and typefuzz tasks 9-10 over 61 seeds (2 above the 200 kB limit skipped): 0 bug files each; all three reached the 1500 s wall, so not every seed is established as covered.",
+        "qf_lia_per_option": "Each 1000 FuzzSMT cases, wrong 0, crash 0: round PASS 975 TIMEOUT 24 REFERENCE_UNUSABLE 1; primitive PASS 982 TIMEOUT 18; slacks PASS 973 TIMEOUT 27; patch PASS 977 TIMEOUT 23. Dolmen: every sat model passes (round 851, primitive 858, slacks 856, patch 867). One unknown under slacks (fuzzsmt_435565__file_181): stderr 'integer branch-and-bound node limit'.",
+        "qf_uflia_model": "3000 cases vs z3: PASS 2998, TIMEOUT 2, wrong 0. Dolmen: 1509 sat pass, 0 invalid, 1489 unsat, 2 timeouts.",
+        "qf_uflia_mutation": "typefuzz over the QF_UFLIA seeds with all options: 0 bug files. Model validation of the mutants: 124 sat pass, 50 unsat, 1 timeout, 25 inputs rejected by Primo with 'unknown symbol: ?v_N'; z3 rejects all 25 identically ('unknown constant ?v_N'): typefuzz moved let-bound names out of scope, so these are invalid inputs.",
+        "timeout_attribution": "100 distinct non-PASS FuzzSMT files at 30 s: no options 47 sat, all options 52 sat, both 38 unknown; 15 gained and 10 lost by the options; 0 disagreements with z3. Per-file seconds were not recorded (bc missing on the compute node).",
+        "task_exit_status": "Every model-gate task exited 1 although no failure was found: the validator counted Primo's intended get-model refusal after unsat (exit 2) as solver-error. Fixed in 6f25a83; reapplying the fixed check to the saved stdout/stderr leaves only the slacks unknown above and the 25 invalid mutants. The two shards skipped by the REFERENCE_UNUSABLE exit are covered by 337185.",
+        "summary": "No wrong answer, crash, invalid model or reference disagreement in any gate. Merge gate met for each option and for all options together. The campaign gate's seed-mutation part ran only time-boxed (coverage of every seed not established)."
+      }
+    },
+    {
+      "id": "2026-11-02-lia-integrality-ab-2e120fa",
+      "date": "2026-11-02",
+      "commit": "2e120fa",
+      "branch": "lia-integrality",
+      "kind": "slurm-timing-ab",
+      "scope": "M5 timing A/B of the integrality options, cumulative: off; m1 = --lia-round-integer-bounds; m12 = m1 + --lia-primitive-int-rows; m123 = m12 + --lia-integer-slacks; all = m123 + --lia-patch-integral-moves. One binary for all configurations.",
+      "environment": {
+        "host": "CIIRC SLURM cluster, partition compute; remote workdir /home/janotmik/primo-lia-integrality",
+        "build": "build-slurm-rel (Release, banner git 2e120fa, cadical-3.0.0-7b99c07) built by scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --extra-target all; ASan Debug build-slurm-asan with GCCcore 11.3.0 g++ (-DPRIMO_SANITIZERS=address)",
+        "reference": "z3 from /home/janotmik/primo-lia-integrality/contrib/local/bin; Dolmen from contrib/local/bin with --strict=false",
+        "corpora": "QF_LIA division 13,306 files (tmp/QF_LIA); QF_UFLIA 659 files (tmp/QF_UFLIA)",
+        "limits": "60 s per file through bench_qf_uf_full.py, 1 CPU per task; every configuration with --quiet --stats"
+      },
+      "commands": {
+        "solvers": "B='build-slurm-rel/primo --quiet --stats'; PRIMO_COMPARE_SOLVERS='off=$B;m1=$B --lia-round-integer-bounds;m12=$B --lia-round-integer-bounds --lia-primitive-int-rows;m123=... --lia-integer-slacks;all=... --lia-patch-integral-moves'",
+        "qf_lia": "sbatch --array=0-399%160 --time=03:30:00 --export=ALL,PRIMO_WORKDIR=/home/janotmik/primo-lia-integrality,PRIMO_COMPARE_ROOT=tmp/QF_LIA,PRIMO_COMPARE_TIMEOUT=60,PRIMO_COMPARE_SHARDS=80,PRIMO_COMPARE_SOLVERS=\"$SOL\",PRIMO_COMPARE_OUT_ROOT=/home/janotmik/primo-lia-integrality/results/m5-ab-2e120fa/QF_LIA scripts/slurm_qf_lia_full_solver_compare.sbatch",
+        "qf_uflia": "sbatch --array=0-39 --time=03:00:00 --export=ALL,PRIMO_WORKDIR=/home/janotmik/primo-lia-integrality,PRIMO_COMPARE_ROOT=tmp/QF_UFLIA,PRIMO_COMPARE_TIMEOUT=60,PRIMO_COMPARE_SHARDS=8,PRIMO_COMPARE_SOLVERS=\"$SOL\",PRIMO_COMPARE_OUT_ROOT=/home/janotmik/primo-lia-integrality/results/m5-ab-2e120fa/QF_UFLIA scripts/slurm_qf_uflia_full_solver_compare.sbatch",
+        "references": "Not rerun: existing z3 answers for QF_LIA (12,144 decided) and z3/cvc5 answers for QF_UFLIA from primo-model-fix/results/full-revalidation-287b743/real (QF_LIA cvc5 has no answers.csv)"
+      },
+      "jobs": {
+        "qf_lia": "335585 (400 tasks, all COMPLETED 0:0)",
+        "qf_uflia": "335586 (40 tasks, all COMPLETED 0:0)"
+      },
+      "artifacts": "/home/janotmik/primo-lia-integrality/results/m5-ab-2e120fa/{QF_LIA,QF_UFLIA}/<config>/shard-*.csv and logs/",
+      "results": {
+        "correctness": "0 wrong-vs-declared-status and 0 disagreements with the references in every configuration; all 47,469 QF_LIA sat/unsat answers on files z3 decided agree with z3, including answers printed just before the timeout. Real-corpus Dolmen validation of the sat rows is a separate entry.",
+        "qf_lia": "solved / PAR2(60 s): off 9662 / 474,705; m1 9662 / 474,766 (+6 -6); m12 9766 / 463,085 (+193 -89); m123 9465 / 498,325 (+142 -339); all 9798 / 459,979 (+411 -275). Unknown answers before the timeout: off 751, m12 458, all 450.",
+        "qf_lia_families_all_vs_off": "gained CAV_2009_benchmarks 117, nec-smt 83, 20180326-Bromberger 66, dillig 60, rings 43, cut_lemmas 15, slacks 14; lost 20180326-Bromberger 79, CAV_2009_benchmarks 59, slacks 31, cut_lemmas 29, dillig 22, prime-cone 17, rings 12, rings_preprocessed 7.",
+        "qf_uflia": "solved / PAR2: off 575 / 11,375; m1 575 / 11,376 (+0 -0); m12 545 / 14,902 (-30, all wisas); m123 544 / 14,972; all 544 / 14,934 (-31: wisas 30, Certora 1).",
+        "mechanism_counters": "QF_LIA generalized patch lemmas off 177,808 -> m12 14,585, patch sweeps 184,996 -> 21,537: with integral bounds far fewer completions need patching. Lattice moves accepted only under all: 528 (QF_LIA), 48 (QF_UFLIA).",
+        "wisas_regression": "Local single-file diagnosis of wisas/xs_28_48.smt2 (0.3 s off, timeout with --lia-primitive-int-rows alone): preprocessing yields atoms 4(a+b) <= k, k = 48..72, on one slack a+b. The default marks it non-integer because its scale is 4; M2 marks it integer, so strict bounds are asserted as integer bounds. Disabling the rounding only in the QF_UFLIA component's online bound assertion (temporary experiment, reverted) restores 0.4 s; disabling it in model-phase hints, bound-entailment propagation or equality checks does not. SAT conflicts rise from 385 to about 50,000 and theory conflicts from 985 to 141,000. Root cause not yet established.",
+        "noise": "No off-versus-off rerun was made, so per-file churn (several hundred files each way at 60 s) is not separated from timing noise.",
+        "decision": "No option is promoted. M1 is neutral on both corpora. M2 helps QF_LIA (+104 net) but loses 30 QF_UFLIA wisas files. M3 without M4 loses on QF_LIA. All four gain 136 net on QF_LIA and lose 31 on QF_UFLIA, with large churn. All options stay default-off."
+      }
+    },
+    {
       "id": "2026-11-02-lia-integrality-census-18630fd",
       "date": "2026-11-02",
       "commit": "18630fd",

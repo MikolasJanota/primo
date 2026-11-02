@@ -242,7 +242,7 @@ completion. The option is off by default until it is qualified; see the
 [integrality checklist](../papers/mip-presolve-integrality.md).
 
 {source}`PreparedLraTheory::append_atom
-<src/smt/solver_engines.cpp#L3478-L3595>` marks direct bounds on `Int` terms
+<src/smt/solver_engines.cpp#L3529-L3656>` marks direct bounds on `Int` terms
 as integer. For compound polynomials its default sufficient condition is more
 conservative: the input is integer-sorted and the normalization scale is
 $1$ or $-1$. Other auxiliary variables use the real strict-bound encoding,
@@ -261,7 +261,9 @@ $2x+4y=3$, written as two inequalities, the rounded bounds $2\le s\le1$
 conflict in the rational check. In a case with $13/2\le2x+3y\le7$ over
 unbounded variables, the default route exhausts its branch-node limit,
 while the integral bound $s=7$ lets one patch move find $x=2,y=1$. Both
-options are off by default until qualified.
+options are off by default. The SLURM evaluation at `2e120fa` found no wrong
+answer. It also found that `--lia-primitive-int-rows` loses 30 QF_UFLIA
+`wisas` files ({ref}`integrality evaluation <integrality-evaluation>`).
 
 A slack marked integer this way can also become an integer obligation of
 completion. `--lia-integer-slacks` puts such slacks (Achterberg et al. §7.6
@@ -272,7 +274,10 @@ expression: for $13/2\le2x+3y\le27/4$, the single split $s\le6\lor s\ge7$
 refutes the candidate, with the two bound literals as its explanation, while
 splitting only $x$ and $y$ exhausts a 50-node budget. A slack appended after
 the inputs would never be split, because it is integral whenever they are.
-The front placement is a branching heuristic still to be evaluated.
+On QF_LIA at 60 s, this option together with the two above solves 197 fewer
+files than all options off, and 301 fewer than the two above alone. Adding
+`--lia-patch-integral-moves` as well gives 9,798 solved files, the most of any
+configuration ({ref}`integrality evaluation <integrality-evaluation>`).
 
 (lia-infinitesimals)=
 ### Why the relaxation can still contain infinitesimals

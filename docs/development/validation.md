@@ -12,10 +12,10 @@ not part of solver speed measurements. The current model capabilities are in
 <scripts/validate_qfuf_models_with_dolmen.py>` supports more than QF_UF despite
 its historical filename. The adapter appends `get-model` after the single
 `check-sat`. After UNSAT or UNKNOWN, Primo rejects that command with an
-`(error ...)` response and exit status 2, as other solvers do, and this behavior
-is intended. The driver accepts only that exact response shape: the answer line,
-then one error line; stderr containing nothing but the same message; and a
-normal process exit. It records UNSAT as `not-sat` with the message
+`(error ...)` response and exit status 2. This behavior is intended. The
+driver accepts only that exact response shape: the answer line, then one
+error line; stderr that is empty or repeats only that error; and a normal
+process exit. It records UNSAT as `not-sat` with the message
 `no model expected; get-model refused`. UNKNOWN stays `solver-unknown`. A
 signal, a sanitizer report, extra output, or any error after SAT is still a
 `solver-error`. The refusal check is pinned by

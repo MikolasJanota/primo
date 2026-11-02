@@ -3,7 +3,11 @@
 **Status: Open lead for the default normalization; addressed by an option.**
 Under `--lia-primitive-int-rows` (off by default), `Int` slacks are integer
 polynomials, so strict compound `Int` atoms get integral bounds without an
-infinitesimal; see the [integrality checklist](../papers/mip-presolve-integrality.md).
+infinitesimal; see the
+[integrality checklist](../papers/mip-presolve-integrality.md). That option is
+not the default: it gains 104 files net on QF_LIA, with timing noise not
+measured, but loses 30 QF_UFLIA `wisas` files (see the checklist's
+evaluation).
 The spacing rule below remains the alternative if the leading-coefficient form
 is kept for `Int` atoms.
 
@@ -15,10 +19,10 @@ bound preparation, not an implemented alternative arithmetic representation.
 ## Current behavior and the gap
 
 {source}`PreparedLraTheory::append_atom
-<src/smt/solver_engines.cpp#L3434-L3512>` shares normalized polynomials with
+<src/smt/solver_engines.cpp#L3529-L3656>` shares normalized polynomials with
 leading coefficient one. Its `is_integer` flag covers direct integer terms
 and compound integer atoms whose scale is $1$ or $-1$. Otherwise,
-{source}`bound_assertion <src/smt/solver_engines.cpp#L3169-L3187>` uses
+{source}`bound_assertion <src/smt/solver_engines.cpp#L3198-L3225>` uses
 infinitesimals for strict bounds. The
 {ref}`integer chapter <lia-infinitesimals>` explains how these can reach
 integer variables and how the existing procedures handle them.

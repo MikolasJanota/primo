@@ -4,7 +4,8 @@
 are implemented. Gap 1 is implemented behind `--lia-round-integer-bounds`
 gap 2 behind `--lia-primitive-int-rows`, gap 3 behind
 `--lia-integer-slacks` and gap 4 behind `--lia-patch-integral-moves`, all
-default off and not yet qualified.
+default off. The {ref}`evaluation <integrality-evaluation>` found no wrong
+answers and did not qualify any option for the default.
 
 This note lists the primary sources behind one invariant of integer
 completion. It maps each source step to the Primo function that would own it
@@ -119,6 +120,73 @@ statistics, so these counts are lower bounds:
 Gap 2 dominates. Gap 1 is rare today only because few bounded variables are
 flagged integer: once gap 2 is closed, every `Int` slack becomes integer and
 the rounding of gap 1 applies to its thresholds as well.
+
+(integrality-evaluation)=
+## Evaluation at `2e120fa`
+
+The fuzz gates and timing runs used one Release binary on SLURM; the unit
+tests also ran under an ASan Debug build. They are recorded in
+`docs/run-log.json` as `2026-11-02-lia-integrality-fuzz-gates-2e120fa` and
+`2026-11-02-lia-integrality-ab-2e120fa`.
+
+**Correctness.** No gate found a wrong answer, crash, invalid model or
+reference disagreement:
+
+- 4,000 QF_LIA FuzzSMT cases with all options, and 1,000 per option,
+  against z3. The per-option gates reuse inputs of the all-options gate, so
+  they compare options rather than adding independent cases;
+- 3,000 QF_UFLIA cases with all options;
+- Dolmen checks of every SAT model from these gates;
+- opfuzz and typefuzz on QF_LIA seeds and typefuzz on QF_UFLIA seeds. These
+  ran only until their time limits, so coverage of every seed is not
+  established;
+- Release and ASan unit tests.
+
+In the timing runs below, every QF_LIA answer agrees with z3 on the 12,144
+files z3 decided, and every QF_UFLIA answer agrees with z3 and cvc5.
+
+**Timing**, 60 s per file, each configuration adding one option to the
+previous one. M1 to M4 are the options for gaps 1 to 4. PAR2 is in seconds,
+counting 120 s for each unsolved file:
+
+| Configuration | QF_LIA solved (of 13,306) | QF_LIA PAR2 | QF_UFLIA solved (of 659) | QF_UFLIA PAR2 |
+| --- | --- | --- | --- | --- |
+| all off | 9,662 | 474,705 | 575 | 11,375 |
+| + round bounds (M1) | 9,662 | 474,766 | 575 | 11,376 |
+| + primitive rows (M2) | 9,766 | 463,085 | 545 | 14,902 |
+| + integer slacks (M3) | 9,465 | 498,325 | 544 | 14,972 |
+| + integral patch moves (M4) | 9,798 | 459,979 | 544 | 14,934 |
+
+- **M1** is neutral alone.
+- **M2** sharply reduces patching on QF_LIA: generalized patch lemmas fall
+  from 177,808 to 14,585, and patch sweeps from 184,996 to 21,537. This
+  suggests that more relaxation solutions are already integral.
+- **Adding M3 without M4** is harmful.
+- **M4** with all the others gives the best QF_LIA result (+411 −275 files
+  against all off) and accepts 528 lattice moves.
+- **On QF_UFLIA**, every configuration with M2 loses 30 `wisas` files. Adding
+  M3 also loses one Certora file.
+- The per-file churn is large, and no rerun of the all-off configuration
+  measured the timing noise.
+
+**The `wisas` regression.** In `xs_28_48.smt2`, preprocessing produces atoms
+$4(a+b)\le k$ for $k=48,\dots,72$, all on one slack $a+b$:
+
+- The default rule marks this slack non-integer because its scale is 4.
+- M2 marks it integer, so strict bounds on it are asserted as integer bounds.
+- A temporary local experiment, since reverted, removed this rounding from
+  the combined route's online bound assertion only, and the run time went
+  from a timeout back to 0.4 s. Removing it from the model-phase hints, propagation or the equality
+  checks did not help.
+- With the rounding, SAT conflicts rise from 385 to about 50,000. The tighter
+  bounds are sound, and why they mislead the combined search is still open.
+
+**Decision.** No option is promoted to the default. M2 and M4 together are
+the promising part on QF_LIA. Before any promotion:
+
+- the `wisas` regression needs a root cause;
+- the noise needs an all-off rerun;
+- the seed-mutation campaign needs full coverage.
 
 ## Tests derived from the steps
 
