@@ -63,7 +63,50 @@ Rejected requests also leave the path untouched. An output open/write failure
 reports an error result and a nonzero exit status; a failed write may leave a
 partial file. Normal solver results stay on stdout and diagnostics on stderr.
 With `--stats`, `:export.cnf.clauses` counts captured input/definition clauses and
-`:export.theory.conflicts` counts recorded conflicts, including duplicates.
+`:export.theory.conflicts` counts retained conflicts, including duplicates.
+`:export.theory.conflicts-collected` and `:export.theory.conflicts-removed`
+distinguish the original collection from reduction.
+
+## Reducing theory lemmas
+
+```bash
+./build/primo --quiet --export-cnf certificate.sexp --export-cnf-reduction=core input.smt2
+./build/primo --quiet --export-cnf certificate.sexp --export-cnf-reduction=mus input.smt2
+```
+
+The reduction option requires `--export-cnf`. The default `none` retains all
+collected conflicts. `core` uses one failed-assumption core query in a separate
+SAT instance; it returns an UNSAT subset that may contain redundant lemmas.
+`mus` starts from that core and removes lemmas until every remaining one is
+necessary. This is **subset minimality relative to the fixed input CNF**, not
+minimum cardinality. Different subsets can be valid answers. If the input CNF
+alone is propositionally UNSAT, both modes return no conflicts.
+
+The separate oracle asserts the captured input clauses permanently and guards
+each learned theory clause with a fresh activation variable. Assuming a
+variable activates its clause. These variables are private to reduction and
+never appear in the artifact. All queries are propositional: asking an SMT
+solver would make every valid theory lemma redundant by theory reasoning.
+Reduction changes only the conflict-record selection, preserving their order,
+literal contents, the input CNF and signature. It does not minimize individual
+conflicts or independently check their theory validity.
+
+The reducer owns a fresh incremental-safe SAT backend for one export and reuses
+its search across subset queries. It does not enable incremental SMT-LIB input.
+Cancellation applies during reduction; an interrupted request returns unknown
+and writes no artifact. Main-solver CaDiCaL options and theory-conflict limits
+are not applied to the postprocessor. There is no separate reduction budget.
+Reduction adds retained raw clause copies and another SAT instance to memory
+use and can require many SAT calls.
+
+With `--stats`, `:export.reduction.sat-calls` counts actual reduction solves and
+`:export.reduction.core-removed` counts initial core removals. For `mus`,
+`:export.reduction.block-queries`, `:export.reduction.binary-queries`, and
+`:export.reduction.max-block-size` expose the progression search;
+`:export.reduction.completed=1` marks a completed requested reduction.
+The [design and literature note](../leads/theory-lemma-reduction.md) maps
+CAV 2013 Algorithms 3–4 to the implementation and records selector-free
+alternatives. Specialized model-guided algorithms are not implemented.
 
 ## Container and literal syntax
 
@@ -247,14 +290,17 @@ number of declared symbols and sorts, theory atoms, and captured literals,
 plus name/text processing and term printing. Conflict
 collection takes expected linear time in the number of reason literals, plus
 term printing. The document retains all emitted text until the solve returns;
-there is no streaming or minimization, and repeated terms are printed in full.
+there is no streaming, and repeated terms are printed in full. Optional
+reduction retains raw clause copies and creates a separate SAT instance as
+described above.
 This can use substantially more memory than ordinary solving.
 
 {conflictexportsource}`CheckSatOptions::export_cnf <src/smt/check_sat.hpp>` and
 {conflictexportsource}`check_sat_smtlib <src/smt/check_sat.cpp>` expose the same buffered
 single-query route to library callers. Direct `SmtSession` construction rejects
 a nonempty export filename because that streaming API cannot validate the
-whole script before a query. Preprocessing, extended-term lowering, incremental queries, conversion proofs,
+whole script before a query. The reduction option without an export filename
+is also rejected by the library entry point. Preprocessing, extended-term lowering, incremental queries, conversion proofs,
 and collection from online propagation require further producer design. The original standalone-format examples remain illustrative,
 rather than captured exporter output.
 

@@ -69,6 +69,7 @@ parts:
       - file: leads/rational-storage
       - file: leads/statistics-instrumentation
       - file: leads/theory-lemmas
+      - file: leads/theory-lemma-reduction
       - file: leads/theory-lemma-forgetting
       - file: leads/arithmetic-symmetry
       - file: leads/lra-floating-point

@@ -106,7 +106,7 @@ def reference(reference_solver: str, source: str) -> str:
     return answer
 
 
-def validate_artifact(root: list, reference_solver: str) -> None:
+def validate_artifact(root: list, reference_solver: str, minimal: bool = False) -> None:
     signature = "(set-logic QF_UF)\n" + "\n".join(map(text, root[3][1:])) + "\n"
     for conflict in root[5][1:]:
         facts = "".join("(assert " + text(lit) + ")" for lit in conflict[1:])
@@ -128,7 +128,8 @@ def validate_artifact(root: list, reference_solver: str) -> None:
         return atoms.setdefault(key, "v" + str(len(atoms)))
 
     clauses = [c[1:] for c in root[4][1:]]
-    clauses += [[complement(lit) for lit in c[1:]] for c in root[5][1:]]
+    theory_clauses = [[complement(lit) for lit in c[1:]] for c in root[5][1:]]
+    clauses += theory_clauses
     assertions = [
         "(assert (or " + " ".join(map(abstract, clause)) + "))" for clause in clauses
     ]
@@ -138,6 +139,16 @@ def validate_artifact(root: list, reference_solver: str) -> None:
         reference(reference_solver, source) == "unsat",
         "exported lemmas do not refute propositional CNF",
     )
+    if minimal:
+        for index in range(len(theory_clauses)):
+            # Rebuild a purely propositional query without one retained lemma.
+            dropped = len(root[4]) - 1 + index
+            trial = assertions[:dropped] + assertions[dropped + 1 :]
+            source = "(set-logic QF_UF)" + "".join(declarations + trial) + "(check-sat)"
+            require(
+                reference(reference_solver, source) == "sat",
+                "retained MUS lemma is redundant",
+            )
 
 
 def regressions(solver: str, directory: Path) -> None:
@@ -152,6 +163,34 @@ def regressions(solver: str, directory: Path) -> None:
     )
     require(len(root[4]) == 3, "input clauses lost or extra clauses exported")
     output.unlink()
+
+    for mode in ("none", "core", "mus"):
+        result = export(
+            solver, PRELUDE + CONGRUENCE, output, f"--export-cnf-reduction={mode}"
+        )
+        require(
+            result.returncode == 0 and result.stdout.strip() == "unsat", str(result)
+        )
+        reduced = document(output)
+        require(reduced[:5] == root[:5], "reduction changed signature or input CNF")
+        require(reduced[5] == root[5], "necessary congruence conflict was removed")
+        output.unlink()
+        result = export(
+            solver,
+            PRELUDE + "(assert false)(check-sat)",
+            output,
+            f"--export-cnf-reduction={mode}",
+        )
+        require(
+            result.returncode == 0 and result.stdout.strip() == "unsat", str(result)
+        )
+        require(
+            document(output)[5] == ["conflicts"],
+            "propositional contradiction needs no lemmas",
+        )
+        output.unlink()
+    result = invoke([solver, "--export-cnf-reduction=mus"], PRELUDE + CONGRUENCE)
+    require(result.returncode != 0, "reduction without export accepted")
 
     for body in (
         "(assert false)(check-sat)",
@@ -294,7 +333,10 @@ def fuzz(args: argparse.Namespace) -> None:
         output = stem.with_suffix(".sexp")
         try:
             expected = reference(args.reference, source)
-            result = export(args.solver, source, output)
+            mode = ("none", "core", "mus")[index % 3]
+            result = export(
+                args.solver, source, output, f"--export-cnf-reduction={mode}"
+            )
             if result.returncode != 0:
                 category = "crash" if result.returncode < 0 else "unsupported"
                 summary[category] += 1
@@ -304,7 +346,9 @@ def fuzz(args: argparse.Namespace) -> None:
                 raise AssertionError(f"expected {expected}, got {result}")
             if expected == "unsat":
                 try:
-                    validate_artifact(document(output), args.reference)
+                    validate_artifact(
+                        document(output), args.reference, minimal=mode == "mus"
+                    )
                 except AssertionError:
                     summary["invalid_artifact"] += 1
                     raise
@@ -319,7 +363,12 @@ def fuzz(args: argparse.Namespace) -> None:
         finally:
             (args.out / "summary.json").write_text(
                 json.dumps(
-                    {"seed": args.seed, "requested": args.fuzz_count, **summary},
+                    {
+                        "seed": args.seed,
+                        "requested": args.fuzz_count,
+                        "reduction_modes": "round-robin none/core/mus",
+                        **summary,
+                    },
                     indent=2,
                 )
                 + "\n"

@@ -19,6 +19,7 @@
 namespace primo::smt {
 
 enum class IncrementalMode { Rebuild, Assumptions };
+enum class ExportCnfReduction { None, Core, Mus };
 
 enum class PreprocessingMode {
   Off,
@@ -499,6 +500,7 @@ struct CheckSatOptions {
   std::string quantifier_export_pools;
   // Single-query QF_UF CNF/conflict artifact; empty disables export.
   std::string export_cnf;
+  ExportCnfReduction export_cnf_reduction = ExportCnfReduction::None;
   std::size_t qf_uf_portfolio_conflicts = 2000;
   std::vector<std::pair<std::string, int>> cadical_options;
   std::function<bool()> cancelled;

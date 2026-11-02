@@ -322,6 +322,10 @@ int run_main(int argc, char** argv) {
   app.add_option("--export-cnf", solver_options.export_cnf,
                  "Write generated CNF and conflicts for one UNSAT QF_UF query to FILE")
       ->type_name("FILE");
+  add_enum_option(app, "--export-cnf-reduction", solver_options.export_cnf_reduction,
+                  primo::cli::kExportCnfReductionNames,
+                  "Reduce exported theory lemmas: none, an UNSAT core, or a subset-minimal MUS")
+      ->needs("--export-cnf");
   app.add_flag("--check-model", solver_options.check_model,
                "Check original assertions against produced typed models");
   app.option_defaults()->always_capture_default();
@@ -884,7 +888,7 @@ int run_main(int argc, char** argv) {
     // unclassified.
     if (name == "-q" || name == "--quiet" || name == "--stats" || name == "--version" ||
         name == "--help" || name == "--preprocess-only" || name == "--cancel-grace-seconds" ||
-        name == "--check-model" || name == "--export-cnf" || name == "files") {
+        name == "--check-model" || starts_with(name, "--export-cnf") || name == "files") {
       return kGroupProcedural;
     }
     if (starts_with(name, "--experimental-")) {

@@ -201,6 +201,7 @@ target_link_libraries(primo_terms PUBLIC primo_util)
 
 add_library(primo_sat STATIC ${PRIMO_SAT_SOURCES})
 primo_configure_owned_library(primo_sat)
+target_link_libraries(primo_sat PUBLIC primo_util)
 if(IPASIR_UP_INCLUDE_DIR AND CADICAL_LIBRARY)
   target_compile_definitions(primo_sat PUBLIC PRIMO_HAVE_IPASIR=1)
   target_compile_definitions(primo_sat PUBLIC
@@ -417,6 +418,12 @@ primo_enable_warnings(primo_sat_backend_tests)
 primo_enable_sanitizers(primo_sat_backend_tests)
 target_link_libraries(primo_sat_backend_tests PRIVATE primo_core)
 add_test(NAME primo_sat_backend_tests COMMAND primo_sat_backend_tests)
+
+add_executable(primo_clause_subset_tests tests/unit/clause_subset_tests.cpp)
+primo_enable_warnings(primo_clause_subset_tests)
+primo_enable_sanitizers(primo_clause_subset_tests)
+target_link_libraries(primo_clause_subset_tests PRIVATE primo_sat primo_util)
+add_test(NAME primo_clause_subset_tests COMMAND primo_clause_subset_tests)
 
 add_executable(primo_boolean_solver_tests tests/unit/boolean_solver_tests.cpp)
 primo_enable_warnings(primo_boolean_solver_tests)

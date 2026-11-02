@@ -100,6 +100,7 @@ void check_table(const std::array<EnumName<Enum>, N>& names) {
 int main() {
   probe_reads_declarations();
   using namespace primo::cli;
+  check_table(kExportCnfReductionNames);
   check_table(kIncrementalModeNames);
   check_table(kPreprocessingModeNames);
   check_table(kAutoPreprocessSelectorNames);

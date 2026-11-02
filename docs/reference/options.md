@@ -2,8 +2,10 @@
 
 Run `./build/primo --help` for the complete option inventory of your binary.
 The {download}`captured help <../examples/primo-help.txt>` belongs to the
-documented implementation; source metadata is centralized in the review ledger. This page explains the
-common controls; the complete captured inventory below supplies accepted values and defaults.
+previous captured implementation; it does not yet include `--export-cnf-reduction`.
+Source metadata is centralized in the review ledger. This page explains the
+common controls; the frozen inventory below supplies accepted values and defaults
+for that capture.
 [Effective policies](policies.md) explains automatic selection and option dependencies.
 
 ## Everyday use
@@ -15,6 +17,7 @@ common controls; the complete captured inventory below supplies accepted values 
 | `--quiet`, `-q` | Off | Suppress the startup banner; SMT-LIB responses remain enabled. |
 | `--stats` | Off | Write query statistics to stderr. See [](../reference/statistics.md). |
 | `--export-cnf FILE` | Off | Write one UNSAT CNF/conflict artifact for a QF_UF problem; nested Boolean structure is clausified; see [](qf-uf-conflicts.md). Incremental solving is unsupported. |
+| `--export-cnf-reduction=none\|core\|mus` | `none` | Requires `--export-cnf`; retain all theory lemmas, an UNSAT core, or a subset-minimal set relative to fixed input CNF. See [](qf-uf-conflicts.md#reducing-theory-lemmas). |
 | `--check-model` | Off | Check original assertions against a requested model. Set `:produce-models true` separately; see [](../guide/models.md). |
 | `--incremental-mode` | `rebuild` | Choose `rebuild` or the restricted `assumptions` session engine. See [](../guide/sessions.md). |
 | `--preprocessing-mode` | `auto` | Choose `auto`, `off`, `basic`, or `strong`. `off` does not bypass required lowering. Assumptions mode admits only `auto` or `off`. |
@@ -36,8 +39,9 @@ Options accept only their declared values/ranges. A name beginning with
 `experimental` or a diagnostic switch does not identify a qualified default.
 For component-specific controls, use [](../implementation/preprocessing.md),
 [](../implementation/euf.md), [](../implementation/lra.md), [](../implementation/quantifiers.md), and
-[](../reference/policies.md). The help snapshot includes every registered CLI
-option; the prose above is intentionally a practical subset.
+[](../reference/policies.md). The help snapshot includes the options registered at its captured revision;
+new controls are documented above until it is refreshed. The prose above is
+intentionally a practical subset.
 
 The two automatic-budget options, `--euf-prop-budget` and `--euf-prop-delivery`,
 accept exactly `auto`, `unlimited`, or unsigned decimal digits fitting in

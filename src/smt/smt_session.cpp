@@ -370,7 +370,8 @@ struct SmtSession::Implementation final : SessionExecutor {
 
 SmtSession::SmtSession(CheckSatOptions options)
     : implementation_(std::make_unique<Implementation>(std::move(options))) {
-  if (!implementation_->options.export_cnf.empty()) {
+  if (!implementation_->options.export_cnf.empty() ||
+      implementation_->options.export_cnf_reduction != ExportCnfReduction::None) {
     throw std::invalid_argument("CNF export requires buffered check_sat_smtlib, not SmtSession");
   }
 }

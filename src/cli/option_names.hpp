@@ -42,6 +42,12 @@ std::optional<Enum> parse_enum(const std::array<EnumName<Enum>, N>& names, std::
   return std::nullopt;
 }
 
+inline constexpr auto kExportCnfReductionNames = std::to_array<EnumName<smt::ExportCnfReduction>>({
+    {"none", smt::ExportCnfReduction::None},
+    {"core", smt::ExportCnfReduction::Core},
+    {"mus", smt::ExportCnfReduction::Mus},
+});
+
 inline constexpr auto kIncrementalModeNames = std::to_array<EnumName<smt::IncrementalMode>>({
     {"rebuild", smt::IncrementalMode::Rebuild},
     {"assumptions", smt::IncrementalMode::Assumptions},

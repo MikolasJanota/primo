@@ -17,11 +17,14 @@
 #include "core/term.hpp"
 #include "core/term_manager.hpp"
 #include "sat/clause.hpp"
+#include "sat/clause_subset.hpp"
+#include "sat/ipasir_up.hpp"
 #include "smt/check_sat.hpp"
 #include "smt/clausifier.hpp"
 #include "smt/frontend.hpp"
 #include "smt/solver_engines.hpp"
 #include "smt/solver_error.hpp"
+#include "smt/solver_runtime.hpp"
 #include "smtlib/commands.hpp"
 #include "smtlib/conflict_document.hpp"
 #include "smtlib/parser.hpp"
@@ -90,8 +93,9 @@ void append_signature(const core::SymbolTable& symbols, smtlib::ConflictDocument
 }  // namespace
 
 QfUfConflictCollector::QfUfConflictCollector(const core::TermManager& terms,
-                                             smtlib::ConflictDocument& document)
-    : terms_(terms), document_(document) {}
+                                             smtlib::ConflictDocument& document,
+                                             ExportCnfReduction reduction)
+    : terms_(terms), document_(document), reduction_(reduction) {}
 
 void QfUfConflictCollector::record_input_clause(const sat::Clause& clause) {
   if (bound_) throw std::logic_error("clausifier emitted a clause after CNF export was sealed");
@@ -136,7 +140,7 @@ void QfUfConflictCollector::bind(const BooleanClausifier& clausifier) {
     }
     document_.clauses.push_back(std::move(literals));
   }
-  input_clauses_.clear();
+  if (reduction_ == ExportCnfReduction::None) input_clauses_.clear();
   bound_ = true;
 }
 
@@ -153,7 +157,26 @@ void QfUfConflictCollector::record(const sat::Clause& clause) {
     if (literal.value == found->second.second) text = "(not " + text + ")";
     conflict.push_back(std::move(text));
   }
+  if (reduction_ != ExportCnfReduction::None) theory_clauses_.push_back(clause);
   document_.conflicts.push_back(std::move(conflict));
+}
+
+sat::ClauseSubsetResult QfUfConflictCollector::reduce(sat::Terminator* terminator) {
+  if (!bound_ || reduction_ == ExportCnfReduction::None) {
+    throw std::logic_error("invalid theory-lemma reduction state");
+  }
+  const auto mode = reduction_ == ExportCnfReduction::Core ? sat::ClauseSubsetMode::Core
+                                                           : sat::ClauseSubsetMode::Mus;
+  auto result = sat::select_unsat_subset(input_clauses_, theory_clauses_, mode, terminator);
+  if (result.result == sat::SatResult::Unsat) {
+    std::vector<std::vector<std::string>> kept;
+    kept.reserve(result.selected.size());
+    for (const auto index : result.selected) {
+      kept.push_back(std::move(document_.conflicts.at(index)));
+    }
+    document_.conflicts = std::move(kept);
+  }
+  return result;
 }
 
 CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options) {
@@ -204,7 +227,7 @@ CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options
     smtlib::ConflictDocument document;
     append_signature(frontend.terms().symbols(), document);
     for (const auto assertion : assertions) require_supported_terms(frontend.terms(), assertion);
-    QfUfConflictCollector collector(frontend.terms(), document);
+    QfUfConflictCollector collector(frontend.terms(), document, options.export_cnf_reduction);
     // Use the existing lazy solver without preprocessing or propagation lemmas.
     // No optimized congruence algorithm or new solving algorithm is introduced.
     options.euf_propagation = EufPropagationMode::Off;
@@ -215,6 +238,34 @@ CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options
     util::Statistics statistics;
     auto outcome =
         solve_qf_uf_engine(frontend.terms(), assertions, options, statistics, {}, &collector);
+    const auto collected = document.conflicts.size();
+    outcome.statistics.set(":export.theory.conflicts-collected", collected);
+    if (outcome.result == CheckSatResult::Unsat &&
+        options.export_cnf_reduction != ExportCnfReduction::None) {
+      SolveTerminator terminator(options.cancelled, outcome.statistics);
+      const auto reduction = collector.reduce(&terminator);
+      outcome.statistics.set(":export.reduction.sat-calls", reduction.sat_calls);
+      outcome.statistics.set(":export.reduction.core-removed", reduction.core_removed);
+      outcome.statistics.set(":export.reduction.block-queries",
+                             reduction.progression.block_queries);
+      outcome.statistics.set(":export.reduction.binary-queries",
+                             reduction.progression.binary_queries);
+      outcome.statistics.set(":export.reduction.max-block-size",
+                             reduction.progression.max_block_size);
+      if (reduction.result == sat::SatResult::Sat) {
+        throw std::logic_error("captured CNF plus theory lemmas is propositionally SAT");
+      }
+      if (reduction.result != sat::SatResult::Unsat) {
+        outcome.result = CheckSatResult::Unknown;
+        outcome.message = "theory-lemma reduction did not complete; no artifact written";
+        outcome.reason = terminator.cancelled_reached() ? InconclusiveReason::Cancelled
+                                                        : InconclusiveReason::Unknown;
+      } else {
+        outcome.statistics.set(":export.reduction.completed", 1);
+      }
+    }
+    outcome.statistics.set(":export.theory.conflicts-removed",
+                           collected - document.conflicts.size());
     outcome.statistics.set(":export.cnf.clauses", document.clauses.size());
     outcome.statistics.set(":export.theory.conflicts", document.conflicts.size());
     if (outcome.result == CheckSatResult::Unsat) {

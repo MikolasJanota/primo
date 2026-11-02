@@ -44,6 +44,8 @@ root = Path(os.environ['PRIMO_EXPORT_ARTIFACTS'])
     'host': platform.node(),
     'seed': 20261102,
     'count': 1000,
+    'reduction_modes': 'round-robin none/core/mus',
+    'mus_validation': 'drop each retained lemma and require propositional SAT',
     'timeout_per_process_seconds': 10,
     'reference': 'contrib/local/bin/z3 -in',
     'command': 'python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo '
