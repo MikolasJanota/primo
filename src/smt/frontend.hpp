@@ -22,11 +22,17 @@ namespace primo::smt {
 
 class TermBuilder;
 
+// PreserveAtoms is for the restricted CNF exporter. Its caller must register
+// every Boolean constant/application subterm before EUF checking, so each gets
+// a SAT-selected value in Bool's two-element domain.
+enum class FrontendBooleanMode { Lower, PreserveAtoms };
+
 // Owns one SMT-LIB-to-core translation session. No syntax node escapes this
 // boundary: clients receive only TermIds owned by terms().
 class Frontend {
  public:
-  explicit Frontend(bool validate_parameterized_definitions = false);
+  explicit Frontend(bool validate_parameterized_definitions = false,
+                    FrontendBooleanMode boolean_mode = FrontendBooleanMode::Lower);
   ~Frontend();
 
   Frontend(const Frontend&) = delete;
@@ -52,6 +58,7 @@ class Frontend {
 
  private:
   friend class TermBuilder;
+
   struct Implementation;
   std::unique_ptr<Implementation> implementation_;
 };

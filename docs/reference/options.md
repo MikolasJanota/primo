@@ -14,6 +14,7 @@ common controls; the complete captured inventory below supplies accepted values 
 | `--version` | Off | Print revision/build information and exit. |
 | `--quiet`, `-q` | Off | Suppress the startup banner; SMT-LIB responses remain enabled. |
 | `--stats` | Off | Write query statistics to stderr. See [](../reference/statistics.md). |
+| `--export-cnf FILE` | Off | Write one UNSAT CNF/conflict artifact for an already-CNF QF_UF problem; see [](qf-uf-conflicts.md). Incremental solving is unsupported. |
 | `--check-model` | Off | Check original assertions against a requested model. Set `:produce-models true` separately; see [](../guide/models.md). |
 | `--incremental-mode` | `rebuild` | Choose `rebuild` or the restricted `assumptions` session engine. See [](../guide/sessions.md). |
 | `--preprocessing-mode` | `auto` | Choose `auto`, `off`, `basic`, or `strong`. `off` does not bypass required lowering. Assumptions mode admits only `auto` or `off`. |
@@ -35,8 +36,8 @@ Options accept only their declared values/ranges. A name beginning with
 `experimental` or a diagnostic switch does not identify a qualified default.
 For component-specific controls, use [](../implementation/preprocessing.md),
 [](../implementation/euf.md), [](../implementation/lra.md), [](../implementation/quantifiers.md), and
-[](../reference/policies.md). The help snapshot includes every registered CLI
-option; the prose above is intentionally a practical subset.
+[](../reference/policies.md). The help snapshot predates `--export-cnf`; that option is described in the
+table above. The other captured options provide the baseline inventory.
 
 The two automatic-budget options, `--euf-prop-budget` and `--euf-prop-delivery`,
 accept exactly `auto`, `unlimited`, or unsigned decimal digits fitting in

@@ -317,6 +317,10 @@ if(PRIMO_PYTHON_EXECUTABLE)
   add_test(NAME primo_interactive_session
     COMMAND ${PRIMO_PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/interactive_session.py $<TARGET_FILE:primo>)
   set_tests_properties(primo_interactive_session PROPERTIES TIMEOUT 30)
+  add_test(NAME primo_cnf_export_cli
+    COMMAND ${PRIMO_PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/cnf_export_cli.py
+      --solver $<TARGET_FILE:primo>)
+  set_tests_properties(primo_cnf_export_cli PROPERTIES TIMEOUT 120)
 endif()
 if(PRIMO_BASH_EXECUTABLE AND PRIMO_PYTHON_EXECUTABLE)
   add_test(

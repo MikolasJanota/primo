@@ -9,11 +9,14 @@
 #include <cstdint>
 #include <cstdlib>
 #include <exception>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <memory>
 #include <optional>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -86,6 +89,21 @@ void print_startup_banner() {
 
 int execute_stream(std::istream& input, const primo::smt::CheckSatOptions& options,
                    bool print_stats) {
+  if (!options.export_cnf.empty()) {
+    std::ostringstream buffer;
+    buffer << input.rdbuf();
+    if (input.bad()) throw std::runtime_error("cannot read export input");
+    const auto outcome = primo::smt::check_sat_smtlib(buffer.str(), options);
+    primo::smt::CommandResponse response;
+    response.kind = primo::smt::ResponseKind::CheckSat;
+    response.outcome = std::make_shared<const primo::smt::CheckSatOutcome>(outcome);
+    primo::cli::print_response(std::cout, response);
+    std::cout.flush();
+    if (print_stats) primo::util::print_statistics(std::cerr, outcome.statistics);
+    if (!outcome.message.empty()) std::cerr << outcome.message << '\n';
+    if (g_cancel_requested != 0) alarm(0);
+    return outcome.result == primo::smt::CheckSatResult::Unsupported ? 2 : 0;
+  }
   primo::smt::SmtSession session(options);
   primo::smtlib::Parser parser(input);
   int exit_code = 0;
@@ -301,6 +319,9 @@ int run_main(int argc, char** argv) {
   std::size_t max_theory_conflicts = 0;
   std::vector<std::string> cadical_options;
   CLI::App app{"Primo SMT solver scaffold"};
+  app.add_option("--export-cnf", solver_options.export_cnf,
+                 "Write one UNSAT QF_UF CNF/conflict artifact to FILE (no incremental solving)")
+      ->type_name("FILE");
   app.add_flag("--check-model", solver_options.check_model,
                "Check original assertions against produced typed models");
   app.option_defaults()->always_capture_default();
@@ -863,7 +884,7 @@ int run_main(int argc, char** argv) {
     // unclassified.
     if (name == "-q" || name == "--quiet" || name == "--stats" || name == "--version" ||
         name == "--help" || name == "--preprocess-only" || name == "--cancel-grace-seconds" ||
-        name == "--check-model" || name == "files") {
+        name == "--check-model" || name == "--export-cnf" || name == "files") {
       return kGroupProcedural;
     }
     if (starts_with(name, "--experimental-")) {
@@ -1084,6 +1105,16 @@ int run_main(int argc, char** argv) {
     solver_options.cadical_options.push_back(parsed.value());
   }
 
+  if (app.get_option("--export-cnf")->count() != 0 && solver_options.export_cnf.empty()) {
+    throw std::runtime_error("--export-cnf requires a nonempty output filename");
+  }
+  if (!solver_options.export_cnf.empty()) {
+    if (files.size() > 1) throw std::runtime_error("--export-cnf accepts at most one input file");
+    if (!files.empty() && std::filesystem::exists(solver_options.export_cnf) &&
+        std::filesystem::equivalent(files.front(), solver_options.export_cnf)) {
+      throw std::runtime_error("CNF output must differ from the input file");
+    }
+  }
   if (!quiet) {
     print_startup_banner();
   }

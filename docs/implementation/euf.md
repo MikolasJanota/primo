@@ -94,6 +94,10 @@ The returned conflict clause is:
 ¬p ∨ q               equivalently: a = b ⇒ f(a) = f(b)
 ```
 
+The experimental [QF_UF exporter](../reference/qf-uf-conflicts.md) records
+the conflicting facts `p, ¬q` by complementing this clause. It selects the
+lazy engine and records only complete-candidate theory conflicts.
+
 Both literals are false under `p, ¬q`. SAT can use this clause to exclude that
 combination. In particular, with `¬q` retained it can derive `¬p`.
 

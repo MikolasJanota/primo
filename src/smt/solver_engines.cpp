@@ -43,6 +43,7 @@
 #include "smt/model_based_combination.hpp"
 #include "smt/model_reconstruction.hpp"
 #include "smt/preprocessing_tactics.hpp"
+#include "smt/qf_uf_export.hpp"
 #include "smt/solver_error.hpp"
 #include "smt/solver_runtime.hpp"
 #include "smt/solver_support.hpp"
@@ -10347,7 +10348,8 @@ CheckSatOutcome solve_qf_uf_engine_impl(core::TermManager& terms,
                                         const std::vector<core::TermId>& assertions,
                                         const CheckSatOptions& options,
                                         util::Statistics& statistics,
-                                        const ModelConversionChain& conversions) {
+                                        const ModelConversionChain& conversions,
+                                        QfUfConflictCollector* collector) {
   statistics.increment(kStatSolverQfUf);
   sat::CadicalBackend backend(options.cadical_options);
   SolveTerminator terminator(options.cancelled, statistics, options.max_theory_conflicts);
@@ -10359,7 +10361,9 @@ CheckSatOutcome solve_qf_uf_engine_impl(core::TermManager& terms,
   // Bool's two-element domain, before the atom list is measured or consumed:
   // PreparedFlatTheory::align_assignments requires the atom count to be final
   // for the whole solve, and every heuristic below reads theory_atoms().
+  if (collector != nullptr) collector->prepare(clausifier);
   register_euf_boolean_arguments(clausifier, statistics);
+  if (collector != nullptr) collector->bind(clausifier);
   statistics.set(kStatTheoryAtoms, clausifier.theory_atoms().size());
   statistics.set(kStatPureTheoryFilterEnabled,
                  pure_theory_filter_enabled(options.pure_theory_filter) ? 1 : 0);
@@ -10538,6 +10542,7 @@ CheckSatOutcome solve_qf_uf_engine_impl(core::TermManager& terms,
                                               nullptr, &statistics);
       return outcome;
     }
+    if (collector != nullptr) collector->record(*conflict_clause);
     statistics.increment(kStatTheoryConflicts);
     record_theory_conflict(statistics);
     if (terminator.conflict_limit_reached()) {
@@ -12485,10 +12490,11 @@ std::unique_ptr<IncrementalEngine> make_incremental_lra_engine(core::TermManager
 CheckSatOutcome solve_qf_uf_engine(core::TermManager& terms,
                                    const std::vector<core::TermId>& assertions,
                                    const CheckSatOptions& options, util::Statistics& statistics,
-                                   const ModelConversionChain& conversions) {
+                                   const ModelConversionChain& conversions,
+                                   QfUfConflictCollector* collector) {
   return enforce_theory_conflict_limit(
-      solve_qf_uf_engine_impl(terms, assertions, options, statistics, conversions), options,
-      statistics);
+      solve_qf_uf_engine_impl(terms, assertions, options, statistics, conversions, collector),
+      options, statistics);
 }
 
 CheckSatOutcome solve_qf_lra_engine(core::TermManager& terms,

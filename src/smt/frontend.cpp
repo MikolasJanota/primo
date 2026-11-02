@@ -118,8 +118,9 @@ class TermBuilder {
 struct Frontend::Implementation {
  public:
   friend class TermBuilder;
-  explicit Implementation(bool validate_parameterized_definitions)
-      : validate_parameterized_definitions_(validate_parameterized_definitions) {}
+  explicit Implementation(bool validate_parameterized_definitions, FrontendBooleanMode boolean_mode)
+      : validate_parameterized_definitions_(validate_parameterized_definitions),
+        boolean_mode_(boolean_mode) {}
 
   core::TermId build_term(const smtlib::SExpr& expr) {
     TermBuilder builder(*this);
@@ -319,7 +320,7 @@ struct Frontend::Implementation {
     if (lhs_sort != terms_.get(rhs).sort) {
       throw UnsupportedInput("equality sort mismatch");
     }
-    if (lhs_sort == symbols_.bool_sort()) {
+    if (lhs_sort == symbols_.bool_sort() && boolean_mode_ == FrontendBooleanMode::Lower) {
       // UF applications do not change Bool equality into an independent theory atom: EUF
       // receives each Boolean application's SAT-selected canonical value separately.
       return terms_.mk_and({terms_.mk_implies(lhs, rhs), terms_.mk_implies(rhs, lhs)});
@@ -332,7 +333,7 @@ struct Frontend::Implementation {
     if (lhs_sort != terms_.get(rhs).sort) {
       throw UnsupportedInput("distinct sort mismatch");
     }
-    if (lhs_sort == symbols_.bool_sort()) {
+    if (lhs_sort == symbols_.bool_sort() && boolean_mode_ == FrontendBooleanMode::Lower) {
       return terms_.mk_or(
           {terms_.mk_and({lhs, terms_.mk_not(rhs)}), terms_.mk_and({terms_.mk_not(lhs), rhs})});
     }
@@ -340,6 +341,7 @@ struct Frontend::Implementation {
   }
 
   core::TermId bind_bool_argument_if_needed(core::TermId term) {
+    if (boolean_mode_ == FrontendBooleanMode::PreserveAtoms) return term;
     const core::Term& node = terms_.get(term);
     if (node.sort != symbols_.bool_sort() || node.kind == core::TermKind::BoolValue ||
         node.kind == core::TermKind::Constant) {
@@ -540,6 +542,7 @@ struct Frontend::Implementation {
   bool requested_model_ = false;
   bool produce_models_ = false;
   bool validate_parameterized_definitions_ = false;
+  FrontendBooleanMode boolean_mode_ = FrontendBooleanMode::Lower;
 };
 
 core::TermId TermBuilder::run(const smtlib::SExpr& root) {
@@ -1186,8 +1189,9 @@ void TermBuilder::dispatch_instantiate_definition(const std::string& name,
            });
 }
 
-Frontend::Frontend(bool validate_parameterized_definitions)
-    : implementation_(std::make_unique<Implementation>(validate_parameterized_definitions)) {}
+Frontend::Frontend(bool validate_parameterized_definitions, FrontendBooleanMode boolean_mode)
+    : implementation_(
+          std::make_unique<Implementation>(validate_parameterized_definitions, boolean_mode)) {}
 Frontend::~Frontend() = default;
 
 void Frontend::process_command(const smtlib::Command& command,
