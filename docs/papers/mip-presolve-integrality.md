@@ -144,6 +144,10 @@ reference disagreement:
 
 In the timing runs below, every QF_LIA answer agrees with z3 on the 12,144
 files z3 decided, and every QF_UFLIA answer agrees with z3 and cvc5.
+Dolmen accepts every SAT model printed in those runs with all options
+(6,543 QF_LIA, 374 QF_UFLIA) and with M1+M2 (6,483 QF_LIA); none of these
+answers turns UNSAT on replay (run-log entry
+`2026-11-03-lia-integrality-model-validation-2e120fa`).
 
 **Timing**, 60 s per file, each configuration adding one option to the
 previous one. M1 to M4 are the options for gaps 1 to 4. PAR2 is in seconds,

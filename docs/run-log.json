@@ -3,6 +3,37 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-lia-integrality-model-validation-2e120fa",
+      "date": "2026-11-03",
+      "commit": "2e120fa",
+      "branch": "lia-integrality",
+      "kind": "slurm-model-validation",
+      "scope": "Post-benchmark Dolmen validation of every successful SAT row of the M5 A/B (parent run 2026-11-02-lia-integrality-ab-2e120fa) for the profiles all (QF_LIA, QF_UFLIA) and m12 (QF_LIA), same binary. Separate from the timing run; its times do not enter the A/B.",
+      "environment": {
+        "host": "CIIRC SLURM cluster; remote workdir /home/janotmik/primo-lia-integrality",
+        "binary": "/home/janotmik/primo-lia-integrality/build-slurm-rel/primo, banner git 2e120fa, sha256 c501bffa5807f7c6947128c0e78be95c6c8d8b9d975e0a4de269065fd3c28fea",
+        "validator": "Dolmen 0.10 with --strict=false; scripts/validate_model.py at 6f25a83 (validator changes only affect non-SAT rows)",
+        "limits": "solver 120 s with get-model, Dolmen 60 s and 1G space; retry 300 s and 8G, 1 CPU, 8-16 GB per task"
+      },
+      "commands": {
+        "main": "sbatch --array=0-(N-1) --export=ALL,PRIMO_WORKDIR=/home/janotmik/primo-lia-integrality,CORPUS=<QF_LIA|QF_UFLIA>,PROFILE=<all|m12>,SHARDS=N (scratch m5-models.sbatch, N=40/40/4): python3 scripts/validate_model.py --solver build-slurm-rel/primo --solver-arg=--quiet --solver-arg=<each profile option> --dolmen dolmen --dolmen-arg=--strict=false --z3 z3 --require-dolmen-pass --expect-sat --timeout 120 --dolmen-timeout 60 --manifest tmp/m5-manifests/<CORPUS>-<PROFILE>-sat.txt --root tmp/<CORPUS> --shards N --shard-index $SLURM_ARRAY_TASK_ID --out results/m5-models-2e120fa/<CORPUS>-<PROFILE>/shard-<i>",
+        "manifests": "every A/B row with status ok, answer sat and exit 0: QF_LIA all 6,543, QF_LIA m12 6,483, QF_UFLIA all 374",
+        "retry": "the same command with --dolmen-timeout 300 --dolmen-size 8G over the 27 rows that hit Dolmen's 1G space limit (manifest tmp/m5-manifests/QF_LIA-smpt-retry.txt), into results/m5-models-2e120fa/retry-8G-QF_LIA-<PROFILE>"
+      },
+      "jobs": {
+        "main": "339269 (QF_LIA all), 339270 (QF_LIA m12), 339271 (QF_UFLIA all)",
+        "retry": "339361 (all), 339362 (m12); first retry 339353/339354 cancelled before running because its manifest paths repeated the root"
+      },
+      "artifacts": "/home/janotmik/primo-lia-integrality/results/m5-models-2e120fa/",
+      "results": {
+        "QF_LIA_all": "6,516 direct Dolmen passes, 27 dolmen-resource-limit (all 20220307-SMPT, Dolmen exit 2 at 1G); retry: 27/27 pass. Coverage 6,543/6,543, 0 invalid models, 0 SAT-to-UNSAT replays.",
+        "QF_LIA_m12": "6,456 passes, the same 27 SMPT resource limits; retry 27/27 pass. Coverage 6,483/6,483, 0 invalid, 0 changed answers.",
+        "QF_UFLIA_all": "374/374 direct Dolmen passes.",
+        "task_exit_status": "54 main tasks exited 1 because of the resource-limit rows; all retry tasks COMPLETED 0:0.",
+        "summary": "Every SAT model printed under the all and m12 profiles on the real corpora is accepted by Dolmen."
+      }
+    },
+    {
       "id": "2026-11-02-lia-integrality-fuzz-gates-2e120fa",
       "date": "2026-11-02",
       "commit": "2e120fa",
