@@ -3464,6 +3464,13 @@ struct PreparedLraTheory {
     std::size_t non_integer_int_slacks = 0;
   };
 
+  // Slacks known to be integer in every integer model, in the order they were
+  // first marked. A slack qualifies when some atom bounding it marks it
+  // integer: its row is then an integer polynomial over Int variables. The
+  // LIA adapter adds them to its integer obligations under
+  // --lia-integer-slacks (docs/papers/mip-presolve-integrality.md, gap 3).
+  std::vector<theory::arithmetic::LraVarId> integer_slacks;
+
   // The rounding mode for a bound on an integer-valued variable; None for
   // anything else. Fixed at construction so appended atoms match.
   IntegerBoundRounding integer_rounding_for(bool integer_valued) const {
@@ -3477,6 +3484,7 @@ struct PreparedLraTheory {
   const core::TermManager& terms_;
   bool collect_model_variables_ = false;
   IntegerPreparationOptions integer_options_;
+  std::unordered_set<theory::arithmetic::LraVarId> integer_slack_set_;
   IntegerPreparationStats integer_stats;
   theory::arithmetic::LraTableau base_tableau;
   std::vector<PreparedAtom> atoms;  // parallel to theory_atoms
@@ -3629,6 +3637,9 @@ std::vector<theory::arithmetic::LraVarId> PreparedLraTheory::append_atom(
                           canonical.scale == util::Rational(-1));
   if (is_integer_atom && !slack_is_integer) {
     ++integer_stats.non_integer_int_slack_atoms;
+  }
+  if (slack_is_integer && integer_slack_set_.insert(slack).second) {
+    integer_slacks.push_back(slack);
   }
   if (slack_is_integer && !rhs.is_integer()) {
     ++integer_stats.fractional_int_thresholds;
@@ -9764,12 +9775,13 @@ class LiaComponentAdapter final : public theory::TheorySolver {
         options_(options),
         statistics_(statistics),
         timing_(timing) {
-    integer_vars_.reserve(prepared_.variables_by_term.size());
+    integer_input_vars_.reserve(prepared_.variables_by_term.size());
     for (const auto& [term, variable] : prepared_.variables_by_term) {
       if (terms_.get(term).sort == terms_.symbols().int_sort()) {
-        integer_vars_.push_back(variable);
+        integer_input_vars_.push_back(variable);
       }
     }
+    rebuild_integer_obligations();
     publish_integer_preparation_stats();
   }
 
@@ -9781,7 +9793,8 @@ class LiaComponentAdapter final : public theory::TheorySolver {
         const auto variable = prepared_.base_tableau.add_variable();
         prepared_.var_ids_.emplace(term, variable);
         prepared_.variables_by_term.emplace(term, variable);
-        integer_vars_.push_back(variable);
+        integer_input_vars_.push_back(variable);
+        rebuild_integer_obligations();
       }
     }
   }
@@ -9792,8 +9805,9 @@ class LiaComponentAdapter final : public theory::TheorySolver {
     atoms_.push_back(atom);
     const std::vector<theory::arithmetic::LraVarId> new_model_variables =
         prepared_.append_atom(atom);
-    integer_vars_.insert(integer_vars_.end(), new_model_variables.begin(),
-                         new_model_variables.end());
+    integer_input_vars_.insert(integer_input_vars_.end(), new_model_variables.begin(),
+                               new_model_variables.end());
+    rebuild_integer_obligations();
     publish_integer_preparation_stats();
     last_model_.reset();
   }
@@ -9825,7 +9839,23 @@ class LiaComponentAdapter final : public theory::TheorySolver {
   }
 
  private:
+  // The integer obligations handed to completion. Under --lia-integer-slacks
+  // the slacks the preparation proved integer come first, so branch-and-bound
+  // (which splits the first fractional variable) can split a constraint
+  // expression such as 2x + 3y before its variables; appended after the
+  // inputs, a slack is integral whenever they are and would never be split.
+  // Slacks are never in variables_by_term, so the list stays duplicate-free.
+  void rebuild_integer_obligations() {
+    integer_vars_.clear();
+    if (options_.lia_integer_slacks) {
+      integer_vars_.assign(prepared_.integer_slacks.begin(), prepared_.integer_slacks.end());
+    }
+    integer_vars_.insert(integer_vars_.end(), integer_input_vars_.begin(),
+                         integer_input_vars_.end());
+  }
+
   void publish_integer_preparation_stats() {
+    statistics_.set(util::StatKey::LiaPrepIntegerSlacks, prepared_.integer_slacks.size());
     const auto& stats = prepared_.integer_stats;
     statistics_.set(util::StatKey::LiaPrepFractionalIntThresholds, stats.fractional_int_thresholds);
     statistics_.set(util::StatKey::LiaPrepNonIntegerIntSlackAtoms,
@@ -9884,6 +9914,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
   std::uint64_t assignment_epoch_ = 0;
   bool produce_model_projection_ = false;
   PreparedLraTheory prepared_;
+  std::vector<theory::arithmetic::LraVarId> integer_input_vars_;
   std::vector<theory::arithmetic::LraVarId> integer_vars_;
   CheckSatOptions options_;
   util::Statistics& statistics_;

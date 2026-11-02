@@ -38,7 +38,7 @@ $\delta$ a positive infinitesimal used to represent strict inequalities.
 | State | Owner and meaning |
 | --- | --- |
 | Prepared atoms and term-to-variable map | {source}`PreparedLraTheory <src/smt/solver_engines.cpp#L3332-L3410>` connects arithmetic terms and SAT atoms to tableau variables and bounds. |
-| `integer_vars` | The caller owns a vector of `LraVarId`s whose values must become integers. In the pure route it is collected from the `Int` terms in `variables_by_term`; the combined route also registers shared `Int` terms. It is not the set of all tableau variables. |
+| `integer_vars` | The caller owns a vector of `LraVarId`s whose values must become integers. In the pure route it is collected from the `Int` terms in `variables_by_term`; the combined route also registers shared `Int` terms. Under `--lia-integer-slacks` it also starts with the slacks that preparation proved integer (`PreparedLraTheory::integer_slacks`). It is not the set of all tableau variables. |
 | Working tableau | SMT integration owns a copy of a rationally feasible tableau and lends it by mutable reference to {integersource}`complete_integer_assignment <src/theory/arithmetic/lia_completion.cpp>`. Patching changes assignments; cuts allocate variables and rows; branching adds temporary bounds. These changes stay within this copy. |
 | `LiaExplanation` | This {source}`explanation object <src/theory/arithmetic/lia_explanation.hpp>` stores the blocking literals contributed by GCD checks, cuts and branching in a sorted, duplicate-free vector. The stages share one object so a later conflict retains the reasons for earlier cuts. |
 | Branch frames | {source}`branch_and_bound <src/theory/arithmetic/lia_branch_and_bound.cpp>` owns an explicit DFS stack. Each frame stores a variable ID, a split threshold, a tableau checkpoint and which side has been tried. |
@@ -262,6 +262,17 @@ conflict in the rational check. In a case with $13/2\le2x+3y\le7$ over
 unbounded variables, the default route exhausts its branch-node limit,
 while the integral bound $s=7$ lets one patch move find $x=2,y=1$. Both
 options are off by default until qualified.
+
+A slack marked integer this way can also become an integer obligation of
+completion. `--lia-integer-slacks` puts such slacks (Achterberg et al. §7.6
+call them implied integers) at the front of `integer_vars`. Patching, the GCD
+test and Gomory row selection may then use their rows, and branch-and-bound,
+which splits the first fractional variable, can split a constraint
+expression: for $13/2\le2x+3y\le27/4$, the single split $s\le6\lor s\ge7$
+refutes the candidate, with the two bound literals as its explanation, while
+splitting only $x$ and $y$ exhausts a 50-node budget. A slack appended after
+the inputs would never be split, because it is integral whenever they are.
+The front placement is a branching heuristic still to be evaluated.
 
 (lia-infinitesimals)=
 ### Why the relaxation can still contain infinitesimals
@@ -642,6 +653,7 @@ by the pure and combined routes:
 | `--no-lia-conflict-generalization` | Absent | Disables the default attempt to replace coarse clauses with accumulated explanations. |
 | `--lia-round-integer-bounds` | Absent | Rounds non-strict thresholds on integer-valued tableau variables inward. Preparation-time, not a per-completion budget. |
 | `--lia-primitive-int-rows` | Absent | Stores `Int` rows with coprime integer coefficients, making every `Int` slack integer-valued. Preparation-time. |
+| `--lia-integer-slacks` | Absent | Adds slacks proved integer to the front of the integer obligations of completion. |
 
 These are finite operational limits, not empirically optimal settings.
 Both routes report typed `ResourceLimit` to the shared driver, producing

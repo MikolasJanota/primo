@@ -223,6 +223,7 @@ enum class StatKey : std::size_t {
   LiaPrepFractionalIntThresholds,
   LiaPrepNonIntegerIntSlackAtoms,
   LiaPrepNonIntegerIntSlacks,
+  LiaPrepIntegerSlacks,
   BooleanDomainRegisteredTerms,
   SimplifiedIteRewrites,
   SimplifiedEqualityDistributions,

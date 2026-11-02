@@ -2,8 +2,9 @@
 
 **Status: Design checklist with partial implementation.** Prevalence counters
 are implemented. Gap 1 is implemented behind `--lia-round-integer-bounds`
-and gap 2 behind `--lia-primitive-int-rows`, both default off. Gaps 3 and 4
-are planned and will also be default-off when they land.
+gap 2 behind `--lia-primitive-int-rows` and gap 3 behind
+`--lia-integer-slacks`, all default off. Gap 4 is planned and will also be
+default-off when it lands.
 
 This note lists the primary sources behind one invariant of integer
 completion. It maps each source step to the Primo function that would own it
@@ -134,14 +135,20 @@ case, proportional atoms of opposite sign, an exact model; no option
 combination may contradict an answer) and
 `integer_preparation_options_do_not_touch_real_arithmetic`.
 
+Gap 3 is pinned by `branching_on_an_integer_slack_gives_a_bound_explanation`
+in {source}`lia_completion_tests.cpp <tests/unit/lia_completion_tests.cpp>`
+(obligation 4: the split on a slack drops out of the explanation, leaving the
+two bound literals) and `integer_slacks_join_completion` in the QF_LIA solver
+tests (refuted only when the slack is an obligation). Slacks are placed
+before the input variables; appended after them they would never be split.
+
 The counters are pinned by
 {source}`qf_lia_solver_tests.cpp <tests/unit/qf_lia_solver_tests.cpp>`
 (`integer_preparation_counters_report_bound_gaps`) and
 {source}`lia_patching_tests.cpp <tests/unit/lia_patching_tests.cpp>`
 (`fractional_nonbasic_move_is_counted`). Planned behavior tests:
 
-- integer slacks: a cut from a basic slack and a branch on a slack give
-  valid explanations; the exported model is unchanged;
+- integer slacks: a cut from a basic slack gives a valid explanation;
 - patching: the $s_1=s_2=\tfrac23y$ move to $y=3/2$ is rejected; the lattice
   finds $y=3$ when it is in range; a coefficient with $|p|>8$ that the fixed
   target window misses; a $c$ with an infinitesimal part is skipped.

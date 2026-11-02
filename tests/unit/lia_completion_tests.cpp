@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <vector>
 
 #include "sat/lit.hpp"
 #include "theory/arithmetic/lia_completion.hpp"
@@ -100,6 +101,32 @@ void empty_integer_set_succeeds_without_search() {
   assert(result.explanation.empty());
   assert(result.patch_stats.fully_integral);
 }
+// Gap 3 of docs/papers/mip-presolve-integrality.md: a slack whose row is an
+// integer polynomial over integer variables may be treated as an integer
+// variable. With s = 2x + 3y in [13/2, 27/4] and x, y unbounded, one split
+// on s refutes the candidate, and the explanation is exactly the two bound
+// literals: the split s <= 6 or s >= 7 is a tautology over the integers and
+// drops out. Branching only on x and y exhausts a small node budget.
+void branching_on_an_integer_slack_gives_a_bound_explanation() {
+  LraTableau tableau;
+  const auto x = tableau.add_variable();
+  const auto y = tableau.add_variable();
+  const auto s = tableau.add_variable();
+  tableau.add_row(s, {{x, Rational(2)}, {y, Rational(3)}});
+  assert(!tableau.assert_lower(s, rat(Rational(13, 2)), Lit{5}));
+  assert(!tableau.assert_upper(s, rat(Rational(27, 4)), Lit{6}));
+  assert(!tableau.check());
+
+  LraTableau inputs_only = tableau;
+  const auto without = complete_integer_assignment(inputs_only, {x, y}, {0, 0, 20});
+  assert(without.status != Status::Unsat);
+
+  const auto with = complete_integer_assignment(tableau, {s, x, y}, {0, 0, 2});
+  assert(with.status == Status::Unsat);
+  const std::vector<Lit>& reasons = with.explanation.literals();
+  assert(reasons.size() == 2 && reasons[0].value == 5 && reasons[1].value == 6);
+}
+
 }  // namespace
 
 int main() {
@@ -108,4 +135,5 @@ int main() {
   gcd_precedes_the_zero_branch_budget();
   cuts_retain_antecedents_for_later_branching();
   empty_integer_set_succeeds_without_search();
+  branching_on_an_integer_slack_gives_a_bound_explanation();
 }

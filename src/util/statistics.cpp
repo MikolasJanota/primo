@@ -223,6 +223,7 @@ constexpr std::array<std::string_view, static_cast<std::size_t>(StatKey::Count)>
     ":lia.prep-fractional-int-thresholds"sv,
     ":lia.prep-non-integer-int-slack-atoms"sv,
     ":lia.prep-non-integer-int-slacks"sv,
+    ":lia.prep-integer-slacks"sv,
     ":no.boolean-domain.registered-terms"sv,
     ":preprocessing.ite.rewrites"sv,
     ":preprocessing.ite.equality-distributed"sv,

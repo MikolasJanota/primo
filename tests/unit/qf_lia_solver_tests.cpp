@@ -537,6 +537,30 @@ void primitive_integer_rows_keep_answers() {
   assert(model.model.find("(define-fun y () Int 5)") != std::string::npos);
 }
 
+// --lia-integer-slacks makes completion branch on integer slacks. With
+// integer rows but no bound rounding, s = 2x + 3y lies in [13/2, 27/4]: one
+// split on s refutes it, while splitting only x and y (unbounded) cannot
+// within a small node budget.
+void integer_slacks_join_completion() {
+  const std::string script = R"(
+    (set-logic QF_LIA)
+    (declare-fun x () Int)
+    (declare-fun y () Int)
+    (assert (<= (+ (* 8 x) (* 12 y)) 27))
+    (assert (>= (+ (* 4 x) (* 6 y)) 13))
+    (check-sat)
+  )";
+  CheckSatOptions options;
+  options.lia_primitive_int_rows = true;
+  options.lia_branch_limit = 50;
+  const auto inputs_only = check_sat_smtlib(script, options);
+  assert(inputs_only.result == CheckSatResult::Unknown);
+  assert(inputs_only.statistics.get(primo::util::StatKey::LiaPrepIntegerSlacks) == 1);
+  options.lia_integer_slacks = true;
+  const auto with_slacks = check_sat_smtlib(script, options);
+  assert(with_slacks.result == CheckSatResult::Unsat);
+}
+
 // The integer preparation switches belong to the LIA adapter only: a QF_LRA
 // problem must solve identically when they are set.
 void integer_preparation_options_do_not_touch_real_arithmetic() {
@@ -966,6 +990,7 @@ int main() {
   integer_preparation_counters_report_bound_gaps();
   rounding_integer_bounds_keeps_answers_and_skips_completion();
   primitive_integer_rows_keep_answers();
+  integer_slacks_join_completion();
   integer_preparation_options_do_not_touch_real_arithmetic();
   patched_model_satisfies_a_uniquely_determined_instance();
   qf_lia_rejects_uninterpreted_functions();

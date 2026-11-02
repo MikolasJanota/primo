@@ -571,6 +571,10 @@ int run_main(int argc, char** argv) {
                         "Store QF_LIA/QF_UFLIA atom rows with coprime integer coefficients "
                         "(2x + 3y stays 2x + 3y instead of x + 3/2 y), so every Int slack is "
                         "integer-valued and its thresholds can be rounded");
+  add_flag_with_default(app, "--lia-integer-slacks", solver_options.lia_integer_slacks,
+                        "Treat QF_LIA/QF_UFLIA slacks whose rows are integer polynomials over Int "
+                        "variables as integer variables in patching, GCD tests, cuts and "
+                        "branching");
   add_flag_with_default(
       app, "--no-lia-conflict-generalization", no_lia_conflict_generalization,
       "Disable QF_LIA conflict generalization: build each integer-infeasibility lemma "

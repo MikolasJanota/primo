@@ -404,6 +404,10 @@ struct CheckSatOptions {
   // thresholds can be rounded (King thesis Section 4.3; gap 2 of
   // docs/papers/mip-presolve-integrality.md). Off until qualified.
   bool lia_primitive_int_rows = false;
+  // Treat slacks whose rows are integer polynomials over Int variables as
+  // integer obligations of completion (King thesis Section 4.3, footnote 4;
+  // gap 3). Most useful with lia_primitive_int_rows. Off until qualified.
+  bool lia_integer_slacks = false;
   // The same declared-QF_LRA rebuild policy as lra_model_phase. Assumptions
   // sessions cannot use assertion-dependent elimination; their automatic policy
   // is off and explicit enabling remains rejected. See docs/arithmetic.md.
