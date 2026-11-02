@@ -3,6 +3,40 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-02-lia-integrality-census-18630fd",
+      "date": "2026-11-02",
+      "commit": "18630fd",
+      "branch": "lia-integrality",
+      "kind": "slurm-prevalence-census",
+      "scope": "M0 of the integrality plan (docs/papers/mip-presolve-integrality.md): how often the four integer-bound gaps occur under the default configuration, measured with statistics-only counters. Not a timing comparison; answers are not compared with references.",
+      "environment": {
+        "host": "CIIRC SLURM cluster, partition compute; remote workdir /home/janotmik/primo-lia-integrality",
+        "build": "scripts/slurm_prepare_benchmark_workspace.py --remote-dir /home/janotmik/primo-lia-integrality --cmake /home/janotmik/primo-cadical-profile/.venv-build/bin/cmake --cxx-header-manifest /home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/include-paths.txt --reuse-dependencies --build-via-slurm --jobs 16 --extra-target all (Release, banner git 18630fd)",
+        "corpora": "QF_LIA division, 13,306 files (hard-linked from primo-cadical-profile/sandbox/non-incremental/QF_LIA); QF_UFLIA, 659 files (hard-linked from primo-model-fix/tmp/QF_UFLIA)",
+        "limits": "10 s per file through bench_qf_uf_full.py (SIGTERM, then 1 s grace), 1 CPU, 3-4 GB per task"
+      },
+      "commands": {
+        "qf_lia": "sbatch --array=0-79 --time=01:00:00 --export=ALL,PRIMO_COMPARE_ROOT=tmp/QF_LIA,PRIMO_COMPARE_TIMEOUT=10,PRIMO_COMPARE_SHARDS=80,PRIMO_COMPARE_SOLVERS='primo=build-slurm-rel/primo --quiet --stats' scripts/slurm_qf_lia_full_solver_compare.sbatch",
+        "qf_uflia": "sbatch --array=0-7 --time=01:00:00 --export=ALL,PRIMO_COMPARE_ROOT=tmp/QF_UFLIA,PRIMO_COMPARE_TIMEOUT=10,PRIMO_COMPARE_SHARDS=8,PRIMO_COMPARE_SOLVERS='primo=build-slurm-rel/primo --quiet --stats' scripts/slurm_qf_uflia_full_solver_compare.sbatch",
+        "unit_tests": "job 334848: ctest --test-dir build-slurm-rel, 45/45 passed; its make python-test step failed only on four python-lint-gate tests that need the repository .venv, absent from the remote workdir"
+      },
+      "jobs": {
+        "qf_lia": "334940",
+        "qf_uflia": "334941",
+        "unit_tests": "334848",
+        "failed_first_attempt": "334849 and 334850 failed at once: bench_qf_uf_full.py rejects symlinked corpora that resolve outside --repo, so the corpora were hard-linked into the workdir"
+      },
+      "artifacts": "/home/janotmik/primo-lia-integrality/results/m0-census-18630fd/{QF_LIA,QF_UFLIA}/primo/shard-*.csv",
+      "results": {
+        "coverage": "Rows with preparation statistics: QF_LIA 9,214/13,306 (8,958 ok, 4,348 timeouts, most killed before printing statistics); QF_UFLIA 607/659 (539 ok, 120 timeouts). All counts are lower bounds.",
+        "gap1_fractional_int_thresholds": "QF_LIA 44 files, 93 atoms; QF_UFLIA 20 files, 232 atoms. Rare today because few bounded variables are flagged integer.",
+        "gap2_non_integer_int_slacks": "QF_LIA 2,013 files, 162,540 atoms on 73,481 distinct non-integer slacks, in 18 of 32 families (largest: CAV_2009_benchmarks 333, 20180326-Bromberger 332, convert 278, rings_preprocessed 219, rings 205, dillig 122); QF_UFLIA 365 files (55%), 14,682 atoms on 2,892 slacks (mathsat 220, wisas 106, Certora 24, TwoSquares 18).",
+        "gap4_fractional_nonbasic_patch_moves": "QF_LIA 182 files, 10,013 accepted moves (rings 105 files, rings_preprocessed 53, Bromberger 8, slacks 7, others at most 5); QF_UFLIA none.",
+        "decision": "Prevalence is not negligible, so the M0 falsifier is not met and M2-M4 proceed. Gap 2 dominates; once M2 makes Int slacks integer, M1's rounding also applies to their fractional thresholds."
+      },
+      "evidence_status": "current"
+    },
+    {
       "id": "2026-10-28-long-limits-documentation-status",
       "date": "2026-10-28",
       "kind": "existing-evidence-status-inspection",

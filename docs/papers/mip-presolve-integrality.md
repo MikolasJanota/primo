@@ -101,6 +101,24 @@ These counters measure how common each gap is. They do not change behavior.
 | `:lia.prep-non-integer-int-slacks` | Distinct `Int` slacks whose stored row has a fractional coefficient (gap 2). |
 | `:lia.patch-fractional-nonbasic-moves` | Accepted patch moves that left an integer nonbasic fractional (gap 4). |
 
+### Prevalence on the corpora
+
+A census at commit `18630fd` ran the default configuration with `--stats`
+over the full QF_LIA division (13,306 files) and the QF_UFLIA corpus (659
+files), 10 s per file on SLURM (jobs 334940 and 334941; run-log entry
+`2026-11-02-lia-integrality-census-18630fd`). Most timed-out runs printed no
+statistics, so these counts are lower bounds:
+
+| Gap | QF_LIA | QF_UFLIA |
+| --- | --- | --- |
+| 1 (fractional threshold on an integer-flagged variable) | 44 files, 93 atoms | 20 files, 232 atoms |
+| 2 (atoms on a non-integer `Int` slack) | 2,013 files, 162,540 atoms, 73,481 slacks; 18 of 32 families | 365 files (55%), 14,682 atoms, 2,892 slacks |
+| 4 (patch moves leaving an integer nonbasic fractional) | 182 files, 10,013 moves, mostly `rings` and `rings_preprocessed` | none |
+
+Gap 2 dominates. Gap 1 is rare today only because few bounded variables are
+flagged integer: once gap 2 is closed, every `Int` slack becomes integer and
+the rounding of gap 1 applies to its thresholds as well.
+
 ## Tests derived from the steps
 
 Gap 1 is pinned by `rounding_integer_bounds_keeps_answers_and_skips_completion`
