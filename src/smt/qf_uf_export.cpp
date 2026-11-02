@@ -22,6 +22,7 @@
 #include "smt/check_sat.hpp"
 #include "smt/clausifier.hpp"
 #include "smt/frontend.hpp"
+#include "smt/inconclusive_reason.hpp"
 #include "smt/solver_engines.hpp"
 #include "smt/solver_error.hpp"
 #include "smt/solver_runtime.hpp"
