@@ -604,6 +604,11 @@ void add_lia_patching_stats(util::Statistics& statistics,
   statistics.increment(util::StatKey::LiaPatchFullScanEquivalent, stats.full_scan_equivalent);
   statistics.increment(util::StatKey::LiaPatchFractionalNonbasicMoves,
                        stats.fractional_nonbasic_moves);
+  statistics.increment(util::StatKey::LiaPatchFractionalCandidatesRejected,
+                       stats.fractional_candidates_rejected);
+  statistics.increment(util::StatKey::LiaPatchLatticeCandidatesScored,
+                       stats.lattice_candidates_scored);
+  statistics.increment(util::StatKey::LiaPatchLatticeMovesAccepted, stats.lattice_moves_accepted);
 }
 
 bool add_explained_theory_equality(theory::equality::ExplainedCongruenceClosure& closure,
@@ -8707,7 +8712,8 @@ LiaComponentCheck complete_lia_integer_model(
   ScopedStatisticsTimer integer_timer(statistics, timing.integer);
   const auto completion = theory::arithmetic::complete_integer_assignment(
       tableau, integer_vars,
-      {options.lia_patch_limit, options.lia_gomory_cut_limit, options.lia_branch_limit});
+      {options.lia_patch_limit, options.lia_gomory_cut_limit, options.lia_branch_limit,
+       options.lia_patch_integral_moves});
   publish_lia_completion_stats(completion, options, statistics);
   if (completion.status == theory::arithmetic::LiaCompletionResult::Status::Sat) {
     return {.status = LiaComponentCheck::Status::Sat, .conflict = {}, .model = std::move(tableau)};

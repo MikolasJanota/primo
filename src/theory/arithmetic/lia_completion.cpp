@@ -14,8 +14,8 @@ LiaCompletionResult complete_integer_assignment(LraTableau& tableau,
                                                 const std::vector<LraVarId>& integer_vars,
                                                 LiaCompletionLimits limits) {
   LiaCompletionResult result;
-  result.patched_variables =
-      patch_integer_variables(tableau, integer_vars, limits.patch_moves, &result.patch_stats);
+  result.patched_variables = patch_integer_variables(
+      tableau, integer_vars, limits.patch_moves, &result.patch_stats, limits.integral_patch_moves);
   if (gcd_inconsistent_row(tableau, integer_vars, &result.explanation).has_value() ||
       apply_gomory_cuts(tableau, integer_vars, limits.gomory_rounds, &result.explanation)) {
     result.status = LiaCompletionResult::Status::Unsat;

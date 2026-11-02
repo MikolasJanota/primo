@@ -186,7 +186,7 @@ restriction on surface Real disequality. See the
 
 ### Exact numbers and strict bounds
 
-{source}`util::Rational <src/util/rational.hpp#L197-L199>` uses an inline signed
+{source}`util::Rational <src/util/rational.hpp#L202-L204>` uses an inline signed
 64-bit numerator and denominator for values fitting its small representation.
 Operations use checked wide intermediates and fall back to GMP rationals.
 Results that fit return to the small representation: equal values must compare

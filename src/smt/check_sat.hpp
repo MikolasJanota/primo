@@ -408,6 +408,10 @@ struct CheckSatOptions {
   // integer obligations of completion (King thesis Section 4.3, footnote 4;
   // gap 3). Most useful with lia_primitive_int_rows. Off until qualified.
   bool lia_integer_slacks = false;
+  // Keep integer nonbasic variables integral while patching and propose the
+  // integer values of a row's nonbasic that make its basic variable integral
+  // (gap 4 of docs/papers/mip-presolve-integrality.md). Off until qualified.
+  bool lia_patch_integral_moves = false;
   // The same declared-QF_LRA rebuild policy as lra_model_phase. Assumptions
   // sessions cannot use assertion-dependent elimination; their automatic policy
   // is off and explicit enabling remains rejected. See docs/arithmetic.md.

@@ -575,6 +575,10 @@ int run_main(int argc, char** argv) {
                         "Treat QF_LIA/QF_UFLIA slacks whose rows are integer polynomials over Int "
                         "variables as integer variables in patching, GCD tests, cuts and "
                         "branching");
+  add_flag_with_default(app, "--lia-patch-integral-moves", solver_options.lia_patch_integral_moves,
+                        "QF_LIA/QF_UFLIA patching: never leave an integer nonbasic variable "
+                        "fractional, and propose the integer values of a row's nonbasic variable "
+                        "that make its basic variable integral");
   add_flag_with_default(
       app, "--no-lia-conflict-generalization", no_lia_conflict_generalization,
       "Disable QF_LIA conflict generalization: build each integer-infeasibility lemma "

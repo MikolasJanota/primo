@@ -561,6 +561,60 @@ void integer_slacks_join_completion() {
   assert(with_slacks.result == CheckSatResult::Unsat);
 }
 
+// --lia-patch-integral-moves reaches the patcher through LiaCompletionLimits:
+// its counters move only when the option is set, and the answer is the same.
+// The integrality options together must not contradict any answer either.
+void integral_patch_moves_reach_completion() {
+  const std::string script = R"(
+    (set-logic QF_LIA)
+    (declare-fun x () Int)
+    (declare-fun y () Int)
+    (declare-fun z () Int)
+    (assert (<= (* 3 x) 5))
+    (assert (>= x 1))
+    (assert (<= (+ (* 2 y) (* 3 z)) 7))
+    (assert (>= (+ (* 2 y) (* 3 z)) 1))
+    (assert (< (+ (* 2 y) (* 4 x)) 9))
+    (check-sat)
+  )";
+  CheckSatOptions plain;
+  const auto off = check_sat_smtlib(script, plain);
+  assert(off.result == CheckSatResult::Sat);
+  assert(off.statistics.get(primo::util::StatKey::LiaPatchFractionalCandidatesRejected) == 0);
+  assert(off.statistics.get(primo::util::StatKey::LiaPatchLatticeCandidatesScored) == 0);
+  CheckSatOptions integral;
+  integral.lia_patch_integral_moves = true;
+  const auto on = check_sat_smtlib(script, integral);
+  assert(on.result == CheckSatResult::Sat);
+  assert(on.statistics.get(primo::util::StatKey::LiaPatchFractionalCandidatesRejected) > 0);
+  assert(on.statistics.get(primo::util::StatKey::LiaPatchLatticeCandidatesScored) > 0);
+  assert(on.statistics.get(primo::util::StatKey::LiaPatchFractionalNonbasicMoves) == 0);
+
+  CheckSatOptions all = integral;
+  all.lia_round_integer_bounds = true;
+  all.lia_primitive_int_rows = true;
+  all.lia_integer_slacks = true;
+  const std::string header = "(set-logic QF_LIA)\n(declare-fun x () Int)\n(declare-fun y () Int)\n";
+  const std::vector<std::pair<std::string, CheckSatResult>> cases{
+      {"(assert (>= (+ (* 2 x) (* 4 y)) 3))(assert (<= (+ (* 2 x) (* 4 y)) 3))",
+       CheckSatResult::Unsat},
+      {"(assert (< (+ (* 2 x) (* 3 y)) 1))(assert (>= (+ (* 2 x) (* 3 y)) 0))(assert (>= x 0))",
+       CheckSatResult::Sat},
+      {"(assert (<= (+ (* 4294967296 x) y) (- 5)))(assert (>= y 0))(assert (<= y 10))",
+       CheckSatResult::Sat},
+      {"(assert (<= (+ (* 2 x) (* 3 y)) 7))(assert (<= (+ (* (- 4) x) (* (- 6) y)) (- 13)))",
+       CheckSatResult::Sat},
+      {"(assert (<= (+ (* 8 x) (* 12 y)) 27))(assert (>= (+ (* 4 x) (* 6 y)) 13))",
+       CheckSatResult::Unsat},
+      {"(assert (<= (* 3 x) 5))(assert (<= (* 3 y) 5))(assert (>= (+ x y) 3))",
+       CheckSatResult::Unsat},
+  };
+  for (const auto& [body, expected] : cases) {
+    assert(check_sat_smtlib(header + body + "(check-sat)\n", all).result == expected);
+  }
+  assert(check_sat_smtlib(script, all).result == CheckSatResult::Sat);
+}
+
 // The integer preparation switches belong to the LIA adapter only: a QF_LRA
 // problem must solve identically when they are set.
 void integer_preparation_options_do_not_touch_real_arithmetic() {
@@ -991,6 +1045,7 @@ int main() {
   rounding_integer_bounds_keeps_answers_and_skips_completion();
   primitive_integer_rows_keep_answers();
   integer_slacks_join_completion();
+  integral_patch_moves_reach_completion();
   integer_preparation_options_do_not_touch_real_arithmetic();
   patched_model_satisfies_a_uniquely_determined_instance();
   qf_lia_rejects_uninterpreted_functions();

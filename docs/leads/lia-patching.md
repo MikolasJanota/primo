@@ -39,9 +39,11 @@ Start with configurable fixed windows as a controlled baseline, then compare:
 2. **Adaptive widening and arithmetic structure.** Widen only after the cheap
    search fails, under a candidate/row-visit budget. Investigate steps that
    preserve integrality in several affected rows: in $y=x/2,z=x/3$, multiples
-   of $6$ satisfy both. A general congruence-based generator needs its own
-   derivation for rational coefficients, offsets and bounded intervals; it is
-   an inference for Primo, not an implemented algorithm from the surveyed papers.
+   of $6$ satisfy both. A single-row congruence generator now exists behind
+   `--lia-patch-integral-moves` (see {ref}`patching <lia-patching>`);
+   it handles one target row per candidate, so steps that serve several rows
+   at once remain open. It is an inference for Primo, not an implemented
+   algorithm from the surveyed papers.
 3. **A more informative progress score.** Compare the current count of
    fractional variables with fractionality-guided feasible moves, motivated
    by ZI Round in Achterberg–Berthold–Hendel §2. A smaller rational distance

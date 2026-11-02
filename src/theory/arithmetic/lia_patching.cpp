@@ -2,7 +2,9 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cstddef>
 #include <optional>
+#include <utility>
 #include <vector>
 
 #include "theory/arithmetic/lia_integer_values.hpp"
@@ -137,7 +139,72 @@ struct Candidate {
   DeltaRational value;
   std::size_t resulting_count = 0;
   util::Rational distance;
+  bool lattice = false;
 };
+
+// `value` modulo the positive integer `modulus`, in [0, modulus).
+util::Rational floor_mod(const util::Rational& value, const util::Rational& modulus) {
+  return value - modulus * (value / modulus).floor();
+}
+
+// Inverse of `value` modulo `modulus` for coprime integers, modulus > 1, by
+// the iterative extended Euclidean algorithm.
+util::Rational modular_inverse(const util::Rational& value, const util::Rational& modulus) {
+  util::Rational old_r = floor_mod(value, modulus);
+  util::Rational r = modulus;
+  util::Rational old_s(1);
+  util::Rational s(0);
+  while (!r.is_zero()) {
+    const util::Rational quotient = (old_r / r).floor();
+    util::Rational next_r = old_r - quotient * r;
+    old_r = r;
+    r = std::move(next_r);
+    util::Rational next_s = old_s - quotient * s;
+    old_s = s;
+    s = std::move(next_s);
+  }
+  assert(old_r == util::Rational(1) && "coefficient numerator and denominator must be coprime");
+  return floor_mod(old_s, modulus);
+}
+
+// Integer values k for an integer nonbasic y, with coefficient a = p/q in the
+// row of basic x_b, that leave x_b integral when y := k. With
+// c = beta(x_b) - a*beta(y), x_b becomes c + a*k, which is integral exactly
+// when c has no infinitesimal part, q*c is an integer, and
+// p*k = -q*c (mod q). The solutions form k0 + j*q; this returns the
+// 2*kTargetWindow of them nearest beta(y), nearest first. An inference
+// adapted from the modular-inverse step of Achterberg et al. Section 3.5
+// (docs/papers/mip-presolve-integrality.md), not a procedure from the paper.
+std::vector<util::Rational> lattice_values(const DeltaRational& basic_value,
+                                           const DeltaRational& moved_value,
+                                           const util::Rational& coefficient) {
+  const DeltaRational offset = basic_value - moved_value.scaled(coefficient);
+  if (!offset.infinitesimal.is_zero()) {
+    return {};
+  }
+  const util::Rational q = coefficient.denominator();
+  const util::Rational scaled_offset = offset.rational * q;
+  if (!scaled_offset.is_integer()) {
+    return {};
+  }
+  util::Rational residue(0);
+  if (q != util::Rational(1)) {
+    residue = floor_mod(-scaled_offset * modular_inverse(coefficient.numerator(), q), q);
+  }
+  const util::Rational current = moved_value.rational;
+  const util::Rational base = residue + q * ((current - residue) / q).floor();
+  std::vector<util::Rational> values;
+  values.reserve(static_cast<std::size_t>(2) * kTargetWindow);
+  for (int step = 0; step < kTargetWindow; ++step) {
+    values.push_back(base - q * util::Rational(step));
+    values.push_back(base + q * util::Rational(step + 1));
+  }
+  std::stable_sort(values.begin(), values.end(),
+                   [&current](const util::Rational& lhs, const util::Rational& rhs) {
+                     return magnitude(lhs - current) < magnitude(rhs - current);
+                   });
+  return values;
+}
 
 // Every legal move that could integralize `target`: either `target` itself if
 // it is nonbasic, or one of the nonbasics in its row otherwise. A move is
@@ -145,15 +212,27 @@ struct Candidate {
 // is by construction the range over which it may move with every basic
 // variable staying inside its bounds -- that is what makes feasibility
 // preservation structural here rather than something to re-check.
+//
+// With `integral_moves`, a candidate that would leave an integer nonbasic at
+// a non-integer value is rejected, and an integer nonbasic in the target's
+// row also gets the lattice candidates above.
 void collect_candidates(const LraTableau& tableau, PatchingScoringIndex& scoring, LraVarId target,
+                        bool integral_moves, LiaPatchingStats& stats,
                         std::vector<Candidate>& candidates) {
-  const auto consider = [&](LraVarId moved, const DeltaRational& value) {
+  const auto consider = [&](LraVarId moved, const DeltaRational& value, bool lattice) {
     if (!tableau.freedom_interval(moved).contains(value)) {
       return;
     }
+    if (integral_moves && scoring.is_integer_var(moved) && !is_integer_valued(value)) {
+      ++stats.fractional_candidates_rejected;
+      return;
+    }
+    if (lattice) {
+      ++stats.lattice_candidates_scored;
+    }
     const DeltaRational delta = value - tableau.assignment(moved);
-    candidates.push_back(
-        Candidate{moved, value, scoring.score(tableau, moved, value), magnitude(delta.rational)});
+    candidates.push_back(Candidate{moved, value, scoring.score(tableau, moved, value),
+                                   magnitude(delta.rational), lattice});
   };
 
   const DeltaRational& current = tableau.assignment(target);
@@ -162,7 +241,7 @@ void collect_candidates(const LraTableau& tableau, PatchingScoringIndex& scoring
   if (!tableau.is_basic(target)) {
     // The case the paper does not have to describe -- see the .hpp.
     for (const util::Rational& integer_target : targets) {
-      consider(target, DeltaRational::from_rational(integer_target));
+      consider(target, DeltaRational::from_rational(integer_target), /*lattice=*/false);
     }
     return;
   }
@@ -178,7 +257,13 @@ void collect_candidates(const LraTableau& tableau, PatchingScoringIndex& scoring
       // `(integer_target - beta(target)) / entry.coeff`.
       const DeltaRational delta =
           (DeltaRational::from_rational(integer_target) - current).scaled(inverse_coeff);
-      consider(entry.var, tableau.assignment(entry.var) + delta);
+      consider(entry.var, tableau.assignment(entry.var) + delta, /*lattice=*/false);
+    }
+    if (integral_moves && scoring.is_integer_var(entry.var)) {
+      for (const util::Rational& value :
+           lattice_values(current, tableau.assignment(entry.var), entry.coeff)) {
+        consider(entry.var, DeltaRational::from_rational(value), /*lattice=*/true);
+      }
     }
   }
 }
@@ -186,7 +271,8 @@ void collect_candidates(const LraTableau& tableau, PatchingScoringIndex& scoring
 }  // namespace
 
 std::size_t patch_integer_variables(LraTableau& tableau, const std::vector<LraVarId>& integer_vars,
-                                    std::size_t patch_limit, LiaPatchingStats* stats) {
+                                    std::size_t patch_limit, LiaPatchingStats* stats,
+                                    bool integral_moves) {
   LiaPatchingStats ignored_stats;
   LiaPatchingStats& work = stats == nullptr ? ignored_stats : *stats;
   work = {};
@@ -217,7 +303,7 @@ std::size_t patch_integer_variables(LraTableau& tableau, const std::vector<LraVa
         continue;
       }
       candidates.clear();
-      collect_candidates(tableau, scoring, var, candidates);
+      collect_candidates(tableau, scoring, var, integral_moves, work, candidates);
       for (const Candidate& candidate : candidates) {
         if (candidate.resulting_count >= remaining) {
           continue;
@@ -241,6 +327,9 @@ std::size_t patch_integer_variables(LraTableau& tableau, const std::vector<LraVa
     tableau.set_nonbasic_value(best->var, best->value);
     if (scoring.is_integer_var(best->var) && !is_integer_valued(best->value)) {
       ++work.fractional_nonbasic_moves;
+    }
+    if (best->lattice) {
+      ++work.lattice_moves_accepted;
     }
     scoring.accepted_move(tableau, best->var);
     remaining = scoring.remaining();

@@ -11,7 +11,7 @@ or adopting another rational library.
 
 ## Current layout and allocation
 
-{source}`Rational's fields <src/util/rational.hpp#L197-L199>` occupy space
+{source}`Rational's fields <src/util/rational.hpp#L202-L204>` occupy space
 simultaneously: a 64-bit numerator, a 64-bit denominator and a
 `std::unique_ptr<mpq_class>`. A null pointer selects the small representation;
 those values allocate nothing. Big values use the pointed-to GMP rational.

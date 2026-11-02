@@ -2,9 +2,9 @@
 
 **Status: Design checklist with partial implementation.** Prevalence counters
 are implemented. Gap 1 is implemented behind `--lia-round-integer-bounds`
-gap 2 behind `--lia-primitive-int-rows` and gap 3 behind
-`--lia-integer-slacks`, all default off. Gap 4 is planned and will also be
-default-off when it lands.
+gap 2 behind `--lia-primitive-int-rows`, gap 3 behind
+`--lia-integer-slacks` and gap 4 behind `--lia-patch-integral-moves`, all
+default off and not yet qualified.
 
 This note lists the primary sources behind one invariant of integer
 completion. It maps each source step to the Primo function that would own it
@@ -138,17 +138,28 @@ combination may contradict an answer) and
 Gap 3 is pinned by `branching_on_an_integer_slack_gives_a_bound_explanation`
 in {source}`lia_completion_tests.cpp <tests/unit/lia_completion_tests.cpp>`
 (obligation 4: the split on a slack drops out of the explanation, leaving the
-two bound literals) and `integer_slacks_join_completion` in the QF_LIA solver
+two bound literals), `gomory_cut_from_an_integer_slack_row` (one cut refutes
+a slack row with no integer in range, explained by the bound literals only) and `integer_slacks_join_completion` in the QF_LIA solver
 tests (refuted only when the slack is an obligation). Slacks are placed
 before the input variables; appended after them they would never be split.
+
+Gap 4 is pinned in {source}`lia_patching_tests.cpp <tests/unit/lia_patching_tests.cpp>`:
+the $s_1=s_2=\tfrac23y$ move is rejected; the lattice finds $y=3$ for
+$s=\tfrac{11}{3}y$ where the target window cannot; an offset with an
+infinitesimal part yields no lattice candidate; a 500-trial brute force over
+$s=(p/q)y+bw$ ($|p|\le30$, $q\le7$) checks that integral patching makes $s$
+integral exactly when some integer $y$ in range does; a 300-trial randomized
+run checks feasibility, no fractional integer nonbasic, and a non-increasing
+fractional count; and an explicit `false` reproduces the established patcher.
+Injected faults in the residue sign and in the rejection filter are caught.
+`integral_patch_moves_reach_completion` checks the solver wiring and runs the
+earlier cases with all four options on. The `Rational::numerator()` and
+`denominator()` accessors this relies on are checked against GMP and their
+algebraic contract over all sample values and pairwise results, including
+promotion to and demotion from the big form.
 
 The counters are pinned by
 {source}`qf_lia_solver_tests.cpp <tests/unit/qf_lia_solver_tests.cpp>`
 (`integer_preparation_counters_report_bound_gaps`) and
 {source}`lia_patching_tests.cpp <tests/unit/lia_patching_tests.cpp>`
-(`fractional_nonbasic_move_is_counted`). Planned behavior tests:
-
-- integer slacks: a cut from a basic slack gives a valid explanation;
-- patching: the $s_1=s_2=\tfrac23y$ move to $y=3/2$ is rejected; the lattice
-  finds $y=3$ when it is in range; a coefficient with $|p|>8$ that the fixed
-  target window misses; a $c$ with an infinitesimal part is skipped.
+(`fractional_nonbasic_move_is_counted`).

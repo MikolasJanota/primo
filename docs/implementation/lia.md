@@ -366,9 +366,28 @@ that would remain nonintegral. Only a strict reduction is accepted. Among
 inspected candidates with the same count, a smaller rational move wins;
 the scan stops early on finding a move that makes the whole assignment
 integral. Each accepted move decreases a nonnegative integer, so the sweep
-terminates even apart from its configured move budget. It can make an
-individual previously integral variable fractional, provided the total count
-improves. An integral assignment is still subject to the ordinary model checks.
+terminates even apart from its configured move budget. By default it can
+make an individual previously integral variable fractional, provided the
+total count improves. An integral assignment is still subject to the
+ordinary model checks.
+
+`--lia-patch-integral-moves` (off by default) removes that freedom for
+integer nonbasic variables: a candidate that would leave one at a
+non-integer value is rejected. In exchange, an integer nonbasic $y$ with
+coefficient $a=p/q$ in the row of a fractional basic $x_b$ also gets
+**lattice candidates**. With $c=\beta(x_b)-a\beta(y)$, setting $y=k$ gives
+$x_b=c+ak$, which is integral exactly when $c$ has no infinitesimal part,
+$qc$ is an integer and $pk\equiv-qc\pmod q$. The solutions are $k_0+jq$;
+$k_0$ uses the inverse of $p$ modulo $q$, computed by an iterative extended
+Euclidean algorithm over integer-valued `Rational`s (`numerator()` and
+`denominator()` give $p$ and $q$). The eight nearest to $\beta(y)$ are scored
+like any other candidate. For $s=\tfrac{11}{3}y$ with $y=1$, the target
+window only offers fractional $y$, while the lattice proposes $y=3$, $s=11$.
+This generator is Primo's own inference, adapted from the modular-inverse
+reduction of Achterberg et al. §3.5; it is not a procedure from the patching
+paper. Counters `:lia.patch-fractional-candidates-rejected`,
+`:lia.patch-lattice-candidates-scored` and `:lia.patch-lattice-moves-accepted`
+record its work.
 
 ### Why a nearest move is insufficient
 
@@ -384,7 +403,7 @@ the total remains one fractional variable, so Primo rejects that move.
 Moving $x$ to $6$ gives $(6,3,2)$ and reduces the count to zero. Considering
 only the floor and ceiling of $y=3/2$ would miss that target.
 
-The {source}`scoring index <src/theory/arithmetic/lia_patching.cpp#L45-L140>`
+The {source}`scoring index <src/theory/arithmetic/lia_patching.cpp>`
 stores, for each nonbasic variable, the basic integer rows that contain it.
 Scoring adjusts a cached global count using only the moved variable and
 those affected rows. No pivot occurs during the sweep, so this incidence
@@ -654,6 +673,7 @@ by the pure and combined routes:
 | `--lia-round-integer-bounds` | Absent | Rounds non-strict thresholds on integer-valued tableau variables inward. Preparation-time, not a per-completion budget. |
 | `--lia-primitive-int-rows` | Absent | Stores `Int` rows with coprime integer coefficients, making every `Int` slack integer-valued. Preparation-time. |
 | `--lia-integer-slacks` | Absent | Adds slacks proved integer to the front of the integer obligations of completion. |
+| `--lia-patch-integral-moves` | Absent | Keeps integer nonbasic variables integral while patching and adds lattice candidates. |
 
 These are finite operational limits, not empirically optimal settings.
 Both routes report typed `ResourceLimit` to the shared driver, producing

@@ -13,6 +13,8 @@ struct LiaCompletionLimits {
   std::size_t patch_moves;
   std::size_t gomory_rounds;
   std::size_t branch_nodes;
+  // Keep integer nonbasic variables integral while patching.
+  bool integral_patch_moves = false;
 };
 
 struct LiaCompletionResult {

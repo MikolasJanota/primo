@@ -127,6 +127,30 @@ void branching_on_an_integer_slack_gives_a_bound_explanation() {
   assert(reasons.size() == 2 && reasons[0].value == 5 && reasons[1].value == 6);
 }
 
+// A Gomory cut from a row whose basic variable is an integer slack: with
+// s = (2/3)t, t at its lower bound 1 and t <= 7/5, s lies in [2/3, 14/15],
+// which holds no integer. One cut round refutes it without patching or
+// branching, and the explanation uses only t's bound literals.
+void gomory_cut_from_an_integer_slack_row() {
+  LraTableau tableau;
+  const auto t = tableau.add_variable();
+  const auto s = tableau.add_variable();
+  tableau.add_row(s, {{t, Rational(2, 3)}});
+  assert(!tableau.assert_lower(t, rat(Rational(1)), Lit{7}));
+  assert(!tableau.assert_upper(t, rat(Rational(7, 5)), Lit{8}));
+  assert(!tableau.check());
+  assert(tableau.is_basic(s) && tableau.assignment(s) == rat(Rational(2, 3)));
+  LraTableau no_stages = tableau;
+  assert(complete_integer_assignment(no_stages, {s}, {0, 0, 0}).status != Status::Unsat);
+  const auto result = complete_integer_assignment(tableau, {s}, {0, 1, 0});
+  assert(result.status == Status::Unsat);
+  const std::vector<Lit>& reasons = result.explanation.literals();
+  assert(!reasons.empty());
+  for (const Lit lit : reasons) {
+    assert(lit.value == 7 || lit.value == 8);
+  }
+}
+
 }  // namespace
 
 int main() {
@@ -136,4 +160,5 @@ int main() {
   cuts_retain_antecedents_for_later_branching();
   empty_integer_set_succeeds_without_search();
   branching_on_an_integer_slack_gives_a_bound_explanation();
+  gomory_cut_from_an_integer_slack_row();
 }

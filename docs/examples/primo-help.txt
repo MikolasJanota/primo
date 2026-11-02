@@ -441,6 +441,10 @@ QF_LIA theory options:
                               Treat QF_LIA/QF_UFLIA slacks whose rows are integer polynomials
                               over Int variables as integer variables in patching, GCD tests,
                               cuts and branching
+          --lia-patch-integral-moves [default: off]
+                              QF_LIA/QF_UFLIA patching: never leave an integer nonbasic
+                              variable fractional, and propose the integer values of a row's
+                              nonbasic variable that make its basic variable integral
           --no-lia-conflict-generalization [default: off]
                               Disable QF_LIA conflict generalization: build each
                               integer-infeasibility lemma from every arithmetic atom in the

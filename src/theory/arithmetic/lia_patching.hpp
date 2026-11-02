@@ -23,6 +23,12 @@ struct LiaPatchingStats {
   // fixing several basic rows, but it breaks the invariant that integer
   // nonbasic variables hold integer values (docs/implementation/lia.md).
   std::size_t fractional_nonbasic_moves = 0;
+  // Under integral moves only: candidates rejected because they would leave
+  // an integer nonbasic fractional, lattice candidates scored, and accepted
+  // moves that came from the lattice generator.
+  std::size_t fractional_candidates_rejected = 0;
+  std::size_t lattice_candidates_scored = 0;
+  std::size_t lattice_moves_accepted = 0;
 };
 
 // QF_LIA patching (stage 5, docs/qf-lia-branch-and-bound.md): Bjorner &
@@ -70,7 +76,14 @@ struct LiaPatchingStats {
 // `patch_limit` caps how many individual moves are attempted (0 disables
 // patching entirely, which is the A/B control). Returns the number of Int
 // variables that went from non-integer to integer.
+//
+// `integral_moves` (--lia-patch-integral-moves) keeps every integer nonbasic
+// variable at an integer value: candidates that would make one fractional are
+// rejected, and for an integer nonbasic y with coefficient p/q in a target
+// row, the integer values of y that make the target integral (a residue class
+// modulo q) are proposed directly. See docs/papers/mip-presolve-integrality.md.
 std::size_t patch_integer_variables(LraTableau& tableau, const std::vector<LraVarId>& integer_vars,
-                                    std::size_t patch_limit, LiaPatchingStats* stats = nullptr);
+                                    std::size_t patch_limit, LiaPatchingStats* stats = nullptr,
+                                    bool integral_moves = false);
 
 }  // namespace primo::theory::arithmetic
