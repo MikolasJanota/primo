@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "scope": "Experimental single-query QF_UF CNF/conflict emission; output is not independently certified by the product.",
+  "source_git": "62daa0506df1e086e8079f0ddb47d183b9254986",
+  "implementation_git": "99fbd15a3cb8508f6d45ca9feb2d10919cb0813c",
+  "branch": "docs/qf-uf-conflict-format",
+  "decision": "accept opt-in exporter; no checker, incremental solving, general CNF conversion, or performance/default claim",
+  "execution": "All solver batches and builds ran in SLURM. Local work was editing, syntax/lint/docs/static checks, and reading results. No local solver test batch.",
+  "jobs": {
+    "initial_build": "335556",
+    "final_build": "335790",
+    "release_check_and_fuzz": "335806",
+    "asan_runtime_retry": "335808"
+  },
+  "release_check": {
+    "command": "make -o contrib/local/.cli11.stamp -o contrib/local/.cadical.stamp -o contrib/local/.gmp.stamp check BUILD_DIR=build-slurm-rel",
+    "ctest_pass": 46,
+    "ctest_fail": 0,
+    "python_pass": 301,
+    "artifact": "results/cnf-export-335806/check.log"
+  },
+  "fuzz": {
+    "command": "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 --out results/cnf-export-335806/fuzz",
+    "generator": "Original small random CNF generator in tests/cnf_export_cli.py; no FuzzSMT or mutation-campaign claim.",
+    "reference_command": "contrib/local/bin/z3 -in",
+    "reference_version": "Z3 5.1.0 - 64 bit",
+    "timeout_seconds_per_process": 10,
+    "seed": 20261102,
+    "summary": {
+      "seed": 20261102,
+      "requested": 1000,
+      "pass": 1000,
+      "wrong_answer": 0,
+      "crash": 0,
+      "parser_type_error": 0,
+      "timeout": 0,
+      "unsupported": 0,
+      "reference_disagreement": 0,
+      "invalid_artifact": 0
+    },
+    "artifact_counts": {
+      "inputs": 1000,
+      "unsat_certificates": 457,
+      "sat_cases": 543,
+      "conflicts": 2714,
+      "failure_files": 0
+    },
+    "semantics": "Compare each result with Z3. For each UNSAT artifact check every conflicting conjunction using Z3, then check propositional UNSAT of the CNF plus complemented conflicts using fresh Boolean atoms.",
+    "failures_directory": "results/cnf-export-335806/fuzz (zero .error files)",
+    "limitations": "Development reference checks only; no trusted proof checker or delivered derivations. One reference, no reference-vs-reference comparison or SAT model validation."
+  },
+  "asan": {
+    "job": "335808",
+    "command": "PRIMO_CHECK_KIND=asan PRIMO_EXPECTED_GIT=62daa050 PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> sbatch --job-name=primo-cnf-export-asan scripts/qualification/lra_equalities/checks.sbatch (also supply workspace, cmake directory, header manifest and output directory)",
+    "underlying_command": "make -o contrib/local/.cli11.stamp -o contrib/local/.cadical.stamp -o contrib/local/.gmp.stamp asan-test ASAN_BUILD_DIR=build-slurm-asan",
+    "ctest_pass": 46,
+    "ctest_fail": 0,
+    "artifact": "results/cnf-export-asan-retry/asan.log",
+    "runtime": "Existing GCCcore 11.3.0 libasan.so.6.0.0; library search path supplied to linker and runtime. No system installation."
+  },
+  "resources": {
+    "build": {
+      "cpus": 4,
+      "memory_gib": 8,
+      "wall_minutes": 30
+    },
+    "release_and_fuzz": {
+      "cpus": 4,
+      "memory_gib": 16,
+      "wall_minutes": 45
+    },
+    "asan": {
+      "cpus": 4,
+      "memory_gib": 8,
+      "wall_minutes": 30
+    }
+  },
+  "setup_failures": [
+    {
+      "job": "335560",
+      "outcome": "cancelled before solver tests",
+      "reason": "Ruff install could not reach package index from compute node; supplied pinned 0.16.1 wheel offline."
+    },
+    {
+      "job": "335786",
+      "outcome": "failed before solver tests (exit 2:0)",
+      "reason": "Missing ripgrep supplied as 14.1.1 musl binary; archive timestamps triggered dependency installer."
+    },
+    {
+      "job": "335788",
+      "outcome": "failed before solver tests (exit 2:0)",
+      "reason": "Environment Make flags did not suppress dependency downloads; script changed to explicit dependency-stamp exclusions, verified by dry run."
+    },
+    {
+      "job": "335806",
+      "outcome": "release checks and 1000-case fuzz passed; overall job FAILED during ASAN link",
+      "reason": "System libasan linker script referenced absent /usr/lib64/libasan.so.6.0.0. Only the ASAN stage was retried with installed runtime in job 335808."
+    }
+  ],
+  "local_validation": {
+    "lint": "make lint passed; Ruff also checked tests/cnf_export_cli.py",
+    "syntax": "Strict C++20 syntax checks with IPASIR enabled passed on modified translation units.",
+    "docs": "make docs and make docs-check-links passed: 268 pages, 34571 local links, 1134 unique Git links, zero failures; external HTTP link checks not run.",
+    "rendered": "Inspected rendered reference page, options and frontend sections, code blocks, polarity, and both example downloads.",
+    "batch_scripts": "bash -n and scripts/slurm_validate_sbatch.py passed.",
+    "static": {
+      "translation_units": 134,
+      "advisory_include_cleaner": 394,
+      "blocking_unused_includes": 0,
+      "notes": "Whole-tree clang-tidy and include-cleaner ran. Initial tidy snapshot overlapped editing and retained one transient compiler error; all seven affected translation units were rechecked afterward with zero compiler errors. Recommendations remain, including repository pragma-once style and enum storage. New run-clang-tidy progress prefixes required normalization for the existing report parser; final include scan covers 134/134 with unchanged input hashes. This is not a clean whole-tree static-analysis verdict.",
+      "artifacts": "results/cnf-export-static-99fbd15a/"
+    },
+    "source_review": "Checked layer boundaries, conflict complementation, full Boolean-subterm registry, and borrow/mutation/use. Collector snapshots term IDs before registration; serializer owns text. Ordinary route retains default lowering and null collector. No performance claim."
+  },
+  "documentation_review": {
+    "reviewer": "review_exporter_docs (independent read-only agent)",
+    "baseline": "03304ca0",
+    "verdict": "ready",
+    "required_findings": {
+      "DOC-01": "resolved: preserve Boolean arguments and register subterms",
+      "DOC-02": "resolved: preserve Boolean equality and register operands",
+      "DOC-03": "resolved: refreshed help capture"
+    },
+    "files_sha256": {
+      "docs/reference/qf-uf-conflicts.md": "c80e518583882eca805e666303475a639f88dcdcfb11f4253c420f05bea777d2",
+      "docs/reference/options.md": "d264b429b0e86982c6db630926bd437c30da7ce567346781eb0680d28034b565",
+      "docs/implementation/frontend.md": "e1fe8ebf2e82f0e3e4f5cb07b8dc1b45ce3178a1a1797e29e19d37e2a915e6f9",
+      "docs/implementation/euf.md": "f3eaccbcd267758167f93e22b218469d2b17b26aea09a818352bd221c6f74071",
+      "docs/examples/primo-help.txt": "f335df83580efa9890e76fa8358dbd1a8523aea4f85f6bc973ce881694ada524",
+      "docs/examples/qf-uf-export.smt2": "3866d4cc3918942bd9c03691510990a1211ee1ff4135f6b7cc9dcbcf567d7936",
+      "docs/_config.yml": "f0fef5f92ec711121100540bcd060c601fbd448e27c32acee87508c99ddc055c"
+    },
+    "unchecked": "Rest of manual, runtime qualification, external publication availability; runtime checks are recorded separately above."
+  },
+  "raw_artifacts": "results/cnf-export-335806/; results/cnf-export-asan-retry/; results/cnf-export-static-99fbd15a/ (ignored local artifacts, also retained on SLURM; only this summary and the run-log are committed)",
+  "sha256": {
+    "release_binary": "bb9587a68e4151883effc4b984531ee5543f1927e3d4ec3551d2ed7af148b8e8",
+    "asan_binary": "ead72a818a83d73bb0b29460617ad369d36c67ef0547d64bf661b537303f6451",
+    "asan_runtime": "a6c2f988d2ec345e58f8f0c58b951bcf536c77ea5e96900c2f28ddfe4dcbcb71"
+  }
+}

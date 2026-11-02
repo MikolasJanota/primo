@@ -3,6 +3,64 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-02-qf-uf-cnf-export",
+      "date": "2026-11-02",
+      "kind": "output-format-feature-qualification",
+      "evidence_status": "accepted opt-in exporter; no performance or independent certification claim",
+      "commit": "62daa0506df1e086e8079f0ddb47d183b9254986",
+      "branch": "docs/qf-uf-conflict-format",
+      "report": "docs/coverage/cnf-export-qualification.json",
+      "jobs": {
+        "initial_build": "335556",
+        "final_build": "335790",
+        "release_check_and_fuzz": "335806",
+        "asan_runtime_retry": "335808"
+      },
+      "commands": {
+        "check": "make -o contrib/local/.cli11.stamp -o contrib/local/.cadical.stamp -o contrib/local/.gmp.stamp check BUILD_DIR=build-slurm-rel",
+        "fuzz": "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 --out results/cnf-export-335806/fuzz",
+        "reference": "contrib/local/bin/z3 -in",
+        "asan": "make -o contrib/local/.cli11.stamp -o contrib/local/.cadical.stamp -o contrib/local/.gmp.stamp asan-test ASAN_BUILD_DIR=build-slurm-asan"
+      },
+      "resources": {
+        "build": {
+          "cpus": 4,
+          "memory_gib": 8,
+          "wall_minutes": 30
+        },
+        "release_and_fuzz": {
+          "cpus": 4,
+          "memory_gib": 16,
+          "wall_minutes": 45
+        },
+        "asan": {
+          "cpus": 4,
+          "memory_gib": 8,
+          "wall_minutes": 30
+        }
+      },
+      "summary": {
+        "ctest_pass": 46,
+        "python_pass": 301,
+        "asan_ctest_pass": 46,
+        "fuzz_pass": 1000,
+        "wrong_answer": 0,
+        "crash": 0,
+        "parser_type_error": 0,
+        "timeout": 0,
+        "unsupported": 0,
+        "reference_disagreement": 0,
+        "invalid_artifact": 0,
+        "inputs": 1000,
+        "unsat_certificates": 457,
+        "sat_cases": 543,
+        "conflicts": 2714,
+        "failure_files": 0
+      },
+      "artifacts": "results/cnf-export-335806/; results/cnf-export-asan-retry/; results/cnf-export-static-99fbd15a/ (ignored local artifacts, also retained on SLURM; only this summary and the run-log are committed)",
+      "limitations": "Artifact emission only. CNF input, one QF_UF query; no incremental commands, derivations, checker or general CNF conversion. Job 335806 passed release/fuzz and failed at missing ASAN runtime; ASAN-only retry 335808 passed. Setup retries and static-analysis advisories are detailed in the qualification report."
+    },
+    {
       "id": "2026-10-28-long-limits-documentation-status",
       "date": "2026-10-28",
       "kind": "existing-evidence-status-inspection",
