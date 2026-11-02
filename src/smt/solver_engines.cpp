@@ -602,6 +602,8 @@ void add_lia_patching_stats(util::Statistics& statistics,
   statistics.increment(util::StatKey::LiaPatchCandidatesScored, stats.candidates_scored);
   statistics.increment(util::StatKey::LiaPatchAffectedRowsInspected, stats.affected_rows_inspected);
   statistics.increment(util::StatKey::LiaPatchFullScanEquivalent, stats.full_scan_equivalent);
+  statistics.increment(util::StatKey::LiaPatchFractionalNonbasicMoves,
+                       stats.fractional_nonbasic_moves);
 }
 
 bool add_explained_theory_equality(theory::equality::ExplainedCongruenceClosure& closure,
@@ -3392,8 +3394,24 @@ struct PreparedLraTheory {
     bool is_integer = false;
   };
 
+  // Prevalence counters for the integer-bound gaps described in
+  // docs/implementation/lia.md. They observe preparation and change nothing.
+  struct IntegerPreparationStats {
+    // Atoms whose bounded variable is known to be integer but whose threshold
+    // is fractional. One SAT polarity of such an atom is a non-strict bound
+    // that bound_assertion() currently leaves unrounded.
+    std::size_t fractional_int_thresholds = 0;
+    // Compound Int atoms whose slack is not marked integer, so neither of
+    // their bounds is rounded.
+    std::size_t non_integer_int_slack_atoms = 0;
+    // Distinct Int slacks whose leading-coefficient-one row has a fractional
+    // coefficient, so the slack can take non-integer values in integer models.
+    std::size_t non_integer_int_slacks = 0;
+  };
+
   const core::TermManager& terms_;
   bool collect_model_variables_ = false;
+  IntegerPreparationStats integer_stats;
   theory::arithmetic::LraTableau base_tableau;
   std::vector<PreparedAtom> atoms;  // parallel to theory_atoms
   // Indices (into `atoms`) of every arithmetic atom bounding a given tableau
@@ -3484,6 +3502,9 @@ std::vector<theory::arithmetic::LraVarId> PreparedLraTheory::append_atom(
     const TermPairKey non_strict_le_pair =
         term.kind == core::TermKind::Le ? TermPairKey{term.children.at(0), term.children.at(1)}
                                         : TermPairKey{};
+    if (is_integer_atom && !rhs.is_integer()) {
+      ++integer_stats.fractional_int_thresholds;
+    }
     atoms.push_back(PreparedAtom{true, bound_var, normalized.relation, rhs, flipped,
                                  non_strict_le_pair, is_integer_atom});
     atoms_by_bound_var[bound_var].push_back(atom_index);
@@ -3503,6 +3524,11 @@ std::vector<theory::arithmetic::LraVarId> PreparedLraTheory::append_atom(
     slack = base_tableau.add_variable();
     base_tableau.add_row(slack, row);
     slack_by_polynomial_.emplace(canonical.key, slack);
+    if (is_integer_atom && std::any_of(row.begin(), row.end(), [](const auto& entry) {
+          return !entry.second.is_integer();
+        })) {
+      ++integer_stats.non_integer_int_slacks;
+    }
   }
   const std::size_t atom_index = atoms.size();
   const TermPairKey non_strict_le_pair = term.kind == core::TermKind::Le
@@ -3526,6 +3552,12 @@ std::vector<theory::arithmetic::LraVarId> PreparedLraTheory::append_atom(
   // already made there for exactly this reason.
   const bool slack_is_integer = is_integer_atom && (canonical.scale == util::Rational(1) ||
                                                     canonical.scale == util::Rational(-1));
+  if (is_integer_atom && !slack_is_integer) {
+    ++integer_stats.non_integer_int_slack_atoms;
+  }
+  if (slack_is_integer && !rhs.is_integer()) {
+    ++integer_stats.fractional_int_thresholds;
+  }
   atoms.push_back(PreparedAtom{true, slack, normalized.relation, rhs, flipped, non_strict_le_pair,
                                slack_is_integer});
   atoms_by_bound_var[slack].push_back(atom_index);
@@ -9661,6 +9693,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
         integer_vars_.push_back(variable);
       }
     }
+    publish_integer_preparation_stats();
   }
 
   const theory::TheoryProperties& properties() const override { return properties_; }
@@ -9684,6 +9717,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
         prepared_.append_atom(atom);
     integer_vars_.insert(integer_vars_.end(), new_model_variables.begin(),
                          new_model_variables.end());
+    publish_integer_preparation_stats();
     last_model_.reset();
   }
 
@@ -9714,6 +9748,13 @@ class LiaComponentAdapter final : public theory::TheorySolver {
   }
 
  private:
+  void publish_integer_preparation_stats() {
+    const auto& stats = prepared_.integer_stats;
+    statistics_.set(util::StatKey::LiaPrepFractionalIntThresholds, stats.fractional_int_thresholds);
+    statistics_.set(util::StatKey::LiaPrepNonIntegerIntSlackAtoms,
+                    stats.non_integer_int_slack_atoms);
+    statistics_.set(util::StatKey::LiaPrepNonIntegerIntSlacks, stats.non_integer_int_slacks);
+  }
   theory::TheoryCheckResult translate(LiaComponentCheck result) {
     last_model_ = std::move(result.model);
     switch (result.status) {

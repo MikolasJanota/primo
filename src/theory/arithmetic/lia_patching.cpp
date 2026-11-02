@@ -82,6 +82,7 @@ class PatchingScoringIndex {
   }
 
   std::size_t remaining() const { return remaining_; }
+  bool is_integer_var(LraVarId var) const { return integer_var_.at(var); }
 
   std::size_t score(const LraTableau& tableau, LraVarId moved, const DeltaRational& value) {
     ++stats_.candidates_scored;
@@ -238,6 +239,9 @@ std::size_t patch_integer_variables(LraTableau& tableau, const std::vector<LraVa
       break;
     }
     tableau.set_nonbasic_value(best->var, best->value);
+    if (scoring.is_integer_var(best->var) && !is_integer_valued(best->value)) {
+      ++work.fractional_nonbasic_moves;
+    }
     scoring.accepted_move(tableau, best->var);
     remaining = scoring.remaining();
     assert(remaining == best->resulting_count);

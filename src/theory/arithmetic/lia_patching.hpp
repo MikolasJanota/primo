@@ -18,6 +18,11 @@ struct LiaPatchingStats {
   std::size_t candidates_scored = 0;
   std::size_t affected_rows_inspected = 0;
   std::size_t full_scan_equivalent = 0;
+  // Accepted moves that left an integer-sorted nonbasic variable at a
+  // non-integer value. Such a move can still lower the fractional count by
+  // fixing several basic rows, but it breaks the invariant that integer
+  // nonbasic variables hold integer values (docs/implementation/lia.md).
+  std::size_t fractional_nonbasic_moves = 0;
 };
 
 // QF_LIA patching (stage 5, docs/qf-lia-branch-and-bound.md): Bjorner &

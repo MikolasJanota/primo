@@ -54,6 +54,7 @@ parts:
       - file: papers/bromberger-linear-arithmetic
       - file: papers/cuts-from-proofs
       - file: papers/lia-primal-heuristics
+      - file: papers/mip-presolve-integrality
       - file: papers/yices
       - file: papers/clause-forgetting
       - file: papers/conflict-explanation-minimization

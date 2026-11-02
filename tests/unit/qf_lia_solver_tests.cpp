@@ -409,6 +409,30 @@ void patching_finds_a_model_without_branching() {
   assert(check_sat_smtlib(script, unpatched).result == CheckSatResult::Unknown);
 }
 
+// Prevalence counters for the integer-bound gaps (docs/implementation/lia.md).
+// `3*x <= 5` leaves the fractional threshold 5/3 on Int x; `2*y + 3*z` and
+// `4*x + 2*y` normalize to slacks with fractional coefficients, which
+// bound three atoms in total.
+void integer_preparation_counters_report_bound_gaps() {
+  const std::string script = R"(
+    (set-logic QF_LIA)
+    (declare-fun x () Int)
+    (declare-fun y () Int)
+    (declare-fun z () Int)
+    (assert (<= (* 3 x) 5))
+    (assert (>= x 1))
+    (assert (<= (+ (* 2 y) (* 3 z)) 7))
+    (assert (>= (+ (* 2 y) (* 3 z)) 1))
+    (assert (< (+ (* 2 y) (* 4 x)) 9))
+    (check-sat)
+  )";
+  const auto result = check_sat_smtlib(script, CheckSatOptions{});
+  assert(result.result == CheckSatResult::Sat);
+  assert(result.statistics.get(primo::util::StatKey::LiaPrepFractionalIntThresholds) == 1);
+  assert(result.statistics.get(primo::util::StatKey::LiaPrepNonIntegerIntSlackAtoms) == 3);
+  assert(result.statistics.get(primo::util::StatKey::LiaPrepNonIntegerIntSlacks) == 2);
+}
+
 // The budget is the A/B control, so turning it off must change no answer --
 // asserted on a sat instance (where patching does the work) and an unsat one
 // (where it can only waste time). A patch that broke feasibility would show up
@@ -812,6 +836,7 @@ int main() {
   conflict_generalization_does_not_change_answers();
   patching_finds_a_model_without_branching();
   patching_does_not_change_answers();
+  integer_preparation_counters_report_bound_gaps();
   patched_model_satisfies_a_uniquely_determined_instance();
   qf_lia_rejects_uninterpreted_functions();
   qf_lia_rejects_real_constants();

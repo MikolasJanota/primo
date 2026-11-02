@@ -59,7 +59,11 @@ These are different cases of the [normalization described in LRA](lra.md).
 The integer set records semantic obligations, independently of the current
 basis. A pivot can move a noninteger auxiliary variable into another row as
 an ordinary term. No integer rule may assume that nonbasic variables are
-integers just because the original input used `Int`.
+integers just because the original input used `Int`. Bjørner and Nachmanson
+§4.1 can make that assumption because it also relies on integral bounds and
+integer-valued auxiliaries. Primo's preparation provides neither yet; the
+[integrality checklist](../papers/mip-presolve-integrality.md) lists the four
+gaps, their sources and the counters that measure them.
 
 (lia-schedule)=
 ## When integer reasoning runs
@@ -345,11 +349,13 @@ index stays valid. The scoring cost per candidate is proportional to the
 affected integer column, rather than all integer variables; generating
 candidates and calculating freedom intervals still have their own costs.
 
-{source}`LiaPatchingStats <src/theory/arithmetic/lia_patching.hpp#L10-L18>`
-exposes occurrence entries, candidates scored, affected rows inspected and
-the equivalent full-scan work. The public counters include
+{source}`LiaPatchingStats <src/theory/arithmetic/lia_patching.hpp#L10-L26>`
+exposes occurrence entries, candidates scored, affected rows inspected,
+the equivalent full-scan work, and accepted moves that left an integer
+nonbasic variable fractional. The public counters include
 `:lia.patch-occurrence-entries`, `:lia.patch-candidates-scored`,
-`:lia.patch-affected-rows-inspected` and `:lia.patch-full-scan-equivalent`.
+`:lia.patch-affected-rows-inspected`, `:lia.patch-full-scan-equivalent` and
+`:lia.patch-fractional-nonbasic-moves`.
 The {source}`patching tests <tests/unit/lia_patching_tests.cpp>` cover the
 paper example, fixed and strict bounds, and comparison of indexed scoring
 with an independent full-scan definition.

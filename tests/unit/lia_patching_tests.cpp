@@ -184,6 +184,34 @@ void paper_example_3_patches_x_to_an_integer_point() {
   assert_feasible(tableau);
 }
 
+// Records the integrality gap tracked in docs/implementation/lia.md: with
+// s1 = s2 = (2/3)y and y in [1,2], moving y to 3/2 makes both basic rows
+// integral, so the fractional count drops from two to one even though the
+// integer nonbasic y becomes fractional. The counter makes that visible.
+void fractional_nonbasic_move_is_counted() {
+  LraTableau tableau;
+  const LraVarId y = tableau.add_variable();
+  const LraVarId s1 = tableau.add_variable();
+  const LraVarId s2 = tableau.add_variable();
+  tableau.add_row(s1, {{y, Rational(2, 3)}});
+  tableau.add_row(s2, {{y, Rational(2, 3)}});
+  assert(!tableau.assert_lower(y, rat(1), Lit{1}).has_value());
+  assert(!tableau.assert_upper(y, rat(2), Lit{2}).has_value());
+  assert(!tableau.check().has_value());
+  assert(tableau.assignment(y) == rat(1));
+  assert(tableau.assignment(s1) == rat(Rational(2, 3)));
+
+  LiaPatchingStats stats;
+  const std::size_t patched = patch_integer_variables(tableau, {y, s1, s2}, 100, &stats);
+  assert(patched == 1);
+  assert(tableau.assignment(y) == rat(Rational(3, 2)));
+  assert(is_integer_valued(tableau.assignment(s1)));
+  assert(is_integer_valued(tableau.assignment(s2)));
+  assert(stats.fractional_nonbasic_moves == 1);
+  assert(!stats.fully_integral);
+  assert_feasible(tableau);
+}
+
 // The case the paper does not have to describe, because in its setting
 // nonbasic variables are always at their bounds and therefore already
 // integral. Primo's scale-canonicalization stores a fractional bound on an
@@ -357,6 +385,7 @@ void indexed_scoring_matches_full_scan_oracle() {
 int main() {
   paper_example_3_patches_x_to_an_integer_point();
   fractional_nonbasic_is_rounded_in_place();
+  fractional_nonbasic_move_is_counted();
   unpatchable_variable_is_left_untouched();
   fixed_variable_is_not_moved();
   strict_bound_rounds_up_past_the_infinitesimal();
