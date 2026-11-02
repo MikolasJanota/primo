@@ -16,6 +16,7 @@ parts:
       - file: reference/tactics
       - file: reference/statistics
       - file: reference/backend
+      - file: reference/qf-uf-conflicts
   - caption: Contributing
     chapters:
       - file: development/correctness
