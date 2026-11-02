@@ -1,10 +1,12 @@
 #include "smt/qf_uf_export.hpp"
 
+#include <cstddef>
 #include <exception>
 #include <fstream>
 #include <stdexcept>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -29,9 +31,9 @@
 namespace primo::smt {
 namespace {
 
-// Restrict the first producer to atoms whose term arguments introduce no
-// hidden Boolean definitions. Full formula-to-CNF export is separate work.
-void require_atomic_terms(const core::TermManager& terms, core::TermId root) {
+// The ordinary frontend already names compound Boolean arguments and lowers
+// Boolean equality. Check the fragment, not the shape of its Boolean structure.
+void require_supported_terms(const core::TermManager& terms, core::TermId root) {
   std::vector<core::TermId> pending{root};
   std::unordered_set<core::TermId> seen;
   while (!pending.empty()) {
@@ -39,51 +41,22 @@ void require_atomic_terms(const core::TermManager& terms, core::TermId root) {
     pending.pop_back();
     if (!seen.insert(id).second) continue;
     const auto& term = terms.get(id);
-    if (term.kind != core::TermKind::BoolValue && term.kind != core::TermKind::Constant &&
-        term.kind != core::TermKind::Application) {
-      throw UnsupportedInput(
-          "--export-cnf requires atomic term arguments (no Boolean expressions or ite)");
+    switch (term.kind) {
+      case core::TermKind::BoolValue:
+      case core::TermKind::Constant:
+      case core::TermKind::Application:
+      case core::TermKind::Equality:
+      case core::TermKind::Not:
+      case core::TermKind::And:
+      case core::TermKind::Or:
+      case core::TermKind::Implies:
+        break;
+      default:
+        throw UnsupportedInput(
+            "--export-cnf supports ground QF_UF Boolean structure; ite and other extended terms "
+            "require lowering");
     }
-    for (const auto child : term.children) pending.push_back(child);
-  }
-}
-
-std::string literal_text(const core::TermManager& terms, core::TermId literal) {
-  auto atom = literal;
-  if (terms.get(atom).kind == core::TermKind::Not) atom = terms.get(atom).children.front();
-  const auto& node = terms.get(atom);
-  if (node.kind == core::TermKind::Equality) {
-    for (const auto child : node.children) require_atomic_terms(terms, child);
-  } else {
-    require_atomic_terms(terms, atom);
-  }
-  return smtlib::print_term(terms, literal);
-}
-
-void append_cnf(const core::TermManager& terms, core::TermId root,
-                smtlib::ConflictDocument& document) {
-  std::vector<core::TermId> pending{root};
-  while (!pending.empty()) {
-    const auto id = pending.back();
-    pending.pop_back();
-    const auto& term = terms.get(id);
-    if (term.kind == core::TermKind::And) {
-      pending.insert(pending.end(), term.children.rbegin(), term.children.rend());
-      continue;
-    }
-    std::vector<std::string> clause;
-    std::vector<core::TermId> disjuncts{id};
-    while (!disjuncts.empty()) {
-      const auto disjunct = disjuncts.back();
-      disjuncts.pop_back();
-      const auto& node = terms.get(disjunct);
-      if (node.kind == core::TermKind::Or) {
-        disjuncts.insert(disjuncts.end(), node.children.rbegin(), node.children.rend());
-      } else {
-        clause.push_back(literal_text(terms, disjunct));
-      }
-    }
-    document.clauses.push_back(std::move(clause));
+    pending.insert(pending.end(), term.children.begin(), term.children.end());
   }
 }
 
@@ -120,34 +93,51 @@ QfUfConflictCollector::QfUfConflictCollector(const core::TermManager& terms,
                                              smtlib::ConflictDocument& document)
     : terms_(terms), document_(document) {}
 
-// Preserve the two-valued Bool invariant without frontend naming clauses.
-// Snapshot root IDs before registration can grow the clausifier atom vector.
-void QfUfConflictCollector::prepare(BooleanClausifier& clausifier) {
-  std::vector<core::TermId> pending;
-  for (const auto& atom : clausifier.theory_atoms()) pending.push_back(atom.term);
-  std::unordered_set<core::TermId> seen;
-  while (!pending.empty()) {
-    const auto id = pending.back();
-    pending.pop_back();
-    if (!seen.insert(id).second) continue;
-    const auto& term = terms_.get(id);
-    const bool boolean = term.sort == terms_.symbols().bool_sort();
-    const auto kind = term.kind;
-    pending.insert(pending.end(), term.children.begin(), term.children.end());
-    if (boolean && (kind == core::TermKind::Constant || kind == core::TermKind::Application)) {
-      static_cast<void>(clausifier.ensure_theory_atom(id));
-    }
-  }
+void QfUfConflictCollector::record_input_clause(const sat::Clause& clause) {
+  if (bound_) throw std::logic_error("clausifier emitted a clause after CNF export was sealed");
+  input_clauses_.push_back(clause);
 }
 
 void QfUfConflictCollector::bind(const BooleanClausifier& clausifier) {
   atoms_.clear();
+  // Each entry's signed literal denotes its positive printed atom. This also
+  // handles a mapping whose SAT representative has negative polarity.
+  std::unordered_map<int, std::pair<std::string, int>> printed;
   for (const auto& atom : clausifier.theory_atoms()) {
     const int variable = atom.lit.value > 0 ? atom.lit.value : -atom.lit.value;
     if (!atoms_.emplace(variable, std::make_pair(atom.term, atom.lit.value)).second) {
       throw std::logic_error("duplicate atom mapping in QF_UF conflict export");
     }
+    printed.emplace(variable,
+                    std::make_pair(smtlib::print_term(terms_, atom.term), atom.lit.value));
   }
+  std::unordered_set<std::string> names;
+  for (const auto& symbol : terms_.symbols().symbols()) names.insert(symbol.name);
+  for (const auto& sort : terms_.symbols().sorts()) names.insert(sort.name);
+  std::size_t next_name = 0;
+  for (const auto& clause : input_clauses_) {
+    std::vector<std::string> literals;
+    for (const auto literal : clause) {
+      if (literal.value == 0) throw std::logic_error("zero literal in exported input clause");
+      const int variable = literal.value > 0 ? literal.value : -literal.value;
+      auto found = printed.find(variable);
+      if (found == printed.end()) {
+        std::string name;
+        do {
+          name = "primo_cnf_" + std::to_string(next_name++);
+        } while (!names.insert(name).second);
+        const auto symbol = smtlib::symbol_text(name);
+        document_.signature.push_back("(declare-fun " + symbol + " () Bool)");
+        found = printed.emplace(variable, std::make_pair(symbol, variable)).first;
+      }
+      auto text = found->second.first;
+      if (literal.value != found->second.second) text = "(not " + text + ")";
+      literals.push_back(std::move(text));
+    }
+    document_.clauses.push_back(std::move(literals));
+  }
+  input_clauses_.clear();
+  bound_ = true;
 }
 
 void QfUfConflictCollector::record(const sat::Clause& clause) {
@@ -173,7 +163,7 @@ CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options
       throw UnsupportedInput(
           "--export-cnf does not support incremental, portfolio, or preprocess-only modes");
     }
-    Frontend frontend(false, FrontendBooleanMode::PreserveAtoms);
+    Frontend frontend;
     std::vector<core::TermId> assertions;
     bool checked = false;
     bool exited = false;
@@ -196,6 +186,7 @@ CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options
           break;
         case Kind::DeclareSort:
         case Kind::DeclareFun:
+        case Kind::DefineFun:
         case Kind::Assert:
           if (!logic)
             throw UnsupportedInput("set-logic QF_UF must precede declarations and assertions");
@@ -204,8 +195,7 @@ CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options
           checked = true;
           break;
         default:
-          throw UnsupportedInput(
-              "command unsupported by --export-cnf (no incremental solving or definitions)");
+          throw UnsupportedInput("command unsupported by --export-cnf (no incremental solving)");
       }
       frontend.process_command(command, assertions);
     }
@@ -213,7 +203,7 @@ CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options
 
     smtlib::ConflictDocument document;
     append_signature(frontend.terms().symbols(), document);
-    for (const auto assertion : assertions) append_cnf(frontend.terms(), assertion, document);
+    for (const auto assertion : assertions) require_supported_terms(frontend.terms(), assertion);
     QfUfConflictCollector collector(frontend.terms(), document);
     // Use the existing lazy solver without preprocessing or propagation lemmas.
     // No optimized congruence algorithm or new solving algorithm is introduced.

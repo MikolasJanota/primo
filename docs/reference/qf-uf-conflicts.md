@@ -1,45 +1,53 @@
 # QF_UF conflict-output format, version 1
 
 **Status: experimental single-query exporter.** Use `--export-cnf FILE` to
-write this format for one already-CNF QF_UF problem that Primo reports UNSAT.
-The file records clauses and theory conflicts; producing it does not independently
-validate the conflicts or certify UNSAT. There is no checker in this milestone.
+write this format for one QF_UF problem that Primo reports UNSAT. The input may
+contain nested Boolean structure. The file records the generated CNF and theory
+conflicts; producing it does not independently validate conflicts or certify
+UNSAT. There is no product checker in this milestone.
 
 ```bash
 ./build/primo --quiet --export-cnf certificate.sexp docs/examples/qf-uf-export.smt2
 ```
 
-The supplied CNF is the starting problem. Converting an earlier formula into
-CNF, and establishing the relationship between those formulas, remain future
-work. Conflict derivations and a propositional refutation are also deferred.
-
-The {download}`runnable SMT-LIB example <../examples/qf-uf-export.smt2>`
-contains the congruence contradiction shown below.
+The {download}`runnable SMT-LIB example <../examples/qf-uf-export.smt2>` uses
+an `or` over an `and`; each possible branch contradicts its EUF disequalities.
 
 ## Running the exporter
 
 The option takes just the output filename. Supply one SMT-LIB input file as the
 usual positional argument, or supply the script on stdin. The entire script is
 buffered and validated before solving. It must contain one `(set-logic QF_UF)`,
-followed by declarations and assertions, and exactly one final `(check-sat)`;
-an optional `(exit)` and ignored metadata are accepted. Multiple assertions
-jointly form the single problem. Push/pop, resets, definitions, SMT-LIB options,
-model requests, commands after exit, and additional queries are rejected. The
-CLI also rejects multiple input files and an output file equivalent to its input.
+followed by declarations, optional `define-fun` commands, and assertions, and
+exactly one final `(check-sat)`. An optional `(exit)` and ignored metadata are
+accepted. Multiple assertions jointly form the single problem. Push/pop,
+resets, SMT-LIB options, model requests, commands after exit, and additional
+queries are rejected. The CLI also rejects multiple input files and an output
+file equivalent to its input.
 
-Assertions must already be CNF: conjunctions of clauses, with each clause a
-literal or a disjunction of literals. Nested conjunctions and disjunctions of
-the same kind are accepted. Input terms are translated through the existing
-frontend in `FrontendBooleanMode::PreserveAtoms`, which keeps Boolean equality
-and Boolean arguments as terms instead of introducing naming implications. Core
-simplifications still apply; exported clauses describe those translated
-assertions rather than preserving source spelling or duplicates
-removed by that translation. This route performs no preprocessing or general
-formula-to-CNF conversion. The first producer further restricts atom arguments
-to constants, Boolean values, and uninterpreted applications: embedded Boolean
-connectives, embedded equalities, and `ite` are rejected even though the format
-can express more general QF_UF terms. Boolean-valued applications may themselves
-be arguments, as illustrated in the extended example.
+The ordinary frontend translates terms, expands definitions, lowers Boolean
+equality, and introduces definitions for compound Boolean arguments. The
+existing Boolean clausifier handles nested `and`, `or`, `not`, and implication.
+The exporter copies **every clause that this clausifier sends to SAT**, including
+its Tseitin definitions, root constraints, and truth-constant units. Input need
+not already be CNF. It does not independently convert the input to clauses or
+implement a new clausification algorithm.
+
+Each theory-atom variable is printed as its SMT-LIB atom. Remaining propositional
+variables, including Tseitin auxiliaries, receive fresh declared Boolean names
+`primo_cnf_0`, `primo_cnf_1`, and so on, skipping names already used by any symbol
+or sort. Their defining clauses are included in the CNF. The normal frontend's
+Boolean argument proxies are also declared and their defining clauses are
+captured. Thus the artifact is self-contained without exposing SAT variable
+numbers. Core simplifications and frontend translation can change source
+spelling, order, and duplicates before capture.
+
+The exported CNF is the starting problem for future checking. Establishing its
+relationship to the original formula is still future work; no CNF conversion
+proof is emitted. The ground fragment handled here excludes `ite`, quantified
+terms, arithmetic, and other extended terms that require a separate lowering
+step. This is a limitation of the first producer, rather than a requirement
+that the input have no Boolean structure.
 
 Export selects the existing lazy EUF engine with theory propagation and purity
 filtering off. It bypasses the ordinary preprocessing/tactic route; options for
@@ -54,7 +62,7 @@ therefore remains unchanged and must not be mistaken for this run's artifact.
 Rejected requests also leave the path untouched. An output open/write failure
 reports an error result and a nonzero exit status; a failed write may leave a
 partial file. Normal solver results stay on stdout and diagnostics on stderr.
-With `--stats`, `:export.cnf.clauses` counts exported input clauses and
+With `--stats`, `:export.cnf.clauses` counts captured input/definition clauses and
 `:export.theory.conflicts` counts recorded conflicts, including duplicates.
 
 ## Container and literal syntax
@@ -198,25 +206,33 @@ that value without parsing, validating, or consulting solver state. Its caller
 must provide well-sorted SMT-LIB text. There are no borrowed references in the
 stored document.
 
-The SMT adapter {conflictexportsource}`export_qf_uf_cnf <src/smt/qf_uf_export.cpp>` owns one `Frontend`, its term manager, and the
+The SMT adapter `export_qf_uf_cnf` owns one `Frontend`, its term manager, and the
 output document until solving and serialization finish. It validates the whole
-command sequence, checks the translated CNF shape and supported sorts, and
-prints declarations for all symbols in that frontend. The
-{source}`term printer <src/smtlib/term_printer.hpp>` supplies term-text utilities.
+command sequence and the ground fragment, and prints declarations for all
+symbols in that frontend. The {source}`term printer <src/smtlib/term_printer.hpp>`
+supplies term-text utilities.
 
-Internally, {source}`BooleanClausifier <src/smt/clausifier.hpp>` keeps the mapping
-between SAT literals and core terms in the SMT layer. {conflictexportsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>`
-borrows the adapter's term manager and document during the solve. After the
-Boolean-argument registry is complete, it copies the atom mapping into an owned
-hash table. Before that registry runs, the collector registers every Boolean
-constant or application subterm, including operands of Boolean equalities.
-Every such term receives a SAT-selected `true` or `false` value. This maintains
-Bool's two-element domain when frontend Boolean lowering is bypassed; leaving
-a Boolean operand unregistered could allow an invalid third value in EUF. No new atoms are introduced by the selected lazy path. Each reported
-conflict is translated to owned literal strings before SAT receives its learned
-clause. An unmapped literal is an error. Without export, the collector pointer is
-null and the ordinary solver paths retain their behavior. SAT continues to see
-propositional literals only.
+`BooleanClausifier::ClauseObserver` is an optional synchronous callback at the
+clausifier-to-SAT boundary. Each clause passes through one insertion helper,
+which invokes the observer and then forwards the same clause to the backend.
+The observer must copy data it retains and must not mutate the clausifier,
+term manager, or backend, or reenter clausification.
+Without an observer, the ordinary clause insertion path remains active.
+
+`QfUfConflictCollector` borrows the adapter's term manager and document during
+the solve. The observer copies initial clauses as SAT literals while the
+clausifier is still building its atom mapping. After the ordinary Boolean
+argument registry is complete, the collector copies that mapping into an owned
+hash table, assigns fresh names to propositional auxiliaries, and translates
+the captured clauses to owned text. It then seals the initial CNF; a later
+clausifier emission is an error rather than a silently omitted clause. The
+selected lazy path introduces no further clausification during search.
+
+Every reported theory conflict is translated to owned literal strings before
+SAT receives its learned clause. An unmapped theory reason literal is an error.
+The initial CNF observer is separate from theory-conflict collection, so theory
+lemmas do not get mixed into the input section. The SAT backend continues to see
+propositional literals only; it does not know about the exporter or inspect terms.
 
 Primo's [EUF explanations](../implementation/euf.md#follow-one-conflict) use
 learned-clause polarity: reasons already negate the asserted assignments.
@@ -225,7 +241,9 @@ specified here. The lazy engine returns theory conflicts only; online
 propagation and model propagation are disabled, so their reason clauses do not
 need separate collection in this producer. No SAT-learned clauses are exported.
 
-Atom binding takes expected linear time in the number of atoms. Conflict
+Atom binding and input-clause translation take expected linear time in the
+number of declared symbols and sorts, theory atoms, and captured literals,
+plus name/text processing and term printing. Conflict
 collection takes expected linear time in the number of reason literals, plus
 term printing. The document retains all emitted text until the solve returns;
 there is no streaming or minimization, and repeated terms are printed in full.
@@ -235,9 +253,8 @@ This can use substantially more memory than ordinary solving.
 {conflictexportsource}`check_sat_smtlib <src/smt/check_sat.cpp>` expose the same buffered
 single-query route to library callers. Direct `SmtSession` construction rejects
 a nonempty export filename because that streaming API cannot validate the
-whole script before a query. Full formula-to-CNF export, preprocessing,
-incremental queries, and collection from online propagation require further
-producer design. The original standalone-format examples remain illustrative,
+whole script before a query. Preprocessing, extended-term lowering, incremental queries, conversion proofs,
+and collection from online propagation require further producer design. The original standalone-format examples remain illustrative,
 rather than captured exporter output.
 
 This page is an original output-format and adapter design note. The adapter

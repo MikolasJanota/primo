@@ -6,6 +6,7 @@
 
 #include "core/ids.hpp"
 #include "sat/clause.hpp"
+#include "sat/cnf.hpp"
 #include "smt/check_sat.hpp"
 
 namespace primo::core {
@@ -19,17 +20,19 @@ namespace primo::smt {
 class BooleanClausifier;
 
 // Borrows one query's term manager and output document. Neither may be destroyed
-// before the solve returns. Copies literal text; retains no clausifier borrows.
+// before the solve returns. Copies clauses and literal text; retains no clausifier borrows.
 class QfUfConflictCollector {
  public:
   QfUfConflictCollector(const core::TermManager& terms, smtlib::ConflictDocument& document);
-  void prepare(BooleanClausifier& clausifier);
+  void record_input_clause(const sat::Clause& clause);
   void bind(const BooleanClausifier& clausifier);
   void record(const sat::Clause& clause);
 
  private:
   const core::TermManager& terms_;
   smtlib::ConflictDocument& document_;
+  sat::Cnf input_clauses_;
+  bool bound_ = false;
   std::unordered_map<int, std::pair<core::TermId, int>> atoms_;
 };
 

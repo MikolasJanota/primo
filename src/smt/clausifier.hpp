@@ -1,10 +1,12 @@
 #pragma once
 
 #include <cstddef>
+#include <functional>
 #include <memory>
 #include <vector>
 
 #include "core/ids.hpp"
+#include "sat/clause.hpp"
 #include "sat/lit.hpp"
 
 namespace primo::core {
@@ -30,8 +32,12 @@ class BooleanClausifier {
     bool theory_relevant_at_both_polarities = false;
   };
 
+  // Called synchronously for every emitted clause before backend insertion.
+  // The observer must copy retained data and must not mutate the clausifier,
+  // term manager, or backend, or reenter clausification.
+  using ClauseObserver = std::function<void(const sat::Clause&)>;
   BooleanClausifier(sat::IpasirUpBackend& backend, core::TermManager& terms,
-                    bool top_level_or_tseitin);
+                    bool top_level_or_tseitin, ClauseObserver observer = {});
   ~BooleanClausifier();
 
   BooleanClausifier(const BooleanClausifier&) = delete;

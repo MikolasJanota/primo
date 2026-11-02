@@ -5,12 +5,15 @@
 #include <cstdint>
 #include <memory>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
+#include "core/ids.hpp"
 #include "core/term.hpp"
 #include "core/term_manager.hpp"
 #include "sat/clause.hpp"
 #include "sat/ipasir_up.hpp"
+#include "sat/lit.hpp"
 #include "smt/solver_error.hpp"
 
 namespace primo::smt {
@@ -18,10 +21,12 @@ namespace primo::smt {
 struct BooleanClausifier::Implementation {
   using TheoryAtom = BooleanClausifier::TheoryAtom;
 
-  Implementation(sat::IpasirUpBackend& backend, core::TermManager& terms, bool top_level_or_tseitin)
+  Implementation(sat::IpasirUpBackend& backend, core::TermManager& terms, bool top_level_or_tseitin,
+                 BooleanClausifier::ClauseObserver observer)
       : backend_(backend),
         terms_(terms),
         top_level_or_tseitin_(top_level_or_tseitin),
+        observer_(std::move(observer)),
         lit_by_term_(terms.size()),
         theory_atom_by_term_(terms.size(), kNoTheoryAtom),
         polarity_seen_by_term_(terms.size(), 0) {}
@@ -47,7 +52,7 @@ struct BooleanClausifier::Implementation {
     // Conservative Tseitin extensions survive pop; the scope constrains only
     // their root. See docs/assumption-incremental-lra.md.
     collect_theory_atom_polarities(term, true);
-    backend_.add_clause({negate(selector), encode(term)});
+    add_clause({negate(selector), encode(term)});
   }
 
   const TheoryAtom& ensure_generated_theory_atom_with_lit(core::TermId term, sat::Lit lit) {
@@ -137,6 +142,11 @@ struct BooleanClausifier::Implementation {
   std::size_t boolean_argument_scan_count() const { return boolean_argument_scan_count_; }
 
  private:
+  void add_clause(const sat::Clause& clause) {
+    if (observer_) observer_(clause);
+    backend_.add_clause(clause);
+  }
+
   void register_boolean_argument_term(core::TermId term_id) {
     const core::Term& term = terms_.get(term_id);
     if (term.sort != terms_.symbols().bool_sort()) {
@@ -258,7 +268,7 @@ struct BooleanClausifier::Implementation {
       switch (term.kind) {
         case core::TermKind::BoolValue:
           if (!term.bool_value) {
-            backend_.add_clause(sat::Clause{});
+            add_clause(sat::Clause{});
           }
           break;
         case core::TermKind::And:
@@ -268,7 +278,7 @@ struct BooleanClausifier::Implementation {
           break;
         case core::TermKind::Or: {
           if (top_level_or_tseitin_) {
-            backend_.add_clause(sat::Clause{encode(current)});
+            add_clause(sat::Clause{encode(current)});
             break;
           }
           sat::Clause clause;
@@ -286,13 +296,12 @@ struct BooleanClausifier::Implementation {
             clause.push_back(encode(child));
           }
           if (!tautology) {
-            backend_.add_clause(clause);
+            add_clause(clause);
           }
           break;
         }
         case core::TermKind::Implies:
-          backend_.add_clause(
-              sat::Clause{negate(encode(term.children.at(0))), encode(term.children.at(1))});
+          add_clause(sat::Clause{negate(encode(term.children.at(0))), encode(term.children.at(1))});
           break;
         case core::TermKind::Not:
         case core::TermKind::Constant:
@@ -307,7 +316,7 @@ struct BooleanClausifier::Implementation {
         case core::TermKind::Lt:
         case core::TermKind::Forall:
         case core::TermKind::Exists:
-          backend_.add_clause(sat::Clause{encode(current)});
+          add_clause(sat::Clause{encode(current)});
           break;
         case core::TermKind::Rational:
         case core::TermKind::Plus:
@@ -458,7 +467,7 @@ struct BooleanClausifier::Implementation {
   sat::Lit true_lit() {
     if (true_lit_.value == 0) {
       true_lit_ = sat::Lit{backend_.new_var()};
-      backend_.add_clause(sat::Clause{true_lit_});
+      add_clause(sat::Clause{true_lit_});
     }
     return true_lit_;
   }
@@ -477,26 +486,26 @@ struct BooleanClausifier::Implementation {
     sat::Clause reverse_clause{output};
     for (const core::TermId child : children) {
       const sat::Lit child_lit = encoded_lit(child);
-      backend_.add_clause(sat::Clause{negate(output), child_lit});
+      add_clause(sat::Clause{negate(output), child_lit});
       reverse_clause.push_back(negate(child_lit));
     }
-    backend_.add_clause(reverse_clause);
+    add_clause(reverse_clause);
   }
 
   void encode_or(sat::Lit output, const std::vector<core::TermId>& children) {
     sat::Clause forward_clause{negate(output)};
     for (const core::TermId child : children) {
       const sat::Lit child_lit = encoded_lit(child);
-      backend_.add_clause(sat::Clause{negate(child_lit), output});
+      add_clause(sat::Clause{negate(child_lit), output});
       forward_clause.push_back(child_lit);
     }
-    backend_.add_clause(forward_clause);
+    add_clause(forward_clause);
   }
 
   void encode_implies(sat::Lit output, sat::Lit lhs, sat::Lit rhs) {
-    backend_.add_clause(sat::Clause{lhs, output});
-    backend_.add_clause(sat::Clause{negate(rhs), output});
-    backend_.add_clause(sat::Clause{negate(output), negate(lhs), rhs});
+    add_clause(sat::Clause{lhs, output});
+    add_clause(sat::Clause{negate(rhs), output});
+    add_clause(sat::Clause{negate(output), negate(lhs), rhs});
   }
 
   sat::Lit encoded_lit(core::TermId term_id) {
@@ -512,6 +521,7 @@ struct BooleanClausifier::Implementation {
   sat::IpasirUpBackend& backend_;
   core::TermManager& terms_;
   bool top_level_or_tseitin_ = true;
+  BooleanClausifier::ClauseObserver observer_;
   static constexpr std::size_t kNoTheoryAtom = static_cast<std::size_t>(-1);
   static constexpr std::uint8_t kPositivePolaritySeen = 1;
   static constexpr std::uint8_t kNegativePolaritySeen = 2;
@@ -525,8 +535,9 @@ struct BooleanClausifier::Implementation {
 };
 
 BooleanClausifier::BooleanClausifier(sat::IpasirUpBackend& backend, core::TermManager& terms,
-                                     bool top_level_or_tseitin)
-    : implementation_(std::make_unique<Implementation>(backend, terms, top_level_or_tseitin)) {}
+                                     bool top_level_or_tseitin, ClauseObserver observer)
+    : implementation_(std::make_unique<Implementation>(backend, terms, top_level_or_tseitin,
+                                                       std::move(observer))) {}
 
 BooleanClausifier::~BooleanClausifier() = default;
 

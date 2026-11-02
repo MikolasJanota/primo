@@ -320,7 +320,7 @@ int run_main(int argc, char** argv) {
   std::vector<std::string> cadical_options;
   CLI::App app{"Primo SMT solver scaffold"};
   app.add_option("--export-cnf", solver_options.export_cnf,
-                 "Write one UNSAT QF_UF CNF/conflict artifact to FILE (no incremental solving)")
+                 "Write generated CNF and conflicts for one UNSAT QF_UF query to FILE")
       ->type_name("FILE");
   app.add_flag("--check-model", solver_options.check_model,
                "Check original assertions against produced typed models");

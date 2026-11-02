@@ -14,7 +14,7 @@ common controls; the complete captured inventory below supplies accepted values 
 | `--version` | Off | Print revision/build information and exit. |
 | `--quiet`, `-q` | Off | Suppress the startup banner; SMT-LIB responses remain enabled. |
 | `--stats` | Off | Write query statistics to stderr. See [](../reference/statistics.md). |
-| `--export-cnf FILE` | Off | Write one UNSAT CNF/conflict artifact for an already-CNF QF_UF problem; see [](qf-uf-conflicts.md). Incremental solving is unsupported. |
+| `--export-cnf FILE` | Off | Write one UNSAT CNF/conflict artifact for a QF_UF problem; nested Boolean structure is clausified; see [](qf-uf-conflicts.md). Incremental solving is unsupported. |
 | `--check-model` | Off | Check original assertions against a requested model. Set `:produce-models true` separately; see [](../guide/models.md). |
 | `--incremental-mode` | `rebuild` | Choose `rebuild` or the restricted `assumptions` session engine. See [](../guide/sessions.md). |
 | `--preprocessing-mode` | `auto` | Choose `auto`, `off`, `basic`, or `strong`. `off` does not bypass required lowering. Assumptions mode admits only `auto` or `off`. |

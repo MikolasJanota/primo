@@ -10354,14 +10354,17 @@ CheckSatOutcome solve_qf_uf_engine_impl(core::TermManager& terms,
   sat::CadicalBackend backend(options.cadical_options);
   SolveTerminator terminator(options.cancelled, statistics, options.max_theory_conflicts);
   const ScopedTerminatorConnection terminator_connection(backend, terminator);
-  BooleanClausifier clausifier(backend, terms, options.top_level_or_tseitin);
+  BooleanClausifier::ClauseObserver observer;
+  if (collector != nullptr) {
+    observer = [collector](const sat::Clause& clause) { collector->record_input_clause(clause); };
+  }
+  BooleanClausifier clausifier(backend, terms, options.top_level_or_tseitin, std::move(observer));
   for (const core::TermId assertion : assertions) {
     clausifier.assert_formula(assertion);
   }
   // Bool's two-element domain, before the atom list is measured or consumed:
   // PreparedFlatTheory::align_assignments requires the atom count to be final
   // for the whole solve, and every heuristic below reads theory_atoms().
-  if (collector != nullptr) collector->prepare(clausifier);
   register_euf_boolean_arguments(clausifier, statistics);
   if (collector != nullptr) collector->bind(clausifier);
   statistics.set(kStatTheoryAtoms, clausifier.theory_atoms().size());

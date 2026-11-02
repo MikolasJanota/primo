@@ -91,6 +91,8 @@ def document(path: Path) -> list:
     )
     require(all(c[0] == "clause" for c in root[4][1:]), "wrong clause tag")
     require(all(c[0] == "conflict" for c in root[5][1:]), "wrong conflict tag")
+    names = [(d[0], d[1]) for d in root[3][1:]]
+    require(len(names) == len(set(names)), "duplicate declaration name")
     return root
 
 
@@ -154,6 +156,21 @@ def regressions(solver: str, directory: Path) -> None:
     for body in (
         "(assert false)(check-sat)",
         (
+            "(define-fun alias ((t U)) U (f t))"
+            "(assert (= a b))(assert (not (= (alias a) (alias b))))(check-sat)"
+        ),
+        (
+            "(declare-fun x () U)"
+            "(assert (or (and (= a x) (= x c)) (= a b)))"
+            "(assert (not (= (f a) (f b))))"
+            "(assert (not (= (f a) (f c))))(check-sat)"
+        ),
+        (
+            "(declare-fun primo_cnf_0 () Bool)"
+            "(assert (or (and (= a b) (= b c)) (= a c)))"
+            "(assert (not (= (f a) (f c))))(check-sat)"
+        ),
+        (
             "(declare-fun q () Bool)(declare-fun r () Bool)"
             "(assert q)(assert (= q r))(assert (not r))(check-sat)"
         ),
@@ -177,6 +194,8 @@ def regressions(solver: str, directory: Path) -> None:
     for source, options in (
         (PRELUDE + "(check-sat)", ()),
         (PRELUDE + "(assert (= a b))(check-sat)", ()),
+        (PRELUDE + "(assert (or (and (p a) (p b)) (p c)))(check-sat)", ()),
+        (PRELUDE + "(assert (= (h (and (p a) (p b))) a))(check-sat)", ()),
         (PRELUDE + CONGRUENCE, ("--max-theory-conflicts=1",)),
     ):
         result = export(solver, source, output, *options)
@@ -192,8 +211,7 @@ def regressions(solver: str, directory: Path) -> None:
         (PRELUDE + CONGRUENCE + "(assert true)", ()),
         (PRELUDE + "(reset)" + CONGRUENCE, ()),
         (PRELUDE + CONGRUENCE + "(reset-assertions)", ()),
-        (PRELUDE + "(assert (or (and (p a) (p b)) (p c)))(check-sat)", ()),
-        (PRELUDE + "(assert (= (h (and (p a) (p b))) a))(check-sat)", ()),
+        (PRELUDE + "(assert (ite (p a) (p b) (p c)))(check-sat)", ()),
         (PRELUDE.replace("QF_UF", "QF_LRA") + CONGRUENCE, ()),
         (PRELUDE, ()),
         (PRELUDE + CONGRUENCE + "(exit)(assert true)", ()),
@@ -266,6 +284,8 @@ def fuzz(args: argparse.Namespace) -> None:
             ]
             clauses.append("(assert (or " + " ".join(literals) + "))")
         source = PRELUDE + "\n".join(clauses)
+        if index % 2:
+            source += "(assert (or (and (= a b) (= b c)) (and (p a) (not (p c)))))"
         if index % 3 == 0:
             source += "(assert (= a b))(assert (not (= (f a) (f b))))"
         source += "(check-sat)"

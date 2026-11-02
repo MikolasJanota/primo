@@ -52,6 +52,11 @@ root = Path(os.environ['PRIMO_EXPORT_ARTIFACTS'])
     'resources': {'cpus': 4, 'memory_gib': 16, 'wall_minutes': 45},
 }, indent=2) + '\n')
 PY
+# The checked-in structured example is also the user's external/1.smt2 case.
+build-slurm-rel/primo --quiet --export-cnf "$artifacts/example.sexp"   docs/examples/qf-uf-export.smt2 > "$artifacts/example-result.txt"
+grep -Fx unsat "$artifacts/example-result.txt"
+test -s "$artifacts/example.sexp"
+
 # Provision the Python lint tool inside the allocation, not on the login host.
 python3 -m venv .venv
 .venv/bin/python -m pip install ruff==0.16.1 > "$artifacts/lint-dependencies.log" 2>&1
@@ -64,5 +69,15 @@ build-slurm-rel/primo --help > "$artifacts/primo-help.txt"
 python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo \
   --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 \
   --out "$artifacts/fuzz" > "$artifacts/export-fuzz.log" 2>&1
-make "${reuse_native[@]}" asan-test ASAN_BUILD_DIR=build-asan-export > "$artifacts/asan-test.log" 2>&1
+asan_dir=${PRIMO_EXPORT_ASAN_BUILD_DIR:-build-slurm-asan}
+asan_config=(-DCMAKE_BUILD_TYPE=Debug -DPRIMO_SANITIZERS=address
+  "-DCMAKE_PREFIX_PATH=$PWD/contrib/local"
+  "-DPRIMO_GIT_REVISION_OVERRIDE=$PRIMO_EXPECTED_GIT")
+if [[ -n ${PRIMO_ASAN_RUNTIME_DIR:-} ]]; then
+  test -f "$PRIMO_ASAN_RUNTIME_DIR/libasan.so"
+  asan_config+=("-DCMAKE_EXE_LINKER_FLAGS=-L$PRIMO_ASAN_RUNTIME_DIR")
+  export LD_LIBRARY_PATH="$PRIMO_ASAN_RUNTIME_DIR${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+fi
+cmake -S . -B "$asan_dir" "${asan_config[@]}" > "$artifacts/asan-config.log" 2>&1
+make "${reuse_native[@]}" asan-test ASAN_BUILD_DIR="$asan_dir" > "$artifacts/asan-test.log" 2>&1
 printf '%s\n' 'check, export fuzz gate, and asan-test passed' | tee "$artifacts/PASSED"
