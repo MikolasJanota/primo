@@ -37,10 +37,10 @@ The implementation maps these operations as follows:
 
 | Owner | State and operation |
 | --- | --- |
-| `QfUfConflictCollector` in the SMT layer | Retain raw initial clauses and raw theory clauses only when reduction is requested; keep their original record indices aligned with printed records. |
-| `sat::select_unsat_subset` (`src/sat/clause_subset.cpp`) | Own a fresh incremental-safe CaDiCaL backend. Reserve original variables and allocate a new selector sᵢ for each Lᵢ. Add B permanently and add `(¬sᵢ ∨ Lᵢ)` permanently. |
-| `sat::select_unsat_subset` (`src/sat/clause_subset.cpp`) | Query a set S by assuming exactly its positive selectors. Unselected selectors occur only in their guards and can be false. Failed positive assumptions after UNSAT identify a valid initial core. |
-| `util::minimal_set_progression` (`src/util/minimal_set.cpp`) | Keep necessary indices M and an unprocessed suffix W. Probe removal blocks of size 1, 2, 4, …; on a SAT boundary, binary-search the transition element, keep it in M, and restart at block size 1. |
+| {lemmareductionsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` in the SMT layer | Retain raw initial clauses and raw theory clauses only when reduction is requested; keep their original record indices aligned with printed records. |
+| {lemmareductionsource}`sat::select_unsat_subset <src/sat/clause_subset.cpp>` | Own a fresh incremental-safe CaDiCaL backend. Reserve original variables and allocate a new selector sᵢ for each Lᵢ. Add B permanently and add `(¬sᵢ ∨ Lᵢ)` permanently. |
+| {lemmareductionsource}`sat::select_unsat_subset <src/sat/clause_subset.cpp>` | Query a set S by assuming exactly its positive selectors. Unselected selectors occur only in their guards and can be false. Failed positive assumptions after UNSAT identify a valid initial core. |
+| {lemmareductionsource}`util::minimal_set_progression <src/util/minimal_set.cpp>` | Keep necessary indices M and an unprocessed suffix W. Probe removal blocks of size 1, 2, 4, …; on a SAT boundary, binary-search the transition element, keep it in M, and restart at block size 1. |
 | SMT export adapter | Apply the returned indices to conflict records, preserving order and literal contents. Do not export selectors or alter the initial CNF or signature. |
 
 The progression invariant is p(M ∪ W), with every member of M necessary relative
@@ -62,7 +62,7 @@ model rotation, model-guided pruning and journal-specific oracle constructions
 are deliberately outside this first implementation. Cancellation or unknown
 must not yield an artifact advertised as a completed MUS.
 
-`tests/unit/clause_subset_tests.cpp` and `tests/cnf_export_cli.py` cover redundant and duplicate records, a purely propositional
+{lemmareductionsource}`clause-subset unit tests <tests/unit/clause_subset_tests.cpp>` and {lemmareductionsource}`export CLI and fuzz tests <tests/cnf_export_cli.py>` cover redundant and duplicate records, a purely propositional
 contradiction, all records necessary, empty clauses, independent irreducibility
 checks on small instances, interruption, and a monotone predicate with a long
 irrelevant prefix that requires block skipping and transition search. The last
@@ -71,7 +71,7 @@ element near the end, and requires both block skipping and binary search.
 
 ## Representation, lifetime and failure modes
 
-`QfUfConflictCollector` borrows its adapter's term manager and output document.
+{lemmareductionsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` borrows its adapter's term manager and output document.
 With reduction enabled, it owns copies of the raw input and theory clauses until
 serialization. Before reduction, its `theory_clauses_` indices correspond
 one-to-one to `ConflictDocument::conflicts`; clauses are neither interned nor
@@ -81,16 +81,16 @@ serializes; the collector is not reused for another reduction.
 With `none`, it releases the captured raw input after printing and does not retain
 raw theory clauses. No terms are created by reduction.
 
-`select_unsat_subset` borrows two immutable `sat::Cnf` vectors for one call and
+{lemmareductionsource}`select_unsat_subset <src/sat/clause_subset.hpp>` borrows two immutable `sat::Cnf` vectors for one call and
 owns the fresh `CadicalBackend`, guard clauses and selector vector. Its backend
 uses the incremental-safe plain profile, independently of main-solver options.
 The optional `sat::Terminator` is borrowed for that call. SAT state and selectors
-are destroyed before returning `ClauseSubsetResult`, which owns only indices,
+are destroyed before returning {lemmareductionsource}`ClauseSubsetResult <src/sat/clause_subset.hpp>`, which owns only indices,
 status and counters. Zero literals, `INT_MIN`, invalid modes and selector index
 overflow are rejected. Failed assumptions are queried only after UNSAT and
 before the next solve; each solve receives fresh assumptions.
 
-`minimal_set_progression` borrows the original ordered index vector and callback.
+{lemmareductionsource}`minimal_set_progression <src/util/minimal_set.hpp>` borrows the original ordered index vector and callback.
 An offset represents W, while an owned vector holds M. Trial vectors copy M and
 the remaining suffix; the input is never mutated. Its returned indices preserve
 original order. An unknown predicate result returns `complete=false` and the

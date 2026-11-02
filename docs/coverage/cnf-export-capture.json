@@ -3,7 +3,7 @@
   "source_git": "262c436ee8e00b8965242470f9fcb5f22c1e0a38",
   "baseline_qualified_git": "62daa0506df1e086e8079f0ddb47d183b9254986",
   "scope": "Capture generated Boolean CNF for structured single-query QF_UF inputs; retain separate conflicting-fact sequences.",
-  "status": "implemented and focused emission smoke passed; full qualification pending SLURM allocation",
+  "status": "qualified opt-in structured exporter; no independent certification or performance claim",
   "changes": [
     "Capture each initial clause through BooleanClausifier::ClauseObserver before SAT insertion.",
     "Declare fresh Boolean auxiliary names and include their defining clauses.",
@@ -30,25 +30,23 @@
     "build_job": "336020",
     "build_status": "COMPLETED, exit 0:0",
     "gate_job": "336308",
-    "last_observed_gate_status": "PENDING (Priority)",
-    "scheduler_start_estimate": "2026-11-03T08:51:00 as displayed by SLURM; estimate can change",
+    "last_observed_gate_status": "COMPLETED, exit 0:0",
     "gate_command": "PRIMO_EXPECTED_GIT=262c436e PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> PIP_NO_INDEX=1 PIP_FIND_LINKS=<offline-Ruff-wheel-directory> sbatch scripts/slurm_cnf_export_gate.sbatch (supply workspace, cmake executable and matching C++ header manifest)",
-    "planned_gate": "Exact nested example, make check, existing 1000-case reference gate extended with structured Boolean inputs, make asan-test. These have not run for this revision yet.",
-    "planned_artifacts": "results/cnf-export-336308/ on the prepared SLURM workspace",
     "resources": {
       "cpus": 4,
       "memory_gib": 16,
       "wall_minutes": 45
-    }
+    },
+    "gate": "Exact nested example, make check, 1000-case reference gate with structured Boolean inputs, make asan-test: all passed.",
+    "artifacts": "results/cnf-export-336308/"
   },
   "verification": {
     "syntax": "Strict C++20 syntax checks with IPASIR enabled passed for modified C++ paths.",
     "lint": "make lint and Ruff on tests/cnf_export_cli.py passed.",
     "docs": "make docs and make docs-check-links passed: 268 pages, 34571 local links, 1135 unique Git links, zero failures; rendered sections/downloads inspected in the preceding revision and changed source links reviewed.",
     "static": "Changed-source advisory include scan ran; two existing missing-direct-include recommendations in clausifier.cpp were repaired. Prior whole-tree static scan remains a diagnostic baseline, not a clean verdict for this revision.",
-    "batch": "slurm_validate_sbatch.py and bash -n passed.",
-    "borrow_review": "Observer copies clauses while callback arguments live and must not mutate/reenter the clausifier, term manager or backend. Binding runs after registration and names auxiliaries without creating core terms; input emission seals afterward.",
-    "unrun": "Fresh full test/fuzz/sanitizer results remain pending; the preceding restricted-CNF qualification does not qualify this revised source."
+    "batch": "SLURM job 336308 completed all checks; see summary and artifact logs.",
+    "borrow_review": "Observer copies clauses while callback arguments live and must not mutate/reenter the clausifier, term manager or backend. Binding runs after registration and names auxiliaries without creating core terms; input emission seals afterward."
   },
   "documentation_review": {
     "reviewer": "review_exporter_docs, independent read-only",
@@ -66,6 +64,21 @@
     },
     "unchecked": "Runtime gate and external GitHub publication availability."
   },
-  "artifacts": "results/cnf-export-structured-smoke/; results/cnf-export-capture-262c436e/; future SLURM results/cnf-export-336308/",
-  "limitations": "No product checker, derivations, propositional proof, or CNF conversion proof. No performance/default claim. ite and other extended terms still need separate lowering. Completion is blocked on the queued mandatory gate, not on source implementation."
+  "artifacts": "results/cnf-export-structured-smoke/; results/cnf-export-capture-262c436e/; results/cnf-export-336308/",
+  "limitations": "No product checker, derivations, propositional proof, or CNF conversion proof. No performance/default claim. ite and other extended terms still need separate lowering. Qualification applies to source 262c436e, before optional lemma reduction.",
+  "summary": {
+    "ctest_pass": 46,
+    "python_pass": 301,
+    "asan_ctest_pass": 46,
+    "seed": 20261102,
+    "requested": 1000,
+    "pass": 1000,
+    "wrong_answer": 0,
+    "crash": 0,
+    "parser_type_error": 0,
+    "timeout": 0,
+    "unsupported": 0,
+    "reference_disagreement": 0,
+    "invalid_artifact": 0
+  }
 }

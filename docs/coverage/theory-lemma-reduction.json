@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "source_git": "2fbf238f5e523d19d66aa0612023f94cad472b68",
+  "scope": "Optional propositional CORE/MUS reduction of whole exported QF_UF theory-conflict records relative to fixed initial CNF.",
+  "status": "implemented; runtime qualification pending SLURM build and gate",
+  "algorithm": "Original selector-based SAT oracle, initial failed-assumption core, CAV 2013 Marques-Silva/Janota/Belov Algorithms 3-4 progression. No model rotation or specialized Algorithms 5-6.",
+  "modes": {
+    "none": "default; retain every collected record",
+    "core": "one UNSAT assumption-core query; no minimality guarantee",
+    "mus": "subset-minimal relative to fixed input CNF; not minimum cardinality"
+  },
+  "slurm": {
+    "build_job": "337186",
+    "build_status": "RUNNING",
+    "gate_job": null,
+    "planned_gate": "make check, round-robin none/core/mus 1000-case reference gate with independent propositional sufficiency and MUS deletion checks, make asan-test",
+    "resources": {
+      "cpus": 4,
+      "memory_gib": 16,
+      "wall_minutes": 45
+    }
+  },
+  "verification": {
+    "syntax": "Strict C++20 warnings-as-errors syntax checks passed.",
+    "lint": "make lint and explicit Ruff check/format for tests/cnf_export_cli.py passed.",
+    "docs": "make docs and make docs-check-links passed: 269 pages, 34827 local links, 1141 unique Git links; zero failures. Inspected rendered reduction contract, counter list and source navigation. External URL health not checked.",
+    "static": "Whole-tree clang-tidy and include-cleaner running; targeted new-file advisory scans have no compiler errors or missing/unused includes. Convention warnings remain.",
+    "borrow_review": "Reducer borrows immutable CNFs and terminator for its call; owns private SAT state and result indices. Generic predicate borrows original indices, constructs independent trials, does not mutate input. Collector borrows stable term manager and document, does not create terms during reduction; printed-record alignment is required only before one-shot selection.",
+    "efficiency_review": "No blocking efficiency issue found. Default none avoids raw theory-clause retention and extra SAT instance. Optional modes copy guards/trial indices and retain raw clauses; no benchmark or performance claim. Progression test requires block and binary queries with <40 queries for 1024 indices."
+  },
+  "documentation_review": {
+    "reviewer": "review_lemma_reduction_docs, independent read-only",
+    "baseline": "ec7ad41b",
+    "implementation_snapshot": "2fbf238f5e523d19d66aa0612023f94cad472b68",
+    "verdict": "ready",
+    "findings": {
+      "D1": "resolved: source roles pinned to implementation snapshot",
+      "D2": "resolved: index alignment qualified to pre-selection phase and one-shot use",
+      "D3": "resolved: frozen captured-help scope explicit",
+      "S1": "optional theorem-bound addition declined; query counters and bounded regression retained"
+    },
+    "files_sha256": {
+      "docs/leads/theory-lemma-reduction.md": "67b355df6f5f978a5cfc55db5be8494a42112f8529a0f2988a1b011107c1b599",
+      "docs/reference/qf-uf-conflicts.md": "3eeca8e9612a10253e81cc63112657f8a9289520f9e504200c16317f17ad797b",
+      "docs/reference/options.md": "5cbe0f3a8daacb4a95841398138cff3dd53654a225819c8585acb3209db255b3",
+      "docs/_config.yml": "9203f06692ae761081776a9f1bde9a13a8fc99a46fa8372b3838347e905918d4"
+    },
+    "unchecked": "Runtime results, rendering, external URL health and full journal proofs were outside independent review; rendering and local/Git link checks performed by writer."
+  },
+  "limitations": "No product checker or CNF-conversion proof. The reduction SAT oracle does not validate theory conflicts. Internal assumption reuse does not support incremental SMT-LIB. No standalone reduction time budget; cancellation applies. Native proof-derived cores and selector-free replay alternatives are documented, not implemented."
+}

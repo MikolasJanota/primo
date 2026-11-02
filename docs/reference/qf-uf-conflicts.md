@@ -249,7 +249,7 @@ that value without parsing, validating, or consulting solver state. Its caller
 must provide well-sorted SMT-LIB text. There are no borrowed references in the
 stored document.
 
-The SMT adapter {cnfcapturesource}`export_qf_uf_cnf <src/smt/qf_uf_export.cpp>` owns one `Frontend`, its term manager, and the
+The SMT adapter {lemmareductionsource}`export_qf_uf_cnf <src/smt/qf_uf_export.cpp>` owns one `Frontend`, its term manager, and the
 output document until solving and serialization finish. It validates the whole
 command sequence and the ground fragment, and prints declarations for all
 symbols in that frontend. The {source}`term printer <src/smtlib/term_printer.hpp>`
@@ -263,7 +263,7 @@ The observer must copy data it retains and must not mutate the clausifier,
 term manager, or backend, or reenter clausification.
 Without an observer, the ordinary clause insertion path remains active.
 
-{cnfcapturesource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` borrows the adapter's term manager and document during
+{lemmareductionsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` borrows the adapter's term manager and document during
 the solve. The observer copies initial clauses as SAT literals while the
 clausifier is still building its atom mapping. After the ordinary Boolean
 argument registry is complete, the collector copies that mapping into an owned
@@ -295,8 +295,8 @@ reduction retains raw clause copies and creates a separate SAT instance as
 described above.
 This can use substantially more memory than ordinary solving.
 
-{conflictexportsource}`CheckSatOptions::export_cnf <src/smt/check_sat.hpp>` and
-{conflictexportsource}`check_sat_smtlib <src/smt/check_sat.cpp>` expose the same buffered
+{lemmareductionsource}`CheckSatOptions::export_cnf <src/smt/check_sat.hpp>` and
+{lemmareductionsource}`check_sat_smtlib <src/smt/check_sat.cpp>` expose the same buffered
 single-query route to library callers. Direct `SmtSession` construction rejects
 a nonempty export filename because that streaming API cannot validate the
 whole script before a query. The reduction option without an export filename

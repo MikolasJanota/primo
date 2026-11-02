@@ -35,6 +35,9 @@ sphinx:
   config:
     bibtex_reference_style: label
     extlinks:
+      lemmareductionsource:
+        - "https://github.com/primo-solver/primo/blob/2fbf238f5e523d19d66aa0612023f94cad472b68/%s"
+        - "%s"
       cnfcapturesource:
         - "https://github.com/primo-solver/primo/blob/262c436ee8e00b8965242470f9fcb5f22c1e0a38/%s"
         - "%s"
