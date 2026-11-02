@@ -6,12 +6,15 @@ The file records clauses and theory conflicts; producing it does not independent
 validate the conflicts or certify UNSAT. There is no checker in this milestone.
 
 ```bash
-./build/primo --quiet --export-cnf certificate.sexp input.smt2
+./build/primo --quiet --export-cnf certificate.sexp docs/examples/qf-uf-export.smt2
 ```
 
 The supplied CNF is the starting problem. Converting an earlier formula into
 CNF, and establishing the relationship between those formulas, remain future
 work. Conflict derivations and a propositional refutation are also deferred.
+
+The {download}`runnable SMT-LIB example <../examples/qf-uf-export.smt2>`
+contains the congruence contradiction shown below.
 
 ## Running the exporter
 
@@ -188,20 +191,21 @@ representatives, or references to solver memory. There is no ordering or
 numbering dependency on Primo's allocation history. An independent consumer
 needs only this specification and SMT-LIB term semantics.
 
-The `smtlib::ConflictDocument` value owns declaration text, clause literal
-sequences, and conflict literal sequences. `print_conflict_document` serializes
+The {conflictexportsource}`smtlib::ConflictDocument <src/smtlib/conflict_document.hpp>` value owns declaration text, clause literal
+sequences, and conflict literal sequences.
+{conflictexportsource}`print_conflict_document <src/smtlib/conflict_document.cpp>` serializes
 that value without parsing, validating, or consulting solver state. Its caller
 must provide well-sorted SMT-LIB text. There are no borrowed references in the
 stored document.
 
-The SMT adapter `export_qf_uf_cnf` owns one `Frontend`, its term manager, and the
+The SMT adapter {conflictexportsource}`export_qf_uf_cnf <src/smt/qf_uf_export.cpp>` owns one `Frontend`, its term manager, and the
 output document until solving and serialization finish. It validates the whole
 command sequence, checks the translated CNF shape and supported sorts, and
 prints declarations for all symbols in that frontend. The
 {source}`term printer <src/smtlib/term_printer.hpp>` supplies term-text utilities.
 
 Internally, {source}`BooleanClausifier <src/smt/clausifier.hpp>` keeps the mapping
-between SAT literals and core terms in the SMT layer. `QfUfConflictCollector`
+between SAT literals and core terms in the SMT layer. {conflictexportsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>`
 borrows the adapter's term manager and document during the solve. After the
 Boolean-argument registry is complete, it copies the atom mapping into an owned
 hash table. Before that registry runs, the collector registers every Boolean
@@ -227,7 +231,8 @@ term printing. The document retains all emitted text until the solve returns;
 there is no streaming or minimization, and repeated terms are printed in full.
 This can use substantially more memory than ordinary solving.
 
-`CheckSatOptions::export_cnf` and `check_sat_smtlib` expose the same buffered
+{conflictexportsource}`CheckSatOptions::export_cnf <src/smt/check_sat.hpp>` and
+{conflictexportsource}`check_sat_smtlib <src/smt/check_sat.cpp>` expose the same buffered
 single-query route to library callers. Direct `SmtSession` construction rejects
 a nonempty export filename because that streaming API cannot validate the
 whole script before a query. Full formula-to-CNF export, preprocessing,

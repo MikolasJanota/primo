@@ -9,6 +9,8 @@ POSITIONALS:
 
 Procedural options:
   -h,     --help              Print this help message and exit
+          --export-cnf FILE   Write one UNSAT QF_UF CNF/conflict artifact to FILE (no
+                              incremental solving)
           --check-model       Check original assertions against produced typed models
   -q,     --quiet [default: off]
                               Suppress startup version banner

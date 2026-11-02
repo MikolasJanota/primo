@@ -55,10 +55,14 @@ PY
 # Provision the Python lint tool inside the allocation, not on the login host.
 python3 -m venv .venv
 .venv/bin/python -m pip install ruff==0.16.1 > "$artifacts/lint-dependencies.log" 2>&1
-make check BUILD_DIR=build-slurm-rel > "$artifacts/check.log" 2>&1
+# The preparation helper has verified these installed dependencies. Suppress
+# stamp recipes explicitly: archive timestamps otherwise trigger downloads on
+# compute nodes, which may have no network access. Do not suppress source builds.
+reuse_native=(-o contrib/local/.cli11.stamp -o contrib/local/.cadical.stamp -o contrib/local/.gmp.stamp)
+make "${reuse_native[@]}" check BUILD_DIR=build-slurm-rel > "$artifacts/check.log" 2>&1
 build-slurm-rel/primo --help > "$artifacts/primo-help.txt"
 python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo \
   --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 \
   --out "$artifacts/fuzz" > "$artifacts/export-fuzz.log" 2>&1
-make asan-test ASAN_BUILD_DIR=build-asan-export > "$artifacts/asan-test.log" 2>&1
+make "${reuse_native[@]}" asan-test ASAN_BUILD_DIR=build-asan-export > "$artifacts/asan-test.log" 2>&1
 printf '%s\n' 'check, export fuzz gate, and asan-test passed' | tee "$artifacts/PASSED"

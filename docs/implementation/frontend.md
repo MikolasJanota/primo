@@ -135,6 +135,15 @@ divisor. Integer `div`, `mod`, and `abs` reach the
 nonlinear arithmetic support. General mixed Int/Real input is not admitted.
 
 Term construction may also create Boolean argument proxies and side assertions.
+The default translation lowers Boolean equalities to propositional formulas.
+The experimental [CNF exporter](../reference/qf-uf-conflicts.md) instead selects
+{conflictexportsource}`FrontendBooleanMode::PreserveAtoms <src/smt/frontend.hpp>`:
+it keeps Boolean equalities and application arguments as terms and introduces
+no Boolean argument proxies. Its SMT collector must register every Boolean
+constant/application subterm before theory checking, including operands of
+Boolean equalities, to enforce Bool's two-element domain. Ordinary sessions
+continue to use the default lowering mode.
+
 The [EUF explanation](euf.md#connecting-boolean-terms-to-sat) describes their
 meaning; [preprocessing](preprocessing.md) owns the later transformations.
 

@@ -36,8 +36,8 @@ Options accept only their declared values/ranges. A name beginning with
 `experimental` or a diagnostic switch does not identify a qualified default.
 For component-specific controls, use [](../implementation/preprocessing.md),
 [](../implementation/euf.md), [](../implementation/lra.md), [](../implementation/quantifiers.md), and
-[](../reference/policies.md). The help snapshot predates `--export-cnf`; that option is described in the
-table above. The other captured options provide the baseline inventory.
+[](../reference/policies.md). The help snapshot includes every registered CLI
+option; the prose above is intentionally a practical subset.
 
 The two automatic-budget options, `--euf-prop-budget` and `--euf-prop-delivery`,
 accept exactly `auto`, `unlimited`, or unsigned decimal digits fitting in
