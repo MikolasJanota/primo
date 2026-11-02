@@ -212,6 +212,36 @@ def has_solver_error(stdout: str, stderr: str) -> bool:
     return "(error" in stdout or "(error" in stderr
 
 
+def refused_model_after_non_sat(
+    answer: str, exit_code: int | None, stdout: str, stderr: str
+) -> bool:
+    """Whether the only failure is the solver declining our injected get-model.
+
+    The adapter appends (get-model) after the single check-sat, with
+    :print-success false, so after an unsat or unknown answer the next and last
+    response belongs to that get-model. SMT-LIB permits an error there and
+    Primo (like other solvers) returns one and a nonzero exit status. Accept it
+    only in exactly that shape: stdout is the answer followed by one error
+    line, stderr repeats at most that error's message, and the process exited
+    normally rather than by a signal. A crash, sanitizer report, extra output
+    or any error after sat still counts as a solver error.
+    """
+    if answer not in {"unsat", "unknown"} or exit_code is None or exit_code < 0:
+        return False
+    lines = [line.strip() for line in stdout.splitlines() if line.strip()]
+    if len(lines) != 2 or lines[0] != answer:
+        return False
+    error = lines[1]
+    if not (error.startswith('(error "') and error.endswith('")')):
+        return False
+    message = error[len('(error "') : -len('")')]
+    if not message or '"' in message:
+        return False
+    return all(
+        line.strip() in {message, error} for line in stderr.splitlines() if line.strip()
+    )
+
+
 def safe_stem(index: int, path: Path) -> str:
     stem = path.name.replace("/", "_").replace("\\", "_")
     return f"{index:05d}-{stem}"
@@ -485,7 +515,12 @@ def main() -> int:
             )
             failures += 1
             continue
-        if solver_exit != 0 or has_solver_error(solver_stdout, solver_stderr):
+        model_refused = refused_model_after_non_sat(
+            answer, solver_exit, solver_stdout, solver_stderr
+        )
+        if (
+            solver_exit != 0 or has_solver_error(solver_stdout, solver_stderr)
+        ) and not model_refused:
             record(
                 {
                     "file": str(input_path),
@@ -512,7 +547,8 @@ def main() -> int:
                     "seconds": f"{solver_seconds:.3f}",
                     "message": "expected SAT replay"
                     if args.expect_sat
-                    else "no model expected",
+                    else "no model expected"
+                    + ("; get-model refused" if model_refused else ""),
                 }
             )
             continue

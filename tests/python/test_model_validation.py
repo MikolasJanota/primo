@@ -157,6 +157,86 @@ class ModelValidationTests(unittest.TestCase):
                 with (out / "summary.csv").open() as stream:
                     self.assertEqual(next(csv.DictReader(stream))["outcome"], expected)
 
+    def test_refused_get_model_after_unsat_is_not_a_solver_error(self) -> None:
+        refusal = 'unsat\n(error "get-model requires a current SAT model")\n'
+        message = "get-model requires a current SAT model\n"
+        cases = [
+            # Primo's actual shape: error on stdout, message on stderr, exit 2.
+            (2, refusal, message, "not-sat", 0),
+            (0, refusal, "", "not-sat", 0),
+            (1, refusal, refusal.splitlines()[1] + "\n", "not-sat", 0),
+            # Anything beyond that exact shape stays a solver error.
+            (-6, refusal, message, "solver-error", 1),
+            (
+                2,
+                refusal,
+                message + "AddressSanitizer: heap-use-after-free\n",
+                "solver-error",
+                1,
+            ),
+            (2, refusal + '(error "second")\n', message, "solver-error", 1),
+            (2, 'unsat\n(model)\n(error "x")\n', "x\n", "solver-error", 1),
+            (2, '(error "x")\nunsat\n', "x\n", "solver-error", 1),
+            (2, "unsat\n", "", "solver-error", 1),
+            (2, "unsat\n(error)\n", "", "solver-error", 1),
+            (2, 'unsat\n(error "")\n', "", "solver-error", 1),
+            (2, 'sat\n(error "get-model failed")\n', "", "solver-error", 1),
+        ]
+        for code, stdout, stderr, expected, failures in cases:
+            with (
+                self.subTest(code=code, stdout=stdout, stderr=stderr),
+                tempfile.TemporaryDirectory() as temporary,
+            ):
+                root = Path(temporary)
+                case = root / "case.smt2"
+                self.write_case(case)
+                result, out = self.run_main(
+                    ["--out", str(root / "out"), str(case)],
+                    [("done", code, stdout, stderr, 0.01)],
+                )
+                self.assertEqual(result, failures)
+                with (out / "summary.csv").open() as stream:
+                    row = next(csv.DictReader(stream))
+                self.assertEqual(row["outcome"], expected)
+                self.assertEqual(row["solver_exit"], str(code))
+                if expected == "not-sat":
+                    self.assertEqual(
+                        row["message"], "no model expected; get-model refused"
+                    )
+
+    def test_refused_get_model_keeps_unknown_and_replay_semantics(self) -> None:
+        cases = [
+            # An unknown answer stays solver-unknown, which the gates judge.
+            ([], 'unknown\n(error "no model")\n', "solver-unknown"),
+            # A replay expected to stay SAT still fails on unsat.
+            (["--expect-sat"], 'unsat\n(error "no model")\n', "answer-changed"),
+        ]
+        for extra, stdout, expected in cases:
+            with (
+                self.subTest(expected=expected),
+                tempfile.TemporaryDirectory() as temporary,
+            ):
+                root = Path(temporary)
+                case = root / "case.smt2"
+                self.write_case(case)
+                result, out = self.run_main(
+                    [*extra, "--out", str(root / "out"), str(case)],
+                    [("done", 2, stdout, "no model\n", 0.01)],
+                )
+                self.assertEqual(result, 1)
+                with (out / "summary.csv").open() as stream:
+                    self.assertEqual(next(csv.DictReader(stream))["outcome"], expected)
+
+    def test_refusal_shape_check_is_exact(self) -> None:
+        accept = MODULE.refused_model_after_non_sat
+        self.assertTrue(accept("unsat", 2, 'unsat\n(error "m")\n', "m\n"))
+        self.assertTrue(accept("unknown", 2, 'unknown\n(error "m")\n', ""))
+        self.assertFalse(accept("sat", 2, 'sat\n(error "m")\n', ""))
+        self.assertFalse(accept("unsat", None, 'unsat\n(error "m")\n', ""))
+        self.assertFalse(accept("unsat", -11, 'unsat\n(error "m")\n', ""))
+        self.assertFalse(accept("unsat", 2, 'unsat\n(error "m")\n', "other\n"))
+        self.assertFalse(accept("unsat", 2, 'unsat\n(error "a"b")\n', ""))
+
     def test_unsupported_query_is_recorded_without_launching_solver(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
