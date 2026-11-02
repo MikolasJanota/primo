@@ -2,8 +2,8 @@
 
 **Status: Design checklist with partial implementation.** Prevalence counters
 are implemented. Gap 1 is implemented behind `--lia-round-integer-bounds`
-(default off). Gaps 2–4 are planned and will also be default-off when they
-land.
+and gap 2 behind `--lia-primitive-int-rows`, both default off. Gaps 3 and 4
+are planned and will also be default-off when they land.
 
 This note lists the primary sources behind one invariant of integer
 completion. It maps each source step to the Primo function that would own it
@@ -128,14 +128,18 @@ model without patching) and `rounding_integer_bounds_reaches_the_combined_route`
 in {source}`qf_uflia_solver_tests.cpp <tests/unit/qf_uflia_solver_tests.cpp>`.
 The existing strict-bound regressions are unchanged.
 
+Gap 2 is pinned by `primitive_integer_rows_keep_answers` (parity refutation
+without completion, a strict compound atom, the large-leading-coefficient
+case, proportional atoms of opposite sign, an exact model; no option
+combination may contradict an answer) and
+`integer_preparation_options_do_not_touch_real_arithmetic`.
+
 The counters are pinned by
 {source}`qf_lia_solver_tests.cpp <tests/unit/qf_lia_solver_tests.cpp>`
 (`integer_preparation_counters_report_bound_gaps`) and
 {source}`lia_patching_tests.cpp <tests/unit/lia_patching_tests.cpp>`
 (`fractional_nonbasic_move_is_counted`). Planned behavior tests:
 
-- integer rows: proportional atoms share one slack; `2*x + 4*y <= 5` gives
-  $s\le2$; strict compound atoms carry no infinitesimal; Real atoms unchanged;
 - integer slacks: a cut from a basic slack and a branch on a slack give
   valid explanations; the exported model is unchanged;
 - patching: the $s_1=s_2=\tfrac23y$ move to $y=3/2$ is rejected; the lattice

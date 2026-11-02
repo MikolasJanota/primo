@@ -399,6 +399,11 @@ struct CheckSatOptions {
   // (King thesis Section 4.3; docs/papers/mip-presolve-integrality.md, gap 1).
   // Strict integer thresholds are rounded regardless. Off until qualified.
   bool lia_round_integer_bounds = false;
+  // Store Int atom rows with coprime integer coefficients rather than a
+  // leading coefficient of one, so every Int slack is integer-valued and its
+  // thresholds can be rounded (King thesis Section 4.3; gap 2 of
+  // docs/papers/mip-presolve-integrality.md). Off until qualified.
+  bool lia_primitive_int_rows = false;
   // The same declared-QF_LRA rebuild policy as lra_model_phase. Assumptions
   // sessions cannot use assertion-dependent elimination; their automatic policy
   // is off and explicit enabling remains rejected. See docs/arithmetic.md.

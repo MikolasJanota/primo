@@ -468,6 +468,98 @@ void rounding_integer_bounds_keeps_answers_and_skips_completion() {
   assert(run(sat_body, false).result == CheckSatResult::Sat);
 }
 
+// --lia-primitive-int-rows (King thesis Section 4.3): Int rows keep coprime
+// integer coefficients, so their slacks are integer-valued and, together
+// with --lia-round-integer-bounds, get integral bounds. Every case must give
+// the same answer under all four combinations of the two options.
+void primitive_integer_rows_keep_answers() {
+  const auto run = [](const std::string& body, bool round, bool primitive) {
+    CheckSatOptions options;
+    options.lia_round_integer_bounds = round;
+    options.lia_primitive_int_rows = primitive;
+    options.produce_model = true;
+    return check_sat_smtlib("(set-logic QF_LIA)\n(declare-fun x () Int)\n(declare-fun y () Int)\n" +
+                                body + "(check-sat)\n",
+                            options);
+  };
+  struct Case {
+    std::string body;
+    CheckSatResult expected;
+  };
+  const std::vector<Case> cases{
+      // 2x + 4y = 3 has no integer solution (parity); s = x + 2y in [3/2, 3/2].
+      {"(assert (>= (+ (* 2 x) (* 4 y)) 3))(assert (<= (+ (* 2 x) (* 4 y)) 3))",
+       CheckSatResult::Unsat},
+      // A strict compound atom: 2x + 3y < 1 is 2x + 3y <= 0 over the integers.
+      {"(assert (< (+ (* 2 x) (* 3 y)) 1))(assert (>= (+ (* 2 x) (* 3 y)) 0))(assert (>= x 0))",
+       CheckSatResult::Sat},
+      // A large leading coefficient: under leading-one normalization the
+      // slack is x + y/2^32, which must not be rounded as an integer.
+      {"(assert (<= (+ (* 4294967296 x) y) (- 5)))(assert (>= y 0))(assert (<= y 10))",
+       CheckSatResult::Sat},
+      // Proportional atoms with opposite signs share one row: 2x + 3y lies in
+      // [13/2, 7]. With unbounded x and y, branch-and-bound alone can exhaust
+      // its node limit (unknown); the integral slack bound s = 7 lets one
+      // patch move find x = 2, y = 1.
+      {"(assert (<= (+ (* 2 x) (* 3 y)) 7))(assert (<= (+ (* (- 4) x) (* (- 6) y)) (- 13)))",
+       CheckSatResult::Sat},
+  };
+  for (const Case& test_case : cases) {
+    for (const bool round : {false, true}) {
+      for (const bool primitive : {false, true}) {
+        const CheckSatResult result = run(test_case.body, round, primitive).result;
+        // No combination may contradict the expected answer; the full
+        // integrality preparation must also decide every case.
+        assert(result == test_case.expected ||
+               (result == CheckSatResult::Unknown && !(round && primitive)));
+      }
+    }
+  }
+  const auto proportional = run(cases[3].body, true, true);
+  assert(proportional.statistics.get(primo::util::StatKey::LiaPatchedVariables) > 0);
+
+  // The parity case needs no integer completion once both options hold:
+  // the rounded slack bounds 2 <= s <= 1 conflict in the rational check.
+  const auto both = run(cases[0].body, true, true);
+  assert(both.statistics.get(primo::util::StatKey::LiaPatchSweeps) == 0);
+  assert(both.statistics.get(primo::util::StatKey::LiaPrepNonIntegerIntSlackAtoms) == 0);
+  const auto rounded_only = run(cases[0].body, true, false);
+  assert(rounded_only.statistics.get(primo::util::StatKey::LiaPatchSweeps) > 0);
+  assert(rounded_only.statistics.get(primo::util::StatKey::LiaPrepNonIntegerIntSlackAtoms) == 2);
+
+  // A satisfiable large-coefficient instance still gets an exact model.
+  const auto model =
+      run("(assert (= (+ (* 4294967296 x) y) (- 4294967291)))(assert (>= y 0))"
+          "(assert (<= y 10))",
+          true, true);
+  assert(model.result == CheckSatResult::Sat);
+  assert(model.model.find("(define-fun x () Int (- 1))") != std::string::npos);
+  assert(model.model.find("(define-fun y () Int 5)") != std::string::npos);
+}
+
+// The integer preparation switches belong to the LIA adapter only: a QF_LRA
+// problem must solve identically when they are set.
+void integer_preparation_options_do_not_touch_real_arithmetic() {
+  const std::string script = R"(
+    (set-logic QF_LRA)
+    (declare-fun x () Real)
+    (declare-fun y () Real)
+    (assert (<= (+ (* 2 x) (* 3 y)) 5))
+    (assert (>= (+ (* 2 x) (* 3 y)) 5))
+    (assert (>= x (/ 1 3)))
+    (check-sat)
+  )";
+  CheckSatOptions plain;
+  plain.produce_model = true;
+  CheckSatOptions integer = plain;
+  integer.lia_round_integer_bounds = true;
+  integer.lia_primitive_int_rows = true;
+  const auto a = check_sat_smtlib(script, plain);
+  const auto b = check_sat_smtlib(script, integer);
+  assert(a.result == CheckSatResult::Sat && b.result == CheckSatResult::Sat);
+  assert(a.model == b.model);
+}
+
 // The budget is the A/B control, so turning it off must change no answer --
 // asserted on a sat instance (where patching does the work) and an unsat one
 // (where it can only waste time). A patch that broke feasibility would show up
@@ -873,6 +965,8 @@ int main() {
   patching_does_not_change_answers();
   integer_preparation_counters_report_bound_gaps();
   rounding_integer_bounds_keeps_answers_and_skips_completion();
+  primitive_integer_rows_keep_answers();
+  integer_preparation_options_do_not_touch_real_arithmetic();
   patched_model_satisfies_a_uniquely_determined_instance();
   qf_lia_rejects_uninterpreted_functions();
   qf_lia_rejects_real_constants();

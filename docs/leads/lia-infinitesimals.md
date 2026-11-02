@@ -1,6 +1,11 @@
 # Avoiding infinitesimals in integer relaxation
 
-**Status: Open lead. Owner: unassigned.**
+**Status: Open lead for the default normalization; addressed by an option.**
+Under `--lia-primitive-int-rows` (off by default), `Int` slacks are integer
+polynomials, so strict compound `Int` atoms get integral bounds without an
+infinitesimal; see the [integrality checklist](../papers/mip-presolve-integrality.md).
+The spacing rule below remains the alternative if the leading-coefficient form
+is kept for `Int` atoms.
 
 Preserve the discrete values of an integer polynomial when preparing its
 scaled tableau bounds. This could eliminate the strict-bound infinitesimals

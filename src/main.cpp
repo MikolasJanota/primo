@@ -567,6 +567,10 @@ int run_main(int argc, char** argv) {
                         "Round non-strict QF_LIA/QF_UFLIA thresholds on integer-valued tableau "
                         "variables inward (x <= 5/3 becomes x <= 1); strict thresholds are "
                         "always rounded");
+  add_flag_with_default(app, "--lia-primitive-int-rows", solver_options.lia_primitive_int_rows,
+                        "Store QF_LIA/QF_UFLIA atom rows with coprime integer coefficients "
+                        "(2x + 3y stays 2x + 3y instead of x + 3/2 y), so every Int slack is "
+                        "integer-valued and its thresholds can be rounded");
   add_flag_with_default(
       app, "--no-lia-conflict-generalization", no_lia_conflict_generalization,
       "Disable QF_LIA conflict generalization: build each integer-infeasibility lemma "

@@ -3331,13 +3331,40 @@ struct CanonicalPolynomial {
   util::Rational scale{1};
 };
 
-CanonicalPolynomial canonical_polynomial(const theory::arithmetic::LinearPolynomial& polynomial) {
+// With `primitive_integer` (Int atoms under --lia-primitive-int-rows) the
+// coefficients become coprime integers with a positive leading coefficient
+// instead of a leading coefficient of one (King thesis Section 4.3). The
+// returned scale is the factor divided out either way, so callers divide the
+// threshold by it and read a negative scale as a reversed relation.
+CanonicalPolynomial canonical_polynomial(const theory::arithmetic::LinearPolynomial& polynomial,
+                                         bool primitive_integer = false) {
   CanonicalPolynomial canonical;
   canonical.key.sorted_terms.assign(polynomial.terms().begin(), polynomial.terms().end());
   std::sort(canonical.key.sorted_terms.begin(), canonical.key.sorted_terms.end(),
             [](const auto& a, const auto& b) { return a.first < b.first; });
   if (canonical.key.sorted_terms.empty()) {
     return canonical;  // A constant polynomial has nothing to scale by.
+  }
+  if (primitive_integer) {
+    std::vector<util::Rational> coefficients;
+    coefficients.reserve(canonical.key.sorted_terms.size());
+    for (const auto& [var, coefficient] : canonical.key.sorted_terms) {
+      coefficients.push_back(coefficient);
+    }
+    // primitive_integer_scale is positive; the sign comes from the leading
+    // coefficient so proportional polynomials of either sign share a key.
+    util::Rational factor = util::Rational::primitive_integer_scale(coefficients);
+    if (canonical.key.sorted_terms.front().second.sign() < 0) {
+      factor = -factor;
+    }
+    canonical.scale = util::Rational(1) / factor;
+    if (factor == util::Rational(1)) {
+      return canonical;
+    }
+    for (auto& [var, coefficient] : canonical.key.sorted_terms) {
+      coefficient = coefficient * factor;
+    }
+    return canonical;
   }
   canonical.scale = canonical.key.sorted_terms.front().second;
   if (canonical.scale == util::Rational(1)) {
@@ -3371,6 +3398,9 @@ CanonicalPolynomial canonical_polynomial(const theory::arithmetic::LinearPolynom
 struct IntegerPreparationOptions {
   // Round non-strict thresholds on integer-valued variables (gap 1).
   bool round_bounds = false;
+  // Store Int rows with coprime integer coefficients, making every Int
+  // slack integer-valued (gap 2).
+  bool primitive_rows = false;
 };
 
 struct PreparedLraTheory {
@@ -3514,7 +3544,8 @@ std::vector<theory::arithmetic::LraVarId> PreparedLraTheory::append_atom(
   // side by the same factor. A negative factor reverses the relation, which
   // is what asserts_lower_when_true records -- interpreted in exactly one
   // place, bound_assertion().
-  const CanonicalPolynomial canonical = canonical_polynomial(normalized.polynomial);
+  const bool primitive_row = is_integer_atom && integer_options_.primitive_rows;
+  const CanonicalPolynomial canonical = canonical_polynomial(normalized.polynomial, primitive_row);
   const util::Rational rhs =
       canonical.scale == util::Rational(1) ? normalized.rhs : normalized.rhs / canonical.scale;
   const bool flipped = canonical.scale.sign() < 0;
@@ -3588,8 +3619,14 @@ std::vector<theory::arithmetic::LraVarId> PreparedLraTheory::append_atom(
   // original atom never ruled out. See lia_gomory_cuts.cpp's
   // find_eligible_row for the same slack-vs-declared-variable distinction
   // already made there for exactly this reason.
-  const bool slack_is_integer = is_integer_atom && (canonical.scale == util::Rational(1) ||
-                                                    canonical.scale == util::Rational(-1));
+  //
+  // Under --lia-primitive-int-rows the stored row has integer coefficients
+  // over Int variables, so the slack is integer in every integer model
+  // whatever the scale (King thesis Section 4.3, footnote 4;
+  // docs/papers/mip-presolve-integrality.md, obligation 2).
+  const bool slack_is_integer =
+      is_integer_atom && (primitive_row || canonical.scale == util::Rational(1) ||
+                          canonical.scale == util::Rational(-1));
   if (is_integer_atom && !slack_is_integer) {
     ++integer_stats.non_integer_int_slack_atoms;
   }
@@ -9722,7 +9759,8 @@ class LiaComponentAdapter final : public theory::TheorySolver {
                   options.lra_sparse_leaving, options.lra_fixed_elimination,
                   /*collect_model_variables=*/true, options.lra_least_violated_leaving,
                   lra_tuning_from_options(options.lra_tuning),
-                  IntegerPreparationOptions{.round_bounds = options.lia_round_integer_bounds}),
+                  IntegerPreparationOptions{.round_bounds = options.lia_round_integer_bounds,
+                                            .primitive_rows = options.lia_primitive_int_rows}),
         options_(options),
         statistics_(statistics),
         timing_(timing) {

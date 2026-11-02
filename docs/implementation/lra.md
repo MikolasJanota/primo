@@ -164,6 +164,10 @@ records the original row-sharing objective and available evidence. Choosing
 an initial normal form and maintaining integer rows throughout pivoting are
 separate design questions.
 
+For `Int` atoms, `--lia-primitive-int-rows` (off by default) selects the
+coprime-integer form instead; see [integer slacks](lia.md). Real atoms always
+use the leading-coefficient form.
+
 Primo also has a separate, optional
 {source}`early atom canonicalizer <src/smt/preprocessing.cpp#L499-L599>` that
 uses coprime integer coefficients in core terms, so equivalent predicates can

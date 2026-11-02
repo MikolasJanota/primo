@@ -243,10 +243,25 @@ completion. The option is off by default until it is qualified; see the
 
 {source}`PreparedLraTheory::append_atom
 <src/smt/solver_engines.cpp#L3478-L3595>` marks direct bounds on `Int` terms
-as integer. For compound polynomials its current sufficient condition is more
+as integer. For compound polynomials its default sufficient condition is more
 conservative: the input is integer-sorted and the normalization scale is
 $1$ or $-1$. Other auxiliary variables use the real strict-bound encoding,
 even if a stronger analysis could prove some of them integer-valued.
+
+With `--lia-primitive-int-rows`, `Int` atoms are stored with coprime integer
+coefficients and a positive leading coefficient instead: `2*x + 3*y <= 5`
+gets the row $s=2x+3y$ rather than $s=x+\tfrac32y$ (King §4.3). Every
+coefficient is then an integer over `Int` variables, so the slack is integer
+in every integer model and is marked integer whatever the scale (King §4.3,
+footnote 4). Proportional atoms of either sign still share one row; Real
+atoms keep leading-coefficient-one normalization. Together with
+`--lia-round-integer-bounds` this gives the GCD rounding of Achterberg et
+al. §3.5: `2*x + 4*y <= 5` becomes $x+2y\le2$. In the parity case
+$2x+4y=3$, written as two inequalities, the rounded bounds $2\le s\le1$
+conflict in the rational check. In a case with $13/2\le2x+3y\le7$ over
+unbounded variables, the default route exhausts its branch-node limit,
+while the integral bound $s=7$ lets one patch move find $x=2,y=1$. Both
+options are off by default until qualified.
 
 (lia-infinitesimals)=
 ### Why the relaxation can still contain infinitesimals
@@ -294,7 +309,10 @@ integer completion remains necessary.
 King's thesis §4.3 describes the underlying integer tightening, including
 strict bounds obtained from negated SAT atoms {cite:p}`king2014`.
 [Preserving this spacing during bound preparation](../leads/lia-infinitesimals.md)
-is an open lead. Simply discarding a nonzero delta would change a strict
+is an open lead for the default normalization. Under
+`--lia-primitive-int-rows` the slack is $P$ itself, so a strict compound
+`Int` atom becomes an integral non-strict bound and no infinitesimal is
+introduced. Simply discarding a nonzero delta would change a strict
 inequality and is not a valid replacement.
 
 (lia-patching)=
@@ -623,6 +641,7 @@ by the pure and combined routes:
 | `--lia-branch-limit` | `100000` | Maximum new split nodes. Exhaustion before finding a model or refuting the tree returns a resource-limit result. |
 | `--no-lia-conflict-generalization` | Absent | Disables the default attempt to replace coarse clauses with accumulated explanations. |
 | `--lia-round-integer-bounds` | Absent | Rounds non-strict thresholds on integer-valued tableau variables inward. Preparation-time, not a per-completion budget. |
+| `--lia-primitive-int-rows` | Absent | Stores `Int` rows with coprime integer coefficients, making every `Int` slack integer-valued. Preparation-time. |
 
 These are finite operational limits, not empirically optimal settings.
 Both routes report typed `ResourceLimit` to the shared driver, producing
