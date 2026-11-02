@@ -433,6 +433,41 @@ void integer_preparation_counters_report_bound_gaps() {
   assert(result.statistics.get(primo::util::StatKey::LiaPrepNonIntegerIntSlacks) == 2);
 }
 
+// --lia-round-integer-bounds (King thesis Section 4.3): `3*x <= 5` becomes
+// x <= 1, so an instance that is feasible over the reals but not over the
+// integers is refuted by the rational check alone, and a satisfiable one gets
+// an integral assignment without patching. Without the option the answers
+// must be the same; only the integer-completion work differs.
+void rounding_integer_bounds_keeps_answers_and_skips_completion() {
+  const auto run = [](const std::string& body, bool round) {
+    CheckSatOptions options;
+    options.lia_round_integer_bounds = round;
+    options.produce_model = true;
+    return check_sat_smtlib("(set-logic QF_LIA)\n(declare-fun x () Int)\n(declare-fun y () Int)\n" +
+                                body + "(check-sat)\n",
+                            options);
+  };
+  // Upper thresholds 5/3 on both variables; their sum cannot reach 3.
+  const std::string upper = "(assert (<= (* 3 x) 5))(assert (<= (* 3 y) 5))(assert (>= (+ x y) 3))";
+  // A negated strict atom and a negative scale both give lower thresholds 5/3.
+  const std::string negated_lt = "(assert (not (< (* 3 x) 5)))(assert (<= x 1))";
+  const std::string negative_scale = "(assert (<= (* (- 3) x) (- 5)))(assert (<= x 1))";
+  for (const std::string& body : {upper, negated_lt, negative_scale}) {
+    const auto rounded = run(body, true);
+    assert(rounded.result == CheckSatResult::Unsat);
+    assert(rounded.statistics.get(primo::util::StatKey::LiaPatchSweeps) == 0);
+    assert(run(body, false).result == CheckSatResult::Unsat);
+  }
+
+  // x in [1/2, 5/3]: rounding leaves exactly x = 1, already integral.
+  const std::string sat_body = "(assert (<= (* 3 x) 5))(assert (>= (* 2 x) 1))(assert (= y x))";
+  const auto rounded = run(sat_body, true);
+  assert(rounded.result == CheckSatResult::Sat);
+  assert(rounded.model.find("(define-fun x () Int 1)") != std::string::npos);
+  assert(rounded.statistics.get(primo::util::StatKey::LiaPatchedVariables) == 0);
+  assert(run(sat_body, false).result == CheckSatResult::Sat);
+}
+
 // The budget is the A/B control, so turning it off must change no answer --
 // asserted on a sat instance (where patching does the work) and an unsat one
 // (where it can only waste time). A patch that broke feasibility would show up
@@ -837,6 +872,7 @@ int main() {
   patching_finds_a_model_without_branching();
   patching_does_not_change_answers();
   integer_preparation_counters_report_bound_gaps();
+  rounding_integer_bounds_keeps_answers_and_skips_completion();
   patched_model_satisfies_a_uniquely_determined_instance();
   qf_lia_rejects_uninterpreted_functions();
   qf_lia_rejects_real_constants();

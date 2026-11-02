@@ -9,6 +9,7 @@
 
 #include "core/model.hpp"
 #include "smt/check_sat.hpp"
+#include "util/statistics.hpp"
 
 using primo::smt::check_sat_smtlib;
 using primo::smt::CheckSatOptions;
@@ -563,6 +564,26 @@ void model_parameters_do_not_shadow_user_symbols() {
   assert(result.model.find("(= @primo_model_arg_1 1)") != std::string::npos);
 }
 
+// The combined route prepares Int atoms through the same LIA adapter, so
+// --lia-round-integer-bounds must reach it: (f x) in [4/3, 5/3] contains no
+// integer, which the rounded bounds expose without integer completion.
+void rounding_integer_bounds_reaches_the_combined_route() {
+  const std::string script = R"(
+    (set-logic QF_UFLIA)
+    (declare-fun f (Int) Int)
+    (declare-fun x () Int)
+    (assert (<= (* 3 (f x)) 5))
+    (assert (>= (* 3 (f x)) 4))
+    (check-sat)
+  )";
+  CheckSatOptions rounded;
+  rounded.lia_round_integer_bounds = true;
+  const auto result = check_sat_smtlib(script, rounded);
+  assert(result.result == CheckSatResult::Unsat);
+  assert(result.statistics.get(primo::util::StatKey::LiaPatchSweeps) == 0);
+  assert(check_sat_smtlib(script, CheckSatOptions{}).result == CheckSatResult::Unsat);
+}
+
 void rejects_real_symbols() {
   const auto result = check_sat_smtlib(R"(
     (set-logic QF_UFLIA)
@@ -605,6 +626,7 @@ int main() {
   invented_int_model_values_are_counted();
   substituted_constant_over_substituted_auxiliary_is_valued();
   model_parameters_do_not_shadow_user_symbols();
+  rounding_integer_bounds_reaches_the_combined_route();
   rejects_real_symbols();
   return 0;
 }

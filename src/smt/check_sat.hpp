@@ -395,6 +395,10 @@ struct CheckSatOptions {
   // so this is a real budget rather than a safety valve. **Setting it to 0
   // disables patching**, which is the A/B control. Not yet empirically tuned.
   std::size_t lia_patch_limit = 100;
+  // Round non-strict thresholds on integer-valued tableau variables inward
+  // (King thesis Section 4.3; docs/papers/mip-presolve-integrality.md, gap 1).
+  // Strict integer thresholds are rounded regardless. Off until qualified.
+  bool lia_round_integer_bounds = false;
   // The same declared-QF_LRA rebuild policy as lra_model_phase. Assumptions
   // sessions cannot use assertion-dependent elimination; their automatic policy
   // is off and explicit enabling remains rejected. See docs/arithmetic.md.

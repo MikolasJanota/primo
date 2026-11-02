@@ -215,7 +215,7 @@ Equality lowering, despite its `lower_real_equalities` name, also handles
 lets SAT choose a false non-strict comparison. Integer strictness must account
 for that polarity, not just syntactic `<` atoms.
 
-{source}`bound_assertion <src/smt/solver_engines.cpp#L3169-L3187>` computes
+{source}`bound_assertion <src/smt/solver_engines.cpp#L3193-L3220>` computes
 the bound direction and strictness from the normalized relation, orientation
 and truth value. When the **bounded variable** is known to be integer, it uses
 
@@ -224,11 +224,25 @@ $$x<r\iff x\le\lceil r\rceil-1,
 
 Thus `3*x < 5` yields $x\le1$, while a false `3*x <= 5` yields $x\ge2$.
 Subtracting or adding one to the rational threshold $5/3$ would be wrong.
-Non-strict bounds retain their rational threshold; they are not all rounded
-eagerly.
+
+By default, non-strict bounds keep their rational threshold: a true
+`3*x <= 5` asserts $x\le5/3$. With `--lia-round-integer-bounds`, the same
+integer-valued variables also get rounded non-strict bounds,
+
+$$x\le r\iff x\le\lfloor r\rfloor,\qquad x\ge r\iff x\ge\lceil r\rceil,$$
+
+so every bound on such a variable is integral (King §4.3; Achterberg et al.
+§4.2 {cite:p}`achterberg2020presolve`). The bound keeps the atom's own
+literal as its reason. Each prepared atom stores an `IntegerBoundRounding`
+mode (`None`, `StrictOnly` or `All`), and every assertion, entailment check,
+propagation and model-phase hint reads it through `bound_assertion`, so all
+uses agree. In `3*x <= 5`, `3*y <= 5`, `x + y >= 3` the rounded bounds
+$x,y\le1$ refute the candidate in the rational check, without integer
+completion. The option is off by default until it is qualified; see the
+[integrality checklist](../papers/mip-presolve-integrality.md).
 
 {source}`PreparedLraTheory::append_atom
-<src/smt/solver_engines.cpp#L3434-L3512>` marks direct bounds on `Int` terms
+<src/smt/solver_engines.cpp#L3478-L3595>` marks direct bounds on `Int` terms
 as integer. For compound polynomials its current sufficient condition is more
 conservative: the input is integer-sorted and the normalization scale is
 $1$ or $-1$. Other auxiliary variables use the real strict-bound encoding,
@@ -599,7 +613,7 @@ it is not by itself evidence of a performance improvement.
 (lia-limits)=
 ## Budgets and incomplete cases
 
-The {source}`integer options <src/smt/check_sat.hpp#L354-L391>` are shared
+The {source}`integer options <src/smt/check_sat.hpp#L354-L401>` are shared
 by the pure and combined routes:
 
 | Option | Default | Meaning per integer completion |
@@ -608,6 +622,7 @@ by the pure and combined routes:
 | `--lia-gomory-cut-limit` | `100` | Maximum cut-and-recheck iterations; zero disables cuts. Exhaustion falls through to branching. |
 | `--lia-branch-limit` | `100000` | Maximum new split nodes. Exhaustion before finding a model or refuting the tree returns a resource-limit result. |
 | `--no-lia-conflict-generalization` | Absent | Disables the default attempt to replace coarse clauses with accumulated explanations. |
+| `--lia-round-integer-bounds` | Absent | Rounds non-strict thresholds on integer-valued tableau variables inward. Preparation-time, not a per-completion budget. |
 
 These are finite operational limits, not empirically optimal settings.
 Both routes report typed `ResourceLimit` to the shared driver, producing

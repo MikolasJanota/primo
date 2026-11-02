@@ -3139,6 +3139,12 @@ struct BoundAssertion {
   theory::arithmetic::DeltaRational value;
 };
 
+// How bound_assertion() may round a threshold on an integer variable.
+// StrictOnly is the established behavior: strict bounds become integral
+// non-strict ones. All also rounds non-strict thresholds inward, which keeps
+// every bound on an integer variable integral (`--lia-round-integer-bounds`).
+enum class IntegerBoundRounding : std::uint8_t { None, StrictOnly, All };
+
 // `relation`/`rhs` describe the atom as `t ~ rhs`; `asserts_lower_when_true`
 // says the atom was stored in the flipped orientation, i.e. it really means
 // `t >= rhs` (or `t > rhs`), which arises when a single-variable atom's
@@ -3165,7 +3171,7 @@ struct BoundAssertion {
 // lower_real_equalities preprocessing pass, which always runs before theory
 // dispatch) and doesn't fit the single-bound shape these cases share.
 //
-// `is_integer` (PreparedAtom::is_integer) is QF_LIA's hook into this: a
+// `rounding` (PreparedAtom::integer_rounding) is QF_LIA's hook into this: a
 // non-strict Le atom assigned FALSE is exactly as "strict" here as an
 // explicit Lt atom assigned TRUE (see is_strict below) -- e.g. `distinct`
 // lowers to a negated `And(Le,Le)`, so a negated Le is a completely
@@ -3186,14 +3192,23 @@ struct BoundAssertion {
 // fix).
 BoundAssertion bound_assertion(theory::arithmetic::LraRelation relation, const util::Rational& rhs,
                                bool asserts_lower_when_true, bool atom_value,
-                               bool is_integer = false) {
+                               IntegerBoundRounding rounding = IntegerBoundRounding::None) {
   const bool strict = relation == theory::arithmetic::LraRelation::Lt;
   const bool is_upper = asserts_lower_when_true ? !atom_value : atom_value;
   const bool is_strict = atom_value ? strict : !strict;
   if (!is_strict) {
+    // King thesis Section 4.3 and Achterberg et al. Section 4.2: an integer
+    // variable's bound can be rounded inward, `t <= r` to `t <= floor(r)`
+    // and `t >= r` to `t >= ceil(r)`. Only valid when the bounded variable
+    // is integer in every model, which is what IntegerBoundRounding::All
+    // asserts (docs/papers/mip-presolve-integrality.md, obligation 1).
+    if (rounding == IntegerBoundRounding::All) {
+      return BoundAssertion{is_upper, theory::arithmetic::DeltaRational::from_rational(
+                                          is_upper ? rhs.floor() : rhs.ceil())};
+    }
     return BoundAssertion{is_upper, theory::arithmetic::DeltaRational::from_rational(rhs)};
   }
-  if (is_integer) {
+  if (rounding != IntegerBoundRounding::None) {
     const util::Rational integer_rhs =
         is_upper ? rhs.ceil() - util::Rational(1) : rhs.floor() + util::Rational(1);
     return BoundAssertion{is_upper, theory::arithmetic::DeltaRational::from_rational(integer_rhs)};
@@ -3243,7 +3258,8 @@ std::optional<sat::Lit> bound_entails(const theory::arithmetic::LraTableau& tabl
 std::optional<std::vector<sat::Lit>> assert_lra_atom_bound(
     theory::arithmetic::LraTableau& tableau, theory::arithmetic::LraVarId bound_var,
     theory::arithmetic::LraRelation relation, const util::Rational& rhs, bool atom_value,
-    bool asserts_lower_when_true, sat::Lit reason, bool is_integer = false) {
+    bool asserts_lower_when_true, sat::Lit reason,
+    IntegerBoundRounding rounding = IntegerBoundRounding::None) {
   switch (relation) {
     case theory::arithmetic::LraRelation::Eq: {
       if (!atom_value) {
@@ -3262,7 +3278,7 @@ std::optional<std::vector<sat::Lit>> assert_lra_atom_bound(
     case theory::arithmetic::LraRelation::Le:
     case theory::arithmetic::LraRelation::Lt: {
       const BoundAssertion assertion =
-          bound_assertion(relation, rhs, asserts_lower_when_true, atom_value, is_integer);
+          bound_assertion(relation, rhs, asserts_lower_when_true, atom_value, rounding);
       return assertion.is_upper ? tableau.assert_upper(bound_var, assertion.value, reason)
                                 : tableau.assert_lower(bound_var, assertion.value, reason);
     }
@@ -3350,6 +3366,13 @@ CanonicalPolynomial canonical_polynomial(const theory::arithmetic::LinearPolynom
 // (OnlineLraPropagator, below) find anything to propagate: propagation
 // needs multiple atoms to share a tableau variable, and without this dedup
 // they essentially never would.
+// Integer-specific preparation switches; all default off, which keeps the
+// established QF_LIA preparation (docs/papers/mip-presolve-integrality.md).
+struct IntegerPreparationOptions {
+  // Round non-strict thresholds on integer-valued variables (gap 1).
+  bool round_bounds = false;
+};
+
 struct PreparedLraTheory {
   // `sparse_leaving` is a search option rather than a structural one, but it
   // is configured here because the base tableau is what every solving path
@@ -3359,7 +3382,8 @@ struct PreparedLraTheory {
                     theory::arithmetic::LraTableau::PivotingRule pivoting_rule, bool sparse_leaving,
                     bool fixed_elimination, bool collect_model_variables,
                     bool least_violated_leaving = false,
-                    theory::arithmetic::LraTableau::Tuning tuning = {});
+                    theory::arithmetic::LraTableau::Tuning tuning = {},
+                    IntegerPreparationOptions integer_options = {});
 
   // Extend the immutable structural base between SAT calls. Generated
   // Nelson--Oppen bridge atoms arrive one pair at a time; retaining the
@@ -3384,22 +3408,23 @@ struct PreparedLraTheory {
     // once both directions are true. Strict inequalities and normalized
     // internal tableau shape do not matter for that rule.
     TermPairKey non_strict_le_pair;
-    // QF_LIA only (always false for QF_LRA/QF_UFLRA): whether bound_var is
-    // Int-sorted. bound_assertion() uses this to turn a *negated* Le atom's
-    // implicit strictness into an integer +-1 offset instead of the
-    // Real-only infinitesimal-delta trick -- see its own comment. Separate
-    // from lra_atom.cpp's tightening, which only rewrites atoms that are
-    // syntactically Lt; this covers Le atoms that become strict only
-    // because the SAT search assigned them false.
-    bool is_integer = false;
+    // QF_LIA only (always None for QF_LRA/QF_UFLRA): None unless bound_var
+    // is known to be integer-valued. bound_assertion() then turns a *negated*
+    // Le atom's implicit strictness into an integer +-1 offset instead of
+    // the Real-only infinitesimal-delta trick -- see its own comment.
+    // Separate from lra_atom.cpp's tightening, which only rewrites atoms that
+    // are syntactically Lt; this covers Le atoms that become strict only
+    // because the SAT search assigned them false. All additionally rounds
+    // non-strict thresholds (`--lia-round-integer-bounds`).
+    IntegerBoundRounding integer_rounding = IntegerBoundRounding::None;
   };
 
   // Prevalence counters for the integer-bound gaps described in
   // docs/implementation/lia.md. They observe preparation and change nothing.
   struct IntegerPreparationStats {
     // Atoms whose bounded variable is known to be integer but whose threshold
-    // is fractional. One SAT polarity of such an atom is a non-strict bound
-    // that bound_assertion() currently leaves unrounded.
+    // is fractional. One SAT polarity of such an atom is a non-strict bound,
+    // which bound_assertion() rounds only under --lia-round-integer-bounds.
     std::size_t fractional_int_thresholds = 0;
     // Compound Int atoms whose slack is not marked integer, so neither of
     // their bounds is rounded.
@@ -3409,8 +3434,19 @@ struct PreparedLraTheory {
     std::size_t non_integer_int_slacks = 0;
   };
 
+  // The rounding mode for a bound on an integer-valued variable; None for
+  // anything else. Fixed at construction so appended atoms match.
+  IntegerBoundRounding integer_rounding_for(bool integer_valued) const {
+    if (!integer_valued) {
+      return IntegerBoundRounding::None;
+    }
+    return integer_options_.round_bounds ? IntegerBoundRounding::All
+                                         : IntegerBoundRounding::StrictOnly;
+  }
+
   const core::TermManager& terms_;
   bool collect_model_variables_ = false;
+  IntegerPreparationOptions integer_options_;
   IntegerPreparationStats integer_stats;
   theory::arithmetic::LraTableau base_tableau;
   std::vector<PreparedAtom> atoms;  // parallel to theory_atoms
@@ -3431,9 +3467,11 @@ PreparedLraTheory::PreparedLraTheory(const core::TermManager& terms,
                                      theory::arithmetic::LraTableau::PivotingRule pivoting_rule,
                                      bool sparse_leaving, bool fixed_elimination,
                                      bool collect_model_variables, bool least_violated_leaving,
-                                     theory::arithmetic::LraTableau::Tuning tuning)
+                                     theory::arithmetic::LraTableau::Tuning tuning,
+                                     IntegerPreparationOptions integer_options)
     : terms_(terms),
       collect_model_variables_(collect_model_variables),
+      integer_options_(integer_options),
       base_tableau(pivoting_rule) {
   base_tableau.set_sparse_leaving(sparse_leaving);
   base_tableau.set_least_violated_leaving(least_violated_leaving);
@@ -3506,7 +3544,7 @@ std::vector<theory::arithmetic::LraVarId> PreparedLraTheory::append_atom(
       ++integer_stats.fractional_int_thresholds;
     }
     atoms.push_back(PreparedAtom{true, bound_var, normalized.relation, rhs, flipped,
-                                 non_strict_le_pair, is_integer_atom});
+                                 non_strict_le_pair, integer_rounding_for(is_integer_atom)});
     atoms_by_bound_var[bound_var].push_back(atom_index);
     return new_model_variables;
   }
@@ -3559,7 +3597,7 @@ std::vector<theory::arithmetic::LraVarId> PreparedLraTheory::append_atom(
     ++integer_stats.fractional_int_thresholds;
   }
   atoms.push_back(PreparedAtom{true, slack, normalized.relation, rhs, flipped, non_strict_le_pair,
-                               slack_is_integer});
+                               integer_rounding_for(slack_is_integer)});
   atoms_by_bound_var[slack].push_back(atom_index);
   return new_model_variables;
 }
@@ -3601,7 +3639,7 @@ util::Rational choose_concrete_delta(const PreparedLraTheory& prepared,
     }
     const BoundAssertion assertion = bound_assertion(
         prepared_atom.relation, prepared_atom.rhs, prepared_atom.asserts_lower_when_true,
-        assigned_atoms.at(i).value, prepared_atom.is_integer);
+        assigned_atoms.at(i).value, prepared_atom.integer_rounding);
     if (assertion.is_upper) {
       tighten_delta_upper_bound(upper, positive_delta_upper_bound(value, assertion.value));
     } else {
@@ -3629,7 +3667,7 @@ util::Rational choose_concrete_delta(
     }
     const BoundAssertion assertion = bound_assertion(
         prepared_atom.relation, prepared_atom.rhs, prepared_atom.asserts_lower_when_true,
-        assigned_atoms.at(i).value, prepared_atom.is_integer);
+        assigned_atoms.at(i).value, prepared_atom.integer_rounding);
     if (assertion.is_upper) {
       tighten_delta_upper_bound(upper, positive_delta_upper_bound(value, assertion.value));
     } else {
@@ -7394,7 +7432,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     const sat::Lit reason = blocking_lit(assigned);
     const auto direct_conflict = assert_lra_atom_bound(
         tableau_, prepared_atom.bound_var, prepared_atom.relation, prepared_atom.rhs, atom_value,
-        prepared_atom.asserts_lower_when_true, reason, prepared_atom.is_integer);
+        prepared_atom.asserts_lower_when_true, reason, prepared_atom.integer_rounding);
     // Item H7's counters move inside assert_upper/assert_lower, not inside
     // check(), so they are published here rather than alongside the pivot
     // counters in run_deferred_check_if_needed(). They are cumulative
@@ -7508,7 +7546,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     }
     const BoundAssertion true_assertion = bound_assertion(
         prepared_atom.relation, prepared_atom.rhs, prepared_atom.asserts_lower_when_true,
-        /*atom_value=*/true, prepared_atom.is_integer);
+        /*atom_value=*/true, prepared_atom.integer_rounding);
     const theory::arithmetic::DeltaRational& beta = tableau_.assignment(prepared_atom.bound_var);
     const bool atom_holds =
         true_assertion.is_upper ? beta <= true_assertion.value : beta >= true_assertion.value;
@@ -7633,7 +7671,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
       const auto& prepared_atom = prepared_.atoms[target.atom_index];
       const BoundAssertion assertion = bound_assertion(
           prepared_atom.relation, prepared_atom.rhs, prepared_atom.asserts_lower_when_true,
-          /*atom_value=*/true, prepared_atom.is_integer);
+          /*atom_value=*/true, prepared_atom.integer_rounding);
       const bool holds = assertion.is_upper ? zero <= assertion.value : zero >= assertion.value;
       const int atom_lit = theory_atoms_[target.atom_index].lit.value;
       const int lit = holds ? atom_lit : -atom_lit;
@@ -7730,7 +7768,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
           bound_entails(tableau_, prepared_atom.bound_var,
                         bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
-                                        prepared_atom.is_integer));
+                                        prepared_atom.integer_rounding));
       if (entails_true.has_value()) {
         pending_.push_back(PendingPropagation{atom.lit.value, {*entails_true}, false});
         continue;
@@ -7739,7 +7777,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
           bound_entails(tableau_, prepared_atom.bound_var,
                         bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
-                                        prepared_atom.is_integer));
+                                        prepared_atom.integer_rounding));
       if (entails_false.has_value()) {
         pending_.push_back(PendingPropagation{-atom.lit.value, {*entails_false}, false});
       }
@@ -7799,7 +7837,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
         auto reasons = implied_bound_entails(
             basic_var, bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                                        prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
-                                       prepared_atom.is_integer));
+                                       prepared_atom.integer_rounding));
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{atom.lit.value, std::move(*reasons), true});
           continue;
@@ -7807,7 +7845,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
         reasons = implied_bound_entails(
             basic_var, bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                                        prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
-                                       prepared_atom.is_integer));
+                                       prepared_atom.integer_rounding));
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{-atom.lit.value, std::move(*reasons), true});
         }
@@ -7850,7 +7888,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
             basic_var, target_var, target_coeff,
             bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
-                            prepared_atom.is_integer));
+                            prepared_atom.integer_rounding));
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{atom.lit.value, std::move(*reasons), true, true});
           continue;
@@ -7859,7 +7897,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
             basic_var, target_var, target_coeff,
             bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
-                            prepared_atom.is_integer));
+                            prepared_atom.integer_rounding));
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{-atom.lit.value, std::move(*reasons), true, true});
         }
@@ -8654,7 +8692,7 @@ LiaComponentCheck check_lia_component_assignment(
       const auto conflict = assert_lra_atom_bound(
           tableau, prepared_atom.bound_var, prepared_atom.relation, prepared_atom.rhs, atom.value,
           prepared_atom.asserts_lower_when_true,
-          sat::Lit{atom.value ? -atom.lit.value : atom.lit.value}, prepared_atom.is_integer);
+          sat::Lit{atom.value ? -atom.lit.value : atom.lit.value}, prepared_atom.integer_rounding);
       if (conflict.has_value()) {
         return LiaComponentCheck{.status = LiaComponentCheck::Status::Unsat,
                                  .conflict = conflict.value(),
@@ -9041,7 +9079,7 @@ class ComponentLraExecution final {
     const sat::Lit reason = blocking_lit(assigned);
     const auto direct_conflict = assert_lra_atom_bound(
         tableau_, prepared_atom.bound_var, prepared_atom.relation, prepared_atom.rhs, atom_value,
-        prepared_atom.asserts_lower_when_true, reason, prepared_atom.is_integer);
+        prepared_atom.asserts_lower_when_true, reason, prepared_atom.integer_rounding);
     // Item H7's counters move inside assert_upper/assert_lower, not inside
     // check(), so they are published here rather than alongside the pivot
     // counters in run_deferred_check_if_needed(). They are cumulative
@@ -9153,7 +9191,7 @@ class ComponentLraExecution final {
     }
     const BoundAssertion true_assertion = bound_assertion(
         prepared_atom.relation, prepared_atom.rhs, prepared_atom.asserts_lower_when_true,
-        /*atom_value=*/true, prepared_atom.is_integer);
+        /*atom_value=*/true, prepared_atom.integer_rounding);
     const theory::arithmetic::DeltaRational& beta = tableau_.assignment(prepared_atom.bound_var);
     const bool atom_holds =
         true_assertion.is_upper ? beta <= true_assertion.value : beta >= true_assertion.value;
@@ -9312,7 +9350,7 @@ class ComponentLraExecution final {
           bound_entails(tableau_, prepared_atom.bound_var,
                         bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
-                                        prepared_atom.is_integer));
+                                        prepared_atom.integer_rounding));
       if (entails_true.has_value()) {
         pending_.push_back(PendingPropagation{atom.lit.value, {*entails_true}, false});
         continue;
@@ -9321,7 +9359,7 @@ class ComponentLraExecution final {
           bound_entails(tableau_, prepared_atom.bound_var,
                         bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
-                                        prepared_atom.is_integer));
+                                        prepared_atom.integer_rounding));
       if (entails_false.has_value()) {
         pending_.push_back(PendingPropagation{-atom.lit.value, {*entails_false}, false});
       }
@@ -9381,7 +9419,7 @@ class ComponentLraExecution final {
         auto reasons = implied_bound_entails(
             basic_var, bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                                        prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
-                                       prepared_atom.is_integer));
+                                       prepared_atom.integer_rounding));
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{atom.lit.value, std::move(*reasons), true});
           continue;
@@ -9389,7 +9427,7 @@ class ComponentLraExecution final {
         reasons = implied_bound_entails(
             basic_var, bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                                        prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
-                                       prepared_atom.is_integer));
+                                       prepared_atom.integer_rounding));
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{-atom.lit.value, std::move(*reasons), true});
         }
@@ -9432,7 +9470,7 @@ class ComponentLraExecution final {
             basic_var, target_var, target_coeff,
             bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
-                            prepared_atom.is_integer));
+                            prepared_atom.integer_rounding));
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{atom.lit.value, std::move(*reasons), true, true});
           continue;
@@ -9441,7 +9479,7 @@ class ComponentLraExecution final {
             basic_var, target_var, target_coeff,
             bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
-                            prepared_atom.is_integer));
+                            prepared_atom.integer_rounding));
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{-atom.lit.value, std::move(*reasons), true, true});
         }
@@ -9683,7 +9721,8 @@ class LiaComponentAdapter final : public theory::TheorySolver {
         prepared_(terms_, atoms_, lra_pivoting_rule_from_options(options.lra_pivoting_rule),
                   options.lra_sparse_leaving, options.lra_fixed_elimination,
                   /*collect_model_variables=*/true, options.lra_least_violated_leaving,
-                  lra_tuning_from_options(options.lra_tuning)),
+                  lra_tuning_from_options(options.lra_tuning),
+                  IntegerPreparationOptions{.round_bounds = options.lia_round_integer_bounds}),
         options_(options),
         statistics_(statistics),
         timing_(timing) {

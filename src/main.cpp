@@ -563,6 +563,10 @@ int run_main(int argc, char** argv) {
                  "candidate model: caps how many nonbasic moves are taken to nudge Int variables "
                  "onto integer values. 0 disables patching")
       ->check(CLI::Range(0, 100000000));
+  add_flag_with_default(app, "--lia-round-integer-bounds", solver_options.lia_round_integer_bounds,
+                        "Round non-strict QF_LIA/QF_UFLIA thresholds on integer-valued tableau "
+                        "variables inward (x <= 5/3 becomes x <= 1); strict thresholds are "
+                        "always rounded");
   add_flag_with_default(
       app, "--no-lia-conflict-generalization", no_lia_conflict_generalization,
       "Disable QF_LIA conflict generalization: build each integer-infeasibility lemma "

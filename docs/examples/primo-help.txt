@@ -429,6 +429,10 @@ QF_LIA theory options:
                               QF_LIA patching budget, run before the integer refutation stages
                               on every candidate model: caps how many nonbasic moves are taken
                               to nudge Int variables onto integer values. 0 disables patching
+          --lia-round-integer-bounds [default: off]
+                              Round non-strict QF_LIA/QF_UFLIA thresholds on integer-valued
+                              tableau variables inward (x <= 5/3 becomes x <= 1); strict
+                              thresholds are always rounded
           --no-lia-conflict-generalization [default: off]
                               Disable QF_LIA conflict generalization: build each
                               integer-infeasibility lemma from every arithmetic atom in the

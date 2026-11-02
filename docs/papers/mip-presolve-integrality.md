@@ -1,7 +1,9 @@
 # Integral bounds and integral nonbasic variables
 
-**Status: Design checklist. Prevalence counters are implemented; the bound,
-row and patching changes below are planned and default-off when they land.**
+**Status: Design checklist with partial implementation.** Prevalence counters
+are implemented. Gap 1 is implemented behind `--lia-round-integer-bounds`
+(default off). Gaps 2–4 are planned and will also be default-off when they
+land.
 
 This note lists the primary sources behind one invariant of integer
 completion. It maps each source step to the Primo function that would own it
@@ -101,14 +103,19 @@ These counters measure how common each gap is. They do not change behavior.
 
 ## Tests derived from the steps
 
+Gap 1 is pinned by `rounding_integer_bounds_keeps_answers_and_skips_completion`
+in {source}`qf_lia_solver_tests.cpp <tests/unit/qf_lia_solver_tests.cpp>`
+(upper and lower thresholds, a negated `<`, a negative scale, an integral
+model without patching) and `rounding_integer_bounds_reaches_the_combined_route`
+in {source}`qf_uflia_solver_tests.cpp <tests/unit/qf_uflia_solver_tests.cpp>`.
+The existing strict-bound regressions are unchanged.
+
 The counters are pinned by
 {source}`qf_lia_solver_tests.cpp <tests/unit/qf_lia_solver_tests.cpp>`
 (`integer_preparation_counters_report_bound_gaps`) and
 {source}`lia_patching_tests.cpp <tests/unit/lia_patching_tests.cpp>`
 (`fractional_nonbasic_move_is_counted`). Planned behavior tests:
 
-- rounding: `3*x <= 5`, `x >= 1` needs no branch node; both polarities;
-  negative scale; the strict-bound regression still passes;
 - integer rows: proportional atoms share one slack; `2*x + 4*y <= 5` gives
   $s\le2$; strict compound atoms carry no infinitesimal; Real atoms unchanged;
 - integer slacks: a cut from a basic slack and a branch on a slack give
