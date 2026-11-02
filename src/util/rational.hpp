@@ -124,6 +124,11 @@ class Rational {
   Rational floor() const;
   Rational ceil() const;
 
+  // The reduced numerator and the (positive) reduced denominator, as
+  // integer-valued Rationals: 6/-4 gives -3 and 2.
+  Rational numerator() const;
+  Rational denominator() const;
+
   // Positive exact factor that scales the nonzero input values to coprime
   // integers. Monniaux, CAV 2009, Section 2.1 uses this normalization for
   // linear-arithmetic left-hand sides. Throws when every value is zero.

@@ -592,6 +592,20 @@ bool Rational::is_integer() const {
   return mpz_cmp_ui(mpq_denref(big_->get_mpq_t()), 1) == 0;
 }
 
+Rational Rational::numerator() const {
+  if (is_small()) {
+    return Rational(num_);
+  }
+  return from_mpq(mpq_class(mpz_class(mpq_numref(big_->get_mpq_t()))));
+}
+
+Rational Rational::denominator() const {
+  if (is_small()) {
+    return Rational(den_);
+  }
+  return from_mpq(mpq_class(mpz_class(mpq_denref(big_->get_mpq_t()))));
+}
+
 Rational Rational::floor() const {
   if (is_small()) {
     if (den_ == 1) {

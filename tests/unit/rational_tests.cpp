@@ -266,6 +266,88 @@ std::vector<Checked> sample_values() {
   return values;
 }
 
+// numerator()/denominator() checked against GMP and against their algebraic
+// contract, over every sample value and every sum, difference, product and
+// quotient of two samples. That covers small values, values at the small-form
+// boundary, results that promote to the big form and results that demote back.
+void check_parts(const Rational& value, const mpq_class& reference) {
+  const Rational numerator = value.numerator();
+  const Rational denominator = value.denominator();
+
+  // Exact agreement with an independent GMP computation.
+  assert(numerator.to_string() == mpz_class(reference.get_num()).get_str());
+  assert(denominator.to_string() == mpz_class(reference.get_den()).get_str());
+
+  // Contract: integer parts, positive denominator, value recovered, reduced.
+  assert(numerator.is_integer() && denominator.is_integer());
+  assert(denominator > Rational(0));
+  assert(numerator / denominator == value);
+  assert(numerator.sign() == value.sign());
+  assert(value.is_integer() == (denominator == Rational(1)));
+  if (!numerator.is_zero()) {
+    const std::vector<Rational> parts{numerator, denominator};
+    assert(Rational::gcd(parts) == Rational(1));
+  } else {
+    assert(denominator == Rational(1));
+  }
+  const Rational remainder = numerator - denominator * (numerator / denominator).floor();
+  assert(value - value.floor() == remainder / denominator);
+
+  // Canonical form: equal to, and hashing like, the same integer built
+  // independently, so the results are safe to hash-cons.
+  const auto rebuilt_numerator = Rational::parse(mpz_class(reference.get_num()).get_str());
+  const auto rebuilt_denominator = Rational::parse(mpz_class(reference.get_den()).get_str());
+  if (rebuilt_numerator.has_value() && sgn(reference) >= 0) {
+    assert(numerator == *rebuilt_numerator);
+    assert(RationalHash{}(numerator) == RationalHash{}(*rebuilt_numerator));
+  }
+  assert(rebuilt_denominator.has_value());
+  assert(denominator == *rebuilt_denominator);
+  assert(RationalHash{}(denominator) == RationalHash{}(*rebuilt_denominator));
+  assert(RationalHash{}(-numerator) == RationalHash{}(Rational(0) - numerator));
+
+  // The results are independent values: changing them leaves the source alone.
+  const std::string before = value.to_string();
+  Rational mutated_numerator = value.numerator();
+  Rational mutated_denominator = value.denominator();
+  mutated_numerator += Rational(1);
+  mutated_denominator *= Rational(2);
+  assert(value.to_string() == before);
+  assert(value.numerator() == numerator && value.denominator() == denominator);
+}
+
+void numerator_and_denominator_match_gmp() {
+  const std::vector<Checked> values = sample_values();
+  for (const Checked& left : values) {
+    check_parts(left.value, left.reference);
+    check_parts(-left.value, mpq_class(-left.reference));
+    for (const Checked& right : values) {
+      check_parts(left.value + right.value, mpq_class(left.reference + right.reference));
+      check_parts(left.value - right.value, mpq_class(left.reference - right.reference));
+      check_parts(left.value * right.value, mpq_class(left.reference * right.reference));
+      if (sgn(right.reference) != 0) {
+        check_parts(left.value / right.value, mpq_class(left.reference / right.reference));
+      }
+    }
+  }
+
+  // Hand-picked cases, including both small-form limits and temporaries.
+  assert(Rational(6, -4).numerator() == Rational(-3));
+  assert(Rational(6, -4).denominator() == Rational(2));
+  assert(Rational(0).numerator().is_zero() && Rational(0).denominator() == Rational(1));
+  assert(Rational(INT64_MAX).numerator() == Rational(INT64_MAX));
+  assert(Rational(1, INT64_MAX).denominator() == Rational(INT64_MAX));
+  assert(Rational(-INT64_MAX, INT64_MAX).numerator() == Rational(-1));
+  const Rational square = Rational(INT64_MAX) * Rational(INT64_MAX);
+  assert((Rational(1) / square).denominator() == square);
+  assert(((square + Rational(1)) / Rational(3)).denominator() == Rational(3));
+  // A big quotient that demotes: its parts must be small-form values that
+  // compare and hash equal to directly built ones.
+  const Rational demoted = (square * Rational(5)) / (square * Rational(7));
+  assert(demoted.numerator() == Rational(5) && demoted.denominator() == Rational(7));
+  assert(RationalHash{}(demoted.numerator()) == RationalHash{}(Rational(5)));
+}
+
 // Differential test against mpq_class over every ordered pair of the sample
 // above: small/small (including results that must promote), small/big, and
 // big/big (including results that must demote back).
@@ -646,6 +728,7 @@ int main() {
   arithmetic();
   ordering();
   floor_ceil_is_integer();
+  numerator_and_denominator_match_gmp();
   gcd_of_integer_valued_rationals();
   zero_and_sign();
   parse_numerals();
