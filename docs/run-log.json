@@ -3,6 +3,41 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-calm-host-timing-pilot",
+      "date": "2026-11-03",
+      "kind": "timing-repeatability-pilot",
+      "scope": "Check whether QF_LIA timing differences between the October (5efbd02) and current (2e120fa) cluster runs reproduce in a paired run on a quiet host: startup cost, per-file time ratio, and the 46 near-cutoff files lost since October. Pilot on a 292-file subset, not an evaluation.",
+      "commits": {
+        "old": "5efbd02",
+        "new": "2e120fa (branch lia-integrality)"
+      },
+      "environment": {
+        "host": "dai-03 research host, outside SLURM by explicit user request; AMD EPYC 7513, 2 sockets x 32 cores, SMT on, schedutil governor, boost on; load 0.00 and no other users at start",
+        "binaries": {
+          "5efbd02": "sha256 d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0 (cluster primo-evaluation-20261005/build-slurm-rel)",
+          "2e120fa": "sha256 c501bffa5807f7c6947128c0e78be95c6c8d8b9d975e0a4de269065fd3c28fea (cluster primo-lia-integrality/build-slurm-rel)"
+        },
+        "pinning": "phase 1 on CPU 0; phase 2 on 16 worker threads pinned to physical cores 0-15 of socket 0, SMT siblings idle; children inherit the thread's affinity",
+        "timing": "wall time of Popen through communicate, as in scripts/bench_qf_uf_full.py; 60 s limit; no memory limit; corpus files pre-read into the page cache",
+        "runner": "~/primo-calm-20261103/calm_run.py on dai-03 (sha256 bb733549e00537b6a6da72203bafb0b2cf8d9913faecf983e5ac3e0191d3df74); not committed",
+        "selection": "selection.tsv (sha256 c501ae3aefb53089ab8624fb8679b4a038acc5d56726508f6b86153573500655), seed 20261103, from the cluster CSVs of 2026-10-05 (5efbd02) and job 335585 (2e120fa off): 100 files both solved < 50 ms, 100 with October time 1-45 s, the 46 October-only files, 46 of the 176 files both solved with October time >= 45 s"
+      },
+      "commands": {
+        "run": "nohup python3 calm_run.py > run.log (phase 1: 50x --version and 5x each easy file per binary, shuffled, serial; phase 2: 292 files x 2 binaries x 3 repetitions, shuffled, 16 workers)"
+      },
+      "results": {
+        "phase1_startup": "--version median 3.28 ms (5efbd02) vs 3.35 ms (2e120fa); easy files median 4.51 vs 4.68 ms, per-file new/old median 1.040; repeat spread median 1.2%. The cluster easy-file medians were 8.2 vs 12.6 ms.",
+        "contamination": "another user's ~100 runsolver jobs started at 10:22:52 local, 13 minutes into phase 2 (10:09:39-10:41:19), raising load to ~180 on 128 CPUs. Runs started afterwards took a median 1.53x (p25 1.35, p75 1.65, max 2.27) the same file+binary's clean time. Only the 915 of 1,752 runs that finished before 10:22:52 are used.",
+        "repeatability": "0 of 157 (5efbd02) and 0 of 156 (2e120fa) files with >= 2 clean runs were solved in some and not others; repeated times max/min median 1.032 / 1.035, max 1.197 / 1.181",
+        "old_vs_new": "new/old median time on 229 files both solved in all clean runs: 1.006 (p25 0.979, p75 1.043); by group easy 1.022, mid 1.010, near-cutoff kept 1.005, lost 0.996",
+        "lost_files": "clean runs solved: lost 74/74 (5efbd02), 60/60 (2e120fa); near-cutoff kept 68/68, 70/70. dai-03 time / cluster time on the 1-45 s group: median 0.626 (5efbd02 vs Oct run), 0.605 (2e120fa vs Nov run). Over all runs including contaminated ones, each binary solved 45 of 46 lost files at least once. Group sizes for the old_vs_new ratios: easy 83, mid 77, near-cutoff kept 37, lost 32.",
+        "wrong": "0 answers differ from the October answer across all 1,752 phase-2 runs"
+      },
+      "conclusion": "On one quiet host, 2e120fa shows no slowdown against 5efbd02 large enough to explain the 43-file QF_LIA gap between the October and November cluster runs (median paired ratio 1.006; 0.996 on the lost files), and the cluster's 4 ms easy-file gap is not a property of the binaries. A cluster machine/date cause is consistent with this but untested on the cluster nodes. A small ~4% (0.17 ms) easy-file overhead in 2e120fa is real. Pilot only: one host faster than the cluster nodes (~0.6x time), subset, 837 of 1,752 runs discarded for external load.",
+      "artifacts": "dai-03:~/primo-calm-20261103/{results/phase1.csv (sha256 e144bf90c432d532b1de39e14c6bdc882a657121b158dd075204bb3ea6c6cb4f), results/phase2.csv (sha256 7b33c8c0e7551be55eb6a38a22c31a87738f51b48b6a9c37f0842e8ab375a561), run.log, selection.tsv}",
+      "policy_note": "Batch timing outside SLURM, on the research host, at the user's explicit request; no laptop compute."
+    },
+    {
       "id": "2026-11-03-lia-integrality-noise-rerun-2e120fa",
       "date": "2026-11-03",
       "commit": "2e120fa",

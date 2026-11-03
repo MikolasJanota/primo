@@ -60,12 +60,64 @@ entry `2026-08-21-qf-lia-conflict-generalization` records the August run as
   whose October time is at least 0.5 s, it takes a median 2.3% longer
   (quartiles 0.996 and 1.061 times October's time). A slowdown of at most
   6.1% would push 31 of the 46 past 60 s; the other 15 need more, so they
-  slowed by more than the upper-quartile ratio. The data does not separate a code slowdown from a
-  node or date difference. A paired run of both binaries on the same nodes
-  would.
+  slowed by more than the upper-quartile ratio. The data does not separate a
+  code slowdown from a node or date difference. A paired pilot on another
+  host found no code slowdown large enough to explain the gap (see below); a
+  paired run on the cluster nodes would confirm it.
 - **Remaining gap.** Against z3 the default is furthest behind on `nec-smt`
   (994 files), Bromberger (398), `rings` (255), CAV 2009 (239),
   `rings_preprocessed` (185), `convert` (139) and `slacks` (116).
+
+## Paired pilot on a quiet host (2026-11-03)
+
+The run-log entry `2026-11-03-calm-host-timing-pilot` records a small paired
+run of both binaries, `5efbd02` and `2e120fa`, on the research host dai-03.
+This host is outside SLURM, an AMD EPYC 7513 with frequency boost on, and
+was idle at the start. Each run was pinned to its own physical core. The
+subset was 292 files:
+
+- 100 easy files both cluster runs solved in under 50 ms;
+- 100 files solved in 1 to 45 s;
+- the 46 files lost since October;
+- 46 files both runs solved in 45 to 60 s.
+
+**Startup.** Serially, on one core, each binary ran `--version` 50 times and
+each easy file 5 times. The medians were 3.28 ms (`5efbd02`) and 3.35 ms
+(`2e120fa`) for `--version`, and 4.51 and 4.68 ms for the easy files.
+Repeated runs of one file varied by a median 1.2%. So the current binary is
+about 4% slower on easy files, about 0.17 ms. On the cluster, the medians on
+easy files were 8.2 ms (October) and 12.6 ms (November). That 4 ms gap is not
+a property of the binaries.
+
+**Solving.** Each (file, binary) pair ran three times, in shuffled order, on
+16 cores. Another user's jobs started about 13 minutes in and oversubscribed
+the host. Runs that started after that took a median 1.53 times as long as
+the same file and binary before it, and up to 2.27 times. Only the 915 runs
+that finished before that point are used below.
+
+- **Repeatable.** Of the files with at least two clean runs per binary (157
+  for `5efbd02`, 156 for `2e120fa`), none was solved in some runs and not
+  others. For files taking at least 0.5 s, repeated times differed by a
+  median 3% and at most 20%.
+- **About 1% slower, mostly on short runs.** On the 229 files both binaries
+  solved in all their clean runs, `2e120fa` took a median 1.006 times as long
+  as `5efbd02` on this host (quartiles 0.979 and 1.043). By group: easy 1.022
+  (83 files), 1 to 45 s 1.010 (77), near-cutoff 1.005 (37), and the files
+  lost since October 0.996 (32).
+- **Cutoff effects cannot be tested here.** This host ran the 1 to 45 s files
+  in a median 0.6 times their cluster time. Files near the cluster's 60 s
+  cutoff therefore finish well inside it here, and every clean run of the
+  lost and near-cutoff files was solved by both binaries. Across all runs,
+  including contaminated ones, each binary solved 45 of the 46 lost files at
+  least once. The evidence on those files is the paired time ratio above, not
+  the solved count.
+
+This is a pilot, not an evaluation. It uses one host that is not a cluster
+node and a subset of 292 files, and 837 of its 1,752 runs were discarded
+for load. Its runner script is kept with the results on the host and is not
+committed. It finds no code slowdown that would explain the 43-file October
+gap, which is consistent with a node or date cause. It does not test the
+cluster nodes.
 
 ## Reproduction
 
