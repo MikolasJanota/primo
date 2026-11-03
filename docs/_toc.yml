@@ -101,6 +101,7 @@ parts:
     chapters:
       - file: evidence/evaluation-refresh
       - file: evidence/long-limits
+      - file: evidence/qf-lia-progress
       - file: evidence/qf-uflia-progress
       - file: evidence/publication
       - file: evidence/publication-followups

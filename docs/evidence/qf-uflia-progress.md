@@ -3,6 +3,7 @@
 **Status: contextual comparison, 2026-11-03.** All series cover the same 659
 QF_UFLIA files at 60 s per file, but they come from runs on different dates
 and nodes, so this is not a paired experiment.
+The QF_LIA counterpart is [QF_LIA progress](qf-lia-progress.md).
 
 ![QF_UFLIA at 60 seconds: Primo's September baseline, the current default and the integrality options, against z3, cvc5 and OpenSMT](../_static/qf-uflia-cactus.svg)
 
