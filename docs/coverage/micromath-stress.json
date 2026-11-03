@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "status": "diagnostic real-benchmark pilot submitted; results pending SLURM allocation",
+  "harness_git": "f555b7f9aabf039b1e8f05fd8a1dfd46e2a7f357",
+  "primo_source_git": "c5f14934285ead8feeef32fc2e59469673795e67",
+  "micromath_git": "df5c5d3b6dcb3310dde35a2dd134927d34973fa4",
+  "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+  "prerequisite_report": "docs/coverage/micromath-check.json",
+  "corpus": {
+    "label": "existing SMT-LIB QF_UF copy on cluster",
+    "observed_files": 7503,
+    "observed_du_sh": "2.3G",
+    "staging": "reused existing read-only corpus; no archive transfer",
+    "version": "archive revision not inferred; selected files will be pinned individually by SHA-256"
+  },
+  "selection": {
+    "status": "not run while job pending; no selected-case manifest claimed",
+    "families": [
+      "NEQ",
+      "PEQ",
+      "QG-classification",
+      "TypeSafe",
+      "20190906-CLEARSY",
+      "2018-Goel-hwbench"
+    ],
+    "rule": "For each family: .smt2 files <=1048576 bytes with UNSAT status metadata in first65536 bytes; sort by(size,relative path); select distinct floor((N-1)*0.25) and floor((N-1)*0.75) indices. Skip empty families.",
+    "maximum_cases": 12,
+    "maximum_profiles": 36,
+    "manifest": "job writes selection.json with file paths/sizes/hashes; actual selected manifest will follow execution"
+  },
+  "profiles": {
+    "reduction_modes": [
+      "none",
+      "core",
+      "mus"
+    ],
+    "experimental_export_erase_sorts": true,
+    "stages": [
+      "Z3 source-answer comparison",
+      "Primo export",
+      "Micromath conflict check",
+      "challenge construction",
+      "CaDiCaL LRAT generation",
+      "Micromath proof generation",
+      "independent kernel replay"
+    ],
+    "success": "Only exit-zero kernel replay printing challenge proven is counted; timeout/error in the profile proof pipeline overrides any partial answer. Unsupported/rejected inputs and all phase failures are reported separately.",
+    "reference_policy": "Reference SAT flags disagreement with UNSAT metadata and blocks that case. Reference unknown, timeout or error is recorded independently and does not block proof attempts or kernel-proven classification."
+  },
+  "limits": {
+    "workers": 4,
+    "reference_timeout_seconds": 20,
+    "profile_budget_seconds": 60,
+    "phase_limits_seconds": {
+      "export": 30,
+      "conflicts": 10,
+      "challenge": 10,
+      "cnf": 15,
+      "proof": 30,
+      "kernel": 10
+    },
+    "termination_grace_seconds": 2,
+    "as_limit_bytes_per_worker_and_child": 3221225472,
+    "file_size_limit_bytes": 268435456
+  },
+  "slurm": {
+    "job_id": "339676",
+    "last_observed_status": "PENDING (Resources)",
+    "scheduler_start_estimate": "2026-11-03T09:43:48 as displayed by SLURM; can change",
+    "resources": {
+      "cpus": 4,
+      "memory_gib": 16,
+      "wall_minutes": 25
+    }
+  },
+  "command": "PILOT_PYTHON=<Python-3.11> PILOT_SCRIPT=<tracked scripts/micromath_stress.py at f555b7f9> PRIMO_EXPECTED_GIT=c5f14934 sbatch scripts/slurm_micromath_stress.sbatch (supply prepared binary, external tool directories/revisions, reference binary, existing corpus root and fresh output directory)",
+  "preflight": "slurm_prepare_benchmark_workspace.py --check-only against clean c5f14934 source worktree/prepared binary passed immediately before submission. Batch syntax, Python compilation, Ruff and make lint passed.",
+  "results": null,
+  "planned_artifacts": "prepared Micromath SLURM workspace/stress-f555b7f9/; local collection target results/micromath-stress-339676/",
+  "limitations": "Initial size-bounded UNSAT diagnostic sample, not full-corpus coverage, SAT/model validation or a performance comparison. Four workers share the allocation. Unsupported ground-fragment/checker features and resource limits are part of the observed scope; no outcomes are claimed before the job runs.",
+  "raw_preparation_artifacts": "results/micromath-stress-339676/{job-status.txt,corpus-inventory.txt,primo-micromath-pilot-preflight.log,primo-micromath-pilot-lint.log}",
+  "documentation_review": {
+    "reviewer": "review_micromath_sort_erasure_docs, independent read-only",
+    "baseline": "aee1263d",
+    "harness_git": "f555b7f9aabf039b1e8f05fd8a1dfd46e2a7f357",
+    "verdict": "ready for pending-experiment scope",
+    "finding": "SP-D1 resolved: distinguish reference outcomes from profile pipeline failures",
+    "accepted_report_sha256_before_verdict_record": "83d14100ba5c7a17df27c73b5f554df019426da318f3d4d99930a0f82b24116c",
+    "files_sha256": {
+      "docs/reference/qf-uf-conflicts.md": "4207e3953b3e02ff86edab37b9f18d746a68472d9d4058b66a4356e75164f654",
+      "docs/_config.yml": "9a1cbc9fcdae28e27107cb8917d4ff839e48954a83a96e163a59c09ffab985df"
+    },
+    "unchecked": "Completed evaluation and independent rendered-output verification. Writer ran docs build, local/Git link checks and inspected the new rendered subsection."
+  },
+  "validation": "make lint, Ruff, Python compilation, batch syntax, make docs and strict local/Git link check passed:270 pages,35087 local links,1151 Git links,zero failures. No solver behavior changed after qualified source c5f14934."
+}

@@ -204,6 +204,28 @@ commands, job status, proof hashes and scope are recorded in
 the {download}`run report <../coverage/micromath-check.json>` and the run ledger. No broader-fragment or
 performance claim follows from this integration test.
 
+### Real-benchmark stress pilot
+
+The {micromathpilotsource}`pilot harness <scripts/micromath_stress.py>` and
+{micromathpilotsource}`SLURM job <scripts/slurm_micromath_stress.sbatch>` select
+up to twelve metadata-UNSAT SMT-LIB QF_UF inputs from six families at two size
+ranks, with a 1 MiB input cap. Each is tried with `none`, `core`, and `mus`,
+using experimental object-sort erasure. A Z3 `sat` answer flags a disagreement
+with UNSAT metadata and blocks that case. Reference `unknown`, timeout or error
+is recorded without blocking proof attempts. Export, conflict validation,
+challenge construction, LRAT/proof generation and kernel replay have separate
+logs and outcome states. Only successful kernel replay counts as a verified
+profile; a profile-stage timeout or error overrides any partial answer.
+
+Four workers use 3 GiB per-process memory ceilings and 256 MiB per-file limits.
+Each reference call has a 20-second limit; each profile shares a 60-second
+pipeline budget, including at most 30 seconds for export, plus a two-second
+termination grace for a timed-out process. The {download}`pilot report
+<../coverage/micromath-stress.json>` records sampling rules, revisions, job
+status and results. The job writes the actual selected manifest and file hashes
+when allocated. This is a bounded diagnostic sample, not full-corpus coverage
+or a performance comparison; pending jobs do not establish benchmark results.
+
 ## Container and literal syntax
 
 A file contains exactly one S-expression, with these sections occurring once in
