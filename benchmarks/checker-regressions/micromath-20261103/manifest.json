@@ -66,5 +66,13 @@
     }
   ],
   "archive": "results/micromath-repro-20261103.tar.gz",
-  "source_run": "docs/coverage/micromath-fast-stress.json"
+  "source_run": "docs/coverage/micromath-fast-stress.json",
+  "revalidation": {
+    "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+    "job_id": "345415",
+    "exact_saved_goel": "kernel_proven",
+    "exact_saved_seq_extension_trace": "rejected: fresh SAT variables unsupported; regenerate with --no-factor",
+    "regenerated_real_profiles": "18 kernel-proven; updated prove-cnf supplies --no-factor automatically",
+    "historical_archive": "unchanged; per-case file hashes above still apply"
+  }
 }

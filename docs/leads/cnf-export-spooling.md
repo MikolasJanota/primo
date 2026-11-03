@@ -7,9 +7,12 @@ and solver dispatch, including the existing extended-term lowering. No second
 reduction starts. Qualification at `cf82b726` passed the regular tests, a fresh
 1,000-case reference gate, ASan tests and six Micromath example replays; see the
 [qualification report](../coverage/cnf-export-streaming.json). The separate
-[real-input stress report](../coverage/micromath-fast-stress.json) records twelve
-kernel-verified profiles on four inputs and two remaining Goel replay failures.
-Source-to-CNF conversion proof is still outside this work.
+[initial real-input stress report](../coverage/micromath-fast-stress.json)
+records twelve kernel-verified profiles on four inputs and two Goel replay
+failures with the earlier checker. The
+[updated-checker report](../coverage/micromath-fixes.json) records all eighteen
+profiles verified at Micromath `ac052d9`, including exact replay of the saved
+Goel failure. Source-to-CNF conversion proof is still outside this work.
 
 The query owns its frontend through collection and serialization. An optional
 {preparedexportsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` is passed through the {preparedexportsource}`normal session <src/smt/solver_session.cpp>` and

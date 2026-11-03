@@ -150,18 +150,17 @@ Boolean arguments, positive-arity Boolean-valued functions or Boolean conflict f
 
 ## Checking with Micromath
 
-[Micromath's SMT tools](https://git.olsak.net/mirek/Micromath/src/commit/505588a6a0b184c992c3cbcd97721507365ec428/smt/README.md)
-consume this container directly. The initial six-example qualification used
-`df5c5d3b6dcb3310dde35a2dd134927d34973fa4`. The current pinned revision
-`505588a6a0b184c992c3cbcd97721507365ec428` adds SAT-checking optimizations;
-its upstream SMT tests and all nine frozen-artifact kernel replays passed in
-SLURM job `344901`. This checks the prior producer's artifacts, not this pending
-exporter change. On the Goel case, SAT checking used 9,899 kernel steps instead
-of 34,480, and the proof shrank from 173,809 to 113,624 bytes. This is a counter
-comparison on three distinct problems, not a runtime speedup claim; the
-{download}`update report <../coverage/micromath-sat-update.json>` records scope
-and provenance. Its
-[input specification](https://git.olsak.net/mirek/Micromath/src/commit/505588a6a0b184c992c3cbcd97721507365ec428/smt/Primo.md)
+[Micromath's SMT tools](https://git.olsak.net/mirek/Micromath/src/commit/ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/README.md)
+consume this container directly. The current tested pin is
+`ac052d97ea441ca52cfd0a6b904fad8d34098a8e`. It fixes the saved Goel weakening-mask failure and
+adds `--no-factor` to proof generation. All eighteen certificates in the six-input
+stress set now have independent kernel proofs (job `345415`); see the
+{download}`update report <../coverage/micromath-fixes.json>`.
+
+Earlier qualification used `df5c5d3` and `505588a`; the
+{download}`SAT-optimization comparison <../coverage/micromath-sat-update.json>`
+retains their historical counters. Those measurements are not attributed to the
+new pin. Its [input specification](https://git.olsak.net/mirek/Micromath/src/commit/ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/Primo.md)
 supports exactly one uninterpreted object sort, functions from objects to
 objects, and propositional Boolean variables in CNF. Conflicts contain object
 equalities/disequalities or truth constants. Multiple object sorts,
@@ -173,7 +172,7 @@ Download the external checkout into the ignored dependency directory:
 
 ```bash
 git clone https://git.olsak.net/mirek/Micromath.git contrib/src/micromath
-git -C contrib/src/micromath checkout 505588a6a0b184c992c3cbcd97721507365ec428
+git -C contrib/src/micromath checkout ac052d97ea441ca52cfd0a6b904fad8d34098a8e
 ```
 
 Build Micromath with `make` in that checkout and provide a CaDiCaL executable
@@ -216,24 +215,14 @@ conversion evidence discussed above. A conflict-only check with
 `./smt/check-conflicts` does not establish propositional sufficiency.
 
 CaDiCaL's bounded variable addition can introduce fresh variables into LRAT,
-which this RUP-only checker does not support. To use the tested compatibility
-profile, supply a wrapper as the proof-generating `--cadical` executable:
-
-```bash
-export CADICAL_REAL="$cadical"
-cat > "$proof_dir/cadical-no-factor" <<'SH'
-#!/bin/sh
-exec "$CADICAL_REAL" --no-factor "$@"
-SH
-chmod +x "$proof_dir/cadical-no-factor"
-./smt/prove-cnf "$certificate" "$proof_dir/problem.cnf" "$proof_dir/problem.lrat" --cadical "$proof_dir/cadical-no-factor"
-```
-
-This changes the separate SAT proof generator. Primo's main solver and numeric
-lemma reducer keep their selected options. Disabling BVA removes the observed
-fresh-variable obstacle; it is not a promise that every generated trace is
-supported. The Goel proof-construction error below persists even with plain SAT
-traces and in both Micromath versions.
+which this RUP-only checker does not support. In `ac052d9`, `prove-cnf` disables
+BVA itself by passing `--no-factor`; the separate wrapper used with earlier
+revisions is no longer needed. When generating a trace outside `prove-cnf`, use
+`--lrat --no-binary --no-factor`. Existing traces containing extension variables
+must be regenerated. The saved SEQ trace is still rejected with an explicit
+unsupported-fresh-variables diagnostic; the update does not add general RAT or
+extension-variable replay. The changed option applies to the separate proof
+SAT solver, leaving Primo's main solve and lemma reduction unchanged.
 
 The workflow also checks three rejection cases: a consistent alleged conflict,
 an insufficient lemma collection, and a corrupt proof file. Exact revisions,
@@ -306,12 +295,12 @@ select inputs; they are not a comparable speed baseline.
 
 | Input | CNF clauses | Lemmas: none / core / MUS | Full replay evidence |
 | --- | ---: | ---: | --- |
-| Goel peg solitaire 2, br | 11,985 | 336 / 115 / 95 | MUS weakening-mask error, both checker revisions |
-| Goel peg solitaire 5, fp | 15,073 | 249 / 82 / 52 | Plain MUS weakening-mask error, both revisions |
-| QG `gensys_icl_sk006` | 36,171 | 820 / 575 / 526 | All modes kernel-verified with `--no-factor` |
-| QG `gensys_icl006` | 35,826 | 773 / 556 / 525 | All modes kernel-verified with `--no-factor` |
-| SEQ005 size9 | 9,064 | 513 / 461 / 404 | All modes kernel-verified with `--no-factor` |
-| SEQ038 size9 | 8,623 | 1,179 / 754 / 573 | All modes kernel-verified with `--no-factor` |
+| Goel peg solitaire 2, br | 11,985 | 336 / 115 / 95 | All modes kernel-verified at `ac052d9` |
+| Goel peg solitaire 5, fp | 15,073 | 249 / 82 / 52 | All modes kernel-verified at `ac052d9` |
+| QG `gensys_icl_sk006` | 36,171 | 820 / 575 / 526 | All modes kernel-verified at `ac052d9` |
+| QG `gensys_icl006` | 35,826 | 773 / 556 / 525 | All modes kernel-verified at `ac052d9` |
+| SEQ005 size9 | 9,064 | 513 / 461 / 404 | All modes kernel-verified at `ac052d9` |
+| SEQ038 size9 | 8,623 | 1,179 / 754 / 573 | All modes kernel-verified at `ac052d9` |
 
 All eighteen initial profiles passed conflict checking and CaDiCaL reported
 propositional UNSAT, but their default LRAT traces introduced fresh variables;
@@ -322,11 +311,14 @@ kernel proofs for the four QG/SEQ inputs. Source solving was not repeated.
 On the same SEQ005 MUS trace, Mirek's update reduced SAT kernel work from
 1,448,860 to 800,848 steps; both versions' proofs replayed successfully.
 
-Both Goel inputs still fail `global literal weakening mask` with plain traces
-in both `df5c5d3` and `505588a` (job `345317`). Goel 2 also fails with
-`--no-factor` (job `345309`), with no fresh variables or negative LRAT hints.
-This remaining proof-construction failure is not established as a regression
-in the latest optimization. No invalid completed proof was accepted.
+The Goel weakening-mask error persisted in `df5c5d3` and `505588a`, including
+plain traces (job `345317`). It is fixed at `ac052d9`: the exact saved Goel
+challenge/LRAT now replays, and newly generated proofs pass in every mode for
+both Goel inputs. Regenerating the traces for the same eighteen saved certificates
+produced no extension variables, and all kernel checks printed `challenge proven`.
+The full upstream `make check` suite and three independently authored rejection
+controls also passed in job `345415`. No SMT solving was repeated. This is
+six-input coverage, not a full-corpus result or a runtime speedup comparison.
 
 The {download}`stress and diagnosis report <../coverage/micromath-fast-stress.json>`
 records per-phase outcomes, resources and proof hashes. The
@@ -338,6 +330,44 @@ A local self-contained archive adds the exact challenge/LRAT files and a replay
 script; its path and hash are in the report. Both replay payloads reproduced
 the expected errors after relocation in job `345343`; the final archive adds
 only its root metadata manifest to those unchanged replay files.
+
+### Replaying saved certificates without Primo
+
+The {download}`replay driver <../../scripts/micromath_replay.py>` reads saved
+`input.primo` files below `--inputs`, creates new equality axioms, challenges,
+DIMACS/LRAT traces and proofs, and independently replays each proof. It invokes
+the external tools through the existing
+{preparedexportsource}`process runner <scripts/micromath_stress.py>`. It never
+runs Primo or mutates saved input files. Supply a fresh `--out` directory:
+
+```bash
+python3 scripts/micromath_replay.py --micromath "$micromath" --micromath-git ac052d97ea441ca52cfd0a6b904fad8d34098a8e --cadical "$cadical" --inputs "$saved_certificates" --out "$proof_dir" --workers 4
+```
+
+Run the driver within SLURM. `--reuse-lrat` instead reads each input's adjacent
+`challenge.umd`, `problem.cnf` and `problem.lrat`, preserving the exact old
+challenge/trace bytes for regression diagnosis. The supplied CaDiCaL executable
+is hashed for provenance in both modes; saved-trace mode does not execute it.
+
+A parent process owns result records and atomically replaces `summary.json`;
+workers own separate output directories and synchronous subprocess stages.
+Logs and generated proof files remain on disk. Hashing streams files through
+1 MiB buffers. The driver also records input/challenge/trace hashes, tool hashes,
+DIMACS/LRAT variable counts, command lines, exit statuses and phase times.
+It checks that each certificate's hash remains unchanged through replay.
+This is an original orchestration workflow, not another SAT or theory checker.
+
+Each of at most four workers and its children has a 3 GiB address-space limit
+and 256 MiB per-file limit. Subprocess stages share a 180-second budget, with
+individual limits of 15 seconds for conflicts/challenge, 30 for CNF generation,
+90 for proof construction and 45 for kernel replay, plus a two-second
+termination grace. Subsequent metadata parsing and hashing are outside that
+pipeline budget; the allocation's wall limit bounds the complete job.
+`kernel_proven` requires exit zero and the exact `challenge proven` output;
+`Inconsistency proven!`, a mere zero exit, errors and timeouts do not count.
+Other outcomes retain their stage logs, and the driver exits nonzero unless
+every input is kernel-verified. These limits and the saved/regenerated modes
+were exercised in job `345415`.
 
 ## Container and literal syntax
 

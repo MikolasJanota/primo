@@ -3,6 +3,79 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-micromath-ac052d9-revalidation",
+      "date": "2026-11-03",
+      "kind": "external-checker-update-and-real-certificate-replay",
+      "evidence_status": "all six real inputs kernel-verified in all three reduction modes; saved Goel failure fixed; saved extension trace still unsupported",
+      "commit": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+      "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+      "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+      "report": "docs/coverage/micromath-fixes.json",
+      "job_id": "345415",
+      "host": "node-05.ciircluster",
+      "jobs": {
+        "successful": "345415",
+        "header_setup_failure": "345404"
+      },
+      "limits": {
+        "allocation": {
+          "cpus": 4,
+          "memory_gib": 16,
+          "wall_minutes": 20
+        },
+        "upstream_suite": "allocation limits; no per-test process limits added",
+        "replay": {
+          "worker_address_space_gib": 3,
+          "worker_file_limit_mib": 256,
+          "pipeline_seconds": 180,
+          "stage_limits_seconds": {
+            "conflicts": 15,
+            "challenge": 15,
+            "cnf": 30,
+            "proof": 90,
+            "kernel": 45
+          },
+          "termination_grace_seconds": 2
+        },
+        "concurrency": {
+          "saved": 2,
+          "regenerated": 4
+        },
+        "negative_controls": "sequential, 15s per subprocess plus2s termination grace, allocation memory limit; worker address/file caps do not apply to these parent calls.",
+        "pipeline_scope": "Subprocess pipeline budget excludes subsequent trace-metadata parsing and streaming file hashing; allocation wall limit bounds the whole run."
+      },
+      "commands": {
+        "source": "Pin Micromath ac052d97ea441ca52cfd0a6b904fad8d34098a8e; build and run make check in SLURM, with Python>=3.10 and LRAT-capable CaDiCaL on PATH.",
+        "certificates": "Reuse the six-case none/core/mus input.primo tree from results/micromath-fast-stress-345296; manifest benchmarks/micromath-fast-unsat-20261103.json pins source benchmarks.",
+        "replay": "python3 scripts/micromath_replay.py --micromath CHECKER --micromath-git ac052d97ea441ca52cfd0a6b904fad8d34098a8e --cadical REAL_CADICAL --inputs SAVED_CASES --out FRESH_DIRECTORY --workers 4",
+        "exact_reproducer": "Add --reuse-lrat and point --inputs at the unpacked historical reproduction bundle; it checks the existing challenge/LRAT bytes and returns nonzero when the SEQ extension trace is rejected.",
+        "compatibility": "Updated prove-cnf adds --no-factor automatically. No wrapper is needed. Existing extension/RAT traces must be regenerated; extension replay itself was not added."
+      },
+      "summary": {
+        "inputs": 6,
+        "regenerated_profiles": 18,
+        "kernel_proven": 18,
+        "regenerated_timeout_error_crash": 0,
+        "fresh_variables_in_regenerated_traces": 0,
+        "saved_replays": {
+          "goel_original_trace": "kernel_proven",
+          "seq_extension_trace": "rejected with explicit unsupported-fresh-variables diagnostic"
+        },
+        "negative_control_exit_codes": {
+          "bad_conflict": 1,
+          "missing_conflicts": 2,
+          "corrupt_proof": 1
+        }
+      },
+      "artifacts": {
+        "current": "results/micromath-fixes-345415",
+        "environment_failure": "results/micromath-fixes-attempt-345404",
+        "historical_stress": "results/micromath-fast-stress-345296",
+        "historical_reproducers": "benchmarks/checker-regressions/micromath-20261103"
+      },
+      "scope": "Consumer/checker update only. Same 18 exported certificates from qualified Primo cf82b726; no new SMT solves, native solver modifications or source-to-CNF proof. Fresh challenges and LRAT generated with updated Micromath. Only exact challenge proven kernel results count."
+    },
+    {
       "id": "2026-11-03-normal-pipeline-streamed-export",
       "date": "2026-11-03",
       "kind": "solver-certificate-export-qualification",

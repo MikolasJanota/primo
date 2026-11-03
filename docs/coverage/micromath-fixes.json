@@ -1,0 +1,2499 @@
+{
+  "schema_version": 1,
+  "status": "all six real inputs kernel-verified in all three reduction modes; saved Goel failure fixed; saved extension trace still unsupported",
+  "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+  "baseline_micromath_git": "505588a6a0b184c992c3cbcd97721507365ec428",
+  "primo_input_git": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+  "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+  "job_id": "345415",
+  "job_state": "COMPLETED exit0:0",
+  "job_elapsed_seconds": 70,
+  "host": "node-05.ciircluster",
+  "allocation": {
+    "cpus": 4,
+    "memory_gib": 16,
+    "wall_minutes": 20
+  },
+  "scope": "Consumer/checker update only. Same 18 exported certificates from qualified Primo cf82b726; no new SMT solves, native solver modifications or source-to-CNF proof. Fresh challenges and LRAT generated with updated Micromath. Only exact challenge proven kernel results count.",
+  "summary": {
+    "inputs": 6,
+    "regenerated_profiles": 18,
+    "kernel_proven": 18,
+    "regenerated_timeout_error_crash": 0,
+    "fresh_variables_in_regenerated_traces": 0,
+    "saved_replays": {
+      "goel_original_trace": "kernel_proven",
+      "seq_extension_trace": "rejected with explicit unsupported-fresh-variables diagnostic"
+    },
+    "negative_control_exit_codes": {
+      "bad_conflict": 1,
+      "missing_conflicts": 2,
+      "corrupt_proof": 1
+    }
+  },
+  "upstream_tests": "Full make check passed, including kernel/prover, SAT, SMT, deterministic builders, proof replay/export, and negative tests. Expected failure diagnostics in upstream negative tests are not failed tests.",
+  "attempts": [
+    {
+      "job_id": "345404",
+      "state": "FAILED exit2:0, elapsed7s",
+      "result": "External build succeeded; deterministic-builder tests invoke compilers directly and missed supplied CFLAGS include paths (endian.h missing). No proof replay attempted. Fixed by C_INCLUDE_PATH in the next allocation, without modifying upstream code."
+    }
+  ],
+  "workflow": {
+    "path": "scripts/micromath_replay.py",
+    "sha256": "4b301b319cf68f1967b7a3de46ce79024a2493eab8bbb3a64b8f5905602475bd",
+    "base_git": "51416b34",
+    "helper_sha256": "a3446c4a85b5373507acb682e63283f10ecfe8dc4d85840edbbf4ebb393d7ce1",
+    "submitted_script": "results/micromath-fixes-345415/workflow.sbatch",
+    "submitted_script_sha256": "63e7b33507338862d0502e79a9a2a4768267b41a1e3fea777d717a86c1931c0d"
+  },
+  "limits": {
+    "allocation": {
+      "cpus": 4,
+      "memory_gib": 16,
+      "wall_minutes": 20
+    },
+    "upstream_suite": "allocation limits; no per-test process limits added",
+    "replay": {
+      "worker_address_space_gib": 3,
+      "worker_file_limit_mib": 256,
+      "pipeline_seconds": 180,
+      "stage_limits_seconds": {
+        "conflicts": 15,
+        "challenge": 15,
+        "cnf": 30,
+        "proof": 90,
+        "kernel": 45
+      },
+      "termination_grace_seconds": 2
+    },
+    "concurrency": {
+      "saved": 2,
+      "regenerated": 4
+    },
+    "negative_controls": "sequential, 15s per subprocess plus2s termination grace, allocation memory limit; worker address/file caps do not apply to these parent calls.",
+    "pipeline_scope": "Subprocess pipeline budget excludes subsequent trace-metadata parsing and streaming file hashing; allocation wall limit bounds the whole run."
+  },
+  "provenance": {
+    "saved": {
+      "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+      "job_id": "345415",
+      "host": "node-05.ciircluster",
+      "python": "3.11.7",
+      "command": [
+        "$EXTERNAL_WORKSPACE/replay-tools-ac052d9/micromath_replay.py",
+        "--micromath",
+        "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+        "--micromath-git",
+        "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+        "--cadical",
+        "$EXTERNAL_WORKSPACE/cadical/build/cadical",
+        "--workers",
+        "2",
+        "--reuse-lrat",
+        "--inputs",
+        "$EXTERNAL_WORKSPACE/rup-replay-345343/micromath-repro-20261103",
+        "--out",
+        "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved"
+      ],
+      "workflow_sha256": "4b301b319cf68f1967b7a3de46ce79024a2493eab8bbb3a64b8f5905602475bd",
+      "invoke_helper_sha256": "a3446c4a85b5373507acb682e63283f10ecfe8dc4d85840edbbf4ebb393d7ce1",
+      "reuse_lrat": true,
+      "workers": 2,
+      "input_count": 2,
+      "worker_address_space_gib": 3,
+      "worker_file_limit_mib": 256,
+      "pipeline_seconds": 180,
+      "stage_limits_seconds": {
+        "conflicts": 15,
+        "challenge": 15,
+        "cnf": 30,
+        "proof": 90,
+        "kernel": 45
+      },
+      "termination_grace_seconds": 2,
+      "binary_sha256": {
+        "$EXTERNAL_WORKSPACE/cadical/build/cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+        "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf": "b8fb907df7591526b6200e77df8addf123be2678e7c01fcd37d1ee27f152215c",
+        "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat": "df150f389dc77067d7018bf171ffbb5579a69b8845dab06ba1dbfcc687a2279d",
+        "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution": "b39dc3bf07263c92c4e4ff2fdfe43bcd20f3b1ce061ecf9f5fc794f29abfab8c"
+      }
+    },
+    "regenerated": {
+      "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+      "job_id": "345415",
+      "host": "node-05.ciircluster",
+      "python": "3.11.7",
+      "command": [
+        "$EXTERNAL_WORKSPACE/replay-tools-ac052d9/micromath_replay.py",
+        "--micromath",
+        "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+        "--micromath-git",
+        "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+        "--cadical",
+        "$EXTERNAL_WORKSPACE/cadical/build/cadical",
+        "--workers",
+        "4",
+        "--inputs",
+        "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases",
+        "--out",
+        "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated"
+      ],
+      "workflow_sha256": "4b301b319cf68f1967b7a3de46ce79024a2493eab8bbb3a64b8f5905602475bd",
+      "invoke_helper_sha256": "a3446c4a85b5373507acb682e63283f10ecfe8dc4d85840edbbf4ebb393d7ce1",
+      "reuse_lrat": false,
+      "workers": 4,
+      "input_count": 18,
+      "worker_address_space_gib": 3,
+      "worker_file_limit_mib": 256,
+      "pipeline_seconds": 180,
+      "stage_limits_seconds": {
+        "conflicts": 15,
+        "challenge": 15,
+        "cnf": 30,
+        "proof": 90,
+        "kernel": 45
+      },
+      "termination_grace_seconds": 2,
+      "binary_sha256": {
+        "$EXTERNAL_WORKSPACE/cadical/build/cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+        "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf": "b8fb907df7591526b6200e77df8addf123be2678e7c01fcd37d1ee27f152215c",
+        "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat": "df150f389dc77067d7018bf171ffbb5579a69b8845dab06ba1dbfcc687a2279d",
+        "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution": "b39dc3bf07263c92c4e4ff2fdfe43bcd20f3b1ce061ecf9f5fc794f29abfab8c"
+      }
+    },
+    "checker_binary_sha256": {
+      "smt/prove-cnf": "b8fb907df7591526b6200e77df8addf123be2678e7c01fcd37d1ee27f152215c",
+      "smt/prove-lrat": "df150f389dc77067d7018bf171ffbb5579a69b8845dab06ba1dbfcc687a2279d",
+      "check-solution": "b39dc3bf07263c92c4e4ff2fdfe43bcd20f3b1ce061ecf9f5fc794f29abfab8c"
+    }
+  },
+  "saved": {
+    "completed": 2,
+    "expected": 2,
+    "counts": {
+      "proof_error": 1,
+      "kernel_proven": 1
+    },
+    "all_kernel_proven": false,
+    "rows": [
+      {
+        "case": "goel-weakening-mask",
+        "input_sha256": "1d0f04f2dde2c929c4b669fd153eaa4caf3535745ea32577d947211602ad8f8d",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/rup-replay-345343/micromath-repro-20261103/goel-weakening-mask/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/goel-weakening-mask/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/goel-weakening-mask/conflicts.err",
+            "state": "ok",
+            "seconds": 0.06988988600642188,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/rup-replay-345343/micromath-repro-20261103/goel-weakening-mask/challenge.umd",
+              "$EXTERNAL_WORKSPACE/rup-replay-345343/micromath-repro-20261103/goel-weakening-mask/input.primo",
+              "$EXTERNAL_WORKSPACE/rup-replay-345343/micromath-repro-20261103/goel-weakening-mask/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/goel-weakening-mask/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/goel-weakening-mask/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/goel-weakening-mask/proof.err",
+            "state": "ok",
+            "seconds": 2.5215731719945325,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/rup-replay-345343/micromath-repro-20261103/goel-weakening-mask/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/goel-weakening-mask/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/goel-weakening-mask/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/goel-weakening-mask/kernel.err",
+            "state": "ok",
+            "seconds": 0.7220133770024404,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 6989,
+          "largest_lrat_variable": 6957,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "1d0f04f2dde2c929c4b669fd153eaa4caf3535745ea32577d947211602ad8f8d",
+            "bytes": 1191502
+          },
+          "challenge": {
+            "sha256": "deb0add0496cc99b3dfd4ddc1bf42ea5cf52428df8d527df5f456f539f82f3f8",
+            "bytes": 3420602
+          },
+          "lrat": {
+            "sha256": "83949018c17ea367153086c13e291eb15e8f204af9cb9036eca496171b9283b0",
+            "bytes": 421392
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "8ac9a6a1b757249412cdfa7cdba47e18fa36510fc5087ab945135543325cb57d",
+            "bytes": 7910209
+          }
+        }
+      },
+      {
+        "case": "seq-extension-vars",
+        "input_sha256": "22b62237d4bcace3a08c57094e947bdaa087cac4fcd194b59e418dea8b878821",
+        "status": "proof_error",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/rup-replay-345343/micromath-repro-20261103/seq-extension-vars/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/seq-extension-vars/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/seq-extension-vars/conflicts.err",
+            "state": "ok",
+            "seconds": 0.07005401499918662,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/rup-replay-345343/micromath-repro-20261103/seq-extension-vars/challenge.umd",
+              "$EXTERNAL_WORKSPACE/rup-replay-345343/micromath-repro-20261103/seq-extension-vars/input.primo",
+              "$EXTERNAL_WORKSPACE/rup-replay-345343/micromath-repro-20261103/seq-extension-vars/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/seq-extension-vars/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/seq-extension-vars/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/saved/cases/seq-extension-vars/proof.err",
+            "state": "error",
+            "seconds": 0.668948371996521,
+            "exit_code": 1
+          }
+        },
+        "error": "$EXTERNAL_WORKSPACE/rup-replay-345343/micromath-repro-20261103/seq-extension-vars/problem.lrat:1346: fresh SAT variables are unsupported by RUP replay; regenerate CaDiCaL LRAT with --no-factor\n",
+        "trace": {
+          "dimacs_variables": 4132,
+          "largest_lrat_variable": 4634,
+          "introduces_variables": true,
+          "additions_with_negative_hints": 502
+        },
+        "source_files": {
+          "input": {
+            "sha256": "22b62237d4bcace3a08c57094e947bdaa087cac4fcd194b59e418dea8b878821",
+            "bytes": 828605
+          },
+          "challenge": {
+            "sha256": "eafdf695c536091abc0a1452be04f0d9c008359ffac2390d124c2151fe4afd84",
+            "bytes": 1409060
+          },
+          "lrat": {
+            "sha256": "376c53833b6cba890e17d66c2fe43766ad2e3ca86a9c90471270eaf632954ac4",
+            "bytes": 410135
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "938fce9e9ae64c8a56ead8e40ea8682e11c4f21c1bcee65f517aa4dfb125663e",
+            "bytes": 8
+          }
+        }
+      }
+    ]
+  },
+  "regenerated": {
+    "completed": 18,
+    "expected": 18,
+    "counts": {
+      "kernel_proven": 18
+    },
+    "all_kernel_proven": true,
+    "rows": [
+      {
+        "case": "000/core",
+        "input_sha256": "8cce5a3200fe14744a40a98f5b1d31ede72e37c9718281d72d79b7b560596208",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/000/core/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/conflicts.err",
+            "state": "ok",
+            "seconds": 0.11958278800011612,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/000/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/challenge.err",
+            "state": "ok",
+            "seconds": 2.172070551998331,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/000/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/cnf.err",
+            "state": "ok",
+            "seconds": 0.16823348099569557,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/000/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/proof.err",
+            "state": "ok",
+            "seconds": 4.175764817999152,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/core/kernel.err",
+            "state": "ok",
+            "seconds": 1.370269606995862,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 6989,
+          "largest_lrat_variable": 6957,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "8cce5a3200fe14744a40a98f5b1d31ede72e37c9718281d72d79b7b560596208",
+            "bytes": 1205173
+          },
+          "challenge": {
+            "sha256": "deb0add0496cc99b3dfd4ddc1bf42ea5cf52428df8d527df5f456f539f82f3f8",
+            "bytes": 3420602
+          },
+          "lrat": {
+            "sha256": "bfd8446d181a4a0a287fa407ec844429a0e03aca908863d7c33887a809ef2eda",
+            "bytes": 426864
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "9818358b60c1be3da637da7aab4f02937d4e4ea821f3278c0783e74f5273fd2f",
+            "bytes": 7985664
+          },
+          "challenge.umd": {
+            "sha256": "deb0add0496cc99b3dfd4ddc1bf42ea5cf52428df8d527df5f456f539f82f3f8",
+            "bytes": 3420602
+          },
+          "problem.lrat": {
+            "sha256": "bfd8446d181a4a0a287fa407ec844429a0e03aca908863d7c33887a809ef2eda",
+            "bytes": 426864
+          },
+          "problem.cnf": {
+            "sha256": "c054d810d27fcd7dd828c108ee4c661389b5e5f43f98877102c5e831c5b0bb47",
+            "bytes": 691898
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 7717,
+          "cc_steps": 86151,
+          "sat_steps": 1222277,
+          "exported_steps": 607553,
+          "executed_steps": 1316145
+        },
+        "benchmark": "2018-Goel-hwbench/QF_UF_peg_solitaire.2.prop1_ab_br_max.smt2"
+      },
+      {
+        "case": "000/mus",
+        "input_sha256": "1d0f04f2dde2c929c4b669fd153eaa4caf3535745ea32577d947211602ad8f8d",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/000/mus/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/conflicts.err",
+            "state": "ok",
+            "seconds": 0.12028120100148953,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/000/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/challenge.err",
+            "state": "ok",
+            "seconds": 2.1209934750004322,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/000/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/cnf.err",
+            "state": "ok",
+            "seconds": 0.1687543160005589,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/000/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/proof.err",
+            "state": "ok",
+            "seconds": 4.225367852995987,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/kernel.err",
+            "state": "ok",
+            "seconds": 1.3701168299958226,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 6989,
+          "largest_lrat_variable": 6957,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "1d0f04f2dde2c929c4b669fd153eaa4caf3535745ea32577d947211602ad8f8d",
+            "bytes": 1191502
+          },
+          "challenge": {
+            "sha256": "deb0add0496cc99b3dfd4ddc1bf42ea5cf52428df8d527df5f456f539f82f3f8",
+            "bytes": 3420602
+          },
+          "lrat": {
+            "sha256": "83949018c17ea367153086c13e291eb15e8f204af9cb9036eca496171b9283b0",
+            "bytes": 421392
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "8ac9a6a1b757249412cdfa7cdba47e18fa36510fc5087ab945135543325cb57d",
+            "bytes": 7910209
+          },
+          "challenge.umd": {
+            "sha256": "deb0add0496cc99b3dfd4ddc1bf42ea5cf52428df8d527df5f456f539f82f3f8",
+            "bytes": 3420602
+          },
+          "problem.lrat": {
+            "sha256": "83949018c17ea367153086c13e291eb15e8f204af9cb9036eca496171b9283b0",
+            "bytes": 421392
+          },
+          "problem.cnf": {
+            "sha256": "6b96b50386f0e5fdb136831c90de6df14ea5aead2acdaccad3f8fb1ef121b40d",
+            "bytes": 689630
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 7508,
+          "cc_steps": 70829,
+          "sat_steps": 1190054,
+          "exported_steps": 602370,
+          "executed_steps": 1268391
+        },
+        "benchmark": "2018-Goel-hwbench/QF_UF_peg_solitaire.2.prop1_ab_br_max.smt2"
+      },
+      {
+        "case": "000/none",
+        "input_sha256": "4f8f5a59d43e152d5a8d5481d5c6161ce683f615d22adb91428ed302f0622450",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/000/none/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/conflicts.err",
+            "state": "ok",
+            "seconds": 0.11952348900376819,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/000/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/challenge.err",
+            "state": "ok",
+            "seconds": 2.070672020003258,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/000/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/cnf.err",
+            "state": "ok",
+            "seconds": 0.219440480999765,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/000/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/proof.err",
+            "state": "ok",
+            "seconds": 4.625220262001676,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/none/kernel.err",
+            "state": "ok",
+            "seconds": 1.2701234749983996,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 6989,
+          "largest_lrat_variable": 6989,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "4f8f5a59d43e152d5a8d5481d5c6161ce683f615d22adb91428ed302f0622450",
+            "bytes": 1393959
+          },
+          "challenge": {
+            "sha256": "deb0add0496cc99b3dfd4ddc1bf42ea5cf52428df8d527df5f456f539f82f3f8",
+            "bytes": 3420602
+          },
+          "lrat": {
+            "sha256": "2d584b44edfa46e6075b1c7f8d06d45bcc8789de3d7ac10da665949ce2c2c89c",
+            "bytes": 500443
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "5773bc3b941dd4307f243cc25b5a6455aa22c122c74f062b36a8a25768e7f3cc",
+            "bytes": 7506363
+          },
+          "challenge.umd": {
+            "sha256": "deb0add0496cc99b3dfd4ddc1bf42ea5cf52428df8d527df5f456f539f82f3f8",
+            "bytes": 3420602
+          },
+          "problem.lrat": {
+            "sha256": "2d584b44edfa46e6075b1c7f8d06d45bcc8789de3d7ac10da665949ce2c2c89c",
+            "bytes": 500443
+          },
+          "problem.cnf": {
+            "sha256": "b22bf25bb441c2869fb9688864d36063311ed85ddd4b1af58855685c6c2791e8",
+            "bytes": 721863
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 7706,
+          "cc_steps": 294411,
+          "sat_steps": 1641540,
+          "exported_steps": 571336,
+          "executed_steps": 1943657
+        },
+        "benchmark": "2018-Goel-hwbench/QF_UF_peg_solitaire.2.prop1_ab_br_max.smt2"
+      },
+      {
+        "case": "001/core",
+        "input_sha256": "d6afe8383161924be61ee756d40f729af959a0ba91772790f943d33532dae05b",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/001/core/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/conflicts.err",
+            "state": "ok",
+            "seconds": 0.1197467840029276,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/001/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/challenge.err",
+            "state": "ok",
+            "seconds": 2.0711366100003943,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/001/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/cnf.err",
+            "state": "ok",
+            "seconds": 0.2191126890029409,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/001/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/proof.err",
+            "state": "ok",
+            "seconds": 4.375911474002351,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/core/kernel.err",
+            "state": "ok",
+            "seconds": 1.320169316000829,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 8201,
+          "largest_lrat_variable": 8197,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "d6afe8383161924be61ee756d40f729af959a0ba91772790f943d33532dae05b",
+            "bytes": 1303314
+          },
+          "challenge": {
+            "sha256": "04f81c1d746baba39c14fab0f3775071becf9e53933fbc6a242acffe20dc4fd5",
+            "bytes": 3725889
+          },
+          "lrat": {
+            "sha256": "d4454b4abdaabf84d95d1fc334e7d45d7a35116b65dc0ec456f600c5c52f4450",
+            "bytes": 521886
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "4401902ef39beef68aa6a82be43c5c5e0e4d55543fc13464d5d0b8e04c3401a6",
+            "bytes": 8497706
+          },
+          "challenge.umd": {
+            "sha256": "04f81c1d746baba39c14fab0f3775071becf9e53933fbc6a242acffe20dc4fd5",
+            "bytes": 3725889
+          },
+          "problem.lrat": {
+            "sha256": "d4454b4abdaabf84d95d1fc334e7d45d7a35116b65dc0ec456f600c5c52f4450",
+            "bytes": 521886
+          },
+          "problem.cnf": {
+            "sha256": "3bef0e9682b847fcf5d9f102d178144cda9370b0ee926368bbdf652f0b7c9773",
+            "bytes": 846427
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 7717,
+          "cc_steps": 31912,
+          "sat_steps": 1604539,
+          "exported_steps": 646631,
+          "executed_steps": 1644168
+        },
+        "benchmark": "2018-Goel-hwbench/QF_UF_peg_solitaire.5.prop1_ab_fp_max.smt2"
+      },
+      {
+        "case": "001/mus",
+        "input_sha256": "11a3ede2dc534988643931292b7c1991ffb00786dd327d624b374b4f54f92965",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/001/mus/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/conflicts.err",
+            "state": "ok",
+            "seconds": 0.12190636799641652,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/001/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/challenge.err",
+            "state": "ok",
+            "seconds": 2.173248867999064,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/001/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/cnf.err",
+            "state": "ok",
+            "seconds": 0.218709241002216,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/001/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/proof.err",
+            "state": "ok",
+            "seconds": 4.075634495005943,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/mus/kernel.err",
+            "state": "ok",
+            "seconds": 1.2703218400056357,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 8201,
+          "largest_lrat_variable": 8178,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "11a3ede2dc534988643931292b7c1991ffb00786dd327d624b374b4f54f92965",
+            "bytes": 1299424
+          },
+          "challenge": {
+            "sha256": "04f81c1d746baba39c14fab0f3775071becf9e53933fbc6a242acffe20dc4fd5",
+            "bytes": 3725889
+          },
+          "lrat": {
+            "sha256": "5ef31cd4c1811f22c3bb961f69378085527b7e472eeccfd85e74a0c58b5d1336",
+            "bytes": 520265
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "629c8c4b9e0e33c1471295b565a676625fea8dd3f8f374982502ad57765cd120",
+            "bytes": 8372568
+          },
+          "challenge.umd": {
+            "sha256": "04f81c1d746baba39c14fab0f3775071becf9e53933fbc6a242acffe20dc4fd5",
+            "bytes": 3725889
+          },
+          "problem.lrat": {
+            "sha256": "5ef31cd4c1811f22c3bb961f69378085527b7e472eeccfd85e74a0c58b5d1336",
+            "bytes": 520265
+          },
+          "problem.cnf": {
+            "sha256": "894d615fc0c8209185a2f69ae35831517a204becb33eccc0710d939bb1bc868b",
+            "bytes": 844987
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 7508,
+          "cc_steps": 27109,
+          "sat_steps": 1603654,
+          "exported_steps": 636750,
+          "executed_steps": 1638271
+        },
+        "benchmark": "2018-Goel-hwbench/QF_UF_peg_solitaire.5.prop1_ab_fp_max.smt2"
+      },
+      {
+        "case": "001/none",
+        "input_sha256": "a520ea72ef175f42cd1baa231bb1cecaa5952deaec7a06124c380ace3a100dfc",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/001/none/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/conflicts.err",
+            "state": "ok",
+            "seconds": 0.11977088999992702,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/001/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/challenge.err",
+            "state": "ok",
+            "seconds": 2.1212973650035565,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/001/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/cnf.err",
+            "state": "ok",
+            "seconds": 0.22041342400189023,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/001/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/proof.err",
+            "state": "ok",
+            "seconds": 4.375840805005282,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/001/none/kernel.err",
+            "state": "ok",
+            "seconds": 1.3208453499973984,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 8201,
+          "largest_lrat_variable": 8199,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "a520ea72ef175f42cd1baa231bb1cecaa5952deaec7a06124c380ace3a100dfc",
+            "bytes": 1371141
+          },
+          "challenge": {
+            "sha256": "04f81c1d746baba39c14fab0f3775071becf9e53933fbc6a242acffe20dc4fd5",
+            "bytes": 3725889
+          },
+          "lrat": {
+            "sha256": "7e6a270b881e4c9578c2d5fc06bc2c5dd66597481a408d7501a3625713ef12c5",
+            "bytes": 572748
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "3186c9b74e41b38e2b7b9a61374c133f680398d602169c56c68cb7f363914b41",
+            "bytes": 7983661
+          },
+          "challenge.umd": {
+            "sha256": "04f81c1d746baba39c14fab0f3775071becf9e53933fbc6a242acffe20dc4fd5",
+            "bytes": 3725889
+          },
+          "problem.lrat": {
+            "sha256": "7e6a270b881e4c9578c2d5fc06bc2c5dd66597481a408d7501a3625713ef12c5",
+            "bytes": 572748
+          },
+          "problem.cnf": {
+            "sha256": "eb35d1090d5468338216eab415a8e2e7ff376e030884b6ddd0a2faa77e0d4aea",
+            "bytes": 860355
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 7710,
+          "cc_steps": 112644,
+          "sat_steps": 1911767,
+          "exported_steps": 605903,
+          "executed_steps": 2032121
+        },
+        "benchmark": "2018-Goel-hwbench/QF_UF_peg_solitaire.5.prop1_ab_fp_max.smt2"
+      },
+      {
+        "case": "002/core",
+        "input_sha256": "dd7d54411d634731717f185803b9909449fd6acdfba482c24cfb8bad0130843f",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/002/core/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/conflicts.err",
+            "state": "ok",
+            "seconds": 0.27002625499881105,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/002/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/challenge.err",
+            "state": "ok",
+            "seconds": 1.721113523002714,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/002/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/cnf.err",
+            "state": "ok",
+            "seconds": 0.36883757499890635,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/002/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/proof.err",
+            "state": "ok",
+            "seconds": 4.626981189001526,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/core/kernel.err",
+            "state": "ok",
+            "seconds": 1.1705431660011527,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 6000,
+          "largest_lrat_variable": 2281,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "dd7d54411d634731717f185803b9909449fd6acdfba482c24cfb8bad0130843f",
+            "bytes": 2615476
+          },
+          "challenge": {
+            "sha256": "03c4ca98999be98a2a8c7e8250d54a459f64f15aabc59a4d90acd8e6a575878e",
+            "bytes": 5010845
+          },
+          "lrat": {
+            "sha256": "ea1a3a02588740546073eb282664a39ec6aa11180b014a487e3664fabe5e8be5",
+            "bytes": 590115
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "2ed91878d4b3903dbc85fd796d9b6fddfa0bcdfe327d640c93a99d65ed1b6f2c",
+            "bytes": 11329730
+          },
+          "challenge.umd": {
+            "sha256": "03c4ca98999be98a2a8c7e8250d54a459f64f15aabc59a4d90acd8e6a575878e",
+            "bytes": 5010845
+          },
+          "problem.lrat": {
+            "sha256": "ea1a3a02588740546073eb282664a39ec6aa11180b014a487e3664fabe5e8be5",
+            "bytes": 590115
+          },
+          "problem.cnf": {
+            "sha256": "a543f6e7db60e0e69341c4d8be509b5a0168172e1aed007c3a78135cf83d99fc",
+            "bytes": 1633690
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 8330,
+          "cc_steps": 469151,
+          "sat_steps": 2443062,
+          "exported_steps": 852549,
+          "executed_steps": 2920543
+        },
+        "benchmark": "QG-classification/qg7/gensys_icl_sk006.smt2"
+      },
+      {
+        "case": "002/mus",
+        "input_sha256": "4d37b15f5bc6947f04987135c28f24a6bd1a34343f691693d82dee5f735bc07c",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/002/mus/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/conflicts.err",
+            "state": "ok",
+            "seconds": 0.2215881160009303,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/002/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/challenge.err",
+            "state": "ok",
+            "seconds": 1.6713306680030655,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/002/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/cnf.err",
+            "state": "ok",
+            "seconds": 0.3700035639994894,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/002/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/proof.err",
+            "state": "ok",
+            "seconds": 4.677175969998643,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/mus/kernel.err",
+            "state": "ok",
+            "seconds": 1.1707473029964603,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 6000,
+          "largest_lrat_variable": 2281,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "4d37b15f5bc6947f04987135c28f24a6bd1a34343f691693d82dee5f735bc07c",
+            "bytes": 2605477
+          },
+          "challenge": {
+            "sha256": "03c4ca98999be98a2a8c7e8250d54a459f64f15aabc59a4d90acd8e6a575878e",
+            "bytes": 5010845
+          },
+          "lrat": {
+            "sha256": "ef63ed5c2157795ff9422ca0722fcdd55174d5a968a11e81f4ba7365ff647b11",
+            "bytes": 592801
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "264eaaa8ed4111f082ae580d7c19f952b015aea610cdf4b1c899c07b2b318059",
+            "bytes": 11668665
+          },
+          "challenge.umd": {
+            "sha256": "03c4ca98999be98a2a8c7e8250d54a459f64f15aabc59a4d90acd8e6a575878e",
+            "bytes": 5010845
+          },
+          "problem.lrat": {
+            "sha256": "ef63ed5c2157795ff9422ca0722fcdd55174d5a968a11e81f4ba7365ff647b11",
+            "bytes": 592801
+          },
+          "problem.cnf": {
+            "sha256": "936dd465ee5ec07e583f4a3455212a8077c64c1f8467bcf50d6defd0aecf1092",
+            "bytes": 1630470
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 8330,
+          "cc_steps": 436637,
+          "sat_steps": 2518557,
+          "exported_steps": 877881,
+          "executed_steps": 2963524
+        },
+        "benchmark": "QG-classification/qg7/gensys_icl_sk006.smt2"
+      },
+      {
+        "case": "002/none",
+        "input_sha256": "d174b6b26680f7d2d4fb37d2462f402ffedca363da6d5ee303f27e944fe9df97",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/002/none/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/conflicts.err",
+            "state": "ok",
+            "seconds": 0.2707356350001646,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/002/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/challenge.err",
+            "state": "ok",
+            "seconds": 1.6209897410008125,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/002/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/cnf.err",
+            "state": "ok",
+            "seconds": 0.4192980570005602,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/002/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/proof.err",
+            "state": "ok",
+            "seconds": 5.2775195999929565,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/002/none/kernel.err",
+            "state": "ok",
+            "seconds": 1.1701350769944838,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 6000,
+          "largest_lrat_variable": 2281,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "d174b6b26680f7d2d4fb37d2462f402ffedca363da6d5ee303f27e944fe9df97",
+            "bytes": 2687389
+          },
+          "challenge": {
+            "sha256": "03c4ca98999be98a2a8c7e8250d54a459f64f15aabc59a4d90acd8e6a575878e",
+            "bytes": 5010845
+          },
+          "lrat": {
+            "sha256": "1d155098dc2356ee4e0e88648282efab1be924e1ee91eee2dfbb6ec3dc8e793a",
+            "bytes": 657391
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "f89bb511c96e5b434cfac45e1671c416c8c61a32297cf53d7bd27fb5758f55c2",
+            "bytes": 13249464
+          },
+          "challenge.umd": {
+            "sha256": "03c4ca98999be98a2a8c7e8250d54a459f64f15aabc59a4d90acd8e6a575878e",
+            "bytes": 5010845
+          },
+          "problem.lrat": {
+            "sha256": "1d155098dc2356ee4e0e88648282efab1be924e1ee91eee2dfbb6ec3dc8e793a",
+            "bytes": 657391
+          },
+          "problem.cnf": {
+            "sha256": "487355b659fd58ac1eeef5c12ca532d535fd633cb9f945cc7ee6dbc8cfbf74e1",
+            "bytes": 1653277
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 8315,
+          "cc_steps": 726490,
+          "sat_steps": 3261367,
+          "exported_steps": 996677,
+          "executed_steps": 3996172
+        },
+        "benchmark": "QG-classification/qg7/gensys_icl_sk006.smt2"
+      },
+      {
+        "case": "003/core",
+        "input_sha256": "1cbac585df9db4580b8c0f3336e6e26cbaabfec32844adfe45a4ba785a751baf",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/003/core/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/conflicts.err",
+            "state": "ok",
+            "seconds": 0.28250744100660086,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/003/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/challenge.err",
+            "state": "ok",
+            "seconds": 1.6710091670029215,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/003/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/cnf.err",
+            "state": "ok",
+            "seconds": 0.3692176920012571,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/003/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/proof.err",
+            "state": "ok",
+            "seconds": 4.480919294001069,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/core/kernel.err",
+            "state": "ok",
+            "seconds": 1.1716572619989165,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 5880,
+          "largest_lrat_variable": 2161,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "1cbac585df9db4580b8c0f3336e6e26cbaabfec32844adfe45a4ba785a751baf",
+            "bytes": 2593618
+          },
+          "challenge": {
+            "sha256": "698b281832d5bb80c99fb4320f0b559c280ff56930ad97c2acbc40390b1762ed",
+            "bytes": 4965918
+          },
+          "lrat": {
+            "sha256": "2e5001bff04748cff345ab7ef14ea66269c38cd05aa1ab850c274cc80b32d4d0",
+            "bytes": 590482
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "22ed0ded7489a97dde740cc713c8437b5da1ad14d72196e46caad29e570610a1",
+            "bytes": 11623758
+          },
+          "challenge.umd": {
+            "sha256": "698b281832d5bb80c99fb4320f0b559c280ff56930ad97c2acbc40390b1762ed",
+            "bytes": 4965918
+          },
+          "problem.lrat": {
+            "sha256": "2e5001bff04748cff345ab7ef14ea66269c38cd05aa1ab850c274cc80b32d4d0",
+            "bytes": 590482
+          },
+          "problem.cnf": {
+            "sha256": "1a3d236a574a977d3e0d974294c7959a43a55caf24ef2c45d55fcd3af8df62f4",
+            "bytes": 1608234
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 8330,
+          "cc_steps": 468273,
+          "sat_steps": 2592207,
+          "exported_steps": 875128,
+          "executed_steps": 3068810
+        },
+        "benchmark": "QG-classification/qg7/gensys_icl006.smt2"
+      },
+      {
+        "case": "003/mus",
+        "input_sha256": "1acc2956c9c5f84b97fb6b0ef3f79cb1fe4756c08c58e70da769752dcf736f95",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/003/mus/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/conflicts.err",
+            "state": "ok",
+            "seconds": 0.27108782499999506,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/003/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/challenge.err",
+            "state": "ok",
+            "seconds": 1.5702360229988699,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/003/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/cnf.err",
+            "state": "ok",
+            "seconds": 0.4192666460003238,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/003/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/proof.err",
+            "state": "ok",
+            "seconds": 4.436954347002029,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/mus/kernel.err",
+            "state": "ok",
+            "seconds": 1.1204855280011543,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 5880,
+          "largest_lrat_variable": 2161,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "1acc2956c9c5f84b97fb6b0ef3f79cb1fe4756c08c58e70da769752dcf736f95",
+            "bytes": 2587439
+          },
+          "challenge": {
+            "sha256": "698b281832d5bb80c99fb4320f0b559c280ff56930ad97c2acbc40390b1762ed",
+            "bytes": 4965918
+          },
+          "lrat": {
+            "sha256": "8f30db1949c1d9061b1d2e6f9f53ca783278dc319db4a087a536c72853ca6505",
+            "bytes": 589835
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "7e94ab2a0156f18afab2eb123057dd6b6597333b5fac28f1c815d84a13d47c6d",
+            "bytes": 10890507
+          },
+          "challenge.umd": {
+            "sha256": "698b281832d5bb80c99fb4320f0b559c280ff56930ad97c2acbc40390b1762ed",
+            "bytes": 4965918
+          },
+          "problem.lrat": {
+            "sha256": "8f30db1949c1d9061b1d2e6f9f53ca783278dc319db4a087a536c72853ca6505",
+            "bytes": 589835
+          },
+          "problem.cnf": {
+            "sha256": "c9a48ed5dbc21b30970affb334a937c0b057bb99cfca6c2d89c3094c854dcfdd",
+            "bytes": 1606241
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 8330,
+          "cc_steps": 448610,
+          "sat_steps": 2459953,
+          "exported_steps": 819865,
+          "executed_steps": 2916893
+        },
+        "benchmark": "QG-classification/qg7/gensys_icl006.smt2"
+      },
+      {
+        "case": "003/none",
+        "input_sha256": "3999fcc70aa5fea841f015a73eb9640aa5d2917d6a7a9a6a80085870a23af87d",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/003/none/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/conflicts.err",
+            "state": "ok",
+            "seconds": 0.2701305010050419,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/003/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/challenge.err",
+            "state": "ok",
+            "seconds": 1.6209496590017807,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/003/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/cnf.err",
+            "state": "ok",
+            "seconds": 0.4194622889990569,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/003/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/proof.err",
+            "state": "ok",
+            "seconds": 4.7261664049947285,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/003/none/kernel.err",
+            "state": "ok",
+            "seconds": 1.120067846000893,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 5880,
+          "largest_lrat_variable": 2161,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "3999fcc70aa5fea841f015a73eb9640aa5d2917d6a7a9a6a80085870a23af87d",
+            "bytes": 2665217
+          },
+          "challenge": {
+            "sha256": "698b281832d5bb80c99fb4320f0b559c280ff56930ad97c2acbc40390b1762ed",
+            "bytes": 4965918
+          },
+          "lrat": {
+            "sha256": "459a1be2985a78f7e839a25b161a91a5828a21e3242e7cc78b8824c68eb5c768",
+            "bytes": 611779
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "900ff119b3ef59cef399e6d84eda1a1a15a446a4c29812322218a2cc8f02d78d",
+            "bytes": 11310334
+          },
+          "challenge.umd": {
+            "sha256": "698b281832d5bb80c99fb4320f0b559c280ff56930ad97c2acbc40390b1762ed",
+            "bytes": 4965918
+          },
+          "problem.lrat": {
+            "sha256": "459a1be2985a78f7e839a25b161a91a5828a21e3242e7cc78b8824c68eb5c768",
+            "bytes": 611779
+          },
+          "problem.cnf": {
+            "sha256": "88096148cf3ac450752006b0c25019c00c3aba33b21b95d8d14b804cc2419dbc",
+            "bytes": 1626591
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 8330,
+          "cc_steps": 727606,
+          "sat_steps": 2528548,
+          "exported_steps": 851615,
+          "executed_steps": 3264484
+        },
+        "benchmark": "QG-classification/qg7/gensys_icl006.smt2"
+      },
+      {
+        "case": "004/core",
+        "input_sha256": "e03cfc70a4888d8da8cca09998a134c66d1a34fcd8f28171f3d1f5c65da0cba0",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/004/core/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/conflicts.err",
+            "state": "ok",
+            "seconds": 0.12825234100455418,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/004/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/challenge.err",
+            "state": "ok",
+            "seconds": 0.11824105800042162,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/004/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/cnf.err",
+            "state": "ok",
+            "seconds": 0.21823286799917696,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/004/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/proof.err",
+            "state": "ok",
+            "seconds": 1.320998597999278,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/core/kernel.err",
+            "state": "ok",
+            "seconds": 0.21846551099588396,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 4132,
+          "largest_lrat_variable": 4132,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "e03cfc70a4888d8da8cca09998a134c66d1a34fcd8f28171f3d1f5c65da0cba0",
+            "bytes": 843736
+          },
+          "challenge": {
+            "sha256": "eafdf695c536091abc0a1452be04f0d9c008359ffac2390d124c2151fe4afd84",
+            "bytes": 1409060
+          },
+          "lrat": {
+            "sha256": "f5fe31d780ea96efac90727c17371db691c07b56e6f50f638dbe348af7795892",
+            "bytes": 133491
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "838b4697331e3763ee25fa191178a0b6859ff8dce062aa8d9ca8e2d75b0afdce",
+            "bytes": 10641771
+          },
+          "challenge.umd": {
+            "sha256": "eafdf695c536091abc0a1452be04f0d9c008359ffac2390d124c2151fe4afd84",
+            "bytes": 1409060
+          },
+          "problem.lrat": {
+            "sha256": "f5fe31d780ea96efac90727c17371db691c07b56e6f50f638dbe348af7795892",
+            "bytes": 133491
+          },
+          "problem.cnf": {
+            "sha256": "e2403773af1327ce0a90f6053d1f39181b08321d8fecf8fec01da1365acfb220",
+            "bytes": 589000
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 8141,
+          "cc_steps": 469901,
+          "sat_steps": 779380,
+          "exported_steps": 796078,
+          "executed_steps": 1257422
+        },
+        "benchmark": "SEQ/SEQ005_size9.smt2"
+      },
+      {
+        "case": "004/mus",
+        "input_sha256": "22b62237d4bcace3a08c57094e947bdaa087cac4fcd194b59e418dea8b878821",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/004/mus/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/conflicts.err",
+            "state": "ok",
+            "seconds": 0.1313529330000165,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/004/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/challenge.err",
+            "state": "ok",
+            "seconds": 0.1682394520030357,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/004/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/cnf.err",
+            "state": "ok",
+            "seconds": 0.23238573399430607,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/004/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/proof.err",
+            "state": "ok",
+            "seconds": 1.2701023900008295,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/mus/kernel.err",
+            "state": "ok",
+            "seconds": 0.2179971809964627,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 4132,
+          "largest_lrat_variable": 4132,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "22b62237d4bcace3a08c57094e947bdaa087cac4fcd194b59e418dea8b878821",
+            "bytes": 828605
+          },
+          "challenge": {
+            "sha256": "eafdf695c536091abc0a1452be04f0d9c008359ffac2390d124c2151fe4afd84",
+            "bytes": 1409060
+          },
+          "lrat": {
+            "sha256": "fb006518e59c173c4b7c4594eca208ae89bad7909bfb6637fadff342753f4b16",
+            "bytes": 129534
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "83ebb6e987417af0ab07595d2fe55f2e423d53bde1cd20dbdfd8adf0adfb34a7",
+            "bytes": 10412554
+          },
+          "challenge.umd": {
+            "sha256": "eafdf695c536091abc0a1452be04f0d9c008359ffac2390d124c2151fe4afd84",
+            "bytes": 1409060
+          },
+          "problem.lrat": {
+            "sha256": "fb006518e59c173c4b7c4594eca208ae89bad7909bfb6637fadff342753f4b16",
+            "bytes": 129534
+          },
+          "problem.cnf": {
+            "sha256": "3234d10090d89ad7f98000b690bea1f61306139dd08b892aee573b7fa2275612",
+            "bytes": 584593
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 8140,
+          "cc_steps": 442847,
+          "sat_steps": 800855,
+          "exported_steps": 778913,
+          "executed_steps": 1251842
+        },
+        "benchmark": "SEQ/SEQ005_size9.smt2"
+      },
+      {
+        "case": "004/none",
+        "input_sha256": "ddcd7714990c5469f7db47e5449c0574791a4caf0efa14f85bd15d967144b66f",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/004/none/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/conflicts.err",
+            "state": "ok",
+            "seconds": 0.12213041599898133,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/004/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/challenge.err",
+            "state": "ok",
+            "seconds": 0.16762069400283508,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/004/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/cnf.err",
+            "state": "ok",
+            "seconds": 0.21954133799590636,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/004/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/proof.err",
+            "state": "ok",
+            "seconds": 1.4211868549973588,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/004/none/kernel.err",
+            "state": "ok",
+            "seconds": 0.2197127969993744,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 4132,
+          "largest_lrat_variable": 4132,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "ddcd7714990c5469f7db47e5449c0574791a4caf0efa14f85bd15d967144b66f",
+            "bytes": 876417
+          },
+          "challenge": {
+            "sha256": "eafdf695c536091abc0a1452be04f0d9c008359ffac2390d124c2151fe4afd84",
+            "bytes": 1409060
+          },
+          "lrat": {
+            "sha256": "6a8f14228f56ede970b3d1b0d6f0c8573cd37e66ff985077d5c52330ed425ba0",
+            "bytes": 141689
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "97cd55e0d7705c047e6e59ee2ffb5c429b96e4b7c3fb7f5dae9995a3551be648",
+            "bytes": 11020847
+          },
+          "challenge.umd": {
+            "sha256": "eafdf695c536091abc0a1452be04f0d9c008359ffac2390d124c2151fe4afd84",
+            "bytes": 1409060
+          },
+          "problem.lrat": {
+            "sha256": "6a8f14228f56ede970b3d1b0d6f0c8573cd37e66ff985077d5c52330ed425ba0",
+            "bytes": 141689
+          },
+          "problem.cnf": {
+            "sha256": "06da06483a7f72815bf92e6cc4ec4c24e447cba468037955c643c8904c695d18",
+            "bytes": 595820
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 8141,
+          "cc_steps": 520506,
+          "sat_steps": 824886,
+          "exported_steps": 824004,
+          "executed_steps": 1353533
+        },
+        "benchmark": "SEQ/SEQ005_size9.smt2"
+      },
+      {
+        "case": "005/core",
+        "input_sha256": "e922ab8c05f09d5c3c349a3f98dc1c8b297283bc7bc4f56380e2f37dc31c7030",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/005/core/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/conflicts.err",
+            "state": "ok",
+            "seconds": 0.12045269600639585,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/005/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/challenge.err",
+            "state": "ok",
+            "seconds": 0.16743442699953448,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/005/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/cnf.err",
+            "state": "ok",
+            "seconds": 0.21946175400080392,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/005/core/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/proof.err",
+            "state": "ok",
+            "seconds": 2.3254352910007583,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/core/kernel.err",
+            "state": "ok",
+            "seconds": 0.36895665300107794,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 3655,
+          "largest_lrat_variable": 3655,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "e922ab8c05f09d5c3c349a3f98dc1c8b297283bc7bc4f56380e2f37dc31c7030",
+            "bytes": 925899
+          },
+          "challenge": {
+            "sha256": "aaf08a830f6887620db13daf7ba05e3089efab52432057375399c100a62cc5f3",
+            "bytes": 1261858
+          },
+          "lrat": {
+            "sha256": "0136d751a776cdc940ba34fb083d20b51f4be71131c58c700e77a12f255f4e5f",
+            "bytes": 235053
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "0cd50261ba0f66ea8a2065682a460c3759fe2f67a4ccacb2d0ad225653a1863f",
+            "bytes": 23412103
+          },
+          "challenge.umd": {
+            "sha256": "aaf08a830f6887620db13daf7ba05e3089efab52432057375399c100a62cc5f3",
+            "bytes": 1261858
+          },
+          "problem.lrat": {
+            "sha256": "0136d751a776cdc940ba34fb083d20b51f4be71131c58c700e77a12f255f4e5f",
+            "bytes": 235053
+          },
+          "problem.cnf": {
+            "sha256": "34637ab3e6f987a0f37c300bad45f1a9a23f5837ce91268cda072f6e2fc5e06c",
+            "bytes": 566907
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 8141,
+          "cc_steps": 1107357,
+          "sat_steps": 1494864,
+          "exported_steps": 1756661,
+          "executed_steps": 2610362
+        },
+        "benchmark": "SEQ/SEQ038_size9.smt2"
+      },
+      {
+        "case": "005/mus",
+        "input_sha256": "afc3638a431acf8a118e96b74904a50e00aa43e800ee16414e0a032e64e1e38a",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/005/mus/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/conflicts.err",
+            "state": "ok",
+            "seconds": 0.12298629200085998,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/005/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/challenge.err",
+            "state": "ok",
+            "seconds": 0.16800482400140027,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/005/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/cnf.err",
+            "state": "ok",
+            "seconds": 0.21972706500673667,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/005/mus/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/proof.err",
+            "state": "ok",
+            "seconds": 1.9739130090019898,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/mus/kernel.err",
+            "state": "ok",
+            "seconds": 0.21934443999634823,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 3655,
+          "largest_lrat_variable": 3655,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "afc3638a431acf8a118e96b74904a50e00aa43e800ee16414e0a032e64e1e38a",
+            "bytes": 880381
+          },
+          "challenge": {
+            "sha256": "aaf08a830f6887620db13daf7ba05e3089efab52432057375399c100a62cc5f3",
+            "bytes": 1261858
+          },
+          "lrat": {
+            "sha256": "9a55ab8bb82f7abbc731a84fbc23381d56ce837913dc940aadce0a19856ce989",
+            "bytes": 219289
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "7cad108074f0f5ada20c2e5f6d2ea63781a26fbe44186607c3b4557d9e539f04",
+            "bytes": 21933626
+          },
+          "challenge.umd": {
+            "sha256": "aaf08a830f6887620db13daf7ba05e3089efab52432057375399c100a62cc5f3",
+            "bytes": 1261858
+          },
+          "problem.lrat": {
+            "sha256": "9a55ab8bb82f7abbc731a84fbc23381d56ce837913dc940aadce0a19856ce989",
+            "bytes": 219289
+          },
+          "problem.cnf": {
+            "sha256": "aa61e081b3d1fd3819007e38f7989390f085ccbc5cc72bfbb1fff37c1632ea7d",
+            "bytes": 552592
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 8141,
+          "cc_steps": 968325,
+          "sat_steps": 1439886,
+          "exported_steps": 1644563,
+          "executed_steps": 2416352
+        },
+        "benchmark": "SEQ/SEQ038_size9.smt2"
+      },
+      {
+        "case": "005/none",
+        "input_sha256": "b8affbbf83f1c5aae2df432d2406008736a73922e88a669ccd957222452cecb3",
+        "status": "kernel_proven",
+        "stages": {
+          "conflicts": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/005/none/input.primo"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/conflicts.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/conflicts.err",
+            "state": "ok",
+            "seconds": 0.16975603000173578,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/build-challenge",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/axioms.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/005/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/challenge.umd"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/challenge.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/challenge.err",
+            "state": "ok",
+            "seconds": 0.12992246000067098,
+            "exit_code": 0
+          },
+          "cnf": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/005/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/problem.cnf",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/problem.lrat",
+              "--cadical",
+              "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/cnf.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/cnf.err",
+            "state": "ok",
+            "seconds": 0.2202216869991389,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/challenge.umd",
+              "$EXTERNAL_WORKSPACE/fast-stress-cf82b726/cases/005/none/input.primo",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/problem.lrat",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/proof.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/proof.err",
+            "state": "ok",
+            "seconds": 3.0741386769950623,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/challenge.umd",
+              "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/solution.ump"
+            ],
+            "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/kernel.out",
+            "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/005/none/kernel.err",
+            "state": "ok",
+            "seconds": 0.269353253999725,
+            "exit_code": 0
+          }
+        },
+        "trace": {
+          "dimacs_variables": 3655,
+          "largest_lrat_variable": 3655,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        },
+        "source_files": {
+          "input": {
+            "sha256": "b8affbbf83f1c5aae2df432d2406008736a73922e88a669ccd957222452cecb3",
+            "bytes": 1224058
+          },
+          "challenge": {
+            "sha256": "aaf08a830f6887620db13daf7ba05e3089efab52432057375399c100a62cc5f3",
+            "bytes": 1261858
+          },
+          "lrat": {
+            "sha256": "236d692d500d9e30256eca2bcb723a66ab917e1cf2d06fd2a8ba7b94114f9ea3",
+            "bytes": 313769
+          }
+        },
+        "outputs": {
+          "solution.ump": {
+            "sha256": "a5ebc49764c48df7c643caa4e699c7d009135512ce3a765d8e842fa61f2427d1",
+            "bytes": 25215678
+          },
+          "challenge.umd": {
+            "sha256": "aaf08a830f6887620db13daf7ba05e3089efab52432057375399c100a62cc5f3",
+            "bytes": 1261858
+          },
+          "problem.lrat": {
+            "sha256": "236d692d500d9e30256eca2bcb723a66ab917e1cf2d06fd2a8ba7b94114f9ea3",
+            "bytes": 313769
+          },
+          "problem.cnf": {
+            "sha256": "b0d52dd9110b230a406e6a6482106f269bbee9e0602dc25a6ff2c2abf58b4a32",
+            "bytes": 631503
+          }
+        },
+        "kernel_counts": {
+          "library_steps": 8141,
+          "cc_steps": 1922332,
+          "sat_steps": 1858548,
+          "exported_steps": 1891515,
+          "executed_steps": 3789021
+        },
+        "benchmark": "SEQ/SEQ038_size9.smt2"
+      }
+    ]
+  },
+  "negative_controls": {
+    "bad_conflict": {
+      "command": [
+        "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/check-conflicts",
+        "$EXTERNAL_WORKSPACE/checker-fixes-345415/negative/bad.primo"
+      ],
+      "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/negative/bad_conflict.out",
+      "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/negative/bad_conflict.err",
+      "state": "error",
+      "seconds": 0.06733862300461624,
+      "exit_code": 1
+    },
+    "missing_conflicts": {
+      "command": [
+        "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/prove-cnf",
+        "$EXTERNAL_WORKSPACE/checker-fixes-345415/negative/missing.primo",
+        "$EXTERNAL_WORKSPACE/checker-fixes-345415/negative/missing.cnf",
+        "$EXTERNAL_WORKSPACE/checker-fixes-345415/negative/missing.lrat",
+        "--cadical",
+        "$EXTERNAL_WORKSPACE/cadical/build/cadical"
+      ],
+      "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/negative/missing_conflicts.out",
+      "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/negative/missing_conflicts.err",
+      "state": "error",
+      "seconds": 0.11865577299613506,
+      "exit_code": 2
+    },
+    "corrupt_proof": {
+      "command": [
+        "$EXTERNAL_WORKSPACE/micromath-ac052d97ea441ca52cfd0a6b904fad8d34098a8e/check-solution",
+        "$EXTERNAL_WORKSPACE/checker-fixes-345415/regenerated/cases/000/mus/challenge.umd",
+        "$EXTERNAL_WORKSPACE/checker-fixes-345415/negative/corrupt.ump"
+      ],
+      "stdout": "$EXTERNAL_WORKSPACE/checker-fixes-345415/negative/corrupt_proof.out",
+      "stderr": "$EXTERNAL_WORKSPACE/checker-fixes-345415/negative/corrupt_proof.err",
+      "state": "error",
+      "seconds": 0.6687707640012377,
+      "exit_code": 1
+    }
+  },
+  "reproduction": {
+    "source": "Pin Micromath ac052d97ea441ca52cfd0a6b904fad8d34098a8e; build and run make check in SLURM, with Python>=3.10 and LRAT-capable CaDiCaL on PATH.",
+    "certificates": "Reuse the six-case none/core/mus input.primo tree from results/micromath-fast-stress-345296; manifest benchmarks/micromath-fast-unsat-20261103.json pins source benchmarks.",
+    "replay": "python3 scripts/micromath_replay.py --micromath CHECKER --micromath-git ac052d97ea441ca52cfd0a6b904fad8d34098a8e --cadical REAL_CADICAL --inputs SAVED_CASES --out FRESH_DIRECTORY --workers 4",
+    "exact_reproducer": "Add --reuse-lrat and point --inputs at the unpacked historical reproduction bundle; it checks the existing challenge/LRAT bytes and returns nonzero when the SEQ extension trace is rejected.",
+    "compatibility": "Updated prove-cnf adds --no-factor automatically. No wrapper is needed. Existing extension/RAT traces must be regenerated; extension replay itself was not added."
+  },
+  "artifacts": {
+    "current": "results/micromath-fixes-345415",
+    "environment_failure": "results/micromath-fixes-attempt-345404",
+    "historical_stress": "results/micromath-fast-stress-345296",
+    "historical_reproducers": "benchmarks/checker-regressions/micromath-20261103"
+  },
+  "limitations": "Six selected known-fast UNSAT inputs, not full-corpus coverage or a timing speedup comparison. Ground single-object-sort Micromath fragment remains; experimental export sort erasure was used. RAT/extension variables and binary LRAT remain unsupported. Printed SAT model validation is not applicable to this UNSAT-certificate replay."
+}
