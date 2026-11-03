@@ -46,6 +46,21 @@ corpus. Mutation tasks may exhaust their wall budget before visiting all seeds:
 report visited seeds, mutations and completed solver calls, rather than claiming
 complete seed coverage.
 
+To establish coverage of every seed, use
+{source}`slurm_seed_mutation_per_seed.sbatch <scripts/slurm_seed_mutation_per_seed.sbatch>`.
+It runs one array task per fuzzer and seed. Seeds are the `*.smt2` files
+under `PRIMO_MUTATION_SEEDS` that are no larger than the size limit, in sorted
+order. Task $k$ uses fuzzer $\lfloor k/N\rfloor$ and seed $k \bmod N$, where
+$N$ is the seed count, so submit `--array=0-(F*N-1)` for $F$ fuzzers. Each
+task copies its seed into a private directory, checks the solver banner
+against `PRIMO_EXPECTED_GIT`, and writes `task-K/status.tsv`. The status is
+`COVERED` when the fuzzer finished all its iterations, `WALL` when the wall
+limit cut it short, and `ERROR` otherwise; `ERROR` also fails the task.
+OpFuzz runs through {source}`seeded_opfuzz.py <scripts/seeded_opfuzz.py>`,
+so both fuzzers get the per-task random seed `PRIMO_MUTATION_RANDOM_SEED_BASE`
+plus the task index. The script needs `opfuzz`, `typefuzz` and `z3` on `PATH`.
+Bug files still need replay and triage.
+
 Inspect {source}`operator config <benchmarks/fuzz-configs/qf_lia_operator_mutations.txt>`
 and {source}`typefuzz config <benchmarks/fuzz-configs/qf_lia_typefuzz.txt>` before describing
 their coverage. The older LIA configs intentionally omit several operators;
