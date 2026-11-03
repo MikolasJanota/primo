@@ -1,8 +1,12 @@
 #include "smt/qf_uf_export.hpp"
 
+#include <chrono>
 #include <cstddef>
+#include <cstdint>
 #include <exception>
 #include <fstream>
+#include <optional>
+#include <ostream>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -14,8 +18,8 @@
 #include "core/ids.hpp"
 #include "core/sort.hpp"
 #include "core/symbol_table.hpp"
-#include "core/term.hpp"
 #include "core/term_manager.hpp"
+#include "sat/cadical_backend.hpp"
 #include "sat/clause.hpp"
 #include "sat/clause_subset.hpp"
 #include "sat/ipasir_up.hpp"
@@ -23,11 +27,11 @@
 #include "smt/clausifier.hpp"
 #include "smt/frontend.hpp"
 #include "smt/inconclusive_reason.hpp"
-#include "smt/solver_engines.hpp"
 #include "smt/solver_error.hpp"
 #include "smt/solver_runtime.hpp"
+#include "smt/solver_session.hpp"
 #include "smtlib/commands.hpp"
-#include "smtlib/conflict_document.hpp"
+#include "smtlib/conflict_spool.hpp"
 #include "smtlib/parser.hpp"
 #include "smtlib/term_printer.hpp"
 #include "util/statistics.hpp"
@@ -35,38 +39,9 @@
 namespace primo::smt {
 namespace {
 
-// The ordinary frontend already names compound Boolean arguments and lowers
-// Boolean equality. Check the fragment, not the shape of its Boolean structure.
-void require_supported_terms(const core::TermManager& terms, core::TermId root) {
-  std::vector<core::TermId> pending{root};
-  std::unordered_set<core::TermId> seen;
-  while (!pending.empty()) {
-    const auto id = pending.back();
-    pending.pop_back();
-    if (!seen.insert(id).second) continue;
-    const auto& term = terms.get(id);
-    switch (term.kind) {
-      case core::TermKind::BoolValue:
-      case core::TermKind::Constant:
-      case core::TermKind::Application:
-      case core::TermKind::Equality:
-      case core::TermKind::Not:
-      case core::TermKind::And:
-      case core::TermKind::Or:
-      case core::TermKind::Implies:
-        break;
-      default:
-        throw UnsupportedInput(
-            "--export-cnf supports ground QF_UF Boolean structure; ite and other extended terms "
-            "require lowering");
-    }
-    pending.insert(pending.end(), term.children.begin(), term.children.end());
-  }
-}
-
 // Original ground-QF_UF model argument and invariants:
 // docs/leads/experimental-sort-erasure.md. Only the printed signature changes.
-void append_signature(const core::SymbolTable& symbols, smtlib::ConflictDocument& document,
+void append_signature(const core::SymbolTable& symbols, smtlib::ConflictSpool& document,
                       bool erase_sorts) {
   std::string common_sort;
   if (erase_sorts) {
@@ -76,11 +51,11 @@ void append_signature(const core::SymbolTable& symbols, smtlib::ConflictDocument
     common_sort = "primo_uf_sort";
     std::size_t suffix = 0;
     while (names.contains(common_sort)) common_sort = "primo_uf_sort_" + std::to_string(suffix++);
-    document.signature.push_back("(declare-sort " + common_sort + " 0)");
+    document.declaration("(declare-sort " + common_sort + " 0)");
   } else {
     for (const auto& sort : symbols.sorts()) {
       if (sort.kind == core::SortKind::Uninterpreted) {
-        document.signature.push_back("(declare-sort " + smtlib::symbol_text(sort.name) + " 0)");
+        document.declaration("(declare-sort " + smtlib::symbol_text(sort.name) + " 0)");
       }
     }
   }
@@ -101,16 +76,16 @@ void append_signature(const core::SymbolTable& symbols, smtlib::ConflictDocument
       first = false;
     }
     declaration += ") " + printed_sort(symbol.result_sort) + ")";
-    document.signature.push_back(std::move(declaration));
+    document.declaration(declaration);
   }
 }
 
 }  // namespace
 
-QfUfConflictCollector::QfUfConflictCollector(const core::TermManager& terms,
-                                             smtlib::ConflictDocument& document,
-                                             ExportCnfReduction reduction)
-    : terms_(terms), document_(document), reduction_(reduction) {}
+QfUfConflictCollector::QfUfConflictCollector(core::TermManager& terms,
+                                             smtlib::ConflictSpool& document,
+                                             ExportCnfReduction reduction, bool erase_sorts)
+    : terms_(terms), document_(document), reduction_(reduction), erase_sorts_(erase_sorts) {}
 
 void QfUfConflictCollector::record_input_clause(const sat::Clause& clause) {
   if (bound_) throw std::logic_error("clausifier emitted a clause after CNF export was sealed");
@@ -118,88 +93,112 @@ void QfUfConflictCollector::record_input_clause(const sat::Clause& clause) {
 }
 
 void QfUfConflictCollector::bind(const BooleanClausifier& clausifier) {
+  const auto started = std::chrono::steady_clock::now();
+  if (bound_) throw std::logic_error("CNF export cannot bind multiple solver goals");
+  append_signature(terms_.symbols(), document_, erase_sorts_);
   atoms_.clear();
-  // Each entry's signed literal denotes its positive printed atom. This also
-  // handles a mapping whose SAT representative has negative polarity.
-  std::unordered_map<int, std::pair<std::string, int>> printed;
   for (const auto& atom : clausifier.theory_atoms()) {
     const int variable = atom.lit.value > 0 ? atom.lit.value : -atom.lit.value;
     if (!atoms_.emplace(variable, std::make_pair(atom.term, atom.lit.value)).second) {
       throw std::logic_error("duplicate atom mapping in QF_UF conflict export");
     }
-    printed.emplace(variable,
-                    std::make_pair(smtlib::print_term(terms_, atom.term), atom.lit.value));
   }
   std::unordered_set<std::string> names;
   for (const auto& symbol : terms_.symbols().symbols()) names.insert(symbol.name);
   for (const auto& sort : terms_.symbols().sorts()) names.insert(sort.name);
+  std::unordered_map<int, std::string> auxiliaries;
   std::size_t next_name = 0;
+  // Discover auxiliary names before callbacks; callbacks cannot reenter the spool.
   for (const auto& clause : input_clauses_) {
-    std::vector<std::string> literals;
     for (const auto literal : clause) {
       if (literal.value == 0) throw std::logic_error("zero literal in exported input clause");
       const int variable = literal.value > 0 ? literal.value : -literal.value;
-      auto found = printed.find(variable);
-      if (found == printed.end()) {
-        std::string name;
-        do {
-          name = "primo_cnf_" + std::to_string(next_name++);
-        } while (!names.insert(name).second);
-        const auto symbol = smtlib::symbol_text(name);
-        document_.signature.push_back("(declare-fun " + symbol + " () Bool)");
-        found = printed.emplace(variable, std::make_pair(symbol, variable)).first;
-      }
-      auto text = found->second.first;
-      if (literal.value != found->second.second) text = "(not " + text + ")";
-      literals.push_back(std::move(text));
+      if (atoms_.contains(variable) || auxiliaries.contains(variable)) continue;
+      std::string name;
+      do {
+        name = "primo_cnf_" + std::to_string(next_name++);
+      } while (!names.insert(name).second);
+      document_.declaration("(declare-fun " + name + " () Bool)");
+      auxiliaries.emplace(variable, std::move(name));
     }
-    document_.clauses.push_back(std::move(literals));
   }
-  if (reduction_ == ExportCnfReduction::None) input_clauses_.clear();
+  for (const auto& clause : input_clauses_) {
+    document_.clause([&](std::ostream& output) {
+      for (const auto literal : clause) {
+        const int variable = literal.value > 0 ? literal.value : -literal.value;
+        const auto atom = atoms_.find(variable);
+        output << ' ';
+        if (atom != atoms_.end()) {
+          const bool negative = literal.value != atom->second.second;
+          if (negative) output << "(not ";
+          smtlib::print_ground_term(output, terms_, atom->second.first);
+          if (negative) output << ')';
+        } else {
+          if (literal.value < 0) output << "(not ";
+          output << auxiliaries.at(variable);
+          if (literal.value < 0) output << ')';
+        }
+      }
+    });
+  }
+  if (reduction_ == ExportCnfReduction::None) input_clauses_ = sat::Cnf{};
   bound_ = true;
+  input_format_microseconds_ =
+      static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::microseconds>(
+                                     std::chrono::steady_clock::now() - started)
+                                     .count());
+}
+
+void QfUfConflictCollector::record_preprocessing_unsat() {
+  // Native preprocessing returned false without invoking SAT. Use the same
+  // clausifier to serialize that prepared result; conversion proof is deferred.
+  sat::CadicalBackend backend;
+  BooleanClausifier clausifier(backend, terms_, false,
+                               [this](const sat::Clause& clause) { record_input_clause(clause); });
+  clausifier.assert_formula(terms_.mk_bool(false));
+  bind(clausifier);
 }
 
 void QfUfConflictCollector::record(const sat::Clause& clause) {
-  std::vector<std::string> conflict;
-  for (const auto literal : clause) {
-    const int variable = literal.value > 0 ? literal.value : -literal.value;
-    const auto found = atoms_.find(variable);
-    if (found == atoms_.end()) {
-      throw std::logic_error("unmapped SAT literal in QF_UF conflict export");
+  const auto started = std::chrono::steady_clock::now();
+  document_.conflict([&](std::ostream& output) {
+    for (const auto literal : clause) {
+      const int variable = literal.value > 0 ? literal.value : -literal.value;
+      const auto found = atoms_.find(variable);
+      if (found == atoms_.end())
+        throw std::logic_error("unmapped SAT literal in QF_UF conflict export");
+      output << ' ';
+      // Learned-clause polarity is the complement of the conflicting fact.
+      const bool negative = literal.value == found->second.second;
+      if (negative) output << "(not ";
+      smtlib::print_ground_term(output, terms_, found->second.first);
+      if (negative) output << ')';
     }
-    auto text = smtlib::print_term(terms_, found->second.first);
-    // The learned-clause literal is the complement of the conflicting fact.
-    if (literal.value == found->second.second) text = "(not " + text + ")";
-    conflict.push_back(std::move(text));
-  }
+  });
   if (reduction_ != ExportCnfReduction::None) theory_clauses_.push_back(clause);
-  document_.conflicts.push_back(std::move(conflict));
+  conflict_format_microseconds_ +=
+      static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::microseconds>(
+                                     std::chrono::steady_clock::now() - started)
+                                     .count());
 }
 
-sat::ClauseSubsetResult QfUfConflictCollector::reduce(sat::Terminator* terminator) {
+sat::ClauseSubsetResult QfUfConflictCollector::reduce(sat::Terminator* terminator) const {
   if (!bound_ || reduction_ == ExportCnfReduction::None) {
     throw std::logic_error("invalid theory-lemma reduction state");
   }
   const auto mode = reduction_ == ExportCnfReduction::Core ? sat::ClauseSubsetMode::Core
                                                            : sat::ClauseSubsetMode::Mus;
-  auto result = sat::select_unsat_subset(input_clauses_, theory_clauses_, mode, terminator);
-  if (result.result == sat::SatResult::Unsat) {
-    std::vector<std::vector<std::string>> kept;
-    kept.reserve(result.selected.size());
-    for (const auto index : result.selected) {
-      kept.push_back(std::move(document_.conflicts.at(index)));
-    }
-    document_.conflicts = std::move(kept);
-  }
-  return result;
+  return sat::select_unsat_subset(input_clauses_, theory_clauses_, mode, terminator);
 }
 
 CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options) {
   try {
     if (options.incremental_mode != IncrementalMode::Rebuild ||
-        options.qf_uf_portfolio != QfUfPortfolioMode::Off || options.preprocess_only) {
+        options.qf_uf_portfolio != QfUfPortfolioMode::Off || options.preprocess_only ||
+        options.experimental_split_bools != 0) {
       throw UnsupportedInput(
-          "--export-cnf does not support incremental, portfolio, or preprocess-only modes");
+          "--export-cnf does not support incremental, portfolio, branching, or preprocess-only "
+          "modes");
     }
     Frontend frontend;
     std::vector<core::TermId> assertions;
@@ -239,20 +238,23 @@ CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options
     }
     if (!logic || !checked) throw UnsupportedInput("--export-cnf requires QF_UF and one check-sat");
 
-    smtlib::ConflictDocument document;
-    append_signature(frontend.terms().symbols(), document, options.experimental_export_erase_sorts);
-    for (const auto assertion : assertions) require_supported_terms(frontend.terms(), assertion);
-    QfUfConflictCollector collector(frontend.terms(), document, options.export_cnf_reduction);
-    // Use the existing lazy solver without preprocessing or propagation lemmas.
-    // No optimized congruence algorithm or new solving algorithm is introduced.
-    options.euf_propagation = EufPropagationMode::Off;
-    options.euf_engine = EufEngine::Lazy;
-    options.pure_theory_filter = PureTheoryFilterMode::Off;
-    options.produce_model = false;
-    options.top_level_or_tseitin = false;
-    util::Statistics statistics;
+    smtlib::ConflictSpool document(options.export_cnf_reduction != ExportCnfReduction::None);
+    // Validate even unused declarations, including on preprocessing SAT paths.
+    const auto& symbols = frontend.terms().symbols();
+    const auto require_sort = [&](core::SortId id) {
+      const auto kind = symbols.get_sort(id).kind;
+      if (kind != core::SortKind::Bool && kind != core::SortKind::Uninterpreted)
+        throw UnsupportedInput("--export-cnf supports QF_UF sorts only");
+    };
+    for (const auto& symbol : symbols.symbols()) {
+      require_sort(symbol.result_sort);
+      for (const auto sort : symbol.arg_sorts) require_sort(sort);
+    }
+    QfUfConflictCollector collector(frontend.terms(), document, options.export_cnf_reduction,
+                                    options.experimental_export_erase_sorts);
+    const auto solve_started = std::chrono::steady_clock::now();
     auto outcome =
-        solve_qf_uf_engine(frontend.terms(), assertions, options, statistics, {}, &collector);
+        check_sat_frontend_export_once(frontend, std::move(assertions), options, collector);
     if (options.experimental_export_erase_sorts) {
       std::size_t original_sorts = 0;
       for (const auto& sort : frontend.terms().symbols().sorts()) {
@@ -261,12 +263,30 @@ CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options
       outcome.statistics.set(":export.sort-erasure.enabled", 1);
       outcome.statistics.set(":export.sort-erasure.input-sorts", original_sorts);
     }
-    const auto collected = document.conflicts.size();
+    outcome.statistics.set(
+        ":export.solve-and-collect.us",
+        static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::microseconds>(
+                                       std::chrono::steady_clock::now() - solve_started)
+                                       .count()));
+    outcome.statistics.set(":export.main-unsat", outcome.result == CheckSatResult::Unsat ? 1 : 0);
+    outcome.statistics.set(":export.format-input.us", collector.input_format_microseconds());
+    outcome.statistics.set(":export.format-conflicts.us", collector.conflict_format_microseconds());
+    outcome.statistics.set(":export.spool.signature-bytes", document.signature_bytes());
+    outcome.statistics.set(":export.spool.cnf-bytes", document.clause_bytes());
+    outcome.statistics.set(":export.spool.conflict-bytes", document.conflict_bytes());
+    const auto collected = document.conflict_count();
+    std::optional<std::vector<std::size_t>> selected;
     outcome.statistics.set(":export.theory.conflicts-collected", collected);
     if (outcome.result == CheckSatResult::Unsat &&
         options.export_cnf_reduction != ExportCnfReduction::None) {
       SolveTerminator terminator(options.cancelled, outcome.statistics);
-      const auto reduction = collector.reduce(&terminator);
+      const auto reduce_started = std::chrono::steady_clock::now();
+      auto reduction = collector.reduce(&terminator);
+      outcome.statistics.set(
+          ":export.reduction.us",
+          static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::microseconds>(
+                                         std::chrono::steady_clock::now() - reduce_started)
+                                         .count()));
       outcome.statistics.set(":export.reduction.sat-calls", reduction.sat_calls);
       outcome.statistics.set(":export.reduction.core-removed", reduction.core_removed);
       outcome.statistics.set(":export.reduction.block-queries",
@@ -285,18 +305,29 @@ CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options
                                                         : InconclusiveReason::Unknown;
       } else {
         outcome.statistics.set(":export.reduction.completed", 1);
+        selected = std::move(reduction.selected);
       }
     }
-    outcome.statistics.set(":export.theory.conflicts-removed",
-                           collected - document.conflicts.size());
-    outcome.statistics.set(":export.cnf.clauses", document.clauses.size());
-    outcome.statistics.set(":export.theory.conflicts", document.conflicts.size());
+    const auto retained = selected ? selected->size() : collected;
+    outcome.statistics.set(":export.theory.conflicts-removed", collected - retained);
+    outcome.statistics.set(":export.cnf.clauses", document.clause_count());
+    outcome.statistics.set(":export.theory.conflicts", retained);
     if (outcome.result == CheckSatResult::Unsat) {
+      const auto write_started = std::chrono::steady_clock::now();
+      document.seal();
       std::ofstream output(options.export_cnf);
       if (!output) throw std::runtime_error("cannot open CNF output file: " + options.export_cnf);
-      smtlib::print_conflict_document(output, document);
+      if (selected)
+        document.write_to(output, *selected);
+      else
+        document.write_to(output);
       output.close();
       if (!output) throw std::runtime_error("cannot write CNF output file: " + options.export_cnf);
+      outcome.statistics.set(
+          ":export.final-write.us",
+          static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::microseconds>(
+                                         std::chrono::steady_clock::now() - write_started)
+                                         .count()));
     }
     return outcome;
   } catch (const std::exception& error) {

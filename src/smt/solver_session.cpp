@@ -19,6 +19,7 @@
 #include "smt/model_reconstruction.hpp"
 #include "smt/preprocessing.hpp"
 #include "smt/preprocessing_strategy.hpp"
+#include "smt/qf_uf_export.hpp"
 #include "smt/quantifiers/quantified_solver.hpp"
 #include "smt/solver_engines.hpp"
 #include "smt/solver_error.hpp"
@@ -344,8 +345,9 @@ util::Statistics::Value elapsed_microseconds(PhaseClock::time_point start,
 namespace {
 
 CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
-                          std::unique_ptr<Frontend> owned_frontend,
-                          std::vector<core::TermId> assertions) {
+                          Frontend* supplied_frontend, std::vector<core::TermId> assertions,
+                          QfUfConflictCollector* collector = nullptr) {
+  std::unique_ptr<Frontend> owned_frontend;
   const PhaseClock::time_point total_start = PhaseClock::now();
   util::Statistics statistics;
   statistics = util::Statistics{};
@@ -581,7 +583,7 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
   }
 
   try {
-    if (!owned_frontend) {
+    if (supplied_frontend == nullptr) {
       const PhaseClock::time_point parse_start = PhaseClock::now();
       smtlib::Parser parser(input);
       const std::vector<smtlib::Command> commands = parser.parse_commands();
@@ -603,7 +605,7 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
         return finish(CheckSatResult::Unsupported, "missing check-sat command");
       }
     }
-    Frontend& frontend = *owned_frontend;
+    Frontend& frontend = supplied_frontend != nullptr ? *supplied_frontend : *owned_frontend;
     statistics.set(kStatAssertionsInitial, assertions.size());
     statistics.set(":frontend.define-fun.nullary-direct-uses",
                    frontend.nullary_definition_direct_uses());
@@ -706,7 +708,14 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
       // Every alternative reduced to false.
       statistics.set(kStatTimePreprocessingUs,
                      elapsed_microseconds(preprocessing_start, PhaseClock::now()));
+      if (collector != nullptr) {
+        collector->record_preprocessing_unsat();
+        statistics.set(":export.preprocessing-unsat", 1);
+      }
       return finish(CheckSatResult::Unsat);
+    }
+    if (collector != nullptr && triaged.surviving.size() != 1) {
+      throw UnsupportedInput("--export-cnf requires a single prepared solver goal");
     }
     // Statistics, diagnostics, and the Boolean-shape heuristics describe the
     // whole preprocessed goal, so they read the union of the alternatives.
@@ -791,8 +800,8 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
     };
     TacticContext tactic_context(frontend.terms(), statistics, options.cancelled,
                                  options.produce_model, fresh_constant);
-    const Strategy solver_strategy =
-        make_session_solver_strategy(frontend, solve_options, statistics, tactic_context);
+    const Strategy solver_strategy = make_session_solver_strategy(
+        frontend, solve_options, statistics, tactic_context, collector);
     const Tactic solver_dispatch = compile(solver_strategy);
 
     const PhaseClock::time_point solve_start = PhaseClock::now();
@@ -816,7 +825,14 @@ CheckSatOutcome check_sat_frontend_once(std::unique_ptr<Frontend> frontend,
                                         std::vector<core::TermId> assertions,
                                         CheckSatOptions options) {
   if (!frontend) throw std::invalid_argument("query frontend must not be null");
-  return run_query({}, std::move(options), std::move(frontend), std::move(assertions));
+  return run_query({}, std::move(options), frontend.get(), std::move(assertions));
+}
+
+CheckSatOutcome check_sat_frontend_export_once(Frontend& frontend,
+                                               std::vector<core::TermId> assertions,
+                                               CheckSatOptions options,
+                                               QfUfConflictCollector& collector) {
+  return run_query({}, std::move(options), &frontend, std::move(assertions), &collector);
 }
 
 }  // namespace primo::smt

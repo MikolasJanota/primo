@@ -1,6 +1,7 @@
 #include "smt/boolean_solver.hpp"
 
 #include <optional>
+#include <utility>
 #include <vector>
 
 #include "core/ids.hpp"
@@ -9,6 +10,7 @@
 #include "smt/check_sat.hpp"
 #include "smt/clausifier.hpp"
 #include "smt/model_reconstruction.hpp"
+#include "smt/qf_uf_export.hpp"
 #include "smt/solver_runtime.hpp"
 #include "smt/solver_support.hpp"
 #include "smt/typed_model_builder.hpp"
@@ -20,15 +22,22 @@ CheckSatOutcome solve_boolean_conjunction(core::TermManager& terms,
                                           const std::vector<core::TermId>& assertions,
                                           const CheckSatOptions& options,
                                           util::Statistics& statistics,
-                                          const ModelConversionChain& conversions) {
+                                          const ModelConversionChain& conversions,
+                                          QfUfConflictCollector* collector) {
   statistics.increment(util::StatKey::SolverBoolean);
   sat::CadicalBackend backend(options.cadical_options);
   SolveTerminator terminator(options.cancelled, statistics, options.max_theory_conflicts);
   const ScopedTerminatorConnection terminator_connection(backend, terminator);
-  BooleanClausifier clausifier(backend, terms, options.top_level_or_tseitin);
+  BooleanClausifier::ClauseObserver observer;
+  if (collector != nullptr) {
+    observer = [collector](const sat::Clause& clause) { collector->record_input_clause(clause); };
+  }
+  BooleanClausifier clausifier(backend, terms, options.top_level_or_tseitin, std::move(observer));
   for (const core::TermId assertion : assertions) {
     clausifier.assert_formula(assertion);
   }
+
+  if (collector != nullptr) collector->bind(clausifier);
 
   statistics.set(util::StatKey::TheoryAtoms, clausifier.theory_atoms().size());
   publish_theory_atom_purity_stats(terms, clausifier.theory_atoms(), statistics);

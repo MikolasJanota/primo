@@ -9,6 +9,8 @@ class Statistics;
 
 namespace primo::smt {
 
+class QfUfConflictCollector;
+
 class Frontend;
 class TacticContext;
 
@@ -17,6 +19,7 @@ class TacticContext;
 // through compilation and execution. Options are copied into immutable shared
 // storage and do not carry execution state.
 Strategy make_session_solver_strategy(Frontend& frontend, CheckSatOptions options,
-                                      util::Statistics& statistics, const TacticContext& context);
+                                      util::Statistics& statistics, const TacticContext& context,
+                                      QfUfConflictCollector* collector = nullptr);
 
 }  // namespace primo::smt

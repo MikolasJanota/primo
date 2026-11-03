@@ -45,17 +45,19 @@ spelling, order, and duplicates before capture.
 
 The exported CNF is the starting problem for independent checking. Establishing its
 relationship to the original formula is still future work; no CNF conversion
-proof is emitted. The ground fragment handled here excludes `ite`, quantified
-terms, arithmetic, and other extended terms that require a separate lowering
-step. This is a limitation of the first producer, rather than a requirement
-that the input have no Boolean structure.
+proof is emitted. Ground Boolean and object-valued `ite` use the solver's
+existing extended-term lowering, including its fresh symbols and defining
+assertions. Quantifiers and interpreted sorts remain outside this producer.
 
-Export selects the existing lazy EUF engine with theory propagation and purity
-filtering off. It bypasses the ordinary preprocessing/tactic route; options for
-those routes do not change this exported problem. Incremental assumptions mode,
-portfolio solving, and preprocess-only mode are incompatible. SAT backend
-options, cancellation, and the theory-conflict limit remain applicable. This
-mode is intended for output experiments, with no performance claim.
+Export uses the normal query preparation, preprocessing profile, solver dispatch,
+and Boolean clausifier. Engine, propagation, purity-filter and clausification
+options retain their ordinary meanings. Incremental assumptions mode, portfolio
+solving, branching tactics and preprocess-only mode are incompatible with the
+single-CNF artifact. Cancellation and the theory-conflict limit remain applicable.
+If preprocessing establishes UNSAT without invoking SAT, the exporter serializes
+its false result through the same clausifier, producing an empty clause and no
+theory lemmas. `:export.preprocessing-unsat=1` marks this case. Such a small
+artifact is not evidence that the source-to-CNF conversion has been certified.
 
 An UNSAT result writes one complete S-expression to `FILE`, replacing existing
 contents. A SAT or unknown result does not write the path; a pre-existing file
@@ -143,7 +145,15 @@ Boolean arguments, positive-arity Boolean-valued functions or Boolean conflict f
 
 [Micromath's SMT tools](https://git.olsak.net/mirek/Micromath/src/commit/df5c5d3b6dcb3310dde35a2dd134927d34973fa4/smt/README.md)
 consume this container directly. The evaluated revision is
-`df5c5d3b6dcb3310dde35a2dd134927d34973fa4`. Its
+`df5c5d3b6dcb3310dde35a2dd134927d34973fa4`. Upstream revision
+`505588a6a0b184c992c3cbcd97721507365ec428` adds SAT-checking optimizations;
+its upstream SMT tests and all nine frozen-artifact kernel replays passed in
+SLURM job `344901`. This checks the prior producer's artifacts, not this pending
+exporter change. On the Goel case, SAT checking used 9,899 kernel steps instead
+of 34,480, and the proof shrank from 173,809 to 113,624 bytes. This is a counter
+comparison on three distinct problems, not a runtime speedup claim; the
+{download}`update report <../coverage/micromath-sat-update.json>` records scope
+and provenance. Its
 [input specification](https://git.olsak.net/mirek/Micromath/src/commit/df5c5d3b6dcb3310dde35a2dd134927d34973fa4/smt/Primo.md)
 supports exactly one uninterpreted object sort, functions from objects to
 objects, and propositional Boolean variables in CNF. Conflicts contain object
@@ -204,9 +214,9 @@ commands, job status, proof hashes and scope are recorded in
 the {download}`run report <../coverage/micromath-check.json>` and the run ledger. No broader-fragment or
 performance claim follows from this integration test.
 
-### Real-benchmark stress pilot
+### Historical real-benchmark stress pilot
 
-The {micromathpilotsource}`pilot harness <scripts/micromath_stress.py>` and
+The original {micromathpilotsource}`pilot harness <scripts/micromath_stress.py>` and
 {micromathpilotsource}`SLURM job <scripts/slurm_micromath_stress.sbatch>` select
 up to twelve metadata-UNSAT SMT-LIB QF_UF inputs from six families at two size
 ranks, with a 1 MiB input cap. Each is tried with `none`, `core`, and `mus`,
@@ -233,6 +243,26 @@ The TypeSafe successes declare seven object sorts before erasure. All modes
 retained the same lemmas on inputs whose export completed, so this sample shows
 no minimization benefit. This is a bounded diagnostic sample, not full-corpus
 coverage or a performance comparison.
+
+### Selecting the next stress inputs
+
+The current `scripts/micromath_stress.py` requires a hash-pinned manifest drawn
+from recorded native UNSAT results within one second. It no longer chooses cases
+by size alone. `scripts/select_micromath_fast_cases.py` selects 64 KiB–2 MiB source
+files, largest first with at most two per family, verifies historical input
+hashes, excludes the previous pilot, and conservatively screens declared
+Boolean function arguments and positive-arity Boolean results. This lexical
+screen is not a complete SMT-LIB parser or a proof of checker compatibility.
+`ite` is allowed through the normal lowering pipeline.
+
+A five-second `none` export is the admission check. If it fails to establish main
+UNSAT, CORE/MUS runs are skipped for that input. Reduced exports have a 30-second
+limit; downstream stage limits and the shared 60-second profile budget remain.
+Historical native timings and current export/checking timings are separate
+measurements. Large source bytes alone do not establish stress on the proof
+framework: exported CNF size, collected/retained lemmas and proof sizes must also
+be reported. This revised selection and producer are awaiting fresh SLURM
+qualification; the historical pilot above validates their earlier revisions only.
 
 ## Container and literal syntax
 
@@ -368,69 +398,81 @@ representatives, or references to solver memory. There is no ordering or
 numbering dependency on Primo's allocation history. An independent consumer
 needs only this specification and SMT-LIB term semantics.
 
-The {conflictexportsource}`smtlib::ConflictDocument <src/smtlib/conflict_document.hpp>` value owns declaration text, clause literal
-sequences, and conflict literal sequences.
-{conflictexportsource}`print_conflict_document <src/smtlib/conflict_document.cpp>` serializes
-that value without parsing, validating, or consulting solver state. Its caller
-must provide well-sorted SMT-LIB text. There are no borrowed references in the
-stored document.
+The standalone `smtlib::ConflictDocument` and `print_conflict_document`
+(`src/smtlib/conflict_document.*`) remain available for independently authored
+text documents. The solver exporter instead owns a `smtlib::ConflictSpool`
+(`src/smtlib/conflict_spool.*`): three buffered anonymous temporary files for
+signature, CNF, and conflicts. It stores conflict byte offsets and lengths only
+when reduction needs selection. `TMPDIR` can select node-local scratch. Securely
+created temporary files are unlinked immediately and closed on every return.
+Temporary-storage failure aborts export; it does not fall back to text in RAM.
 
-The SMT adapter {lemmareductionsource}`export_qf_uf_cnf <src/smt/qf_uf_export.cpp>` owns one `Frontend`, its term manager, and the
-output document until solving and serialization finish. It validates the whole
-command sequence and the ground fragment, and prints declarations for all
-symbols in that frontend. The {source}`term printer <src/smtlib/term_printer.hpp>`
-supplies term-text utilities.
+`export_qf_uf_cnf` (`src/smt/qf_uf_export.cpp`) owns one `Frontend`, its term
+manager, the spool, and collector through solving and serialization. It validates
+the whole command sequence and QF_UF sorts, then calls
+`check_sat_frontend_export_once` in `src/smt/solver_session.cpp`. That entry point
+borrows the frontend and runs the same production preparation and dispatch as
+ordinary queries. Signature printing waits until collection binds, so declarations
+include fresh symbols introduced by the existing preprocessing/lowering passes.
 
-{cnfcapturesource}`BooleanClausifier::ClauseObserver <src/smt/clausifier.hpp>`
-is an optional synchronous callback at the
-clausifier-to-SAT boundary. Each clause passes through one {cnfcapturesource}`insertion helper <src/smt/clausifier.cpp>`,
-which invokes the observer and then forwards the same clause to the backend.
-The observer must copy data it retains and must not mutate the clausifier,
-term manager, or backend, or reenter clausification.
-Without an observer, the ordinary clause insertion path remains active.
+`BooleanClausifier::ClauseObserver` (`src/smt/clausifier.hpp`) is an optional
+synchronous callback at the clausifier-to-SAT boundary. One insertion helper
+invokes it and forwards the same clause to the backend. The observer copies data
+it retains and must not mutate the clausifier, term manager, or backend, or reenter
+clausification. Both the Boolean and EUF solver leaves accept a collector; without
+one they retain ordinary clause insertion and early-return behavior.
 
-{lemmareductionsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` borrows the adapter's term manager and document during
-the solve. The observer copies initial clauses as SAT literals while the
-clausifier is still building its atom mapping. After the ordinary Boolean
-argument registry is complete, the collector copies that mapping into an owned
-hash table, assigns fresh names to propositional auxiliaries, and translates
-the captured clauses to owned text. It then seals the initial CNF; a later
-clausifier emission is an error rather than a silently omitted clause. The
-selected lazy path introduces no further clausification during search.
+`QfUfConflictCollector` (`src/smt/qf_uf_export.hpp`) borrows the frontend's term
+manager and spool. It copies initial clauses as SAT literals while the clausifier
+builds its atom mapping. After Boolean argument registration, binding copies the
+SAT-variable-to-TermId mapping, assigns fresh Boolean auxiliary names, and streams
+initial clause text. Later clausifier emissions are rejected. The current ground
+EUF path does not introduce new atoms after binding.
 
-Every reported theory conflict is translated to owned literal strings before
-SAT receives its learned clause. An unmapped theory reason literal is an error.
-The initial CNF observer is separate from theory-conflict collection, so theory
-lemmas do not get mixed into the input section. The SAT backend continues to see
-propositional literals only; it does not know about the exporter or inspect terms.
+Lazy conflicts and model-propagation clauses are recorded at insertion. The
+online propagator records external conflict clauses and reason clauses when their
+terminating zero is requested by SAT. Thus queued but unused propagation reasons
+are not exported. Duplicate delivered clauses may remain. No SAT-learned clause
+is exported. The SAT adapter sees only propositional literals and has no exporter
+or core-term dependency.
 
-Primo's [EUF explanations](../implementation/euf.md#follow-one-conflict) use
-learned-clause polarity: reasons already negate the asserted assignments.
-The collector complements those literals to produce the conflicting facts
-specified here. The lazy engine returns theory conflicts only; online
-propagation and model propagation are disabled, so their reason clauses do not
-need separate collection in this producer. No SAT-learned clauses are exported.
+Primo's [EUF explanations](../implementation/euf.md#follow-one-conflict) already
+use learned-clause polarity. The collector complements those literals to produce
+the conflicting facts specified here. An unmapped theory literal is an error.
+Each term is streamed by `print_ground_term` in `src/smtlib/term_printer.cpp`,
+using an iterative traversal without a cache of expanded subterm strings.
+No expanded atom, clause or conflict strings are retained by collection.
 
-Atom binding and input-clause translation take expected linear time in the
-number of declared symbols and sorts, theory atoms, and captured literals,
-plus name/text processing and term printing. Conflict
-collection takes expected linear time in the number of reason literals, plus
-term printing. The document retains all emitted text until the solve returns;
-there is no streaming, and repeated terms are printed in full. Optional
-reduction retains raw clause copies and creates a separate SAT instance as
-described above.
-This can use substantially more memory than ordinary solving.
+Collection costs expected linear time in captured literals plus names and expanded
+term output. Printing repeated shared terms can still produce large files and
+consume substantial CPU. The spool retains bounded I/O buffers and optional
+per-conflict offsets, rather than all output text. Numeric CNF copies remain in
+memory for CORE/MUS; `none` releases initial raw clauses after binding and stores
+no raw theory clauses. The original script and core term DAG remain in memory.
+After main UNSAT, the existing SAT-only reducer returns indices; it never reads
+text or spools. Final publication copies selected byte ranges through a bounded
+buffer. Empty selection emits no conflicts; `none` emits every conflict.
+
+The spool is sealed and flushed before the output path is opened. Spooling errors
+therefore leave a pre-existing artifact unchanged, just as SAT/unknown and
+interrupted reduction do. A failure during final publication can still leave a
+partial output file. `:export.main-unsat` distinguishes the main result from
+postprocessing; `:export.solve-and-collect.us`, `:export.format-input.us`,
+`:export.format-conflicts.us`, `:export.reduction.us`, `:export.final-write.us`,
+and `:export.spool.{signature,cnf,conflict}-bytes` expose work and staged byte counts.
+Solve/collection time includes the formatting counters, so these times must not
+be summed. See the [storage design note](../leads/cnf-export-spooling.md).
 
 {lemmareductionsource}`CheckSatOptions::export_cnf <src/smt/check_sat.hpp>` and
 {lemmareductionsource}`check_sat_smtlib <src/smt/check_sat.cpp>` expose the same buffered
 single-query route to library callers. Direct `SmtSession` construction rejects
 a nonempty export filename because that streaming API cannot validate the
 whole script before a query. The reduction option without an export filename
-is also rejected by the library entry point. Preprocessing, extended-term lowering, incremental queries, conversion proofs,
-and collection from online propagation require further producer design. The original standalone-format examples remain illustrative,
+is also rejected by the library entry point. Incremental queries, branching and
+source-to-CNF conversion proofs require further producer design. The original standalone-format examples remain illustrative,
 rather than captured exporter output.
 
 This page is an original output-format and adapter design note. The adapter
-reuses Primo's existing lazy solver and term printer; it introduces no new
+reuses Primo's normal solver pipeline and the ground term printer; it introduces no new
 congruence-closure or proof algorithm. The external checking route above covers
 the stated subset; a checker for the full format remains future work.

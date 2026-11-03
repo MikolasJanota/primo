@@ -1639,7 +1639,7 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
                       core::TermId true_term, core::TermId false_term,
                       const CheckSatOptions& options, bool adaptive_propagation,
                       util::Statistics& statistics, const PreparedFlatTheory* prepared = nullptr,
-                      bool count_conflicts = true)
+                      bool count_conflicts = true, QfUfConflictCollector* collector = nullptr)
       : terms_(terms),
         theory_atoms_(theory_atoms),
         true_term_(true_term),
@@ -1647,7 +1647,8 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
         options_(options),
         adaptive_propagation_(adaptive_propagation),
         statistics_(statistics),
-        count_conflicts_(count_conflicts) {
+        count_conflicts_(count_conflicts),
+        collector_(collector) {
     int max_theory_var = 0;
     for (const BooleanClausifier::TheoryAtom& atom : theory_atoms_) {
       max_theory_var =
@@ -1887,6 +1888,11 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
     }
     const std::size_t antecedent_index = reason.index - 1;
     if (antecedent_index >= reason.antecedents.size()) {
+      if (collector_ != nullptr) {
+        sat::Clause clause{sat::Lit{propagated_lit}};
+        for (const int literal : reason.antecedents) clause.push_back(sat::Lit{literal});
+        collector_->record(clause);
+      }
       reason.index = 0;
       reason.active_lit = 0;
       return 0;
@@ -1913,6 +1919,7 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
 
   int cb_add_external_clause_lit() override {
     if (external_clause_index_ >= external_clause_.size()) {
+      if (collector_ != nullptr && !external_clause_.empty()) collector_->record(external_clause_);
       external_clause_.clear();
       external_clause_index_ = 0;
       return 0;
@@ -2570,6 +2577,7 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
   bool adaptive_propagation_ = false;
   util::Statistics& statistics_;
   bool count_conflicts_;
+  QfUfConflictCollector* collector_;
   std::vector<unsigned char> observed_vars_;
   std::vector<std::optional<std::size_t>> atom_index_by_var_;
   bool generated_registration_valid_ = true;
@@ -10435,7 +10443,7 @@ CheckSatOutcome solve_qf_uf_engine_impl(core::TermManager& terms,
       euf_propagation == EufPropagationMode::Conflict) {
     online_propagator.emplace(terms, clausifier.theory_atoms(), true_term, false_term,
                               resolved_options, options.euf_propagation == EufPropagationMode::Auto,
-                              statistics);
+                              statistics, nullptr, true, collector);
     assignment_connection.emplace(backend, *online_propagator);
     for (const BooleanClausifier::TheoryAtom& atom : clausifier.theory_atoms()) {
       const int var = atom.lit.value > 0 ? atom.lit.value : -atom.lit.value;
@@ -10510,6 +10518,7 @@ CheckSatOutcome solve_qf_uf_engine_impl(core::TermManager& terms,
         statistics.increment(kStatEufPropagationHitRateCutoffs);
       }
       for (const sat::Clause& clause : propagation.clauses) {
+        if (collector != nullptr) collector->record(clause);
         backend.add_clause(clause);
       }
       publish_sat_stats(backend.statistics(), statistics);

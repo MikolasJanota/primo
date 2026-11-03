@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iosfwd>
 #include <string>
 
 #include "core/ids.hpp"
@@ -24,5 +25,10 @@ std::string print_sort(const core::SymbolTable& symbols, core::SortId sort);
 // uses. Patterns are omitted: they do not change what a formula means. Throws
 // std::invalid_argument for arithmetic terms and for open terms.
 std::string print_term(const core::TermManager& terms, core::TermId term);
+
+// Stream a ground UF term without caching expanded subterm text. The caller
+// must not mutate terms through stream callbacks. Quantifiers/open/arithmetic
+// terms are rejected; other callers may still use the string-returning printer.
+void print_ground_term(std::ostream& output, const core::TermManager& terms, core::TermId term);
 
 }  // namespace primo::smtlib

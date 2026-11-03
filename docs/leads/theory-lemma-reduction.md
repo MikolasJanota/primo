@@ -71,15 +71,16 @@ element near the end, and requires both block skipping and binary search.
 
 ## Representation, lifetime and failure modes
 
-{lemmareductionsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` borrows its adapter's term manager and output document.
-With reduction enabled, it owns copies of the raw input and theory clauses until
-serialization. Before reduction, its `theory_clauses_` indices correspond
-one-to-one to `ConflictDocument::conflicts`; clauses are neither interned nor
-deduplicated. Applying selection replaces only the printed conflict vector,
-so this alignment ends at that point. The adapter calls `reduce` once and then
-serializes; the collector is not reused for another reduction.
-With `none`, it releases the captured raw input after printing and does not retain
-raw theory clauses. No terms are created by reduction.
+`QfUfConflictCollector` (`src/smt/qf_uf_export.hpp`) borrows its adapter's term
+manager and text spool. With reduction enabled, it owns numeric copies of the
+input and theory clauses until serialization. Its `theory_clauses_` indices
+correspond one-to-one to the conflict spool's byte-range records; clauses are
+neither interned nor deduplicated. Reduction returns indices without mutating
+or reading the text. Publication copies those ranges in original order.
+With `none`, binding releases raw input clauses after printing and collection
+retains no raw theory clauses or conflict-offset index. No expanded literal
+strings are kept. No terms are created by reduction. Main solving and normal
+preprocessing finish before the separate SAT oracle is run.
 
 {lemmareductionsource}`select_unsat_subset <src/sat/clause_subset.hpp>` borrows two immutable `sat::Cnf` vectors for one call and
 owns the fresh `CadicalBackend`, guard clauses and selector vector. Its backend

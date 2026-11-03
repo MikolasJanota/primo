@@ -1,0 +1,216 @@
+{
+  "micromath_git": "505588a6a0b184c992c3cbcd97721507365ec428",
+  "baseline_micromath_git": "df5c5d3b6dcb3310dde35a2dd134927d34973fa4",
+  "primo_git": "c5f14934285ead8feeef32fc2e59469673795e67",
+  "job_id": "344901",
+  "host": "node-04.ciircluster",
+  "scope": "same nine previously kernel-verified input/challenge/LRAT artifacts; no Primo rerun",
+  "checker_sha256": "78302a478f6f96102b761038a9184e6820b4eb7cb25d45a2e6fd3cf0883c4af2",
+  "rows": [
+    {
+      "case": "cases/006/core/input.primo",
+      "input_sha256": "140f942cf91fe72160bbf65b47ac85277c75f586e12ed60c16c4aca63c717e1b",
+      "proof_bytes": 32544,
+      "old_proof_bytes": 32595,
+      "baseline_counts": {
+        "library_steps": 7262,
+        "cc_steps": 288,
+        "sat_steps": 501,
+        "exported_steps": 3575,
+        "executed_steps": 8051
+      },
+      "updated_counts": {
+        "library_steps": 7270,
+        "cc_steps": 288,
+        "sat_steps": 146,
+        "exported_steps": 3567,
+        "executed_steps": 7704
+      },
+      "file": "TypeSafe/z3.1184163.smt2"
+    },
+    {
+      "case": "cases/006/mus/input.primo",
+      "input_sha256": "140f942cf91fe72160bbf65b47ac85277c75f586e12ed60c16c4aca63c717e1b",
+      "proof_bytes": 32544,
+      "old_proof_bytes": 32595,
+      "baseline_counts": {
+        "library_steps": 7262,
+        "cc_steps": 288,
+        "sat_steps": 501,
+        "exported_steps": 3575,
+        "executed_steps": 8051
+      },
+      "updated_counts": {
+        "library_steps": 7270,
+        "cc_steps": 288,
+        "sat_steps": 146,
+        "exported_steps": 3567,
+        "executed_steps": 7704
+      },
+      "file": "TypeSafe/z3.1184163.smt2"
+    },
+    {
+      "case": "cases/006/none/input.primo",
+      "input_sha256": "140f942cf91fe72160bbf65b47ac85277c75f586e12ed60c16c4aca63c717e1b",
+      "proof_bytes": 32544,
+      "old_proof_bytes": 32595,
+      "baseline_counts": {
+        "library_steps": 7262,
+        "cc_steps": 288,
+        "sat_steps": 501,
+        "exported_steps": 3575,
+        "executed_steps": 8051
+      },
+      "updated_counts": {
+        "library_steps": 7270,
+        "cc_steps": 288,
+        "sat_steps": 146,
+        "exported_steps": 3567,
+        "executed_steps": 7704
+      },
+      "file": "TypeSafe/z3.1184163.smt2"
+    },
+    {
+      "case": "cases/007/core/input.primo",
+      "input_sha256": "09b8bd98d366984b6e2a9f881e8b856166660f9957b7dbec1ed2b4d2993202c5",
+      "proof_bytes": 32770,
+      "old_proof_bytes": 32877,
+      "baseline_counts": {
+        "library_steps": 7262,
+        "cc_steps": 288,
+        "sat_steps": 560,
+        "exported_steps": 3593,
+        "executed_steps": 8110
+      },
+      "updated_counts": {
+        "library_steps": 7270,
+        "cc_steps": 288,
+        "sat_steps": 159,
+        "exported_steps": 3579,
+        "executed_steps": 7717
+      },
+      "file": "TypeSafe/z3.1184147.smt2"
+    },
+    {
+      "case": "cases/007/mus/input.primo",
+      "input_sha256": "09b8bd98d366984b6e2a9f881e8b856166660f9957b7dbec1ed2b4d2993202c5",
+      "proof_bytes": 32770,
+      "old_proof_bytes": 32877,
+      "baseline_counts": {
+        "library_steps": 7262,
+        "cc_steps": 288,
+        "sat_steps": 560,
+        "exported_steps": 3593,
+        "executed_steps": 8110
+      },
+      "updated_counts": {
+        "library_steps": 7270,
+        "cc_steps": 288,
+        "sat_steps": 159,
+        "exported_steps": 3579,
+        "executed_steps": 7717
+      },
+      "file": "TypeSafe/z3.1184147.smt2"
+    },
+    {
+      "case": "cases/007/none/input.primo",
+      "input_sha256": "09b8bd98d366984b6e2a9f881e8b856166660f9957b7dbec1ed2b4d2993202c5",
+      "proof_bytes": 32770,
+      "old_proof_bytes": 32877,
+      "baseline_counts": {
+        "library_steps": 7262,
+        "cc_steps": 288,
+        "sat_steps": 560,
+        "exported_steps": 3593,
+        "executed_steps": 8110
+      },
+      "updated_counts": {
+        "library_steps": 7270,
+        "cc_steps": 288,
+        "sat_steps": 159,
+        "exported_steps": 3579,
+        "executed_steps": 7717
+      },
+      "file": "TypeSafe/z3.1184147.smt2"
+    },
+    {
+      "case": "cases/010/core/input.primo",
+      "input_sha256": "13f1dc8c249c578048ff0cc0cc0b0f5be62f667ea99aca4950a96dfc0fa13f07",
+      "proof_bytes": 113624,
+      "old_proof_bytes": 173809,
+      "baseline_counts": {
+        "library_steps": 6744,
+        "cc_steps": 910,
+        "sat_steps": 34480,
+        "exported_steps": 18857,
+        "executed_steps": 42134
+      },
+      "updated_counts": {
+        "library_steps": 6986,
+        "cc_steps": 910,
+        "sat_steps": 9899,
+        "exported_steps": 12260,
+        "executed_steps": 17795
+      },
+      "file": "2018-Goel-hwbench/QF_UF_h_Barrel_ab_cti_max.smt2"
+    },
+    {
+      "case": "cases/010/mus/input.primo",
+      "input_sha256": "13f1dc8c249c578048ff0cc0cc0b0f5be62f667ea99aca4950a96dfc0fa13f07",
+      "proof_bytes": 113624,
+      "old_proof_bytes": 173809,
+      "baseline_counts": {
+        "library_steps": 6744,
+        "cc_steps": 910,
+        "sat_steps": 34480,
+        "exported_steps": 18857,
+        "executed_steps": 42134
+      },
+      "updated_counts": {
+        "library_steps": 6986,
+        "cc_steps": 910,
+        "sat_steps": 9899,
+        "exported_steps": 12260,
+        "executed_steps": 17795
+      },
+      "file": "2018-Goel-hwbench/QF_UF_h_Barrel_ab_cti_max.smt2"
+    },
+    {
+      "case": "cases/010/none/input.primo",
+      "input_sha256": "13f1dc8c249c578048ff0cc0cc0b0f5be62f667ea99aca4950a96dfc0fa13f07",
+      "proof_bytes": 113624,
+      "old_proof_bytes": 173809,
+      "baseline_counts": {
+        "library_steps": 6744,
+        "cc_steps": 910,
+        "sat_steps": 34480,
+        "exported_steps": 18857,
+        "executed_steps": 42134
+      },
+      "updated_counts": {
+        "library_steps": 6986,
+        "cc_steps": 910,
+        "sat_steps": 9899,
+        "exported_steps": 12260,
+        "executed_steps": 17795
+      },
+      "file": "2018-Goel-hwbench/QF_UF_h_Barrel_ab_cti_max.smt2"
+    }
+  ],
+  "schema_version": 1,
+  "status": "COMPLETED exit 0:0; upstream check-smt and nine fixed-artifact replays passed",
+  "limits": {
+    "cpus": 2,
+    "memory_gib": 4,
+    "job_wall_minutes": 15,
+    "each_replay_stage_seconds": 60
+  },
+  "artifact_directory": "results/micromath-update-344901",
+  "reproduction": {
+    "build": "make -j2 in pinned external source; matching C headers supplied by local environment",
+    "upstream_tests": "make check-smt; Python 3.11; LRAT-capable CaDiCaL 7b99c07 on PATH",
+    "replay": "for the nine completed prior-pilot profiles: smt/prove-lrat OLD/challenge.umd OLD/input.primo OLD/problem.lrat NEW/solution.ump; check-solution OLD/challenge.umd NEW/solution.ump"
+  },
+  "limitations": "Three distinct tiny/small source problems in three reduction modes; same old Primo c5f14934 artifacts, challenges and LRAT. No current-exporter qualification, no timing speedup claim. Counter comparison isolates checker changes; no source-to-CNF proof.",
+  "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641"
+}

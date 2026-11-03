@@ -2,8 +2,13 @@
 #undef NDEBUG
 #endif
 
+#include <algorithm>
 #include <cassert>
+#include <cstddef>
+#include <ostream>
+#include <sstream>
 #include <stdexcept>
+#include <streambuf>
 #include <string>
 #include <vector>
 
@@ -115,9 +120,54 @@ void open_and_arithmetic_terms_are_rejected() {
   assert(threw);
 }
 
+// A shared term DAG can have a large textual expansion. The streaming API
+// emits bounded tokens rather than caching those expanded strings.
+void ground_streaming() {
+  Frontend frontend;
+  std::vector<TermId> assertions;
+  for (const auto& command :
+       primo::smtlib::Parser(kPrelude +
+                             "(declare-fun g (U U) U)"
+                             "(assert (=> (p a a) (or k (not (= (ite k a |b c|) (f a))))))")
+           .parse_commands()) {
+    frontend.process_command(command, assertions);
+  }
+  for (const auto root : assertions) {
+    std::ostringstream output;
+    primo::smtlib::print_ground_term(output, frontend.terms(), root);
+    assert(output.str() == print_term(frontend.terms(), root));
+  }
+  struct CountingBuffer final : std::streambuf {
+    std::size_t bytes = 0;
+    std::streamsize largest = 0;
+    std::streamsize xsputn(const char*, std::streamsize count) override {
+      bytes += static_cast<std::size_t>(count);
+      largest = std::max(largest, count);
+      return count;
+    }
+    int_type overflow(int_type value) override {
+      if (!traits_type::eq_int_type(value, traits_type::eof())) ++bytes;
+      return traits_type::not_eof(value);
+    }
+  } buffer;
+  auto& terms = frontend.terms();
+  const auto a = *terms.symbols().lookup_symbol("a");
+  const auto g = *terms.symbols().lookup_symbol("g");
+  TermId root = terms.mk_constant(a);
+  std::size_t expected_bytes = 1;
+  for (int depth = 0; depth < 18; ++depth) {
+    root = terms.mk_app(g, {root, root});
+    expected_bytes = 5 + 2 * expected_bytes;
+  }
+  std::ostream output(&buffer);
+  primo::smtlib::print_ground_term(output, terms, root);
+  assert(buffer.bytes == expected_bytes && buffer.largest <= 5);
+}
+
 }  // namespace
 
 int main() {
+  ground_streaming();
   round_trip_is_stable();
   names_are_fresh_and_quoted();
   answers_survive_printing();

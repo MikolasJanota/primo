@@ -62,6 +62,7 @@ for variant in original erased-multisort; do
     mkdir -p "$case_dir"
     timeout --kill-after=3s 30s "$PRIMO_BINARY" --quiet --stats \
       --export-cnf "$case_dir/input.primo" --export-cnf-reduction="$mode" \
+      --preprocessing-mode=off \
       "${export_options[@]}" "$input" \
       > "$case_dir/primo-result.txt" 2> "$case_dir/primo-statistics.txt"
     grep -Fx unsat "$case_dir/primo-result.txt"

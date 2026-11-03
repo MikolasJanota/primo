@@ -19,21 +19,22 @@
 namespace primo::smt {
 
 Strategy make_session_solver_strategy(Frontend& frontend, CheckSatOptions options,
-                                      util::Statistics& statistics, const TacticContext& context) {
+                                      util::Statistics& statistics, const TacticContext& context,
+                                      QfUfConflictCollector* collector) {
   options.produce_model = context.produce_model();
   const ExperimentalSplitBoolsOptions split_options{.max_bools = options.experimental_split_bools};
   const auto immutable_options = std::make_shared<const CheckSatOptions>(std::move(options));
   const Tactic boolean_solver = make_solver_tactic(
-      "solve-boolean", frontend.terms(), [&, immutable_options](const Goal& goal) {
+      "solve-boolean", frontend.terms(), [&, immutable_options, collector](const Goal& goal) {
         return solver_answer_from_outcome(
             solve_boolean_conjunction(frontend.terms(), goal.assertions(), *immutable_options,
-                                      statistics, goal.reconstruction().conversions));
+                                      statistics, goal.reconstruction().conversions, collector));
       });
-  const Tactic euf_solver =
-      make_solver_tactic("solve-qf-uf", frontend.terms(), [&, immutable_options](const Goal& goal) {
-        return solver_answer_from_outcome(solve_qf_uf_engine(frontend.terms(), goal.assertions(),
-                                                             *immutable_options, statistics,
-                                                             goal.reconstruction().conversions));
+  const Tactic euf_solver = make_solver_tactic(
+      "solve-qf-uf", frontend.terms(), [&, immutable_options, collector](const Goal& goal) {
+        return solver_answer_from_outcome(
+            solve_qf_uf_engine(frontend.terms(), goal.assertions(), *immutable_options, statistics,
+                               goal.reconstruction().conversions, collector));
       });
   const Tactic lra_solver = make_solver_tactic(
       "solve-qf-lra", frontend.terms(), [&, immutable_options](const Goal& goal) {

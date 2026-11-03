@@ -20,12 +20,9 @@ set -euo pipefail
 : "${REFERENCE_BINARY:?set the Z3 executable}"
 : "${QF_UF_CORPUS:?set the existing nonincremental QF_UF corpus root}"
 : "${PILOT_OUT:?set a fresh absolute results directory}"
-manifest_option=()
-if [[ -n ${PILOT_MANIFEST:-} ]]; then
-  manifest_option=(--manifest "$PILOT_MANIFEST")
-fi
+: "${PILOT_MANIFEST:?set a recorded fast-UNSAT input manifest}"
 "$PILOT_PYTHON" "$PILOT_SCRIPT" --corpus "$QF_UF_CORPUS" \
   --primo "$PRIMO_BINARY" --expected-git "$PRIMO_EXPECTED_GIT" \
   --micromath "$MICROMATH_DIR" --cadical "$CADICAL_BINARY" \
   --reference "$REFERENCE_BINARY" --out "$PILOT_OUT" \
-  --workers 4 --reference-timeout 20 --mode-budget 60 "${manifest_option[@]}"
+  --workers 4 --reference-timeout 20 --mode-budget 60 --manifest "$PILOT_MANIFEST"

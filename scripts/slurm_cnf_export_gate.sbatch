@@ -46,6 +46,7 @@ root = Path(os.environ['PRIMO_EXPORT_ARTIFACTS'])
     'count': 1000,
     'reduction_modes': 'round-robin none/core/mus',
     'sort_erasure': 'odd indices enabled; every fifth input has multiple object sorts',
+    'solver_paths': '16-case cycles cover off/auto preprocessing, four EUF propagation modes, both engines; ite every seventh case',
     'mus_validation': 'drop each retained lemma and require propositional SAT',
     'timeout_per_process_seconds': 10,
     'reference': 'contrib/local/bin/z3 -in',

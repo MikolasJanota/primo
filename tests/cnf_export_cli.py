@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import re
 import subprocess
@@ -233,8 +234,10 @@ def sort_erasure_regressions(solver: str, directory: Path) -> None:
     result = invoke([solver, "--experimental-export-erase-sorts"], source)
     require(result.returncode != 0, "sort erasure without export accepted")
     for unsupported in (
-        "(set-logic QF_UF)(declare-sort A 0)(declare-fun a () A)"
-        "(assert (forall ((x A)) (= x a)))(check-sat)",
+        (
+            "(set-logic QF_UF)(declare-sort A 0)(declare-fun a () A)"
+            "(assert (forall ((x A)) (= x a)))(check-sat)"
+        ),
         "(set-logic QF_UF)(declare-fun x () Real)(assert false)(check-sat)",
     ):
         output.write_text("sentinel")
@@ -250,7 +253,7 @@ def sort_erasure_regressions(solver: str, directory: Path) -> None:
 
 def regressions(solver: str, directory: Path) -> None:
     output = directory / "certificate.sexp"
-    result = export(solver, PRELUDE + CONGRUENCE, output)
+    result = export(solver, PRELUDE + CONGRUENCE, output, "--preprocessing-mode=off")
     require(result.returncode == 0 and result.stdout.strip() == "unsat", str(result))
     root = document(output)
     expected = {"(= a b)", "(not (= (f a) (f b)))"}
@@ -263,7 +266,11 @@ def regressions(solver: str, directory: Path) -> None:
 
     for mode in ("none", "core", "mus"):
         result = export(
-            solver, PRELUDE + CONGRUENCE, output, f"--export-cnf-reduction={mode}"
+            solver,
+            PRELUDE + CONGRUENCE,
+            output,
+            f"--export-cnf-reduction={mode}",
+            "--preprocessing-mode=off",
         )
         require(
             result.returncode == 0 and result.stdout.strip() == "unsat", str(result)
@@ -291,6 +298,8 @@ def regressions(solver: str, directory: Path) -> None:
 
     for body in (
         "(assert false)(check-sat)",
+        "(assert (ite (p a) (p b) (p c)))(assert (not (p b)))(assert (not (p c)))(check-sat)",
+        "(assert (not (= (f (ite (p a) a b)) (ite (p a) (f a) (f b)))))(check-sat)",
         (
             "(define-fun alias ((t U)) U (f t))"
             "(assert (= a b))(assert (not (= (alias a) (alias b))))(check-sat)"
@@ -329,10 +338,14 @@ def regressions(solver: str, directory: Path) -> None:
 
     for source, options in (
         (PRELUDE + "(check-sat)", ()),
+        (PRELUDE + "(assert (ite (p a) (p b) (p c)))(check-sat)", ()),
         (PRELUDE + "(assert (= a b))(check-sat)", ()),
         (PRELUDE + "(assert (or (and (p a) (p b)) (p c)))(check-sat)", ()),
         (PRELUDE + "(assert (= (h (and (p a) (p b))) a))(check-sat)", ()),
-        (PRELUDE + CONGRUENCE, ("--max-theory-conflicts=1",)),
+        (
+            PRELUDE + CONGRUENCE,
+            ("--max-theory-conflicts=1", "--preprocessing-mode=off", "--euf-prop=off"),
+        ),
     ):
         result = export(solver, source, output, *options)
         require(
@@ -347,7 +360,6 @@ def regressions(solver: str, directory: Path) -> None:
         (PRELUDE + CONGRUENCE + "(assert true)", ()),
         (PRELUDE + "(reset)" + CONGRUENCE, ()),
         (PRELUDE + CONGRUENCE + "(reset-assertions)", ()),
-        (PRELUDE + "(assert (ite (p a) (p b) (p c)))(check-sat)", ()),
         (PRELUDE.replace("QF_UF", "QF_LRA") + CONGRUENCE, ()),
         (PRELUDE, ()),
         (PRELUDE + CONGRUENCE + "(exit)(assert true)", ()),
@@ -361,6 +373,22 @@ def regressions(solver: str, directory: Path) -> None:
         )
         require(output.read_text() == "sentinel", "rejected request touched output")
         output.unlink()
+
+    output.write_text("sentinel")
+    failed = subprocess.run(
+        [solver, "--quiet", "--export-cnf", str(output)],
+        input=PRELUDE + CONGRUENCE,
+        text=True,
+        capture_output=True,
+        timeout=10,
+        env={**os.environ, "TMPDIR": str(directory / "absent")},
+        check=False,
+    )
+    require(
+        failed.returncode != 0 and output.read_text() == "sentinel",
+        "spool failure changed final output",
+    )
+    output.unlink()
 
     result = export(solver, PRELUDE + CONGRUENCE, directory / "absent" / "out")
     require(result.returncode != 0, "output open error ignored")
@@ -436,6 +464,8 @@ def fuzz(args: argparse.Namespace) -> None:
             source += "(assert (or (and (= a b) (= b c)) (and (p a) (not (p c)))))"
         if index % 3 == 0:
             source += "(assert (= a b))(assert (not (= (f a) (f b))))"
+        if index % 7 == 0:
+            source += "(assert (= (f (ite (p a) a b)) (ite (p a) (f a) (f b))))"
         source += "(check-sat)"
         stem = args.out / f"case-{index:05d}"
         stem.with_suffix(".smt2").write_text(source)
@@ -443,7 +473,12 @@ def fuzz(args: argparse.Namespace) -> None:
         try:
             expected = reference(args.reference, source)
             mode = ("none", "core", "mus")[index % 3]
-            options = [f"--export-cnf-reduction={mode}"]
+            options = [
+                f"--export-cnf-reduction={mode}",
+                f"--preprocessing-mode={('off', 'auto')[(index // 8) % 2]}",
+                f"--euf-prop={('off', 'online', 'conflict', 'model')[index % 4]}",
+                f"--euf-engine={('lazy', 'incremental')[(index // 4) % 2]}",
+            ]
             if index % 2:
                 options.append("--experimental-export-erase-sorts")
             result = export(args.solver, source, output, *options)
@@ -477,6 +512,7 @@ def fuzz(args: argparse.Namespace) -> None:
                         "seed": args.seed,
                         "requested": args.fuzz_count,
                         "reduction_modes": "round-robin none/core/mus",
+                        "solver_paths": "alternating off/auto preprocessing; four propagation modes; both EUF engines; ite on every seventh case",
                         "sort_erasure": "enabled on odd indices; multi-sort input on every fifth index",
                         **summary,
                     },

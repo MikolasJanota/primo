@@ -8,7 +8,6 @@ import hashlib
 import json
 import os
 import platform
-import re
 import resource
 import signal
 import subprocess
@@ -18,14 +17,6 @@ from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
-FAMILIES = [
-    "NEQ",
-    "PEQ",
-    "QG-classification",
-    "TypeSafe",
-    "20190906-CLEARSY",
-    "2018-Goel-hwbench",
-]
 MODES = ("none", "core", "mus")
 
 
@@ -89,52 +80,20 @@ def answer(record: dict) -> str:
 
 
 def select(args: argparse.Namespace) -> dict:
-    if args.manifest:
-        selection = json.loads(args.manifest.read_text())
-        for case in selection["cases"]:
-            if case.get("expected") != "unsat":
-                raise ValueError("this pilot accepts UNSAT benchmark manifests only")
-            path = Path(case["file"])
-            if path.is_absolute() or ".." in path.parts:
-                raise ValueError("unsafe benchmark manifest path")
-            if digest(args.corpus / path) != case["sha256"]:
-                raise ValueError(f"benchmark hash mismatch: {path}")
-        return selection
-    cases = []
-    candidate_counts = {}
-    for family in FAMILIES:
-        eligible = []
-        for path in (args.corpus / family).rglob("*.smt2"):
-            size = path.stat().st_size
-            if size > 1024 * 1024:
-                continue
-            with path.open("rb") as source:
-                header = source.read(65536)
-            if re.search(rb"(?m)^\s*\(set-info\s+:status\s+unsat\s*\)", header):
-                eligible.append((size, path.relative_to(args.corpus).as_posix()))
-        eligible.sort()
-        candidate_counts[family] = len(eligible)
-        indices = (
-            {int((len(eligible) - 1) * q) for q in (0.25, 0.75)} if eligible else set()
-        )
-        for index in sorted(indices):
-            size, name = eligible[index]
-            cases.append(
-                {
-                    "file": name,
-                    "family": family,
-                    "bytes": size,
-                    "sha256": digest(args.corpus / name),
-                    "expected": "unsat",
-                }
+    selection = json.loads(args.manifest.read_text())
+    for case in selection["cases"]:
+        if case.get("expected") != "unsat":
+            raise ValueError("this pilot accepts UNSAT benchmark manifests only")
+        if not 0 <= case.get("historical_seconds", float("inf")) <= 1:
+            raise ValueError(
+                "select recorded native UNSAT within one second before exporting"
             )
-    if not cases:
-        raise ValueError("no eligible UNSAT benchmarks found")
-    return {
-        "selection": "two size-rank quantiles (25%,75%) per family, metadata UNSAT, <=1MiB; status in first64KiB",
-        "candidate_counts": candidate_counts,
-        "cases": cases,
-    }
+        path = Path(case["file"])
+        if path.is_absolute() or ".." in path.parts:
+            raise ValueError("unsafe benchmark manifest path")
+        if digest(args.corpus / path) != case["sha256"]:
+            raise ValueError(f"benchmark hash mismatch: {path}")
+    return selection
 
 
 def run_case(args: argparse.Namespace, index: int, case: dict) -> dict:
@@ -157,7 +116,13 @@ def run_case(args: argparse.Namespace, index: int, case: dict) -> dict:
     result["reference_answer"] = answer(reference) if reference["state"] == "ok" else ""
     if result["reference_answer"] == "sat":
         return {**result, "error": "reference disagrees with UNSAT metadata"}
+    baseline_export_failed = False
     for mode in MODES:
+        if baseline_export_failed:
+            result["profiles"].append(
+                {"mode": mode, "stages": {}, "status": "skipped_baseline_export_failed"}
+            )
+            continue
         trial = directory / mode
         trial.mkdir()
         profile = {"mode": mode, "stages": {}, "status": "not_started"}
@@ -177,7 +142,7 @@ def run_case(args: argparse.Namespace, index: int, case: dict) -> dict:
                     str(exported),
                     str(source),
                 ],
-                30,
+                args.admission_timeout if mode == "none" else args.export_timeout,
             ),
             (
                 "conflicts",
@@ -279,6 +244,8 @@ def run_case(args: argparse.Namespace, index: int, case: dict) -> dict:
                     if "challenge proven" in contents(record["stdout"]).splitlines()
                     else "kernel_unconfirmed"
                 )
+        if mode == "none" and ("answer" not in profile or profile["answer"] != "unsat"):
+            baseline_export_failed = True
         profile["files"] = {
             p.name: {"bytes": p.stat().st_size, "sha256": digest(p)}
             for p in trial.iterdir()
@@ -294,10 +261,12 @@ def main() -> None:
         parser.add_argument(f"--{name}", type=Path, required=True)
     for name in ("primo", "reference", "cadical", "expected-git"):
         parser.add_argument(f"--{name}", required=True)
-    parser.add_argument("--manifest", type=Path)
+    parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--workers", type=int, default=4, choices=range(1, 5))
     parser.add_argument("--reference-timeout", type=float, default=20)
     parser.add_argument("--mode-budget", type=float, default=60)
+    parser.add_argument("--admission-timeout", type=float, default=5)
+    parser.add_argument("--export-timeout", type=float, default=30)
     args = parser.parse_args()
     if not os.environ.get("SLURM_JOB_ID"):
         parser.error("solver batches require a SLURM allocation")
@@ -324,7 +293,8 @@ def main() -> None:
         "reference_timeout_seconds": args.reference_timeout,
         "mode_budget_seconds": args.mode_budget,
         "phase_limits_seconds": {
-            "export": 30,
+            "baseline_export": args.admission_timeout,
+            "reduced_export": args.export_timeout,
             "conflicts": 10,
             "challenge": 10,
             "cnf": 15,

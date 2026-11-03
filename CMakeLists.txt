@@ -378,6 +378,12 @@ primo_enable_sanitizers(primo_option_names_tests)
 target_link_libraries(primo_option_names_tests PRIVATE primo_core)
 add_test(NAME primo_option_names_tests COMMAND primo_option_names_tests)
 
+add_executable(primo_conflict_spool_tests tests/unit/conflict_spool_tests.cpp)
+primo_enable_warnings(primo_conflict_spool_tests)
+primo_enable_sanitizers(primo_conflict_spool_tests)
+target_link_libraries(primo_conflict_spool_tests PRIVATE primo_core)
+add_test(NAME primo_conflict_spool_tests COMMAND primo_conflict_spool_tests)
+
 add_executable(primo_term_printer_tests tests/unit/term_printer_tests.cpp)
 primo_enable_warnings(primo_term_printer_tests)
 primo_enable_sanitizers(primo_term_printer_tests)

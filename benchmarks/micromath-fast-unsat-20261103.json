@@ -1,0 +1,94 @@
+{
+  "selection": "recorded native UNSAT<=1s;64KiB..2MiB;largest first,max2perfamily;historical input hashes match;exclude prior pilot and Boolean function signatures",
+  "native_configuration": "historical default --quiet; not a claim about current exporter timing",
+  "record_count": 3562,
+  "size_eligible": 311,
+  "rejected_before_selection": {
+    "boolean_function_signature": 11
+  },
+  "job_id": "345163",
+  "cases": [
+    {
+      "file": "2018-Goel-hwbench/QF_UF_peg_solitaire.2.prop1_ab_br_max.smt2",
+      "expected": "unsat",
+      "family": "2018-Goel-hwbench",
+      "sha256": "c4ef1f38927755c03ff15f6815ab0e8f184add29d8124c82c9bb31f2be8b7924",
+      "historical_seconds": 0.518991,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_record": "shard-35/answers.csv",
+      "bytes": 821480
+    },
+    {
+      "file": "2018-Goel-hwbench/QF_UF_peg_solitaire.5.prop1_ab_fp_max.smt2",
+      "expected": "unsat",
+      "family": "2018-Goel-hwbench",
+      "sha256": "882c5381fc2b9638b4c305a37f66d8a2477878ddd07f1c164e8492f7cec19e34",
+      "historical_seconds": 0.703078,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_record": "shard-44/answers.csv",
+      "bytes": 716508
+    },
+    {
+      "file": "QG-classification/qg7/gensys_icl_sk006.smt2",
+      "expected": "unsat",
+      "family": "QG-classification",
+      "sha256": "4dbde6702d33dcda5c5a20487291f8545a4ea6bb5fa7a2aa4a015c9eb63b685a",
+      "historical_seconds": 0.522851,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_record": "shard-6/answers.csv",
+      "bytes": 690120
+    },
+    {
+      "file": "QG-classification/qg7/gensys_icl006.smt2",
+      "expected": "unsat",
+      "family": "QG-classification",
+      "sha256": "9cd61c4fa89cae4b268a7f7acfb6e5a488f8dc1fd298b40d17422fea876692aa",
+      "historical_seconds": 0.54884,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_record": "shard-63/answers.csv",
+      "bytes": 689840
+    },
+    {
+      "file": "SEQ/SEQ005_size9.smt2",
+      "expected": "unsat",
+      "family": "SEQ",
+      "sha256": "4e8fd17628a9005c996ea9be5c79e32f91b86c656e3c9f6c5b1bc18957f8f846",
+      "historical_seconds": 0.335437,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_record": "shard-54/answers.csv",
+      "bytes": 119096
+    },
+    {
+      "file": "SEQ/SEQ038_size9.smt2",
+      "expected": "unsat",
+      "family": "SEQ",
+      "sha256": "9759aec806c6aafec764cbcada3fd80679d7803e9fee2b70ae8c98411161cc71",
+      "historical_seconds": 0.413932,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_record": "shard-33/answers.csv",
+      "bytes": 94413
+    }
+  ],
+  "historical_run": "refresh-20261005-QF_UF-primo; 64 recorded shards; native default --quiet",
+  "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+  "selection_script": "scripts/select_micromath_fast_cases.py",
+  "selection_scope": "Metadata selection only; no current solving or checker result is inferred."
+}

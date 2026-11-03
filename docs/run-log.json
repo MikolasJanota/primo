@@ -3,6 +3,48 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-micromath-sat-update",
+      "date": "2026-11-03",
+      "kind": "external-checker-fixed-artifact-replay",
+      "evidence_status": "qualified for the nine frozen artifacts only",
+      "commit": "aa386f6d2768eab84b96ef823b3a293e5c5b13a6",
+      "solver_commit": "c5f14934285ead8feeef32fc2e59469673795e67",
+      "micromath_baseline": "df5c5d3b6dcb3310dde35a2dd134927d34973fa4",
+      "micromath_updated": "505588a6a0b184c992c3cbcd97721507365ec428",
+      "job_id": "344901",
+      "status": "COMPLETED exit 0:0; upstream check-smt and nine fixed-artifact replays passed",
+      "report": "docs/coverage/micromath-sat-update.json",
+      "artifacts": "results/micromath-update-344901",
+      "results": {
+        "upstream_check_smt": "pass",
+        "kernel_replays": 9,
+        "wrong_answers": 0,
+        "crashes": 0,
+        "timeouts": 0,
+        "invalid_proofs": 0,
+        "Goel_sat_kernel_steps": [
+          34480,
+          9899
+        ],
+        "Goel_proof_bytes": [
+          173809,
+          113624
+        ]
+      },
+      "limits": {
+        "cpus": 2,
+        "memory_gib": 4,
+        "job_wall_minutes": 15,
+        "each_replay_stage_seconds": 60
+      },
+      "commands": {
+        "build": "make -j2 in pinned external source; matching C headers supplied by local environment",
+        "upstream_tests": "make check-smt; Python 3.11; LRAT-capable CaDiCaL 7b99c07 on PATH",
+        "replay": "for the nine completed prior-pilot profiles: smt/prove-lrat OLD/challenge.umd OLD/input.primo OLD/problem.lrat NEW/solution.ump; check-solution OLD/challenge.umd NEW/solution.ump"
+      },
+      "scope": "Three distinct tiny/small source problems in three reduction modes; same old Primo c5f14934 artifacts, challenges and LRAT. No current-exporter qualification, no timing speedup claim. Counter comparison isolates checker changes; no source-to-CNF proof."
+    },
+    {
       "id": "2026-11-03-micromath-real-qfuf-pilot",
       "date": "2026-11-03",
       "kind": "real-corpus-certificate-stress-pilot",

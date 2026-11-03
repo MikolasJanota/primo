@@ -44,8 +44,8 @@ sorts also require their own treatment.
 ## Implementation checklist and representation
 
 The owner is {exportexperimentsource}`append_signature <src/smt/qf_uf_export.cpp>`. It borrows the
-frontend's immutable `core::SymbolTable` and appends owned declaration strings
-to `smtlib::ConflictDocument`. The option is an independent Boolean in
+frontend's immutable `core::SymbolTable` and writes declarations directly to
+`smtlib::ConflictSpool`, after normal preprocessing has introduced its symbols. The option is an independent Boolean in
 {exportexperimentsource}`CheckSatOptions::experimental_export_erase_sorts <src/smt/check_sat.hpp>`; neither the term manager nor solver state is changed.
 
 1. Reserve all original symbol and sort names in a local owned set.
@@ -62,7 +62,7 @@ to `smtlib::ConflictDocument`. The option is an independent Boolean in
 6. Reject use without an export filename in
    {exportexperimentsource}`check_sat_smtlib <src/smt/check_sat.cpp>` and reject
    {exportexperimentsource}`SmtSession <src/smt/smt_session.cpp>` streaming use.
-   Existing quantifier/extended-term restrictions remain in force.
+   Quantifiers remain unsupported; ground `ite` uses the normal existing lowering.
 
 The local name set and common-sort string live only while the signature is
 constructed. No borrowed symbol or term reference crosses mutation of its owner;

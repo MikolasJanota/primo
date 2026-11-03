@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <ostream>
 #include <stdexcept>
 #include <string>
 #include <unordered_map>
@@ -9,6 +10,7 @@
 #include <vector>
 
 #include "core/binders.hpp"
+#include "core/ids.hpp"
 #include "core/symbol_table.hpp"
 #include "core/term.hpp"
 #include "core/term_manager.hpp"
@@ -156,6 +158,46 @@ std::string print_term(const core::TermManager& terms, core::TermId root) {
     }
   }
   return out;
+}
+
+void print_ground_term(std::ostream& output, const core::TermManager& terms, core::TermId root) {
+  // Expand the textual tree using IDs and punctuation only; unlike print_term,
+  // do not retain a string cache proportional to expanded subterm output.
+  std::vector<Step> steps{{Step::Kind::Term, root, {}, 0}};
+  while (!steps.empty()) {
+    Step step = std::move(steps.back());
+    steps.pop_back();
+    if (step.kind == Step::Kind::Text) {
+      output << step.text;
+      continue;
+    }
+    const auto& node = terms.get(step.term);
+    if (node.kind == core::TermKind::BoolValue) {
+      output << (node.bool_value ? "true" : "false");
+      continue;
+    }
+    if (node.kind == core::TermKind::Constant) {
+      output << symbol_text(terms.symbols().get_symbol(node.symbol).name);
+      continue;
+    }
+    if ((node.kind == core::TermKind::And || node.kind == core::TermKind::Or) &&
+        node.children.empty()) {
+      output << (node.kind == core::TermKind::And ? "true" : "false");
+      continue;
+    }
+    if (node.kind == core::TermKind::Application) {
+      output << '(' << symbol_text(terms.symbols().get_symbol(node.symbol).name);
+    } else if (const char* name = operator_name(node.kind)) {
+      output << '(' << name;
+    } else {
+      throw std::invalid_argument("term outside the ground UF fragment");
+    }
+    steps.push_back({Step::Kind::Text, core::kInvalidTermId, ")", 0});
+    for (auto child = node.children.rbegin(); child != node.children.rend(); ++child) {
+      steps.push_back({Step::Kind::Term, *child, {}, 0});
+      steps.push_back({Step::Kind::Text, core::kInvalidTermId, " ", 0});
+    }
+  }
 }
 
 }  // namespace primo::smtlib
