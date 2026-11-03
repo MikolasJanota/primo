@@ -6,6 +6,7 @@
 
 #include "core/ids.hpp"
 #include "smt/check_sat.hpp"
+#include "smt/lia_settings.hpp"
 #include "smt/model_reconstruction.hpp"
 
 namespace primo::core {
@@ -34,10 +35,13 @@ CheckSatOutcome solve_qf_lra_engine(core::TermManager& terms,
                                     const std::vector<core::TermId>& model_terms,
                                     const ModelConversionChain& conversions,
                                     const CheckSatOptions& options, util::Statistics& statistics);
+// The LIA routes take their engine settings separately from CheckSatOptions:
+// make_session_solver_strategy resolves them per route (lia_settings_policy.hpp).
 CheckSatOutcome solve_qf_lia_engine(core::TermManager& terms,
                                     const std::vector<core::TermId>& assertions,
                                     const std::vector<core::TermId>& model_terms,
-                                    const CheckSatOptions& options, util::Statistics& statistics,
+                                    const CheckSatOptions& options, const LiaSettings& settings,
+                                    util::Statistics& statistics,
                                     const ModelConversionChain& conversions);
 CheckSatOutcome solve_qf_uflra_engine(core::TermManager& terms,
                                       const std::vector<core::TermId>& assertions,
@@ -48,7 +52,8 @@ CheckSatOutcome solve_qf_uflia_engine(core::TermManager& terms,
                                       const std::vector<core::TermId>& assertions,
                                       const std::vector<core::TermId>& model_terms,
                                       const ModelConversionChain& conversions,
-                                      const CheckSatOptions& options, util::Statistics& statistics);
+                                      const CheckSatOptions& options, const LiaSettings& settings,
+                                      util::Statistics& statistics);
 
 // Session-boundary support whose implementation shares the solver engines'
 // model and EUF traversal machinery. These functions do not own session state.

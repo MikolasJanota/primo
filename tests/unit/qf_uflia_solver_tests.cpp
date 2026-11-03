@@ -577,7 +577,7 @@ void rounding_integer_bounds_reaches_the_combined_route() {
     (check-sat)
   )";
   CheckSatOptions rounded;
-  rounded.lia_round_integer_bounds = true;
+  rounded.lia.round_integer_bounds = true;
   const auto result = check_sat_smtlib(script, rounded);
   assert(result.result == CheckSatResult::Unsat);
   assert(result.statistics.get(primo::util::StatKey::LiaPatchSweeps) == 0);

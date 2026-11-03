@@ -40,6 +40,7 @@
 #include "smt/frontend.hpp"
 #include "smt/inconclusive_reason.hpp"
 #include "smt/incremental_engine.hpp"
+#include "smt/lia_settings.hpp"
 #include "smt/model_based_combination.hpp"
 #include "smt/model_reconstruction.hpp"
 #include "smt/preprocessing_tactics.hpp"
@@ -8622,8 +8623,8 @@ sat::Clause generalized_lia_lemma(const sat::Clause& coarse,
 }
 
 void publish_lia_completion_stats(const theory::arithmetic::LiaCompletionResult& result,
-                                  const CheckSatOptions& options, util::Statistics& statistics) {
-  if (options.lia_patch_limit == 0) return;
+                                  const LiaSettings& settings, util::Statistics& statistics) {
+  if (settings.patch_limit == 0) return;
   statistics.increment(util::StatKey::LiaPatchSweeps);
   statistics.increment(util::StatKey::LiaPatchedVariables, result.patched_variables);
   add_lia_patching_stats(statistics, result.patch_stats);
@@ -8634,7 +8635,7 @@ void publish_lia_completion_stats(const theory::arithmetic::LiaCompletionResult&
 sat::Clause integer_conflict_clause(const PreparedLraTheory& prepared,
                                     std::span<const theory::AssignedTheoryLiteral> assigned,
                                     const theory::arithmetic::LiaExplanation& explanation,
-                                    const CheckSatOptions& options, util::Statistics& statistics) {
+                                    const LiaSettings& settings, util::Statistics& statistics) {
   sat::Clause coarse;
   for (std::size_t index = 0; index < assigned.size(); ++index) {
     if (prepared.atoms[index].is_arithmetic)
@@ -8643,26 +8644,27 @@ sat::Clause integer_conflict_clause(const PreparedLraTheory& prepared,
   }
   // No asserted arithmetic atoms is an unconditional conflict. Do not attempt
   // explanation generalization, whose empty-explanation policy is a fallback.
-  if (coarse.empty() || !options.lia_conflict_generalization) return coarse;
+  if (coarse.empty() || !settings.conflict_generalization) return coarse;
   return generalized_lia_lemma(coarse, explanation, statistics);
 }
 
 CheckSatOutcome solve_qf_lia_impl(core::TermManager& terms,
                                   const std::vector<core::TermId>& assertions,
                                   const std::vector<core::TermId>& model_terms,
-                                  const CheckSatOptions& options, util::Statistics& statistics,
+                                  const CheckSatOptions& options, const LiaSettings& settings,
+                                  util::Statistics& statistics,
                                   const ModelConversionChain& conversions);
 
 CheckSatOutcome solve_qf_lia_engine_impl(core::TermManager& terms,
                                          const std::vector<core::TermId>& assertions,
                                          const std::vector<core::TermId>& model_terms,
                                          const CheckSatOptions& options,
-                                         util::Statistics& statistics,
+                                         const LiaSettings& settings, util::Statistics& statistics,
                                          const ModelConversionChain& conversions) {
   const std::uint64_t promotions_before = util::Rational::promotion_count();
   const std::uint64_t big_operations_before = util::Rational::big_operation_count();
   CheckSatOutcome outcome =
-      solve_qf_lia_impl(terms, assertions, model_terms, options, statistics, conversions);
+      solve_qf_lia_impl(terms, assertions, model_terms, options, settings, statistics, conversions);
   const std::uint64_t promotions = util::Rational::promotion_count() - promotions_before;
   const std::uint64_t big_operations =
       util::Rational::big_operation_count() - big_operations_before;
@@ -8707,14 +8709,14 @@ struct LiaComponentCheck {
 LiaComponentCheck complete_lia_integer_model(
     theory::arithmetic::LraTableau tableau, const PreparedLraTheory& prepared,
     std::span<const theory::AssignedTheoryLiteral> assigned_atoms,
-    const std::vector<theory::arithmetic::LraVarId>& integer_vars, const CheckSatOptions& options,
+    const std::vector<theory::arithmetic::LraVarId>& integer_vars, const LiaSettings& settings,
     util::Statistics& statistics, const LiaComponentTiming& timing) {
   ScopedStatisticsTimer integer_timer(statistics, timing.integer);
   const auto completion = theory::arithmetic::complete_integer_assignment(
       tableau, integer_vars,
-      {options.lia_patch_limit, options.lia_gomory_cut_limit, options.lia_branch_limit,
-       options.lia_patch_integral_moves});
-  publish_lia_completion_stats(completion, options, statistics);
+      {settings.patch_limit, settings.gomory_cut_limit, settings.branch_limit,
+       settings.patch_integral_moves});
+  publish_lia_completion_stats(completion, settings, statistics);
   if (completion.status == theory::arithmetic::LiaCompletionResult::Status::Sat) {
     return {.status = LiaComponentCheck::Status::Sat, .conflict = {}, .model = std::move(tableau)};
   }
@@ -8724,14 +8726,14 @@ LiaComponentCheck complete_lia_integer_model(
   }
   return {.status = LiaComponentCheck::Status::Unsat,
           .conflict = integer_conflict_clause(prepared, assigned_atoms, completion.explanation,
-                                              options, statistics),
+                                              settings, statistics),
           .model = std::nullopt};
 }
 
 LiaComponentCheck check_lia_component_assignment(
     const PreparedLraTheory& prepared,
     std::span<const theory::AssignedTheoryLiteral> assigned_atoms,
-    const std::vector<theory::arithmetic::LraVarId>& integer_vars, const CheckSatOptions& options,
+    const std::vector<theory::arithmetic::LraVarId>& integer_vars, const LiaSettings& settings,
     util::Statistics& statistics, const LiaComponentTiming& timing) {
   ScopedStatisticsTimer total_timer(statistics, timing.check);
   theory::arithmetic::LraTableau tableau = prepared.base_tableau;
@@ -8760,7 +8762,7 @@ LiaComponentCheck check_lia_component_assignment(
     }
   }
   return complete_lia_integer_model(std::move(tableau), prepared, assigned_atoms, integer_vars,
-                                    options, statistics, timing);
+                                    settings, statistics, timing);
 }
 
 // See project_lra_shared_model: the revision must advance across a mutation,
@@ -9758,7 +9760,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
                       std::vector<BooleanClausifier::TheoryAtom> atoms, core::SortId shared_sort,
                       std::vector<core::TermId> shared_terms, std::uint64_t assignment_epoch,
                       bool produce_model_projection, const CheckSatOptions& options,
-                      util::Statistics& statistics, LiaComponentTiming timing)
+                      LiaSettings settings, util::Statistics& statistics, LiaComponentTiming timing)
       : properties_{.id = "lia",
                     .shared_sorts = {shared_sort},
                     .stably_infinite = theory::StableInfiniteness::Yes,
@@ -9776,9 +9778,9 @@ class LiaComponentAdapter final : public theory::TheorySolver {
                   options.lra_sparse_leaving, options.lra_fixed_elimination,
                   /*collect_model_variables=*/true, options.lra_least_violated_leaving,
                   lra_tuning_from_options(options.lra_tuning),
-                  IntegerPreparationOptions{.round_bounds = options.lia_round_integer_bounds,
-                                            .primitive_rows = options.lia_primitive_int_rows}),
-        options_(options),
+                  IntegerPreparationOptions{.round_bounds = settings.round_integer_bounds,
+                                            .primitive_rows = settings.primitive_int_rows}),
+        settings_(settings),
         statistics_(statistics),
         timing_(timing) {
     integer_input_vars_.reserve(prepared_.variables_by_term.size());
@@ -9825,7 +9827,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
       throw std::logic_error("LIA component assignment size mismatch");
     }
     LiaComponentCheck result = check_lia_component_assignment(prepared_, assignment, integer_vars_,
-                                                              options_, statistics_, timing_);
+                                                              settings_, statistics_, timing_);
     return translate(std::move(result));
   }
 
@@ -9840,12 +9842,12 @@ class LiaComponentAdapter final : public theory::TheorySolver {
       throw std::logic_error("LIA component assignment size mismatch");
     }
     LiaComponentCheck result = complete_lia_integer_model(
-        rational_model, prepared_, assignment, integer_vars_, options_, statistics_, timing_);
+        rational_model, prepared_, assignment, integer_vars_, settings_, statistics_, timing_);
     return translate(std::move(result));
   }
 
  private:
-  // The integer obligations handed to completion. Under --lia-integer-slacks
+  // The integer obligations handed to completion. With integer_slacks set
   // the slacks the preparation proved integer come first, so branch-and-bound
   // (which splits the first fractional variable) can split a constraint
   // expression such as 2x + 3y before its variables; appended after the
@@ -9853,7 +9855,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
   // Slacks are never in variables_by_term, so the list stays duplicate-free.
   void rebuild_integer_obligations() {
     integer_vars_.clear();
-    if (options_.lia_integer_slacks) {
+    if (settings_.integer_slacks) {
       integer_vars_.assign(prepared_.integer_slacks.begin(), prepared_.integer_slacks.end());
     }
     integer_vars_.insert(integer_vars_.end(), integer_input_vars_.begin(),
@@ -9922,7 +9924,9 @@ class LiaComponentAdapter final : public theory::TheorySolver {
   PreparedLraTheory prepared_;
   std::vector<theory::arithmetic::LraVarId> integer_input_vars_;
   std::vector<theory::arithmetic::LraVarId> integer_vars_;
-  CheckSatOptions options_;
+  // The resolved engine settings, held by value; the adapter does not read
+  // CheckSatOptions for LIA settings.
+  LiaSettings settings_;
   util::Statistics& statistics_;
   LiaComponentTiming timing_;
   std::optional<theory::arithmetic::LraTableau> last_model_;
@@ -10183,10 +10187,11 @@ class EufTheoryComponent final : public ComponentAdapterSupport {
 
 class LiaTheoryComponent final : public ComponentAdapterSupport {
  public:
-  LiaTheoryComponent(core::TermManager& terms, const CheckSatOptions& options,
+  LiaTheoryComponent(core::TermManager& terms, const CheckSatOptions& options, LiaSettings settings,
                      util::Statistics& statistics, bool online, bool produce_model_projection,
                      LiaComponentTiming timing, bool publish_arithmetic_statistics)
       : ComponentAdapterSupport(terms, options, statistics, online, produce_model_projection),
+        settings_(settings),
         timing_(timing),
         publish_arithmetic_statistics_(publish_arithmetic_statistics) {
     descriptor_.id = "lia";
@@ -10234,7 +10239,7 @@ class LiaTheoryComponent final : public ComponentAdapterSupport {
     if (!full_) {
       full_ = std::make_unique<LiaComponentAdapter>(terms_, atoms_, terms_.symbols().int_sort(),
                                                     shared_, 0, produce_model_projection_, options_,
-                                                    statistics_, timing_);
+                                                    settings_, statistics_, timing_);
       full_->register_interface_extensions();
       if (publish_arithmetic_statistics_)
         publish_lra_tableau_shape_stats(full_->prepared().base_tableau, statistics_);
@@ -10313,6 +10318,7 @@ class LiaTheoryComponent final : public ComponentAdapterSupport {
   }
 
  private:
+  LiaSettings settings_;
   LiaComponentTiming timing_;
   bool publish_arithmetic_statistics_;
   std::unique_ptr<LiaComponentAdapter> full_;
@@ -10327,7 +10333,8 @@ class LiaTheoryComponent final : public ComponentAdapterSupport {
 CheckSatOutcome solve_qf_lia_impl(core::TermManager& terms,
                                   const std::vector<core::TermId>& assertions,
                                   const std::vector<core::TermId>& model_terms,
-                                  const CheckSatOptions& options, util::Statistics& statistics,
+                                  const CheckSatOptions& options, const LiaSettings& settings,
+                                  util::Statistics& statistics,
                                   const ModelConversionChain& conversions) {
   static_cast<void>(model_terms);
   // Retain the historical arithmetic-route statistic key.
@@ -10347,7 +10354,7 @@ CheckSatOutcome solve_qf_lia_impl(core::TermManager& terms,
     }
   };
   recipe.factories = {[&](bool) {
-    return std::make_unique<LiaTheoryComponent>(terms, options, statistics, true, false,
+    return std::make_unique<LiaTheoryComponent>(terms, options, settings, statistics, true, false,
                                                 LiaComponentTiming{}, true);
   }};
   return solve_component_recipe(terms, assertions, conversions, options, statistics, recipe);
@@ -10356,17 +10363,16 @@ CheckSatOutcome solve_qf_lia_impl(core::TermManager& terms,
   static_cast<void>(assertions);
   static_cast<void>(conversions);
   static_cast<void>(options);
+  static_cast<void>(settings);
   return {CheckSatResult::Unsupported, "integer solving requires an IPASIR backend", statistics, "",
           InconclusiveReason::Unsupported};
 #endif
 }
 
-CheckSatOutcome solve_qf_uflia_engine_impl(core::TermManager& terms,
-                                           const std::vector<core::TermId>& assertions,
-                                           const std::vector<core::TermId>& model_terms,
-                                           const ModelConversionChain& conversions,
-                                           const CheckSatOptions& options,
-                                           util::Statistics& statistics) {
+CheckSatOutcome solve_qf_uflia_engine_impl(
+    core::TermManager& terms, const std::vector<core::TermId>& assertions,
+    const std::vector<core::TermId>& model_terms, const ModelConversionChain& conversions,
+    const CheckSatOptions& options, const LiaSettings& settings, util::Statistics& statistics) {
   static_cast<void>(model_terms);
   statistics.increment(":solver.qf-uflia");
 #if PRIMO_HAVE_IPASIR
@@ -10384,7 +10390,7 @@ CheckSatOutcome solve_qf_uflia_engine_impl(core::TermManager& terms,
   recipe.factories = {
       [&](bool guided) {
         return std::make_unique<LiaTheoryComponent>(
-            terms, options, statistics, online, guided,
+            terms, options, settings, statistics, online, guided,
             LiaComponentTiming{":time.qf-uflia.lia-check-us", ":time.qf-uflia.lia-rational-us",
                                ":time.qf-uflia.lia-integer-us"},
             false);
@@ -10399,6 +10405,7 @@ CheckSatOutcome solve_qf_uflia_engine_impl(core::TermManager& terms,
   static_cast<void>(assertions);
   static_cast<void>(conversions);
   static_cast<void>(options);
+  static_cast<void>(settings);
   return {CheckSatResult::Unsupported, "theory combination requires an IPASIR backend", statistics,
           "", InconclusiveReason::Unsupported};
 #endif
@@ -12659,10 +12666,12 @@ CheckSatOutcome solve_qf_lra_engine(core::TermManager& terms,
 CheckSatOutcome solve_qf_lia_engine(core::TermManager& terms,
                                     const std::vector<core::TermId>& assertions,
                                     const std::vector<core::TermId>& model_terms,
-                                    const CheckSatOptions& options, util::Statistics& statistics,
+                                    const CheckSatOptions& options, const LiaSettings& settings,
+                                    util::Statistics& statistics,
                                     const ModelConversionChain& conversions) {
   return enforce_theory_conflict_limit(
-      solve_qf_lia_engine_impl(terms, assertions, model_terms, options, statistics, conversions),
+      solve_qf_lia_engine_impl(terms, assertions, model_terms, options, settings, statistics,
+                               conversions),
       options, statistics);
 }
 
@@ -12681,10 +12690,11 @@ CheckSatOutcome solve_qf_uflia_engine(core::TermManager& terms,
                                       const std::vector<core::TermId>& assertions,
                                       const std::vector<core::TermId>& model_terms,
                                       const ModelConversionChain& conversions,
-                                      const CheckSatOptions& options,
+                                      const CheckSatOptions& options, const LiaSettings& settings,
                                       util::Statistics& statistics) {
   return enforce_theory_conflict_limit(
-      solve_qf_uflia_engine_impl(terms, assertions, model_terms, conversions, options, statistics),
+      solve_qf_uflia_engine_impl(terms, assertions, model_terms, conversions, options, settings,
+                                 statistics),
       options, statistics);
 }
 

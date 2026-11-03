@@ -9,6 +9,8 @@
 #include "smt/check_sat.hpp"
 #include "smt/experimental_tactics.hpp"
 #include "smt/frontend.hpp"
+#include "smt/lia_settings.hpp"
+#include "smt/lia_settings_policy.hpp"
 #include "smt/solver_engines.hpp"
 #include "smt/solver_strategy.hpp"
 #include "smt/solver_tactic.hpp"
@@ -22,6 +24,10 @@ Strategy make_session_solver_strategy(Frontend& frontend, CheckSatOptions option
                                       util::Statistics& statistics, const TacticContext& context) {
   options.produce_model = context.produce_model();
   const ExperimentalSplitBoolsOptions split_options{.max_bools = options.experimental_split_bools};
+  // The route policy decides the LIA engine settings; each LIA solver step
+  // then carries its resolved value, independent of the shared options.
+  const LiaSettings qf_lia_settings = resolve_lia_settings(LiaRoute::QfLia, options.lia);
+  const LiaSettings qf_uflia_settings = resolve_lia_settings(LiaRoute::QfUflia, options.lia);
   const auto immutable_options = std::make_shared<const CheckSatOptions>(std::move(options));
   const Tactic boolean_solver = make_solver_tactic(
       "solve-boolean", frontend.terms(), [&, immutable_options](const Goal& goal) {
@@ -60,27 +66,30 @@ Strategy make_session_solver_strategy(Frontend& frontend, CheckSatOptions option
             *immutable_options, statistics));
       });
   const Tactic lia_solver = make_solver_tactic(
-      "solve-qf-lia", frontend.terms(), [&, immutable_options](const Goal& goal) {
+      "solve-qf-lia", frontend.terms(), [&, immutable_options, qf_lia_settings](const Goal& goal) {
         const std::vector<core::TermId> model_terms = context.produce_model()
                                                           ? frontend.declared_int_constant_terms()
                                                           : std::vector<core::TermId>{};
-        return solver_answer_from_outcome(
-            solve_qf_lia_engine(frontend.terms(), goal.assertions(), model_terms,
-                                *immutable_options, statistics, goal.reconstruction().conversions));
+        return solver_answer_from_outcome(solve_qf_lia_engine(
+            frontend.terms(), goal.assertions(), model_terms, *immutable_options, qf_lia_settings,
+            statistics, goal.reconstruction().conversions));
       });
   const Tactic uflia_solver = make_solver_tactic(
-      "solve-qf-uflia", frontend.terms(), [&, immutable_options](const Goal& goal) {
+      "solve-qf-uflia", frontend.terms(),
+      [&, immutable_options, qf_uflia_settings](const Goal& goal) {
         const std::vector<core::TermId> model_terms = context.produce_model()
                                                           ? frontend.declared_int_constant_terms()
                                                           : std::vector<core::TermId>{};
         return solver_answer_from_outcome(solve_qf_uflia_engine(
             frontend.terms(), goal.assertions(), model_terms, goal.reconstruction().conversions,
-            *immutable_options, statistics));
+            *immutable_options, qf_uflia_settings, statistics));
       });
   const SolverStrategyOptions strategy_options{
       .logic = frontend.logic(),
       .mixed_dispatch = immutable_options->mixed_dispatch,
-      .has_declared_real_constants = frontend.has_declared_real_constants()};
+      .has_declared_real_constants = frontend.has_declared_real_constants(),
+      .qf_lia_settings = qf_lia_settings,
+      .qf_uflia_settings = qf_uflia_settings};
   Strategy dispatch = Strategy::leaf(
       "solver-dispatch", strategy_options,
       make_solver_dispatch(strategy_options,

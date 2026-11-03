@@ -1,5 +1,6 @@
 #include <chrono>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
 #include <limits>
 #include <locale>
@@ -21,6 +22,8 @@
 #include "smt/experimental_tactics.hpp"
 #include "smt/frontend.hpp"
 #include "smt/inconclusive_reason.hpp"
+#include "smt/lia_settings.hpp"
+#include "smt/lia_settings_policy.hpp"
 #include "smt/model_reconstruction.hpp"
 #include "smt/preprocessing.hpp"
 #include "smt/preprocessing_strategy.hpp"
@@ -1150,6 +1153,89 @@ void solver_dispatch_uses_formula_tactics() {
   check(model_only_result.model.find("define-fun x") != std::string::npos);
 }
 
+// The route policy (lia_settings_policy.hpp) is the only source of LIA
+// engine defaults, and an explicit override always wins on every route.
+void lia_settings_policy_resolves_route_defaults_and_overrides() {
+  using primo::smt::LiaRoute;
+  for (const LiaRoute route : {LiaRoute::QfLia, LiaRoute::QfUflia}) {
+    check(primo::smt::default_lia_settings(route) == primo::smt::LiaSettings{});
+    check(primo::smt::resolve_lia_settings(route, {}) == primo::smt::default_lia_settings(route));
+
+    primo::smt::LiaSettingOverrides overrides;
+    overrides.branch_limit = 7;
+    overrides.gomory_cut_limit = 0;
+    overrides.patch_limit = 3;
+    overrides.conflict_generalization = false;
+    overrides.round_integer_bounds = true;
+    overrides.primitive_int_rows = true;
+    overrides.integer_slacks = true;
+    overrides.patch_integral_moves = true;
+    const primo::smt::LiaSettings resolved = primo::smt::resolve_lia_settings(route, overrides);
+    check(resolved.branch_limit == 7);
+    check(resolved.gomory_cut_limit == 0);
+    check(resolved.patch_limit == 3);
+    check(!resolved.conflict_generalization);
+    check(resolved.round_integer_bounds && resolved.primitive_int_rows);
+    check(resolved.integer_slacks && resolved.patch_integral_moves);
+
+    // An explicit false is an override too: it is kept, not treated as unset.
+    primo::smt::LiaSettingOverrides off;
+    off.round_integer_bounds = false;
+    off.conflict_generalization = true;
+    check(primo::smt::resolve_lia_settings(route, off) == primo::smt::default_lia_settings(route));
+  }
+}
+
+// Each LIA route's resolved settings are part of the dispatch leaf's
+// identity, so two option sets that run different engine settings never
+// share a fingerprint.
+void lia_overrides_change_the_solver_strategy_identity() {
+  primo::smt::Frontend frontend;
+  primo::util::Statistics statistics;
+  primo::smt::TacticContext context(frontend.terms(), statistics, {}, true);
+  primo::smt::CheckSatOptions options;
+  const primo::smt::Strategy base =
+      primo::smt::make_session_solver_strategy(frontend, options, statistics, context);
+
+  primo::smt::CheckSatOptions same;
+  same.lia.round_integer_bounds = false;
+  check(
+      primo::smt::make_session_solver_strategy(frontend, same, statistics, context).fingerprint() ==
+      base.fingerprint());
+
+  primo::smt::CheckSatOptions rows;
+  rows.lia.primitive_int_rows = true;
+  const primo::smt::Strategy with_rows =
+      primo::smt::make_session_solver_strategy(frontend, rows, statistics, context);
+  check(with_rows.fingerprint() != base.fingerprint());
+  check(with_rows.canonical().find("(\"qf-lia.primitive-int-rows\" \"true\")") !=
+        std::string::npos);
+  check(with_rows.canonical().find("(\"qf-uflia.primitive-int-rows\" \"true\")") !=
+        std::string::npos);
+}
+
+// The resolved settings, not a session-wide options copy, reach the engine:
+// a patch budget of 0 skips patching and its statistics on the QF_LIA route.
+void lia_route_settings_reach_the_engine() {
+  const char* input = R"(
+    (set-logic QF_LIA)
+    (declare-fun x () Int)
+    (declare-fun y () Int)
+    (assert (= (+ (* 2 x) (* 2 y)) 3))
+    (check-sat)
+  )";
+  primo::smt::CheckSatOptions patched;
+  const auto with_patching = primo::smt::check_sat_smtlib(input, patched);
+  check(with_patching.result == primo::smt::CheckSatResult::Unsat);
+  check(with_patching.statistics.get(":lia.patch-sweeps") > 0);
+
+  primo::smt::CheckSatOptions unpatched;
+  unpatched.lia.patch_limit = 0;
+  const auto without_patching = primo::smt::check_sat_smtlib(input, unpatched);
+  check(without_patching.result == primo::smt::CheckSatResult::Unsat);
+  check(without_patching.statistics.get(":lia.patch-sweeps") == 0);
+}
+
 void production_solver_strategy_has_stable_typed_identity() {
   primo::smt::Frontend frontend;
   primo::util::Statistics statistics;
@@ -1162,9 +1248,23 @@ void production_solver_strategy_has_stable_typed_identity() {
       primo::smt::make_session_solver_strategy(frontend, options, statistics, context);
   check(strategy.kind() == primo::smt::StrategyKind::Leaf);
   check(strategy.leaf_id() == "solver-dispatch");
+  const std::string default_lia =
+      "(\"branch-limit\" \"100000\") (\"conflict-generalization\" \"true\") "
+      "(\"gomory-cut-limit\" \"100\") (\"integer-slacks\" \"false\") "
+      "(\"patch-integral-moves\" \"false\") (\"patch-limit\" \"100\") "
+      "(\"primitive-int-rows\" \"false\") (\"round-integer-bounds\" \"false\")";
+  const auto route = [&default_lia](std::string_view prefix) {
+    std::string rendered = default_lia;
+    for (std::size_t at = rendered.find("(\""); at != std::string::npos;
+         at = rendered.find("(\"", at + 2)) {
+      rendered.insert(at + 2, prefix);
+    }
+    return rendered;
+  };
   check(strategy.canonical() ==
         "(leaf \"solver-dispatch\" (\"has-declared-real-constants\" \"false\") "
-        "(\"logic\" \"\") (\"mixed-dispatch\" \"wide\"))");
+        "(\"logic\" \"\") (\"mixed-dispatch\" \"wide\") " +
+            route("qf-lia.") + " " + route("qf-uflia.") + ")");
   check(strategy ==
         primo::smt::make_session_solver_strategy(frontend, options, statistics, context));
   check(strategy.fingerprint() ==
@@ -1350,5 +1450,8 @@ int main() {
   production_preprocessing_profile_and_strategy_are_explicit_and_stable();
   solver_dispatch_uses_formula_tactics();
   production_solver_strategy_has_stable_typed_identity();
+  lia_settings_policy_resolves_route_defaults_and_overrides();
+  lia_overrides_change_the_solver_strategy_identity();
+  lia_route_settings_reach_the_engine();
   session_portfolio_uses_typed_reasons_and_isolated_sequential_arms();
 }

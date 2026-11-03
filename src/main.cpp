@@ -25,6 +25,8 @@
 #include "sat/cadical_backend.hpp"
 #include "smt/check_sat.hpp"
 #include "smt/experimental_tactics.hpp"
+#include "smt/lia_settings.hpp"
+#include "smt/lia_settings_policy.hpp"
 #include "smt/smt_session.hpp"
 #include "smtlib/parser.hpp"
 #include "util/statistics.hpp"
@@ -259,7 +261,21 @@ int run_main(int argc, char** argv) {
   bool no_lra_propagation = false;
   bool no_solved_constant_substitution = false;
   bool no_gaussian_elimination = false;
+  // LIA engine settings. Each flag records an override only when it is given;
+  // otherwise the solver route's policy (lia_settings_policy.hpp) decides.
+  const primo::smt::LiaSettings lia_defaults;
+  std::size_t lia_branch_limit = lia_defaults.branch_limit;
+  std::size_t lia_gomory_cut_limit = lia_defaults.gomory_cut_limit;
+  std::size_t lia_patch_limit = lia_defaults.patch_limit;
   bool no_lia_conflict_generalization = false;
+  bool lia_round_integer_bounds = false;
+  bool no_lia_round_integer_bounds = false;
+  bool lia_primitive_int_rows = false;
+  bool no_lia_primitive_int_rows = false;
+  bool lia_integer_slacks = false;
+  bool no_lia_integer_slacks = false;
+  bool lia_patch_integral_moves = false;
+  bool no_lia_patch_integral_moves = false;
   bool no_qf_uflra_fixed_elimination = false;
   bool qf_uflra_candidate_final_scan = solver_options.qf_uflra_candidate_final_scan;
   bool qf_uflra_model_reconciliation = solver_options.qf_uflra_model_reconciliation;
@@ -547,38 +563,46 @@ int run_main(int argc, char** argv) {
       app, "--arithmetic-atom-canonicalization", solver_options.arithmetic_atom_canonicalization,
       "Enable experimental primitive-integer canonicalization of proportional Real "
       "comparisons and equalities before clausification");
-  app.add_option("--lia-branch-limit", solver_options.lia_branch_limit,
+  app.add_option("--lia-branch-limit", lia_branch_limit,
                  "QF_LIA branch-and-bound node cap: plain branch-and-bound alone has no "
                  "completeness argument (an unbounded integer-infeasible polytope can branch "
                  "forever), so once this many nodes have been explored the search reports "
                  "Unknown instead of continuing")
       ->check(CLI::Range(1, 100000000));
-  app.add_option("--lia-gomory-cut-limit", solver_options.lia_gomory_cut_limit,
+  app.add_option("--lia-gomory-cut-limit", lia_gomory_cut_limit,
                  "QF_LIA Gomory-cut round cap, run before branch-and-bound on every candidate "
                  "model: caps how many cut-and-recheck rounds are attempted before falling "
                  "through to branch-and-bound regardless")
       ->check(CLI::Range(0, 100000000));
-  app.add_option("--lia-patch-limit", solver_options.lia_patch_limit,
+  app.add_option("--lia-patch-limit", lia_patch_limit,
                  "QF_LIA patching budget, run before the integer refutation stages on every "
                  "candidate model: caps how many nonbasic moves are taken to nudge Int variables "
                  "onto integer values. 0 disables patching")
       ->check(CLI::Range(0, 100000000));
-  add_flag_with_default(app, "--lia-round-integer-bounds", solver_options.lia_round_integer_bounds,
+  add_flag_with_default(app, "--lia-round-integer-bounds", lia_round_integer_bounds,
                         "Round non-strict QF_LIA/QF_UFLIA thresholds on integer-valued tableau "
                         "variables inward (x <= 5/3 becomes x <= 1); strict thresholds are "
                         "always rounded");
-  add_flag_with_default(app, "--lia-primitive-int-rows", solver_options.lia_primitive_int_rows,
+  add_flag_with_default(app, "--no-lia-round-integer-bounds", no_lia_round_integer_bounds,
+                        "Disable --lia-round-integer-bounds; wins over it");
+  add_flag_with_default(app, "--lia-primitive-int-rows", lia_primitive_int_rows,
                         "Store QF_LIA/QF_UFLIA atom rows with coprime integer coefficients "
                         "(2x + 3y stays 2x + 3y instead of x + 3/2 y), so every Int slack is "
                         "integer-valued and its thresholds can be rounded");
-  add_flag_with_default(app, "--lia-integer-slacks", solver_options.lia_integer_slacks,
+  add_flag_with_default(app, "--no-lia-primitive-int-rows", no_lia_primitive_int_rows,
+                        "Disable --lia-primitive-int-rows; wins over it");
+  add_flag_with_default(app, "--lia-integer-slacks", lia_integer_slacks,
                         "Treat QF_LIA/QF_UFLIA slacks whose rows are integer polynomials over Int "
                         "variables as integer variables in patching, GCD tests, cuts and "
                         "branching");
-  add_flag_with_default(app, "--lia-patch-integral-moves", solver_options.lia_patch_integral_moves,
+  add_flag_with_default(app, "--no-lia-integer-slacks", no_lia_integer_slacks,
+                        "Disable --lia-integer-slacks; wins over it");
+  add_flag_with_default(app, "--lia-patch-integral-moves", lia_patch_integral_moves,
                         "QF_LIA/QF_UFLIA patching: never leave an integer nonbasic variable "
                         "fractional, and propose the integer values of a row's nonbasic variable "
                         "that make its basic variable integral");
+  add_flag_with_default(app, "--no-lia-patch-integral-moves", no_lia_patch_integral_moves,
+                        "Disable --lia-patch-integral-moves; wins over it");
   add_flag_with_default(
       app, "--no-lia-conflict-generalization", no_lia_conflict_generalization,
       "Disable QF_LIA conflict generalization: build each integer-infeasibility lemma "
@@ -988,9 +1012,29 @@ int run_main(int argc, char** argv) {
   if (no_gaussian_elimination) {
     solver_options.gaussian_elimination = false;
   }
-  if (no_lia_conflict_generalization) {
-    solver_options.lia_conflict_generalization = false;
+  // An override is recorded only for a flag that was given, so the route
+  // policy keeps every other LIA setting. A --no- form wins over its pair.
+  primo::smt::LiaSettingOverrides& lia = solver_options.lia;
+  if (app.get_option("--lia-branch-limit")->count() != 0) lia.branch_limit = lia_branch_limit;
+  if (app.get_option("--lia-gomory-cut-limit")->count() != 0) {
+    lia.gomory_cut_limit = lia_gomory_cut_limit;
   }
+  if (app.get_option("--lia-patch-limit")->count() != 0) lia.patch_limit = lia_patch_limit;
+  if (no_lia_conflict_generalization) lia.conflict_generalization = false;
+  // A given flag records its parsed value, so an explicit --flag=false is an
+  // override too; the --no- form then forces the setting off.
+  const auto set_switch = [&app](std::optional<bool>& target, const std::string& name, bool value,
+                                 bool off) {
+    if (app.get_option(name)->count() != 0) target = value;
+    if (off) target = false;
+  };
+  set_switch(lia.round_integer_bounds, "--lia-round-integer-bounds", lia_round_integer_bounds,
+             no_lia_round_integer_bounds);
+  set_switch(lia.primitive_int_rows, "--lia-primitive-int-rows", lia_primitive_int_rows,
+             no_lia_primitive_int_rows);
+  set_switch(lia.integer_slacks, "--lia-integer-slacks", lia_integer_slacks, no_lia_integer_slacks);
+  set_switch(lia.patch_integral_moves, "--lia-patch-integral-moves", lia_patch_integral_moves,
+             no_lia_patch_integral_moves);
   if (no_qf_uflra_fixed_elimination) {
     solver_options.qf_uflra_fixed_elimination = false;
   }

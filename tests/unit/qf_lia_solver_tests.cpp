@@ -23,14 +23,14 @@ const auto check_sat_smtlib = [](std::string_view input, CheckSatOptions options
 
 CheckSatOptions small_branch_limit(std::size_t limit) {
   CheckSatOptions options;
-  options.lia_branch_limit = limit;
+  options.lia.branch_limit = limit;
   return options;
 }
 
 CheckSatOptions branch_and_cut_limits(std::size_t branch_limit, std::size_t cut_limit) {
   CheckSatOptions options;
-  options.lia_branch_limit = branch_limit;
-  options.lia_gomory_cut_limit = cut_limit;
+  options.lia.branch_limit = branch_limit;
+  options.lia.gomory_cut_limit = cut_limit;
   return options;
 }
 
@@ -359,7 +359,7 @@ void conflict_generalization_does_not_change_answers() {
     (check-sat)
   )";
   CheckSatOptions coarse;
-  coarse.lia_conflict_generalization = false;
+  coarse.lia.conflict_generalization = false;
   const CheckSatOptions generalized;
 
   assert(check_sat_smtlib(unsat_script, generalized).result == CheckSatResult::Unsat);
@@ -394,7 +394,7 @@ void patching_finds_a_model_without_branching() {
     (get-model)
   )";
   CheckSatOptions patched;
-  patched.lia_branch_limit = 0;
+  patched.lia.branch_limit = 0;
   const auto result = check_sat_smtlib(script, patched);
   assert(result.result == CheckSatResult::Sat);
   assert(result.statistics.get(primo::util::StatKey::LiaPatchedVariables) > 0);
@@ -404,8 +404,8 @@ void patching_finds_a_model_without_branching() {
   // The same instance with patching off cannot be solved at that branch
   // limit, which is what pins the gain to patching specifically.
   CheckSatOptions unpatched;
-  unpatched.lia_branch_limit = 0;
-  unpatched.lia_patch_limit = 0;
+  unpatched.lia.branch_limit = 0;
+  unpatched.lia.patch_limit = 0;
   assert(check_sat_smtlib(script, unpatched).result == CheckSatResult::Unknown);
 }
 
@@ -441,7 +441,7 @@ void integer_preparation_counters_report_bound_gaps() {
 void rounding_integer_bounds_keeps_answers_and_skips_completion() {
   const auto run = [](const std::string& body, bool round) {
     CheckSatOptions options;
-    options.lia_round_integer_bounds = round;
+    options.lia.round_integer_bounds = round;
     options.produce_model = true;
     return check_sat_smtlib("(set-logic QF_LIA)\n(declare-fun x () Int)\n(declare-fun y () Int)\n" +
                                 body + "(check-sat)\n",
@@ -475,8 +475,8 @@ void rounding_integer_bounds_keeps_answers_and_skips_completion() {
 void primitive_integer_rows_keep_answers() {
   const auto run = [](const std::string& body, bool round, bool primitive) {
     CheckSatOptions options;
-    options.lia_round_integer_bounds = round;
-    options.lia_primitive_int_rows = primitive;
+    options.lia.round_integer_bounds = round;
+    options.lia.primitive_int_rows = primitive;
     options.produce_model = true;
     return check_sat_smtlib("(set-logic QF_LIA)\n(declare-fun x () Int)\n(declare-fun y () Int)\n" +
                                 body + "(check-sat)\n",
@@ -551,12 +551,12 @@ void integer_slacks_join_completion() {
     (check-sat)
   )";
   CheckSatOptions options;
-  options.lia_primitive_int_rows = true;
-  options.lia_branch_limit = 50;
+  options.lia.primitive_int_rows = true;
+  options.lia.branch_limit = 50;
   const auto inputs_only = check_sat_smtlib(script, options);
   assert(inputs_only.result == CheckSatResult::Unknown);
   assert(inputs_only.statistics.get(primo::util::StatKey::LiaPrepIntegerSlacks) == 1);
-  options.lia_integer_slacks = true;
+  options.lia.integer_slacks = true;
   const auto with_slacks = check_sat_smtlib(script, options);
   assert(with_slacks.result == CheckSatResult::Unsat);
 }
@@ -583,7 +583,7 @@ void integral_patch_moves_reach_completion() {
   assert(off.statistics.get(primo::util::StatKey::LiaPatchFractionalCandidatesRejected) == 0);
   assert(off.statistics.get(primo::util::StatKey::LiaPatchLatticeCandidatesScored) == 0);
   CheckSatOptions integral;
-  integral.lia_patch_integral_moves = true;
+  integral.lia.patch_integral_moves = true;
   const auto on = check_sat_smtlib(script, integral);
   assert(on.result == CheckSatResult::Sat);
   assert(on.statistics.get(primo::util::StatKey::LiaPatchFractionalCandidatesRejected) > 0);
@@ -591,9 +591,9 @@ void integral_patch_moves_reach_completion() {
   assert(on.statistics.get(primo::util::StatKey::LiaPatchFractionalNonbasicMoves) == 0);
 
   CheckSatOptions all = integral;
-  all.lia_round_integer_bounds = true;
-  all.lia_primitive_int_rows = true;
-  all.lia_integer_slacks = true;
+  all.lia.round_integer_bounds = true;
+  all.lia.primitive_int_rows = true;
+  all.lia.integer_slacks = true;
   const std::string header = "(set-logic QF_LIA)\n(declare-fun x () Int)\n(declare-fun y () Int)\n";
   const std::vector<std::pair<std::string, CheckSatResult>> cases{
       {"(assert (>= (+ (* 2 x) (* 4 y)) 3))(assert (<= (+ (* 2 x) (* 4 y)) 3))",
@@ -630,8 +630,8 @@ void integer_preparation_options_do_not_touch_real_arithmetic() {
   CheckSatOptions plain;
   plain.produce_model = true;
   CheckSatOptions integer = plain;
-  integer.lia_round_integer_bounds = true;
-  integer.lia_primitive_int_rows = true;
+  integer.lia.round_integer_bounds = true;
+  integer.lia.primitive_int_rows = true;
   const auto a = check_sat_smtlib(script, plain);
   const auto b = check_sat_smtlib(script, integer);
   assert(a.result == CheckSatResult::Sat && b.result == CheckSatResult::Sat);
@@ -662,7 +662,7 @@ void patching_does_not_change_answers() {
     (check-sat)
   )";
   CheckSatOptions without;
-  without.lia_patch_limit = 0;
+  without.lia.patch_limit = 0;
   const CheckSatOptions with;
 
   assert(check_sat_smtlib(sat_script, with).result == CheckSatResult::Sat);
@@ -968,15 +968,15 @@ void internal_integer_branches_do_not_spend_the_conflict_budget() {
   )";
   CheckSatOptions options;
   options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
-  options.lia_patch_limit = 0;
-  options.lia_gomory_cut_limit = 0;
-  options.lia_branch_limit = 0;
+  options.lia.patch_limit = 0;
+  options.lia.gomory_cut_limit = 0;
+  options.lia.branch_limit = 0;
   options.max_theory_conflicts = 1;
   const auto no_search = check_sat_smtlib(input, options);
   assert(no_search.result == CheckSatResult::Unknown);
   assert(no_search.reason == primo::smt::InconclusiveReason::ResourceLimit);
   assert(no_search.statistics.get(primo::util::StatKey::TheoryConflictCount) == 0);
-  options.lia_branch_limit = 100;
+  options.lia.branch_limit = 100;
   const auto searched = check_sat_smtlib(input, options);
   assert(searched.result == CheckSatResult::Sat);
   assert(searched.statistics.get(primo::util::StatKey::TheoryConflictCount) == 0);

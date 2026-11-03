@@ -1,7 +1,9 @@
 #include "smt/solver_strategy.hpp"
 
+#include <iterator>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -10,16 +12,39 @@
 #include "smt/check_sat.hpp"
 #include "smt/formula_analysis.hpp"
 #include "smt/inconclusive_reason.hpp"
+#include "smt/lia_settings.hpp"
 #include "smt/strategy.hpp"
 #include "smt/tactic.hpp"
 
 namespace primo::smt {
 
+std::vector<StrategyParameter> lia_strategy_parameters(std::string_view prefix,
+                                                       const LiaSettings& settings) {
+  const auto flag = [](bool value) { return std::string(value ? "true" : "false"); };
+  const std::string key(prefix);
+  return {{key + "branch-limit", std::to_string(settings.branch_limit)},
+          {key + "conflict-generalization", flag(settings.conflict_generalization)},
+          {key + "gomory-cut-limit", std::to_string(settings.gomory_cut_limit)},
+          {key + "integer-slacks", flag(settings.integer_slacks)},
+          {key + "patch-integral-moves", flag(settings.patch_integral_moves)},
+          {key + "patch-limit", std::to_string(settings.patch_limit)},
+          {key + "primitive-int-rows", flag(settings.primitive_int_rows)},
+          {key + "round-integer-bounds", flag(settings.round_integer_bounds)}};
+}
+
 std::vector<StrategyParameter> SolverStrategyOptions::strategy_parameters() const {
   const std::string dispatch = mixed_dispatch == MixedDispatchMode::Narrow ? "narrow" : "wide";
-  return {{"has-declared-real-constants", has_declared_real_constants ? "true" : "false"},
-          {"logic", logic.value_or("")},
-          {"mixed-dispatch", dispatch}};
+  std::vector<StrategyParameter> parameters{
+      {"has-declared-real-constants", has_declared_real_constants ? "true" : "false"},
+      {"logic", logic.value_or("")},
+      {"mixed-dispatch", dispatch}};
+  const auto append = [&parameters](std::vector<StrategyParameter> route) {
+    parameters.insert(parameters.end(), std::make_move_iterator(route.begin()),
+                      std::make_move_iterator(route.end()));
+  };
+  append(lia_strategy_parameters("qf-lia.", qf_lia_settings));
+  append(lia_strategy_parameters("qf-uflia.", qf_uflia_settings));
+  return parameters;
 }
 
 Tactic make_solver_dispatch(SolverStrategyOptions options, SolverTacticSet solvers) {
