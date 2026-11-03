@@ -245,13 +245,42 @@ bound. It restores the run time only by bringing back the fractional top
 value, so it is not a principled fix. The regression is a family-specific
 search sensitivity, and it still counts against promoting M2.
 
-**Decision.** No option is promoted to the default. M2 and M4 together are
-the promising part on QF_LIA. Before any promotion:
+**Reruns and seed mutation (2026-11-03).** Both corpora were rerun at
+`2e120fa` with the options off and with all four on, at 60 s per file (jobs
+339382 and 339383):
 
-- the `wisas` loss must be weighed as a search-order effect, or recovered by
-  a separately evaluated search change;
-- the noise needs an all-off rerun;
-- the seed-mutation campaign needs full coverage.
+- **QF_UFLIA reproduces exactly.** Both arms solve the same files as before,
+  575 and 544, so the 31-file loss is stable.
+- **The options-off QF_LIA arm reproduces within five files** each way (9,662
+  both times).
+- **The all-options QF_LIA arm solved 9,745, 53 fewer.** All 60 files it lost
+  had solved in 53 to 60 s before; 57 are `nec-smt`. Counting only files that
+  behave the same in both runs, the options gain 348 and lose 274 against off,
+  a net of +74 rather than the +136 of the first run. The 57 lost `nec-smt`
+  files all sat near the cutoff.
+
+The seed-mutation campaign ran one task per fuzzer and seed with all four
+options (jobs 339380 and 339381, {source}`slurm_seed_mutation_per_seed.sbatch
+<scripts/slurm_seed_mutation_per_seed.sbatch>`). Opfuzz ran 200 and typefuzz
+100 mutants per seed against z3, at 5 s per solver call. It found no bug
+files:
+
+- On the 32 QF_UFLIA seeds (8 per family), every pair was covered.
+- On the 59 QF_LIA seeds within the 200 kB limit, 116 of 118 pairs were
+  covered. Typefuzz on the two `tropical-matrix` seeds made no solver call
+  before the 90-minute wall. Opfuzz covered both seeds.
+
+**Decision.** No option is promoted to the default. M2 and M4 together are
+the promising part on QF_LIA, though their stable net gain there is smaller
+than the first run suggested. They lose 31 QF_UFLIA files reproducibly, which
+puts Primo's QF_UFLIA count back to roughly its September level, 544
+against 543 (see [QF_UFLIA progress](../evidence/qf-uflia-progress.md)).
+The two uncovered typefuzz pairs are accepted as a tool stall rather than a
+solver gap, because no solver call was made; they would need a rerun with
+a larger wall before any promotion. Recovering the `wisas`
+files is now an open lead on [search
+diversification](../leads/search-diversification.md); a time-sliced
+[portfolio](../leads/portfolio.md) is a separate project.
 
 ## Tests derived from the steps
 

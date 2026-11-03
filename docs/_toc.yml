@@ -81,6 +81,8 @@ parts:
       - file: leads/care-guided-combination
       - file: leads/real-combination-migration
       - file: leads/model-based-combination
+      - file: leads/search-diversification
+      - file: leads/portfolio
       - file: leads/quantifier-instantiation
       - file: leads/quantifier-nnf
       - file: leads/asserted-quantifiers
@@ -99,6 +101,7 @@ parts:
     chapters:
       - file: evidence/evaluation-refresh
       - file: evidence/long-limits
+      - file: evidence/qf-uflia-progress
       - file: evidence/publication
       - file: evidence/publication-followups
       - file: evidence/static-analysis

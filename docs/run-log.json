@@ -3,6 +3,74 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-lia-integrality-noise-rerun-2e120fa",
+      "date": "2026-11-03",
+      "commit": "2e120fa",
+      "branch": "lia-integrality",
+      "kind": "slurm-timing-rerun",
+      "parent": "2026-11-02-lia-integrality-ab-2e120fa",
+      "scope": "Rerun of the off and all-options arms of the M5 A/B with the same binary, corpora, script and limits, to bound per-file timing noise.",
+      "environment": {
+        "host": "CIIRC SLURM cluster, partition compute; remote workdir /home/janotmik/primo-lia-integrality",
+        "binary": "/home/janotmik/primo-lia-integrality/build-slurm-rel/primo, banner git 2e120fa, sha256 c501bffa5807f7c6947128c0e78be95c6c8d8b9d975e0a4de269065fd3c28fea",
+        "limits": "60 s per file through bench_qf_uf_full.py, 1 CPU per task, --quiet --stats"
+      },
+      "commands": {
+        "solvers": "B='build-slurm-rel/primo --quiet --stats'; PRIMO_COMPARE_SOLVERS='off=$B;all=$B --lia-round-integer-bounds --lia-primitive-int-rows --lia-integer-slacks --lia-patch-integral-moves'",
+        "qf_lia": "sbatch --array=0-159%96 --time=03:30:00 --export=ALL,PRIMO_WORKDIR=/home/janotmik/primo-lia-integrality,PRIMO_COMPARE_ROOT=tmp/QF_LIA,PRIMO_COMPARE_TIMEOUT=60,PRIMO_COMPARE_SHARDS=80,PRIMO_COMPARE_SOLVERS=\"$SOL\",PRIMO_COMPARE_OUT_ROOT=/home/janotmik/primo-lia-integrality/results/m5-noise-2e120fa/QF_LIA scripts/slurm_qf_lia_full_solver_compare.sbatch",
+        "qf_uflia": "sbatch --array=0-15 --time=03:00:00 --export=ALL,PRIMO_WORKDIR=/home/janotmik/primo-lia-integrality,PRIMO_COMPARE_ROOT=tmp/QF_UFLIA,PRIMO_COMPARE_TIMEOUT=60,PRIMO_COMPARE_SHARDS=8,PRIMO_COMPARE_SOLVERS=\"$SOL\",PRIMO_COMPARE_OUT_ROOT=/home/janotmik/primo-lia-integrality/results/m5-noise-2e120fa/QF_UFLIA scripts/slurm_qf_uflia_full_solver_compare.sbatch",
+        "analysis": "per-file comparison of each arm with its first run (solved = status ok and answer sat/unsat); stable gains/losses = files that differ from off in the same way in both runs"
+      },
+      "jobs": {
+        "qf_lia": "339382 (160 tasks, all COMPLETED)",
+        "qf_uflia": "339383 (16 tasks, all COMPLETED)"
+      },
+      "artifacts": "/home/janotmik/primo-lia-integrality/results/m5-noise-2e120fa/{QF_LIA,QF_UFLIA}/{off,all}/shard-*.csv",
+      "results": {
+        "correctness": "0 answer disagreements between any two runs of any arm.",
+        "qf_uflia": "off 575 -> 575 (+0 -0), PAR2 11,375 -> 11,390; all 544 -> 544 (+0 -0), PAR2 14,934 -> 15,014. Solved sets identical; the 31-file loss (30 wisas, 1 Certora) is stable.",
+        "qf_lia_off": "9,662 -> 9,662 (+5 -5: nec-smt 4/4, SMPT 1, arctic-matrix 1), PAR2 474,705 -> 474,764.",
+        "qf_lia_all": "9,798 -> 9,745 (+7 -60), PAR2 459,979 -> 464,963. All 60 lost files had solved in 53-60 s in the first run (51 rerun as timeout/unknown, 9 timed out after printing an answer); 57 are nec-smt.",
+        "stable_effect": "Files that behave the same in both runs: all-options gains 348 (CAV_2009 117, Bromberger 66, dillig 60, rings 43, nec-smt 24, cut_lemmas 15, slacks 14) and loses 274 (Bromberger 79, CAV_2009 59, slacks 31, cut_lemmas 29, dillig 22, prime-cone 17, rings 12) against off: net +74, against +136 in the first run."
+      },
+      "outcome": "Timing noise of the off arm is about five files each way; the all-options nec-smt gains sit near the cutoff and are fragile. QF_UFLIA is exactly reproducible. No option is promoted."
+    },
+    {
+      "id": "2026-11-03-lia-integrality-seed-mutation-2e120fa",
+      "date": "2026-11-03",
+      "commit": "2e120fa",
+      "branch": "lia-integrality",
+      "kind": "slurm-seed-mutation-campaign",
+      "scope": "Real-seed mutation campaign with recorded per-seed coverage, all four integrality options on, replacing the wall-limited opfuzz/typefuzz tasks of 2026-11-02-lia-integrality-fuzz-gates-2e120fa.",
+      "environment": {
+        "host": "CIIRC SLURM cluster, partition compute; remote workdir /home/janotmik/primo-lia-integrality",
+        "binary": "build-slurm-rel/primo, banner git 2e120fa (checked by the script)",
+        "script": "scripts/slurm_seed_mutation_per_seed.sbatch (committed in 8f815ca; run from a synced copy of that file)",
+        "fuzzers": "opfuzz via scripts/seeded_opfuzz.py and typefuzz from /home/janotmik/primo-model-fix/.venv-yinyang/bin (PATH exported at submission); configs benchmarks/fuzz-configs/qf_lia_operator_mutations.txt and qf_lia_typefuzz.txt",
+        "reference": "contrib/local/bin/z3 model_validate=true",
+        "limits": "opfuzz 200 and typefuzz 100 mutants per seed, 5 s per solver call, 5,400 s wall per task, seeds <= 200,000 bytes, random seed 2026110300 + task index, 1 CPU and 4 GB per task"
+      },
+      "seeds": {
+        "qf_lia": "tmp/seeds/qf_lia_division (job 335559: scripts/build_fuzz_seed_corpus.py --root tmp/QF_LIA, 2 per family); 59 of 61 seeds within the size limit",
+        "qf_uflia": "tmp/seeds/qf_uflia_division, built for this run on a compute node: srun python3 scripts/build_fuzz_seed_corpus.py --root tmp/QF_UFLIA --out tmp/seeds/qf_uflia_division --per-family 8 --max-bytes 200000 (32 seeds: 8 each of Certora, TwoSquares, mathsat, wisas)"
+      },
+      "commands": {
+        "qf_lia": "PATH=/home/janotmik/primo-model-fix/.venv-yinyang/bin:$PATH sbatch --array=0-117%64 --export=ALL,PRIMO_WORKDIR=/home/janotmik/primo-lia-integrality,PRIMO_EXPECTED_GIT=2e120fa,PRIMO_MUTATION_SEEDS=/home/janotmik/primo-lia-integrality/tmp/seeds/qf_lia_division,PRIMO_MUTATION_SOLVER_ARGS='--lia-round-integer-bounds --lia-primitive-int-rows --lia-integer-slacks --lia-patch-integral-moves',PRIMO_MUTATION_OUT=/home/janotmik/primo-lia-integrality/fuzz-results/m5-seed-mutation-qf_lia-2e120fa scripts/slurm_seed_mutation_per_seed.sbatch",
+        "qf_uflia": "the same with --array=0-63%32, PRIMO_MUTATION_SEEDS=/home/janotmik/primo-lia-integrality/tmp/seeds/qf_uflia_division and PRIMO_MUTATION_OUT=/home/janotmik/primo-lia-integrality/fuzz-results/m5-seed-mutation-qf_uflia-2e120fa"
+      },
+      "jobs": {
+        "qf_lia": "339380 (118 tasks, all COMPLETED)",
+        "qf_uflia": "339381 (64 tasks, all COMPLETED)"
+      },
+      "artifacts": "/home/janotmik/primo-lia-integrality/fuzz-results/m5-seed-mutation-{qf_lia,qf_uflia}-2e120fa/{seeds.txt,version.txt,binary.sha256,task-K/{status.tsv,run.log,logs,bugs}}",
+      "results": {
+        "qf_lia": "opfuzz COVERED 59/59; typefuzz COVERED 57/59, WALL 2 (tropical-matrix_constraint-170961 and -187292, 130-143 kB: typefuzz made no solver call in 5,404 s). Bug files 0. 29,512 task-seconds.",
+        "qf_uflia": "opfuzz COVERED 32/32, typefuzz COVERED 32/32. Bug files 0. 2,360 task-seconds.",
+        "summary": "wrong 0, crash 0, bug files 0; 180 of 182 (fuzzer, seed) pairs established as covered. The two typefuzz misses are a tool stall before the first mutant, and opfuzz covered both seeds."
+      },
+      "outcome": "Campaign-gate seed mutation is complete, with all four options on, except typefuzz on two large tropical-matrix seeds. No option is promoted, for performance reasons (see the noise rerun)."
+    },
+    {
       "id": "2026-11-03-wisas-m2-regression-diagnosis",
       "date": "2026-11-03",
       "commit": "7a6763f",

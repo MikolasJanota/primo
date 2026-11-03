@@ -9,6 +9,9 @@ The dedicated lead pages in the navigation cover library lifetime, compact
 storage, statistics, theory lemmas, arithmetic, combination, and quantifiers.
 The [arithmetic-symmetry lead](arithmetic-symmetry.md) connects existing finite
 integer choices with broader SMT and integer-programming symmetry research.
+The [search-diversification lead](search-diversification.md) covers restarts
+and phase resets inside the DPLL(T) loop; the [portfolio lead](portfolio.md)
+is the separate project of time-slicing whole configurations.
 This register also accounts for the remaining numbered entries in the
 {source}`original register <docs/open-leads.md>`. Their full dated reasoning,
 negative results and evidence remain preserved; current dispositions follow.
