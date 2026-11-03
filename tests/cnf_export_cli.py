@@ -151,6 +151,103 @@ def validate_artifact(root: list, reference_solver: str, minimal: bool = False) 
             )
 
 
+def sort_erasure_regressions(solver: str, directory: Path) -> None:
+    source = (
+        Path(__file__)
+        .resolve()
+        .parents[1]
+        .joinpath("docs/examples/qf-uf-export-multisort.smt2")
+        .read_text()
+    )
+    output = directory / "erased.sexp"
+    result = export(solver, source, output)
+    require(result.returncode == 0 and result.stdout.strip() == "unsat", str(result))
+    original = document(output)
+    require(
+        len([d for d in original[3][1:] if d[0] == "declare-sort"]) == 2,
+        "default export erased sorts",
+    )
+    for mode in ("none", "core", "mus"):
+        result = export(
+            solver,
+            source,
+            output,
+            "--experimental-export-erase-sorts",
+            f"--export-cnf-reduction={mode}",
+        )
+        require(
+            result.returncode == 0 and result.stdout.strip() == "unsat", str(result)
+        )
+        erased = document(output)
+        require(
+            erased[3][1] == ["declare-sort", "primo_uf_sort", "0"],
+            "missing common sort",
+        )
+        require(
+            len([d for d in erased[3][1:] if d[0] == "declare-sort"]) == 1,
+            "multiple erased sorts",
+        )
+        require(
+            erased[4:] == original[4:], "sort erasure changed clause or conflict text"
+        )
+        for declaration in erased[3][2:]:
+            require(
+                set(declaration[2] + [declaration[3]]) <= {"primo_uf_sort", "Bool"},
+                "old sort escaped into a declaration",
+            )
+    collisions = source.replace(
+        "(check-sat)",
+        "(declare-sort primo_uf_sort_0 0)(declare-fun primo_uf_sort () A)(check-sat)",
+    )
+    result = export(solver, collisions, output, "--experimental-export-erase-sorts")
+    require(result.returncode == 0, str(result))
+    require(
+        document(output)[3][1] == ["declare-sort", "primo_uf_sort_1", "0"],
+        "sort name collided with existing sort or function",
+    )
+    result = export(
+        solver, PRELUDE + CONGRUENCE, output, "--experimental-export-erase-sorts"
+    )
+    require(result.returncode == 0, str(result))
+    signature = {d[1]: d for d in document(output)[3][1:]}
+    require(
+        signature["p"] == ["declare-fun", "p", ["primo_uf_sort"], "Bool"],
+        "Boolean function result erased",
+    )
+    require(
+        signature["h"] == ["declare-fun", "h", ["Bool"], "primo_uf_sort"],
+        "Boolean function argument erased",
+    )
+    result = export(
+        solver,
+        "(set-logic QF_UF)(assert false)(check-sat)",
+        output,
+        "--experimental-export-erase-sorts",
+    )
+    require(result.returncode == 0, str(result))
+    require(
+        document(output)[3][1] == ["declare-sort", "primo_uf_sort", "0"],
+        "no common sort for Boolean-only CNF",
+    )
+    output.unlink()
+    result = invoke([solver, "--experimental-export-erase-sorts"], source)
+    require(result.returncode != 0, "sort erasure without export accepted")
+    for unsupported in (
+        "(set-logic QF_UF)(declare-sort A 0)(declare-fun a () A)"
+        "(assert (forall ((x A)) (= x a)))(check-sat)",
+        "(set-logic QF_UF)(declare-fun x () Real)(assert false)(check-sat)",
+    ):
+        output.write_text("sentinel")
+        result = export(
+            solver, unsupported, output, "--experimental-export-erase-sorts"
+        )
+        require(
+            result.returncode != 0 and output.read_text() == "sentinel",
+            "unsupported erasure input accepted or touched output",
+        )
+        output.unlink()
+
+
 def regressions(solver: str, directory: Path) -> None:
     output = directory / "certificate.sexp"
     result = export(solver, PRELUDE + CONGRUENCE, output)
@@ -316,13 +413,25 @@ def fuzz(args: argparse.Namespace) -> None:
     }
     for index in range(args.fuzz_count):
         clauses = []
+        prelude = PRELUDE
+        case_atoms = atoms
+        if index % 5 == 0:
+            prelude += (
+                "(declare-sort V 0)(declare-fun d () V)(declare-fun e () V)"
+                "(declare-fun embed (U) V)"
+            )
+            case_atoms = atoms + [
+                "(= d e)",
+                "(= d (embed a))",
+                "(= (embed a) (embed b))",
+            ]
         for _ in range(rng.randint(1, 20)):
-            literals = [rng.choice(atoms) for _ in range(rng.randint(1, 4))]
+            literals = [rng.choice(case_atoms) for _ in range(rng.randint(1, 4))]
             literals = [
                 lit if rng.getrandbits(1) else f"(not {lit})" for lit in literals
             ]
             clauses.append("(assert (or " + " ".join(literals) + "))")
-        source = PRELUDE + "\n".join(clauses)
+        source = prelude + "\n".join(clauses)
         if index % 2:
             source += "(assert (or (and (= a b) (= b c)) (and (p a) (not (p c)))))"
         if index % 3 == 0:
@@ -334,9 +443,10 @@ def fuzz(args: argparse.Namespace) -> None:
         try:
             expected = reference(args.reference, source)
             mode = ("none", "core", "mus")[index % 3]
-            result = export(
-                args.solver, source, output, f"--export-cnf-reduction={mode}"
-            )
+            options = [f"--export-cnf-reduction={mode}"]
+            if index % 2:
+                options.append("--experimental-export-erase-sorts")
+            result = export(args.solver, source, output, *options)
             if result.returncode != 0:
                 category = "crash" if result.returncode < 0 else "unsupported"
                 summary[category] += 1
@@ -367,6 +477,7 @@ def fuzz(args: argparse.Namespace) -> None:
                         "seed": args.seed,
                         "requested": args.fuzz_count,
                         "reduction_modes": "round-robin none/core/mus",
+                        "sort_erasure": "enabled on odd indices; multi-sort input on every fifth index",
                         **summary,
                     },
                     indent=2,
@@ -387,6 +498,7 @@ def main() -> None:
     args = parser.parse_args()
     with TemporaryDirectory(prefix="primo-cnf-export-") as directory:
         regressions(args.solver, Path(directory))
+        sort_erasure_regressions(args.solver, Path(directory))
     if args.fuzz_count:
         fuzz(args)
 

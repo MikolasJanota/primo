@@ -15,6 +15,12 @@ CheckSatOutcome check_sat_smtlib(std::string_view input, CheckSatOptions options
   if (options.export_cnf.empty() && options.export_cnf_reduction != ExportCnfReduction::None) {
     return {CheckSatResult::Unsupported, "--export-cnf-reduction requires --export-cnf", {}, ""};
   }
+  if (options.export_cnf.empty() && options.experimental_export_erase_sorts) {
+    return {CheckSatResult::Unsupported,
+            "--experimental-export-erase-sorts requires --export-cnf",
+            {},
+            ""};
+  }
   if (!options.export_cnf.empty()) return export_qf_uf_cnf(input, std::move(options));
   if (options.incremental_mode == IncrementalMode::Assumptions) {
     SmtSession session(options);

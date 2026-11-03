@@ -326,6 +326,9 @@ int run_main(int argc, char** argv) {
                   primo::cli::kExportCnfReductionNames,
                   "Reduce exported theory lemmas: none, an UNSAT core, or a subset-minimal MUS")
       ->needs("--export-cnf");
+  app.add_flag("--experimental-export-erase-sorts", solver_options.experimental_export_erase_sorts,
+               "EXPERIMENTAL, temporary: erase exported object sorts for checker testing")
+      ->needs("--export-cnf");
   app.add_flag("--check-model", solver_options.check_model,
                "Check original assertions against produced typed models");
   app.option_defaults()->always_capture_default();
@@ -888,7 +891,8 @@ int run_main(int argc, char** argv) {
     // unclassified.
     if (name == "-q" || name == "--quiet" || name == "--stats" || name == "--version" ||
         name == "--help" || name == "--preprocess-only" || name == "--cancel-grace-seconds" ||
-        name == "--check-model" || starts_with(name, "--export-cnf") || name == "files") {
+        name == "--check-model" || starts_with(name, "--export-cnf") ||
+        name == "--experimental-export-erase-sorts" || name == "files") {
       return kGroupProcedural;
     }
     if (starts_with(name, "--experimental-")) {

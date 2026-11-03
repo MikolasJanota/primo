@@ -501,6 +501,8 @@ struct CheckSatOptions {
   // Single-query QF_UF CNF/conflict artifact; empty disables export.
   std::string export_cnf;
   ExportCnfReduction export_cnf_reduction = ExportCnfReduction::None;
+  // Temporary export-only workaround while external checkers grow sort support.
+  bool experimental_export_erase_sorts = false;
   std::size_t qf_uf_portfolio_conflicts = 2000;
   std::vector<std::pair<std::string, int>> cadical_options;
   std::function<bool()> cancelled;

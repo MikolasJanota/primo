@@ -64,29 +64,43 @@ void require_supported_terms(const core::TermManager& terms, core::TermId root) 
   }
 }
 
-void append_signature(const core::SymbolTable& symbols, smtlib::ConflictDocument& document) {
-  for (const auto& sort : symbols.sorts()) {
-    if (sort.kind == core::SortKind::Uninterpreted) {
-      document.signature.push_back("(declare-sort " + smtlib::symbol_text(sort.name) + " 0)");
+// Original ground-QF_UF model argument and invariants:
+// docs/leads/experimental-sort-erasure.md. Only the printed signature changes.
+void append_signature(const core::SymbolTable& symbols, smtlib::ConflictDocument& document,
+                      bool erase_sorts) {
+  std::string common_sort;
+  if (erase_sorts) {
+    std::unordered_set<std::string> names;
+    for (const auto& sort : symbols.sorts()) names.insert(sort.name);
+    for (const auto& symbol : symbols.symbols()) names.insert(symbol.name);
+    common_sort = "primo_uf_sort";
+    std::size_t suffix = 0;
+    while (names.contains(common_sort)) common_sort = "primo_uf_sort_" + std::to_string(suffix++);
+    document.signature.push_back("(declare-sort " + common_sort + " 0)");
+  } else {
+    for (const auto& sort : symbols.sorts()) {
+      if (sort.kind == core::SortKind::Uninterpreted) {
+        document.signature.push_back("(declare-sort " + smtlib::symbol_text(sort.name) + " 0)");
+      }
     }
   }
+  const auto printed_sort = [&](core::SortId id) {
+    const auto kind = symbols.get_sort(id).kind;
+    if (kind != core::SortKind::Bool && kind != core::SortKind::Uninterpreted) {
+      throw UnsupportedInput("--export-cnf supports QF_UF sorts only");
+    }
+    return erase_sorts && kind == core::SortKind::Uninterpreted ? common_sort
+                                                                : smtlib::print_sort(symbols, id);
+  };
   for (const auto& symbol : symbols.symbols()) {
-    const auto require_sort = [&](core::SortId id) {
-      const auto kind = symbols.get_sort(id).kind;
-      if (kind != core::SortKind::Bool && kind != core::SortKind::Uninterpreted) {
-        throw UnsupportedInput("--export-cnf supports QF_UF sorts only");
-      }
-    };
-    require_sort(symbol.result_sort);
     std::string declaration = "(declare-fun " + smtlib::symbol_text(symbol.name) + " (";
     bool first = true;
     for (const auto sort : symbol.arg_sorts) {
-      require_sort(sort);
       if (!first) declaration += ' ';
-      declaration += smtlib::print_sort(symbols, sort);
+      declaration += printed_sort(sort);
       first = false;
     }
-    declaration += ") " + smtlib::print_sort(symbols, symbol.result_sort) + ")";
+    declaration += ") " + printed_sort(symbol.result_sort) + ")";
     document.signature.push_back(std::move(declaration));
   }
 }
@@ -226,7 +240,7 @@ CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options
     if (!logic || !checked) throw UnsupportedInput("--export-cnf requires QF_UF and one check-sat");
 
     smtlib::ConflictDocument document;
-    append_signature(frontend.terms().symbols(), document);
+    append_signature(frontend.terms().symbols(), document, options.experimental_export_erase_sorts);
     for (const auto assertion : assertions) require_supported_terms(frontend.terms(), assertion);
     QfUfConflictCollector collector(frontend.terms(), document, options.export_cnf_reduction);
     // Use the existing lazy solver without preprocessing or propagation lemmas.
@@ -239,6 +253,14 @@ CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options
     util::Statistics statistics;
     auto outcome =
         solve_qf_uf_engine(frontend.terms(), assertions, options, statistics, {}, &collector);
+    if (options.experimental_export_erase_sorts) {
+      std::size_t original_sorts = 0;
+      for (const auto& sort : frontend.terms().symbols().sorts()) {
+        if (sort.kind == core::SortKind::Uninterpreted) ++original_sorts;
+      }
+      outcome.statistics.set(":export.sort-erasure.enabled", 1);
+      outcome.statistics.set(":export.sort-erasure.input-sorts", original_sorts);
+    }
     const auto collected = document.conflicts.size();
     outcome.statistics.set(":export.theory.conflicts-collected", collected);
     if (outcome.result == CheckSatResult::Unsat &&
