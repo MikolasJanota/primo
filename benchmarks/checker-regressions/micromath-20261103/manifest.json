@@ -1,0 +1,70 @@
+{
+  "cases": [
+    {
+      "name": "goel-weakening-mask",
+      "original_benchmark": "QF_UF_peg_solitaire.2.prop1_ab_br_max.smt2",
+      "reduction": "mus",
+      "producer_git": "cf82b726",
+      "micromath_git": "505588a6a0b184c992c3cbcd97721507365ec428",
+      "expected_error": "Logic failure: global literal weakening mask",
+      "trace_profile": "--no-factor",
+      "files": {
+        "challenge.umd": {
+          "bytes": 3420602,
+          "sha256": "deb0add0496cc99b3dfd4ddc1bf42ea5cf52428df8d527df5f456f539f82f3f8"
+        },
+        "expected-error.txt": {
+          "bytes": 45,
+          "sha256": "3004d9e005cf4259880638be9053f276bd4fe1af39314693d4bd9da6aac37776"
+        },
+        "input.primo": {
+          "bytes": 1191502,
+          "sha256": "1d0f04f2dde2c929c4b669fd153eaa4caf3535745ea32577d947211602ad8f8d"
+        },
+        "problem.cnf": {
+          "bytes": 689630,
+          "sha256": "6b96b50386f0e5fdb136831c90de6df14ea5aead2acdaccad3f8fb1ef121b40d"
+        },
+        "problem.lrat": {
+          "bytes": 421392,
+          "sha256": "83949018c17ea367153086c13e291eb15e8f204af9cb9036eca496171b9283b0"
+        }
+      },
+      "baseline_micromath": "df5c5d3b6dcb3310dde35a2dd134927d34973fa4 fails with the same error; --plain also fails on both revisions"
+    },
+    {
+      "name": "seq-extension-vars",
+      "original_benchmark": "SEQ005_size9.smt2",
+      "reduction": "mus",
+      "producer_git": "cf82b726",
+      "micromath_git": "505588a6a0b184c992c3cbcd97721507365ec428",
+      "expected_error": "Logic failure: literal outside snapshot variables",
+      "trace_profile": "default prove-cnf: -q -n --lrat --no-binary",
+      "files": {
+        "challenge.umd": {
+          "bytes": 1409060,
+          "sha256": "eafdf695c536091abc0a1452be04f0d9c008359ffac2390d124c2151fe4afd84"
+        },
+        "expected-error.txt": {
+          "bytes": 50,
+          "sha256": "4ee90d55fde6904040168082a0a9905cd75eddca33690ce8277afb22dfa3617d"
+        },
+        "input.primo": {
+          "bytes": 828605,
+          "sha256": "22b62237d4bcace3a08c57094e947bdaa087cac4fcd194b59e418dea8b878821"
+        },
+        "problem.cnf": {
+          "bytes": 584593,
+          "sha256": "3234d10090d89ad7f98000b690bea1f61306139dd08b892aee573b7fa2275612"
+        },
+        "problem.lrat": {
+          "bytes": 410135,
+          "sha256": "376c53833b6cba890e17d66c2fe43766ad2e3ca86a9c90471270eaf632954ac4"
+        }
+      },
+      "compatible_trace": "Regenerating with --no-factor succeeds on both Micromath revisions; job345309 includes independent kernel replay."
+    }
+  ],
+  "archive": "results/micromath-repro-20261103.tar.gz",
+  "source_run": "docs/coverage/micromath-fast-stress.json"
+}
