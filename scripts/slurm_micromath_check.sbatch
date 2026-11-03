@@ -39,9 +39,11 @@ if [[ -n ${PRIMO_CXX_HEADER_MANIFEST:-} ]]; then
   export CXXFLAGS="${CXXFLAGS:-}$header_flags"
 fi
 jobs=${SLURM_CPUS_PER_TASK:-2}
-(cd "$CADICAL_DIR" && ./configure && make -j"$jobs") > "$PRIMO_ARTIFACTS/cadical-build.log" 2>&1
+if [[ ${MICROMATH_REUSE_BUILD:-0} != 1 ]]; then
+  (cd "$CADICAL_DIR" && ./configure && make -j"$jobs") > "$PRIMO_ARTIFACTS/cadical-build.log" 2>&1
+  (cd "$MICROMATH_DIR" && make -j"$jobs") > "$PRIMO_ARTIFACTS/micromath-build.log" 2>&1
+fi
 export PATH="$CADICAL_DIR/build:$PATH"
-(cd "$MICROMATH_DIR" && make -j"$jobs") > "$PRIMO_ARTIFACTS/micromath-build.log" 2>&1
 (cd "$MICROMATH_DIR" && make check-smt) > "$PRIMO_ARTIFACTS/upstream-check-smt.log" 2>&1
 "$PRIMO_BINARY" --version > "$PRIMO_ARTIFACTS/primo-version.txt"
 grep -Fx "git: $PRIMO_EXPECTED_GIT" "$PRIMO_ARTIFACTS/primo-version.txt"
@@ -63,7 +65,7 @@ for variant in original erased-multisort; do
       "${export_options[@]}" "$input" \
       > "$case_dir/primo-result.txt" 2> "$case_dir/primo-statistics.txt"
     grep -Fx unsat "$case_dir/primo-result.txt"
-    ./smt/check-conflicts --stats "$case_dir/input.primo" > "$case_dir/conflicts.log" 2>&1
+    ./smt/check-conflicts "$case_dir/input.primo" --stats > "$case_dir/conflicts.log" 2>&1
     ./smt/build-challenge "$PRIMO_ARTIFACTS/axioms.umd" "$case_dir/input.primo" \
       "$case_dir/challenge.umd" > "$case_dir/challenge.log" 2>&1
     ./smt/prove-cnf "$case_dir/input.primo" "$case_dir/problem.cnf" \
@@ -116,6 +118,8 @@ result = {
     'micromath_git': os.environ['MICROMATH_GIT'],
     'cadical_git': os.environ['CADICAL_GIT'],
     'primo_git': os.environ['PRIMO_EXPECTED_GIT'],
+    'reused_external_build': os.environ.get('MICROMATH_REUSE_BUILD') == '1',
+    'binary_sha256': {name: hashlib.sha256(Path(path).read_bytes()).hexdigest() for name, path in {'primo': os.environ['PRIMO_BINARY'], 'cadical': str(Path(os.environ['CADICAL_DIR']) / 'build/cadical'), 'check-solution': str(Path(os.environ['MICROMATH_DIR']) / 'check-solution')}.items()},
     'job_id': os.environ['SLURM_JOB_ID'],
     'input_sha256': {name: hashlib.sha256((Path(os.environ['PRIMO_SOURCE_DIR']) / 'docs/examples' / name).read_bytes()).hexdigest() for name in ('qf-uf-export.smt2', 'qf-uf-export-multisort.smt2')},
     'modes': ['none', 'core', 'mus'],
