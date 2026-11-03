@@ -168,9 +168,13 @@ def svg(
 
     # Deliberately no red: series are solvers, not severities, and a red curve
     # reads as a verdict on whichever solver happens to be second. When one
-    # series is highlighted, reserve the saturated blue for it.
-    palette = ["#1b6ca8", "#c9760a", "#2a9d8f", "#8d5bb5", "#5a6472", "#b5527d"]
-    comparison_palette = ["#c9760a", "#2a9d8f", "#8d5bb5", "#5a6472", "#b5527d"]
+    # series is highlighted, reserve the blue for it. The six hues, in this
+    # fixed order, pass a lightness-band, chroma, colour-vision-deficiency and
+    # normal-vision separation check on white; three are below 3:1 contrast, so
+    # every curve is also named in the legend with its solved count. The
+    # previous palette failed that check (its gray had almost no chroma).
+    palette = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4", "#008300"]
+    comparison_palette = palette[1:]
     out = [(f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
            f'viewBox="0 0 {width} {height}" font-family="system-ui,-apple-system,sans-serif">'),
            '<rect width="100%" height="100%" fill="#ffffff"/>',
@@ -222,7 +226,8 @@ def svg(
         points = " ".join(f"{x_of(t):.1f},{y_of(i+1):.1f}" for i, t in enumerate(solved))
         if points:
             out.append(f'<polyline points="{points}" fill="none" stroke="{colour}" '
-                       f'stroke-width="{curve_width}" stroke-linejoin="round"/>')
+                       f'stroke-width="{curve_width}" stroke-linejoin="round">'
+                       f'<title>{html.escape(name)}: {len(solved)} solved</title></polyline>')
         ly = top + 8 + index * legend_step
         out.append(f'<line x1="{left+plot_w+18}" y1="{ly}" x2="{left+plot_w+44}" y2="{ly}" '
                    f'stroke="{colour}" stroke-width="{legend_width}"/>')
