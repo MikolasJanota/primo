@@ -263,7 +263,9 @@ unbounded variables, the default route exhausts its branch-node limit,
 while the integral bound $s=7$ lets one patch move find $x=2,y=1$. Both
 options are off by default. The SLURM evaluation at `2e120fa` found no wrong
 answer. It also found that `--lia-primitive-int-rows` loses 30 QF_UFLIA
-`wisas` files ({ref}`integrality evaluation <integrality-evaluation>`).
+`wisas` files ({ref}`integrality evaluation <integrality-evaluation>`). The
+cause, traced in four of the files, is search order: the default form escapes
+them because its first commitment is fractional and cheap to refute.
 
 A slack marked integer this way can also become an integer obligation of
 completion. `--lia-integer-slacks` puts such slacks (Achterberg et al. §7.6

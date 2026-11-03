@@ -173,22 +173,83 @@ counting 120 s for each unsolved file:
 - The per-file churn is large, and no rerun of the all-off configuration
   measured the timing noise.
 
-**The `wisas` regression.** In `xs_28_48.smt2`, preprocessing produces atoms
-$4(a+b)\le k$ for $k=48,\dots,72$, all on one slack $a+b$:
+**The `wisas` regression.** The file `xs_28_48.smt2` states
+`arg1 = arg0 + 4*s_count(p) + 4*x_count(p)` for one position `p`. After
+purification, $a$ and $b$ are the constants for `s_count(p)` and
+`x_count(p)`, and $t=a+b$ counts format specifiers. Preprocessing produces 25
+pairs of threshold atoms $4t-48\le k$ and $4t-48\ge k$ for $k=0,\dots,24$,
+plus the strict atom $4t-48<24$, all on the one slack $t$:
 
 - The default rule marks this slack non-integer because its scale is 4.
+  Its strict bounds then use the infinitesimal $\delta$ of the rational
+  relaxation: $t<18$ becomes $t\le18-\delta$.
 - M2 marks it integer, so strict bounds on it are asserted as integer bounds.
 - A temporary local experiment, since reverted, removed this rounding from
   the combined route's online bound assertion only, and the run time went
-  from a timeout back to 0.4 s. Removing it from the model-phase hints, propagation or the equality
-  checks did not help.
-- With the rounding, SAT conflicts rise from 385 to about 50,000. The tighter
-  bounds are sound, and why they mislead the combined search is still open.
+  from a timeout back to 0.4 s. Removing it from the model-phase hints,
+  propagation or the equality checks did not help.
+- Off, the whole run takes 385 SAT conflicts. With M2 alone there are
+  62,873 by the 30 s timeout.
+
+**Root cause of the `wisas` regression.** It is a search-order effect, not a
+soundness or implementation defect in M2. A temporary trace, since reverted,
+recorded the value and bounds of $t$ at every point where CaDiCaL asks the
+arithmetic solver for a conflict.
+
+1. The bounds asserted first are $t\ge12$ and the strict $4t-48<24$. Off,
+   the strict bound is $t\le18-\delta$. M2 rounds it to $t\le17$.
+2. CaDiCaL's first decisions on the threshold atoms push $t$ to the top of
+   its range. Off, the top threshold below $18-\delta$ is $4t-48=23$, so $t$
+   is pinned at $71/4$. That value is infeasible over the integers and was
+   quickly refuted; the mechanism was not traced. The search then settles at $t=12$, its
+   lower bound, which is feasible. In one run, 9,360 of the 9,407 samples
+   are $t=12$, and the file is SAT in 0.3 s.
+3. With M2 the top value is $t=17$, which is integral, so integer
+   completion accepts it. In an 8 s run, 82,420 of the 82,508 samples have
+   $t=17$. A second traced run has both bounds at 17 in 71,794 samples.
+   Model-based combination then adds equalities between function arguments
+   that share these integral values, such as $4t-48$ and an index of value
+   20.
+4. About 85% of the resulting theory conflicts (35,334 of 41,327 in 6 s)
+   are 55 or 56 literals long. The 56-literal ones name one increment
+   pattern of both counter chains, so each such clause rules out one
+   pattern rather than the bound on $t$.
+
+The region $t\ge14$ is hard for every solver tried, within 25 to 30 s.
+Adding `(assert (>= arg1 (+ arg0 4k)))` to `xs_28_48.smt2` gives a SAT file
+for $k=13$ (Primo 0.35 s, yices 0.05 s, cvc5 9.6 s). For each $k$ from 14
+to 17, Primo and z3 time out at 30 s. cvc5 and yices were run for $k=14$ and
+$k=17$ only, and time out at 25 s. The original file appears easy only when
+the search does not commit to an integral $t\ge14$. Off avoids that because
+its first commitment is fractional and cheap to refute.
+
+Phase hints do not explain the difference. `--no-lra-model-phase` leaves
+both runs as they were. Forcing model-guided phases with
+`--lra-model-phase` makes the off run time out as well.
+
+The lost files `xs_24_44`, `xs_33_53` and `xs_40_60` were traced for the
+most frequent value of $t$ only. In `xs_A_B`, $t$ ranges from $B/4$ to below
+$(A+B-4)/4$. In each file, off settles at the smallest integer in that
+range, and M2 at the largest:
+
+| File | Range of $t$ | Off: settled value | M2: settled value |
+|---|---|---|---|
+| `xs_24_44` | $[11, 16)$ | 11 | 15 |
+| `xs_33_53` | $[53/4, 41/2)$ | 14 | 20 |
+| `xs_40_60` | $[15, 24)$ | 15 | 23 |
+
+The remaining 26 lost files were not traced.
+
+Removing the rounding at that call site is sound, since it only weakens a
+bound. It restores the run time only by bringing back the fractional top
+value, so it is not a principled fix. The regression is a family-specific
+search sensitivity, and it still counts against promoting M2.
 
 **Decision.** No option is promoted to the default. M2 and M4 together are
 the promising part on QF_LIA. Before any promotion:
 
-- the `wisas` regression needs a root cause;
+- the `wisas` loss must be weighed as a search-order effect, or recovered by
+  a separately evaluated search change;
 - the noise needs an all-off rerun;
 - the seed-mutation campaign needs full coverage.
 

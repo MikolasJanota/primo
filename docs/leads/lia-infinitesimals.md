@@ -6,8 +6,9 @@ polynomials, so strict compound `Int` atoms get integral bounds without an
 infinitesimal; see the
 [integrality checklist](../papers/mip-presolve-integrality.md). That option is
 not the default: it gains 104 files net on QF_LIA, with timing noise not
-measured, but loses 30 QF_UFLIA `wisas` files (see the checklist's
-evaluation).
+measured, but loses 30 QF_UFLIA `wisas` files. The checklist's evaluation
+traces that loss, in four of the files, to search order rather than to the
+integral bounds being wrong.
 The spacing rule below remains the alternative if the leading-coefficient form
 is kept for `Int` atoms.
 

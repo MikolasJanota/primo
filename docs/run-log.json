@@ -3,6 +3,34 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-wisas-m2-regression-diagnosis",
+      "date": "2026-11-03",
+      "commit": "7a6763f",
+      "branch": "lia-integrality",
+      "kind": "read-only-regression-diagnosis",
+      "evidence_status": "current-diagnostic",
+      "parent": "2026-11-02-lia-integrality-ab-2e120fa",
+      "scope": "Root cause of the 30 QF_UFLIA wisas files lost by --lia-primitive-int-rows (M2). Local single-file debugging only; no timing claim.",
+      "environment": {
+        "host": "owner workstation, bounded single-file runs (8-30 s each)",
+        "binary": "build/primo, Release, banner git 7a6763f (solver source identical to 2e120fa); instrumentation was a temporary uncommitted patch to ComponentLraExecution::cb_has_external_clause and PreparedLraTheory::append_atom, reverted afterwards",
+        "references": "contrib/local/bin z3, cvc5, yices-smt2 on hand-made constrained variants only. About 15 bounded 25-30 s reference runs ran on the workstation; AGENTS.md asks for such grids to go to SLURM, so this is recorded as a process deviation"
+      },
+      "commands": {
+        "reproduce": "./build/primo --stats [--lia-primitive-int-rows] wisas/xs_28_48.smt2 (off: sat 0.24 s, 385 SAT conflicts for the whole run; M2: timeout at 30 s with 62,873 SAT conflicts)",
+        "trace": "env-gated prints of every theory conflict clause and of the value, bounds and assigned threshold atoms of slack v2 (t = a + b) at each cb_has_external_clause call",
+        "hardness": "append (assert (>= arg1 (+ arg0 4k))) before (check-sat) in xs_28_48.smt2, k = 13..17; run Primo (off), z3, cvc5, yices with timeout 25-30 s"
+      },
+      "results": {
+        "trajectory_xs_28_48": "Off: first commitment t = 71/4 (highest threshold 4t - 48 = 23 below t <= 18 - delta), quickly refuted (mechanism not traced); then t = 12 in 9,360 of 9,407 samples, sat. M2: strict 4t - 48 < 24 rounds to t <= 17; one 8 s run has t = 17 in 82,420 of 82,508 samples, a second traced run has both bounds at 17 in 71,794 samples.",
+        "conflicts": "Off: 983 traced theory conflicts, 973 of 28 literals. M2: 41,327 in 6 s, 23,450 of 56 and 11,884 of 55 literals (about 85%); the 56-literal ones name one increment pattern of both the s_count and x_count chains plus the combination equality that fixes 4t - 48 at an index value of 20.",
+        "hardness": "k = 13 sat (Primo 0.35 s, yices 0.05 s, cvc5 9.57 s). k = 14, 15, 16, 17: Primo and z3 time out at 30 s; cvc5 and yices time out at 25 s on k = 14 and 17 (others not run).",
+        "phase_controls": "--no-lra-model-phase: off still 0.28 s, M2 still times out. --lra-model-phase: off also times out (34,098 conflicts in 20 s).",
+        "other_files": "Most frequent value of t, off then M2 (only this was traced): xs_24_44 11 then 15; xs_33_53 14 then 20; xs_40_60 15 then 23. In xs_A_B, t ranges over [B/4, (A+B-4)/4); off settles at the smallest integer in range, M2 at the largest. The other 26 lost files were not traced."
+      },
+      "outcome": "Search-order effect, not a soundness or implementation defect. M2's integral bound turns the first top-of-range commitment from a fractional value that completion refutes cheaply into an integral value t >= 14, a region no tried solver decides within 25-30 s. Dropping the rounding at the online assertion is sound but restores the run time only by bringing back the fractional top value, so it is not a principled fix. The loss stays charged against promoting M2. Docs: docs/papers/mip-presolve-integrality.md (integrality-evaluation)."
+    },
+    {
       "id": "2026-11-03-lia-integrality-model-validation-2e120fa",
       "date": "2026-11-03",
       "commit": "2e120fa",
@@ -107,7 +135,7 @@
         "qf_lia_families_all_vs_off": "gained CAV_2009_benchmarks 117, nec-smt 83, 20180326-Bromberger 66, dillig 60, rings 43, cut_lemmas 15, slacks 14; lost 20180326-Bromberger 79, CAV_2009_benchmarks 59, slacks 31, cut_lemmas 29, dillig 22, prime-cone 17, rings 12, rings_preprocessed 7.",
         "qf_uflia": "solved / PAR2: off 575 / 11,375; m1 575 / 11,376 (+0 -0); m12 545 / 14,902 (-30, all wisas); m123 544 / 14,972; all 544 / 14,934 (-31: wisas 30, Certora 1).",
         "mechanism_counters": "QF_LIA generalized patch lemmas off 177,808 -> m12 14,585, patch sweeps 184,996 -> 21,537: with integral bounds far fewer completions need patching. Lattice moves accepted only under all: 528 (QF_LIA), 48 (QF_UFLIA).",
-        "wisas_regression": "Local single-file diagnosis of wisas/xs_28_48.smt2 (0.3 s off, timeout with --lia-primitive-int-rows alone): preprocessing yields atoms 4(a+b) <= k, k = 48..72, on one slack a+b. The default marks it non-integer because its scale is 4; M2 marks it integer, so strict bounds are asserted as integer bounds. Disabling the rounding only in the QF_UFLIA component's online bound assertion (temporary experiment, reverted) restores 0.4 s; disabling it in model-phase hints, bound-entailment propagation or equality checks does not. SAT conflicts rise from 385 to about 50,000 and theory conflicts from 985 to 141,000. Root cause not yet established.",
+        "wisas_regression": "Local single-file diagnosis of wisas/xs_28_48.smt2 (0.3 s off, timeout with --lia-primitive-int-rows alone): preprocessing yields atoms 4(a+b) <= k, k = 48..72, on one slack a+b. The default marks it non-integer because its scale is 4; M2 marks it integer, so strict bounds are asserted as integer bounds. Disabling the rounding only in the QF_UFLIA component's online bound assertion (temporary experiment, reverted) restores 0.4 s; disabling it in model-phase hints, bound-entailment propagation or equality checks does not. SAT conflicts rise from 385 to about 50,000 and theory conflicts from 985 to 141,000. Root cause: see 2026-11-03-wisas-m2-regression-diagnosis (search-order effect; that later run measured 62,873 SAT conflicts at a 30 s timeout).",
         "noise": "No off-versus-off rerun was made, so per-file churn (several hundred files each way at 60 s) is not separated from timing noise.",
         "decision": "No option is promoted. M1 is neutral on both corpora. M2 helps QF_LIA (+104 net) but loses 30 QF_UFLIA wisas files. M3 without M4 loses on QF_LIA. All four gain 136 net on QF_LIA and lose 31 on QF_UFLIA, with large churn. All options stay default-off."
       }
