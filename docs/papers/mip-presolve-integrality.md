@@ -270,7 +270,7 @@ on the {ref}`QF_LIA <qf-lia-paired-120s>` and {ref}`QF_UFLIA
 <qf-uflia-paired-120s>` progress pages.
 
 The seed-mutation campaign ran one task per fuzzer and seed with all four
-options (jobs 339380 and 339381, {source}`slurm_seed_mutation_per_seed.sbatch
+options (jobs 339380 and 339381, {settingssource}`slurm_seed_mutation_per_seed.sbatch
 <scripts/slurm_seed_mutation_per_seed.sbatch>`). Opfuzz ran 200 and typefuzz
 100 mutants per seed against z3, at 5 s per solver call. It found no bug
 files:
@@ -292,7 +292,11 @@ solver gap, because no solver call was made; they would need a rerun with
 a larger wall before any promotion. Recovering the `wisas`
 files is now an open lead on [search
 diversification](../leads/search-diversification.md); a time-sliced
-[portfolio](../leads/portfolio.md) is a separate project.
+[portfolio](../leads/portfolio.md) is a separate project. A future promotion
+would be a route default in `default_lia_settings`
+({settingssource}`lia_settings_policy.cpp <src/smt/lia_settings_policy.cpp>`,
+see {ref}`lia-settings`), which could enable the options on QF_LIA without
+changing QF_UFLIA.
 
 ## Tests derived from the steps
 
@@ -310,7 +314,7 @@ combination may contradict an answer) and
 `integer_preparation_options_do_not_touch_real_arithmetic`.
 
 Gap 3 is pinned by `branching_on_an_integer_slack_gives_a_bound_explanation`
-in {source}`lia_completion_tests.cpp <tests/unit/lia_completion_tests.cpp>`
+in {settingssource}`lia_completion_tests.cpp <tests/unit/lia_completion_tests.cpp>`
 (obligation 4: the split on a slack drops out of the explanation, leaving the
 two bound literals), `gomory_cut_from_an_integer_slack_row` (one cut refutes
 a slack row with no integer in range, explained by the bound literals only) and `integer_slacks_join_completion` in the QF_LIA solver

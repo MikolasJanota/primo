@@ -262,6 +262,31 @@ an empty or false goal. After SAT,
 the session can evaluate the original assertions against the reconstructed
 model before printing it; see [model construction](models.md).
 
+(tactics-lia-settings)=
+### Per-route LIA settings
+
+The two integer routes also carry their own LIA engine settings.
+`make_session_solver_strategy` resolves one
+{settingssource}`LiaSettings <src/smt/lia_settings.hpp>` value per route with
+`resolve_lia_settings`. That function applies the caller's overrides to the
+route's default; see {ref}`lia-settings`. The `solve-qf-lia` and
+`solve-qf-uflia` tactics each capture their value.
+
+`SolverStrategyOptions` renders both values into the solver-dispatch leaf's
+parameters. Each key is the route prefix followed by the hyphenated setting
+name, for example `qf-lia.primitive-int-rows` and
+`qf-uflia.primitive-int-rows`. Both sets are rendered in every session,
+whatever the declared logic, so a `--lia-*` flag that changes a setting also
+changes the fingerprint of a QF_LRA query. Two option sets that run different LIA settings have different
+canonical forms and fingerprints. The change also gives every solver-dispatch
+canonical string new keys, so it differs from the one produced by revisions
+before `5aaca1f`.
+
+The other engine options are still shared by every route through one
+immutable `CheckSatOptions` copy. Of those options, only `mixed_dispatch` is a
+leaf parameter. The leaf also records the declared logic and whether Real
+constants are declared, both taken from the frontend.
+
 (tactics-model-example)=
 ## A transformation and its model
 

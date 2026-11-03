@@ -129,7 +129,8 @@ atoms, interface terms, and model-token revision. Atom growth destroys the
 online execution state before changing the preparation it borrows; assignment
 and backtracking invalidate the exported model token.
 
-The recipe passes model-projection policy and {migrationsource}`LiaComponentTiming <src/smt/solver_engines.cpp#L8437-L8441>` explicitly.
+The recipe passes model-projection policy, {migrationsource}`LiaComponentTiming <src/smt/solver_engines.cpp#L8437-L8441>`
+and the route's resolved `LiaSettings` ({ref}`lia-settings`) explicitly.
 The adapter does not read QF_UFLIA combination options to select its behavior.
 The combined recipe retains its check, rational, and integer timer keys; empty
 keys disable timer sampling. Both rebuilt rational checks and completion of an
@@ -668,19 +669,23 @@ it is not by itself evidence of a performance improvement.
 (lia-limits)=
 ## Budgets and incomplete cases
 
-The {source}`integer options <src/smt/check_sat.hpp#L354-L401>` are shared
-by the pure and combined routes:
+The integer settings below apply to both the pure and the combined route.
+Each route resolves its own values, as described in {ref}`lia-settings`.
 
-| Option | Default | Meaning per integer completion |
+| Option | Default (both routes) | Meaning per integer completion |
 | --- | --- | --- |
 | `--lia-patch-limit` | `100` | Maximum accepted patch moves; zero disables patching. |
 | `--lia-gomory-cut-limit` | `100` | Maximum cut-and-recheck iterations; zero disables cuts. Exhaustion falls through to branching. |
 | `--lia-branch-limit` | `100000` | Maximum new split nodes. Exhaustion before finding a model or refuting the tree returns a resource-limit result. |
-| `--no-lia-conflict-generalization` | Absent | Disables the default attempt to replace coarse clauses with accumulated explanations. |
-| `--lia-round-integer-bounds` | Absent | Rounds non-strict thresholds on integer-valued tableau variables inward. Preparation-time, not a per-completion budget. |
-| `--lia-primitive-int-rows` | Absent | Stores `Int` rows with coprime integer coefficients, making every `Int` slack integer-valued. Preparation-time. |
-| `--lia-integer-slacks` | Absent | Adds slacks proved integer to the front of the integer obligations of completion. |
-| `--lia-patch-integral-moves` | Absent | Keeps integer nonbasic variables integral while patching and adds lattice candidates. |
+| `--no-lia-conflict-generalization` | Generalization on | Disables the default attempt to replace coarse clauses with accumulated explanations. |
+| `--lia-round-integer-bounds` | Off | Rounds non-strict thresholds on integer-valued tableau variables inward. Preparation-time, not a per-completion budget. |
+| `--lia-primitive-int-rows` | Off | Stores `Int` rows with coprime integer coefficients, making every `Int` slack integer-valued. Preparation-time. |
+| `--lia-integer-slacks` | Off | Adds slacks proved integer to the front of the integer obligations of completion. |
+| `--lia-patch-integral-moves` | Off | Keeps integer nonbasic variables integral while patching and adds lattice candidates. |
+
+Each of the last four switches also has a `--no-` form, for example
+`--no-lia-primitive-int-rows`. If both forms are given, the `--no-` form wins,
+as for `--lra-model-phase`.
 
 These are finite operational limits, not empirically optimal settings.
 Both routes report typed `ResourceLimit` to the shared driver, producing
@@ -731,6 +736,61 @@ stage APIs already take an integer subset, and fractional auxiliary variables
 exercise some mixed-tableau cases. That does not establish end-to-end QF_LIRA
 support: contextual numeral typing, coercions such as `to_real`, frontend
 admission and combined model construction still need design and validation.
+
+(lia-settings)=
+## Settings and who sets them
+
+The engine reads its integer settings from one value,
+{settingssource}`LiaSettings <src/smt/lia_settings.hpp>`. It has one field
+for each row of the {ref}`budget table <lia-limits>`, for example
+`patch_limit` for `--lia-patch-limit` and `primitive_int_rows` for
+`--lia-primitive-int-rows`.
+
+- **Ownership.** Each `LiaTheoryComponent` holds a copy by value and gives one
+  to its `LiaComponentAdapter`. Neither reads the session's `CheckSatOptions`
+  for these settings.
+- **No knowledge of the caller.** The engine does not know which logic,
+  command line or strategy chose the values.
+
+Choosing the values is a separate step. In the order the data flows:
+
+1. The {settingssource}`command line <src/main.cpp#L1015-L1037>` records an
+   override in `CheckSatOptions::lia`, a `LiaSettingOverrides` whose fields
+   are all optional. It does this only for a flag that is given, including an
+   explicit `--lia-round-integer-bounds=false`.
+2. {settingssource}`make_session_solver_strategy <src/smt/solver_leaves.cpp#L27-L30>`
+   calls `resolve_lia_settings` once for each route that runs the engine:
+   `LiaRoute::QfLia` and `LiaRoute::QfUflia`. The declared logic selects the
+   route, so a route default is a per-logic default.
+3. The {settingssource}`policy <src/smt/lia_settings_policy.cpp>` starts from
+   `default_lia_settings(route)` and applies every override that is set. An
+   explicit value therefore always wins over the route default.
+
+Both routes currently default to the values in the budget table, so the split
+is meant to leave every result unchanged. The decision to give a route its
+own default, such as the integrality switches on QF_LIA only, belongs in
+`default_lia_settings`. The `--help` defaults in `main.cpp`, the CLI help
+snapshot and the table's default column do not follow the policy
+automatically. They must be updated with it, or made route-aware, as
+`--lra-model-phase` shows `[default: auto]`.
+
+The QF_LIA and QF_UFLIA solver steps each capture their resolved settings by
+value. The solver-dispatch leaf renders both sets as strategy parameters, so
+the strategy's canonical form and fingerprint record which configuration each
+route runs ({ref}`tactics-lia-settings`). That holds only while
+`lia_strategy_parameters` renders every field, so a new setting must be added
+there too.
+
+Three regressions in {settingssource}`tactic_tests.cpp <tests/unit/tactic_tests.cpp#L1158-L1237>`
+pin this design:
+
+- `lia_settings_policy_resolves_route_defaults_and_overrides` checks that both
+  route defaults equal `LiaSettings{}`, whose field defaults are the previous
+  `CheckSatOptions` defaults, and that each override wins.
+- `lia_overrides_change_the_solver_strategy_identity` checks that a changed
+  override changes the fingerprint.
+- `lia_route_settings_reach_the_engine` checks that a patch budget of 0 reaches
+  the QF_LIA engine.
 
 (lia-models-evidence)=
 ## Models, regression coverage and retained evidence

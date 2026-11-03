@@ -124,7 +124,7 @@ cluster nodes; the paired rerun below does.
 The run-log entry `2026-11-03-paired-120s-rerun` records a rerun of three
 configurations on all 13,306 files at 120 s per file: `5efbd02`, the
 `2e120fa` default, and `2e120fa` with all four integrality options, each with
-`--quiet --stats`. {source}`slurm_paired_solver_compare.sbatch
+`--quiet --stats`. {settingssource}`slurm_paired_solver_compare.sbatch
 <scripts/slurm_paired_solver_compare.sbatch>` ran all three in the same array
 task, on the same node, in an order rotated per sub-shard (job 345183, 400
 tasks on nodes 02 to 05). Each task requested two CPUs, so that a run would

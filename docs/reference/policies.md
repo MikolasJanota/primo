@@ -145,6 +145,9 @@ form dependent groups:
   and instance budgets are listed in [CLI help](options.md#complete-cli-inventory)
   and explained in [LIA](../implementation/lia.md) and
   [quantifiers](../implementation/quantifiers.md).
+- The `--lia-*` and `--no-lia-*` flags are overrides. Each integer route
+  (QF_LIA and QF_UFLIA) takes its LIA defaults from `default_lia_settings`,
+  as described in {ref}`settings and who sets them <lia-settings>`.
 
 Before tuning a parameter, confirm its call path and compare mechanism counters
 at two admissible values. A flag's presence in help does not establish that it

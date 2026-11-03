@@ -47,7 +47,7 @@ report visited seeds, mutations and completed solver calls, rather than claiming
 complete seed coverage.
 
 To establish coverage of every seed, use
-{source}`slurm_seed_mutation_per_seed.sbatch <scripts/slurm_seed_mutation_per_seed.sbatch>`.
+{settingssource}`slurm_seed_mutation_per_seed.sbatch <scripts/slurm_seed_mutation_per_seed.sbatch>`.
 It runs one array task per fuzzer and seed. Seeds are the `*.smt2` files
 under `PRIMO_MUTATION_SEEDS` that are no larger than the size limit, in sorted
 order. Task $k$ uses fuzzer $\lfloor k/N\rfloor$ and seed $k \bmod N$, where

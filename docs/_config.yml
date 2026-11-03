@@ -101,6 +101,9 @@ sphinx:
       repairsource:
         - "https://github.com/primo-solver/primo/blob/5c96568/%s"
         - "%s"
+      settingssource:
+        - "https://github.com/primo-solver/primo/blob/5aaca1f6ac69724807a4ccd811251a77cc61149d/%s"
+        - "%s"
       toolsource:
         - "https://github.com/primo-solver/primo/blob/d16acb42d87a55eaa5f76faf14a904900a9a7e8b/%s"
         - "%s"

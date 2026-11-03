@@ -35,7 +35,7 @@ file meets the two configurations on different nodes and at different times.
 Node and load differences then look like solver differences near the time
 limit; the [QF_LIA progress](../evidence/qf-lia-progress.md) page records such
 a case.
-{source}`slurm_paired_solver_compare.sbatch <scripts/slurm_paired_solver_compare.sbatch>`
+{settingssource}`slurm_paired_solver_compare.sbatch <scripts/slurm_paired_solver_compare.sbatch>`
 runs every configuration in one array task, on the same node. Each task covers
 `PRIMO_PAIRED_CHUNKS` sub-shards and runs the configurations in an order rotated
 per sub-shard, so a load change inside the task is spread over all of them. It
