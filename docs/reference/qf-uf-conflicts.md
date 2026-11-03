@@ -460,7 +460,25 @@ and release of completed result rows. Successful intermediates were removed
 and both certificate hashes verified after collection. The
 {download}`workflow qualification report <../coverage/micromath-core-sweep-workflow.json>`
 records exact scripts, tool hashes, limits and an initial checksum-setup failure.
-This qualifies the workflow; the full corpus sweep has not been launched.
+This qualified the workflow before the corpus sweep below.
+
+### Running the recorded-UNSAT CORE sweep
+
+Array `347445` launched the CORE sweep on 4,175 inputs across seven families,
+using workflow `18dbabf1`, qualified producer `cf82b726` and Micromath `ac052d9`.
+Selection job `347444` examined all 4,355 recorded native UNSAT results, with
+no historical timing, size, family or count caps. It excluded 180 inputs for
+Boolean function signatures and used no prior-case exclusions. The immutable
+{download}`full selected manifest <../../benchmarks/micromath-core-sweep-20261103.json>`
+pins every source hash and historical record. The four shards contain
+1,044/1,044/1,044/1,043 cases, with four workers, 16 GiB and a four-hour allocation
+per shard. Export/reference/profile limits remain 30/20/60 seconds; successful
+runs retain certificates, logs and hashes while discarding large proof payloads.
+
+The {download}`launch report <../coverage/micromath-core-sweep.json>` records
+exact pins, limits, artifact locations and an early progress snapshot. The
+sweep is running; this is not a final corpus result. It checks the exported
+CNFs in the recorded-UNSAT subset and adds no source-to-CNF conversion proof.
 
 ### Replaying saved certificates without Primo
 

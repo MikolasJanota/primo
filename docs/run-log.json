@@ -3,6 +3,103 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-micromath-core-sweep-launch",
+      "date": "2026-11-03",
+      "kind": "uncapped-recorded-UNSAT-CORE-certificate-sweep",
+      "evidence_status": "launch and early progress only; no final corpus result",
+      "status": "running",
+      "commit": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+      "workflow_git": "18dbabf18a61806961aac4a40f0761702f4c2bf4",
+      "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+      "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+      "report": "docs/coverage/micromath-core-sweep.json",
+      "manifest": "benchmarks/micromath-core-sweep-20261103.json",
+      "manifest_sha256": "b917417f484af61f147f2d943408fa3488d4f4c8e0638caa366d40f660f9fe9d",
+      "jobs": {
+        "selection": "347444",
+        "sweep_array": "347445"
+      },
+      "selection": {
+        "recorded_unsat": 4355,
+        "selected": 4175,
+        "excluded_boolean_signatures": 180,
+        "families": {
+          "QG": 3856,
+          "Goel": 113,
+          "PEQ": 45,
+          "SEQ": 38,
+          "eq_diamond": 100,
+          "20170829-Rodin": 20,
+          "TypeSafe": 3
+        },
+        "shard_cases": [
+          1044,
+          1044,
+          1044,
+          1043
+        ]
+      },
+      "limits": {
+        "array": "0-3%4",
+        "allocation_per_task": {
+          "cpus": 4,
+          "memory_gib": 16,
+          "wall_hours": 4
+        },
+        "total_workers": 16,
+        "workers_per_task": 4,
+        "worker_address_space_gib": 3,
+        "worker_file_limit_mib": 256,
+        "reference_timeout_seconds": 20,
+        "export_timeout_seconds": 30,
+        "shared_profile_budget_seconds": 60,
+        "phase_limits_seconds": {
+          "baseline_export": 5,
+          "reduced_export": 30.0,
+          "conflicts": 10,
+          "challenge": 10,
+          "cnf": 15,
+          "proof": 30,
+          "kernel": 10
+        },
+        "termination_grace_seconds": 2,
+        "selection_allocation": {
+          "cpus": 1,
+          "memory_gib": 8,
+          "wall_minutes": 15
+        },
+        "budget_scope": "Profile subprocess budget excludes later file hashing and checkpoint writes. Parent setup/version/axiom preparation are allocation-limited, without worker address-space/file caps."
+      },
+      "options": {
+        "modes": [
+          "core"
+        ],
+        "experimental_sort_erasure": true,
+        "compact_summary": true,
+        "keep_success_artifacts": "certificates",
+        "shard_count": 4,
+        "no_NONE_admission": true,
+        "no_MUS": true
+      },
+      "commands": {
+        "preflight": "python3 scripts/slurm_prepare_benchmark_workspace.py --local-dir PINNED_CF82_SOURCE --remote REMOTE --remote-dir PREPARED_NATIVE_WORKSPACE --build-via-slurm --reuse-dependencies --require-tool contrib/local/bin/z3 --require-tool contrib/local/bin/rg --check-only; version reports cf82b726 and cadical-3.0.0-7b99c07",
+        "selection": "python3 scripts/select_micromath_fast_cases.py --history RECORDED_NATIVE_RESULTS --historical-source-git 5efbd02293e15a53fbaad748ceda78bc7d27bbac --corpus CORPUS --all-known-unsat --out MANIFEST; run in SLURM, then chmod 444 manifest and archive SHA-256",
+        "sweep": "Set PILOT_PYTHON, PILOT_SCRIPT, PRIMO_BINARY, PRIMO_EXPECTED_GIT=cf82b726, MICROMATH_DIR/GIT, CADICAL_BINARY/GIT, REFERENCE_BINARY, QF_UF_CORPUS, PILOT_MANIFEST, PILOT_OUT; CORE_SHARD_COUNT=4 CORE_REFERENCE_TIMEOUT=20 CORE_EXPORT_TIMEOUT=30 CORE_PROFILE_BUDGET=60 CORE_KEEP_SUCCESS_ARTIFACTS=certificates; submit scripts/slurm_micromath_core_sweep.sbatch with --array=0-3%4 --time=04:00:00. Per-task manifest checksum checked before running."
+      },
+      "artifacts": {
+        "local_launch_metadata": "results/micromath-core-sweep-20261103",
+        "remote": "$EXTERNAL_WORKSPACE/core-sweep-18dbabf1-20261103",
+        "retention": "Checked input.primo certificates, logs and metadata are retained remotely. Successful large CNF/challenge/LRAT/kernel-proof payloads are discarded after checking and hashing; failed profiles keep artifacts. Local initial mirror contains manifest, launch scripts, provenance and summary snapshots, not the full result tree."
+      },
+      "scope": [
+        "A full sweep of the available historical native successful UNSAT set after excluding Boolean function signatures, not all QF_UF SMT-LIB inputs. All 4,355 recorded UNSAT inputs were present and size-eligible; 180 excluded by signature screen; no hash/dedup rejection recorded.",
+        "No selection timing, source-size, family or count caps; no prior-case exclusions. Runtime/resource limits still apply to checking.",
+        "Fresh references, exports and kernel proof checks; no native producer or checker source changes. Previous exact producer qualification reused; no new C++ tests/fuzz/tidy run.",
+        "UNSAT-only certificate campaign; no printed SAT models to validate. No source-to-CNF conversion proof and no performance/default-promotion claim.",
+        "Full sweep remains active; early outcomes must not be presented as final coverage."
+      ]
+    },
+    {
       "id": "2026-11-03-micromath-core-sweep-workflow",
       "date": "2026-11-03",
       "kind": "CORE-only-sharded-workflow-qualification",
