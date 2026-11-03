@@ -3,11 +3,117 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-micromath-core-sweep-completed",
+      "date": "2026-11-03",
+      "kind": "completed-CORE-certificate-sweep-and-small-resource-replays",
+      "status": "completed",
+      "evidence_status": "All 4,175 selected cases attempted; 3,216 kernel proofs, 799 proof-generation OOMs, 154 export timeouts, 4 challenge timeouts, 2 proof timeouts.",
+      "commit": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+      "workflow_git": "18dbabf18a61806961aac4a40f0761702f4c2bf4",
+      "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+      "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+      "report": "docs/coverage/micromath-core-sweep.json",
+      "manifest": "benchmarks/micromath-core-sweep-20261103.json",
+      "jobs": {
+        "selection": "347444",
+        "sweep_array": "347445"
+      },
+      "summary": {
+        "cases": 4175,
+        "profile_counts": {
+          "export_timeout": 154,
+          "challenge_timeout": 4,
+          "kernel_proven": 3216,
+          "proof_error": 799,
+          "proof_timeout": 2
+        },
+        "case_errors": 0,
+        "reference_counts": {
+          "ok:unsat": 4163,
+          "timeout:no-answer": 12
+        },
+        "kernel_outputs_individually_audited": 3216,
+        "proof_generation_errors_all_explicit_OOM": 799
+      },
+      "limits": {
+        "array": "0-3%4",
+        "allocation_per_task": {
+          "cpus": 4,
+          "memory_gib": 16,
+          "wall_hours": 4
+        },
+        "total_workers": 16,
+        "workers_per_task": 4,
+        "worker_address_space_gib": 3,
+        "worker_file_limit_mib": 256,
+        "reference_timeout_seconds": 20,
+        "export_timeout_seconds": 30,
+        "shared_profile_budget_seconds": 60,
+        "phase_limits_seconds": {
+          "baseline_export": 5,
+          "reduced_export": 30.0,
+          "conflicts": 10,
+          "challenge": 10,
+          "cnf": 15,
+          "proof": 30,
+          "kernel": 10
+        },
+        "termination_grace_seconds": 2,
+        "selection_allocation": {
+          "cpus": 1,
+          "memory_gib": 8,
+          "wall_minutes": 15
+        },
+        "budget_scope": "Profile subprocess budget excludes later file hashing and checkpoint writes. Parent setup/version/axiom preparation are allocation-limited, without worker address-space/file caps."
+      },
+      "commands": {
+        "preflight": "python3 scripts/slurm_prepare_benchmark_workspace.py --local-dir PINNED_CF82_SOURCE --remote REMOTE --remote-dir PREPARED_NATIVE_WORKSPACE --build-via-slurm --reuse-dependencies --require-tool contrib/local/bin/z3 --require-tool contrib/local/bin/rg --check-only; version reports cf82b726 and cadical-3.0.0-7b99c07",
+        "selection": "python3 scripts/select_micromath_fast_cases.py --history RECORDED_NATIVE_RESULTS --historical-source-git 5efbd02293e15a53fbaad748ceda78bc7d27bbac --corpus CORPUS --all-known-unsat --out MANIFEST; run in SLURM, then chmod 444 manifest and archive SHA-256",
+        "sweep": "Set PILOT_PYTHON, PILOT_SCRIPT, PRIMO_BINARY, PRIMO_EXPECTED_GIT=cf82b726, MICROMATH_DIR/GIT, CADICAL_BINARY/GIT, REFERENCE_BINARY, QF_UF_CORPUS, PILOT_MANIFEST, PILOT_OUT; CORE_SHARD_COUNT=4 CORE_REFERENCE_TIMEOUT=20 CORE_EXPORT_TIMEOUT=30 CORE_PROFILE_BUDGET=60 CORE_KEEP_SUCCESS_ARTIFACTS=certificates; submit scripts/slurm_micromath_core_sweep.sbatch with --array=0-3%4 --time=04:00:00. Per-task manifest checksum checked before running.",
+        "resource_replay": "Extract a resource archive and run ./replay.sh MICROMATH_DIR; only the saved failed proof-generation stage runs with 3 GiB AS, 256 MiB file cap and 30s timeout. No replay was executed during packaging."
+      },
+      "artifacts": {
+        "local_launch_metadata": "results/micromath-core-sweep-20261103",
+        "remote": "$EXTERNAL_WORKSPACE/core-sweep-18dbabf1-20261103",
+        "retention": "Checked input.primo certificates, logs and metadata are retained remotely. Successful large CNF/challenge/LRAT/kernel-proof payloads are discarded after checking and hashing; failed profiles keep artifacts. Local initial mirror contains manifest, launch scripts, provenance and summary snapshots, not the full result tree. Final summaries, journals, proof/challenge stderr and successful kernel stdout are mirrored locally at results/micromath-core-sweep-final-347445; three small standalone replay archives and their certificates are tracked under benchmarks/checker-regressions/micromath-resource-20261103."
+      },
+      "resource_reproducers": {
+        "manifest": "benchmarks/checker-regressions/micromath-resource-20261103/manifest.json",
+        "cases": [
+          {
+            "index": 2019,
+            "source": "QG-classification/qg5/gensys_icl353.smt2",
+            "archive": "benchmarks/checker-regressions/micromath-resource-20261103/smallest-replay.tar.gz",
+            "archive_bytes": 732851,
+            "archive_sha256": "9fd8ee05058fcd7437ab5ce3ad1c021936cbf352f7170800b785eb23667e40a8",
+            "selection": "Smallest saved four-file replay payload among all 799 observed OOM cases."
+          },
+          {
+            "index": 2494,
+            "source": "QG-classification/qg5/gensys_brn253.smt2",
+            "archive": "benchmarks/checker-regressions/micromath-resource-20261103/smallest-input.tar.gz",
+            "archive_bytes": 913153,
+            "archive_sha256": "59261e8980faac9c18924b6215acc9ff8803f353c3a3182389b06f4de9cfe24e",
+            "selection": "Smallest input.primo certificate among all 799 observed OOM cases."
+          },
+          {
+            "index": 3884,
+            "source": "SEQ/SEQ009_size9.smt2",
+            "archive": "benchmarks/checker-regressions/micromath-resource-20261103/zero-lemmas.tar.gz",
+            "archive_bytes": 1535492,
+            "archive_sha256": "32e646c54fc63d90b41f5a50f31b8f0a57404a9d5590d7f6f151f7fff036e4c4",
+            "selection": "Smallest saved four-file replay payload among observed OOM cases with zero retained theory lemmas."
+          }
+        ]
+      },
+      "scope": "Results of the existing sweep, not new solver/checker runs or checker implementation analysis. All exported bytes/hash-matched original artifacts. Cases selected for small sizes, not delta-minimized. No source-to-CNF conversion proof or performance/default claim."
+    },
+    {
       "id": "2026-11-03-micromath-core-sweep-launch",
       "date": "2026-11-03",
       "kind": "uncapped-recorded-UNSAT-CORE-certificate-sweep",
-      "evidence_status": "launch and early progress only; no final corpus result",
-      "status": "running",
+      "evidence_status": "Historical launch snapshot; complete results and resource inputs recorded in 2026-11-03-micromath-core-sweep-completed.",
+      "status": "completed",
       "commit": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
       "workflow_git": "18dbabf18a61806961aac4a40f0761702f4c2bf4",
       "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
@@ -96,7 +202,7 @@
         "No selection timing, source-size, family or count caps; no prior-case exclusions. Runtime/resource limits still apply to checking.",
         "Fresh references, exports and kernel proof checks; no native producer or checker source changes. Previous exact producer qualification reused; no new C++ tests/fuzz/tidy run.",
         "UNSAT-only certificate campaign; no printed SAT models to validate. No source-to-CNF conversion proof and no performance/default-promotion claim.",
-        "Full sweep remains active; early outcomes must not be presented as final coverage."
+        "At the preserved launch snapshot the sweep was active; those early outcomes are not final coverage. Completed results are recorded in the newer entry."
       ]
     },
     {

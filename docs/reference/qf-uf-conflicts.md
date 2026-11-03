@@ -462,7 +462,7 @@ and both certificate hashes verified after collection. The
 records exact scripts, tool hashes, limits and an initial checksum-setup failure.
 This qualified the workflow before the corpus sweep below.
 
-### Running the recorded-UNSAT CORE sweep
+### Completed recorded-UNSAT CORE sweep
 
 Array `347445` launched the CORE sweep on 4,175 inputs across seven families,
 using workflow `18dbabf1`, qualified producer `cf82b726` and Micromath `ac052d9`.
@@ -475,10 +475,40 @@ pins every source hash and historical record. The four shards contain
 per shard. Export/reference/profile limits remain 30/20/60 seconds; successful
 runs retain certificates, logs and hashes while discarding large proof payloads.
 
-The {download}`launch report <../coverage/micromath-core-sweep.json>` records
-exact pins, limits, artifact locations and an early progress snapshot. The
-sweep is running; this is not a final corpus result. It checks the exported
-CNFs in the recorded-UNSAT subset and adds no source-to-CNF conversion proof.
+All four shards completed in 48–50 minutes. The
+{download}`completed report <../coverage/micromath-core-sweep.json>` preserves
+the launch snapshot and adds the complete outcomes:
+
+| Outcome | Cases |
+|---|---:|
+| Kernel proof | 3,216 |
+| Proof generation: out of memory | 799 |
+| Primo export timeout | 154 |
+| Challenge construction timeout | 4 |
+| Proof generation timeout | 2 |
+
+All 3,216 successful kernel logs were individually checked for the exact
+confirmation line and absence of the inconsistency marker. References returned
+UNSAT on 4,163 inputs and timed out on twelve, with no case errors or answer
+disagreements. Every proof-generation error had the same recorded
+`Proof export: out of memory` diagnostic under the 3 GiB address-space cap;
+each left an eight-byte partial proof. These outcomes do not validate the
+resource-failed certificates. The checked subset adds no source-to-CNF
+conversion proof.
+
+Three {download}`small resource-failure inputs
+<../../benchmarks/checker-regressions/micromath-resource-20261103/README.md>`
+are exported for the checker author: the smallest saved complete replay,
+the smallest standalone certificate, and a zero-theory-lemma example. Sizes
+refer to the original saved OOM cases, not delta-minimized counterexamples.
+Each standalone archive includes the original certificate, challenge, CNF,
+LRAT, error log, checksums and a replay script. No new checker experiments
+were performed while packaging. The replay needs only a built Micromath;
+it runs the original failed proof-generation stage with resource limits.
+
+- {download}`Smallest complete replay (716 KiB) <../../benchmarks/checker-regressions/micromath-resource-20261103/smallest-replay.tar.gz>`
+- {download}`Replay with smallest certificate (892 KiB) <../../benchmarks/checker-regressions/micromath-resource-20261103/smallest-input.tar.gz>`
+- {download}`Replay without theory lemmas (1.46 MiB) <../../benchmarks/checker-regressions/micromath-resource-20261103/zero-lemmas.tar.gz>`
 
 ### Replaying saved certificates without Primo
 

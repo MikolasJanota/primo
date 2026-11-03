@@ -2,8 +2,8 @@
   "schema_version": 1,
   "date": "2026-11-03",
   "kind": "uncapped-recorded-UNSAT-CORE-certificate-sweep",
-  "status": "running",
-  "evidence_status": "launch and early progress only; no final corpus result",
+  "status": "completed",
+  "evidence_status": "All 4,175 selected cases attempted; 3,216 kernel proofs, 799 proof-generation OOMs, 154 export timeouts, 4 challenge timeouts, 2 proof timeouts.",
   "workflow_git": "18dbabf18a61806961aac4a40f0761702f4c2bf4",
   "producer_git": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
   "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
@@ -294,12 +294,13 @@
   "commands": {
     "preflight": "python3 scripts/slurm_prepare_benchmark_workspace.py --local-dir PINNED_CF82_SOURCE --remote REMOTE --remote-dir PREPARED_NATIVE_WORKSPACE --build-via-slurm --reuse-dependencies --require-tool contrib/local/bin/z3 --require-tool contrib/local/bin/rg --check-only; version reports cf82b726 and cadical-3.0.0-7b99c07",
     "selection": "python3 scripts/select_micromath_fast_cases.py --history RECORDED_NATIVE_RESULTS --historical-source-git 5efbd02293e15a53fbaad748ceda78bc7d27bbac --corpus CORPUS --all-known-unsat --out MANIFEST; run in SLURM, then chmod 444 manifest and archive SHA-256",
-    "sweep": "Set PILOT_PYTHON, PILOT_SCRIPT, PRIMO_BINARY, PRIMO_EXPECTED_GIT=cf82b726, MICROMATH_DIR/GIT, CADICAL_BINARY/GIT, REFERENCE_BINARY, QF_UF_CORPUS, PILOT_MANIFEST, PILOT_OUT; CORE_SHARD_COUNT=4 CORE_REFERENCE_TIMEOUT=20 CORE_EXPORT_TIMEOUT=30 CORE_PROFILE_BUDGET=60 CORE_KEEP_SUCCESS_ARTIFACTS=certificates; submit scripts/slurm_micromath_core_sweep.sbatch with --array=0-3%4 --time=04:00:00. Per-task manifest checksum checked before running."
+    "sweep": "Set PILOT_PYTHON, PILOT_SCRIPT, PRIMO_BINARY, PRIMO_EXPECTED_GIT=cf82b726, MICROMATH_DIR/GIT, CADICAL_BINARY/GIT, REFERENCE_BINARY, QF_UF_CORPUS, PILOT_MANIFEST, PILOT_OUT; CORE_SHARD_COUNT=4 CORE_REFERENCE_TIMEOUT=20 CORE_EXPORT_TIMEOUT=30 CORE_PROFILE_BUDGET=60 CORE_KEEP_SUCCESS_ARTIFACTS=certificates; submit scripts/slurm_micromath_core_sweep.sbatch with --array=0-3%4 --time=04:00:00. Per-task manifest checksum checked before running.",
+    "resource_replay": "Extract a resource archive and run ./replay.sh MICROMATH_DIR; only the saved failed proof-generation stage runs with 3 GiB AS, 256 MiB file cap and 30s timeout. No replay was executed during packaging."
   },
   "artifacts": {
     "local_launch_metadata": "results/micromath-core-sweep-20261103",
     "remote": "$EXTERNAL_WORKSPACE/core-sweep-18dbabf1-20261103",
-    "retention": "Checked input.primo certificates, logs and metadata are retained remotely. Successful large CNF/challenge/LRAT/kernel-proof payloads are discarded after checking and hashing; failed profiles keep artifacts. Local initial mirror contains manifest, launch scripts, provenance and summary snapshots, not the full result tree."
+    "retention": "Checked input.primo certificates, logs and metadata are retained remotely. Successful large CNF/challenge/LRAT/kernel-proof payloads are discarded after checking and hashing; failed profiles keep artifacts. Local initial mirror contains manifest, launch scripts, provenance and summary snapshots, not the full result tree. Final summaries, journals, proof/challenge stderr and successful kernel stdout are mirrored locally at results/micromath-core-sweep-final-347445; three small standalone replay archives and their certificates are tracked under benchmarks/checker-regressions/micromath-resource-20261103."
   },
   "previous_qualification": {
     "native": "docs/coverage/cnf-export-streaming.json",
@@ -311,11 +312,11 @@
     "No selection timing, source-size, family or count caps; no prior-case exclusions. Runtime/resource limits still apply to checking.",
     "Fresh references, exports and kernel proof checks; no native producer or checker source changes. Previous exact producer qualification reused; no new C++ tests/fuzz/tidy run.",
     "UNSAT-only certificate campaign; no printed SAT models to validate. No source-to-CNF conversion proof and no performance/default-promotion claim.",
-    "Full sweep remains active; early outcomes must not be presented as final coverage."
+    "All four shards completed. Only 3,216 profiles have kernel proofs; all remaining outcomes are resource failures/timeouts, not validated certificates."
   ],
   "proof_error_diagnostics": {
     "collected_at_utc": "2026-11-03T18:44:09+00:00",
-    "classification": "sampled external proof-export resource failures under the3GiB worker address-space cap",
+    "classification": "sampled external proof-export resource failures under the 3 GiB worker address-space cap",
     "cases": [
       {
         "index": 25,
@@ -348,6 +349,293 @@
         "artifacts": "results/micromath-core-sweep-20261103/diagnostics/052"
       }
     ],
-    "scope": "Three sampled failures only, collected after the frozen30-case progress snapshot. Raw profile status remains proof_error; this is not a complete failure census or a checker-correctness verdict. The sweep continues with unchanged limits."
-  }
+    "scope": "Three sampled failures only, collected after the frozen 30-case progress snapshot. Raw profile status remains proof_error; this is not a complete failure census or a checker-correctness verdict. The sweep continues with unchanged limits."
+  },
+  "final_result": {
+    "collected_at_utc": "2026-11-03T20:07:42+00:00",
+    "cases_completed": 4175,
+    "case_errors": 0,
+    "profile_counts": {
+      "export_timeout": 154,
+      "challenge_timeout": 4,
+      "kernel_proven": 3216,
+      "proof_error": 799,
+      "proof_timeout": 2
+    },
+    "reference_counts": {
+      "ok:unsat": 4163,
+      "timeout:no-answer": 12
+    },
+    "families": {
+      "20170829-Rodin": {
+        "kernel_proven": 20
+      },
+      "Goel": {
+        "kernel_proven": 112,
+        "challenge_timeout": 1
+      },
+      "PEQ": {
+        "export_timeout": 7,
+        "proof_error": 8,
+        "kernel_proven": 29,
+        "proof_timeout": 1
+      },
+      "QG": {
+        "export_timeout": 146,
+        "challenge_timeout": 3,
+        "proof_error": 787,
+        "kernel_proven": 2919,
+        "proof_timeout": 1
+      },
+      "SEQ": {
+        "kernel_proven": 33,
+        "proof_error": 4,
+        "export_timeout": 1
+      },
+      "TypeSafe": {
+        "kernel_proven": 3
+      },
+      "eq_diamond": {
+        "kernel_proven": 100
+      }
+    },
+    "proof_error_messages": {
+      "Proof export: out of memory": 799
+    },
+    "partial_proof_bytes_for_all799_OOMs": 8,
+    "kernel_output_audit": {
+      "checked_files": 3216,
+      "required_line": "challenge proven",
+      "forbidden_line": "Inconsistency proven!",
+      "ordered_index_and_output_sha256_digest": "31c569f3cf4938350f1fa360d6c51fbda1546dce4d74052ed0fccc7608148a09"
+    },
+    "shards": [
+      {
+        "cases_completed": 1044,
+        "cases_selected": 1044,
+        "manifest_cases": 4175,
+        "shard_index": 0,
+        "shard_count": 4,
+        "modes": [
+          "core"
+        ],
+        "case_errors": 0,
+        "profile_counts": {
+          "export_timeout": 43,
+          "challenge_timeout": 1,
+          "kernel_proven": 800,
+          "proof_error": 199,
+          "proof_timeout": 1
+        },
+        "reference_counts": {
+          "ok:unsat": 1041,
+          "timeout:no-answer": 3
+        },
+        "profiles_expected": 1044,
+        "all_profiles_proven": false,
+        "families": {
+          "20170829-Rodin": {
+            "kernel_proven": 4
+          },
+          "Goel": {
+            "kernel_proven": 30
+          },
+          "PEQ": {
+            "export_timeout": 2,
+            "proof_error": 1,
+            "kernel_proven": 8,
+            "proof_timeout": 1
+          },
+          "QG": {
+            "export_timeout": 41,
+            "challenge_timeout": 1,
+            "proof_error": 196,
+            "kernel_proven": 723
+          },
+          "SEQ": {
+            "kernel_proven": 7,
+            "proof_error": 2
+          },
+          "TypeSafe": {
+            "kernel_proven": 1
+          },
+          "eq_diamond": {
+            "kernel_proven": 27
+          }
+        }
+      },
+      {
+        "cases_completed": 1044,
+        "cases_selected": 1044,
+        "manifest_cases": 4175,
+        "shard_index": 1,
+        "shard_count": 4,
+        "modes": [
+          "core"
+        ],
+        "case_errors": 0,
+        "profile_counts": {
+          "challenge_timeout": 1,
+          "export_timeout": 35,
+          "kernel_proven": 794,
+          "proof_error": 214
+        },
+        "reference_counts": {
+          "ok:unsat": 1041,
+          "timeout:no-answer": 3
+        },
+        "profiles_expected": 1044,
+        "all_profiles_proven": false,
+        "families": {
+          "20170829-Rodin": {
+            "kernel_proven": 5
+          },
+          "Goel": {
+            "kernel_proven": 28
+          },
+          "PEQ": {
+            "export_timeout": 1,
+            "proof_error": 4,
+            "kernel_proven": 5
+          },
+          "QG": {
+            "challenge_timeout": 1,
+            "export_timeout": 34,
+            "proof_error": 210,
+            "kernel_proven": 725
+          },
+          "SEQ": {
+            "kernel_proven": 6
+          },
+          "TypeSafe": {
+            "kernel_proven": 1
+          },
+          "eq_diamond": {
+            "kernel_proven": 24
+          }
+        }
+      },
+      {
+        "cases_completed": 1044,
+        "cases_selected": 1044,
+        "manifest_cases": 4175,
+        "shard_index": 2,
+        "shard_count": 4,
+        "modes": [
+          "core"
+        ],
+        "case_errors": 0,
+        "profile_counts": {
+          "kernel_proven": 801,
+          "export_timeout": 38,
+          "proof_error": 205
+        },
+        "reference_counts": {
+          "ok:unsat": 1041,
+          "timeout:no-answer": 3
+        },
+        "profiles_expected": 1044,
+        "all_profiles_proven": false,
+        "families": {
+          "20170829-Rodin": {
+            "kernel_proven": 6
+          },
+          "Goel": {
+            "kernel_proven": 24
+          },
+          "PEQ": {
+            "export_timeout": 4,
+            "kernel_proven": 5,
+            "proof_error": 1
+          },
+          "QG": {
+            "export_timeout": 34,
+            "kernel_proven": 731,
+            "proof_error": 203
+          },
+          "SEQ": {
+            "kernel_proven": 10,
+            "proof_error": 1
+          },
+          "TypeSafe": {
+            "kernel_proven": 1
+          },
+          "eq_diamond": {
+            "kernel_proven": 24
+          }
+        }
+      },
+      {
+        "cases_completed": 1043,
+        "cases_selected": 1043,
+        "manifest_cases": 4175,
+        "shard_index": 3,
+        "shard_count": 4,
+        "modes": [
+          "core"
+        ],
+        "case_errors": 0,
+        "profile_counts": {
+          "challenge_timeout": 2,
+          "export_timeout": 38,
+          "kernel_proven": 821,
+          "proof_error": 181,
+          "proof_timeout": 1
+        },
+        "reference_counts": {
+          "ok:unsat": 1040,
+          "timeout:no-answer": 3
+        },
+        "profiles_expected": 1043,
+        "all_profiles_proven": false,
+        "families": {
+          "20170829-Rodin": {
+            "kernel_proven": 5
+          },
+          "Goel": {
+            "challenge_timeout": 1,
+            "kernel_proven": 30
+          },
+          "PEQ": {
+            "kernel_proven": 11,
+            "proof_error": 2
+          },
+          "QG": {
+            "challenge_timeout": 1,
+            "export_timeout": 37,
+            "kernel_proven": 740,
+            "proof_error": 178,
+            "proof_timeout": 1
+          },
+          "SEQ": {
+            "export_timeout": 1,
+            "kernel_proven": 10,
+            "proof_error": 1
+          },
+          "eq_diamond": {
+            "kernel_proven": 25
+          }
+        }
+      }
+    ],
+    "scheduler": [
+      "347445_0|COMPLETED|0:0|00:48:54||node-05",
+      "347445_0.batch|COMPLETED|0:0|00:48:54|5759572K|node-05",
+      "347445_1|COMPLETED|0:0|00:50:10||node-05",
+      "347445_1.batch|COMPLETED|0:0|00:50:10|7365812K|node-05",
+      "347445_2|COMPLETED|0:0|00:48:27||node-05",
+      "347445_2.batch|COMPLETED|0:0|00:48:27|6719676K|node-05",
+      "347445_3|COMPLETED|0:0|00:48:19||node-05",
+      "347445_3.batch|COMPLETED|0:0|00:48:19|6244980K|node-05"
+    ],
+    "metadata_artifacts": "results/micromath-core-sweep-final-347445",
+    "journal_sha256": {
+      "shard-0": "36eb4957d3fbb6d3bccdd6a7289e3b225ae2eda429357a20752e7326571eea07",
+      "shard-1": "a0dd46f0b8e0933b7127aea42d0f5626b390c454ac83da144b956cca8e894a5e",
+      "shard-2": "070d916d878b46d045869fae6e8e33a38afc60d99f1d963b2db8993128f50f0c",
+      "shard-3": "5e61d10e5ac308392341365d50a8028f8cc389f19700dd0d2b869faaf467b6d9"
+    },
+    "no_checker_reruns": "All observations and exported packages use the saved original sweep artifacts. No new checker experiments were performed."
+  },
+  "resource_reproducers_manifest": "benchmarks/checker-regressions/micromath-resource-20261103/manifest.json"
 }

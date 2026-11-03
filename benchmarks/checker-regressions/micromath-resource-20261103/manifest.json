@@ -1,0 +1,130 @@
+{
+  "date": "2026-11-03",
+  "kind": "small-saved-Micromath-OOM-replays",
+  "sweep_array": "347445",
+  "observed_oom_cases": 799,
+  "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+  "address_space_bytes": 3221225472,
+  "expected_stderr": "Proof export: out of memory\n",
+  "selection_scope": "Smallest by stated byte metrics among the saved 799 OOM profiles, not semantic/delta minimization. No new checker experiments.",
+  "archive_validation": "Every tar member matches the copied source bytes; all original input hashes match sweep result metadata; each included SHA256SUMS validates after reading the archive. replay.sh checked with bash -n.",
+  "cases": [
+    {
+      "name": "smallest-replay",
+      "selection": "Smallest saved four-file replay payload among all 799 observed OOM cases.",
+      "source_benchmark": "QG-classification/qg5/gensys_icl353.smt2",
+      "sweep_case_index": 2019,
+      "certificate": "benchmarks/checker-regressions/micromath-resource-20261103/smallest-replay.primo",
+      "certificate_bytes": 260826,
+      "certificate_sha256": "51716f79d8de036a42c56edac5c6c6034b2714029dd7036fb785b04c6ac52b3f",
+      "replay_payload_bytes": 2745041,
+      "archive": "benchmarks/checker-regressions/micromath-resource-20261103/smallest-replay.tar.gz",
+      "archive_bytes": 732851,
+      "archive_sha256": "9fd8ee05058fcd7437ab5ce3ad1c021936cbf352f7170800b785eb23667e40a8",
+      "archive_root": "micromath-smallest-replay",
+      "cnf_clauses": 1473,
+      "collected_lemmas": 2346,
+      "retained_lemmas": 1641,
+      "files": {
+        "input.primo": {
+          "bytes": 260826,
+          "sha256": "51716f79d8de036a42c56edac5c6c6034b2714029dd7036fb785b04c6ac52b3f"
+        },
+        "challenge.umd": {
+          "bytes": 258768,
+          "sha256": "43afed6f046396be75229a8f761b38ae1ab11b5b9be528ce6a9e61ab44cb5527"
+        },
+        "problem.cnf": {
+          "bytes": 147991,
+          "sha256": "2009bb9b6cb42b658dfb7226f2054d10ed3ea2b36930f5b5144c0270491872a3"
+        },
+        "problem.lrat": {
+          "bytes": 2077456,
+          "sha256": "0c215a6bfae20f9e06d01f518c6a3b5e40059fd00f3664bea11f024f54f5f4e0"
+        },
+        "observed-error.txt": {
+          "bytes": 28,
+          "sha256": "98783b712450962c83d800a0db1344ae12fb465d9e12cd15b67eb0df392ff9a9"
+        }
+      }
+    },
+    {
+      "name": "smallest-input",
+      "selection": "Smallest input.primo certificate among all 799 observed OOM cases.",
+      "source_benchmark": "QG-classification/qg5/gensys_brn253.smt2",
+      "sweep_case_index": 2494,
+      "certificate": "benchmarks/checker-regressions/micromath-resource-20261103/smallest-input.primo",
+      "certificate_bytes": 197048,
+      "certificate_sha256": "717e489b64613c2708e72422aa66cc325514e44f2af3125625dba314acee0e77",
+      "replay_payload_bytes": 3286358,
+      "archive": "benchmarks/checker-regressions/micromath-resource-20261103/smallest-input.tar.gz",
+      "archive_bytes": 913153,
+      "archive_sha256": "59261e8980faac9c18924b6215acc9ff8803f353c3a3182389b06f4de9cfe24e",
+      "archive_root": "micromath-smallest-input",
+      "cnf_clauses": 1315,
+      "collected_lemmas": 1579,
+      "retained_lemmas": 1157,
+      "files": {
+        "input.primo": {
+          "bytes": 197048,
+          "sha256": "717e489b64613c2708e72422aa66cc325514e44f2af3125625dba314acee0e77"
+        },
+        "challenge.umd": {
+          "bytes": 226482,
+          "sha256": "5f445e4e61e883f5ed96ac9dd2031fc869d41cc36f5a212d99eedae0f6c74834"
+        },
+        "problem.cnf": {
+          "bytes": 116708,
+          "sha256": "23a0a1ceec71908b892f45438cabba7199240bed0d0459a999e9c1825aac29e8"
+        },
+        "problem.lrat": {
+          "bytes": 2746120,
+          "sha256": "49ad59d8683742d5cff5602ba32adfd20a13389f426fc086618389240653a0d1"
+        },
+        "observed-error.txt": {
+          "bytes": 28,
+          "sha256": "98783b712450962c83d800a0db1344ae12fb465d9e12cd15b67eb0df392ff9a9"
+        }
+      }
+    },
+    {
+      "name": "zero-lemmas",
+      "selection": "Smallest saved four-file replay payload among observed OOM cases with zero retained theory lemmas.",
+      "source_benchmark": "SEQ/SEQ009_size9.smt2",
+      "sweep_case_index": 3884,
+      "certificate": "benchmarks/checker-regressions/micromath-resource-20261103/zero-lemmas.primo",
+      "certificate_bytes": 287482,
+      "certificate_sha256": "82f2c054ccaa1d4e64e380a33124b7d64b8b7db872a0872cf8a56d3c1177e828",
+      "replay_payload_bytes": 8185537,
+      "archive": "benchmarks/checker-regressions/micromath-resource-20261103/zero-lemmas.tar.gz",
+      "archive_bytes": 1535492,
+      "archive_sha256": "32e646c54fc63d90b41f5a50f31b8f0a57404a9d5590d7f6f151f7fff036e4c4",
+      "archive_root": "micromath-zero-lemmas",
+      "cnf_clauses": 4347,
+      "collected_lemmas": 1128,
+      "retained_lemmas": 0,
+      "files": {
+        "input.primo": {
+          "bytes": 287482,
+          "sha256": "82f2c054ccaa1d4e64e380a33124b7d64b8b7db872a0872cf8a56d3c1177e828"
+        },
+        "challenge.umd": {
+          "bytes": 520460,
+          "sha256": "534c92220c146a511c327622a4b74d2b8f783a24584bf42735a8e02d212fdf31"
+        },
+        "problem.cnf": {
+          "bytes": 191683,
+          "sha256": "6a28b081c8f1709e9e160923c12ebd22453b0ffaaf8c19c916951085d77c5963"
+        },
+        "problem.lrat": {
+          "bytes": 7185912,
+          "sha256": "eef7c4714648d161348c8cab8731461489eeeaaceb0997b97835f7b0207aadb4"
+        },
+        "observed-error.txt": {
+          "bytes": 28,
+          "sha256": "98783b712450962c83d800a0db1344ae12fb465d9e12cd15b67eb0df392ff9a9"
+        }
+      }
+    }
+  ]
+}
