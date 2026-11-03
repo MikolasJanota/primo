@@ -27,6 +27,18 @@ namespace {
 // Replay without selectors in a new backend, independent of the subset oracle.
 SatResult replay(const Cnf& hard, const Cnf& candidates, const std::vector<std::size_t>& selected) {
   primo::sat::CadicalBackend backend;
+  // The backend requires all user variables to be declared before adding clauses.
+  int maximum = 0;
+  const auto scan = [&](const auto& clause) {
+    for (const auto literal : clause) {
+      maximum = std::max(maximum, literal.value < 0 ? -literal.value : literal.value);
+    }
+  };
+  for (const auto& clause : hard) scan(clause);
+  for (const auto index : selected) scan(candidates.at(index));
+  for (int variable = 0; variable < maximum; ++variable) {
+    static_cast<void>(backend.new_var());
+  }
   for (const auto& clause : hard) backend.add_clause(clause);
   for (const auto index : selected) backend.add_clause(candidates.at(index));
   return backend.solve();

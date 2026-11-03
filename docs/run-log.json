@@ -6,7 +6,7 @@
       "id": "2026-11-02-qf-uf-theory-lemma-reduction",
       "date": "2026-11-02",
       "kind": "optional-lemma-reduction-smoke-and-pending-qualification",
-      "evidence_status": "implemented and bounded MUS emission smoke passed; full qualification pending SLURM allocation",
+      "evidence_status": "implemented; first full gate stopped on an independent replay-test harness error; corrected harness awaits rerun",
       "commit": "2fbf238f5e523d19d66aa0612023f94cad472b68",
       "post_snapshot_hygiene": {
         "commit": "fd4d37f476234622439b860b5e93948098cc0b98",
@@ -25,12 +25,12 @@
           "memory_gib": 16,
           "wall_minutes": 45
         },
-        "last_observed_gate_status": "PENDING (Priority)",
-        "scheduler_start_estimate": "2026-11-03T20:48:00 as displayed by SLURM; estimate can change",
+        "last_observed_gate_status": "FAILED, exit 2:0",
         "focused_job": "337542",
         "focused_job_status": "CANCELLED by agent while pending: next-day estimate, duplicate of queued full gate; no tests executed",
         "planned_artifacts": "results/cnf-export-337415/ on prepared SLURM workspace",
-        "command": "PRIMO_EXPECTED_GIT=2fbf238f PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> PIP_NO_INDEX=1 PIP_FIND_LINKS=<offline-Ruff-wheel-directory> sbatch scripts/slurm_cnf_export_gate.sbatch (supply workspace, cmake executable and matching C++ header manifest)"
+        "command": "PRIMO_EXPECTED_GIT=2fbf238f PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> PIP_NO_INDEX=1 PIP_FIND_LINKS=<offline-Ruff-wheel-directory> sbatch scripts/slurm_cnf_export_gate.sbatch (supply workspace, cmake executable and matching C++ header manifest)",
+        "failure": "46 of 47 tests passed; primo_clause_subset_tests aborted because the independent replay helper added clauses without declaring user variables. The reducer itself already declares original and selector variables. Fuzz and ASan stages did not run."
       },
       "smoke": {
         "source_git": "2fbf238f5e523d19d66aa0612023f94cad472b68",

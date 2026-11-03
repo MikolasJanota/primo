@@ -2,7 +2,7 @@
   "schema_version": 1,
   "source_git": "2fbf238f5e523d19d66aa0612023f94cad472b68",
   "scope": "Optional propositional CORE/MUS reduction of whole exported QF_UF theory-conflict records relative to fixed initial CNF.",
-  "status": "implemented and bounded MUS emission smoke passed; full qualification pending SLURM allocation",
+  "status": "implemented; first full gate stopped on an independent replay-test harness error; corrected harness awaits rerun",
   "algorithm": "Original selector-based SAT oracle, initial failed-assumption core, CAV 2013 Marques-Silva/Janota/Belov Algorithms 3-4 progression. No model rotation or specialized Algorithms 5-6.",
   "modes": {
     "none": "default; retain every collected record",
@@ -19,12 +19,12 @@
       "memory_gib": 16,
       "wall_minutes": 45
     },
-    "last_observed_gate_status": "PENDING (Priority)",
-    "scheduler_start_estimate": "2026-11-03T20:48:00 as displayed by SLURM; estimate can change",
+    "last_observed_gate_status": "FAILED, exit 2:0",
     "focused_job": "337542",
     "focused_job_status": "CANCELLED by agent while pending: next-day estimate, duplicate of queued full gate; no tests executed",
     "planned_artifacts": "results/cnf-export-337415/ on prepared SLURM workspace",
-    "command": "PRIMO_EXPECTED_GIT=2fbf238f PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> PIP_NO_INDEX=1 PIP_FIND_LINKS=<offline-Ruff-wheel-directory> sbatch scripts/slurm_cnf_export_gate.sbatch (supply workspace, cmake executable and matching C++ header manifest)"
+    "command": "PRIMO_EXPECTED_GIT=2fbf238f PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> PIP_NO_INDEX=1 PIP_FIND_LINKS=<offline-Ruff-wheel-directory> sbatch scripts/slurm_cnf_export_gate.sbatch (supply workspace, cmake executable and matching C++ header manifest)",
+    "failure": "46 of 47 tests passed; primo_clause_subset_tests aborted because the independent replay helper added clauses without declaring user variables. The reducer itself already declares original and selector variables. Fuzz and ASan stages did not run."
   },
   "verification": {
     "syntax": "Strict C++20 warnings-as-errors syntax checks passed.",
@@ -34,7 +34,7 @@
     "borrow_review": "Reducer borrows immutable CNFs and terminator for its call; owns private SAT state and result indices. Generic predicate borrows original indices, constructs independent trials, does not mutate input. Collector borrows stable term manager and document, does not create terms during reduction; printed-record alignment is required only before one-shot selection.",
     "efficiency_review": "No blocking efficiency issue found. Default none avoids raw theory-clause retention and extra SAT instance. Optional modes copy guards/trial indices and retain raw clauses; no benchmark or performance claim. Progression test requires block and binary queries with <40 queries for 1024 indices.",
     "code_review": "Self-review found no blocking issue in the new feature. Whole-tree diagnostic inventories retain existing untriaged baseline findings; no repository-wide clean claim.",
-    "unrun": "make check, make asan-test and the 1000-case reduction gate remain pending. Successful build and bounded single-input smoke do not qualify the new tests or establish independent correctness."
+    "unrun": "Full test rerun after harness fix, make asan-test and 1000-case reduction gate remain required. This failure is in test setup, not evidence of a solver answer disagreement."
   },
   "documentation_review": {
     "reviewer": "review_lemma_reduction_docs, independent read-only",
