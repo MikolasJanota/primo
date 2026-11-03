@@ -143,9 +143,9 @@ Boolean arguments, positive-arity Boolean-valued functions or Boolean conflict f
 
 ## Checking with Micromath
 
-[Micromath's SMT tools](https://git.olsak.net/mirek/Micromath/src/commit/df5c5d3b6dcb3310dde35a2dd134927d34973fa4/smt/README.md)
-consume this container directly. The evaluated revision is
-`df5c5d3b6dcb3310dde35a2dd134927d34973fa4`. Upstream revision
+[Micromath's SMT tools](https://git.olsak.net/mirek/Micromath/src/commit/505588a6a0b184c992c3cbcd97721507365ec428/smt/README.md)
+consume this container directly. The initial six-example qualification used
+`df5c5d3b6dcb3310dde35a2dd134927d34973fa4`. The current pinned revision
 `505588a6a0b184c992c3cbcd97721507365ec428` adds SAT-checking optimizations;
 its upstream SMT tests and all nine frozen-artifact kernel replays passed in
 SLURM job `344901`. This checks the prior producer's artifacts, not this pending
@@ -154,7 +154,7 @@ of 34,480, and the proof shrank from 173,809 to 113,624 bytes. This is a counter
 comparison on three distinct problems, not a runtime speedup claim; the
 {download}`update report <../coverage/micromath-sat-update.json>` records scope
 and provenance. Its
-[input specification](https://git.olsak.net/mirek/Micromath/src/commit/df5c5d3b6dcb3310dde35a2dd134927d34973fa4/smt/Primo.md)
+[input specification](https://git.olsak.net/mirek/Micromath/src/commit/505588a6a0b184c992c3cbcd97721507365ec428/smt/Primo.md)
 supports exactly one uninterpreted object sort, functions from objects to
 objects, and propositional Boolean variables in CNF. Conflicts contain object
 equalities/disequalities or truth constants. Multiple object sorts,
@@ -166,7 +166,7 @@ Download the external checkout into the ignored dependency directory:
 
 ```bash
 git clone https://git.olsak.net/mirek/Micromath.git contrib/src/micromath
-git -C contrib/src/micromath checkout df5c5d3b6dcb3310dde35a2dd134927d34973fa4
+git -C contrib/src/micromath checkout 505588a6a0b184c992c3cbcd97721507365ec428
 ```
 
 Build Micromath with `make` in that checkout and provide a CaDiCaL executable
@@ -246,14 +246,21 @@ coverage or a performance comparison.
 
 ### Selecting the next stress inputs
 
-The current `scripts/micromath_stress.py` requires a hash-pinned manifest drawn
-from recorded native UNSAT results within one second. It no longer chooses cases
-by size alone. `scripts/select_micromath_fast_cases.py` selects 64 KiB–2 MiB source
+The current {preparedexportsource}`stress harness <scripts/micromath_stress.py>` requires a hash-pinned manifest drawn
+from recorded native UNSAT results within one second. The
+{download}`selected manifest <../../benchmarks/micromath-fast-unsat-20261103.json>`
+contains six inputs of 94–821 KB; their historical answers, timings and input
+hashes are retained. The harness no longer chooses cases
+by size alone. {preparedexportsource}`select_micromath_fast_cases.py <scripts/select_micromath_fast_cases.py>` selects 64 KiB–2 MiB source
 files, largest first with at most two per family, verifies historical input
 hashes, excludes the previous pilot, and conservatively screens declared
 Boolean function arguments and positive-arity Boolean results. This lexical
 screen is not a complete SMT-LIB parser or a proof of checker compatibility.
-`ite` is allowed through the normal lowering pipeline.
+`ite` is allowed through the normal lowering pipeline. The selector can join
+`shard-*/answers.csv` and `provenance.json` with `--history DIR
+--historical-source-git REV`, or consume prejoined `--records FILE`; it checks
+completed, unchanged-input records and confirms the supplied source revision
+matches the recorded binary version. Both forms run corpus selection in SLURM.
 
 A five-second `none` export is the admission check. If it fails to establish main
 UNSAT, CORE/MUS runs are skipped for that input. Reduced exports have a 30-second
@@ -398,39 +405,40 @@ representatives, or references to solver memory. There is no ordering or
 numbering dependency on Primo's allocation history. An independent consumer
 needs only this specification and SMT-LIB term semantics.
 
-The standalone `smtlib::ConflictDocument` and `print_conflict_document`
-(`src/smtlib/conflict_document.*`) remain available for independently authored
-text documents. The solver exporter instead owns a `smtlib::ConflictSpool`
-(`src/smtlib/conflict_spool.*`): three buffered anonymous temporary files for
+The standalone {preparedexportsource}`smtlib::ConflictDocument <src/smtlib/conflict_document.hpp>` and
+{preparedexportsource}`print_conflict_document <src/smtlib/conflict_document.cpp>` remain available for independently authored
+text documents. The solver exporter instead owns a {preparedexportsource}`smtlib::ConflictSpool <src/smtlib/conflict_spool.hpp>`
+with its {preparedexportsource}`implementation <src/smtlib/conflict_spool.cpp>`: three buffered anonymous temporary files for
 signature, CNF, and conflicts. It stores conflict byte offsets and lengths only
 when reduction needs selection. `TMPDIR` can select node-local scratch. Securely
 created temporary files are unlinked immediately and closed on every return.
 Temporary-storage failure aborts export; it does not fall back to text in RAM.
 
-`export_qf_uf_cnf` (`src/smt/qf_uf_export.cpp`) owns one `Frontend`, its term
+{preparedexportsource}`export_qf_uf_cnf <src/smt/qf_uf_export.cpp>` owns one `Frontend`, its term
 manager, the spool, and collector through solving and serialization. It validates
 the whole command sequence and QF_UF sorts, then calls
-`check_sat_frontend_export_once` in `src/smt/solver_session.cpp`. That entry point
+{preparedexportsource}`check_sat_frontend_export_once <src/smt/solver_session.cpp>`. That entry point
 borrows the frontend and runs the same production preparation and dispatch as
 ordinary queries. Signature printing waits until collection binds, so declarations
 include fresh symbols introduced by the existing preprocessing/lowering passes.
 
-`BooleanClausifier::ClauseObserver` (`src/smt/clausifier.hpp`) is an optional
+{preparedexportsource}`BooleanClausifier::ClauseObserver <src/smt/clausifier.hpp>` is an optional
 synchronous callback at the clausifier-to-SAT boundary. One insertion helper
 invokes it and forwards the same clause to the backend. The observer copies data
 it retains and must not mutate the clausifier, term manager, or backend, or reenter
 clausification. Both the Boolean and EUF solver leaves accept a collector; without
 one they retain ordinary clause insertion and early-return behavior.
 
-`QfUfConflictCollector` (`src/smt/qf_uf_export.hpp`) borrows the frontend's term
+{preparedexportsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` borrows the frontend's term
 manager and spool. It copies initial clauses as SAT literals while the clausifier
 builds its atom mapping. After Boolean argument registration, binding copies the
 SAT-variable-to-TermId mapping, assigns fresh Boolean auxiliary names, and streams
 initial clause text. Later clausifier emissions are rejected. The current ground
 EUF path does not introduce new atoms after binding.
 
-Lazy conflicts and model-propagation clauses are recorded at insertion. The
-online propagator records external conflict clauses and reason clauses when their
+Lazy conflicts and model-propagation clauses are recorded at
+{preparedexportsource}`insertion <src/smt/solver_engines.cpp>`. The
+{preparedexportsource}`online propagator <src/smt/solver_engines.cpp>` records external conflict clauses and reason clauses when their
 terminating zero is requested by SAT. Thus queued but unused propagation reasons
 are not exported. Duplicate delivered clauses may remain. No SAT-learned clause
 is exported. The SAT adapter sees only propositional literals and has no exporter
@@ -439,7 +447,7 @@ or core-term dependency.
 Primo's [EUF explanations](../implementation/euf.md#follow-one-conflict) already
 use learned-clause polarity. The collector complements those literals to produce
 the conflicting facts specified here. An unmapped theory literal is an error.
-Each term is streamed by `print_ground_term` in `src/smtlib/term_printer.cpp`,
+Each term is streamed by {preparedexportsource}`print_ground_term <src/smtlib/term_printer.cpp>`,
 using an iterative traversal without a cache of expanded subterm strings.
 No expanded atom, clause or conflict strings are retained by collection.
 

@@ -8,10 +8,12 @@ reduction starts. Fresh SLURM qualification of this change is pending; the
 tests described below are implementation coverage, not a completed run claim.
 
 The query owns its frontend through collection and serialization. An optional
-`QfUfConflictCollector` is passed through the normal session and solver leaves;
+{preparedexportsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` is passed through the {preparedexportsource}`normal session <src/smt/solver_session.cpp>` and
+{preparedexportsource}`solver leaves <src/smt/solver_leaves.cpp>`;
 with no collector the ordinary control flow is unchanged. Signature printing
 occurs when the clausifier binds, after preprocessing has created its symbols.
-Both Boolean and EUF leaves observe initial clauses. EUF collection additionally
+Both {preparedexportsource}`Boolean <src/smt/boolean_solver.cpp>` and
+{preparedexportsource}`EUF <src/smt/solver_engines.cpp>` leaves observe initial clauses. EUF collection additionally
 observes model-propagation clauses, lazy conflicts, and complete external
 conflict/reason clauses actually delivered to SAT. A reason is recorded when
 its terminating zero is requested, rather than merely when a candidate is queued.
@@ -28,10 +30,10 @@ silently overridden.
 SAT-variable-to-TermId mappings for printing. Formatted declaration, clause and
 conflict text is written immediately to private temporary section files. No
 expanded atom or lemma strings are retained. The existing string-returning term
-printer remains available to other callers; a ground streaming printer traverses
+printer remains available to other callers; a {preparedexportsource}`ground streaming printer <src/smtlib/term_printer.cpp>` traverses
 terms iteratively without caching expanded subterm strings.
 
-`smtlib::ConflictSpool` owns three buffered, anonymous temporary files and,
+{preparedexportsource}`smtlib::ConflictSpool <src/smtlib/conflict_spool.hpp>` owns three buffered, anonymous temporary files and,
 when selection is enabled, an offset/length pair per conflict. Files are created
 securely under `std::filesystem::temp_directory_path()` (so `TMPDIR` can select
 node scratch) and unlinked immediately. Destruction closes the files on every
@@ -41,7 +43,7 @@ printing callbacks synchronously and may not retain the stream or mutate its
 borrowed term manager. Callback/I/O failure poisons the spool and prevents sealing.
 
 Record indices align with raw theory clauses in collection order. Reduction
-calls `sat::select_unsat_subset` on raw CNFs only; it never reads the temporary
+calls {preparedexportsource}`sat::select_unsat_subset <src/sat/clause_subset.cpp>` on raw CNFs only; it never reads the temporary
 files or term text. An UNSAT reduction returns ascending indices. The writer
 checks selection bounds/order before output and copies only selected byte ranges
 through a fixed-size buffer. Empty selection and no selection are distinct:
@@ -69,7 +71,7 @@ nonadjacent/empty/all selections and records exceeding the copy buffer, reject
 invalid selections, and exercise temporary-file errors without touching a final
 artifact. A counting stream tests expanded shared ground terms without building
 an output string. The normal CLI/reference/fuzz/ASan and external Micromath
-checks still apply. Benchmark inputs must come from recorded fast UNSAT results
+checks still apply. The {preparedexportsource}`benchmark selector <scripts/select_micromath_fast_cases.py>` uses recorded fast UNSAT results
 with matching hashes; historical/default timings and current export timings must
 be labelled separately. Previously timed-out inputs are excluded from this
 framework stress selection.

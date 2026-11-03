@@ -43,9 +43,9 @@ sorts also require their own treatment.
 
 ## Implementation checklist and representation
 
-The owner is {exportexperimentsource}`append_signature <src/smt/qf_uf_export.cpp>`. It borrows the
+The owner is {preparedexportsource}`append_signature <src/smt/qf_uf_export.cpp>`. It borrows the
 frontend's immutable `core::SymbolTable` and writes declarations directly to
-`smtlib::ConflictSpool`, after normal preprocessing has introduced its symbols. The option is an independent Boolean in
+{preparedexportsource}`smtlib::ConflictSpool <src/smtlib/conflict_spool.hpp>`, after normal preprocessing has introduced its symbols. The option is an independent Boolean in
 {exportexperimentsource}`CheckSatOptions::experimental_export_erase_sorts <src/smt/check_sat.hpp>`; neither the term manager nor solver state is changed.
 
 1. Reserve all original symbol and sort names in a local owned set.

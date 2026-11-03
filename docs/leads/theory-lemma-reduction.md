@@ -71,10 +71,10 @@ element near the end, and requires both block skipping and binary search.
 
 ## Representation, lifetime and failure modes
 
-`QfUfConflictCollector` (`src/smt/qf_uf_export.hpp`) borrows its adapter's term
+{preparedexportsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` borrows its adapter's term
 manager and text spool. With reduction enabled, it owns numeric copies of the
 input and theory clauses until serialization. Its `theory_clauses_` indices
-correspond one-to-one to the conflict spool's byte-range records; clauses are
+correspond one-to-one to the {preparedexportsource}`conflict spool's byte-range records <src/smtlib/conflict_spool.cpp>`; clauses are
 neither interned nor deduplicated. Reduction returns indices without mutating
 or reading the text. Publication copies those ranges in original order.
 With `none`, binding releases raw input clauses after printing and collection
