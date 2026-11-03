@@ -3,6 +3,76 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-micromath-core-sweep-workflow",
+      "date": "2026-11-03",
+      "kind": "CORE-only-sharded-workflow-qualification",
+      "evidence_status": "CORE-only two-shard qualification passed; full sweep not launched",
+      "commit": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+      "workflow_baseline_git": "f199984f",
+      "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+      "report": "docs/coverage/micromath-core-sweep-workflow.json",
+      "jobs": {
+        "qualification": "345785",
+        "failed_setup_attempt": "345731"
+      },
+      "host": "node-05.ciircluster",
+      "summary": {
+        "cases": 2,
+        "profiles": 2,
+        "modes": [
+          "core"
+        ],
+        "shards": 2,
+        "kernel_proven": 2,
+        "reference_unsat": 2,
+        "timeouts_errors_disagreements": 0,
+        "none_exports": 0,
+        "mus_exports": 0
+      },
+      "limits": {
+        "array": "0-1%2",
+        "allocation_per_task": {
+          "cpus": 4,
+          "memory_gib": 16,
+          "wall_minutes": 5
+        },
+        "workers_per_shard": 4,
+        "worker_address_space_gib": 3,
+        "worker_file_limit_mib": 256,
+        "reference_seconds": 20,
+        "export_seconds": 30,
+        "shared_profile_seconds": 60,
+        "phase_limits_seconds": {
+          "baseline_export": 5,
+          "reduced_export": 30.0,
+          "conflicts": 10,
+          "challenge": 10,
+          "cnf": 15,
+          "proof": 30,
+          "kernel": 10
+        },
+        "termination_grace_seconds": 2,
+        "scope": "Profile budget bounds subprocess pipeline, excluding subsequent streaming hashes and checkpoint writes. Parent setup/version/axiom preparation use allocation memory/wall limits, not worker address/file caps."
+      },
+      "commands": {
+        "selection": "python3 scripts/select_micromath_fast_cases.py --records RECORDS --corpus CORPUS --all-known-unsat --out MANIFEST",
+        "run": "python3 scripts/micromath_stress.py --corpus CORPUS --primo PRIMO --expected-git cf82b726 --micromath CHECKER --cadical CADICAL --reference Z3 --manifest MANIFEST --out OUTPUT/shard-I --modes core --shard-count 2 --shard-index I --workers 4 --reference-timeout 20 --mode-budget 60 --export-timeout 30 --compact-summary --keep-success-artifacts certificates",
+        "wrapper": "scripts/slurm_micromath_core_sweep.sbatch invoked from array345785 with CORE_SHARD_COUNT=2 and dependency/manifest variables configured. Native canonical --check-only preflight passed immediately before submission.",
+        "tests": "python3 -m unittest discover -s tests/python -p test_micromath_workflow.py -v"
+      },
+      "artifacts": {
+        "local": "results/micromath-core-adjust-345785",
+        "remote": "$EXTERNAL_WORKSPACE/core-adjust-345785",
+        "retention": "Both checked input.primo certificates, logs and metadata retained locally and remotely. Successful large proof intermediates deliberately removed after hashes and kernel checks; hashes and removal lists are recorded."
+      },
+      "scope": [
+        "Workflow adjustment only; native C++ producer and external checker unchanged. No new native correctness/fuzz gate or C++ tidy run applies to these Python/shell changes.",
+        "Two previously checked inputs from benchmarks/micromath-expanded-20261103.json cases0 and1; this qualifies the new execution/retention path, not additional corpus coverage.",
+        "The full uncapped corpus selection and full sweep have not been launched. Unit tests exercise uncapping above1s and beyond pilot family/count/minimum-size caps.",
+        "No source-to-CNF conversion proof is added."
+      ]
+    },
+    {
       "id": "2026-11-03-micromath-expanded-20",
       "date": "2026-11-03",
       "kind": "real-QF_UF-certificate-sample-extension",

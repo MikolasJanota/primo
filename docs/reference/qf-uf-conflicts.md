@@ -263,7 +263,8 @@ coverage or a performance comparison.
 ### Stress inputs selected from known-fast results
 
 The current {download}`stress harness <../../scripts/micromath_stress.py>` requires a hash-pinned manifest drawn
-from recorded native UNSAT results within one second. The
+from recorded native UNSAT results. The pilot selects results within one second;
+the uncapped sweep described below accepts all recorded completed UNSAT results. The
 {download}`selected manifest <../../benchmarks/micromath-fast-unsat-20261103.json>`
 contains six inputs of 94–821 KB; their historical answers, timings and input
 hashes are retained. The harness no longer chooses cases
@@ -381,6 +382,85 @@ Per-input retained lemma counts and exact checked artifact hashes are in the
 report. Full proof files remain in the SLURM workspace; local result mirrors
 contain metadata, logs and all 59 checked `input.primo` certificates, whose
 hashes were verified after transfer.
+
+### Preparing a CORE-only corpus sweep
+
+The {download}`selector <../../scripts/select_micromath_fast_cases.py>` accepts
+`--all-known-unsat` to remove the pilot's historical one-second, source-size,
+per-family and total-count caps. This flag overrides those cap options. It still
+requires successful recorded native UNSAT results, checks historical source
+hashes, deduplicates content, and conservatively excludes declared functions
+with Boolean arguments or positive-arity Boolean results. It does not select
+known timeouts or SAT inputs. Exclusion manifests are optional and repeatable;
+omit them to include previously checked inputs in a complete sweep.
+
+Run selection inside SLURM, using the recorded native run directory and revision:
+
+```bash
+python3 scripts/select_micromath_fast_cases.py --history "$history" --historical-source-git "$native_revision" --corpus "$corpus" --all-known-unsat --out "$manifest"
+```
+
+The {download}`check driver <../../scripts/micromath_stress.py>` accepts
+`--modes core` to export and check CORE certificates directly, without a NONE
+admission solve or a MUS run. Its default remains `none core mus` for existing
+pilots. Experimental sort erasure is enabled for these exports. Source inputs
+outside Micromath's remaining fragment can still be reported as unsupported;
+the lexical declaration screen does not establish full compatibility.
+
+`--shard-count N --shard-index I` assigns manifest positions congruent to `I`
+modulo `N`, preserving original case numbers. Every shard must use the same
+immutable ordered manifest, with exactly one task for each index `0..N-1`.
+Each shard uses a fresh output directory. The
+{download}`CORE sweep wrapper <../../scripts/slurm_micromath_core_sweep.sbatch>`
+defaults to array `0-3%4`, four CPUs and 16 GiB per task, and a two-hour allocation.
+Set the same dependency/corpus/manifest variables as the pilot wrapper;
+`PILOT_OUT` now names the fresh sweep root, with `shard-I` children. If overriding
+`--array`, set `CORE_SHARD_COUNT` to the matching total and use contiguous
+zero-based indices. Create `logs/` and run the canonical preparation
+`--build-via-slurm`/`--check-only` preflight before submission.
+
+The wrapper runs only CORE, with four workers per shard. It accepts
+`CORE_REFERENCE_TIMEOUT` (default 20 seconds), `CORE_EXPORT_TIMEOUT` (30 seconds),
+and `CORE_PROFILE_BUDGET` (60 seconds shared across export and proof stages).
+Downstream stage limits remain 10/10/15/30/10 seconds for conflict checking,
+challenge construction, CNF generation, proof construction and kernel replay,
+with two seconds of termination grace. Each worker and child has 3 GiB address
+space and a 256 MiB per-file cap. Timeouts remain distinct from checker errors;
+export statistics retain main-UNSAT evidence even when reduction times out.
+Reference statuses are recorded separately and never replace kernel checking.
+
+The parent owns counters and the per-case journal. After each completed case,
+it atomically publishes `cases/NNN/result.json`, appends and flushes/fsyncs the
+full row to `rows.jsonl`, then atomically publishes `summary.json`. Profile
+checkpoints also use atomic replacement. `--compact-summary` (enabled by the
+wrapper) omits full rows from the summary and avoids retaining completed rows
+in RAM; their detail remains in case files and the journal. A killed write may
+leave a final partial journal line; the individual JSON checkpoints remain
+readable. This is durable progress reporting, not automatic resume: reruns
+require a fresh output directory. Summaries report assigned and completed case
+counts, requested profiles, family outcomes, references and shard identity.
+Check every shard's completion counts before aggregating; scheduler success
+alone does not mean every certificate was proven.
+
+The wrapper defaults to `--keep-success-artifacts certificates`: after exact
+kernel confirmation and hashing, it removes successful CNF, challenge, LRAT and
+kernel-proof intermediates while retaining `input.primo`, logs and metadata.
+Hashes/sizes and `removed_success_artifacts` identify discarded payloads.
+Unsuccessful profiles keep their generated artifacts for diagnosis. Set
+`CORE_KEEP_SUCCESS_ARTIFACTS=all` to retain successful proof payloads too; the
+driver itself defaults to `all`, preserving pilot behavior. These per-file caps
+do not bound total campaign disk use, so size the sweep storage accordingly.
+No native producer or checker algorithm changes are involved.
+
+Array `345785` qualified this route on two previously checked inputs, one per
+shard: both CORE certificates reached kernel confirmation, with no NONE/MUS
+exports. Four focused workflow tests passed in each task, covering uncapped
+selection, Boolean-signature exclusion, disjoint sharding, timeout statistics
+and release of completed result rows. Successful intermediates were removed
+and both certificate hashes verified after collection. The
+{download}`workflow qualification report <../coverage/micromath-core-sweep-workflow.json>`
+records exact scripts, tool hashes, limits and an initial checksum-setup failure.
+This qualifies the workflow; the full corpus sweep has not been launched.
 
 ### Replaying saved certificates without Primo
 

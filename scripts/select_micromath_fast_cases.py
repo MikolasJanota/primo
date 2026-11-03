@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Select large checker-compatible inputs from recorded fast native UNSAT rows."""
+"""Select checker-compatible inputs from recorded native UNSAT rows."""
 
 from __future__ import annotations
 
@@ -7,6 +7,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 import os
 import re
 from collections import Counter
@@ -18,7 +19,9 @@ DECLARATION = re.compile(
 TOKEN = re.compile(r"\|[^|]*\||[^\s()]+")
 
 
-def read_history(directory: Path, source_git: str) -> list[dict]:
+def read_history(
+    directory: Path, source_git: str, max_seconds: float | None = 1
+) -> list[dict]:
     """Join completed benchmark answers to their recorded per-input hashes."""
     records = []
     seen = set()
@@ -39,7 +42,12 @@ def read_history(directory: Path, source_git: str) -> list[dict]:
                     "unsat",
                     "false",
                     "0",
-                ) or not 0 <= float(row["seconds"]) <= 1:
+                ):
+                    continue
+                seconds = float(row["seconds"])
+                if not math.isfinite(seconds) or seconds < 0:
+                    raise ValueError("invalid historical solve time")
+                if max_seconds is not None and seconds > max_seconds:
                     continue
                 if row["file"] in seen:
                     raise ValueError("duplicate historical input row")
@@ -58,7 +66,7 @@ def read_history(directory: Path, source_git: str) -> list[dict]:
                     }
                 )
     if not records:
-        raise ValueError("no completed historical fast-UNSAT rows")
+        raise ValueError("no completed historical UNSAT rows")
     return records
 
 
@@ -69,23 +77,39 @@ def main() -> None:
     history.add_argument("--history", type=Path)
     parser.add_argument("--historical-source-git")
     parser.add_argument("--corpus", type=Path, required=True)
-    parser.add_argument("--exclude-manifest", type=Path, action="append", required=True)
+    parser.add_argument("--exclude-manifest", type=Path, action="append", default=[])
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--count", type=int, default=6)
     parser.add_argument("--max-per-family", type=int, default=2)
     parser.add_argument("--min-bytes", type=int, default=65536)
     parser.add_argument("--max-bytes", type=int, default=2097152)
+    parser.add_argument(
+        "--all-known-unsat",
+        action="store_true",
+        help="remove historical timing, size, family and count caps",
+    )
     args = parser.parse_args()
-    if args.count < 1 or args.max_per_family < 1:
+    if args.all_known_unsat:
+        args.count = args.max_per_family = args.max_bytes = None
+        args.min_bytes = 0
+    if (args.count is not None and args.count < 1) or (
+        args.max_per_family is not None and args.max_per_family < 1
+    ):
         parser.error("case and family limits must be positive")
-    if not 0 <= args.min_bytes <= args.max_bytes:
+    if args.min_bytes < 0 or (
+        args.max_bytes is not None and args.min_bytes > args.max_bytes
+    ):
         parser.error("invalid source-size interval")
     if not os.environ.get("SLURM_JOB_ID"):
         parser.error("corpus selection belongs in SLURM")
     if args.history and not args.historical_source_git:
         parser.error("--history requires --historical-source-git")
     records = (
-        read_history(args.history, args.historical_source_git)
+        read_history(
+            args.history,
+            args.historical_source_git,
+            None if args.all_known_unsat else 1,
+        )
         if args.history
         else json.loads(args.records.read_text())
     )
@@ -102,10 +126,11 @@ def main() -> None:
         relative = Path(row["file"])
         if relative.is_absolute() or ".." in relative.parts:
             raise ValueError("unsafe historical benchmark path")
-        if row["expected"] != "unsat" or not 0 <= row["historical_seconds"] <= 1:
-            raise ValueError(
-                "records must contain confirmed native UNSAT rows within one second"
-            )
+        seconds = row["historical_seconds"]
+        if row["expected"] != "unsat" or not math.isfinite(seconds) or seconds < 0:
+            raise ValueError("records must contain confirmed native UNSAT timings")
+        if not args.all_known_unsat and seconds > 1:
+            continue
         path = args.corpus / relative
         if (
             row["file"] not in excluded
@@ -113,14 +138,19 @@ def main() -> None:
             and path.is_file()
         ):
             size = path.stat().st_size
-            if args.min_bytes <= size <= args.max_bytes:
+            if size >= args.min_bytes and (
+                args.max_bytes is None or size <= args.max_bytes
+            ):
                 candidates.append({**row, "bytes": size})
     candidates.sort(key=lambda row: (-row["bytes"], row["file"]))
     selected = []
     families: Counter[str] = Counter()
     rejected: Counter[str] = Counter()
     for row in candidates:
-        if families[row["family"]] >= args.max_per_family:
+        if (
+            args.max_per_family is not None
+            and families[row["family"]] >= args.max_per_family
+        ):
             continue
         if row["sha256"] in selected_hashes:
             rejected["duplicate_input_hash"] += 1
@@ -149,10 +179,17 @@ def main() -> None:
             break
     result = {
         "selection": (
-            f"recorded native UNSAT<=1s;{args.min_bytes}..{args.max_bytes} source bytes;"
+            (
+                "recorded native UNSAT, no timing/size/family/count caps;"
+                if args.all_known_unsat
+                else "recorded native UNSAT<=1s;"
+            )
+            + f"{args.min_bytes}..{args.max_bytes} source bytes;"
             f"largest first,max{args.max_per_family}perfamily;historical input hashes match;"
             "exclude prior paths/hashes, duplicate hashes and Boolean function signatures"
         ),
+        "all_known_unsat": args.all_known_unsat,
+        "historical_seconds_max": None if args.all_known_unsat else 1,
         "requested_cases": args.count,
         "selected_cases": len(selected),
         "max_per_family": args.max_per_family,

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Bounded real-QF_UF certificate pilot; run only inside a SLURM allocation."""
+"""Bounded real-QF_UF certificate checks; run only inside a SLURM allocation."""
 
 from __future__ import annotations
 
 import argparse
 import hashlib
 import json
+import math
 import os
 import platform
 import resource
@@ -83,18 +84,30 @@ def answer(record: dict) -> str:
     return answers[-1] if answers else ""
 
 
+def write_json(path: Path, value: dict) -> None:
+    """Publish a complete checkpoint without exposing a partially written JSON file."""
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    with temporary.open("w") as stream:
+        json.dump(value, stream, indent=2)
+        stream.write("\n")
+        stream.flush()
+        os.fsync(stream.fileno())
+    temporary.replace(path)
+
+
 def select(args: argparse.Namespace) -> dict:
     selection = json.loads(args.manifest.read_text())
-    for case in selection["cases"]:
+    for index, case in enumerate(selection["cases"]):
         if case.get("expected") != "unsat":
-            raise ValueError("this pilot accepts UNSAT benchmark manifests only")
-        if not 0 <= case.get("historical_seconds", float("inf")) <= 1:
-            raise ValueError(
-                "select recorded native UNSAT within one second before exporting"
-            )
+            raise ValueError("certificate checks accept UNSAT benchmark manifests only")
+        seconds = case.get("historical_seconds", float("inf"))
+        if not math.isfinite(seconds) or seconds < 0:
+            raise ValueError("select recorded native UNSAT before exporting")
         path = Path(case["file"])
         if path.is_absolute() or ".." in path.parts:
             raise ValueError("unsafe benchmark manifest path")
+        if index % args.shard_count != args.shard_index:
+            continue
         if digest(args.corpus / path) != case["sha256"]:
             raise ValueError(f"benchmark hash mismatch: {path}")
     return selection
@@ -107,7 +120,7 @@ def run_case(args: argparse.Namespace, index: int, case: dict) -> dict:
     directory = args.out / "cases" / f"{index:03d}"
     directory.mkdir(parents=True)
     source = args.corpus / case["file"]
-    result = {"case": case, "profiles": []}
+    result = {"index": index, "case": case, "profiles": []}
     if digest(source) != case["sha256"]:
         return {**result, "error": "benchmark hash changed"}
     reference = invoke(
@@ -121,7 +134,7 @@ def run_case(args: argparse.Namespace, index: int, case: dict) -> dict:
     if result["reference_answer"] == "sat":
         return {**result, "error": "reference disagrees with UNSAT metadata"}
     baseline_export_failed = False
-    for mode in MODES:
+    for mode in args.modes:
         if baseline_export_failed:
             result["profiles"].append(
                 {"mode": mode, "stages": {}, "status": "skipped_baseline_export_failed"}
@@ -205,6 +218,12 @@ def run_case(args: argparse.Namespace, index: int, case: dict) -> dict:
             )
             profile["stages"][stage] = record
             error = contents(record["stderr"])
+            if stage == "export":
+                profile["statistics"] = dict(
+                    line.split(maxsplit=1)
+                    for line in error.splitlines()
+                    if line.startswith(":export.") and len(line.split()) == 2
+                )
             if record["state"] != "ok":
                 if record["state"] == "timeout":
                     profile["status"] = f"{stage}_timeout"
@@ -232,11 +251,6 @@ def run_case(args: argparse.Namespace, index: int, case: dict) -> dict:
             if stage == "export":
                 actual = answer(record)
                 profile["answer"] = actual
-                profile["statistics"] = dict(
-                    line.split(maxsplit=1)
-                    for line in error.splitlines()
-                    if line.startswith(":export.") and len(line.split()) == 2
-                )
                 if actual != "unsat":
                     profile["status"] = (
                         "answer_disagreement" if actual == "sat" else "export_unknown"
@@ -255,7 +269,16 @@ def run_case(args: argparse.Namespace, index: int, case: dict) -> dict:
             for p in trial.iterdir()
             if p.suffix in {".primo", ".lrat", ".ump", ".umd", ".cnf"}
         }
-        (trial / "result.json").write_text(json.dumps(profile, indent=2) + "\n")
+        profile["removed_success_artifacts"] = []
+        if (
+            profile["status"] == "kernel_proven"
+            and args.keep_success_artifacts == "certificates"
+        ):
+            for name in profile["files"]:
+                if name != "input.primo":
+                    (trial / name).unlink()
+                    profile["removed_success_artifacts"].append(name)
+        write_json(trial / "result.json", profile)
     return result
 
 
@@ -271,7 +294,37 @@ def main() -> None:
     parser.add_argument("--mode-budget", type=float, default=60)
     parser.add_argument("--admission-timeout", type=float, default=5)
     parser.add_argument("--export-timeout", type=float, default=30)
+    parser.add_argument("--modes", nargs="+", choices=MODES, default=list(MODES))
+    parser.add_argument(
+        "--keep-success-artifacts",
+        choices=("all", "certificates"),
+        default="all",
+        help="discard large intermediates only after kernel success",
+    )
+    parser.add_argument("--shard-count", type=int, default=1)
+    parser.add_argument("--shard-index", type=int, default=0)
+    parser.add_argument(
+        "--compact-summary",
+        action="store_true",
+        help="keep full rows in case files/rows.jsonl, not summary.json",
+    )
     args = parser.parse_args()
+    if args.shard_count < 1 or not 0 <= args.shard_index < args.shard_count:
+        parser.error("require shard-count>=1 and 0<=shard-index<shard-count")
+    if len(set(args.modes)) != len(args.modes):
+        parser.error("repeated modes are not allowed")
+    if "none" in args.modes and args.modes[0] != "none":
+        parser.error("none admission mode must be first when requested")
+    if any(
+        not math.isfinite(x) or x <= 0
+        for x in (
+            args.reference_timeout,
+            args.mode_budget,
+            args.admission_timeout,
+            args.export_timeout,
+        )
+    ):
+        parser.error("timeouts must be finite and positive")
     if not os.environ.get("SLURM_JOB_ID"):
         parser.error("solver batches require a SLURM allocation")
     for name in ("corpus", "micromath", "out"):
@@ -294,6 +347,11 @@ def main() -> None:
         "host": platform.node(),
         "python": platform.python_version(),
         "workers": args.workers,
+        "modes": args.modes,
+        "shard_count": args.shard_count,
+        "shard_index": args.shard_index,
+        "compact_summary": args.compact_summary,
+        "keep_success_artifacts": args.keep_success_artifacts,
         "reference_timeout_seconds": args.reference_timeout,
         "mode_budget_seconds": args.mode_budget,
         "phase_limits_seconds": {
@@ -338,55 +396,89 @@ def main() -> None:
     )
     if axioms["state"] != "ok":
         raise RuntimeError("axiom preparation failed")
+    assigned = [
+        (index, case)
+        for index, case in enumerate(selection["cases"])
+        if index % args.shard_count == args.shard_index
+    ]
     rows = []
-    with ProcessPoolExecutor(max_workers=args.workers) as pool:
+    counts: Counter[str] = Counter()
+    references: Counter[str] = Counter()
+    families: dict[str, Counter[str]] = {
+        case["family"]: Counter() for _, case in assigned
+    }
+    completed = case_errors = 0
+
+    def checkpoint() -> None:
+        expected = len(assigned) * len(args.modes)
+        summary = {
+            "cases_completed": completed,
+            "cases_selected": len(assigned),
+            "manifest_cases": len(selection["cases"]),
+            "shard_index": args.shard_index,
+            "shard_count": args.shard_count,
+            "modes": args.modes,
+            "case_errors": case_errors,
+            "profile_counts": dict(counts),
+            "reference_counts": dict(references),
+            "profiles_expected": expected,
+            "all_profiles_proven": completed == len(assigned)
+            and counts["kernel_proven"] == expected
+            and case_errors == 0,
+            "families": {name: dict(value) for name, value in sorted(families.items())},
+        }
+        if not args.compact_summary:
+            summary["rows"] = rows
+        write_json(args.out / "summary.json", summary)
+        print(
+            json.dumps(
+                {k: v for k, v in summary.items() if k not in {"rows", "families"}}
+            ),
+            flush=True,
+        )
+
+    checkpoint()
+    with (
+        (args.out / "rows.jsonl").open("a") as journal,
+        ProcessPoolExecutor(max_workers=args.workers) as pool,
+    ):
         futures = {
-            pool.submit(run_case, args, index, case): case
-            for index, case in enumerate(selection["cases"])
+            pool.submit(run_case, args, index, case): (index, case)
+            for index, case in assigned
         }
         for future in as_completed(futures):
+            index, case = futures.pop(future)
             try:
-                rows.append(future.result())
+                row = future.result()
             except (OSError, RuntimeError, ValueError, MemoryError) as error:
-                rows.append(
-                    {"case": futures[future], "error": repr(error), "profiles": []}
+                row = {
+                    "index": index,
+                    "case": case,
+                    "error": repr(error),
+                    "profiles": [],
+                }
+            directory = args.out / "cases" / f"{index:03d}"
+            directory.mkdir(parents=True, exist_ok=True)
+            write_json(directory / "result.json", row)
+            journal.write(json.dumps(row) + "\n")
+            journal.flush()
+            os.fsync(journal.fileno())
+            completed += 1
+            case_errors += "error" in row
+            statuses = [p["status"] for p in row["profiles"]]
+            counts.update(statuses)
+            families[case["family"]].update(statuses)
+            if "reference" in row:
+                references.update(
+                    [
+                        row["reference"]["state"]
+                        + ":"
+                        + (row["reference_answer"] or "no-answer")
+                    ]
                 )
-            counts = Counter(p["status"] for row in rows for p in row["profiles"])
-            summary = {
-                "cases_completed": len(rows),
-                "cases_selected": len(selection["cases"]),
-                "case_errors": sum("error" in row for row in rows),
-                "profile_counts": dict(counts),
-                "profiles_expected": len(selection["cases"]) * len(MODES),
-                "all_profiles_proven": counts["kernel_proven"]
-                == len(selection["cases"]) * len(MODES)
-                and not any("error" in row for row in rows),
-                "families": {
-                    family: dict(
-                        Counter(
-                            p["status"]
-                            for row in rows
-                            if row["case"]["family"] == family
-                            for p in row["profiles"]
-                        )
-                    )
-                    for family in sorted(
-                        {case["family"] for case in selection["cases"]}
-                    )
-                },
-                "rows": rows,
-            }
-            (args.out / "summary.json").write_text(json.dumps(summary, indent=2) + "\n")
-            print(
-                json.dumps(
-                    {
-                        key: value
-                        for key, value in summary.items()
-                        if key not in {"rows", "families"}
-                    }
-                ),
-                flush=True,
-            )
+            if not args.compact_summary:
+                rows.append(row)
+            checkpoint()
 
 
 if __name__ == "__main__":

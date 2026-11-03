@@ -1,0 +1,307 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-03",
+  "kind": "CORE-only-sharded-workflow-qualification",
+  "workflow_baseline_git": "f199984f",
+  "native_producer_git": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+  "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+  "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+  "job_id": "345785",
+  "host": "node-05.ciircluster",
+  "workflow_sha256": {
+    "scripts/micromath_stress.py": "20ba98ff2ad69887eb9395b2957a89b9ec98a44dc6813d0ffd181db9bd64872f",
+    "scripts/select_micromath_fast_cases.py": "6a59b48a7e57e52eecce2540e9465b9766a05b45ee110e5fc83e33dd7f901179",
+    "scripts/slurm_micromath_core_sweep.sbatch": "c0c136b0cf9ba88de9167b26e6f317326fb40337ea8866c64ba43a7a311d8706",
+    "tests/python/test_micromath_workflow.py": "ab90effa89d5224273a003d79d3cf14d94841d35b35c2ebd7a9059686eba2e7e"
+  },
+  "tool_sha256": {
+    "primo": "92893c0735dea9a615927d0bc8341b1b3d064d5ac909263a429d9fd3bed000c2",
+    "reference": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+    "check-solution": "b39dc3bf07263c92c4e4ff2fdfe43bcd20f3b1ce061ecf9f5fc794f29abfab8c",
+    "build-axioms": "b11d9b3a572b9c2d110d61cdb1104b8ffd1c001e227884dc3efda64a8cba46e1",
+    "check-conflicts": "6bd792cce5ef523120eb29d1d986d18b9b7107c6498d4037e08de131c635892f",
+    "build-challenge": "15612e0398df7c5cc3dd046de5f7d23124fc0d956908740211791510064db16c",
+    "prove-cnf": "b8fb907df7591526b6200e77df8addf123be2678e7c01fcd37d1ee27f152215c",
+    "prove-lrat": "df150f389dc77067d7018bf171ffbb5579a69b8845dab06ba1dbfcc687a2279d"
+  },
+  "summary": {
+    "cases": 2,
+    "profiles": 2,
+    "modes": [
+      "core"
+    ],
+    "shards": 2,
+    "kernel_proven": 2,
+    "reference_unsat": 2,
+    "timeouts_errors_disagreements": 0,
+    "none_exports": 0,
+    "mus_exports": 0
+  },
+  "shard_summaries": [
+    {
+      "cases_completed": 1,
+      "cases_selected": 1,
+      "manifest_cases": 2,
+      "shard_index": 0,
+      "shard_count": 2,
+      "modes": [
+        "core"
+      ],
+      "case_errors": 0,
+      "profile_counts": {
+        "kernel_proven": 1
+      },
+      "reference_counts": {
+        "ok:unsat": 1
+      },
+      "profiles_expected": 1,
+      "all_profiles_proven": true,
+      "families": {
+        "Goel": {
+          "kernel_proven": 1
+        }
+      }
+    },
+    {
+      "cases_completed": 1,
+      "cases_selected": 1,
+      "manifest_cases": 2,
+      "shard_index": 1,
+      "shard_count": 2,
+      "modes": [
+        "core"
+      ],
+      "case_errors": 0,
+      "profile_counts": {
+        "kernel_proven": 1
+      },
+      "reference_counts": {
+        "ok:unsat": 1
+      },
+      "profiles_expected": 1,
+      "all_profiles_proven": true,
+      "families": {
+        "Goel": {
+          "kernel_proven": 1
+        }
+      }
+    }
+  ],
+  "unit_tests": {
+    "distinct_tests": 4,
+    "execution": "All four mocked workflow unit tests pass in each SLURM array task and locally. No solver/checker subprocesses are launched by these tests.",
+    "coverage": [
+      "uncapped selection accepts slower native timings, more than six tiny same-family cases, excludes Boolean function signatures",
+      "history excludes unsuccessful/non-UNSAT rows while uncapped mode accepts >1s solves",
+      "CORE-only runs no baseline, retains main-UNSAT statistics on export timeout",
+      "compact shards cover each index exactly once, journal and case checkpoints agree, previous completed result rows are reclaimed"
+    ],
+    "regression_control": "The compact-memory test rejects the prior futures[future] implementation; futures.pop(future) passes."
+  },
+  "limits": {
+    "array": "0-1%2",
+    "allocation_per_task": {
+      "cpus": 4,
+      "memory_gib": 16,
+      "wall_minutes": 5
+    },
+    "workers_per_shard": 4,
+    "worker_address_space_gib": 3,
+    "worker_file_limit_mib": 256,
+    "reference_seconds": 20,
+    "export_seconds": 30,
+    "shared_profile_seconds": 60,
+    "phase_limits_seconds": {
+      "baseline_export": 5,
+      "reduced_export": 30.0,
+      "conflicts": 10,
+      "challenge": 10,
+      "cnf": 15,
+      "proof": 30,
+      "kernel": 10
+    },
+    "termination_grace_seconds": 2,
+    "scope": "Profile budget bounds subprocess pipeline, excluding subsequent streaming hashes and checkpoint writes. Parent setup/version/axiom preparation use allocation memory/wall limits, not worker address/file caps."
+  },
+  "scheduler": {
+    "345785_0": {
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:00:06"
+    },
+    "345785_1": {
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:00:09"
+    }
+  },
+  "initial_attempt": {
+    "job_id": "345731",
+    "array_task_states": [
+      "FAILED1:0",
+      "FAILED1:0"
+    ],
+    "reason": "Generated qualification checksum glob matched __pycache__ directory after unit tests; stopped before any native solve/check pipeline. Corrected glob to *.py and *.sbatch before submitting345785.",
+    "artifacts": "results/micromath-core-adjust-attempt-345731"
+  },
+  "commands": {
+    "selection": "python3 scripts/select_micromath_fast_cases.py --records RECORDS --corpus CORPUS --all-known-unsat --out MANIFEST",
+    "run": "python3 scripts/micromath_stress.py --corpus CORPUS --primo PRIMO --expected-git cf82b726 --micromath CHECKER --cadical CADICAL --reference Z3 --manifest MANIFEST --out OUTPUT/shard-I --modes core --shard-count 2 --shard-index I --workers 4 --reference-timeout 20 --mode-budget 60 --export-timeout 30 --compact-summary --keep-success-artifacts certificates",
+    "wrapper": "scripts/slurm_micromath_core_sweep.sbatch invoked from array345785 with CORE_SHARD_COUNT=2 and dependency/manifest variables configured. Native canonical --check-only preflight passed immediately before submission.",
+    "tests": "python3 -m unittest discover -s tests/python -p test_micromath_workflow.py -v"
+  },
+  "artifacts": {
+    "local": "results/micromath-core-adjust-345785",
+    "remote": "$EXTERNAL_WORKSPACE/core-adjust-345785",
+    "retention": "Both checked input.primo certificates, logs and metadata retained locally and remotely. Successful large proof intermediates deliberately removed after hashes and kernel checks; hashes and removal lists are recorded."
+  },
+  "scope": [
+    "Workflow adjustment only; native C++ producer and external checker unchanged. No new native correctness/fuzz gate or C++ tidy run applies to these Python/shell changes.",
+    "Two previously checked inputs from benchmarks/micromath-expanded-20261103.json cases0 and1; this qualifies the new execution/retention path, not additional corpus coverage.",
+    "The full uncapped corpus selection and full sweep have not been launched. Unit tests exercise uncapping above1s and beyond pilot family/count/minimum-size caps.",
+    "No source-to-CNF conversion proof is added."
+  ],
+  "rows": [
+    {
+      "index": 0,
+      "file": "2018-Goel-hwbench/QF_UF_peg_solitaire.6.prop1_ab_br_max.smt2",
+      "source_sha256": "14144ac1043d6d8734d85ea25a4a4bf225ee4789e279dd76858399e30379e516",
+      "family": "Goel",
+      "historical_seconds": 0.508287,
+      "shard_index": 0,
+      "reference_answer": "unsat",
+      "mode": "core",
+      "status": "kernel_proven",
+      "statistics": {
+        ":export.sort-erasure.enabled": "1",
+        ":export.sort-erasure.input-sorts": "3",
+        ":export.solve-and-collect.us": "499226",
+        ":export.main-unsat": "1",
+        ":export.format-input.us": "19214",
+        ":export.format-conflicts.us": "20838",
+        ":export.spool.signature-bytes": "454283",
+        ":export.spool.cnf-bytes": "506522",
+        ":export.spool.conflict-bytes": "913727",
+        ":export.theory.conflicts-collected": "1093",
+        ":export.reduction.us": "17555",
+        ":export.reduction.sat-calls": "1",
+        ":export.reduction.core-removed": "919",
+        ":export.reduction.block-queries": "0",
+        ":export.reduction.binary-queries": "0",
+        ":export.reduction.max-block-size": "0",
+        ":export.reduction.completed": "1",
+        ":export.theory.conflicts-removed": "919",
+        ":export.cnf.clauses": "10567",
+        ":export.theory.conflicts": "174",
+        ":export.final-write.us": "10951"
+      },
+      "files": {
+        "input.primo": {
+          "bytes": 1032674,
+          "sha256": "4269ad8fdff0cfe47809f3a50f1b8c4cf0f860f5e8cf86a7780bec303e4cdcec"
+        },
+        "solution.ump": {
+          "bytes": 6682431,
+          "sha256": "874115db539014e5f6f709f6cd4ce8d6e4e5231325e2e1fa8db329bee6a5bb35"
+        },
+        "challenge.umd": {
+          "bytes": 2971691,
+          "sha256": "0910217cec110fbf743f66b5888647a016d1b5bf8177f3c72ab43b4a65d63e72"
+        },
+        "problem.lrat": {
+          "bytes": 399830,
+          "sha256": "5f14fd63bf8fd1a1f725782a01435ac3512d8a59473fb474e1f73491702fe28f"
+        },
+        "problem.cnf": {
+          "bytes": 583579,
+          "sha256": "a7a0a3aea7aee2e2b99795d57667d56d0af57d9b78b79a280c774578a15660f7"
+        }
+      },
+      "removed_success_artifacts": [
+        "solution.ump",
+        "challenge.umd",
+        "problem.lrat",
+        "problem.cnf"
+      ],
+      "stage_seconds": {
+        "export": 0.6705883160029771,
+        "conflicts": 0.06742349599517183,
+        "challenge": 0.9193816970000626,
+        "cnf": 0.11827722199814161,
+        "proof": 2.271127993000846,
+        "kernel": 0.569648224998673
+      }
+    },
+    {
+      "index": 1,
+      "file": "2018-Goel-hwbench/QF_UF_peg_solitaire.4.prop1_ab_fp_max.smt2",
+      "source_sha256": "c808e7413583270645bb7dcccac16962cf954157d09bcce1284ea1ff30bfc7ca",
+      "family": "Goel",
+      "historical_seconds": 0.56781,
+      "shard_index": 1,
+      "reference_answer": "unsat",
+      "mode": "core",
+      "status": "kernel_proven",
+      "statistics": {
+        ":export.sort-erasure.enabled": "1",
+        ":export.sort-erasure.input-sorts": "3",
+        ":export.solve-and-collect.us": "740350",
+        ":export.main-unsat": "1",
+        ":export.format-input.us": "19644",
+        ":export.format-conflicts.us": "25480",
+        ":export.spool.signature-bytes": "425919",
+        ":export.spool.cnf-bytes": "518998",
+        ":export.spool.conflict-bytes": "921328",
+        ":export.theory.conflicts-collected": "1264",
+        ":export.reduction.us": "73101",
+        ":export.reduction.sat-calls": "1",
+        ":export.reduction.core-removed": "808",
+        ":export.reduction.block-queries": "0",
+        ":export.reduction.binary-queries": "0",
+        ":export.reduction.max-block-size": "0",
+        ":export.reduction.completed": "1",
+        ":export.theory.conflicts-removed": "808",
+        ":export.cnf.clauses": "10775",
+        ":export.theory.conflicts": "456",
+        ":export.final-write.us": "9424"
+      },
+      "files": {
+        "input.primo": {
+          "bytes": 1185532,
+          "sha256": "c666595ed637079532c6bae62a44a105d9581b78fa9e762e7ce56a6a3229ec77"
+        },
+        "solution.ump": {
+          "bytes": 28937809,
+          "sha256": "dcbd2657d7d5ddeaefa381cc5fb6386ed7baf8d841d1b054ef196475de1e0f80"
+        },
+        "challenge.umd": {
+          "bytes": 2930059,
+          "sha256": "5c69206d26f93877e41a7b56e678fc909567cdfa0ff525665b477f26a144e74d"
+        },
+        "problem.lrat": {
+          "bytes": 634716,
+          "sha256": "987164064f285db5751732cf2f714399b63e4705d74450bf1fa4bc70a1b17ff9"
+        },
+        "problem.cnf": {
+          "bytes": 601838,
+          "sha256": "3caf3d1a77b7107a66d63042eee5dd21c13743ba92bfc8f95a0e94c5503a7a97"
+        }
+      },
+      "removed_success_artifacts": [
+        "solution.ump",
+        "challenge.umd",
+        "problem.lrat",
+        "problem.cnf"
+      ],
+      "stage_seconds": {
+        "export": 0.9208633210000698,
+        "conflicts": 0.06763405200035777,
+        "challenge": 0.9196935989966732,
+        "cnf": 0.1682668189969263,
+        "proof": 3.924413603002904,
+        "kernel": 0.7692106280010194
+      }
+    }
+  ]
+}
