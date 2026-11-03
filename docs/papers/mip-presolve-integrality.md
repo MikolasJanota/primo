@@ -259,6 +259,16 @@ search sensitivity, and it still counts against promoting M2.
   a net of +74 rather than the +136 of the first run. The 57 lost `nec-smt`
   files all sat near the cutoff.
 
+**Paired rerun at 120 s (2026-11-03).** Jobs 345182 and 345183 ran `5efbd02`,
+the options-off configuration and all four options in the same array task on
+the same node, at 120 s per file. Cut at 60 s, QF_LIA gives 9,696 off and
+9,749 with the options: +336 −283, a net of +53. By family the net is CAV 2009
++58, `dillig` +38 and `rings` +31, against `slacks` and `prime-cone` −17
+each, `cut_lemmas` −14 and Bromberger −13; `nec-smt` is +3. At 120 s the net
+is also +53. QF_UFLIA again loses 31 files at 60 s (29 at 120 s). Details are
+on the {ref}`QF_LIA <qf-lia-paired-120s>` and {ref}`QF_UFLIA
+<qf-uflia-paired-120s>` progress pages.
+
 The seed-mutation campaign ran one task per fuzzer and seed with all four
 options (jobs 339380 and 339381, {source}`slurm_seed_mutation_per_seed.sbatch
 <scripts/slurm_seed_mutation_per_seed.sbatch>`). Opfuzz ran 200 and typefuzz
@@ -271,10 +281,12 @@ files:
   before the 90-minute wall. Opfuzz covered both seeds.
 
 **Decision.** No option is promoted to the default. M2 and M4 together are
-the promising part on QF_LIA, though their stable net gain there is smaller
-than the first run suggested. They lose 31 QF_UFLIA files reproducibly, which
-puts Primo's QF_UFLIA count back to roughly its September level, 544
-against 543 (see [QF_UFLIA progress](../evidence/qf-uflia-progress.md)).
+the promising part on QF_LIA, though the gain there is smaller than the
+first run suggested: all four options together gain a net 53 files in the
+paired rerun, against 136 in the first run. They lose 31 QF_UFLIA files
+reproducibly, which puts Primo's QF_UFLIA count back to roughly its
+September level, 544 against 543 (see [QF_UFLIA
+progress](../evidence/qf-uflia-progress.md)).
 The two uncovered typefuzz pairs are accepted as a tool stall rather than a
 solver gap, because no solver call was made; they would need a rerun with
 a larger wall before any promotion. Recovering the `wisas`

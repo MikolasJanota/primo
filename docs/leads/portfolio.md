@@ -35,6 +35,14 @@ QF_LIA rerun of 2026-11-03 (job 339382) reproduced the options-off arm within
 five files. The all-options arm, though, lost 60 files that had solved in
 53–60 s, 57 of them `nec-smt`. Its gains near the cutoff are fragile.
 
+The same estimate from the paired 120 s rerun of 2026-11-03 (jobs 345183 and
+345182), where both configurations ran on the same node, gives on QF_LIA:
+off 9,696, all 9,749, off 5 s then all 9,909, off 10 s then all 9,848,
+all 5 s then off 9,950, and a virtual best of 10,032. On QF_UFLIA the same
+schedules give 575, 544, 574, 572, 573 and 575. On QF_LIA, the schedule that
+starts with the options is the best of the three in this data, unlike in the
+first estimate; on QF_UFLIA it is one file behind off-first.
+
 ## Literature
 
 Wintersteiger, Hamadi and de Moura, [*A concurrent portfolio approach to SMT

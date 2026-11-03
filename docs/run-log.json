@@ -3,6 +3,50 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-paired-120s-rerun",
+      "date": "2026-11-03",
+      "kind": "slurm-paired-timing-comparison",
+      "scope": "Paired rerun of three Primo configurations on the full QF_LIA (13,306) and QF_UFLIA (659) corpora at 120 s per file, to test whether the 43-file QF_LIA gap between the October (5efbd02) and November (2e120fa) unpaired runs, and the integrality options' QF_LIA gain, survive when all configurations run on the same node.",
+      "commits": {
+        "oct": "5efbd02",
+        "off": "2e120fa (branch lia-integrality), default options",
+        "all": "2e120fa with --lia-round-integer-bounds --lia-primitive-int-rows --lia-integer-slacks --lia-patch-integral-moves"
+      },
+      "environment": {
+        "host": "CIIRC SLURM cluster, partition compute, Xeon E5-2690 v4 nodes; node-01 and node-06..09 down; remote workdir /home/janotmik/primo-lia-integrality",
+        "binaries": {
+          "5efbd02": "/home/janotmik/primo-evaluation-20261005/build-slurm-rel/primo, banner git 5efbd02, sha256 d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "2e120fa": "/home/janotmik/primo-lia-integrality/build-slurm-rel/primo, banner git 2e120fa, sha256 c501bffa5807f7c6947128c0e78be95c6c8d8b9d975e0a4de269065fd3c28fea"
+        },
+        "script": "scripts/slurm_paired_solver_compare.sbatch (committed in 0ae69f8, sha256 6d2fc6597f34161357d20566cdb8afe9ff159dd46fdb674ce5907015ea967871); scripts/bench_qf_uf_full.py sha256 440325679f12e5da5d891fbf6d0cd5c2147db3a0231cab87019483035a81b4ce",
+        "limits": "120 s wall per file through bench_qf_uf_full.py, --quiet --stats, 2 CPUs and 3 GB per task; every configuration of a sub-shard in the same task, order rotated per sub-shard (4 sub-shards per task)"
+      },
+      "commands": {
+        "solvers": "B=\"$W/build-slurm-rel/primo --quiet --stats\"; O=\"/home/janotmik/primo-evaluation-20261005/build-slurm-rel/primo --quiet --stats\"; PRIMO_COMPARE_SOLVERS=\"oct=$O;off=$B;all=$B --lia-round-integer-bounds --lia-primitive-int-rows --lia-integer-slacks --lia-patch-integral-moves\" PRIMO_WORKDIR=$W (W=/home/janotmik/primo-lia-integrality, file paired-env.sh there)",
+        "qf_uflia": "sbatch --array=0-39%12 --cpus-per-task=2 --time=04:00:00 --export=ALL,PRIMO_COMPARE_ROOT=tmp/QF_UFLIA,PRIMO_COMPARE_TIMEOUT=120,PRIMO_PAIRED_SHARDS=40,PRIMO_PAIRED_CHUNKS=4,PRIMO_COMPARE_OUT_ROOT=$W/results/paired-120s-20261103/QF_UFLIA scripts/slurm_paired_solver_compare.sbatch",
+        "qf_lia": "sbatch --array=0-399%56 --cpus-per-task=2 --time=05:00:00 --export=ALL,PRIMO_COMPARE_ROOT=tmp/QF_LIA,PRIMO_COMPARE_TIMEOUT=120,PRIMO_PAIRED_SHARDS=400,PRIMO_PAIRED_CHUNKS=4,PRIMO_COMPARE_OUT_ROOT=$W/results/paired-120s-20261103/QF_LIA scripts/slurm_paired_solver_compare.sbatch",
+        "analysis": "solved = status ok, answer sat/unsat, seconds <= T, for T = 60 and 120; PAR2 = 2T per unsolved file; 60 s columns re-threshold the 120 s runs; per-file comparisons with the unpaired 60 s runs of 2026-10-05 (5efbd02), job 335585 and job 339382 (2e120fa)"
+      },
+      "jobs": {
+        "smoke": "345177 (1 task, COMPLETED)",
+        "qf_uflia": "345182 (40 tasks, all COMPLETED, 2026-11-03 11:53-12:45; 30 on node-03, 9 node-04, 1 node-02)",
+        "qf_lia": "345183 (400 tasks, all COMPLETED, 2026-11-03 11:53-17:48; 202 node-04, 132 node-05, 56 node-02, 10 node-03)"
+      },
+      "artifacts": "/home/janotmik/primo-lia-integrality/results/paired-120s-20261103/{QF_LIA,QF_UFLIA}/{oct,off,all}/shard-*.csv (1,600 and 160 per arm, all files present once) and nodes/task-*.txt (host, CPU, each binary's --version)",
+      "results": {
+        "correctness": "0 answers against the declared statuses wrong in any arm; 0 files with different sat/unsat answers between arms, on both corpora",
+        "qf_lia_60s": "oct 9,698 (PAR2 471,377), off 9,696 (471,738), all 9,749 (464,971). oct->off +10 -12 (nec-smt 9/12, cut_lemmas 1). off->all +336 -283 = +53: CAV_2009 +58, dillig +38, rings +31, nec-smt +3; slacks -17, prime-cone -17, cut_lemmas -14, Bromberger -13, rings_preprocessed -7.",
+        "qf_lia_120s": "oct 10,588 (PAR2 768,626), off 10,581 (769,926), all 10,634 (757,186). oct->off +15 -22; off->all +341 -288 = +53. 60->120 s adds 885-890 files per arm, 827-831 nec-smt (off nec-smt 1,271 -> 2,098 of 2,780).",
+        "qf_lia_time_ratio": "off/oct median 1.007 (q1 0.987, q3 1.030) on 3,140 files both solve in >= 0.5 s; per node 1.006-1.011. all/off median 1.003 on 3,018 files.",
+        "qf_lia_october_gap": "Of the 46 files lost oct->off in the unpaired 60 s runs: oct solves 26 and off 24 at 60 s, both all 46 at 120 s; off/oct median 1.003.",
+        "qf_lia_vs_unpaired": "At 60 s, paired off vs job 335585 off +37 -3 and vs 339382 off +36 -2; 36 of the 37 gains nec-smt, paired times 53-60 s, 32 of them lost in both unpaired runs, 13 of 36 above 60/1.026 s. nec-smt paired/unpaired time median 0.974 (335585) and 0.975 (339382) for off; 1.061 (335585) and 1.007 (339382) for all; 1.000 for oct vs its October run (scripts/qualification/evaluation_refresh/timing.sbatch, 1 CPU, --hint=nomultithread, --quiet only). Paired all vs 335585 all +6 -55 (50 nec-smt), vs 339382 all +17 -13.",
+        "qf_uflia": "60 s: oct 575 (PAR2 11,343), off 575 (11,347), all 544 (14,938); off->all -31 (30 wisas, 1 Certora). 120 s: 577, 577, 548 (PAR2 21,118, 21,122, 28,150); off->all -29. oct and off solve identical sets; off/oct time median 1.002 (194 files), all/off 1.045 (145 files). Paired off and all at 60 s match jobs 335586 and 339383 exactly.",
+        "portfolio_estimate_60s": "QF_LIA off5/all55 9,909, off10/all50 9,848, all5/off55 9,950, virtual best 10,032; QF_UFLIA 574, 572, 573, 575"
+      },
+      "conclusion": "The 43-file QF_LIA gap between 5efbd02 and 2e120fa is not a code regression: paired on the same node they solve 9,698 and 9,696 at 60 s, and 2e120fa is a consistent median 0.7% slower (1.006-1.011 per node). The gap came from unidentified run conditions: the off arm of both unpaired November jobs was about 2.5% slower on nec-smt than paired (more on many near-cutoff files), while the all arm of job 335585 was about 6% faster (1.061; 1.007 in 339382), which is consistent with that run's +83 nec-smt option gain. The October run (1 CPU, --hint=nomultithread, --quiet only) matches paired speed (1.000); since both arms of a November job had the same allocation, allocation alone does not explain the opposite deviations. The integrality options' paired QF_LIA net is +53 at both limits, nec-smt +3; their QF_UFLIA loss is unchanged. No option is promoted.",
+      "evidence_status": "current for 5efbd02 and 2e120fa on these corpora; no reference solvers were rerun, so no 120 s reference comparison exists"
+    },
+    {
       "id": "2026-11-03-calm-host-timing-pilot",
       "date": "2026-11-03",
       "kind": "timing-repeatability-pilot",

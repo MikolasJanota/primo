@@ -2,7 +2,10 @@
 
 **Status: contextual comparison, 2026-11-03.** All series cover the same
 13,306 QF_LIA files at 60 s per file, but they come from runs on different
-dates and nodes, so this is not a paired experiment.
+dates and nodes, so this is not a paired experiment. A {ref}`paired rerun
+<qf-lia-paired-120s>` of the Primo configurations, further down, corrects two
+conclusions drawn from it: the size of the gap to October, and the `nec-smt`
+part of the integrality options' gain.
 
 ![QF_LIA at 60 seconds: Primo's August baseline, the current default and the integrality options, against z3, cvc5 and OpenSMT](../_static/qf-lia-cactus.svg)
 
@@ -48,22 +51,18 @@ entry `2026-08-21-qf-lia-conflict-generalization` records the August run as
   339382) the default solves 9,662 again (+5 −5), but the options solve
   9,745. Of the 60 files the options arm lost relative to its first run, 57
   are `nec-smt`. Counting only files that behave the same in both runs, the
-  options gain 348 and lose 274, an estimated stable net of +74. On QF_UFLIA
-  the same options lose 31 files ([QF_UFLIA progress](qf-uflia-progress.md)),
-  so they are not the default.
-- **The default trails the October run by 43 files.** Against `5efbd02` it
-  gains 3 and loses 46. Of those losses, 41 also stay unsolved in the rerun,
-  38 of them `nec-smt`. Outside `nec-smt` no family moves by more than two
-  files. The 46 lost files had all solved in 52.5 to 59.9 s in October; 46
-  of the 222 files October solved in 45 to 60 s are lost. The current default
-  is also slightly slower in this comparison: on the 2,228 files both runs solve
-  whose October time is at least 0.5 s, it takes a median 2.3% longer
-  (quartiles 0.996 and 1.061 times October's time). A slowdown of at most
-  6.1% would push 31 of the 46 past 60 s; the other 15 need more, so they
-  slowed by more than the upper-quartile ratio. The data does not separate a
-  code slowdown from a node or date difference. A paired pilot on another
-  host found no code slowdown large enough to explain the gap (see below); a
-  paired run on the cluster nodes would confirm it.
+  options gain 348 and lose 274, an estimated stable net of +74. The paired
+  rerun measures +53, with `nec-smt` contributing +3. On QF_UFLIA the same
+  options lose 31 files ([QF_UFLIA progress](qf-uflia-progress.md)), so they
+  are not the default.
+- **The 43-file gap to October is not a code regression.** In these runs
+  the default gains 3 files against `5efbd02` and loses 46, all of which had
+  solved in 52.5 to 59.9 s in the October run; 38 of the 41 that also stay
+  unsolved in the rerun are `nec-smt`. When both binaries run on the same
+  node, the gap shrinks to 2 files: 9,698 against 9,696 solved at 60 s. It
+  came from run conditions, which were not identified. Both unpaired
+  November runs of the default were slower on `nec-smt` than the paired run,
+  by a median of about 2.5% and by more on many of the files near the cutoff.
 - **Remaining gap.** Against z3 the default is furthest behind on `nec-smt`
   (994 files), Bromberger (398), `rings` (255), CAV 2009 (239),
   `rings_preprocessed` (185), `convert` (139) and `slacks` (116).
@@ -117,7 +116,83 @@ node and a subset of 292 files, and 837 of its 1,752 runs were discarded
 for load. Its runner script is kept with the results on the host and is not
 committed. It finds no code slowdown that would explain the 43-file October
 gap, which is consistent with a node or date cause. It does not test the
-cluster nodes.
+cluster nodes; the paired rerun below does.
+
+(qf-lia-paired-120s)=
+## Paired rerun on the cluster at 120 s (2026-11-03)
+
+The run-log entry `2026-11-03-paired-120s-rerun` records a rerun of three
+configurations on all 13,306 files at 120 s per file: `5efbd02`, the
+`2e120fa` default, and `2e120fa` with all four integrality options, each with
+`--quiet --stats`. {source}`slurm_paired_solver_compare.sbatch
+<scripts/slurm_paired_solver_compare.sbatch>` ran all three in the same array
+task, on the same node, in an order rotated per sub-shard (job 345183, 400
+tasks on nodes 02 to 05). Each task requested two CPUs, so that a run would
+not share a physical core with another job. The earlier runs differ:
+
+- The October run of `5efbd02` used the evaluation-refresh timing job, one
+  CPU per task with `--hint=nomultithread`, and `--quiet` without `--stats`.
+- The two November runs of `2e120fa` (jobs 335585 and 339382) used one CPU
+  per task without that hint and a separate task per configuration.
+
+The 60 s columns count files solved within 60 s, which makes them comparable
+to the table above.
+
+| Configuration | Solved, 60 s | PAR2, 60 s | Solved, 120 s | PAR2, 120 s |
+|---|---|---|---|---|
+| Primo `5efbd02` | 9,698 | 471,377 | 10,588 | 768,626 |
+| Primo `2e120fa`, default | 9,696 | 471,738 | 10,581 | 769,926 |
+| Primo `2e120fa`, all four integrality options | 9,749 | 464,971 | 10,634 | 757,186 |
+
+PAR2 counts each unsolved file as twice the limit: 120 s in the 60 s
+columns, 240 s in the 120 s columns. No configuration gives a wrong answer
+against the declared statuses, and no two configurations give different
+`sat`/`unsat` answers on any file.
+
+- **`5efbd02` and the current default run within 1% of each other.** At
+  60 s the default gains 10 files against `5efbd02` and loses 12, all
+  `nec-smt` but one; at 120 s it gains 15 and loses 22. On the 3,140 files
+  both solve in at least 0.5 s, the default takes a median 1.007 times the
+  time of `5efbd02` (quartiles 0.987 and 1.030), between 1.006 and 1.011 on
+  each of the four nodes. That consistent slowdown of about 0.7% matches the
+  quiet-host pilot and is too small to explain the 43-file gap. Of the 46
+  files lost since October in the unpaired runs, `5efbd02` solves 26 and the
+  default 24 at 60 s. Both solve all 46 at 120 s, at a median time ratio of
+  1.003.
+- **Per-arm speed in the unpaired runs varied by several percent.** Cut at 60
+  s, the paired default solves 37 files its first run (job 335585) did not and
+  loses 3; against the rerun (job 339382) it is +36 −2. 36 of the 37 are
+  `nec-smt` files that the paired run solved in 53 to 60 s, and 32 of those 36
+  were lost in both unpaired runs. On `nec-smt` files solved in both runs (at
+  least 0.5 s), the paired default's times are a median 0.974 of the first
+  run's and 0.975 of the rerun's, so the unpaired default was about 2.5%
+  slower. Only 13 of the 36 files would need no more than that median slowdown
+  to cross 60 s; the other 23 must have run at least 3 to 13% slower. The
+  all-options arm of the same jobs went the other way: its paired times are a
+  median 1.061 of the first run's and 1.007 of the rerun's, so in job 335585
+  it ran about 6% faster than in the paired run. A slow default arm and a fast
+  options arm in that job are consistent with the first run's `nec-smt` gain.
+  The times of `5efbd02` in the paired run are a median 1.000 of its October
+  run. The two runs that asked for a whole core, the October run and the
+  paired run, agree. Because both arms of a November job had the same
+  allocation, the allocation alone does not explain the opposite deviations.
+  The cause was not identified.
+- **The integrality options gain a net 53 files.** At 60 s they gain 336
+  and lose 283 against the default. By family the net is CAV 2009 +58,
+  `dillig` +38, `rings` +31 and `nec-smt` +3, against `slacks` and
+  `prime-cone` −17 each, `cut_lemmas` −14, Bromberger −13 and
+  `rings_preprocessed` −7. At 120 s it is +341 −288. The `nec-smt` net of
+  +83 in the first run does not reappear; the other families match the
+  stable estimate. On the 3,018 files both solve in at least 0.5 s, the
+  options take a median 1.003 times the default's time.
+- **Doubling the limit mostly helps `nec-smt`.** Each configuration solves
+  885 to 890 more files at 120 s than at 60 s, 827 to 831 of them `nec-smt`.
+  The default goes from 1,271 to 2,098 of the 2,780 `nec-smt` files. The
+  reference solvers were run only at 60 s, so this says nothing about the
+  gap to them at 120 s.
+
+The same job design on QF_UFLIA is on the [QF_UFLIA
+progress](qf-uflia-progress.md) page.
 
 ## Reproduction
 
@@ -146,3 +221,17 @@ and `<127709>` is `results/qf-lia-full-compare-127709`. `<ab>` is
 `2026-11-02-lia-integrality-ab-2e120fa` hold the provenance. The rerun is
 `results/m5-noise-2e120fa` in `primo-lia-integrality`, run-log entry
 `2026-11-03-lia-integrality-noise-rerun-2e120fa`.
+
+The paired rerun used these settings, in the cluster workspace
+`primo-lia-integrality`:
+
+```bash
+B="build-slurm-rel/primo --quiet --stats"
+O="/home/janotmik/primo-evaluation-20261005/build-slurm-rel/primo --quiet --stats"
+export PRIMO_WORKDIR=$PWD PRIMO_COMPARE_SOLVERS="oct=$O;off=$B;all=$B \
+  --lia-round-integer-bounds --lia-primitive-int-rows --lia-integer-slacks \
+  --lia-patch-integral-moves"
+sbatch --array=0-399%56 --cpus-per-task=2 --time=05:00:00 \
+  --export=ALL,PRIMO_COMPARE_ROOT=tmp/QF_LIA,PRIMO_COMPARE_TIMEOUT=120,PRIMO_PAIRED_SHARDS=400,PRIMO_PAIRED_CHUNKS=4,PRIMO_COMPARE_OUT_ROOT=$PWD/results/paired-120s-20261103/QF_LIA \
+  scripts/slurm_paired_solver_compare.sbatch
+```
