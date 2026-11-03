@@ -3,11 +3,104 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-micromath-experimental-sort-erasure",
+      "date": "2026-11-03",
+      "kind": "external-kernel-check-and-experimental-export-qualification",
+      "evidence_status": "qualified opt-in framework experiment: six complete Micromath kernel replays and fresh solver gate passed",
+      "commit": "c5f14934285ead8feeef32fc2e59469673795e67",
+      "workflow_commit": "71381ec0d7a10ac42d634ee183760edbe003e4be",
+      "report": "docs/coverage/micromath-check.json",
+      "jobs": {
+        "build": "339375",
+        "solver_gate": "339376",
+        "solver_gate_status": "COMPLETED, exit 0:0",
+        "micromath": "339377",
+        "micromath_status": "COMPLETED, exit 0:0"
+      },
+      "commands": {
+        "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --jobs 4 --extra-target all (clean source c5f14934; prepared native dependencies and matching headers)",
+        "solver_gate": "PRIMO_EXPECTED_GIT=c5f14934 sbatch scripts/slurm_cnf_export_gate.sbatch (supply prepared workspace, cmake, header manifest, ASan runtime and offline Ruff wheel directory)",
+        "micromath": "MICROMATH_REUSE_BUILD=1 MICROMATH_PYTHON=<Python-3.11> PRIMO_EXPECTED_GIT=c5f14934 sbatch scripts/slurm_micromath_check.sbatch (supply separate external source directories, prepared binary/source fixtures, matching headers and artifact path)",
+        "fuzz": "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 --out results/cnf-export-339376/fuzz",
+        "reference": "contrib/local/bin/z3 -in",
+        "asan": "make -o contrib/local/.cli11.stamp -o contrib/local/.cadical.stamp -o contrib/local/.gmp.stamp asan-test ASAN_BUILD_DIR=build-slurm-asan"
+      },
+      "solver_gate": {
+        "ctest_pass": 47,
+        "python_pass": 301,
+        "asan_ctest_pass": 47,
+        "fuzz": {
+          "seed": 20261102,
+          "requested": 1000,
+          "reduction_modes": "round-robin none/core/mus",
+          "sort_erasure": "enabled on odd indices; multi-sort input on every fifth index",
+          "pass": 1000,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_error": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "invalid_artifact": 0,
+          "timeout_per_process_seconds": 10
+        },
+        "resources": {
+          "cpus": 4,
+          "memory_gib": 16,
+          "wall_minutes": 45
+        }
+      },
+      "micromath": {
+        "revision": "df5c5d3b6dcb3310dde35a2dd134927d34973fa4",
+        "cadical_revision": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+        "kernel_replays": 6,
+        "variants": [
+          "original",
+          "erased-multisort"
+        ],
+        "modes": [
+          "none",
+          "core",
+          "mus"
+        ],
+        "negative_status": {
+          "bad_conflict_status": 1,
+          "missing_status": 2,
+          "corrupt_status": 1
+        },
+        "resources": {
+          "cpus": 2,
+          "memory_gib": 4,
+          "wall_minutes": 20
+        }
+      },
+      "attempts": [
+        {
+          "job": "339369",
+          "result": "external build failed: compute-node C headers missing; no checking occurred"
+        },
+        {
+          "job": "339371",
+          "result": "external binaries built; upstream tests require Python >=3.10, default Python 3.9 rejected annotations"
+        },
+        {
+          "job": "339373",
+          "result": "all upstream SMT tests passed; own wrapper stopped at incorrect check-conflicts option order, corrected in workflow commit 71381ec0"
+        }
+      ],
+      "artifacts": {
+        "micromath": "results/micromath-339377/",
+        "solver_gate": "results/cnf-export-339376/",
+        "static": "results/static-export-sort/; results/includes-export-sort/"
+      },
+      "limitations": "Temporary experimental option, no default promotion or performance claim. Micromath does not support positive-arity Boolean-valued functions, Boolean arguments or Boolean conflict facts. No solver source is imported from Micromath."
+    },
+    {
       "id": "2026-11-02-qf-uf-theory-lemma-reduction",
       "date": "2026-11-02",
-      "kind": "optional-lemma-reduction-smoke-and-pending-qualification",
-      "evidence_status": "implemented; first full gate stopped on an independent replay-test harness error; corrected harness awaits rerun",
-      "commit": "2fbf238f5e523d19d66aa0612023f94cad472b68",
+      "kind": "optional-lemma-reduction-qualification",
+      "evidence_status": "qualified opt-in reduction after independent replay-harness repair; no default or performance claim",
+      "commit": "30b3596e765cde9db2c2c4e0f944b03313f5e4d4",
       "post_snapshot_hygiene": {
         "commit": "fd4d37f476234622439b860b5e93948098cc0b98",
         "change": "Add the direct InconclusiveReason include, already present transitively in the feature snapshot. No algorithm or behavior change.",
@@ -16,21 +109,23 @@
       "branch": "docs/qf-uf-conflict-format",
       "report": "docs/coverage/theory-lemma-reduction.json",
       "jobs": {
-        "build_job": "337186",
+        "build_job": "339370",
         "build_status": "COMPLETED, exit 0:0",
-        "gate_job": "337415",
-        "planned_gate": "make check, round-robin none/core/mus 1000-case reference gate with independent propositional sufficiency and MUS deletion checks, make asan-test",
+        "gate_job": "339372",
         "resources": {
           "cpus": 4,
           "memory_gib": 16,
           "wall_minutes": 45
         },
-        "last_observed_gate_status": "FAILED, exit 2:0",
+        "last_observed_gate_status": "COMPLETED, exit 0:0",
         "focused_job": "337542",
         "focused_job_status": "CANCELLED by agent while pending: next-day estimate, duplicate of queued full gate; no tests executed",
-        "planned_artifacts": "results/cnf-export-337415/ on prepared SLURM workspace",
-        "command": "PRIMO_EXPECTED_GIT=2fbf238f PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> PIP_NO_INDEX=1 PIP_FIND_LINKS=<offline-Ruff-wheel-directory> sbatch scripts/slurm_cnf_export_gate.sbatch (supply workspace, cmake executable and matching C++ header manifest)",
-        "failure": "46 of 47 tests passed; primo_clause_subset_tests aborted because the independent replay helper added clauses without declaring user variables. The reducer itself already declares original and selector variables. Fuzz and ASan stages did not run."
+        "planned_artifacts": "results/cnf-export-339372/",
+        "command": "PRIMO_EXPECTED_GIT=30b3596e PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> PIP_NO_INDEX=1 PIP_FIND_LINKS=<offline-Ruff-wheel-directory> sbatch scripts/slurm_cnf_export_gate.sbatch (supply workspace, cmake executable and matching C++ header manifest)",
+        "first_gate_job": "337415",
+        "first_gate_status": "FAILED, exit 2:0",
+        "first_gate_failure": "46 of 47 tests passed; primo_clause_subset_tests aborted because the independent replay helper added clauses without declaring user variables. The reducer itself already declares original and selector variables. Fuzz and ASan stages did not run.",
+        "completed_gate": "make check, round-robin none/core/mus 1000-case reference gate with independent propositional sufficiency and MUS deletion checks, make asan-test"
       },
       "smoke": {
         "source_git": "2fbf238f5e523d19d66aa0612023f94cad472b68",
@@ -58,18 +153,26 @@
         },
         "artifacts": "results/cnf-mus-smoke/"
       },
-      "planned_fuzz": {
-        "command": "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 --out results/cnf-export-337415/fuzz",
-        "generator": "tests/cnf_export_cli.py at feature source snapshot",
-        "reference": "contrib/local/bin/z3 -in",
-        "seed": 20261102,
-        "count": 1000,
-        "timeout_per_process_seconds": 10,
-        "modes": "round-robin none/core/mus",
-        "validation": "Each conflict is theory-inconsistent; selected clauses propositionally UNSAT; drop each retained MUS member and require propositional SAT. Development checks, not a shipped checker.",
-        "results": "not run; no fuzz pass counts claimed"
-      },
-      "limitations": "No product checker or CNF-conversion proof. The reduction SAT oracle does not validate theory conflicts. Internal assumption reuse does not support incremental SMT-LIB. No standalone reduction time budget; cancellation applies. Native proof-derived cores and selector-free replay alternatives are documented, not implemented. Full qualification is pending, not complete."
+      "limitations": "No product checker or CNF-conversion proof. The reduction SAT oracle does not validate theory conflicts. Internal assumption reuse does not support incremental SMT-LIB. No standalone reduction time budget; cancellation applies. Native proof-derived cores and selector-free replay alternatives are documented, not implemented.",
+      "introduced_git": "2fbf238f5e523d19d66aa0612023f94cad472b68",
+      "summary": {
+        "ctest_pass": 47,
+        "python_pass": 301,
+        "asan_ctest_pass": 47,
+        "fuzz": {
+          "seed": 20261102,
+          "requested": 1000,
+          "reduction_modes": "round-robin none/core/mus",
+          "pass": 1000,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_error": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "invalid_artifact": 0
+        }
+      }
     },
     {
       "id": "2026-11-02-qf-uf-structured-cnf-capture",

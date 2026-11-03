@@ -1,0 +1,240 @@
+{
+  "schema_version": 1,
+  "status": "qualified opt-in framework experiment: six complete Micromath kernel replays and fresh solver gate passed",
+  "primo_source_git": "c5f14934285ead8feeef32fc2e59469673795e67",
+  "workflow_git": "71381ec0d7a10ac42d634ee183760edbe003e4be",
+  "micromath_git": "df5c5d3b6dcb3310dde35a2dd134927d34973fa4",
+  "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+  "scope": "Original one-sort artifact and erased two-sort artifact, all none/core/mus modes; full external kernel replay. Ground QF_UF object sorts only; Bool preserved. No source-to-CNF or erasure proof object.",
+  "attempts": [
+    {
+      "job": "339369",
+      "result": "external build failed: compute-node C headers missing; no checking occurred"
+    },
+    {
+      "job": "339371",
+      "result": "external binaries built; upstream tests require Python >=3.10, default Python 3.9 rejected annotations"
+    },
+    {
+      "job": "339373",
+      "result": "all upstream SMT tests passed; own wrapper stopped at incorrect check-conflicts option order, corrected in workflow commit 71381ec0"
+    }
+  ],
+  "upstream_tests": "make check-smt passed in job 339377: encoding regressions, 300 differential conflict cases and 2000 nested reference applications, 14 native LRAT proof replays, 101 conflict certificates, 29 full original-challenge proofs. These are upstream tests, separate from our six artifact replays.",
+  "limitations": "Temporary experimental option, no default promotion or performance claim. Micromath does not support positive-arity Boolean-valued functions, Boolean arguments or Boolean conflict facts. No solver source is imported from Micromath. Micromath replays text LRAT with RUP hints, not RAT hints or binary proofs.",
+  "jobs": {
+    "build": "339375",
+    "solver_gate": "339376",
+    "solver_gate_status": "COMPLETED, exit 0:0",
+    "micromath": "339377",
+    "micromath_status": "COMPLETED, exit 0:0"
+  },
+  "commands": {
+    "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --jobs 4 --extra-target all (clean source c5f14934; prepared native dependencies and matching headers)",
+    "solver_gate": "PRIMO_EXPECTED_GIT=c5f14934 sbatch scripts/slurm_cnf_export_gate.sbatch (supply prepared workspace, cmake, header manifest, ASan runtime and offline Ruff wheel directory)",
+    "micromath": "MICROMATH_REUSE_BUILD=1 MICROMATH_PYTHON=<Python-3.11> PRIMO_EXPECTED_GIT=c5f14934 sbatch scripts/slurm_micromath_check.sbatch (supply separate external source directories, prepared binary/source fixtures, matching headers and artifact path)",
+    "fuzz": "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 --out results/cnf-export-339376/fuzz",
+    "reference": "contrib/local/bin/z3 -in",
+    "asan": "make -o contrib/local/.cli11.stamp -o contrib/local/.cadical.stamp -o contrib/local/.gmp.stamp asan-test ASAN_BUILD_DIR=build-slurm-asan"
+  },
+  "solver_gate": {
+    "ctest_pass": 47,
+    "python_pass": 301,
+    "asan_ctest_pass": 47,
+    "fuzz": {
+      "seed": 20261102,
+      "requested": 1000,
+      "reduction_modes": "round-robin none/core/mus",
+      "sort_erasure": "enabled on odd indices; multi-sort input on every fifth index",
+      "pass": 1000,
+      "wrong_answer": 0,
+      "crash": 0,
+      "parser_type_error": 0,
+      "timeout": 0,
+      "unsupported": 0,
+      "reference_disagreement": 0,
+      "invalid_artifact": 0,
+      "timeout_per_process_seconds": 10
+    },
+    "resources": {
+      "cpus": 4,
+      "memory_gib": 16,
+      "wall_minutes": 45
+    }
+  },
+  "micromath": {
+    "micromath_git": "df5c5d3b6dcb3310dde35a2dd134927d34973fa4",
+    "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+    "primo_git": "c5f14934",
+    "reused_external_build": true,
+    "binary_sha256": {
+      "primo": "adcd3896908f4add5ca791469a3b4d934560ac1b2bf41228aaefebbefaaad2fb",
+      "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "check-solution": "43937cb0a72f1d13f0320efa01a43e7413161eb4519eb3788f527403f3786404"
+    },
+    "job_id": "339377",
+    "input_sha256": {
+      "qf-uf-export.smt2": "5b326057d75847dc836f3df1f8de4842015b2b8464089a510068bab6ac102d97",
+      "qf-uf-export-multisort.smt2": "e18b15f4af9006cf78b7f90fc821f6976ac575a10d3a2133ac424f70a8c27143"
+    },
+    "modes": [
+      "none",
+      "core",
+      "mus"
+    ],
+    "variants": [
+      "original",
+      "erased-multisort"
+    ],
+    "negative_status": {
+      "bad_conflict_status": 1,
+      "missing_status": 2,
+      "corrupt_status": 1
+    },
+    "resources": {
+      "cpus": 2,
+      "memory_gib": 4,
+      "wall_minutes": 20
+    },
+    "certificate_files": {
+      "erased-multisort/mus/input.primo": {
+        "bytes": 504,
+        "sha256": "80d3ecf3250487db9a5cf8e631820988bf66665d338a8873bbc438c13d79ebe2"
+      },
+      "erased-multisort/mus/solution.ump": {
+        "bytes": 20404,
+        "sha256": "33067aff3c58fc22cd7f6a65c802ba93a7d595a7bf4f4653a0d3ee2a719ab5ec"
+      },
+      "erased-multisort/mus/challenge.umd": {
+        "bytes": 4548,
+        "sha256": "cf7f38882db69cc2702858c3d86085bf0f27efed55cf6dff0d451298a6d3b439"
+      },
+      "erased-multisort/mus/problem.lrat": {
+        "bytes": 12,
+        "sha256": "b3c3f36b21233fcc39d3677ea46682a327afaaf940a8407a54cc320f2b4ffed2"
+      },
+      "erased-multisort/none/input.primo": {
+        "bytes": 504,
+        "sha256": "80d3ecf3250487db9a5cf8e631820988bf66665d338a8873bbc438c13d79ebe2"
+      },
+      "erased-multisort/none/solution.ump": {
+        "bytes": 20404,
+        "sha256": "33067aff3c58fc22cd7f6a65c802ba93a7d595a7bf4f4653a0d3ee2a719ab5ec"
+      },
+      "erased-multisort/none/challenge.umd": {
+        "bytes": 4548,
+        "sha256": "cf7f38882db69cc2702858c3d86085bf0f27efed55cf6dff0d451298a6d3b439"
+      },
+      "erased-multisort/none/problem.lrat": {
+        "bytes": 12,
+        "sha256": "b3c3f36b21233fcc39d3677ea46682a327afaaf940a8407a54cc320f2b4ffed2"
+      },
+      "erased-multisort/core/input.primo": {
+        "bytes": 504,
+        "sha256": "80d3ecf3250487db9a5cf8e631820988bf66665d338a8873bbc438c13d79ebe2"
+      },
+      "erased-multisort/core/solution.ump": {
+        "bytes": 20404,
+        "sha256": "33067aff3c58fc22cd7f6a65c802ba93a7d595a7bf4f4653a0d3ee2a719ab5ec"
+      },
+      "erased-multisort/core/challenge.umd": {
+        "bytes": 4548,
+        "sha256": "cf7f38882db69cc2702858c3d86085bf0f27efed55cf6dff0d451298a6d3b439"
+      },
+      "erased-multisort/core/problem.lrat": {
+        "bytes": 12,
+        "sha256": "b3c3f36b21233fcc39d3677ea46682a327afaaf940a8407a54cc320f2b4ffed2"
+      },
+      "original/mus/input.primo": {
+        "bytes": 603,
+        "sha256": "e7602f443e7f6f0435bb373bb21b4f799239a6f601b814e2f6a7cb2dd0fead26"
+      },
+      "original/mus/solution.ump": {
+        "bytes": 31621,
+        "sha256": "e270f03ad8afc181d871681e7120102a38c387ccef90e0241069d69d31efec5d"
+      },
+      "original/mus/challenge.umd": {
+        "bytes": 5175,
+        "sha256": "88759efb73fd1dbc37e9b7de29ae59bd16d8c0691c15fee99a291f601bd9580f"
+      },
+      "original/mus/problem.lrat": {
+        "bytes": 79,
+        "sha256": "ccdca4d611a19a37d7aa58b84215e6beb4938046ff65c49bfa3653b8c1dfb331"
+      },
+      "original/none/input.primo": {
+        "bytes": 603,
+        "sha256": "e7602f443e7f6f0435bb373bb21b4f799239a6f601b814e2f6a7cb2dd0fead26"
+      },
+      "original/none/solution.ump": {
+        "bytes": 31621,
+        "sha256": "e270f03ad8afc181d871681e7120102a38c387ccef90e0241069d69d31efec5d"
+      },
+      "original/none/challenge.umd": {
+        "bytes": 5175,
+        "sha256": "88759efb73fd1dbc37e9b7de29ae59bd16d8c0691c15fee99a291f601bd9580f"
+      },
+      "original/none/problem.lrat": {
+        "bytes": 79,
+        "sha256": "ccdca4d611a19a37d7aa58b84215e6beb4938046ff65c49bfa3653b8c1dfb331"
+      },
+      "original/core/input.primo": {
+        "bytes": 603,
+        "sha256": "e7602f443e7f6f0435bb373bb21b4f799239a6f601b814e2f6a7cb2dd0fead26"
+      },
+      "original/core/solution.ump": {
+        "bytes": 31621,
+        "sha256": "e270f03ad8afc181d871681e7120102a38c387ccef90e0241069d69d31efec5d"
+      },
+      "original/core/challenge.umd": {
+        "bytes": 5175,
+        "sha256": "88759efb73fd1dbc37e9b7de29ae59bd16d8c0691c15fee99a291f601bd9580f"
+      },
+      "original/core/problem.lrat": {
+        "bytes": 79,
+        "sha256": "ccdca4d611a19a37d7aa58b84215e6beb4938046ff65c49bfa3653b8c1dfb331"
+      }
+    },
+    "kernel_replays": 6,
+    "check_outputs": {
+      "original/core": "challenge proven",
+      "original/mus": "challenge proven",
+      "original/none": "challenge proven",
+      "erased-multisort/core": "challenge proven",
+      "erased-multisort/mus": "challenge proven",
+      "erased-multisort/none": "challenge proven"
+    }
+  },
+  "artifacts": {
+    "micromath": "results/micromath-339377/",
+    "solver_gate": "results/cnf-export-339376/",
+    "static": "results/static-export-sort/; results/includes-export-sort/"
+  },
+  "verification": {
+    "lint": "make lint, explicit Ruff check/format for tests/cnf_export_cli.py, batch/heredoc syntax and strict C++20 syntax passed.",
+    "docs": "make docs and strict local/Git link checks passed: 270 pages, 35083 local links, 1149 Git links, zero failures. External URL health is not claimed.",
+    "static": "clang-tidy and include-cleaner each covered 137/137 stable tracked translation units after normalizing LLVM-21 runner progress prefixes that the existing report parser does not recognize. No compiler errors or unused-include blockers. Whole-tree inventories retain 833 advisory tidy diagnostics and 392 missing-direct-include recommendations; no repository-wide clean claim.",
+    "code_review": "No blocking issue found in the export-only change; no term creation or mutation of the symbol table is introduced, and no borrow crosses owner mutation. Optional signature construction uses a local name set; normal output and SAT inputs remain unchanged.",
+    "efficiency_review": "Transient name copies and output declarations add expected linear work plus string processing only when erasure is enabled; no benchmark/default performance claim."
+  },
+  "documentation_review": {
+    "reviewer": "review_micromath_sort_erasure_docs, independent read-only",
+    "baseline": "30b3596e",
+    "source_snapshot": "c5f14934285ead8feeef32fc2e59469673795e67",
+    "verdict": "ready",
+    "findings": {
+      "MM-D1": "source roles pinned to c5f14934 and workflow 71381ec0",
+      "MM-D2": "actual completed gate and six kernel replays now recorded; report linked from reference",
+      "MM-D3": "starting-problem text now says independent checking",
+      "MM-S1": "positive-arity qualification added",
+      "MM-D4": "resolved: per-process fuzz timeout 10 seconds recorded in report and run ledger"
+    },
+    "files_sha256": {
+      "docs/leads/experimental-sort-erasure.md": "96daccba0d3704dee98490469399595ea214abff60b3eda725643dc5fabc793b",
+      "docs/reference/qf-uf-conflicts.md": "81dc5b4c7493819edce66bdff1720db178bed38c5c1b61b4efc4851a6cac1001",
+      "docs/reference/options.md": "d1de5d30388f4047ca49be7588dfc54087a75c73cb457791543125cdbc6e1da1",
+      "docs/_config.yml": "d3bcaf6ba3e5b69dd3bfd1c9735e4d02d2853a620b546ca40165ee31d5f40c31"
+    },
+    "accepted_report_sha256_before_verdict_record": "7bafde12777b6d624b35146771bca10012e2af8b3f5bc2a3f211956da9e5dbfa",
+    "unchecked": "Rendering and static tool execution were writer validation; separate real-benchmark stress work is outside this review."
+  }
+}

@@ -4,7 +4,8 @@
 write this format for one QF_UF problem that Primo reports UNSAT. The input may
 contain nested Boolean structure. The file records the generated CNF and theory
 conflicts; producing it does not independently validate conflicts or certify
-UNSAT. There is no product checker in this milestone.
+UNSAT. Primo bundles no checker; the external Micromath route below covers a
+restricted subset of this format.
 
 ```bash
 ./build/primo --quiet --export-cnf certificate.sexp docs/examples/qf-uf-export.smt2
@@ -42,7 +43,7 @@ captured. Thus the artifact is self-contained without exposing SAT variable
 numbers. Core simplifications and frontend translation can change source
 spelling, order, and duplicates before capture.
 
-The exported CNF is the starting problem for future checking. Establishing its
+The exported CNF is the starting problem for independent checking. Establishing its
 relationship to the original formula is still future work; no CNF conversion
 proof is emitted. The ground fragment handled here excludes `ite`, quantified
 terms, arithmetic, and other extended terms that require a separate lowering
@@ -107,6 +108,101 @@ With `--stats`, `:export.reduction.sat-calls` counts actual reduction solves and
 The [design and literature note](../leads/theory-lemma-reduction.md) maps
 CAV 2013 Algorithms 3–4 to the implementation and records selector-free
 alternatives. Specialized model-guided algorithms are not implemented.
+
+## Temporary object-sort erasure
+
+```bash
+./build/primo --quiet --export-cnf certificate.sexp --experimental-export-erase-sorts --export-cnf-reduction=mus docs/examples/qf-uf-export-multisort.smt2
+```
+
+`--experimental-export-erase-sorts` is a temporary, disabled-by-default option
+for testing the external checking framework. It requires `--export-cnf` and is
+intended to be removed when the framework supports the original sorts. The
+signature contains one fresh `primo_uf_sort` declaration, adding a numeric suffix
+to avoid all original sort/function names. Every uninterpreted object sort in
+function arguments and results is printed as that common sort. `Bool` and all
+function identifiers remain unchanged. Exactly one object sort is declared even
+if the original problem has zero or one.
+
+The solver and reducer retain the original many-sorted terms and SAT clauses.
+Only declaration text changes; CNF and conflict literal sequences are preserved.
+For the supported ground QF_UF fragment this is equisatisfiability-preserving,
+by the model construction in the [design note](../leads/experimental-sort-erasure.md).
+The same argument preserves the inconsistency of individual conflict records.
+Quantified and interpreted-sort inputs remain unsupported. No independent
+erasure-proof object is emitted.
+
+With `--stats`, `:export.sort-erasure.enabled=1` marks the rewrite and
+`:export.sort-erasure.input-sorts` counts original object sorts. The
+{download}`multi-sort example <../examples/qf-uf-export-multisort.smt2>` uses a
+function from one object sort to another and becomes acceptable to Micromath
+with this option. It does not remove that checker's separate restrictions on
+Boolean arguments, positive-arity Boolean-valued functions or Boolean conflict facts.
+
+## Checking with Micromath
+
+[Micromath's SMT tools](https://git.olsak.net/mirek/Micromath/src/commit/df5c5d3b6dcb3310dde35a2dd134927d34973fa4/smt/README.md)
+consume this container directly. The evaluated revision is
+`df5c5d3b6dcb3310dde35a2dd134927d34973fa4`. Its
+[input specification](https://git.olsak.net/mirek/Micromath/src/commit/df5c5d3b6dcb3310dde35a2dd134927d34973fa4/smt/Primo.md)
+supports exactly one uninterpreted object sort, functions from objects to
+objects, and propositional Boolean variables in CNF. Conflicts contain object
+equalities/disequalities or truth constants. Multiple object sorts,
+positive-arity Boolean-valued functions, Boolean function arguments and Boolean variables in
+conflicts are outside this checker's fragment. The structured example above is
+within it; the extended format example below is not.
+
+Download the external checkout into the ignored dependency directory:
+
+```bash
+git clone https://git.olsak.net/mirek/Micromath.git contrib/src/micromath
+git -C contrib/src/micromath checkout df5c5d3b6dcb3310dde35a2dd134927d34973fa4
+```
+
+Build Micromath with `make` in that checkout and provide a CaDiCaL executable
+with text LRAT support. Its SMT regression suite needs Python 3.10 or newer;
+`MICROMATH_PYTHON` selects an interpreter for the batch workflow.
+`MICROMATH_REUSE_BUILD=1` explicitly reuses already built external binaries;
+the report records that choice and their hashes. On this project's cluster, building and batch checking
+belong in SLURM. The optional {micromathworkflowsource}`Micromath workflow <scripts/slurm_micromath_check.sbatch>`
+builds both external tools inside its allocation, runs Micromath's `make
+check-smt`, and checks fresh artifacts from all three export-reduction modes, both for
+the ordinary single-sort example and the erased multi-sort example.
+Its environment parameters select separate external source directories, a
+prepared Primo binary, and a results directory; connection details stay outside
+the script. Prepare Primo with
+{micromathworkflowsource}`slurm_prepare_benchmark_workspace.py <scripts/slurm_prepare_benchmark_workspace.py>`
+with `--build-via-slurm` and perform its
+`--check-only` preflight before submission. The workflow never copies external
+implementation code into Primo.
+
+For a single artifact, these are the proof stages. Set `certificate`,
+`proof_dir`, and `cadical` to absolute paths, and run from the Micromath checkout:
+
+```bash
+mkdir -p "$proof_dir"
+./build-axioms --fragment equality "$proof_dir/axioms.umd"
+./smt/build-challenge "$proof_dir/axioms.umd" "$certificate" "$proof_dir/challenge.umd"
+./smt/prove-cnf "$certificate" "$proof_dir/problem.cnf" "$proof_dir/problem.lrat" --cadical "$cadical"
+./smt/prove-lrat "$proof_dir/challenge.umd" "$certificate" "$proof_dir/problem.lrat" "$proof_dir/solution.ump"
+./check-solution "$proof_dir/challenge.umd" "$proof_dir/solution.ump"
+```
+
+`build-challenge` encodes the input CNF without assuming the supplied conflicts.
+The prover derives those conflicts and combines them with the LRAT replay.
+Successful independent replay prints `challenge proven`. The evaluated replay
+path handles RUP hints in textual LRAT; RAT hints and binary encoding remain
+outside its supported fragment. This proves the
+encoded exported CNF unsatisfiable under Micromath's equality axioms; the
+relationship between that CNF and the source SMT-LIB script still needs the
+conversion evidence discussed above. A conflict-only check with
+`./smt/check-conflicts` does not establish propositional sufficiency.
+
+The workflow also checks three rejection cases: a consistent alleged conflict,
+an insufficient lemma collection, and a corrupt proof file. Exact revisions,
+commands, job status, proof hashes and scope are recorded in
+the {download}`run report <../coverage/micromath-check.json>` and the run ledger. No broader-fragment or
+performance claim follows from this integration test.
 
 ## Container and literal syntax
 
@@ -306,4 +402,5 @@ rather than captured exporter output.
 
 This page is an original output-format and adapter design note. The adapter
 reuses Primo's existing lazy solver and term printer; it introduces no new
-congruence-closure or proof algorithm. Independent checking is future work.
+congruence-closure or proof algorithm. The external checking route above covers
+the stated subset; a checker for the full format remains future work.

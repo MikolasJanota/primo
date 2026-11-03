@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "source_git": "2fbf238f5e523d19d66aa0612023f94cad472b68",
+  "source_git": "30b3596e765cde9db2c2c4e0f944b03313f5e4d4",
   "scope": "Optional propositional CORE/MUS reduction of whole exported QF_UF theory-conflict records relative to fixed initial CNF.",
-  "status": "implemented; first full gate stopped on an independent replay-test harness error; corrected harness awaits rerun",
+  "status": "qualified opt-in reduction after independent replay-harness repair; no default or performance claim",
   "algorithm": "Original selector-based SAT oracle, initial failed-assumption core, CAV 2013 Marques-Silva/Janota/Belov Algorithms 3-4 progression. No model rotation or specialized Algorithms 5-6.",
   "modes": {
     "none": "default; retain every collected record",
@@ -10,21 +10,23 @@
     "mus": "subset-minimal relative to fixed input CNF; not minimum cardinality"
   },
   "slurm": {
-    "build_job": "337186",
+    "build_job": "339370",
     "build_status": "COMPLETED, exit 0:0",
-    "gate_job": "337415",
-    "planned_gate": "make check, round-robin none/core/mus 1000-case reference gate with independent propositional sufficiency and MUS deletion checks, make asan-test",
+    "gate_job": "339372",
     "resources": {
       "cpus": 4,
       "memory_gib": 16,
       "wall_minutes": 45
     },
-    "last_observed_gate_status": "FAILED, exit 2:0",
+    "last_observed_gate_status": "COMPLETED, exit 0:0",
     "focused_job": "337542",
     "focused_job_status": "CANCELLED by agent while pending: next-day estimate, duplicate of queued full gate; no tests executed",
-    "planned_artifacts": "results/cnf-export-337415/ on prepared SLURM workspace",
-    "command": "PRIMO_EXPECTED_GIT=2fbf238f PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> PIP_NO_INDEX=1 PIP_FIND_LINKS=<offline-Ruff-wheel-directory> sbatch scripts/slurm_cnf_export_gate.sbatch (supply workspace, cmake executable and matching C++ header manifest)",
-    "failure": "46 of 47 tests passed; primo_clause_subset_tests aborted because the independent replay helper added clauses without declaring user variables. The reducer itself already declares original and selector variables. Fuzz and ASan stages did not run."
+    "command": "PRIMO_EXPECTED_GIT=30b3596e PRIMO_ASAN_RUNTIME_DIR=<installed-GCCcore-11.3.0-lib64> PIP_NO_INDEX=1 PIP_FIND_LINKS=<offline-Ruff-wheel-directory> sbatch scripts/slurm_cnf_export_gate.sbatch (supply workspace, cmake executable and matching C++ header manifest)",
+    "first_gate_job": "337415",
+    "first_gate_status": "FAILED, exit 2:0",
+    "first_gate_failure": "46 of 47 tests passed; primo_clause_subset_tests aborted because the independent replay helper added clauses without declaring user variables. The reducer itself already declares original and selector variables. Fuzz and ASan stages did not run.",
+    "completed_gate": "make check, round-robin none/core/mus 1000-case reference gate with independent propositional sufficiency and MUS deletion checks, make asan-test",
+    "artifacts": "results/cnf-export-339372/"
   },
   "verification": {
     "syntax": "Strict C++20 warnings-as-errors syntax checks passed.",
@@ -33,8 +35,7 @@
     "static": "Whole-tree clang-tidy ran 134 translation units plus a targeted scan of the three new files. Tool workers exited 0, but make tidy reported incomplete coverage because LLVM 21 progress prefixes are not recognized by the reporter; normalized logs confirm all 134 commands. Two inputs and the generated revision header changed during the scan, so this is an advisory baseline, not a stable clean verdict. 839 distinct diagnostics remain; the unused-include complaint in docs/examples/boolean-abstraction.cpp is caused by NDEBUG stripping assert-only SatResult uses, so its required debug include is retained. Separate Debug include-cleaner completed 137/137 stable inputs after normalization: 393 missing-direct-include recommendations and zero unused includes. Fixed the new InconclusiveReason recommendation; targeted scan is clear. Prior baseline recommendations remain outside this feature.",
     "borrow_review": "Reducer borrows immutable CNFs and terminator for its call; owns private SAT state and result indices. Generic predicate borrows original indices, constructs independent trials, does not mutate input. Collector borrows stable term manager and document, does not create terms during reduction; printed-record alignment is required only before one-shot selection.",
     "efficiency_review": "No blocking efficiency issue found. Default none avoids raw theory-clause retention and extra SAT instance. Optional modes copy guards/trial indices and retain raw clauses; no benchmark or performance claim. Progression test requires block and binary queries with <40 queries for 1024 indices.",
-    "code_review": "Self-review found no blocking issue in the new feature. Whole-tree diagnostic inventories retain existing untriaged baseline findings; no repository-wide clean claim.",
-    "unrun": "Full test rerun after harness fix, make asan-test and 1000-case reduction gate remain required. This failure is in test setup, not evidence of a solver answer disagreement."
+    "code_review": "Self-review found no blocking issue in the new feature. Whole-tree diagnostic inventories retain existing untriaged baseline findings; no repository-wide clean claim."
   },
   "documentation_review": {
     "reviewer": "review_lemma_reduction_docs, independent read-only",
@@ -87,8 +88,28 @@
     },
     "artifacts": "results/cnf-mus-smoke/"
   },
-  "planned_fuzz": {
-    "command": "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 --out results/cnf-export-337415/fuzz",
+  "artifacts": "results/cnf-export-339372/; earlier focused smoke results/cnf-mus-smoke/; later extension results/micromath-339377/ and results/cnf-export-339376/",
+  "introduced_git": "2fbf238f5e523d19d66aa0612023f94cad472b68",
+  "summary": {
+    "ctest_pass": 47,
+    "python_pass": 301,
+    "asan_ctest_pass": 47,
+    "fuzz": {
+      "seed": 20261102,
+      "requested": 1000,
+      "reduction_modes": "round-robin none/core/mus",
+      "pass": 1000,
+      "wrong_answer": 0,
+      "crash": 0,
+      "parser_type_error": 0,
+      "timeout": 0,
+      "unsupported": 0,
+      "reference_disagreement": 0,
+      "invalid_artifact": 0
+    }
+  },
+  "fuzz": {
+    "command": "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 --out results/cnf-export-339372/fuzz",
     "generator": "tests/cnf_export_cli.py at feature source snapshot",
     "reference": "contrib/local/bin/z3 -in",
     "seed": 20261102,
@@ -96,7 +117,18 @@
     "timeout_per_process_seconds": 10,
     "modes": "round-robin none/core/mus",
     "validation": "Each conflict is theory-inconsistent; selected clauses propositionally UNSAT; drop each retained MUS member and require propositional SAT. Development checks, not a shipped checker.",
-    "results": "not run; no fuzz pass counts claimed"
-  },
-  "artifacts": "results/cnf-lemma-reduction-2fbf238f/; results/cnf-mus-smoke/; results/static-mus/; results/includes-mus/; future results/cnf-export-337415/"
+    "results": {
+      "seed": 20261102,
+      "requested": 1000,
+      "reduction_modes": "round-robin none/core/mus",
+      "pass": 1000,
+      "wrong_answer": 0,
+      "crash": 0,
+      "parser_type_error": 0,
+      "timeout": 0,
+      "unsupported": 0,
+      "reference_disagreement": 0,
+      "invalid_artifact": 0
+    }
+  }
 }

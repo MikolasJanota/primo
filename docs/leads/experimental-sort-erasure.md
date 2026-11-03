@@ -43,10 +43,10 @@ sorts also require their own treatment.
 
 ## Implementation checklist and representation
 
-The owner is `append_signature` in `src/smt/qf_uf_export.cpp`. It borrows the
+The owner is {exportexperimentsource}`append_signature <src/smt/qf_uf_export.cpp>`. It borrows the
 frontend's immutable `core::SymbolTable` and appends owned declaration strings
 to `smtlib::ConflictDocument`. The option is an independent Boolean in
-`CheckSatOptions`; neither the term manager nor solver state is changed.
+{exportexperimentsource}`CheckSatOptions::experimental_export_erase_sorts <src/smt/check_sat.hpp>`; neither the term manager nor solver state is changed.
 
 1. Reserve all original symbol and sort names in a local owned set.
 2. Choose a fresh `primo_uf_sort` name, adding a numeric suffix on collision.
@@ -59,7 +59,9 @@ to `smtlib::ConflictDocument`. The option is an independent Boolean in
 5. Preserve function identifiers, term printing, literal polarity and order,
    CNF contents, conflict contents and reduction mode. The original solver still
    uses the original many-sorted terms.
-6. Reject use without an export filename and reject the streaming session API.
+6. Reject use without an export filename in
+   {exportexperimentsource}`check_sat_smtlib <src/smt/check_sat.cpp>` and reject
+   {exportexperimentsource}`SmtSession <src/smt/smt_session.cpp>` streaming use.
    Existing quantifier/extended-term restrictions remain in force.
 
 The local name set and common-sort string live only while the signature is
@@ -69,13 +71,13 @@ and declarations, plus string processing. No performance claim is made.
 `:export.sort-erasure.enabled` and `:export.sort-erasure.input-sorts` expose
 whether the signature rewrite ran and how many original object sorts it merged.
 
-Tests must cover cross-sort function chains, original name collisions, `Bool`
+The {exportexperimentsource}`CLI/reference tests <tests/cnf_export_cli.py>`
+cover cross-sort function chains, original name collisions, `Bool`
 arguments/results, zero object sorts, unchanged default output, modifier
-validation, and rejection of quantified/interpreted input. The reference gate
-must include multi-sort inputs with erasure both enabled and disabled. Micromath
-must replay an erased multi-sort artifact, alongside ordinary single-sort
-artifacts. Erasure addresses its object-sort restriction; it does not add
-support for Boolean-valued functions, Boolean arguments or Boolean conflict facts.
+validation, and rejection of quantified/interpreted input. The {exportexperimentsource}`reference gate <scripts/slurm_cnf_export_gate.sbatch>`
+includes multi-sort inputs with erasure both enabled and disabled. The {micromathworkflowsource}`Micromath workflow <scripts/slurm_micromath_check.sbatch>`
+requires replay of erased multi-sort and ordinary single-sort artifacts. Erasure addresses its object-sort restriction; it does not add
+support for positive-arity Boolean-valued functions, Boolean arguments or Boolean conflict facts.
 
 For example, `embed : A -> B`, `a,b : A`, `a=b`, and `embed(a)!=embed(b)` become
 `embed : U -> U` and the same two literals. Congruence still refutes the conflict.
