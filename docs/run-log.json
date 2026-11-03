@@ -5,8 +5,8 @@
     {
       "id": "2026-11-03-micromath-real-qfuf-pilot",
       "date": "2026-11-03",
-      "kind": "real-corpus-certificate-stress-pilot-pending",
-      "evidence_status": "diagnostic real-benchmark pilot submitted; results pending SLURM allocation",
+      "kind": "real-corpus-certificate-stress-pilot",
+      "evidence_status": "completed diagnostic pilot: 3 of 12 inputs kernel-verified in all modes; export timeouts and unsupported features limit coverage",
       "commit": "f555b7f9aabf039b1e8f05fd8a1dfd46e2a7f357",
       "solver_commit": "c5f14934285ead8feeef32fc2e59469673795e67",
       "report": "docs/coverage/micromath-stress.json",
@@ -18,7 +18,7 @@
         "version": "archive revision not inferred; selected files will be pinned individually by SHA-256"
       },
       "selection": {
-        "status": "not run while job pending; no selected-case manifest claimed",
+        "status": "completed: 12 selected inputs, two per family",
         "families": [
           "NEQ",
           "PEQ",
@@ -30,7 +30,16 @@
         "rule": "For each family: .smt2 files <=1048576 bytes with UNSAT status metadata in first65536 bytes; sort by(size,relative path); select distinct floor((N-1)*0.25) and floor((N-1)*0.75) indices. Skip empty families.",
         "maximum_cases": 12,
         "maximum_profiles": 36,
-        "manifest": "job writes selection.json with file paths/sizes/hashes; actual selected manifest will follow execution"
+        "manifest": "benchmarks/micromath-pilot-20261103.json",
+        "candidate_counts": {
+          "NEQ": 45,
+          "PEQ": 47,
+          "QG-classification": 3845,
+          "TypeSafe": 3,
+          "20190906-CLEARSY": 11,
+          "2018-Goel-hwbench": 221
+        },
+        "manifest_sha256": "bf4911a8ebed8dd468d9a5415c467164477c41fb0b68c46e663126e438880eba"
       },
       "profiles": {
         "reduction_modes": [
@@ -69,18 +78,111 @@
       },
       "slurm": {
         "job_id": "339676",
-        "last_observed_status": "PENDING (Resources)",
-        "scheduler_start_estimate": "2026-11-03T09:43:48 as displayed by SLURM; can change",
+        "last_observed_status": "COMPLETED, exit 0:0",
         "resources": {
           "cpus": 4,
           "memory_gib": 16,
           "wall_minutes": 25
-        }
+        },
+        "elapsed": "00:05:32"
       },
       "command": "PILOT_PYTHON=<Python-3.11> PILOT_SCRIPT=<tracked scripts/micromath_stress.py at f555b7f9> PRIMO_EXPECTED_GIT=c5f14934 sbatch scripts/slurm_micromath_stress.sbatch (supply prepared binary, external tool directories/revisions, reference binary, existing corpus root and fresh output directory)",
-      "results": null,
-      "artifacts": "prepared Micromath SLURM workspace/stress-f555b7f9/; local collection target results/micromath-stress-339676/",
-      "limitations": "Initial size-bounded UNSAT diagnostic sample, not full-corpus coverage, SAT/model validation or a performance comparison. Four workers share the allocation. Unsupported ground-fragment/checker features and resource limits are part of the observed scope; no outcomes are claimed before the job runs."
+      "results": {
+        "cases": 12,
+        "profiles": 36,
+        "case_errors": 0,
+        "profile_counts": {
+          "export_timeout": 18,
+          "kernel_proven": 9,
+          "checker_rejected": 6,
+          "unsupported_export": 3
+        },
+        "all_profiles_proven": false,
+        "case_counts": {
+          "kernel_proven_all_modes": 3,
+          "export_timeout_all_modes": 6,
+          "checker_unsupported_all_modes": 2,
+          "export_unsupported_all_modes": 1
+        },
+        "reference": {
+          "unsat": 12,
+          "sat": 0,
+          "unknown": 0,
+          "timeout": 0,
+          "error": 0
+        },
+        "wrong_answers_observed": 0,
+        "invalid_conflicts_observed": 0,
+        "invalid_completed_proofs_observed": 0,
+        "crashes_observed": 0,
+        "families": {
+          "2018-Goel-hwbench": {
+            "kernel_proven": 3,
+            "unsupported_export": 3
+          },
+          "20190906-CLEARSY": {
+            "checker_rejected": 6
+          },
+          "NEQ": {
+            "export_timeout": 6
+          },
+          "PEQ": {
+            "export_timeout": 6
+          },
+          "QG-classification": {
+            "export_timeout": 6
+          },
+          "TypeSafe": {
+            "kernel_proven": 6
+          }
+        },
+        "mode_effect": "Outcomes identical across none/core/mus. No lemmas removed on the five inputs whose export completed; this pilot does not demonstrate a minimization benefit.",
+        "triage": {
+          "checker_rejected": "Two CLEARSY inputs declare and use positive-arity Bool functions. All six checker diagnostics say only zero-argument Boolean declarations are supported. Used predicates include mem/subset and >=i; not merely unused declarations.",
+          "unsupported_export": "Goel collision.5 input contains ite; producer rejects it with the documented extended-term lowering requirement.",
+          "export_timeout": "Both selected NEQ, PEQ and QG inputs hit the 30-second export limit in all modes, including none. Micromath was not reached for these 18 profiles; precise internal cause is not profiled here."
+        },
+        "tool_stage_seconds": {
+          "export": {
+            "count": 36,
+            "minimum": 0.021081025999592384,
+            "median": 15.053621095501512,
+            "maximum": 31.022057917001803
+          },
+          "conflicts": {
+            "count": 15,
+            "minimum": 0.007028510000964161,
+            "median": 0.011438353998528328,
+            "maximum": 0.0151161370013142
+          },
+          "challenge": {
+            "count": 9,
+            "minimum": 0.011717352997948183,
+            "median": 0.01215128200055915,
+            "maximum": 0.021039835999545176
+          },
+          "cnf": {
+            "count": 9,
+            "minimum": 0.03537819600023795,
+            "median": 0.035653091999847675,
+            "maximum": 0.037628484999004286
+          },
+          "proof": {
+            "count": 9,
+            "minimum": 0.035502959002769785,
+            "median": 0.03570970600048895,
+            "maximum": 0.11814921000041068
+          },
+          "kernel": {
+            "count": 9,
+            "minimum": 0.011388851999072358,
+            "median": 0.011585992000618717,
+            "maximum": 0.01969715299856034
+          }
+        }
+      },
+      "artifacts": "results/micromath-stress-339676/; full SLURM outputs remain in prepared Micromath workspace/stress-f555b7f9/",
+      "limitations": "Fixed 12-input size-bounded UNSAT diagnostic sample, not full-corpus/SAT-model validation or a performance comparison. Four workers shared the allocation. Kernel verification certifies exported CNF; source-to-CNF and separate sort-erasure proof objects are not supplied. Timeouts and unsupported inputs remain unverified. No optimization or default promotion follows from this result."
     },
     {
       "id": "2026-11-03-micromath-experimental-sort-erasure",

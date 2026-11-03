@@ -222,9 +222,17 @@ Each reference call has a 20-second limit; each profile shares a 60-second
 pipeline budget, including at most 30 seconds for export, plus a two-second
 termination grace for a timed-out process. The {download}`pilot report
 <../coverage/micromath-stress.json>` records sampling rules, revisions, job
-status and results. The job writes the actual selected manifest and file hashes
-when allocated. This is a bounded diagnostic sample, not full-corpus coverage
-or a performance comparison; pending jobs do not establish benchmark results.
+status and results. The {download}`selected manifest <../../benchmarks/micromath-pilot-20261103.json>`
+pins the twelve inputs by path, size and hash. Job `339676` completed: three
+inputs reached kernel replay in all modes (nine verified profiles), six timed
+out during export (eighteen profiles), two encountered Micromath's unsupported
+positive-arity Boolean declarations (six profiles), and one required exporter
+`ite` lowering (three profiles). All twelve reference answers were UNSAT; no
+wrong answer, invalid conflict or invalid completed proof was observed.
+The TypeSafe successes declare seven object sorts before erasure. All modes
+retained the same lemmas on inputs whose export completed, so this sample shows
+no minimization benefit. This is a bounded diagnostic sample, not full-corpus
+coverage or a performance comparison.
 
 ## Container and literal syntax
 

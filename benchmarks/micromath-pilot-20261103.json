@@ -1,0 +1,97 @@
+{
+  "selection": "two size-rank quantiles (25%,75%) per family, metadata UNSAT, <=1MiB; status in first64KiB",
+  "candidate_counts": {
+    "NEQ": 45,
+    "PEQ": 47,
+    "QG-classification": 3845,
+    "TypeSafe": 3,
+    "20190906-CLEARSY": 11,
+    "2018-Goel-hwbench": 221
+  },
+  "cases": [
+    {
+      "file": "NEQ/NEQ016_size8.smt2",
+      "family": "NEQ",
+      "bytes": 35758,
+      "sha256": "39b444601016b3ed40aefcc5f71dd54b069af4dca1edfce2d4987991ca396e0a",
+      "expected": "unsat"
+    },
+    {
+      "file": "NEQ/NEQ031_size7.smt2",
+      "family": "NEQ",
+      "bytes": 317233,
+      "sha256": "198845253f811b822f6bab83dfef7ce26b32b6f90484b0fa77bd7ac252f593ff",
+      "expected": "unsat"
+    },
+    {
+      "file": "PEQ/PEQ010_size5.smt2",
+      "family": "PEQ",
+      "bytes": 24234,
+      "sha256": "f02fa02d17cb440a24aac01bce88c86149093b2af6ab06203d54ceaf22599922",
+      "expected": "unsat"
+    },
+    {
+      "file": "PEQ/PEQ010_size8.smt2",
+      "family": "PEQ",
+      "bytes": 83789,
+      "sha256": "434d5718c7f9a6c679e3b97015d3b47a9b39e0202b2dd228775ceac305291088",
+      "expected": "unsat"
+    },
+    {
+      "file": "QG-classification/qg6/iso_brn016.smt2",
+      "family": "QG-classification",
+      "bytes": 33869,
+      "sha256": "0582bb70eafcfe71fe7ff77f4577e01faac6f9ab8c2e3e3039d386859dfbe33c",
+      "expected": "unsat"
+    },
+    {
+      "file": "QG-classification/qg5/gensys_icl1081.smt2",
+      "family": "QG-classification",
+      "bytes": 48361,
+      "sha256": "df08beae29bd0f6aef36322aafc0e0430e770282110bb815f63b5bd68447dfff",
+      "expected": "unsat"
+    },
+    {
+      "file": "TypeSafe/z3.1184163.smt2",
+      "family": "TypeSafe",
+      "bytes": 869,
+      "sha256": "b9f7f1d6254ef94dd6472cfd24690e0652e30d2c734c219b69e4ee508fccf578",
+      "expected": "unsat"
+    },
+    {
+      "file": "TypeSafe/z3.1184147.smt2",
+      "family": "TypeSafe",
+      "bytes": 906,
+      "sha256": "4007748020eba2d65405264892e728528cb46d28800731e22072f17649632532",
+      "expected": "unsat"
+    },
+    {
+      "file": "20190906-CLEARSY/0009/00122.smt2",
+      "family": "20190906-CLEARSY",
+      "bytes": 6795,
+      "sha256": "b7313a0ce52480277c8d29e8488d808bc1261abe76f7a0a7cb0f8318767ebb27",
+      "expected": "unsat"
+    },
+    {
+      "file": "20190906-CLEARSY/0000/00068.smt2",
+      "family": "20190906-CLEARSY",
+      "bytes": 28886,
+      "sha256": "896112023503f67e949fe7e1800aae69156766f6f2280a4e35aebecebc2b6769",
+      "expected": "unsat"
+    },
+    {
+      "file": "2018-Goel-hwbench/QF_UF_h_Barrel_ab_cti_max.smt2",
+      "family": "2018-Goel-hwbench",
+      "bytes": 7597,
+      "sha256": "ac45aa15eac0be8412ef2b32baac600dc7d8bfe4e0830966cc32206d2ca6fcf1",
+      "expected": "unsat"
+    },
+    {
+      "file": "2018-Goel-hwbench/QF_UF_collision.5.prop1_ab_reg_max.smt2",
+      "family": "2018-Goel-hwbench",
+      "bytes": 203431,
+      "sha256": "5fe92eef480cd3a3157936ff98ddfe8fef57c6ce87bccca92be7ca0c836bce63",
+      "expected": "unsat"
+    }
+  ]
+}

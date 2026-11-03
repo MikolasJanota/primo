@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "diagnostic real-benchmark pilot submitted; results pending SLURM allocation",
+  "status": "completed diagnostic pilot: 3 of 12 inputs kernel-verified in all modes; export timeouts and unsupported features limit coverage",
   "harness_git": "f555b7f9aabf039b1e8f05fd8a1dfd46e2a7f357",
   "primo_source_git": "c5f14934285ead8feeef32fc2e59469673795e67",
   "micromath_git": "df5c5d3b6dcb3310dde35a2dd134927d34973fa4",
@@ -14,7 +14,7 @@
     "version": "archive revision not inferred; selected files will be pinned individually by SHA-256"
   },
   "selection": {
-    "status": "not run while job pending; no selected-case manifest claimed",
+    "status": "completed: 12 selected inputs, two per family",
     "families": [
       "NEQ",
       "PEQ",
@@ -26,7 +26,16 @@
     "rule": "For each family: .smt2 files <=1048576 bytes with UNSAT status metadata in first65536 bytes; sort by(size,relative path); select distinct floor((N-1)*0.25) and floor((N-1)*0.75) indices. Skip empty families.",
     "maximum_cases": 12,
     "maximum_profiles": 36,
-    "manifest": "job writes selection.json with file paths/sizes/hashes; actual selected manifest will follow execution"
+    "manifest": "benchmarks/micromath-pilot-20261103.json",
+    "candidate_counts": {
+      "NEQ": 45,
+      "PEQ": 47,
+      "QG-classification": 3845,
+      "TypeSafe": 3,
+      "20190906-CLEARSY": 11,
+      "2018-Goel-hwbench": 221
+    },
+    "manifest_sha256": "bf4911a8ebed8dd468d9a5415c467164477c41fb0b68c46e663126e438880eba"
   },
   "profiles": {
     "reduction_modes": [
@@ -65,32 +74,1312 @@
   },
   "slurm": {
     "job_id": "339676",
-    "last_observed_status": "PENDING (Resources)",
-    "scheduler_start_estimate": "2026-11-03T09:43:48 as displayed by SLURM; can change",
+    "last_observed_status": "COMPLETED, exit 0:0",
     "resources": {
       "cpus": 4,
       "memory_gib": 16,
       "wall_minutes": 25
-    }
+    },
+    "elapsed": "00:05:32"
   },
   "command": "PILOT_PYTHON=<Python-3.11> PILOT_SCRIPT=<tracked scripts/micromath_stress.py at f555b7f9> PRIMO_EXPECTED_GIT=c5f14934 sbatch scripts/slurm_micromath_stress.sbatch (supply prepared binary, external tool directories/revisions, reference binary, existing corpus root and fresh output directory)",
   "preflight": "slurm_prepare_benchmark_workspace.py --check-only against clean c5f14934 source worktree/prepared binary passed immediately before submission. Batch syntax, Python compilation, Ruff and make lint passed.",
-  "results": null,
-  "planned_artifacts": "prepared Micromath SLURM workspace/stress-f555b7f9/; local collection target results/micromath-stress-339676/",
-  "limitations": "Initial size-bounded UNSAT diagnostic sample, not full-corpus coverage, SAT/model validation or a performance comparison. Four workers share the allocation. Unsupported ground-fragment/checker features and resource limits are part of the observed scope; no outcomes are claimed before the job runs.",
-  "raw_preparation_artifacts": "results/micromath-stress-339676/{job-status.txt,corpus-inventory.txt,primo-micromath-pilot-preflight.log,primo-micromath-pilot-lint.log}",
+  "results": {
+    "cases": 12,
+    "profiles": 36,
+    "case_errors": 0,
+    "profile_counts": {
+      "export_timeout": 18,
+      "kernel_proven": 9,
+      "checker_rejected": 6,
+      "unsupported_export": 3
+    },
+    "all_profiles_proven": false,
+    "case_counts": {
+      "kernel_proven_all_modes": 3,
+      "export_timeout_all_modes": 6,
+      "checker_unsupported_all_modes": 2,
+      "export_unsupported_all_modes": 1
+    },
+    "reference": {
+      "unsat": 12,
+      "sat": 0,
+      "unknown": 0,
+      "timeout": 0,
+      "error": 0
+    },
+    "wrong_answers_observed": 0,
+    "invalid_conflicts_observed": 0,
+    "invalid_completed_proofs_observed": 0,
+    "crashes_observed": 0,
+    "families": {
+      "2018-Goel-hwbench": {
+        "kernel_proven": 3,
+        "unsupported_export": 3
+      },
+      "20190906-CLEARSY": {
+        "checker_rejected": 6
+      },
+      "NEQ": {
+        "export_timeout": 6
+      },
+      "PEQ": {
+        "export_timeout": 6
+      },
+      "QG-classification": {
+        "export_timeout": 6
+      },
+      "TypeSafe": {
+        "kernel_proven": 6
+      }
+    },
+    "mode_effect": "Outcomes identical across none/core/mus. No lemmas removed on the five inputs whose export completed; this pilot does not demonstrate a minimization benefit.",
+    "triage": {
+      "checker_rejected": "Two CLEARSY inputs declare and use positive-arity Bool functions. All six checker diagnostics say only zero-argument Boolean declarations are supported. Used predicates include mem/subset and >=i; not merely unused declarations.",
+      "unsupported_export": "Goel collision.5 input contains ite; producer rejects it with the documented extended-term lowering requirement.",
+      "export_timeout": "Both selected NEQ, PEQ and QG inputs hit the 30-second export limit in all modes, including none. Micromath was not reached for these 18 profiles; precise internal cause is not profiled here."
+    },
+    "tool_stage_seconds": {
+      "export": {
+        "count": 36,
+        "minimum": 0.021081025999592384,
+        "median": 15.053621095501512,
+        "maximum": 31.022057917001803
+      },
+      "conflicts": {
+        "count": 15,
+        "minimum": 0.007028510000964161,
+        "median": 0.011438353998528328,
+        "maximum": 0.0151161370013142
+      },
+      "challenge": {
+        "count": 9,
+        "minimum": 0.011717352997948183,
+        "median": 0.01215128200055915,
+        "maximum": 0.021039835999545176
+      },
+      "cnf": {
+        "count": 9,
+        "minimum": 0.03537819600023795,
+        "median": 0.035653091999847675,
+        "maximum": 0.037628484999004286
+      },
+      "proof": {
+        "count": 9,
+        "minimum": 0.035502959002769785,
+        "median": 0.03570970600048895,
+        "maximum": 0.11814921000041068
+      },
+      "kernel": {
+        "count": 9,
+        "minimum": 0.011388851999072358,
+        "median": 0.011585992000618717,
+        "maximum": 0.01969715299856034
+      }
+    },
+    "rows": [
+      {
+        "file": "2018-Goel-hwbench/QF_UF_collision.5.prop1_ab_reg_max.smt2",
+        "family": "2018-Goel-hwbench",
+        "bytes": 203431,
+        "sha256": "5fe92eef480cd3a3157936ff98ddfe8fef57c6ce87bccca92be7ca0c836bce63",
+        "expected": "unsat",
+        "reference_answer": "unsat",
+        "reference_state": "ok",
+        "reference_seconds": 0.12141237499963609,
+        "profiles": [
+          {
+            "mode": "none",
+            "status": "unsupported_export",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "error",
+                "exit_code": 2,
+                "seconds": 0.06945534400074393
+              }
+            }
+          },
+          {
+            "mode": "core",
+            "status": "unsupported_export",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "error",
+                "exit_code": 2,
+                "seconds": 0.06952899299722048
+              }
+            }
+          },
+          {
+            "mode": "mus",
+            "status": "unsupported_export",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "error",
+                "exit_code": 2,
+                "seconds": 0.06973528700109455
+              }
+            }
+          }
+        ]
+      },
+      {
+        "file": "2018-Goel-hwbench/QF_UF_h_Barrel_ab_cti_max.smt2",
+        "family": "2018-Goel-hwbench",
+        "bytes": 7597,
+        "sha256": "ac45aa15eac0be8412ef2b32baac600dc7d8bfe4e0830966cc32206d2ca6fcf1",
+        "expected": "unsat",
+        "reference_answer": "unsat",
+        "reference_state": "ok",
+        "reference_seconds": 0.03857804599829251,
+        "profiles": [
+          {
+            "mode": "none",
+            "status": "kernel_proven",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "1",
+              ":export.theory.conflicts-collected": "8",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "240",
+              ":export.theory.conflicts": "8"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.04377753299922915
+              },
+              "conflicts": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011438353998528328
+              },
+              "challenge": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.02012873499916168
+              },
+              "cnf": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03562038699965342
+              },
+              "proof": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.11814921000041068
+              },
+              "kernel": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.01969715299856034
+              }
+            },
+            "proof_artifacts": {
+              "input.primo": {
+                "bytes": 16897,
+                "sha256": "13f1dc8c249c578048ff0cc0cc0b0f5be62f667ea99aca4950a96dfc0fa13f07"
+              },
+              "challenge.umd": {
+                "bytes": 52243,
+                "sha256": "7fb7011f7fd4a0a7500159a40dbe015ec6246e9bc79fa67f8695f50e27cf47b5"
+              },
+              "problem.lrat": {
+                "bytes": 2608,
+                "sha256": "5fa814997a1bb7d7324915d880b556fc8a93a891b14468f1c39e544fbac58e84"
+              },
+              "solution.ump": {
+                "bytes": 173809,
+                "sha256": "74764606b150a53a3cceebd6620998e1c9ef04edbc2356b3c5d7684c4afded71"
+              }
+            }
+          },
+          {
+            "mode": "core",
+            "status": "kernel_proven",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "1",
+              ":export.theory.conflicts-collected": "8",
+              ":export.reduction.sat-calls": "1",
+              ":export.reduction.core-removed": "0",
+              ":export.reduction.block-queries": "0",
+              ":export.reduction.binary-queries": "0",
+              ":export.reduction.max-block-size": "0",
+              ":export.reduction.completed": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "240",
+              ":export.theory.conflicts": "8"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03810029300075257
+              },
+              "conflicts": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011326222000207053
+              },
+              "challenge": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.021039835999545176
+              },
+              "cnf": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03560791500058258
+              },
+              "proof": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.11768916499931947
+              },
+              "kernel": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011535105997609207
+              }
+            },
+            "proof_artifacts": {
+              "input.primo": {
+                "bytes": 16897,
+                "sha256": "13f1dc8c249c578048ff0cc0cc0b0f5be62f667ea99aca4950a96dfc0fa13f07"
+              },
+              "challenge.umd": {
+                "bytes": 52243,
+                "sha256": "7fb7011f7fd4a0a7500159a40dbe015ec6246e9bc79fa67f8695f50e27cf47b5"
+              },
+              "problem.lrat": {
+                "bytes": 2608,
+                "sha256": "5fa814997a1bb7d7324915d880b556fc8a93a891b14468f1c39e544fbac58e84"
+              },
+              "solution.ump": {
+                "bytes": 173809,
+                "sha256": "74764606b150a53a3cceebd6620998e1c9ef04edbc2356b3c5d7684c4afded71"
+              }
+            }
+          },
+          {
+            "mode": "mus",
+            "status": "kernel_proven",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "1",
+              ":export.theory.conflicts-collected": "8",
+              ":export.reduction.sat-calls": "9",
+              ":export.reduction.core-removed": "0",
+              ":export.reduction.block-queries": "8",
+              ":export.reduction.binary-queries": "0",
+              ":export.reduction.max-block-size": "1",
+              ":export.reduction.completed": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "240",
+              ":export.theory.conflicts": "8"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03722171500339755
+              },
+              "conflicts": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.01167450999855646
+              },
+              "challenge": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.02051141800257028
+              },
+              "cnf": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03587595099816099
+              },
+              "proof": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.11774129199693562
+              },
+              "kernel": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011751242000173079
+              }
+            },
+            "proof_artifacts": {
+              "input.primo": {
+                "bytes": 16897,
+                "sha256": "13f1dc8c249c578048ff0cc0cc0b0f5be62f667ea99aca4950a96dfc0fa13f07"
+              },
+              "challenge.umd": {
+                "bytes": 52243,
+                "sha256": "7fb7011f7fd4a0a7500159a40dbe015ec6246e9bc79fa67f8695f50e27cf47b5"
+              },
+              "problem.lrat": {
+                "bytes": 2608,
+                "sha256": "5fa814997a1bb7d7324915d880b556fc8a93a891b14468f1c39e544fbac58e84"
+              },
+              "solution.ump": {
+                "bytes": 173809,
+                "sha256": "74764606b150a53a3cceebd6620998e1c9ef04edbc2356b3c5d7684c4afded71"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "file": "20190906-CLEARSY/0000/00068.smt2",
+        "family": "20190906-CLEARSY",
+        "bytes": 28886,
+        "sha256": "896112023503f67e949fe7e1800aae69156766f6f2280a4e35aebecebc2b6769",
+        "expected": "unsat",
+        "reference_answer": "unsat",
+        "reference_state": "ok",
+        "reference_seconds": 0.038609347997407895,
+        "profiles": [
+          {
+            "mode": "none",
+            "status": "checker_rejected",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "1",
+              ":export.theory.conflicts-collected": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "385",
+              ":export.theory.conflicts": "1"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.06990266900174902
+              },
+              "conflicts": {
+                "state": "error",
+                "exit_code": 1,
+                "seconds": 0.011617112999374513
+              }
+            }
+          },
+          {
+            "mode": "core",
+            "status": "checker_rejected",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "1",
+              ":export.theory.conflicts-collected": "1",
+              ":export.reduction.sat-calls": "1",
+              ":export.reduction.core-removed": "0",
+              ":export.reduction.block-queries": "0",
+              ":export.reduction.binary-queries": "0",
+              ":export.reduction.max-block-size": "0",
+              ":export.reduction.completed": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "385",
+              ":export.theory.conflicts": "1"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.07013058400116279
+              },
+              "conflicts": {
+                "state": "error",
+                "exit_code": 1,
+                "seconds": 0.00714022000101977
+              }
+            }
+          },
+          {
+            "mode": "mus",
+            "status": "checker_rejected",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "1",
+              ":export.theory.conflicts-collected": "1",
+              ":export.reduction.sat-calls": "2",
+              ":export.reduction.core-removed": "0",
+              ":export.reduction.block-queries": "1",
+              ":export.reduction.binary-queries": "0",
+              ":export.reduction.max-block-size": "1",
+              ":export.reduction.completed": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "385",
+              ":export.theory.conflicts": "1"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.0691817440019804
+              },
+              "conflicts": {
+                "state": "error",
+                "exit_code": 1,
+                "seconds": 0.00745215800270671
+              }
+            }
+          }
+        ]
+      },
+      {
+        "file": "20190906-CLEARSY/0009/00122.smt2",
+        "family": "20190906-CLEARSY",
+        "bytes": 6795,
+        "sha256": "b7313a0ce52480277c8d29e8488d808bc1261abe76f7a0a7cb0f8318767ebb27",
+        "expected": "unsat",
+        "reference_answer": "unsat",
+        "reference_state": "ok",
+        "reference_seconds": 0.0380334639994544,
+        "profiles": [
+          {
+            "mode": "none",
+            "status": "checker_rejected",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "1",
+              ":export.theory.conflicts-collected": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "43",
+              ":export.theory.conflicts": "1"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03723728499971912
+              },
+              "conflicts": {
+                "state": "error",
+                "exit_code": 1,
+                "seconds": 0.011572712999623036
+              }
+            }
+          },
+          {
+            "mode": "core",
+            "status": "checker_rejected",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "1",
+              ":export.theory.conflicts-collected": "1",
+              ":export.reduction.sat-calls": "1",
+              ":export.reduction.core-removed": "0",
+              ":export.reduction.block-queries": "0",
+              ":export.reduction.binary-queries": "0",
+              ":export.reduction.max-block-size": "0",
+              ":export.reduction.completed": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "43",
+              ":export.theory.conflicts": "1"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03775981400031014
+              },
+              "conflicts": {
+                "state": "error",
+                "exit_code": 1,
+                "seconds": 0.011626063998846803
+              }
+            }
+          },
+          {
+            "mode": "mus",
+            "status": "checker_rejected",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "1",
+              ":export.theory.conflicts-collected": "1",
+              ":export.reduction.sat-calls": "2",
+              ":export.reduction.core-removed": "0",
+              ":export.reduction.block-queries": "1",
+              ":export.reduction.binary-queries": "0",
+              ":export.reduction.max-block-size": "1",
+              ":export.reduction.completed": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "43",
+              ":export.theory.conflicts": "1"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03732497000237345
+              },
+              "conflicts": {
+                "state": "error",
+                "exit_code": 1,
+                "seconds": 0.011464235998573713
+              }
+            }
+          }
+        ]
+      },
+      {
+        "file": "NEQ/NEQ016_size8.smt2",
+        "family": "NEQ",
+        "bytes": 35758,
+        "sha256": "39b444601016b3ed40aefcc5f71dd54b069af4dca1edfce2d4987991ca396e0a",
+        "expected": "unsat",
+        "reference_answer": "unsat",
+        "reference_state": "ok",
+        "reference_seconds": 13.84947683000064,
+        "profiles": [
+          {
+            "mode": "none",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.12072241900023
+              }
+            }
+          },
+          {
+            "mode": "core",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.038019395997253
+              }
+            }
+          },
+          {
+            "mode": "mus",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.11996273100158
+              }
+            }
+          }
+        ]
+      },
+      {
+        "file": "NEQ/NEQ031_size7.smt2",
+        "family": "NEQ",
+        "bytes": 317233,
+        "sha256": "198845253f811b822f6bab83dfef7ce26b32b6f90484b0fa77bd7ac252f593ff",
+        "expected": "unsat",
+        "reference_answer": "unsat",
+        "reference_state": "ok",
+        "reference_seconds": 0.3206430879981781,
+        "profiles": [
+          {
+            "mode": "none",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.038209536000068
+              }
+            }
+          },
+          {
+            "mode": "core",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.038025416997698
+              }
+            }
+          },
+          {
+            "mode": "mus",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.03837912200106
+              }
+            }
+          }
+        ]
+      },
+      {
+        "file": "PEQ/PEQ010_size5.smt2",
+        "family": "PEQ",
+        "bytes": 24234,
+        "sha256": "f02fa02d17cb440a24aac01bce88c86149093b2af6ab06203d54ceaf22599922",
+        "expected": "unsat",
+        "reference_answer": "unsat",
+        "reference_state": "ok",
+        "reference_seconds": 0.22046745199986617,
+        "profiles": [
+          {
+            "mode": "none",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.12031012800071
+              }
+            }
+          },
+          {
+            "mode": "core",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.069778249999217
+              }
+            }
+          },
+          {
+            "mode": "mus",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.119997005000187
+              }
+            }
+          }
+        ]
+      },
+      {
+        "file": "PEQ/PEQ010_size8.smt2",
+        "family": "PEQ",
+        "bytes": 83789,
+        "sha256": "434d5718c7f9a6c679e3b97015d3b47a9b39e0202b2dd228775ceac305291088",
+        "expected": "unsat",
+        "reference_answer": "unsat",
+        "reference_state": "ok",
+        "reference_seconds": 4.579960850998759,
+        "profiles": [
+          {
+            "mode": "none",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 31.021525279000343
+              }
+            }
+          },
+          {
+            "mode": "core",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 31.022057917001803
+              }
+            }
+          },
+          {
+            "mode": "mus",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 31.022003194997524
+              }
+            }
+          }
+        ]
+      },
+      {
+        "file": "QG-classification/qg5/gensys_icl1081.smt2",
+        "family": "QG-classification",
+        "bytes": 48361,
+        "sha256": "df08beae29bd0f6aef36322aafc0e0430e770282110bb815f63b5bd68447dfff",
+        "expected": "unsat",
+        "reference_answer": "unsat",
+        "reference_state": "ok",
+        "reference_seconds": 0.2204764249981963,
+        "profiles": [
+          {
+            "mode": "none",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.037557449002634
+              }
+            }
+          },
+          {
+            "mode": "core",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.038091772999906
+              }
+            }
+          },
+          {
+            "mode": "mus",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.037306119000277
+              }
+            }
+          }
+        ]
+      },
+      {
+        "file": "QG-classification/qg6/iso_brn016.smt2",
+        "family": "QG-classification",
+        "bytes": 33869,
+        "sha256": "0582bb70eafcfe71fe7ff77f4577e01faac6f9ab8c2e3e3039d386859dfbe33c",
+        "expected": "unsat",
+        "reference_answer": "unsat",
+        "reference_state": "ok",
+        "reference_seconds": 0.0726549779974448,
+        "profiles": [
+          {
+            "mode": "none",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.03743622500042
+              }
+            }
+          },
+          {
+            "mode": "core",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.03711160700186
+              }
+            }
+          },
+          {
+            "mode": "mus",
+            "status": "export_timeout",
+            "statistics": {},
+            "stages": {
+              "export": {
+                "state": "timeout",
+                "exit_code": 0,
+                "seconds": 30.038024511999538
+              }
+            }
+          }
+        ]
+      },
+      {
+        "file": "TypeSafe/z3.1184147.smt2",
+        "family": "TypeSafe",
+        "bytes": 906,
+        "sha256": "4007748020eba2d65405264892e728528cb46d28800731e22072f17649632532",
+        "expected": "unsat",
+        "reference_answer": "unsat",
+        "reference_state": "ok",
+        "reference_seconds": 0.022449700998549815,
+        "profiles": [
+          {
+            "mode": "none",
+            "status": "kernel_proven",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "7",
+              ":export.theory.conflicts-collected": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "5",
+              ":export.theory.conflicts": "1"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.021081025999592384
+              },
+              "conflicts": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.007028510000964161
+              },
+              "challenge": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011717352997948183
+              },
+              "cnf": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03537819600023795
+              },
+              "proof": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.035514867999154376
+              },
+              "kernel": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011505394999403507
+              }
+            },
+            "proof_artifacts": {
+              "input.primo": {
+                "bytes": 870,
+                "sha256": "09b8bd98d366984b6e2a9f881e8b856166660f9957b7dbec1ed2b4d2993202c5"
+              },
+              "challenge.umd": {
+                "bytes": 5644,
+                "sha256": "efe7cd41573d3e53d6f42e134f125711b476209a57784c1580b2ca3425e84996"
+              },
+              "problem.lrat": {
+                "bytes": 22,
+                "sha256": "7243957fd3451ca1116bd93166c67ec91e3058a4436b9f24ca9b802409171f64"
+              },
+              "solution.ump": {
+                "bytes": 32877,
+                "sha256": "efb821ac3438d7a02282202f9fa8cad6c51e975409304ad524a47a1d61a8b178"
+              }
+            }
+          },
+          {
+            "mode": "core",
+            "status": "kernel_proven",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "7",
+              ":export.theory.conflicts-collected": "1",
+              ":export.reduction.sat-calls": "1",
+              ":export.reduction.core-removed": "0",
+              ":export.reduction.block-queries": "0",
+              ":export.reduction.binary-queries": "0",
+              ":export.reduction.max-block-size": "0",
+              ":export.reduction.completed": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "5",
+              ":export.theory.conflicts": "1"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.021464461002324242
+              },
+              "conflicts": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011331035999319283
+              },
+              "challenge": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.01215128200055915
+              },
+              "cnf": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.037206357999821194
+              },
+              "proof": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03559757900075056
+              },
+              "kernel": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011868594003317412
+              }
+            },
+            "proof_artifacts": {
+              "input.primo": {
+                "bytes": 870,
+                "sha256": "09b8bd98d366984b6e2a9f881e8b856166660f9957b7dbec1ed2b4d2993202c5"
+              },
+              "challenge.umd": {
+                "bytes": 5644,
+                "sha256": "efe7cd41573d3e53d6f42e134f125711b476209a57784c1580b2ca3425e84996"
+              },
+              "problem.lrat": {
+                "bytes": 22,
+                "sha256": "7243957fd3451ca1116bd93166c67ec91e3058a4436b9f24ca9b802409171f64"
+              },
+              "solution.ump": {
+                "bytes": 32877,
+                "sha256": "efb821ac3438d7a02282202f9fa8cad6c51e975409304ad524a47a1d61a8b178"
+              }
+            }
+          },
+          {
+            "mode": "mus",
+            "status": "kernel_proven",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "7",
+              ":export.theory.conflicts-collected": "1",
+              ":export.reduction.sat-calls": "2",
+              ":export.reduction.core-removed": "0",
+              ":export.reduction.block-queries": "1",
+              ":export.reduction.binary-queries": "0",
+              ":export.reduction.max-block-size": "1",
+              ":export.reduction.completed": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "5",
+              ":export.theory.conflicts": "1"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.02233893299853662
+              },
+              "conflicts": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011343304999172688
+              },
+              "challenge": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011934938000194961
+              },
+              "cnf": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.0359252429989283
+              },
+              "proof": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.035502959002769785
+              },
+              "kernel": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011388851999072358
+              }
+            },
+            "proof_artifacts": {
+              "input.primo": {
+                "bytes": 870,
+                "sha256": "09b8bd98d366984b6e2a9f881e8b856166660f9957b7dbec1ed2b4d2993202c5"
+              },
+              "challenge.umd": {
+                "bytes": 5644,
+                "sha256": "efe7cd41573d3e53d6f42e134f125711b476209a57784c1580b2ca3425e84996"
+              },
+              "problem.lrat": {
+                "bytes": 22,
+                "sha256": "7243957fd3451ca1116bd93166c67ec91e3058a4436b9f24ca9b802409171f64"
+              },
+              "solution.ump": {
+                "bytes": 32877,
+                "sha256": "efb821ac3438d7a02282202f9fa8cad6c51e975409304ad524a47a1d61a8b178"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "file": "TypeSafe/z3.1184163.smt2",
+        "family": "TypeSafe",
+        "bytes": 869,
+        "sha256": "b9f7f1d6254ef94dd6472cfd24690e0652e30d2c734c219b69e4ee508fccf578",
+        "expected": "unsat",
+        "reference_answer": "unsat",
+        "reference_state": "ok",
+        "reference_seconds": 0.03859474699856946,
+        "profiles": [
+          {
+            "mode": "none",
+            "status": "kernel_proven",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "7",
+              ":export.theory.conflicts-collected": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "4",
+              ":export.theory.conflicts": "1"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.021664408999640727
+              },
+              "conflicts": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.0151161370013142
+              },
+              "challenge": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.01422542200089083
+              },
+              "cnf": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.037628484999004286
+              },
+              "proof": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03792550900107017
+              },
+              "kernel": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011720424001396168
+              }
+            },
+            "proof_artifacts": {
+              "input.primo": {
+                "bytes": 829,
+                "sha256": "140f942cf91fe72160bbf65b47ac85277c75f586e12ed60c16c4aca63c717e1b"
+              },
+              "challenge.umd": {
+                "bytes": 5551,
+                "sha256": "8edb4b269fb777858b7e943dc8494c0f634f97d19f8242e128a6df82a2ee40c9"
+              },
+              "problem.lrat": {
+                "bytes": 14,
+                "sha256": "f784c87289e9e7428f833dcaec96721d3d7158ba9ac1d16a94549b43ec6b9443"
+              },
+              "solution.ump": {
+                "bytes": 32595,
+                "sha256": "5350cc859220608c66bc81c25db7d0aa29d2ed7d26c3b8e0d33b516667df1973"
+              }
+            }
+          },
+          {
+            "mode": "core",
+            "status": "kernel_proven",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "7",
+              ":export.theory.conflicts-collected": "1",
+              ":export.reduction.sat-calls": "1",
+              ":export.reduction.core-removed": "0",
+              ":export.reduction.block-queries": "0",
+              ":export.reduction.binary-queries": "0",
+              ":export.reduction.max-block-size": "0",
+              ":export.reduction.completed": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "4",
+              ":export.theory.conflicts": "1"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.022094478001235984
+              },
+              "conflicts": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.007225705001474125
+              },
+              "challenge": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011909798999113264
+              },
+              "cnf": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.0355175650001911
+              },
+              "proof": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03560804000153439
+              },
+              "kernel": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011480209999717772
+              }
+            },
+            "proof_artifacts": {
+              "input.primo": {
+                "bytes": 829,
+                "sha256": "140f942cf91fe72160bbf65b47ac85277c75f586e12ed60c16c4aca63c717e1b"
+              },
+              "challenge.umd": {
+                "bytes": 5551,
+                "sha256": "8edb4b269fb777858b7e943dc8494c0f634f97d19f8242e128a6df82a2ee40c9"
+              },
+              "problem.lrat": {
+                "bytes": 14,
+                "sha256": "f784c87289e9e7428f833dcaec96721d3d7158ba9ac1d16a94549b43ec6b9443"
+              },
+              "solution.ump": {
+                "bytes": 32595,
+                "sha256": "5350cc859220608c66bc81c25db7d0aa29d2ed7d26c3b8e0d33b516667df1973"
+              }
+            }
+          },
+          {
+            "mode": "mus",
+            "status": "kernel_proven",
+            "statistics": {
+              ":export.sort-erasure.enabled": "1",
+              ":export.sort-erasure.input-sorts": "7",
+              ":export.theory.conflicts-collected": "1",
+              ":export.reduction.sat-calls": "2",
+              ":export.reduction.core-removed": "0",
+              ":export.reduction.block-queries": "1",
+              ":export.reduction.binary-queries": "0",
+              ":export.reduction.max-block-size": "1",
+              ":export.reduction.completed": "1",
+              ":export.theory.conflicts-removed": "0",
+              ":export.cnf.clauses": "4",
+              ":export.theory.conflicts": "1"
+            },
+            "stages": {
+              "export": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.021457267001096625
+              },
+              "conflicts": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011525181998877088
+              },
+              "challenge": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.01200756099933642
+              },
+              "cnf": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.035653091999847675
+              },
+              "proof": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.03570970600048895
+              },
+              "kernel": {
+                "state": "ok",
+                "exit_code": 0,
+                "seconds": 0.011585992000618717
+              }
+            },
+            "proof_artifacts": {
+              "input.primo": {
+                "bytes": 829,
+                "sha256": "140f942cf91fe72160bbf65b47ac85277c75f586e12ed60c16c4aca63c717e1b"
+              },
+              "challenge.umd": {
+                "bytes": 5551,
+                "sha256": "8edb4b269fb777858b7e943dc8494c0f634f97d19f8242e128a6df82a2ee40c9"
+              },
+              "problem.lrat": {
+                "bytes": 14,
+                "sha256": "f784c87289e9e7428f833dcaec96721d3d7158ba9ac1d16a94549b43ec6b9443"
+              },
+              "solution.ump": {
+                "bytes": 32595,
+                "sha256": "5350cc859220608c66bc81c25db7d0aa29d2ed7d26c3b8e0d33b516667df1973"
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "limitations": "Fixed 12-input size-bounded UNSAT diagnostic sample, not full-corpus/SAT-model validation or a performance comparison. Four workers shared the allocation. Kernel verification certifies exported CNF; source-to-CNF and separate sort-erasure proof objects are not supplied. Timeouts and unsupported inputs remain unverified. No optimization or default promotion follows from this result.",
+  "raw_preparation_artifacts": "results/micromath-stress-339676/{completed-status.txt,summary.json,selection.json,provenance.json,cases/}; earlier preflight/corpus/lint evidence is retained in the same directory",
   "documentation_review": {
     "reviewer": "review_micromath_sort_erasure_docs, independent read-only",
-    "baseline": "aee1263d",
+    "baseline": "ea32680e",
     "harness_git": "f555b7f9aabf039b1e8f05fd8a1dfd46e2a7f357",
-    "verdict": "ready for pending-experiment scope",
-    "finding": "SP-D1 resolved: distinguish reference outcomes from profile pipeline failures",
-    "accepted_report_sha256_before_verdict_record": "83d14100ba5c7a17df27c73b5f554df019426da318f3d4d99930a0f82b24116c",
+    "verdict": "ready for completed diagnostic-result scope; no required findings",
+    "accepted_report_sha256_before_verdict_record": "25f120105509f18fc49a6843b740ebcb6de0d19d7f73a44aa7d55dc7a14ce520",
     "files_sha256": {
-      "docs/reference/qf-uf-conflicts.md": "4207e3953b3e02ff86edab37b9f18d746a68472d9d4058b66a4356e75164f654",
-      "docs/_config.yml": "9a1cbc9fcdae28e27107cb8917d4ff839e48954a83a96e163a59c09ffab985df"
+      "docs/reference/qf-uf-conflicts.md": "3183959cb0ab1c308a67ad9d6e8dbd53ccb6b89729d1ea7bbe7c9090a3c1dd13",
+      "benchmarks/micromath-pilot-20261103.json": "bf4911a8ebed8dd468d9a5415c467164477c41fb0b68c46e663126e438880eba"
     },
-    "unchecked": "Completed evaluation and independent rendered-output verification. Writer ran docs build, local/Git link checks and inspected the new rendered subsection."
+    "checked": "Completed scheduler status, twelve reference answers, profile counts/diagnostics, nine kernel success logs, all36 successful artifact sizes/hashes, predicate usage, identical reduction-mode outputs and selected manifest.",
+    "unchecked": "Rendering checks remain writer verification; no solver runs by reviewer."
   },
-  "validation": "make lint, Ruff, Python compilation, batch syntax, make docs and strict local/Git link check passed:270 pages,35087 local links,1151 Git links,zero failures. No solver behavior changed after qualified source c5f14934."
+  "validation": "Result JSON and fixed manifest parse; make docs and strict local/Git link checks pass:270 pages,35088 local links,1151 Git links,zero failures. Successful downloaded certificate artifacts match recorded hashes. No solver behavior changed after qualified source c5f14934.",
+  "provenance": {
+    "primo_git": "c5f14934",
+    "micromath_git": "df5c5d3b6dcb3310dde35a2dd134927d34973fa4",
+    "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+    "job_id": "339676",
+    "python": "3.11.7",
+    "workers": 4,
+    "reference_timeout_seconds": 20.0,
+    "mode_budget_seconds": 60.0,
+    "phase_limits_seconds": {
+      "export": 30,
+      "conflicts": 10,
+      "challenge": 10,
+      "cnf": 15,
+      "proof": 30,
+      "kernel": 10
+    },
+    "as_limit_bytes_per_worker_and_child": 3221225472,
+    "file_size_limit_bytes": 268435456,
+    "binary_sha256": {
+      "primo": "adcd3896908f4add5ca791469a3b4d934560ac1b2bf41228aaefebbefaaad2fb",
+      "reference": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+      "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "check-solution": "43937cb0a72f1d13f0320efa01a43e7413161eb4519eb3788f527403f3786404"
+    },
+    "harness_sha256": "af711fe90b4fd63835e61be330f3dd7f1a8bf0abf21c695f22e460e7813b78d6"
+  },
+  "artifacts": "results/micromath-stress-339676/; full SLURM outputs remain in prepared Micromath workspace/stress-f555b7f9/"
 }
