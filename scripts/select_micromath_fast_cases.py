@@ -69,10 +69,17 @@ def main() -> None:
     history.add_argument("--history", type=Path)
     parser.add_argument("--historical-source-git")
     parser.add_argument("--corpus", type=Path, required=True)
-    parser.add_argument("--exclude-manifest", type=Path, required=True)
+    parser.add_argument("--exclude-manifest", type=Path, action="append", required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--count", type=int, default=6)
+    parser.add_argument("--max-per-family", type=int, default=2)
+    parser.add_argument("--min-bytes", type=int, default=65536)
+    parser.add_argument("--max-bytes", type=int, default=2097152)
     args = parser.parse_args()
+    if args.count < 1 or args.max_per_family < 1:
+        parser.error("case and family limits must be positive")
+    if not 0 <= args.min_bytes <= args.max_bytes:
+        parser.error("invalid source-size interval")
     if not os.environ.get("SLURM_JOB_ID"):
         parser.error("corpus selection belongs in SLURM")
     if args.history and not args.historical_source_git:
@@ -82,9 +89,14 @@ def main() -> None:
         if args.history
         else json.loads(args.records.read_text())
     )
-    excluded = {
-        row["file"] for row in json.loads(args.exclude_manifest.read_text())["cases"]
-    }
+    previous = [
+        row
+        for manifest in args.exclude_manifest
+        for row in json.loads(manifest.read_text())["cases"]
+    ]
+    excluded = {row["file"] for row in previous}
+    excluded_hashes = {row["sha256"] for row in previous}
+    selected_hashes: set[str] = set()
     candidates = []
     for row in records:
         relative = Path(row["file"])
@@ -95,16 +107,23 @@ def main() -> None:
                 "records must contain confirmed native UNSAT rows within one second"
             )
         path = args.corpus / relative
-        if row["file"] not in excluded and path.is_file():
+        if (
+            row["file"] not in excluded
+            and row["sha256"] not in excluded_hashes
+            and path.is_file()
+        ):
             size = path.stat().st_size
-            if 65536 <= size <= 2097152:
+            if args.min_bytes <= size <= args.max_bytes:
                 candidates.append({**row, "bytes": size})
     candidates.sort(key=lambda row: (-row["bytes"], row["file"]))
     selected = []
     families: Counter[str] = Counter()
     rejected: Counter[str] = Counter()
     for row in candidates:
-        if families[row["family"]] >= 2:
+        if families[row["family"]] >= args.max_per_family:
+            continue
+        if row["sha256"] in selected_hashes:
+            rejected["duplicate_input_hash"] += 1
             continue
         raw = (args.corpus / row["file"]).read_bytes()
         if hashlib.sha256(raw).hexdigest() != row["sha256"]:
@@ -124,11 +143,22 @@ def main() -> None:
             rejected["boolean_function_signature"] += 1
             continue
         selected.append(row)
+        selected_hashes.add(row["sha256"])
         families[row["family"]] += 1
         if len(selected) == args.count:
             break
     result = {
-        "selection": "recorded native UNSAT<=1s;64KiB..2MiB;largest first,max2perfamily;historical input hashes match;exclude prior pilot and Boolean function signatures",
+        "selection": (
+            f"recorded native UNSAT<=1s;{args.min_bytes}..{args.max_bytes} source bytes;"
+            f"largest first,max{args.max_per_family}perfamily;historical input hashes match;"
+            "exclude prior paths/hashes, duplicate hashes and Boolean function signatures"
+        ),
+        "requested_cases": args.count,
+        "selected_cases": len(selected),
+        "max_per_family": args.max_per_family,
+        "family_counts": dict(families),
+        "source_size_bytes": {"minimum": args.min_bytes, "maximum": args.max_bytes},
+        "excluded_manifests": [str(path) for path in args.exclude_manifest],
         "native_configuration": "historical default --quiet; not a claim about current exporter timing",
         "record_count": len(records),
         "size_eligible": len(candidates),

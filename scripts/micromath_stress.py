@@ -21,7 +21,11 @@ MODES = ("none", "core", "mus")
 
 
 def digest(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
+    state = hashlib.sha256()
+    with path.open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            state.update(block)
+    return state.hexdigest()
 
 
 def invoke(command: list[str], cwd: Path, log: Path, timeout: float) -> dict:
@@ -249,7 +253,7 @@ def run_case(args: argparse.Namespace, index: int, case: dict) -> dict:
         profile["files"] = {
             p.name: {"bytes": p.stat().st_size, "sha256": digest(p)}
             for p in trial.iterdir()
-            if p.suffix in {".primo", ".lrat", ".ump"}
+            if p.suffix in {".primo", ".lrat", ".ump", ".umd", ".cnf"}
         }
         (trial / "result.json").write_text(json.dumps(profile, indent=2) + "\n")
     return result
@@ -310,6 +314,11 @@ def main() -> None:
                 "reference": args.reference,
                 "cadical": args.cadical,
                 "check-solution": str(args.micromath / "check-solution"),
+                "build-axioms": str(args.micromath / "build-axioms"),
+                "check-conflicts": str(args.micromath / "smt/check-conflicts"),
+                "build-challenge": str(args.micromath / "smt/build-challenge"),
+                "prove-cnf": str(args.micromath / "smt/prove-cnf"),
+                "prove-lrat": str(args.micromath / "smt/prove-lrat"),
             }.items()
         },
         "harness_sha256": digest(Path(__file__)),

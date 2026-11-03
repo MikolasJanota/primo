@@ -1,0 +1,3883 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-03",
+  "kind": "expanded-real-QF_UF-certificate-replay",
+  "producer_git": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+  "workflow_baseline_git": "2cb4c20b",
+  "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+  "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+  "job_id": "345465",
+  "host": "node-02.ciircluster",
+  "selection_manifest": "benchmarks/micromath-expanded-20261103.json",
+  "selection": {
+    "selection": "recorded native UNSAT<=1s;4096..2097152 source bytes;largest first,max4perfamily;historical input hashes match;exclude prior paths/hashes, duplicate hashes and Boolean function signatures",
+    "requested_cases": 24,
+    "selected_cases": 20,
+    "max_per_family": 4,
+    "family_counts": {
+      "Goel": 4,
+      "QG": 4,
+      "SEQ": 4,
+      "PEQ": 4,
+      "eq_diamond": 4
+    },
+    "source_size_bytes": {
+      "minimum": 4096,
+      "maximum": 2097152
+    },
+    "excluded_manifests": [
+      "benchmarks/micromath-pilot-20261103.json",
+      "benchmarks/micromath-fast-unsat-20261103.json"
+    ],
+    "native_configuration": "historical default --quiet; not a claim about current exporter timing",
+    "record_count": 3562,
+    "size_eligible": 3478,
+    "rejected_before_selection": {
+      "boolean_function_signature": 62
+    },
+    "job_id": "345465"
+  },
+  "workflow_sha256": {
+    "select_micromath_fast_cases.py": "a370b84d0a80a58d8f8ae99a1b406c9ca7a587c36deb0d6ebba1052a26efc2ce",
+    "micromath_stress.py": "de065a7dd92a22b8b83a89cb0577ae54e981f9aeb59cb70ffc70eecd7a6b982d"
+  },
+  "tool_sha256": {
+    "primo": "92893c0735dea9a615927d0bc8341b1b3d064d5ac909263a429d9fd3bed000c2",
+    "reference": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+    "check-solution": "b39dc3bf07263c92c4e4ff2fdfe43bcd20f3b1ce061ecf9f5fc794f29abfab8c",
+    "build-axioms": "b11d9b3a572b9c2d110d61cdb1104b8ffd1c001e227884dc3efda64a8cba46e1",
+    "check-conflicts": "6bd792cce5ef523120eb29d1d986d18b9b7107c6498d4037e08de131c635892f",
+    "build-challenge": "15612e0398df7c5cc3dd046de5f7d23124fc0d956908740211791510064db16c",
+    "prove-cnf": "b8fb907df7591526b6200e77df8addf123be2678e7c01fcd37d1ee27f152215c",
+    "prove-lrat": "df150f389dc77067d7018bf171ffbb5579a69b8845dab06ba1dbfcc687a2279d"
+  },
+  "summary": {
+    "cases_completed": 20,
+    "cases_selected": 20,
+    "case_errors": 0,
+    "profile_counts": {
+      "kernel_proven": 57,
+      "export_timeout": 3
+    },
+    "profiles_expected": 60,
+    "all_profiles_proven": false,
+    "families": {
+      "Goel": {
+        "kernel_proven": 12
+      },
+      "PEQ": {
+        "kernel_proven": 12
+      },
+      "QG": {
+        "kernel_proven": 9,
+        "export_timeout": 3
+      },
+      "SEQ": {
+        "kernel_proven": 12
+      },
+      "eq_diamond": {
+        "kernel_proven": 12
+      }
+    }
+  },
+  "references": {
+    "ok:unsat": 17,
+    "timeout:no-answer": 3
+  },
+  "limits": {
+    "allocation": {
+      "cpus": 4,
+      "memory_gib": 16,
+      "wall_minutes": 18
+    },
+    "workers": 4,
+    "worker_address_space_gib": 3,
+    "worker_file_limit_mib": 256,
+    "reference_timeout_seconds": 10,
+    "shared_profile_budget_seconds": 40,
+    "phase_limits_seconds": {
+      "baseline_export": 5,
+      "reduced_export": 30,
+      "conflicts": 10,
+      "challenge": 10,
+      "cnf": 15,
+      "proof": 30,
+      "kernel": 10
+    },
+    "termination_grace_seconds": 2,
+    "parent_setup": "version and axiom build each 10s, allocation memory/wall limits; no parent address-space or per-file caps",
+    "scope": "profile subprocess budget excludes later streaming file hashing and metadata parsing; allocation wall time bounds whole run"
+  },
+  "artifacts": {
+    "metadata_and_logs": "results/micromath-expanded-345465",
+    "complete_remote": "$EXTERNAL_WORKSPACE/expanded-345465",
+    "retention": "The local result mirror contains metadata, logs and all 57 successfully checked input.primo certificates. Generated CNF/challenge/LRAT/kernel-proof files remain in the SLURM workspace. Per-profile SHA-256 and byte sizes identify exact checked files."
+  },
+  "scope": [
+    "Twenty new hash-distinct inputs, excluding both previous manifests by path and content hash. This is a bounded supported-subset sample, not full-corpus coverage.",
+    "No native C++ changes or source-to-CNF conversion proof. Kernel proofs establish only the exported CNF plus checked theory lemmas.",
+    "Three first-pass MUS timeouts occur after main UNSAT; statistics are recovered from exporter stderr because the interrupted stage has no structured statistics. NONE and CORE pass on those same inputs.",
+    "Reference timeouts are separate from certificate outcomes; no SAT or other reference disagreement observed.",
+    "Experimental sort erasure enabled in every export. Historical <=1s native records are selection evidence, not speed comparisons."
+  ],
+  "cases": [
+    {
+      "index": "002",
+      "file": "2018-Goel-hwbench/QF_UF_peg_solitaire.1.prop1_ab_fp_max.smt2",
+      "family": "Goel",
+      "source_bytes": 456797,
+      "source_sha256": "36793970498c57dfcd932f8f922b189f8ea0a2a39e6512691e81296b0614b9c4",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "3",
+            ":export.solve-and-collect.us": "671597",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "28241",
+            ":export.format-conflicts.us": "37258",
+            ":export.spool.signature-bytes": "369710",
+            ":export.spool.cnf-bytes": "468744",
+            ":export.spool.conflict-bytes": "891573",
+            ":export.theory.conflicts-collected": "1086",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "10019",
+            ":export.theory.conflicts": "1086",
+            ":export.final-write.us": "10018"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1730111,
+              "sha256": "ebbed324ae5d4c95f2a018df7efffb546247ad3bb5e79721f7512954c98dec11"
+            },
+            "solution.ump": {
+              "bytes": 23059495,
+              "sha256": "e9ccd73c00e17e6de069a853c2a2872d7b35e3c61c72d744dfc72dfec14873e1"
+            },
+            "challenge.umd": {
+              "bytes": 2633499,
+              "sha256": "011f574ee694c50c0354643d56123acd15544fcaab71f0c1e4225217042c2349"
+            },
+            "problem.lrat": {
+              "bytes": 945498,
+              "sha256": "a0f2449bf36b090a614252bbf87b54a5c32bc9426148a4b8b309a89fb1448113"
+            },
+            "problem.cnf": {
+              "bytes": 656251,
+              "sha256": "b28e0a28dbddc1c471cf4121a9e4dc9f139c57653450553c1b15ef5d0d046f5a"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.8216146190025029,
+            "conflicts": 0.11709122100000968,
+            "challenge": 1.2194043639974552,
+            "cnf": 0.2678100929988432,
+            "proof": 6.981052741997701,
+            "kernel": 0.9692336630032514
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "3",
+            ":export.solve-and-collect.us": "635859",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "24581",
+            ":export.format-conflicts.us": "32970",
+            ":export.spool.signature-bytes": "369710",
+            ":export.spool.cnf-bytes": "468744",
+            ":export.spool.conflict-bytes": "891573",
+            ":export.theory.conflicts-collected": "1086",
+            ":export.reduction.us": "42210",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "694",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "694",
+            ":export.cnf.clauses": "10019",
+            ":export.theory.conflicts": "392",
+            ":export.final-write.us": "8519"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1082001,
+              "sha256": "fee491775ec8a524d0f3fe8c30e76ed021a9ef935e3bde7b6e64e553c28c8951"
+            },
+            "solution.ump": {
+              "bytes": 26223552,
+              "sha256": "1614a458a9793ba3819172f13b19d79b9264e43af21acc54cb57bb2c144e0268"
+            },
+            "challenge.umd": {
+              "bytes": 2633499,
+              "sha256": "011f574ee694c50c0354643d56123acd15544fcaab71f0c1e4225217042c2349"
+            },
+            "problem.lrat": {
+              "bytes": 616193,
+              "sha256": "b94eaa136d9050a57b3eeda1a462c83fd79bc68d67e0c3904d18152a1c7dc327"
+            },
+            "problem.cnf": {
+              "bytes": 555788,
+              "sha256": "d1af07af3c88a91041e12093b833a10447f7807911a85e7b9d071aabe9f447b7"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.8198204309956054,
+            "conflicts": 0.11733328200352844,
+            "challenge": 1.1696822810044978,
+            "cnf": 0.16747493100410793,
+            "proof": 4.678525047995208,
+            "kernel": 1.0690872259947355
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "3",
+            ":export.solve-and-collect.us": "616790",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "17376",
+            ":export.format-conflicts.us": "35505",
+            ":export.spool.signature-bytes": "369710",
+            ":export.spool.cnf-bytes": "468744",
+            ":export.spool.conflict-bytes": "891573",
+            ":export.theory.conflicts-collected": "1086",
+            ":export.reduction.us": "1261388",
+            ":export.reduction.sat-calls": "431",
+            ":export.reduction.core-removed": "694",
+            ":export.reduction.block-queries": "363",
+            ":export.reduction.binary-queries": "67",
+            ":export.reduction.max-block-size": "4",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "790",
+            ":export.cnf.clauses": "10019",
+            ":export.theory.conflicts": "296",
+            ":export.final-write.us": "9585"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1043652,
+              "sha256": "9d752d209bfbd87cb249f556ed4eae8c158504c6ca4a98848b75a7c7ecce36af"
+            },
+            "solution.ump": {
+              "bytes": 28184801,
+              "sha256": "f24a43f468c42751f9e3bec139ee5de193f03daf8a9669fab104dd9820f03c7e"
+            },
+            "challenge.umd": {
+              "bytes": 2633499,
+              "sha256": "011f574ee694c50c0354643d56123acd15544fcaab71f0c1e4225217042c2349"
+            },
+            "problem.lrat": {
+              "bytes": 621684,
+              "sha256": "52f9f3edeabb8d1773abedbd7347bbd41310d1250622ed5d7baf5dd5f36f0f21"
+            },
+            "problem.cnf": {
+              "bytes": 547916,
+              "sha256": "ef7bcaedb6bc4928bd6bc955130ac6561b2cb7d5940a04ba6275a90ccba09c6a"
+            }
+          },
+          "stage_seconds": {
+            "export": 2.0218308699986665,
+            "conflicts": 0.1175147920002928,
+            "challenge": 1.2194952360005118,
+            "cnf": 0.21806092599581461,
+            "proof": 4.675369974000205,
+            "kernel": 1.0194613999992725
+          }
+        }
+      ]
+    },
+    {
+      "index": "001",
+      "file": "2018-Goel-hwbench/QF_UF_peg_solitaire.4.prop1_ab_fp_max.smt2",
+      "family": "Goel",
+      "source_bytes": 509850,
+      "source_sha256": "c808e7413583270645bb7dcccac16962cf954157d09bcce1284ea1ff30bfc7ca",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "3",
+            ":export.solve-and-collect.us": "836680",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "31637",
+            ":export.format-conflicts.us": "38071",
+            ":export.spool.signature-bytes": "425919",
+            ":export.spool.cnf-bytes": "518998",
+            ":export.spool.conflict-bytes": "921328",
+            ":export.theory.conflicts-collected": "1264",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "10775",
+            ":export.theory.conflicts": "1264",
+            ":export.final-write.us": "10098"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1866329,
+              "sha256": "d74bada15156aaf0e728324a5bf459663769b294b08b599adda1864929e52880"
+            },
+            "solution.ump": {
+              "bytes": 29005765,
+              "sha256": "61ab9f85504282b9f531f2ad4eda2af36ca53a13598319a9670be6370f6a6e54"
+            },
+            "challenge.umd": {
+              "bytes": 2930059,
+              "sha256": "5c69206d26f93877e41a7b56e678fc909567cdfa0ff525665b477f26a144e74d"
+            },
+            "problem.lrat": {
+              "bytes": 960343,
+              "sha256": "2a12e4d480eb9bf6a55d6a59d964e1786deba24a9d514f0e8914e29d16a0c448"
+            },
+            "problem.cnf": {
+              "bytes": 701813,
+              "sha256": "61609b9dfe128e079f0c6a16c373a4e58ccd0b7c2a62751294452c9345042db8"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.9710424320001039,
+            "conflicts": 0.16701060799823608,
+            "challenge": 1.469642814998224,
+            "cnf": 0.2679717310020351,
+            "proof": 7.529165654996177,
+            "kernel": 1.2690715719945729
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "3",
+            ":export.solve-and-collect.us": "780904",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "20052",
+            ":export.format-conflicts.us": "40592",
+            ":export.spool.signature-bytes": "425919",
+            ":export.spool.cnf-bytes": "518998",
+            ":export.spool.conflict-bytes": "921328",
+            ":export.theory.conflicts-collected": "1264",
+            ":export.reduction.us": "102580",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "808",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "808",
+            ":export.cnf.clauses": "10775",
+            ":export.theory.conflicts": "456",
+            ":export.final-write.us": "8495"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1185532,
+              "sha256": "c666595ed637079532c6bae62a44a105d9581b78fa9e762e7ce56a6a3229ec77"
+            },
+            "solution.ump": {
+              "bytes": 28937809,
+              "sha256": "dcbd2657d7d5ddeaefa381cc5fb6386ed7baf8d841d1b054ef196475de1e0f80"
+            },
+            "challenge.umd": {
+              "bytes": 2930059,
+              "sha256": "5c69206d26f93877e41a7b56e678fc909567cdfa0ff525665b477f26a144e74d"
+            },
+            "problem.lrat": {
+              "bytes": 634716,
+              "sha256": "987164064f285db5751732cf2f714399b63e4705d74450bf1fa4bc70a1b17ff9"
+            },
+            "problem.cnf": {
+              "bytes": 601838,
+              "sha256": "3caf3d1a77b7107a66d63042eee5dd21c13743ba92bfc8f95a0e94c5503a7a97"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.0201920960025745,
+            "conflicts": 0.11754142900463194,
+            "challenge": 1.5699762270014617,
+            "cnf": 0.21750793400133261,
+            "proof": 5.226719158999913,
+            "kernel": 1.21920603900071
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "3",
+            ":export.solve-and-collect.us": "845393",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "29827",
+            ":export.format-conflicts.us": "38306",
+            ":export.spool.signature-bytes": "425919",
+            ":export.spool.cnf-bytes": "518998",
+            ":export.spool.conflict-bytes": "921328",
+            ":export.theory.conflicts-collected": "1264",
+            ":export.reduction.us": "2200340",
+            ":export.reduction.sat-calls": "513",
+            ":export.reduction.core-removed": "808",
+            ":export.reduction.block-queries": "400",
+            ":export.reduction.binary-queries": "112",
+            ":export.reduction.max-block-size": "4",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "976",
+            ":export.cnf.clauses": "10775",
+            ":export.theory.conflicts": "288",
+            ":export.final-write.us": "9002"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1111991,
+              "sha256": "9a91a65d24daed06d2dd455a996c8fcadbb847715077b4ced9d4b41d37359d34"
+            },
+            "solution.ump": {
+              "bytes": 30406573,
+              "sha256": "0edc7556b27e672e59a2ec9e2ca4fafff07ee3c0bed4c625ccc32d69197aef78"
+            },
+            "challenge.umd": {
+              "bytes": 2930059,
+              "sha256": "5c69206d26f93877e41a7b56e678fc909567cdfa0ff525665b477f26a144e74d"
+            },
+            "problem.lrat": {
+              "bytes": 646289,
+              "sha256": "c3c0206da31b4bb876bd95a26630aff74841a066220be5dd5d2371280ed4b1aa"
+            },
+            "problem.cnf": {
+              "bytes": 588752,
+              "sha256": "8bbc63128e5292e9f8d3827a3ec30568cb664ecd511b737cba8f31d33612adca"
+            }
+          },
+          "stage_seconds": {
+            "export": 3.1737176199967507,
+            "conflicts": 0.11768030600069324,
+            "challenge": 1.4702886800005217,
+            "cnf": 0.21801427299942588,
+            "proof": 5.328309182004887,
+            "kernel": 1.2697597259975737
+          }
+        }
+      ]
+    },
+    {
+      "index": "000",
+      "file": "2018-Goel-hwbench/QF_UF_peg_solitaire.6.prop1_ab_br_max.smt2",
+      "family": "Goel",
+      "source_bytes": 640983,
+      "source_sha256": "14144ac1043d6d8734d85ea25a4a4bf225ee4789e279dd76858399e30379e516",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "3",
+            ":export.solve-and-collect.us": "648612",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "32346",
+            ":export.format-conflicts.us": "35266",
+            ":export.spool.signature-bytes": "454283",
+            ":export.spool.cnf-bytes": "506522",
+            ":export.spool.conflict-bytes": "913727",
+            ":export.theory.conflicts-collected": "1093",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "10567",
+            ":export.theory.conflicts": "1093",
+            ":export.final-write.us": "11077"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1874616,
+              "sha256": "2b67ca23ad449a856f4c0330a5c97816fbc874fe50d6ee3c6f5221fd918dfdda"
+            },
+            "solution.ump": {
+              "bytes": 6903578,
+              "sha256": "1dd2df554e1e63a948775d37583f94349758fe8f453db7f92b8ce5eb1107ef29"
+            },
+            "challenge.umd": {
+              "bytes": 2971691,
+              "sha256": "0910217cec110fbf743f66b5888647a016d1b5bf8177f3c72ab43b4a65d63e72"
+            },
+            "problem.lrat": {
+              "bytes": 899970,
+              "sha256": "8b24cc10e47863849ecdb25659e407a7e14a0530eeb4e287291e03d26643fe46"
+            },
+            "problem.cnf": {
+              "bytes": 709360,
+              "sha256": "9ba13e1e52e416d44da5512b7af79f9aeb254a3979cfabae0cae250446a18c44"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.8203596769963042,
+            "conflicts": 0.1169835789987701,
+            "challenge": 1.4700226409986499,
+            "cnf": 0.2678126099999645,
+            "proof": 5.876094393002859,
+            "kernel": 0.91899747899879
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "3",
+            ":export.solve-and-collect.us": "614596",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "33136",
+            ":export.format-conflicts.us": "32496",
+            ":export.spool.signature-bytes": "454283",
+            ":export.spool.cnf-bytes": "506522",
+            ":export.spool.conflict-bytes": "913727",
+            ":export.theory.conflicts-collected": "1093",
+            ":export.reduction.us": "26296",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "919",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "919",
+            ":export.cnf.clauses": "10567",
+            ":export.theory.conflicts": "174",
+            ":export.final-write.us": "9806"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1032674,
+              "sha256": "4269ad8fdff0cfe47809f3a50f1b8c4cf0f860f5e8cf86a7780bec303e4cdcec"
+            },
+            "solution.ump": {
+              "bytes": 6682431,
+              "sha256": "874115db539014e5f6f709f6cd4ce8d6e4e5231325e2e1fa8db329bee6a5bb35"
+            },
+            "challenge.umd": {
+              "bytes": 2971691,
+              "sha256": "0910217cec110fbf743f66b5888647a016d1b5bf8177f3c72ab43b4a65d63e72"
+            },
+            "problem.lrat": {
+              "bytes": 399830,
+              "sha256": "5f14fd63bf8fd1a1f725782a01435ac3512d8a59473fb474e1f73491702fe28f"
+            },
+            "problem.cnf": {
+              "bytes": 583579,
+              "sha256": "a7a0a3aea7aee2e2b99795d57667d56d0af57d9b78b79a280c774578a15660f7"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.8356538380030543,
+            "conflicts": 0.11738961799710523,
+            "challenge": 1.5698423230060143,
+            "cnf": 0.1675907639946672,
+            "proof": 3.122899348003557,
+            "kernel": 0.9684348370064981
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "3",
+            ":export.solve-and-collect.us": "637069",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "30825",
+            ":export.format-conflicts.us": "34212",
+            ":export.spool.signature-bytes": "454283",
+            ":export.spool.cnf-bytes": "506522",
+            ":export.spool.conflict-bytes": "913727",
+            ":export.theory.conflicts-collected": "1093",
+            ":export.reduction.us": "286311",
+            ":export.reduction.sat-calls": "196",
+            ":export.reduction.core-removed": "919",
+            ":export.reduction.block-queries": "162",
+            ":export.reduction.binary-queries": "33",
+            ":export.reduction.max-block-size": "4",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "964",
+            ":export.cnf.clauses": "10567",
+            ":export.theory.conflicts": "129",
+            ":export.final-write.us": "9543"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1019742,
+              "sha256": "8d1ba3a655763d159e2a1709760d019a0c006ff83d12209b7a28a1856a89c9fd"
+            },
+            "solution.ump": {
+              "bytes": 7179632,
+              "sha256": "f3e4df649d1cda7f65e92965e1f4322f1fee0445dac081c6c1ee5abe141286b3"
+            },
+            "challenge.umd": {
+              "bytes": 2971691,
+              "sha256": "0910217cec110fbf743f66b5888647a016d1b5bf8177f3c72ab43b4a65d63e72"
+            },
+            "problem.lrat": {
+              "bytes": 398193,
+              "sha256": "7665c7a88027fa85558132104ccda8c1a1d4007350aedafbe8c961f5cba7aa12"
+            },
+            "problem.cnf": {
+              "bytes": 580636,
+              "sha256": "d5a063ed15921dc0cd51491c36b3cd0ad382b840cb553daf587e8351df5bbdbf"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.0702371279985528,
+            "conflicts": 0.06701530599821126,
+            "challenge": 1.5773992989998078,
+            "cnf": 0.16827358299633488,
+            "proof": 3.222486225000466,
+            "kernel": 0.9690501079967362
+          }
+        }
+      ]
+    },
+    {
+      "index": "003",
+      "file": "2018-Goel-hwbench/QF_UF_sokoban.1.prop1_ab_reg_max.smt2",
+      "family": "Goel",
+      "source_bytes": 425160,
+      "source_sha256": "28f366fa519015e80c9760cbbded61a10f61791f070913beacf87f36d2083bc7",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "3",
+            ":export.solve-and-collect.us": "747745",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "87824",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "268136",
+            ":export.spool.cnf-bytes": "2146667",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "26491",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "13355"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 2414887,
+              "sha256": "80eb4f305e13f8c66672fd1b3877d1faa6810eb3f0ae77f958b28bdcd3ba3801"
+            },
+            "solution.ump": {
+              "bytes": 38847,
+              "sha256": "4fb2e661481049b8e6acff24f3e2278ba686c3051e906842398c5b12ad0500d3"
+            },
+            "challenge.umd": {
+              "bytes": 3879132,
+              "sha256": "bb87ec708074f58c87d2f0aecbf52879cb6ca42861ba8fd946e80de5151a6e61"
+            },
+            "problem.lrat": {
+              "bytes": 3261,
+              "sha256": "8ef9ff7a76ecff5893f7ccbc2759dd4e9a2e6830a2ae02ef634a7a479ee70c97"
+            },
+            "problem.cnf": {
+              "bytes": 1333015,
+              "sha256": "8ad03f055a7ac66d73d89df36f97cb509d4d60ce8bbeeeb3e068d0714d3aa497"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.87077268500434,
+            "conflicts": 0.16742159700515913,
+            "challenge": 1.1694570789986756,
+            "cnf": 0.2179112109952257,
+            "proof": 1.4194346820004284,
+            "kernel": 0.718486550002126
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "3",
+            ":export.solve-and-collect.us": "778323",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "86111",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "268136",
+            ":export.spool.cnf-bytes": "2146667",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.reduction.us": "11275",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "0",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "26491",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "14195"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 2414887,
+              "sha256": "80eb4f305e13f8c66672fd1b3877d1faa6810eb3f0ae77f958b28bdcd3ba3801"
+            },
+            "solution.ump": {
+              "bytes": 38847,
+              "sha256": "4fb2e661481049b8e6acff24f3e2278ba686c3051e906842398c5b12ad0500d3"
+            },
+            "challenge.umd": {
+              "bytes": 3879132,
+              "sha256": "bb87ec708074f58c87d2f0aecbf52879cb6ca42861ba8fd946e80de5151a6e61"
+            },
+            "problem.lrat": {
+              "bytes": 3261,
+              "sha256": "8ef9ff7a76ecff5893f7ccbc2759dd4e9a2e6830a2ae02ef634a7a479ee70c97"
+            },
+            "problem.cnf": {
+              "bytes": 1333015,
+              "sha256": "8ad03f055a7ac66d73d89df36f97cb509d4d60ce8bbeeeb3e068d0714d3aa497"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.9212344959960319,
+            "conflicts": 0.16748160400311463,
+            "challenge": 1.1208004159998382,
+            "cnf": 0.2178534929989837,
+            "proof": 1.5208555360004539,
+            "kernel": 0.6687519459956093
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "3",
+            ":export.solve-and-collect.us": "723871",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "88904",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "268136",
+            ":export.spool.cnf-bytes": "2146667",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.reduction.us": "11229",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "0",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "26491",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "12861"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 2414887,
+              "sha256": "80eb4f305e13f8c66672fd1b3877d1faa6810eb3f0ae77f958b28bdcd3ba3801"
+            },
+            "solution.ump": {
+              "bytes": 38847,
+              "sha256": "4fb2e661481049b8e6acff24f3e2278ba686c3051e906842398c5b12ad0500d3"
+            },
+            "challenge.umd": {
+              "bytes": 3879132,
+              "sha256": "bb87ec708074f58c87d2f0aecbf52879cb6ca42861ba8fd946e80de5151a6e61"
+            },
+            "problem.lrat": {
+              "bytes": 3261,
+              "sha256": "8ef9ff7a76ecff5893f7ccbc2759dd4e9a2e6830a2ae02ef634a7a479ee70c97"
+            },
+            "problem.cnf": {
+              "bytes": 1333015,
+              "sha256": "8ad03f055a7ac66d73d89df36f97cb509d4d60ce8bbeeeb3e068d0714d3aa497"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.870748689994798,
+            "conflicts": 0.16756411199457943,
+            "challenge": 1.1194559299983666,
+            "cnf": 0.21802644800482085,
+            "proof": 1.4697225159980007,
+            "kernel": 0.7679909389989916
+          }
+        }
+      ]
+    },
+    {
+      "index": "014",
+      "file": "PEQ/PEQ004_size7.smt2",
+      "family": "PEQ",
+      "source_bytes": 67629,
+      "source_sha256": "3ef7a9215aec81cae762f57db269ebc485229011a04e6d7ead0124557ce1b7bc",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "1801416",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "18192",
+            ":export.format-conflicts.us": "534210",
+            ":export.spool.signature-bytes": "538",
+            ":export.spool.cnf-bytes": "214126",
+            ":export.spool.conflict-bytes": "4618643",
+            ":export.theory.conflicts-collected": "4719",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "3228",
+            ":export.theory.conflicts": "4719",
+            ":export.final-write.us": "21954"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 4833391,
+              "sha256": "7a976aa825a3bf5c4b7c8ba28961163c540c47b22c56d5ebba5f18358545944c"
+            },
+            "solution.ump": {
+              "bytes": 114400783,
+              "sha256": "27d00f6ec804d865790e9815288fac2db616a184257a66fc3393ed47dafd5a4f"
+            },
+            "challenge.umd": {
+              "bytes": 532810,
+              "sha256": "adeec2172572efa127a3df86b6e5a59000786c60a22074000e80811d407444c0"
+            },
+            "problem.lrat": {
+              "bytes": 1115449,
+              "sha256": "a03711e98df0e8695600c890c48394df1583056218a3198e0273329e1e900cee"
+            },
+            "problem.cnf": {
+              "bytes": 1110613,
+              "sha256": "bec4f225faf71110010d449c55dd9eb13dd13f42d7ce035751e661a712afd063"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.9221576049967553,
+            "conflicts": 0.7684743680001702,
+            "challenge": 0.16787322299933294,
+            "cnf": 0.9187881190009648,
+            "proof": 18.355359332999797,
+            "kernel": 1.5210217619969626
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "1693466",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "17356",
+            ":export.format-conflicts.us": "516780",
+            ":export.spool.signature-bytes": "538",
+            ":export.spool.cnf-bytes": "214126",
+            ":export.spool.conflict-bytes": "4618643",
+            ":export.theory.conflicts-collected": "4719",
+            ":export.reduction.us": "48042",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "1980",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "1980",
+            ":export.cnf.clauses": "3228",
+            ":export.theory.conflicts": "2739",
+            ":export.final-write.us": "25117"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 2889938,
+              "sha256": "9a3a5c8169b92a3003aef64c15dbfaf5afb948fa71464840bce089f29f3bb187"
+            },
+            "solution.ump": {
+              "bytes": 110851978,
+              "sha256": "936b5b591c041ac306be3c21343e9da07e01edd9916299f74d529a2e67fd70ce"
+            },
+            "challenge.umd": {
+              "bytes": 532810,
+              "sha256": "adeec2172572efa127a3df86b6e5a59000786c60a22074000e80811d407444c0"
+            },
+            "problem.lrat": {
+              "bytes": 687722,
+              "sha256": "ba33561b3a812c207e95f6f342b1e52c78339d0c4199e1c0a997050915dd42b6"
+            },
+            "problem.cnf": {
+              "bytes": 734150,
+              "sha256": "8529d428fe05f5126dfe2ba76d44c24de20f1f9b1df4f3b675c205e495c6525b"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.8222769000058179,
+            "conflicts": 0.2677267539984314,
+            "challenge": 0.1175579570044647,
+            "cnf": 0.5690593830004218,
+            "proof": 9.336104369001987,
+            "kernel": 0.919906973002071
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "1115403",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "9235",
+            ":export.format-conflicts.us": "299353",
+            ":export.spool.signature-bytes": "538",
+            ":export.spool.cnf-bytes": "214126",
+            ":export.spool.conflict-bytes": "4618643",
+            ":export.theory.conflicts-collected": "4719",
+            ":export.reduction.us": "3866356",
+            ":export.reduction.sat-calls": "2883",
+            ":export.reduction.core-removed": "1980",
+            ":export.reduction.block-queries": "2709",
+            ":export.reduction.binary-queries": "173",
+            ":export.reduction.max-block-size": "4",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "2183",
+            ":export.cnf.clauses": "3228",
+            ":export.theory.conflicts": "2536",
+            ":export.final-write.us": "15775"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 2748529,
+              "sha256": "6d718a7abd876652eb0afbcc589264e050d6a653544fc22de60f46c628d159b1"
+            },
+            "solution.ump": {
+              "bytes": 112475112,
+              "sha256": "86514f2db4bbdbbb933d3154004e4bcfe9b8ae70f226de431e7009494c2a0d9d"
+            },
+            "challenge.umd": {
+              "bytes": 532810,
+              "sha256": "adeec2172572efa127a3df86b6e5a59000786c60a22074000e80811d407444c0"
+            },
+            "problem.lrat": {
+              "bytes": 706511,
+              "sha256": "e916481a961f57e0073dc63207f70f876b330d14b987301b5d3b6bcb52d4209b"
+            },
+            "problem.cnf": {
+              "bytes": 704450,
+              "sha256": "4a083ea40d481c5a29c219b06d1ea6742e0fb526534cae9ff8a09e1f96c1d112"
+            }
+          },
+          "stage_seconds": {
+            "export": 5.077510610004538,
+            "conflicts": 0.2679706269991584,
+            "challenge": 0.11752821800473612,
+            "cnf": 0.31704808799986495,
+            "proof": 8.181001725999522,
+            "kernel": 0.9684176029986702
+          }
+        }
+      ]
+    },
+    {
+      "index": "009",
+      "file": "PEQ/PEQ013_size7.smt2",
+      "family": "PEQ",
+      "source_bytes": 85122,
+      "source_sha256": "22787214a307f821ea8ecd5ff29ed8a5ece3c3b6a69cf1e40e9962464d2519e8",
+      "reference": {
+        "state": "timeout",
+        "answer": ""
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "715740",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "47584",
+            ":export.format-conflicts.us": "121500",
+            ":export.spool.signature-bytes": "603",
+            ":export.spool.cnf-bytes": "615526",
+            ":export.spool.conflict-bytes": "1099033",
+            ":export.theory.conflicts-collected": "336",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "9326",
+            ":export.theory.conflicts": "336",
+            ":export.final-write.us": "11085"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1715246,
+              "sha256": "933879a98e19324ce1174f99e97a11c1da4090f06f595f813338e69fda0141b0"
+            },
+            "solution.ump": {
+              "bytes": 32845971,
+              "sha256": "618d3a75a59038a0cfc8c6ef127d99491816f4cadeaf72804a948bb449a9c040"
+            },
+            "challenge.umd": {
+              "bytes": 1184712,
+              "sha256": "9260b262ee5ab75b4a3d1fa42e6b0379ae3767c37416484d4d2f2dff6b93d60b"
+            },
+            "problem.lrat": {
+              "bytes": 186633,
+              "sha256": "6bf2b8d86bd9c9155766879eb300ca067c0706819eff0d0f581cc8dd2faac875"
+            },
+            "problem.cnf": {
+              "bytes": 620307,
+              "sha256": "9ca8dbf9ec590af3d8144c2c33440c3166493ae27d168a23be06819597452870"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.8242280420017778,
+            "conflicts": 0.2675305950033362,
+            "challenge": 0.16807258399785496,
+            "cnf": 0.31761773800099036,
+            "proof": 3.673819495998032,
+            "kernel": 0.5180505050011561
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "720136",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "48361",
+            ":export.format-conflicts.us": "123624",
+            ":export.spool.signature-bytes": "603",
+            ":export.spool.cnf-bytes": "615526",
+            ":export.spool.conflict-bytes": "1099033",
+            ":export.theory.conflicts-collected": "336",
+            ":export.reduction.us": "13843",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "81",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "81",
+            ":export.cnf.clauses": "9326",
+            ":export.theory.conflicts": "255",
+            ":export.final-write.us": "18100"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1625837,
+              "sha256": "e59a8e03e54298b263f30b7bfaa74406520f51c2c28dfc7b17bd9c0bacb2f939"
+            },
+            "solution.ump": {
+              "bytes": 32694338,
+              "sha256": "25aaf213be808692e1a10ae3694b5559c9cdb25093c2b6284afd0647b3206dcd"
+            },
+            "challenge.umd": {
+              "bytes": 1184712,
+              "sha256": "9260b262ee5ab75b4a3d1fa42e6b0379ae3767c37416484d4d2f2dff6b93d60b"
+            },
+            "problem.lrat": {
+              "bytes": 170740,
+              "sha256": "708b09eccb6ca3056347ebd93b3f452334959f0c8e73eff893071ca40ea41353"
+            },
+            "problem.cnf": {
+              "bytes": 603600,
+              "sha256": "4608f9183fd6580f9a272129953d363453e0d629e3819a104030c06748ea8bc0"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.8215592509950511,
+            "conflicts": 0.22323160599626135,
+            "challenge": 0.1687447450021864,
+            "cnf": 0.3176005860004807,
+            "proof": 3.5227195539991953,
+            "kernel": 0.5185306630010018
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "730806",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "50669",
+            ":export.format-conflicts.us": "124649",
+            ":export.spool.signature-bytes": "603",
+            ":export.spool.cnf-bytes": "615526",
+            ":export.spool.conflict-bytes": "1099033",
+            ":export.theory.conflicts-collected": "336",
+            ":export.reduction.us": "348635",
+            ":export.reduction.sat-calls": "264",
+            ":export.reduction.core-removed": "81",
+            ":export.reduction.block-queries": "255",
+            ":export.reduction.binary-queries": "8",
+            ":export.reduction.max-block-size": "2",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "89",
+            ":export.cnf.clauses": "9326",
+            ":export.theory.conflicts": "247",
+            ":export.final-write.us": "9964"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1615321,
+              "sha256": "dcac2987a8d9fc7441f04a35677443478985d1e05e13b1aa65e31d3e503f5be7"
+            },
+            "solution.ump": {
+              "bytes": 32545180,
+              "sha256": "623e4f6283072f61f48eaa6ff6a04b7db4592dfe77ee264071f2f965eecb42bf"
+            },
+            "challenge.umd": {
+              "bytes": 1184712,
+              "sha256": "9260b262ee5ab75b4a3d1fa42e6b0379ae3767c37416484d4d2f2dff6b93d60b"
+            },
+            "problem.lrat": {
+              "bytes": 169110,
+              "sha256": "029a27f63d7f21e8286b32f4445aaea18d14649f87b8923c28edd3f9b6587cb2"
+            },
+            "problem.cnf": {
+              "bytes": 601948,
+              "sha256": "af1e790822efb2add856d8abda9951723c1a7b48da3730804c4549eabc0ade18"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.1772119239976746,
+            "conflicts": 0.26778230800118763,
+            "challenge": 0.16857767599867657,
+            "cnf": 0.3178516550033237,
+            "proof": 3.67351589500322,
+            "kernel": 0.46891655099898344
+          }
+        }
+      ]
+    },
+    {
+      "index": "011",
+      "file": "PEQ/PEQ014_size8.smt2",
+      "family": "PEQ",
+      "source_bytes": 82393,
+      "source_sha256": "55aec869b9f9b696eace1353e85fade22875e8431ad65b354f65b9b15b51059b",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "1522879",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "40741",
+            ":export.format-conflicts.us": "83254",
+            ":export.spool.signature-bytes": "770",
+            ":export.spool.cnf-bytes": "502035",
+            ":export.spool.conflict-bytes": "736672",
+            ":export.theory.conflicts-collected": "2455",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "7164",
+            ":export.theory.conflicts": "2455",
+            ":export.final-write.us": "9675"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1239561,
+              "sha256": "baa334ec1d607b9a1291750699a5b7d3b6a4d30fe9bc5b4d7989a2f1550bef01"
+            },
+            "solution.ump": {
+              "bytes": 16811929,
+              "sha256": "9655ee7f9359eac2de23b1e1c6acd3e88ef31b04c70f810c09d9db6e89159316"
+            },
+            "challenge.umd": {
+              "bytes": 1055073,
+              "sha256": "62f1d9c513e8cfffe1e25c0c177a12168c3e9f68d86a7dc0abdb6f282955c2a0"
+            },
+            "problem.lrat": {
+              "bytes": 396122,
+              "sha256": "bc827ebb48e9defe99410658da99cf4f62fc7198f08e373a535ef6384ac7144c"
+            },
+            "problem.cnf": {
+              "bytes": 622978,
+              "sha256": "f1f0c7aea647db812ec3c4bfbefcd5256cc96eff7f052d2c730a59348ecff15f"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.6211342419992434,
+            "conflicts": 0.16729813299753005,
+            "challenge": 0.1681717449973803,
+            "cnf": 0.26777989500260446,
+            "proof": 4.024139123001078,
+            "kernel": 0.267523134003568
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "1458728",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "39096",
+            ":export.format-conflicts.us": "79460",
+            ":export.spool.signature-bytes": "770",
+            ":export.spool.cnf-bytes": "502035",
+            ":export.spool.conflict-bytes": "736672",
+            ":export.theory.conflicts-collected": "2455",
+            ":export.reduction.us": "64791",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "2145",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "2145",
+            ":export.cnf.clauses": "7164",
+            ":export.theory.conflicts": "310",
+            ":export.final-write.us": "7585"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 577506,
+              "sha256": "44f3d9479f40acb9c2fcdbc7ec08ee05933229f8a1d14ac706c6f9d8a1b41f99"
+            },
+            "solution.ump": {
+              "bytes": 17459021,
+              "sha256": "8d6615d1d97deaee3dcdc67592ed8e04cfa3bcb935503d0e207b08470a505411"
+            },
+            "challenge.umd": {
+              "bytes": 1055073,
+              "sha256": "62f1d9c513e8cfffe1e25c0c177a12168c3e9f68d86a7dc0abdb6f282955c2a0"
+            },
+            "problem.lrat": {
+              "bytes": 201993,
+              "sha256": "b12b8a9169221eb406f62d09a3b87d1f2f1f74383b4db85d57ad39abef420bfb"
+            },
+            "problem.cnf": {
+              "bytes": 432343,
+              "sha256": "c5b50ab17d23734b49bd25c198837f516c8dade6307bf14b0fe7518f88fe24aa"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.621370670000033,
+            "conflicts": 0.06770921199495206,
+            "challenge": 0.11836375200073235,
+            "cnf": 0.16774189999705413,
+            "proof": 1.7296508620056557,
+            "kernel": 0.2677415939979255
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "1442756",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "30147",
+            ":export.format-conflicts.us": "84438",
+            ":export.spool.signature-bytes": "770",
+            ":export.spool.cnf-bytes": "502035",
+            ":export.spool.conflict-bytes": "736672",
+            ":export.theory.conflicts-collected": "2455",
+            ":export.reduction.us": "748621",
+            ":export.reduction.sat-calls": "335",
+            ":export.reduction.core-removed": "2145",
+            ":export.reduction.block-queries": "301",
+            ":export.reduction.binary-queries": "33",
+            ":export.reduction.max-block-size": "4",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "2187",
+            ":export.cnf.clauses": "7164",
+            ":export.theory.conflicts": "268",
+            ":export.final-write.us": "8262"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 567353,
+              "sha256": "ae073cf05293785a4108adf0aac943e32fc04ec170b23d356e804536465af5f0"
+            },
+            "solution.ump": {
+              "bytes": 16972786,
+              "sha256": "9c78f141906d52bd504399ef25473db92581d517c4114523d84e9f0b677cefaf"
+            },
+            "challenge.umd": {
+              "bytes": 1055073,
+              "sha256": "62f1d9c513e8cfffe1e25c0c177a12168c3e9f68d86a7dc0abdb6f282955c2a0"
+            },
+            "problem.lrat": {
+              "bytes": 195090,
+              "sha256": "79a8469b171801a29255aa0722d691b74f17cbcd578e9f311df98c41fd70cb87"
+            },
+            "problem.cnf": {
+              "bytes": 429123,
+              "sha256": "9a0f6bd3d7f5ccb5548ba87b37906977b48152dec6efb0bdd1cf1964c84cf398"
+            }
+          },
+          "stage_seconds": {
+            "export": 2.273296573999687,
+            "conflicts": 0.06739850899612065,
+            "challenge": 0.11851253399800044,
+            "cnf": 0.16764673400030006,
+            "proof": 1.6697970730019733,
+            "kernel": 0.2676343290004297
+          }
+        }
+      ]
+    },
+    {
+      "index": "012",
+      "file": "PEQ/PEQ016_size5.smt2",
+      "family": "PEQ",
+      "source_bytes": 73662,
+      "source_sha256": "93ec911ac91606d75b868e73b73b6c7324980842ce8dbb5250f99cdc4d497b4d",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "450599",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "27736",
+            ":export.format-conflicts.us": "101724",
+            ":export.spool.signature-bytes": "642",
+            ":export.spool.cnf-bytes": "323261",
+            ":export.spool.conflict-bytes": "1044170",
+            ":export.theory.conflicts-collected": "273",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "4582",
+            ":export.theory.conflicts": "273",
+            ":export.final-write.us": "9278"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1368157,
+              "sha256": "760bd5f2c993495f5bcda2717b9daa05b0bc7cbbc7b91b1b5ad566352bfb00eb"
+            },
+            "solution.ump": {
+              "bytes": 29518244,
+              "sha256": "aa82ed042bc88c5ca330b3a4cd3b8f4195c0a5dd857db1833d0d1bb77379eed4"
+            },
+            "challenge.umd": {
+              "bytes": 691302,
+              "sha256": "e9720f71a576767f14acf6c9755025611df39694d5029cc3501a49aab05fc99b"
+            },
+            "problem.lrat": {
+              "bytes": 144180,
+              "sha256": "b2fed37f69605ef2eae75f4ed7ceeb7a9a626ae2be787b94ffa8c9a64db4b875"
+            },
+            "problem.cnf": {
+              "bytes": 417883,
+              "sha256": "cef9400a5887f550bebcf7ae0f727246232e2d65cc99c95ed989fed980d997f2"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.5701643869979307,
+            "conflicts": 0.26757576700038044,
+            "challenge": 0.1179465360037284,
+            "cnf": 0.26765807699848665,
+            "proof": 3.279496998999093,
+            "kernel": 0.41827221600397024
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "469150",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "26204",
+            ":export.format-conflicts.us": "110905",
+            ":export.spool.signature-bytes": "642",
+            ":export.spool.cnf-bytes": "323261",
+            ":export.spool.conflict-bytes": "1044170",
+            ":export.theory.conflicts-collected": "273",
+            ":export.reduction.us": "6695",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "21",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "21",
+            ":export.cnf.clauses": "4582",
+            ":export.theory.conflicts": "252",
+            ":export.final-write.us": "8382"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1334777,
+              "sha256": "45017fe56d3a086a9d6a5460ad972fe943c14e7cf5b7cc4e875a1f9e9ce7d1d7"
+            },
+            "solution.ump": {
+              "bytes": 30593717,
+              "sha256": "72cee31747f8c9ad58bf826d4890e57e7b4947a9cafb18c15a38f65e12fc3203"
+            },
+            "challenge.umd": {
+              "bytes": 691302,
+              "sha256": "e9720f71a576767f14acf6c9755025611df39694d5029cc3501a49aab05fc99b"
+            },
+            "problem.lrat": {
+              "bytes": 166122,
+              "sha256": "726e43e0524e55b54a8c5c69c00b3585bd856b37d89ab04124f361c84a9e7091"
+            },
+            "problem.cnf": {
+              "bytes": 412644,
+              "sha256": "9ee99716bf2d71eacdc89ed913b29f4e64bb97b4ac5654ff61a06c5b072516b7"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.570016133999161,
+            "conflicts": 0.2172887059932691,
+            "challenge": 0.11755664199881721,
+            "cnf": 0.2676566630034358,
+            "proof": 3.3746601210004883,
+            "kernel": 0.4249739739971119
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "468988",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "25033",
+            ":export.format-conflicts.us": "110856",
+            ":export.spool.signature-bytes": "642",
+            ":export.spool.cnf-bytes": "323261",
+            ":export.spool.conflict-bytes": "1044170",
+            ":export.theory.conflicts-collected": "273",
+            ":export.reduction.us": "147619",
+            ":export.reduction.sat-calls": "256",
+            ":export.reduction.core-removed": "21",
+            ":export.reduction.block-queries": "252",
+            ":export.reduction.binary-queries": "3",
+            ":export.reduction.max-block-size": "2",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "24",
+            ":export.cnf.clauses": "4582",
+            ":export.theory.conflicts": "249",
+            ":export.final-write.us": "9489"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1327782,
+              "sha256": "f769a0f8f9a05ed9ff4acd73a4cff2cabb7131b4358fa15502701f76e67c3717"
+            },
+            "solution.ump": {
+              "bytes": 30443696,
+              "sha256": "e3a0337a87cf8af6ffd6c70d8a5678428ebee77262678b0ed0f770e400c2860a"
+            },
+            "challenge.umd": {
+              "bytes": 691302,
+              "sha256": "e9720f71a576767f14acf6c9755025611df39694d5029cc3501a49aab05fc99b"
+            },
+            "problem.lrat": {
+              "bytes": 165039,
+              "sha256": "3132f5a918fd830e3a0d34fc511089945a058ba8b6f9fb9921243e39e986b1ab"
+            },
+            "problem.cnf": {
+              "bytes": 411608,
+              "sha256": "1f367db54d522b9f035e0f139c2496eb87610edb8b81449c17f5f8d1dd347eef"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.7199039609986357,
+            "conflicts": 0.2176216769948951,
+            "challenge": 0.11817841199808754,
+            "cnf": 0.2681685700008529,
+            "proof": 3.273491735002608,
+            "kernel": 0.41824036600155523
+          }
+        }
+      ]
+    },
+    {
+      "index": "004",
+      "file": "QG-classification/loops6/gensys_icl057.smt2",
+      "family": "QG",
+      "source_bytes": 145301,
+      "source_sha256": "d11b239486a35de6e0fe89f0d4b59bb8a6cb61d466c300b0394815a0555e0bf4",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "2",
+            ":export.solve-and-collect.us": "569976",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "17962",
+            ":export.format-conflicts.us": "14468",
+            ":export.spool.signature-bytes": "28378",
+            ":export.spool.cnf-bytes": "278912",
+            ":export.spool.conflict-bytes": "134179",
+            ":export.theory.conflicts-collected": "1199",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "4359",
+            ":export.theory.conflicts": "1199",
+            ":export.final-write.us": "5911"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 441553,
+              "sha256": "3dd24e7535486d2f46031909a57a41142e714819e02d4ea4d39b1fb80ee584ca"
+            },
+            "solution.ump": {
+              "bytes": 80539051,
+              "sha256": "7caed9918a5dab40b6715e18853ef9a0d4f48861db479f2702cb8e3978116862"
+            },
+            "challenge.umd": {
+              "bytes": 669434,
+              "sha256": "172c1f5819025d9f1655853c633806a8fda3eb8a6466bd98538e5325dc9a6f3f"
+            },
+            "problem.lrat": {
+              "bytes": 885934,
+              "sha256": "dfaeacee990c28ce7aeed5215251e83dc2f8614b8987ed195eb85def19dd4d8b"
+            },
+            "problem.cnf": {
+              "bytes": 260203,
+              "sha256": "bfdc99047f9f07b1eebc6a8ecd32dd3cf9bb7b9197d8a84cb92f5555b14c235d"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.6704189769952791,
+            "conflicts": 0.06720747300278163,
+            "challenge": 0.11809303799964255,
+            "cnf": 0.31777576400054386,
+            "proof": 8.181240165999043,
+            "kernel": 1.119088298000861
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "2",
+            ":export.solve-and-collect.us": "571600",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "18078",
+            ":export.format-conflicts.us": "14866",
+            ":export.spool.signature-bytes": "28378",
+            ":export.spool.cnf-bytes": "278912",
+            ":export.spool.conflict-bytes": "134179",
+            ":export.theory.conflicts-collected": "1199",
+            ":export.reduction.us": "579780",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "137",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "137",
+            ":export.cnf.clauses": "4359",
+            ":export.theory.conflicts": "1062",
+            ":export.final-write.us": "6779"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 421804,
+              "sha256": "f74273fc6d8fa068d98b389bd1326531bcd031815a754a30943d3df5a058334e"
+            },
+            "solution.ump": {
+              "bytes": 78136135,
+              "sha256": "a80f5c85cd142cbbdf0ce52187359f47a14e21c39184fa010389ee2628119a0e"
+            },
+            "challenge.umd": {
+              "bytes": 669434,
+              "sha256": "172c1f5819025d9f1655853c633806a8fda3eb8a6466bd98538e5325dc9a6f3f"
+            },
+            "problem.lrat": {
+              "bytes": 882732,
+              "sha256": "f3af082a67620457a2a91f77fb70c07730e852e095ae80e38a70566615e64e87"
+            },
+            "problem.cnf": {
+              "bytes": 252757,
+              "sha256": "d2863b335bf98725817630262775c0ee71f283643a3a5ac5a9178a931cf5d704"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.271492763000424,
+            "conflicts": 0.06764325599942822,
+            "challenge": 0.11810812100156909,
+            "cnf": 0.3186853480001446,
+            "proof": 7.980566534999525,
+            "kernel": 1.0236627560007037
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "export_timeout",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "2",
+            ":export.solve-and-collect.us": "564546",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "17792",
+            ":export.format-conflicts.us": "14729",
+            ":export.spool.signature-bytes": "28378",
+            ":export.spool.cnf-bytes": "278912",
+            ":export.spool.conflict-bytes": "134179",
+            ":export.theory.conflicts-collected": "1199",
+            ":export.reduction.us": "29384853",
+            ":export.reduction.sat-calls": "267",
+            ":export.reduction.core-removed": "137",
+            ":export.reduction.block-queries": "212",
+            ":export.reduction.binary-queries": "54",
+            ":export.reduction.max-block-size": "4",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "4359",
+            ":export.theory.conflicts": "1199"
+          },
+          "files": {},
+          "stage_seconds": {
+            "export": 30.03700349599967
+          }
+        }
+      ]
+    },
+    {
+      "index": "005",
+      "file": "QG-classification/loops6/gensys_icl068.smt2",
+      "family": "QG",
+      "source_bytes": 139856,
+      "source_sha256": "bf7704fd78cd2589ccf3a35d7b65205b5eec393e12588303c93bc87430bf7852",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "2",
+            ":export.solve-and-collect.us": "439771",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "13933",
+            ":export.format-conflicts.us": "25890",
+            ":export.spool.signature-bytes": "23098",
+            ":export.spool.cnf-bytes": "210197",
+            ":export.spool.conflict-bytes": "250566",
+            ":export.theory.conflicts-collected": "1936",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "3272",
+            ":export.theory.conflicts": "1936",
+            ":export.final-write.us": "6845"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 483945,
+              "sha256": "b6f82e47982a60032ece5a0616f0306dc3f131b01154cee710a64ec6b94998e7"
+            },
+            "solution.ump": {
+              "bytes": 48602777,
+              "sha256": "211e21b5a0ab2c9b8ec87434461e7f03969e5430709f7f733e04fb4cd64dd349"
+            },
+            "challenge.umd": {
+              "bytes": 529106,
+              "sha256": "6052293adf789d21c0d304b33a344bdfe03b6380c9608b9a77523cde9694732e"
+            },
+            "problem.lrat": {
+              "bytes": 790428,
+              "sha256": "1aff382a6a2dca52cd609d2cb2aa05cb99403dfefa033a2cea01f4c7fc84ec12"
+            },
+            "problem.cnf": {
+              "bytes": 262724,
+              "sha256": "9ed3481378e68de35756ddd63936ca11f174124897d7e505384e4bff22451256"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.5698120829983964,
+            "conflicts": 0.06727523999870755,
+            "challenge": 0.0683532999973977,
+            "cnf": 0.2675196920026792,
+            "proof": 7.029894106002757,
+            "kernel": 0.6687402409952483
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "2",
+            ":export.solve-and-collect.us": "429057",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "13420",
+            ":export.format-conflicts.us": "26432",
+            ":export.spool.signature-bytes": "23098",
+            ":export.spool.cnf-bytes": "210197",
+            ":export.spool.conflict-bytes": "250566",
+            ":export.theory.conflicts-collected": "1936",
+            ":export.reduction.us": "594567",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "529",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "529",
+            ":export.cnf.clauses": "3272",
+            ":export.theory.conflicts": "1407",
+            ":export.final-write.us": "6258"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 410366,
+              "sha256": "76900be8fa6116b12f500b1b7bcf310f88212eefaf9211a1ba0cebc581a9c9b3"
+            },
+            "solution.ump": {
+              "bytes": 63898919,
+              "sha256": "42421020009401662bb8fb67aa0621bf415861b90f4d4486378c0002de7bd07b"
+            },
+            "challenge.umd": {
+              "bytes": 529106,
+              "sha256": "6052293adf789d21c0d304b33a344bdfe03b6380c9608b9a77523cde9694732e"
+            },
+            "problem.lrat": {
+              "bytes": 773753,
+              "sha256": "3c696fc0042b0e82ec30e2787d66d6ffc90b16bcd198e265953c95485b0c0df7"
+            },
+            "problem.cnf": {
+              "bytes": 234434,
+              "sha256": "ce9424cf60ab9cff0cf78ff273d5788abaeb651bb8686b7b2834fccad384568c"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.1239140760008013,
+            "conflicts": 0.06713360599678708,
+            "challenge": 0.06790822400216712,
+            "cnf": 0.2175963529953151,
+            "proof": 7.333350556000369,
+            "kernel": 0.9692620700006955
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "export_timeout",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "2",
+            ":export.solve-and-collect.us": "453401",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "14185",
+            ":export.format-conflicts.us": "28137",
+            ":export.spool.signature-bytes": "23098",
+            ":export.spool.cnf-bytes": "210197",
+            ":export.spool.conflict-bytes": "250566",
+            ":export.theory.conflicts-collected": "1936",
+            ":export.reduction.us": "29488624",
+            ":export.reduction.sat-calls": "622",
+            ":export.reduction.core-removed": "529",
+            ":export.reduction.block-queries": "478",
+            ":export.reduction.binary-queries": "143",
+            ":export.reduction.max-block-size": "8",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "3272",
+            ":export.theory.conflicts": "1936"
+          },
+          "files": {},
+          "stage_seconds": {
+            "export": 30.021028461000242
+          }
+        }
+      ]
+    },
+    {
+      "index": "007",
+      "file": "QG-classification/loops6/gensys_icl085.smt2",
+      "family": "QG",
+      "source_bytes": 133622,
+      "source_sha256": "e16f3cbb5f0a5a784edbeb8b3b897d9223b8662d33a5ae7a6ed5203bced5b471",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "2",
+            ":export.solve-and-collect.us": "240290",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "15282",
+            ":export.format-conflicts.us": "9310",
+            ":export.spool.signature-bytes": "26578",
+            ":export.spool.cnf-bytes": "260872",
+            ":export.spool.conflict-bytes": "117602",
+            ":export.theory.conflicts-collected": "1022",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "4129",
+            ":export.theory.conflicts": "1022",
+            ":export.final-write.us": "5952"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 405136,
+              "sha256": "b55a0c48373cd9052afd61fbd95504914de30ae1d3a1cd186687cca511ef2ed0"
+            },
+            "solution.ump": {
+              "bytes": 25974807,
+              "sha256": "08156b1b936012fffe06675b50f31779b05e132a9e828ae8324ff9cc52224634"
+            },
+            "challenge.umd": {
+              "bytes": 629304,
+              "sha256": "cbf24b52d74107ce79655d49ad90c4a50106300fde582f1d274569f79548d0ca"
+            },
+            "problem.lrat": {
+              "bytes": 332470,
+              "sha256": "eb44251040fd1d772443c7507752b0ac3556b24dd8d1162687db63f8e9a12cd6"
+            },
+            "problem.cnf": {
+              "bytes": 236177,
+              "sha256": "4a394d78c4b28db34e9daf53d16b6c6a7cde3ba3f60f377c4b19621453d71211"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.333630061999429,
+            "conflicts": 0.06778732599923387,
+            "challenge": 0.11830441799975233,
+            "cnf": 0.16788848700525705,
+            "proof": 3.0728133149968926,
+            "kernel": 0.3679499450008734
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "2",
+            ":export.solve-and-collect.us": "288582",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "16611",
+            ":export.format-conflicts.us": "12878",
+            ":export.spool.signature-bytes": "26578",
+            ":export.spool.cnf-bytes": "260872",
+            ":export.spool.conflict-bytes": "117602",
+            ":export.theory.conflicts-collected": "1022",
+            ":export.reduction.us": "117802",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "183",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "183",
+            ":export.cnf.clauses": "4129",
+            ":export.theory.conflicts": "839",
+            ":export.final-write.us": "6656"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 379467,
+              "sha256": "ec6019fb72210d5f7ea7c35c8713c3c135945b28569bb3e808aa1495ba20e58e"
+            },
+            "solution.ump": {
+              "bytes": 26369053,
+              "sha256": "15922d4ceb277e8c46fa1f831f0cc9cd76fe088f2efb936d9f519ad91997fe38"
+            },
+            "challenge.umd": {
+              "bytes": 629304,
+              "sha256": "cbf24b52d74107ce79655d49ad90c4a50106300fde582f1d274569f79548d0ca"
+            },
+            "problem.lrat": {
+              "bytes": 425450,
+              "sha256": "dddcc6e58a7166f26c9e92bcdc8078a531a893cb47de9b800ad71cd93e55e1e0"
+            },
+            "problem.cnf": {
+              "bytes": 226424,
+              "sha256": "2fd9aa1a1b8a2c0db9174a690ada22e536861790d91ef0d61ad88bd5b3f7f737"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.5198599650029792,
+            "conflicts": 0.06727595400298014,
+            "challenge": 0.0678504690004047,
+            "cnf": 0.16742199599684682,
+            "proof": 3.7745047379939933,
+            "kernel": 0.41827147499861894
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "export_timeout",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "2",
+            ":export.solve-and-collect.us": "299164",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "17608",
+            ":export.format-conflicts.us": "13231",
+            ":export.spool.signature-bytes": "26578",
+            ":export.spool.cnf-bytes": "260872",
+            ":export.spool.conflict-bytes": "117602",
+            ":export.theory.conflicts-collected": "1022",
+            ":export.reduction.us": "29648495",
+            ":export.reduction.sat-calls": "704",
+            ":export.reduction.core-removed": "183",
+            ":export.reduction.block-queries": "572",
+            ":export.reduction.binary-queries": "131",
+            ":export.reduction.max-block-size": "8",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "4129",
+            ":export.theory.conflicts": "1022"
+          },
+          "files": {},
+          "stage_seconds": {
+            "export": 30.020899770999677
+          }
+        }
+      ]
+    },
+    {
+      "index": "006",
+      "file": "QG-classification/loops6/gensys_icl105.smt2",
+      "family": "QG",
+      "source_bytes": 134933,
+      "source_sha256": "ae579b48546d8740652aa777d21364938e268b0fa7142e4cba0767977c3f7d9d",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "2",
+            ":export.solve-and-collect.us": "364296",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "16853",
+            ":export.format-conflicts.us": "27212",
+            ":export.spool.signature-bytes": "26498",
+            ":export.spool.cnf-bytes": "258137",
+            ":export.spool.conflict-bytes": "257890",
+            ":export.theory.conflicts-collected": "2000",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "4018",
+            ":export.theory.conflicts": "2000",
+            ":export.final-write.us": "6692"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 542609,
+              "sha256": "71ca0d21d83fca595a7c180ba576b9d6d56d25590b3cabc5c498273eda9f5aad"
+            },
+            "solution.ump": {
+              "bytes": 37772865,
+              "sha256": "fea0da49819c367c3fa3c1a0672ed3ce9618412905b660256f1813a2bf9097be"
+            },
+            "challenge.umd": {
+              "bytes": 619364,
+              "sha256": "86b87044009c64ba0d0316019361569225c8cd9252c88c5153dfd3625118e2cc"
+            },
+            "problem.lrat": {
+              "bytes": 459396,
+              "sha256": "eef5d60bdd5056df55725001f8eb59b109c21dd33da1d694fe84574ae8db1847"
+            },
+            "problem.cnf": {
+              "bytes": 290909,
+              "sha256": "298ff3b235cdd5db22f9b103d33cf7f0c6e1670f4881f1a98cbb7548fe7dd00c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.4699064940068638,
+            "conflicts": 0.06757231699884869,
+            "challenge": 0.0678240659981384,
+            "cnf": 0.21779755700117676,
+            "proof": 4.27476752900111,
+            "kernel": 0.46837502400012454
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "2",
+            ":export.solve-and-collect.us": "364434",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "18396",
+            ":export.format-conflicts.us": "25529",
+            ":export.spool.signature-bytes": "26498",
+            ":export.spool.cnf-bytes": "258137",
+            ":export.spool.conflict-bytes": "257890",
+            ":export.theory.conflicts-collected": "2000",
+            ":export.reduction.us": "248438",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "502",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "502",
+            ":export.cnf.clauses": "4018",
+            ":export.theory.conflicts": "1498",
+            ":export.final-write.us": "14002"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 473899,
+              "sha256": "a41c51ba4cd26315e637e7e918eb23489cc59c1adb239b33ce25c76ab1eb1971"
+            },
+            "solution.ump": {
+              "bytes": 45310898,
+              "sha256": "bf72142ad2f462bc59f3e7cfc9c8aab416a56f3c69076a9898e40ae0a940261b"
+            },
+            "challenge.umd": {
+              "bytes": 619364,
+              "sha256": "86b87044009c64ba0d0316019361569225c8cd9252c88c5153dfd3625118e2cc"
+            },
+            "problem.lrat": {
+              "bytes": 476672,
+              "sha256": "05a25e3f7a4125c841f24f96a3d409aa71e6d0d408cbcc87fb0ecc8b3d6dee3b"
+            },
+            "problem.cnf": {
+              "bytes": 264467,
+              "sha256": "c93bece684eec56e0d77d2c24dbeb4793baa08172fc56e421613dd301c0a1bff"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.7201491040032124,
+            "conflicts": 0.06763312199473148,
+            "challenge": 0.06835888200293994,
+            "cnf": 0.21755123900220497,
+            "proof": 4.4753834740040475,
+            "kernel": 0.6182427940002526
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "2",
+            ":export.solve-and-collect.us": "362221",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "16465",
+            ":export.format-conflicts.us": "26826",
+            ":export.spool.signature-bytes": "26498",
+            ":export.spool.cnf-bytes": "258137",
+            ":export.spool.conflict-bytes": "257890",
+            ":export.theory.conflicts-collected": "2000",
+            ":export.reduction.us": "26656332",
+            ":export.reduction.sat-calls": "1651",
+            ":export.reduction.core-removed": "502",
+            ":export.reduction.block-queries": "1460",
+            ":export.reduction.binary-queries": "190",
+            ":export.reduction.max-block-size": "4",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "730",
+            ":export.cnf.clauses": "4018",
+            ":export.theory.conflicts": "1270",
+            ":export.final-write.us": "8280"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 449421,
+              "sha256": "743618e4a133da32b314b0057199a3cee63df14e0095026786c28d3cce5bd683"
+            },
+            "solution.ump": {
+              "bytes": 50692778,
+              "sha256": "d833f404aa6a0f639206b0a5d5463ce7dbc60b015bba9c914daff1843f250a8b"
+            },
+            "challenge.umd": {
+              "bytes": 619364,
+              "sha256": "86b87044009c64ba0d0316019361569225c8cd9252c88c5153dfd3625118e2cc"
+            },
+            "problem.lrat": {
+              "bytes": 662632,
+              "sha256": "bf588269abc7455a9268b7e2cb850a0e69270b870448ca31d12b0a0d7ec9c964"
+            },
+            "problem.cnf": {
+              "bytes": 253487,
+              "sha256": "c91de9c91b76f54216cd4b1b945ee5ffdc8759944a5e95180744a96d034854ca"
+            }
+          },
+          "stage_seconds": {
+            "export": 27.11099139599537,
+            "conflicts": 0.06769626500317827,
+            "challenge": 0.11781200100085698,
+            "cnf": 0.26767692800058285,
+            "proof": 6.3797378149974975,
+            "kernel": 0.7696535379945999
+          }
+        }
+      ]
+    },
+    {
+      "index": "010",
+      "file": "SEQ/SEQ005_size8.smt2",
+      "family": "SEQ",
+      "source_bytes": 84606,
+      "source_sha256": "1465dd85b78f8c958857199b0552e40525eb35bdb6d1edd779b4034fe45f87f3",
+      "reference": {
+        "state": "timeout",
+        "answer": ""
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "1804212",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "32464",
+            ":export.format-conflicts.us": "669449",
+            ":export.spool.signature-bytes": "680",
+            ":export.spool.cnf-bytes": "397062",
+            ":export.spool.conflict-bytes": "5963341",
+            ":export.theory.conflicts-collected": "3916",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "5917",
+            ":export.theory.conflicts": "3916",
+            ":export.final-write.us": "23893"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 6361167,
+              "sha256": "3e69cfe822310c9cda6c5ab8c7599f4b04ad70c8c57569630015317add3c29d7"
+            },
+            "solution.ump": {
+              "bytes": 97326460,
+              "sha256": "e8539348dca47b8d9ad79908c2e05f56f68fdcc8deb6098f7871b73fee6a338f"
+            },
+            "challenge.umd": {
+              "bytes": 950181,
+              "sha256": "6f38e1301a41f54b213ebaf2ea0787e8587f0b8bc9eadaa5427a1903aba19b7d"
+            },
+            "problem.lrat": {
+              "bytes": 1186347,
+              "sha256": "fd7c3317771e40773d346f26383674cbf24802d8584566d319a77846a9fb5ca6"
+            },
+            "problem.cnf": {
+              "bytes": 1416376,
+              "sha256": "f27013c318456058c2c8fb5dd4586bb336cf78f965fd50a0c1b124fe23c8b2e9"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.9224354469988612,
+            "conflicts": 0.8687598800024716,
+            "challenge": 0.2681161080035963,
+            "cnf": 1.1192447409994202,
+            "proof": 17.34785992900288,
+            "kernel": 1.2202148439973826
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "1740666",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "29296",
+            ":export.format-conflicts.us": "635803",
+            ":export.spool.signature-bytes": "680",
+            ":export.spool.cnf-bytes": "397062",
+            ":export.spool.conflict-bytes": "5963341",
+            ":export.theory.conflicts-collected": "3916",
+            ":export.reduction.us": "41920",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "1782",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "1782",
+            ":export.cnf.clauses": "5917",
+            ":export.theory.conflicts": "2134",
+            ":export.final-write.us": "20513"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 3278851,
+              "sha256": "76b30153db3c92b48c1d02eb9ecb8f7a8beb231072b587bebf30cf514a5cb440"
+            },
+            "solution.ump": {
+              "bytes": 92677989,
+              "sha256": "50c9b26e209ae8db1d57d3ed2a14c445e91b9dbfed67eca851c2dae7466b50ce"
+            },
+            "challenge.umd": {
+              "bytes": 950181,
+              "sha256": "6f38e1301a41f54b213ebaf2ea0787e8587f0b8bc9eadaa5427a1903aba19b7d"
+            },
+            "problem.lrat": {
+              "bytes": 697023,
+              "sha256": "477da5564cbd2768a03d1e16793f39603af11cf4abe19b6faf7d663d1814bf05"
+            },
+            "problem.cnf": {
+              "bytes": 883510,
+              "sha256": "998e789553da3ed9266bc299d64830f60432bef58f7e73033c253d419b1c243d"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.8716738199946121,
+            "conflicts": 0.4683487430011155,
+            "challenge": 0.16818968999723438,
+            "cnf": 0.5686165389997768,
+            "proof": 9.887140710001404,
+            "kernel": 1.2694045570024173
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "1745632",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "31385",
+            ":export.format-conflicts.us": "621771",
+            ":export.spool.signature-bytes": "680",
+            ":export.spool.cnf-bytes": "397062",
+            ":export.spool.conflict-bytes": "5963341",
+            ":export.theory.conflicts-collected": "3916",
+            ":export.reduction.us": "3073914",
+            ":export.reduction.sat-calls": "2323",
+            ":export.reduction.core-removed": "1782",
+            ":export.reduction.block-queries": "2092",
+            ":export.reduction.binary-queries": "230",
+            ":export.reduction.max-block-size": "4",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "2054",
+            ":export.cnf.clauses": "5917",
+            ":export.theory.conflicts": "1862",
+            ":export.final-write.us": "15726"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 2946169,
+              "sha256": "0957f8814896d426599f9a225be58f08367f8c8f41ed845827809c1cf1538dcc"
+            },
+            "solution.ump": {
+              "bytes": 89717763,
+              "sha256": "cc7eeafd6feb09675acc6529f561aa45aa07e01eed6b56c0053bef3ce548ff90"
+            },
+            "challenge.umd": {
+              "bytes": 950181,
+              "sha256": "6f38e1301a41f54b213ebaf2ea0787e8587f0b8bc9eadaa5427a1903aba19b7d"
+            },
+            "problem.lrat": {
+              "bytes": 655959,
+              "sha256": "a1e067f73ecfb8efb5e92d24cbc8f41c0e7f286bb2c2693707c0a140980e91ca"
+            },
+            "problem.cnf": {
+              "bytes": 821955,
+              "sha256": "35d046fad3223cb1d3158890bee31f6630563cc1c6b0bf5979585e3e147bcfa8"
+            }
+          },
+          "stage_seconds": {
+            "export": 4.933359656999528,
+            "conflicts": 0.3172071269946173,
+            "challenge": 0.1178361650017905,
+            "cnf": 0.41747723399748793,
+            "proof": 8.180052916999557,
+            "kernel": 1.0695070080037112
+          }
+        }
+      ]
+    },
+    {
+      "index": "008",
+      "file": "SEQ/SEQ010_size9.smt2",
+      "family": "SEQ",
+      "source_bytes": 88548,
+      "source_sha256": "6a769f3098ffa2e65656a14093a9963c919d5138490ac24fa5899f152e62b709",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "511467",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "46553",
+            ":export.format-conflicts.us": "57041",
+            ":export.spool.signature-bytes": "719",
+            ":export.spool.cnf-bytes": "558081",
+            ":export.spool.conflict-bytes": "493768",
+            ":export.theory.conflicts-collected": "548",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "8407",
+            ":export.theory.conflicts": "548",
+            ":export.final-write.us": "8017"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1052652,
+              "sha256": "d96860e8113c24ff23857bdedfa1cb0434827450df3041d640be14ebbb4cfb1b"
+            },
+            "solution.ump": {
+              "bytes": 20473306,
+              "sha256": "3138f6c5021264c5d50be7461dc46f56fc1354d1d967c3999713cbf1d272c6c2"
+            },
+            "challenge.umd": {
+              "bytes": 1218532,
+              "sha256": "ff4757c465f52e5ef144c34932a3e59963123652210f75b62e9fc73c02d347c2"
+            },
+            "problem.lrat": {
+              "bytes": 184537,
+              "sha256": "77b77c885ac3f2fd1ccc9a95d9ffad6cd047a5860cf54db8c2dc1b5a47f78ad3"
+            },
+            "problem.cnf": {
+              "bytes": 566713,
+              "sha256": "6bbd9f5d78da3d9c2ec0f889e9dd41c2e19b596dd6dd11b7287fe4248e19d2ba"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.6205842510025832,
+            "conflicts": 0.16733448000013595,
+            "challenge": 0.16751755199948093,
+            "cnf": 0.2175817730021663,
+            "proof": 2.4824329990005936,
+            "kernel": 0.3679181589977816
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "511204",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "46056",
+            ":export.format-conflicts.us": "57726",
+            ":export.spool.signature-bytes": "719",
+            ":export.spool.cnf-bytes": "558081",
+            ":export.spool.conflict-bytes": "493768",
+            ":export.theory.conflicts-collected": "548",
+            ":export.reduction.us": "11472",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "86",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "86",
+            ":export.cnf.clauses": "8407",
+            ":export.theory.conflicts": "462",
+            ":export.final-write.us": "9039"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 983049,
+              "sha256": "4013d26f3b6330cba3d820cdbde7c0d1c4d34b99abbc396d57a339af5da1c7be"
+            },
+            "solution.ump": {
+              "bytes": 19869748,
+              "sha256": "50f7334401b3bf0146f2c38b25b71ca1967ba1d64f534f21aeb2e28018512f67"
+            },
+            "challenge.umd": {
+              "bytes": 1218532,
+              "sha256": "ff4757c465f52e5ef144c34932a3e59963123652210f75b62e9fc73c02d347c2"
+            },
+            "problem.lrat": {
+              "bytes": 166015,
+              "sha256": "b88170ba8ae2bee8b25612f8524ab6924aafa69ac1e70c8f2bfda210d3f0c8d4"
+            },
+            "problem.cnf": {
+              "bytes": 551780,
+              "sha256": "775288a9c63161a7968a1d6d04974d5f89e7d0fb3bbeb4a4bdacb1070f2f111d"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.6198252589965705,
+            "conflicts": 0.16742565499589546,
+            "challenge": 0.1680607099988265,
+            "cnf": 0.21784114299953217,
+            "proof": 2.221208305003529,
+            "kernel": 0.31847830199694727
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "499927",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "44917",
+            ":export.format-conflicts.us": "55116",
+            ":export.spool.signature-bytes": "719",
+            ":export.spool.cnf-bytes": "558081",
+            ":export.spool.conflict-bytes": "493768",
+            ":export.theory.conflicts-collected": "548",
+            ":export.reduction.us": "275750",
+            ":export.reduction.sat-calls": "486",
+            ":export.reduction.core-removed": "86",
+            ":export.reduction.block-queries": "456",
+            ":export.reduction.binary-queries": "29",
+            ":export.reduction.max-block-size": "4",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "121",
+            ":export.cnf.clauses": "8407",
+            ":export.theory.conflicts": "427",
+            ":export.final-write.us": "8965"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 965588,
+              "sha256": "1ca3d139d97ddbe7d9e3bb0f7145baf6bf697370510cb262acd271e5c3cdfc16"
+            },
+            "solution.ump": {
+              "bytes": 19749769,
+              "sha256": "30fee187ff73a65fe4bf0bb2d75ee5bda3a7735db79bf0d27dad9748de00c943"
+            },
+            "challenge.umd": {
+              "bytes": 1218532,
+              "sha256": "ff4757c465f52e5ef144c34932a3e59963123652210f75b62e9fc73c02d347c2"
+            },
+            "problem.lrat": {
+              "bytes": 161683,
+              "sha256": "daf66a669c1aabed61faa75304ad936347cae757218ba5b8f3c4c1622176a7dd"
+            },
+            "problem.cnf": {
+              "bytes": 547662,
+              "sha256": "da7d0d08fbf0c1db3cccadaab81f4f55f4eb1880689ff9f400eec0ac636e3957"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.8713784700012184,
+            "conflicts": 0.16718394700001227,
+            "challenge": 0.16794705700158374,
+            "cnf": 0.21794248900550883,
+            "proof": 2.120746328997484,
+            "kernel": 0.3178254750018823
+          }
+        }
+      ]
+    },
+    {
+      "index": "015",
+      "file": "SEQ/SEQ026_size5.smt2",
+      "family": "SEQ",
+      "source_bytes": 66434,
+      "source_sha256": "3b9cb5b4d571b7b081fd78f98c8d246b31ade7e98fe768399ee2b3ed7f65aaaf",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "673853",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "11394",
+            ":export.format-conflicts.us": "167607",
+            ":export.spool.signature-bytes": "669",
+            ":export.spool.cnf-bytes": "114214",
+            ":export.spool.conflict-bytes": "1926765",
+            ":export.theory.conflicts-collected": "851",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1411",
+            ":export.theory.conflicts": "851",
+            ":export.final-write.us": "11678"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 2041732,
+              "sha256": "3b2dd9a10b777f293893141327bd834a5c3aac927c02c6660e09d34fb42e83ff"
+            },
+            "solution.ump": {
+              "bytes": 32444941,
+              "sha256": "2b2ba3ad1e42949e7984b14470358fe3071108ba835c21a007753937d4108f93"
+            },
+            "challenge.umd": {
+              "bytes": 379494,
+              "sha256": "5c687f9e17f60c48bd226749beebb0f01a0bc0cf3d0c3fefe85f9b7bbc812996"
+            },
+            "problem.lrat": {
+              "bytes": 245567,
+              "sha256": "780f8d9e6759376dda67ce1fae8b4ab7677b3db2c355a492bb1649321e99a989"
+            },
+            "problem.cnf": {
+              "bytes": 429959,
+              "sha256": "107e49c4d5fbfb76e0be8454d585f4193b385f931ea9315f935b9b95af354dd3"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.7701707960004569,
+            "conflicts": 0.36799259599501966,
+            "challenge": 0.11838458700367482,
+            "cnf": 0.4183673759980593,
+            "proof": 5.276533390999248,
+            "kernel": 0.4683069059974514
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "787807",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "10544",
+            ":export.format-conflicts.us": "198222",
+            ":export.spool.signature-bytes": "669",
+            ":export.spool.cnf-bytes": "114214",
+            ":export.spool.conflict-bytes": "1926765",
+            ":export.theory.conflicts-collected": "851",
+            ":export.reduction.us": "10081",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "361",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "361",
+            ":export.cnf.clauses": "1411",
+            ":export.theory.conflicts": "490",
+            ":export.final-write.us": "10152"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1247697,
+              "sha256": "08cda1e231a6da30fdb2703c608fb3b4b9d8a23033e72295705f67c4fbad26d0"
+            },
+            "solution.ump": {
+              "bytes": 37273747,
+              "sha256": "ea0fbc02abc615b0d9997d0210aaafda103cae0c945427181e7b59a37be550ed"
+            },
+            "challenge.umd": {
+              "bytes": 379494,
+              "sha256": "5c687f9e17f60c48bd226749beebb0f01a0bc0cf3d0c3fefe85f9b7bbc812996"
+            },
+            "problem.lrat": {
+              "bytes": 417554,
+              "sha256": "19707e84fa5e4bde2e2273ac00beb9b41712a015b2178332e9f907cac3644130"
+            },
+            "problem.cnf": {
+              "bytes": 320661,
+              "sha256": "de55359d61c96431bf2390631103582b53261914ef037efc76f0133c75f5ee51"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.8714029990005656,
+            "conflicts": 0.21768908399826614,
+            "challenge": 0.06804856899543665,
+            "cnf": 0.2685121639951831,
+            "proof": 4.526777872000821,
+            "kernel": 0.5182564200003981
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "775263",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "11498",
+            ":export.format-conflicts.us": "211128",
+            ":export.spool.signature-bytes": "669",
+            ":export.spool.cnf-bytes": "114214",
+            ":export.spool.conflict-bytes": "1926765",
+            ":export.theory.conflicts-collected": "851",
+            ":export.reduction.us": "233325",
+            ":export.reduction.sat-calls": "501",
+            ":export.reduction.core-removed": "361",
+            ":export.reduction.block-queries": "486",
+            ":export.reduction.binary-queries": "14",
+            ":export.reduction.max-block-size": "4",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "379",
+            ":export.cnf.clauses": "1411",
+            ":export.theory.conflicts": "472",
+            ":export.final-write.us": "9879"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1242019,
+              "sha256": "92d4089b2f8696aa98c1c26a90f128746ac332df43c91f96494c8e0d29775edc"
+            },
+            "solution.ump": {
+              "bytes": 35761953,
+              "sha256": "2c042cbc838b01bdea83393f0f8430826ac65a60e7856f079bb552c5f5e1a258"
+            },
+            "challenge.umd": {
+              "bytes": 379494,
+              "sha256": "5c687f9e17f60c48bd226749beebb0f01a0bc0cf3d0c3fefe85f9b7bbc812996"
+            },
+            "problem.lrat": {
+              "bytes": 361287,
+              "sha256": "1d30b087985a6b4916508f619d95cb71ccb5e4cb804d729dd06bdc17298b0b94"
+            },
+            "problem.cnf": {
+              "bytes": 319090,
+              "sha256": "dd9be38f769d6b7a85470ae82765554123d74f2af1054fc27fa5dfa2df87d5fd"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.0707446500018705,
+            "conflicts": 0.2180148389961687,
+            "challenge": 0.06786182700307108,
+            "cnf": 0.2683013240020955,
+            "proof": 4.324737507995451,
+            "kernel": 0.569085687995539
+          }
+        }
+      ]
+    },
+    {
+      "index": "013",
+      "file": "SEQ/SEQ038_size8.smt2",
+      "family": "SEQ",
+      "source_bytes": 68008,
+      "source_sha256": "57940e0a0b887fce3905cb3c5183e8a88e24493dae3b1192d3ce66b186dce365",
+      "reference": {
+        "state": "timeout",
+        "answer": ""
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "1026988",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "32685",
+            ":export.format-conflicts.us": "294534",
+            ":export.spool.signature-bytes": "718",
+            ":export.spool.cnf-bytes": "370082",
+            ":export.spool.conflict-bytes": "2480670",
+            ":export.theory.conflicts-collected": "2669",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "5633",
+            ":export.theory.conflicts": "2669",
+            ":export.final-write.us": "13547"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 2851554,
+              "sha256": "b391864da5eb72ef21a4bd21580be4431c4676cea3c5422299c74fff87dcd4ad"
+            },
+            "solution.ump": {
+              "bytes": 67960534,
+              "sha256": "3199e6e11188ed70d8fa072e25fd89b0051e9c11f2f5fb7c011eddfc2707ceb3"
+            },
+            "challenge.umd": {
+              "bytes": 852547,
+              "sha256": "2e1c8a70cb25dd574a0bf3228111600df535bd95efe3d01153c544fc083d9586"
+            },
+            "problem.lrat": {
+              "bytes": 644666,
+              "sha256": "2f4d5d25b4c37193e742168fca9dfdf68bdf7e74f268c651834a35bb45c1a250"
+            },
+            "problem.cnf": {
+              "bytes": 808219,
+              "sha256": "ce468cb29e2c3329f332618e933051ba78505915dd76af1d37a76abcf442c3e5"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.120943827998417,
+            "conflicts": 0.41790753000532277,
+            "challenge": 0.16826166000100784,
+            "cnf": 0.5181879770025262,
+            "proof": 10.189079812997079,
+            "kernel": 0.9190843729957123
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "977694",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "28358",
+            ":export.format-conflicts.us": "268082",
+            ":export.spool.signature-bytes": "718",
+            ":export.spool.cnf-bytes": "370082",
+            ":export.spool.conflict-bytes": "2480670",
+            ":export.theory.conflicts-collected": "2669",
+            ":export.reduction.us": "33861",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "1019",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "1019",
+            ":export.cnf.clauses": "5633",
+            ":export.theory.conflicts": "1650",
+            ":export.final-write.us": "13314"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1809295,
+              "sha256": "18cb4b0869a339b5424b28993a533fb56e9e148785a5e92ff4237156d8ef09f6"
+            },
+            "solution.ump": {
+              "bytes": 66836755,
+              "sha256": "400aed607a9374242184fed3a684ae9c23bc2e619d47d3d95e5403949ef55d9c"
+            },
+            "challenge.umd": {
+              "bytes": 852547,
+              "sha256": "2e1c8a70cb25dd574a0bf3228111600df535bd95efe3d01153c544fc083d9586"
+            },
+            "problem.lrat": {
+              "bytes": 437089,
+              "sha256": "af99fd80a2fd137cf1386afc7be5981f07f5a77e5d034729f9da458a60c8fceb"
+            },
+            "problem.cnf": {
+              "bytes": 609240,
+              "sha256": "491ea26b6487aca8386ca75fe789fc9f7ba5b44fa42a5a7519967f915ee80852"
+            }
+          },
+          "stage_seconds": {
+            "export": 1.121384026002488,
+            "conflicts": 0.2679467480047606,
+            "challenge": 0.11805286099843215,
+            "cnf": 0.36801774299965473,
+            "proof": 6.834622339003545,
+            "kernel": 0.8194318839960033
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "1009372",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "28559",
+            ":export.format-conflicts.us": "271016",
+            ":export.spool.signature-bytes": "718",
+            ":export.spool.cnf-bytes": "370082",
+            ":export.spool.conflict-bytes": "2480670",
+            ":export.theory.conflicts-collected": "2669",
+            ":export.reduction.us": "3013167",
+            ":export.reduction.sat-calls": "1738",
+            ":export.reduction.core-removed": "1019",
+            ":export.reduction.block-queries": "1638",
+            ":export.reduction.binary-queries": "99",
+            ":export.reduction.max-block-size": "4",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "1130",
+            ":export.cnf.clauses": "5633",
+            ":export.theory.conflicts": "1539",
+            ":export.final-write.us": "13594"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 1763426,
+              "sha256": "692deec3601f9287011535224e387274b41f9284d2243055d970c554fdce1d0c"
+            },
+            "solution.ump": {
+              "bytes": 65553667,
+              "sha256": "0b4a8aa7f39014b2ed9f75e76fd3532224e2b3b4186ed8a3c848372ca97ea7b8"
+            },
+            "challenge.umd": {
+              "bytes": 852547,
+              "sha256": "2e1c8a70cb25dd574a0bf3228111600df535bd95efe3d01153c544fc083d9586"
+            },
+            "problem.lrat": {
+              "bytes": 423877,
+              "sha256": "e6cfb32dbed7fe7e7fdd456253928fa603a1dfd821d75dcdf359bdb107e0ea80"
+            },
+            "problem.cnf": {
+              "bytes": 597546,
+              "sha256": "37839fb11c46cc32aa8996f742e85252912a87b1b5197d39bbac6dc80b8824f4"
+            }
+          },
+          "stage_seconds": {
+            "export": 4.126769511996827,
+            "conflicts": 0.2677222019992769,
+            "challenge": 0.118041280999023,
+            "cnf": 0.3678329169997596,
+            "proof": 5.477358832999016,
+            "kernel": 0.5681073400046444
+          }
+        }
+      ]
+    },
+    {
+      "index": "016",
+      "file": "eq_diamond/eq_diamond100.smt2",
+      "family": "eq_diamond",
+      "source_bytes": 13595,
+      "source_sha256": "d6d55cb485244106bb32ded637e863eb505674af56afd45d931d05d294629130",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.preprocessing-unsat": "1",
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "5021",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "436",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "11705",
+            ":export.spool.cnf-bytes": "13",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "2659"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 11802,
+              "sha256": "fd0b9637dcc7359ef79c4ebcad1af6b06a6dee3a50c2a59fdadcd1b58d5bfdec"
+            },
+            "solution.ump": {
+              "bytes": 1170,
+              "sha256": "80563421c7016d61f6172e82d7a74385c0a403638a985d9a435f782c73d93267"
+            },
+            "challenge.umd": {
+              "bytes": 41834,
+              "sha256": "26b49339ab9605f6ce25fa3f3af4f7e82d4ac06d5cb6a5d39cdd1ed7e8ec9033"
+            },
+            "problem.lrat": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "problem.cnf": {
+              "bytes": 29,
+              "sha256": "f6a833ce0a555ec99ca1f26c9a4cb2c7f088514f8178de87d2a22185ab97ca3c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.03693970700260252,
+            "conflicts": 0.010862366005312651,
+            "challenge": 0.011887147004017606,
+            "cnf": 0.03487480500189122,
+            "proof": 0.019280242995591834,
+            "kernel": 0.011076125992985908
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.preprocessing-unsat": "1",
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "4944",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "411",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "11705",
+            ":export.spool.cnf-bytes": "13",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.reduction.us": "93",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "0",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "2684"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 11802,
+              "sha256": "fd0b9637dcc7359ef79c4ebcad1af6b06a6dee3a50c2a59fdadcd1b58d5bfdec"
+            },
+            "solution.ump": {
+              "bytes": 1170,
+              "sha256": "80563421c7016d61f6172e82d7a74385c0a403638a985d9a435f782c73d93267"
+            },
+            "challenge.umd": {
+              "bytes": 41834,
+              "sha256": "26b49339ab9605f6ce25fa3f3af4f7e82d4ac06d5cb6a5d39cdd1ed7e8ec9033"
+            },
+            "problem.lrat": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "problem.cnf": {
+              "bytes": 29,
+              "sha256": "f6a833ce0a555ec99ca1f26c9a4cb2c7f088514f8178de87d2a22185ab97ca3c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.0363891520028119,
+            "conflicts": 0.010784284997498617,
+            "challenge": 0.011076923998189159,
+            "cnf": 0.037646006006980315,
+            "proof": 0.018839652999304235,
+            "kernel": 0.010927202994935215
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.preprocessing-unsat": "1",
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "4945",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "400",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "11705",
+            ":export.spool.cnf-bytes": "13",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.reduction.us": "96",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "0",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "2730"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 11802,
+              "sha256": "fd0b9637dcc7359ef79c4ebcad1af6b06a6dee3a50c2a59fdadcd1b58d5bfdec"
+            },
+            "solution.ump": {
+              "bytes": 1170,
+              "sha256": "80563421c7016d61f6172e82d7a74385c0a403638a985d9a435f782c73d93267"
+            },
+            "challenge.umd": {
+              "bytes": 41834,
+              "sha256": "26b49339ab9605f6ce25fa3f3af4f7e82d4ac06d5cb6a5d39cdd1ed7e8ec9033"
+            },
+            "problem.lrat": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "problem.cnf": {
+              "bytes": 29,
+              "sha256": "f6a833ce0a555ec99ca1f26c9a4cb2c7f088514f8178de87d2a22185ab97ca3c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.03669895000348333,
+            "conflicts": 0.01124355699721491,
+            "challenge": 0.011434688000008464,
+            "cnf": 0.034874889002821874,
+            "proof": 0.018759361999400426,
+            "kernel": 0.010687453999707941
+          }
+        }
+      ]
+    },
+    {
+      "index": "019",
+      "file": "eq_diamond/eq_diamond97.smt2",
+      "family": "eq_diamond",
+      "source_bytes": 13193,
+      "source_sha256": "3c00403120ebb45ea7ced4d5db0e51add7ebc3932141dc1cb014c94357d13636",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.preprocessing-unsat": "1",
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "4758",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "360",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "11354",
+            ":export.spool.cnf-bytes": "13",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "2902"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 11451,
+              "sha256": "dd318718b9c412cb20c9ad3288aee4022e7df5e73056de94f5a65dc217848984"
+            },
+            "solution.ump": {
+              "bytes": 1170,
+              "sha256": "c34fb3d44eac67dedf64f23928906cf9806ece472ee7158f5657bf2702118b89"
+            },
+            "challenge.umd": {
+              "bytes": 40682,
+              "sha256": "f2c9c81220402ad0d37fe8af6ccf966d5a45b79373885f35e7b74d86070f5e98"
+            },
+            "problem.lrat": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "problem.cnf": {
+              "bytes": 29,
+              "sha256": "f6a833ce0a555ec99ca1f26c9a4cb2c7f088514f8178de87d2a22185ab97ca3c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.037444818000949454,
+            "conflicts": 0.010948879003990442,
+            "challenge": 0.01119860699691344,
+            "cnf": 0.03516616400156636,
+            "proof": 0.019287759998405818,
+            "kernel": 0.01132480800151825
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.preprocessing-unsat": "1",
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "4739",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "360",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "11354",
+            ":export.spool.cnf-bytes": "13",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.reduction.us": "91",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "0",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "3048"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 11451,
+              "sha256": "dd318718b9c412cb20c9ad3288aee4022e7df5e73056de94f5a65dc217848984"
+            },
+            "solution.ump": {
+              "bytes": 1170,
+              "sha256": "c34fb3d44eac67dedf64f23928906cf9806ece472ee7158f5657bf2702118b89"
+            },
+            "challenge.umd": {
+              "bytes": 40682,
+              "sha256": "f2c9c81220402ad0d37fe8af6ccf966d5a45b79373885f35e7b74d86070f5e98"
+            },
+            "problem.lrat": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "problem.cnf": {
+              "bytes": 29,
+              "sha256": "f6a833ce0a555ec99ca1f26c9a4cb2c7f088514f8178de87d2a22185ab97ca3c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.03714693600340979,
+            "conflicts": 0.01063713999610627,
+            "challenge": 0.01173721499799285,
+            "cnf": 0.03498872100317385,
+            "proof": 0.018752401003439445,
+            "kernel": 0.010805435995280277
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.preprocessing-unsat": "1",
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "4750",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "389",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "11354",
+            ":export.spool.cnf-bytes": "13",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.reduction.us": "95",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "0",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "2952"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 11451,
+              "sha256": "dd318718b9c412cb20c9ad3288aee4022e7df5e73056de94f5a65dc217848984"
+            },
+            "solution.ump": {
+              "bytes": 1170,
+              "sha256": "c34fb3d44eac67dedf64f23928906cf9806ece472ee7158f5657bf2702118b89"
+            },
+            "challenge.umd": {
+              "bytes": 40682,
+              "sha256": "f2c9c81220402ad0d37fe8af6ccf966d5a45b79373885f35e7b74d86070f5e98"
+            },
+            "problem.lrat": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "problem.cnf": {
+              "bytes": 29,
+              "sha256": "f6a833ce0a555ec99ca1f26c9a4cb2c7f088514f8178de87d2a22185ab97ca3c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.0366852149963961,
+            "conflicts": 0.01135232500382699,
+            "challenge": 0.011363793004420586,
+            "cnf": 0.06739214999834076,
+            "proof": 0.019218102999730036,
+            "kernel": 0.011451003003458027
+          }
+        }
+      ]
+    },
+    {
+      "index": "018",
+      "file": "eq_diamond/eq_diamond98.smt2",
+      "family": "eq_diamond",
+      "source_bytes": 13327,
+      "source_sha256": "4df9791f01dc53ddbf6f94bb7a56afe3c685b68301d75d12ff11787bece717a9",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.preprocessing-unsat": "1",
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "4770",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "364",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "11471",
+            ":export.spool.cnf-bytes": "13",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "3206"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 11568,
+              "sha256": "1fdcff21cb5caafd7f0a44a5a00ae977c0f3c6cb74c79d7c5495d1f6a7a67192"
+            },
+            "solution.ump": {
+              "bytes": 1170,
+              "sha256": "d51c70e67a7306c98d4375cc858b5b33107cbf20a15a82678d07e6d13dcee9e7"
+            },
+            "challenge.umd": {
+              "bytes": 41066,
+              "sha256": "d7380ff19b535752b352bd89d7b27f88e832493b18bf9e3869868d3d38a70161"
+            },
+            "problem.lrat": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "problem.cnf": {
+              "bytes": 29,
+              "sha256": "f6a833ce0a555ec99ca1f26c9a4cb2c7f088514f8178de87d2a22185ab97ca3c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.03750845799368108,
+            "conflicts": 0.011162486000102945,
+            "challenge": 0.011089867999544367,
+            "cnf": 0.03513396699418081,
+            "proof": 0.01918124099756824,
+            "kernel": 0.010909401004028041
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.preprocessing-unsat": "1",
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "4769",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "356",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "11471",
+            ":export.spool.cnf-bytes": "13",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.reduction.us": "126",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "0",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "3064"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 11568,
+              "sha256": "1fdcff21cb5caafd7f0a44a5a00ae977c0f3c6cb74c79d7c5495d1f6a7a67192"
+            },
+            "solution.ump": {
+              "bytes": 1170,
+              "sha256": "d51c70e67a7306c98d4375cc858b5b33107cbf20a15a82678d07e6d13dcee9e7"
+            },
+            "challenge.umd": {
+              "bytes": 41066,
+              "sha256": "d7380ff19b535752b352bd89d7b27f88e832493b18bf9e3869868d3d38a70161"
+            },
+            "problem.lrat": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "problem.cnf": {
+              "bytes": 29,
+              "sha256": "f6a833ce0a555ec99ca1f26c9a4cb2c7f088514f8178de87d2a22185ab97ca3c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.036630301001423504,
+            "conflicts": 0.011039657001674641,
+            "challenge": 0.011454621999291703,
+            "cnf": 0.03587262100336375,
+            "proof": 0.019190523998986464,
+            "kernel": 0.010905080998782068
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.preprocessing-unsat": "1",
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "4861",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "360",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "11471",
+            ":export.spool.cnf-bytes": "13",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.reduction.us": "94",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "0",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "3038"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 11568,
+              "sha256": "1fdcff21cb5caafd7f0a44a5a00ae977c0f3c6cb74c79d7c5495d1f6a7a67192"
+            },
+            "solution.ump": {
+              "bytes": 1170,
+              "sha256": "d51c70e67a7306c98d4375cc858b5b33107cbf20a15a82678d07e6d13dcee9e7"
+            },
+            "challenge.umd": {
+              "bytes": 41066,
+              "sha256": "d7380ff19b535752b352bd89d7b27f88e832493b18bf9e3869868d3d38a70161"
+            },
+            "problem.lrat": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "problem.cnf": {
+              "bytes": 29,
+              "sha256": "f6a833ce0a555ec99ca1f26c9a4cb2c7f088514f8178de87d2a22185ab97ca3c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.036510552003164776,
+            "conflicts": 0.010736971998994704,
+            "challenge": 0.012322492002567742,
+            "cnf": 0.03476401600346435,
+            "proof": 0.01907965499412967,
+            "kernel": 0.011351205997925717
+          }
+        }
+      ]
+    },
+    {
+      "index": "017",
+      "file": "eq_diamond/eq_diamond99.smt2",
+      "family": "eq_diamond",
+      "source_bytes": 13461,
+      "source_sha256": "1a1967abd653683d98dd79451354e9b8046685cd2e0dea711645f94c90c2d1a0",
+      "reference": {
+        "state": "ok",
+        "answer": "unsat"
+      },
+      "profiles": [
+        {
+          "mode": "none",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.preprocessing-unsat": "1",
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "4870",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "374",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "11588",
+            ":export.spool.cnf-bytes": "13",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "2672"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 11685,
+              "sha256": "1537ad8e39ef7d2666fff0ea93331a78999496a06218fa03d1c88447302f1180"
+            },
+            "solution.ump": {
+              "bytes": 1170,
+              "sha256": "b0decfffa11ee78e843ba38e43634bcc13b4bfb7d932809e83936570d26d20d0"
+            },
+            "challenge.umd": {
+              "bytes": 41450,
+              "sha256": "f92cb11a48ab1712ad4155d6de4085ddb4d83c5fb0e573da0bd4616dee3ae4e2"
+            },
+            "problem.lrat": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "problem.cnf": {
+              "bytes": 29,
+              "sha256": "f6a833ce0a555ec99ca1f26c9a4cb2c7f088514f8178de87d2a22185ab97ca3c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.03705820300092455,
+            "conflicts": 0.010741687998233829,
+            "challenge": 0.011104725999757648,
+            "cnf": 0.03488630300125806,
+            "proof": 0.01881970200338401,
+            "kernel": 0.010756435003713705
+          }
+        },
+        {
+          "mode": "core",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.preprocessing-unsat": "1",
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "4848",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "365",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "11588",
+            ":export.spool.cnf-bytes": "13",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.reduction.us": "127",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "0",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "3081"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 11685,
+              "sha256": "1537ad8e39ef7d2666fff0ea93331a78999496a06218fa03d1c88447302f1180"
+            },
+            "solution.ump": {
+              "bytes": 1170,
+              "sha256": "b0decfffa11ee78e843ba38e43634bcc13b4bfb7d932809e83936570d26d20d0"
+            },
+            "challenge.umd": {
+              "bytes": 41450,
+              "sha256": "f92cb11a48ab1712ad4155d6de4085ddb4d83c5fb0e573da0bd4616dee3ae4e2"
+            },
+            "problem.lrat": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "problem.cnf": {
+              "bytes": 29,
+              "sha256": "f6a833ce0a555ec99ca1f26c9a4cb2c7f088514f8178de87d2a22185ab97ca3c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.03660068799945293,
+            "conflicts": 0.010796921000292059,
+            "challenge": 0.0113656789981178,
+            "cnf": 0.035090917997877114,
+            "proof": 0.01895080400572624,
+            "kernel": 0.01095671700022649
+          }
+        },
+        {
+          "mode": "mus",
+          "status": "kernel_proven",
+          "statistics": {
+            ":export.preprocessing-unsat": "1",
+            ":export.sort-erasure.enabled": "1",
+            ":export.sort-erasure.input-sorts": "1",
+            ":export.solve-and-collect.us": "5006",
+            ":export.main-unsat": "1",
+            ":export.format-input.us": "395",
+            ":export.format-conflicts.us": "0",
+            ":export.spool.signature-bytes": "11588",
+            ":export.spool.cnf-bytes": "13",
+            ":export.spool.conflict-bytes": "0",
+            ":export.theory.conflicts-collected": "0",
+            ":export.reduction.us": "93",
+            ":export.reduction.sat-calls": "1",
+            ":export.reduction.core-removed": "0",
+            ":export.reduction.block-queries": "0",
+            ":export.reduction.binary-queries": "0",
+            ":export.reduction.max-block-size": "0",
+            ":export.reduction.completed": "1",
+            ":export.theory.conflicts-removed": "0",
+            ":export.cnf.clauses": "1",
+            ":export.theory.conflicts": "0",
+            ":export.final-write.us": "3282"
+          },
+          "files": {
+            "input.primo": {
+              "bytes": 11685,
+              "sha256": "1537ad8e39ef7d2666fff0ea93331a78999496a06218fa03d1c88447302f1180"
+            },
+            "solution.ump": {
+              "bytes": 1170,
+              "sha256": "b0decfffa11ee78e843ba38e43634bcc13b4bfb7d932809e83936570d26d20d0"
+            },
+            "challenge.umd": {
+              "bytes": 41450,
+              "sha256": "f92cb11a48ab1712ad4155d6de4085ddb4d83c5fb0e573da0bd4616dee3ae4e2"
+            },
+            "problem.lrat": {
+              "bytes": 0,
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "problem.cnf": {
+              "bytes": 29,
+              "sha256": "f6a833ce0a555ec99ca1f26c9a4cb2c7f088514f8178de87d2a22185ab97ca3c"
+            }
+          },
+          "stage_seconds": {
+            "export": 0.036660370002209675,
+            "conflicts": 0.010798315997817554,
+            "challenge": 0.019683507998706773,
+            "cnf": 0.03505105300428113,
+            "proof": 0.01974742799939122,
+            "kernel": 0.010709743997722398
+          }
+        }
+      ]
+    }
+  ],
+  "retry": {
+    "job_id": "345488",
+    "host": "node-02.ciircluster",
+    "allocation": {
+      "cpus": 4,
+      "memory_gib": 16,
+      "wall_minutes": 7
+    },
+    "export_limits": {
+      "workers": 3,
+      "address_space_gib": 3,
+      "file_limit_mib": 256,
+      "timeout_seconds": 120,
+      "termination_grace_seconds": 2
+    },
+    "replay_limits": {
+      "workers": 3,
+      "worker_address_space_gib": 3,
+      "worker_file_limit_mib": 256,
+      "pipeline_seconds": 180,
+      "stage_limits_seconds": {
+        "conflicts": 15,
+        "challenge": 15,
+        "cnf": 30,
+        "proof": 90,
+        "kernel": 45
+      },
+      "termination_grace_seconds": 2
+    },
+    "setup_limits": "replay version/axiom setup in parent, allocation memory/wall limits; no parent address-space or per-file caps; worker caps apply to replay workers only",
+    "workflow_sha256": "4b301b319cf68f1967b7a3de46ce79024a2493eab8bbb3a64b8f5905602475bd",
+    "invoke_helper_sha256": "a3446c4a85b5373507acb682e63283f10ecfe8dc4d85840edbbf4ebb393d7ce1",
+    "counts": {
+      "kernel_proven": 2,
+      "export_timeout": 1
+    },
+    "rows": [
+      {
+        "index": "007",
+        "file": "QG-classification/loops6/gensys_icl085.smt2",
+        "export_state": "ok",
+        "export_seconds": 41.24566341999889,
+        "export_answer": "unsat",
+        "statistics": {
+          ":export.sort-erasure.enabled": "1",
+          ":export.sort-erasure.input-sorts": "2",
+          ":export.solve-and-collect.us": "296114",
+          ":export.main-unsat": "1",
+          ":export.format-input.us": "17789",
+          ":export.format-conflicts.us": "12970",
+          ":export.spool.signature-bytes": "26578",
+          ":export.spool.cnf-bytes": "260872",
+          ":export.spool.conflict-bytes": "117602",
+          ":export.theory.conflicts-collected": "1022",
+          ":export.reduction.us": "40823145",
+          ":export.reduction.sat-calls": "931",
+          ":export.reduction.core-removed": "183",
+          ":export.reduction.block-queries": "778",
+          ":export.reduction.binary-queries": "152",
+          ":export.reduction.max-block-size": "8",
+          ":export.reduction.completed": "1",
+          ":export.theory.conflicts-removed": "396",
+          ":export.cnf.clauses": "4129",
+          ":export.theory.conflicts": "626",
+          ":export.final-write.us": "9620"
+        },
+        "status": "kernel_proven",
+        "input_sha256": "d9e78e76651e9a5675230c5ffcbc3021dd9ba2621cb84883566127e14fbf9c42",
+        "files": {
+          "solution.ump": {
+            "sha256": "3413953f7783c52c912aa723bac0c42a8c8c95bbfb4d2bbfe5dcf2af008b581e",
+            "bytes": 85083382
+          },
+          "challenge.umd": {
+            "sha256": "cbf24b52d74107ce79655d49ad90c4a50106300fde582f1d274569f79548d0ca",
+            "bytes": 629304
+          },
+          "problem.lrat": {
+            "sha256": "70c6b2d99dc59a4ee80f5f876c80eaea666e1b41eba3f5e0a984cb5cf9db930d",
+            "bytes": 887487
+          },
+          "problem.cnf": {
+            "sha256": "743d0b6780afb8e354f1e414354425fdbdcf7c3bd355e108a4757dc2b83cdf2e",
+            "bytes": 216443
+          }
+        },
+        "source_files": {
+          "input": {
+            "sha256": "d9e78e76651e9a5675230c5ffcbc3021dd9ba2621cb84883566127e14fbf9c42",
+            "bytes": 356946
+          },
+          "challenge": {
+            "sha256": "cbf24b52d74107ce79655d49ad90c4a50106300fde582f1d274569f79548d0ca",
+            "bytes": 629304
+          },
+          "lrat": {
+            "sha256": "70c6b2d99dc59a4ee80f5f876c80eaea666e1b41eba3f5e0a984cb5cf9db930d",
+            "bytes": 887487
+          }
+        },
+        "trace": {
+          "dimacs_variables": 1206,
+          "largest_lrat_variable": 971,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        }
+      },
+      {
+        "index": "005",
+        "file": "QG-classification/loops6/gensys_icl068.smt2",
+        "export_state": "ok",
+        "export_seconds": 50.260036710998975,
+        "export_answer": "unsat",
+        "statistics": {
+          ":export.sort-erasure.enabled": "1",
+          ":export.sort-erasure.input-sorts": "2",
+          ":export.solve-and-collect.us": "283284",
+          ":export.main-unsat": "1",
+          ":export.format-input.us": "7359",
+          ":export.format-conflicts.us": "14345",
+          ":export.spool.signature-bytes": "23098",
+          ":export.spool.cnf-bytes": "210197",
+          ":export.spool.conflict-bytes": "250566",
+          ":export.theory.conflicts-collected": "1936",
+          ":export.reduction.us": "49888890",
+          ":export.reduction.sat-calls": "1565",
+          ":export.reduction.core-removed": "529",
+          ":export.reduction.block-queries": "1266",
+          ":export.reduction.binary-queries": "298",
+          ":export.reduction.max-block-size": "8",
+          ":export.reduction.completed": "1",
+          ":export.theory.conflicts-removed": "968",
+          ":export.cnf.clauses": "3272",
+          ":export.theory.conflicts": "968",
+          ":export.final-write.us": "7280"
+        },
+        "status": "kernel_proven",
+        "input_sha256": "22e016432edbb6769d5e72a916d3f05229c2013b24bc28eb8a4dc4031aa664ec",
+        "files": {
+          "solution.ump": {
+            "sha256": "98e4d359791de8d58fcb29fbe0e2ac718a3f5e981a60e6d2171f5e5dfcedba2f",
+            "bytes": 145808108
+          },
+          "challenge.umd": {
+            "sha256": "6052293adf789d21c0d304b33a344bdfe03b6380c9608b9a77523cde9694732e",
+            "bytes": 529106
+          },
+          "problem.lrat": {
+            "sha256": "86dda18b614e3bdb24f90a6ddc3418c24ea7feb06941bb286399937518a20d9c",
+            "bytes": 1624327
+          },
+          "problem.cnf": {
+            "sha256": "4fb44bbbeddf1ed40dc1768582d66aa352fc68098e290e9f804c3907b2469b3a",
+            "bytes": 211544
+          }
+        },
+        "source_files": {
+          "input": {
+            "sha256": "22e016432edbb6769d5e72a916d3f05229c2013b24bc28eb8a4dc4031aa664ec",
+            "bytes": 354123
+          },
+          "challenge": {
+            "sha256": "6052293adf789d21c0d304b33a344bdfe03b6380c9608b9a77523cde9694732e",
+            "bytes": 529106
+          },
+          "lrat": {
+            "sha256": "86dda18b614e3bdb24f90a6ddc3418c24ea7feb06941bb286399937518a20d9c",
+            "bytes": 1624327
+          }
+        },
+        "trace": {
+          "dimacs_variables": 1319,
+          "largest_lrat_variable": 1171,
+          "introduces_variables": false,
+          "additions_with_negative_hints": 0
+        }
+      },
+      {
+        "index": "004",
+        "file": "QG-classification/loops6/gensys_icl057.smt2",
+        "export_state": "timeout",
+        "export_seconds": 120.03880611799832,
+        "export_answer": "",
+        "statistics": {
+          ":export.sort-erasure.enabled": "1",
+          ":export.sort-erasure.input-sorts": "2",
+          ":export.solve-and-collect.us": "585350",
+          ":export.main-unsat": "1",
+          ":export.format-input.us": "18884",
+          ":export.format-conflicts.us": "14899",
+          ":export.spool.signature-bytes": "28378",
+          ":export.spool.cnf-bytes": "278912",
+          ":export.spool.conflict-bytes": "134179",
+          ":export.theory.conflicts-collected": "1199",
+          ":export.reduction.us": "119360697",
+          ":export.reduction.sat-calls": "1125",
+          ":export.reduction.core-removed": "137",
+          ":export.reduction.block-queries": "955",
+          ":export.reduction.binary-queries": "169",
+          ":export.reduction.max-block-size": "4",
+          ":export.theory.conflicts-removed": "0",
+          ":export.cnf.clauses": "4359",
+          ":export.theory.conflicts": "1199"
+        },
+        "status": "export_timeout"
+      }
+    ],
+    "artifacts": {
+      "metadata_and_logs": "results/micromath-expanded-mus-retry-345488",
+      "complete_remote": "$EXTERNAL_WORKSPACE/expanded-mus-retry-345488",
+      "retention": "The local retry mirror contains metadata, logs and both successfully checked input.primo certificates; large generated proof payloads remain in the SLURM workspace."
+    },
+    "commands": {
+      "export": "For first-pass MUS timeouts only: PRIMO --quiet --stats --experimental-export-erase-sorts --export-cnf-reduction=mus --export-cnf RETRY/inputs/INDEX/mus/input.primo CORPUS/FILE; terminate at120s, allow2s termination grace. Verify source hashes against expanded manifest before running.",
+      "replay": "python3 scripts/micromath_replay.py --micromath CHECKER --micromath-git ac052d97ea441ca52cfd0a6b904fad8d34098a8e --cadical CADICAL --inputs RETRY/inputs --out RETRY/replay --workers 3",
+      "execution": "SLURM only; export phase with three ProcessPoolExecutor workers and the tracked micromath_stress.invoke helper, then replay only the two successfully published input.primo files."
+    }
+  },
+  "combined": {
+    "distinct_inputs": 20,
+    "distinct_profiles": 60,
+    "kernel_proven": 59,
+    "remaining_export_timeouts": 1,
+    "by_mode": {
+      "none": {
+        "kernel_proven": 20
+      },
+      "core": {
+        "kernel_proven": 20
+      },
+      "mus": {
+        "kernel_proven": 19,
+        "export_timeout": 1
+      }
+    },
+    "remaining_case": "QG-classification/loops6/gensys_icl057.smt2",
+    "policy": "Initial results remain unchanged. The two successful retries add distinct MUS profiles; the original timeout attempts are not counted as extra profiles."
+  },
+  "machine": {
+    "model": "Intel Xeon E5-2690 v4 @2.60GHz",
+    "sockets": 2,
+    "cores_per_socket": 14,
+    "threads_per_core": 2,
+    "allocation_cpus": 4
+  },
+  "scheduler": {
+    "345465": {
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:02:42",
+      "batch_max_rss_kib": 2969612
+    },
+    "345488": {
+      "state": "COMPLETED",
+      "exit_code": "0:0",
+      "elapsed": "00:02:15",
+      "batch_max_rss_kib": 232824
+    }
+  },
+  "commands": {
+    "selection": "python3 scripts/select_micromath_fast_cases.py --history HISTORY --historical-source-git 5efbd02293e15a53fbaad748ceda78bc7d27bbac --corpus CORPUS --exclude-manifest benchmarks/micromath-pilot-20261103.json --exclude-manifest benchmarks/micromath-fast-unsat-20261103.json --count 24 --max-per-family 4 --min-bytes 4096 --max-bytes 2097152 --out MANIFEST",
+    "check": "python3 scripts/micromath_stress.py --corpus CORPUS --primo PRIMO --expected-git cf82b726 --micromath CHECKER --cadical CADICAL --reference Z3 --manifest MANIFEST --out OUTPUT --workers 4 --reference-timeout 10 --mode-budget 40",
+    "execution": "Run canonical preparation --build-via-slurm/--check-only preflight before sbatch. Set MICROMATH_GIT and CADICAL_GIT to the pinned revisions above; existing corpus is read-only. Private SSH route and absolute workspace paths are deliberately not tracked."
+  },
+  "coverage_shape": {
+    "source_bytes_min": 13193,
+    "source_bytes_max": 640983,
+    "exported_cnf_clauses_min": 1,
+    "exported_cnf_clauses_max": 26491,
+    "preprocessing_unsat_inputs": [
+      "eq_diamond/eq_diamond100.smt2",
+      "eq_diamond/eq_diamond97.smt2",
+      "eq_diamond/eq_diamond98.smt2",
+      "eq_diamond/eq_diamond99.smt2"
+    ],
+    "zero_theory_lemma_inputs": [
+      "2018-Goel-hwbench/QF_UF_sokoban.1.prop1_ab_reg_max.smt2",
+      "eq_diamond/eq_diamond100.smt2",
+      "eq_diamond/eq_diamond97.smt2",
+      "eq_diamond/eq_diamond98.smt2",
+      "eq_diamond/eq_diamond99.smt2"
+    ],
+    "interpretation": "Four eq_diamond inputs collapse to one empty CNF clause before theory checking; Goel sokoban also needs no theory lemmas. These exercise boundaries rather than theory-proof scale."
+  },
+  "local_checked_inputs": {
+    "count": 59,
+    "bytes": 72436693,
+    "hash_verification": "All59 local input.primo copies match their recorded checked SHA-256."
+  }
+}

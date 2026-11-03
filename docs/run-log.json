@@ -3,6 +3,122 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-micromath-expanded-20",
+      "date": "2026-11-03",
+      "kind": "real-QF_UF-certificate-sample-extension",
+      "evidence_status": "59/60 distinct profiles kernel-verified; one precise-MUS export exceeds120s after main UNSAT; CORE and NONE pass all20",
+      "commit": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+      "micromath_git": "ac052d97ea441ca52cfd0a6b904fad8d34098a8e",
+      "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+      "report": "docs/coverage/micromath-expanded.json",
+      "manifest": "benchmarks/micromath-expanded-20261103.json",
+      "jobs": {
+        "initial": "345465",
+        "mus_retry": "345488"
+      },
+      "host": "node-02.ciircluster",
+      "summary": {
+        "distinct_inputs": 20,
+        "distinct_profiles": 60,
+        "kernel_proven": 59,
+        "remaining_export_timeouts": 1,
+        "by_mode": {
+          "none": {
+            "kernel_proven": 20
+          },
+          "core": {
+            "kernel_proven": 20
+          },
+          "mus": {
+            "kernel_proven": 19,
+            "export_timeout": 1
+          }
+        },
+        "remaining_case": "QG-classification/loops6/gensys_icl057.smt2",
+        "policy": "Initial results remain unchanged. The two successful retries add distinct MUS profiles; the original timeout attempts are not counted as extra profiles."
+      },
+      "reference": {
+        "ok:unsat": 17,
+        "timeout:no-answer": 3
+      },
+      "initial_limits": {
+        "allocation": {
+          "cpus": 4,
+          "memory_gib": 16,
+          "wall_minutes": 18
+        },
+        "workers": 4,
+        "worker_address_space_gib": 3,
+        "worker_file_limit_mib": 256,
+        "reference_timeout_seconds": 10,
+        "shared_profile_budget_seconds": 40,
+        "phase_limits_seconds": {
+          "baseline_export": 5,
+          "reduced_export": 30,
+          "conflicts": 10,
+          "challenge": 10,
+          "cnf": 15,
+          "proof": 30,
+          "kernel": 10
+        },
+        "termination_grace_seconds": 2,
+        "parent_setup": "version and axiom build each 10s, allocation memory/wall limits; no parent address-space or per-file caps",
+        "scope": "profile subprocess budget excludes later streaming file hashing and metadata parsing; allocation wall time bounds whole run"
+      },
+      "retry_limits": {
+        "allocation": {
+          "cpus": 4,
+          "memory_gib": 16,
+          "wall_minutes": 7
+        },
+        "export_limits": {
+          "workers": 3,
+          "address_space_gib": 3,
+          "file_limit_mib": 256,
+          "timeout_seconds": 120,
+          "termination_grace_seconds": 2
+        },
+        "replay_limits": {
+          "workers": 3,
+          "worker_address_space_gib": 3,
+          "worker_file_limit_mib": 256,
+          "pipeline_seconds": 180,
+          "stage_limits_seconds": {
+            "conflicts": 15,
+            "challenge": 15,
+            "cnf": 30,
+            "proof": 90,
+            "kernel": 45
+          },
+          "termination_grace_seconds": 2
+        },
+        "setup_limits": "replay version/axiom setup in parent, allocation memory/wall limits; no parent address-space or per-file caps; worker caps apply to replay workers only"
+      },
+      "commands": {
+        "selection": "python3 scripts/select_micromath_fast_cases.py --history HISTORY --historical-source-git 5efbd02293e15a53fbaad748ceda78bc7d27bbac --corpus CORPUS --exclude-manifest benchmarks/micromath-pilot-20261103.json --exclude-manifest benchmarks/micromath-fast-unsat-20261103.json --count 24 --max-per-family 4 --min-bytes 4096 --max-bytes 2097152 --out MANIFEST",
+        "check": "python3 scripts/micromath_stress.py --corpus CORPUS --primo PRIMO --expected-git cf82b726 --micromath CHECKER --cadical CADICAL --reference Z3 --manifest MANIFEST --out OUTPUT --workers 4 --reference-timeout 10 --mode-budget 40",
+        "execution": "Run canonical preparation --build-via-slurm/--check-only preflight before sbatch. Set MICROMATH_GIT and CADICAL_GIT to the pinned revisions above; existing corpus is read-only. Private SSH route and absolute workspace paths are deliberately not tracked."
+      },
+      "artifacts": {
+        "initial": {
+          "metadata_and_logs": "results/micromath-expanded-345465",
+          "complete_remote": "$EXTERNAL_WORKSPACE/expanded-345465",
+          "retention": "The local result mirror contains metadata, logs and all 57 successfully checked input.primo certificates. Generated CNF/challenge/LRAT/kernel-proof files remain in the SLURM workspace. Per-profile SHA-256 and byte sizes identify exact checked files."
+        },
+        "retry": {
+          "metadata_and_logs": "results/micromath-expanded-mus-retry-345488",
+          "complete_remote": "$EXTERNAL_WORKSPACE/expanded-mus-retry-345488",
+          "retention": "The local retry mirror contains metadata, logs and both successfully checked input.primo certificates; large generated proof payloads remain in the SLURM workspace."
+        }
+      },
+      "scope": "Workflow extension and new UNSAT sample only; native producer unchanged. No SAT-model stage applies. Three reference timeouts are separate from proof outcomes. No source-to-CNF proof or performance improvement claimed.",
+      "local_checked_inputs": {
+        "count": 59,
+        "bytes": 72436693,
+        "hash_verification": "All59 local input.primo copies match their recorded checked SHA-256."
+      }
+    },
+    {
       "id": "2026-11-03-micromath-ac052d9-revalidation",
       "date": "2026-11-03",
       "kind": "external-checker-update-and-real-certificate-replay",

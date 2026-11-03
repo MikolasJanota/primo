@@ -262,12 +262,12 @@ coverage or a performance comparison.
 
 ### Stress inputs selected from known-fast results
 
-The current {preparedexportsource}`stress harness <scripts/micromath_stress.py>` requires a hash-pinned manifest drawn
+The current {download}`stress harness <../../scripts/micromath_stress.py>` requires a hash-pinned manifest drawn
 from recorded native UNSAT results within one second. The
 {download}`selected manifest <../../benchmarks/micromath-fast-unsat-20261103.json>`
 contains six inputs of 94–821 KB; their historical answers, timings and input
 hashes are retained. The harness no longer chooses cases
-by size alone. {preparedexportsource}`select_micromath_fast_cases.py <scripts/select_micromath_fast_cases.py>` selects 64 KiB–2 MiB source
+by size alone. {download}`select_micromath_fast_cases.py <../../scripts/select_micromath_fast_cases.py>` selects 64 KiB–2 MiB source
 files, largest first with at most two per family, verifies historical input
 hashes, excludes the previous pilot, and conservatively screens declared
 Boolean function arguments and positive-arity Boolean results. This lexical
@@ -330,6 +330,57 @@ A local self-contained archive adds the exact challenge/LRAT files and a replay
 script; its path and hash are in the report. Both replay payloads reproduced
 the expected errors after relocation in job `345343`; the final archive adds
 only its root metadata manifest to those unchanged replay files.
+
+### Expanded sample across five families
+
+Job `345465` checked twenty additional files: four each from Goel, QG, SEQ,
+PEQ and eq_diamond. The {download}`expanded manifest
+<../../benchmarks/micromath-expanded-20261103.json>` retains historical native
+UNSAT timings within one second and exact source hashes. Selection requested
+24 files and found twenty eligible inputs of 13,193–640,983 bytes, using an
+eligibility interval of 4 KiB–2 MiB and at most four per family. CNF/lemma/proof sizes
+are in the {download}`expanded results <../coverage/micromath-expanded.json>`.
+
+The selector now accepts repeated `--exclude-manifest` arguments, excludes both
+paths and content hashes, and deduplicates selected hashes. `--min-bytes`,
+`--max-bytes` and `--max-per-family` control the bounds; their defaults remain
+64 KiB, 2 MiB and two per family. This run used `--count 24 --max-per-family 4
+--min-bytes 4096 --max-bytes 2097152` and excluded both earlier manifests.
+
+| Mode | Kernel proofs at the initial export limit | Export timeouts |
+|---|---:|---:|
+| `none` | 20/20 | 0 |
+| `core` | 20/20 | 0 |
+| `mus` | 17/20 | 3 |
+
+All 57 completed certificate pipelines reached exact kernel confirmation.
+The three MUS timeouts were QG `gensys_icl057`, `gensys_icl068` and
+`gensys_icl085`: main UNSAT took 0.30–0.57 seconds, then precise reduction
+exhausted the 30-second export limit. CORE passed on all three. This run used
+a shared 40-second profile budget, four workers, 3 GiB address space and a
+256 MiB per-file limit per worker, in a 4-CPU/16-GiB SLURM allocation. Reference
+Z3 returned UNSAT on seventeen inputs and timed out at ten seconds on three;
+these reference timeouts are separate from successful kernel proofs. No
+checker rejection, crash or answer disagreement was observed. This extends
+supported-subset coverage; it does not establish source-to-CNF correctness or
+full-corpus coverage.
+
+Job `345488` retried only the three MUS exports with a 120-second limit.
+Two completed in 41 and 50 seconds and passed full kernel replay. The remaining
+`gensys_icl057` export again reached main UNSAT in under a second, then timed out
+in reduction without publishing a certificate. Across both jobs, 59 of the
+sixty distinct profiles are kernel-verified: all twenty `none`, all twenty
+`core`, and nineteen `mus`. Original timeout attempts remain in the report.
+The retry used three workers with the same address/file caps, a 7-minute
+allocation, and a separate 180-second replay budget for each completed export.
+
+The expanded CNFs contain 1–26,491 clauses. Four eq_diamond inputs reduce to a
+single empty clause in preprocessing; these cover a boundary rather than
+large theory proofs. The Goel sokoban input also needs no theory lemmas.
+Per-input retained lemma counts and exact checked artifact hashes are in the
+report. Full proof files remain in the SLURM workspace; local result mirrors
+contain metadata, logs and all 59 checked `input.primo` certificates, whose
+hashes were verified after transfer.
 
 ### Replaying saved certificates without Primo
 
