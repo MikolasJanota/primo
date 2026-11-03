@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "status": "qualified experimental producer: normal preparation, streamed output, numeric CORE/MUS",
+  "source_git": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+  "implementation_git": "374e5ed776c0c4d247da11ae18b4309d0b529210",
+  "jobs": {
+    "build": "345282",
+    "check_fuzz_asan": "345293",
+    "micromath_six_examples": "345294"
+  },
+  "verification": {
+    "ctest_pass": 48,
+    "python_pass": 301,
+    "asan_ctest_pass": 48,
+    "fuzz": {
+      "seed": 20261102,
+      "requested": 1000,
+      "reduction_modes": "round-robin none/core/mus",
+      "solver_paths": "alternating off/auto preprocessing; four propagation modes; both EUF engines; ite on every seventh case",
+      "sort_erasure": "enabled on odd indices; multi-sort input on every fifth index",
+      "pass": 1000,
+      "wrong_answer": 0,
+      "crash": 0,
+      "parser_type_error": 0,
+      "timeout": 0,
+      "unsupported": 0,
+      "reference_disagreement": 0,
+      "invalid_artifact": 0
+    },
+    "gate_provenance": {
+      "commit": "cf82b726",
+      "job_id": "345293",
+      "host": "node-03.ciircluster",
+      "seed": 20261102,
+      "count": 1000,
+      "reduction_modes": "round-robin none/core/mus",
+      "sort_erasure": "odd indices enabled; every fifth input has multiple object sorts",
+      "solver_paths": "16-case cycles cover off/auto preprocessing, four EUF propagation modes, both engines; ite every seventh case",
+      "mus_validation": "drop each retained lemma and require propositional SAT",
+      "timeout_per_process_seconds": 10,
+      "reference": "contrib/local/bin/z3 -in",
+      "command": "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 --out results/cnf-export-$SLURM_JOB_ID/fuzz",
+      "resources": {
+        "cpus": 4,
+        "memory_gib": 16,
+        "wall_minutes": 45
+      }
+    },
+    "micromath": {
+      "micromath_git": "505588a6a0b184c992c3cbcd97721507365ec428",
+      "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+      "primo_git": "cf82b726",
+      "reused_external_build": true,
+      "binary_sha256": {
+        "primo": "92893c0735dea9a615927d0bc8341b1b3d064d5ac909263a429d9fd3bed000c2",
+        "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+        "check-solution": "78302a478f6f96102b761038a9184e6820b4eb7cb25d45a2e6fd3cf0883c4af2"
+      },
+      "job_id": "345294",
+      "input_sha256": {
+        "qf-uf-export.smt2": "5b326057d75847dc836f3df1f8de4842015b2b8464089a510068bab6ac102d97",
+        "qf-uf-export-multisort.smt2": "e18b15f4af9006cf78b7f90fc821f6976ac575a10d3a2133ac424f70a8c27143"
+      },
+      "modes": [
+        "none",
+        "core",
+        "mus"
+      ],
+      "variants": [
+        "original",
+        "erased-multisort"
+      ],
+      "negative_status": {
+        "bad_conflict_status": 1,
+        "missing_status": 2,
+        "corrupt_status": 1
+      },
+      "resources": {
+        "cpus": 2,
+        "memory_gib": 4,
+        "wall_minutes": 20
+      },
+      "certificate_files": {
+        "erased-multisort/mus/input.primo": {
+          "bytes": 504,
+          "sha256": "80d3ecf3250487db9a5cf8e631820988bf66665d338a8873bbc438c13d79ebe2"
+        },
+        "erased-multisort/mus/solution.ump": {
+          "bytes": 20545,
+          "sha256": "0206736156942f6399ee56a485109754fc56569b42ed3152ad537357155f72f7"
+        },
+        "erased-multisort/mus/challenge.umd": {
+          "bytes": 4548,
+          "sha256": "cf7f38882db69cc2702858c3d86085bf0f27efed55cf6dff0d451298a6d3b439"
+        },
+        "erased-multisort/mus/problem.lrat": {
+          "bytes": 12,
+          "sha256": "b3c3f36b21233fcc39d3677ea46682a327afaaf940a8407a54cc320f2b4ffed2"
+        },
+        "erased-multisort/none/input.primo": {
+          "bytes": 504,
+          "sha256": "80d3ecf3250487db9a5cf8e631820988bf66665d338a8873bbc438c13d79ebe2"
+        },
+        "erased-multisort/none/solution.ump": {
+          "bytes": 20545,
+          "sha256": "0206736156942f6399ee56a485109754fc56569b42ed3152ad537357155f72f7"
+        },
+        "erased-multisort/none/challenge.umd": {
+          "bytes": 4548,
+          "sha256": "cf7f38882db69cc2702858c3d86085bf0f27efed55cf6dff0d451298a6d3b439"
+        },
+        "erased-multisort/none/problem.lrat": {
+          "bytes": 12,
+          "sha256": "b3c3f36b21233fcc39d3677ea46682a327afaaf940a8407a54cc320f2b4ffed2"
+        },
+        "erased-multisort/core/input.primo": {
+          "bytes": 504,
+          "sha256": "80d3ecf3250487db9a5cf8e631820988bf66665d338a8873bbc438c13d79ebe2"
+        },
+        "erased-multisort/core/solution.ump": {
+          "bytes": 20545,
+          "sha256": "0206736156942f6399ee56a485109754fc56569b42ed3152ad537357155f72f7"
+        },
+        "erased-multisort/core/challenge.umd": {
+          "bytes": 4548,
+          "sha256": "cf7f38882db69cc2702858c3d86085bf0f27efed55cf6dff0d451298a6d3b439"
+        },
+        "erased-multisort/core/problem.lrat": {
+          "bytes": 12,
+          "sha256": "b3c3f36b21233fcc39d3677ea46682a327afaaf940a8407a54cc320f2b4ffed2"
+        },
+        "original/mus/input.primo": {
+          "bytes": 603,
+          "sha256": "9fb85ec971f1cf5fda763ab2aa287f17d85ef0b35fb17a356a4225726eae3aa9"
+        },
+        "original/mus/solution.ump": {
+          "bytes": 35342,
+          "sha256": "64e15a87fdadfe093b71afe40ddedab90696b10cb27c6d093801def8454da837"
+        },
+        "original/mus/challenge.umd": {
+          "bytes": 5175,
+          "sha256": "88759efb73fd1dbc37e9b7de29ae59bd16d8c0691c15fee99a291f601bd9580f"
+        },
+        "original/mus/problem.lrat": {
+          "bytes": 104,
+          "sha256": "8ab001f1df095c117462dc28d1c3682958d5d8aa1366cfcd42daf20c527a5db6"
+        },
+        "original/none/input.primo": {
+          "bytes": 603,
+          "sha256": "9fb85ec971f1cf5fda763ab2aa287f17d85ef0b35fb17a356a4225726eae3aa9"
+        },
+        "original/none/solution.ump": {
+          "bytes": 35342,
+          "sha256": "64e15a87fdadfe093b71afe40ddedab90696b10cb27c6d093801def8454da837"
+        },
+        "original/none/challenge.umd": {
+          "bytes": 5175,
+          "sha256": "88759efb73fd1dbc37e9b7de29ae59bd16d8c0691c15fee99a291f601bd9580f"
+        },
+        "original/none/problem.lrat": {
+          "bytes": 104,
+          "sha256": "8ab001f1df095c117462dc28d1c3682958d5d8aa1366cfcd42daf20c527a5db6"
+        },
+        "original/core/input.primo": {
+          "bytes": 603,
+          "sha256": "9fb85ec971f1cf5fda763ab2aa287f17d85ef0b35fb17a356a4225726eae3aa9"
+        },
+        "original/core/solution.ump": {
+          "bytes": 35342,
+          "sha256": "64e15a87fdadfe093b71afe40ddedab90696b10cb27c6d093801def8454da837"
+        },
+        "original/core/challenge.umd": {
+          "bytes": 5175,
+          "sha256": "88759efb73fd1dbc37e9b7de29ae59bd16d8c0691c15fee99a291f601bd9580f"
+        },
+        "original/core/problem.lrat": {
+          "bytes": 104,
+          "sha256": "8ab001f1df095c117462dc28d1c3682958d5d8aa1366cfcd42daf20c527a5db6"
+        }
+      }
+    }
+  },
+  "commands": {
+    "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --jobs 4 --extra-target all (clean source; temporary srun node exclusion after launch errors)",
+    "tests": "sbatch scripts/slurm_cnf_export_gate.sbatch (prepared workspace, matching C++ headers, ASan runtime, offline Ruff wheel)",
+    "fuzz": "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 --out results/cnf-export-345293/fuzz",
+    "asan": "make -o contrib/local/.cli11.stamp -o contrib/local/.cadical.stamp -o contrib/local/.gmp.stamp asan-test ASAN_BUILD_DIR=build-slurm-asan",
+    "proofs": "MICROMATH_REUSE_BUILD=1 MICROMATH_GIT=505588a6a0b184c992c3cbcd97721507365ec428 PRIMO_EXPECTED_GIT=cf82b726 sbatch scripts/slurm_micromath_check.sbatch (separate pinned external checkouts)"
+  },
+  "artifacts": {
+    "gate": "results/cnf-export-345293",
+    "six_proofs": "results/micromath-prepared-345294",
+    "preparation": "results/cnf-export-streaming-preparation"
+  },
+  "triaged_attempts": [
+    {
+      "job": "345262",
+      "result": "SLURM credential expired before compilation"
+    },
+    {
+      "job": "345263",
+      "result": "same launch error; node excluded for later builds"
+    },
+    {
+      "job": "345265",
+      "result": "source 374e5ed7 built successfully"
+    },
+    {
+      "job": "345270",
+      "result": "48 CTests and 301 Python tests passed; fuzz stopped at index9 on invalid empty-or query emitted by test validator, not by Primo; no ASan stage reached"
+    },
+    {
+      "job": "345271",
+      "result": "six kernel replays and negative controls passed for source374e5ed7"
+    }
+  ],
+  "validator_fix": "cf82b726 translates an empty exported clause to SMT-LIB false; initial failing artifact is valid. Fresh gate reran all 1000 inputs.",
+  "static_review": {
+    "translation_units": 139,
+    "cleanup_rechecks": 4,
+    "tidy_advisories": 834,
+    "include_advisories": 391,
+    "compiler_errors": 0,
+    "unused_include_blockers": 0,
+    "artifacts": [
+      "results/static-export-stream/final-inventory.json",
+      "results/includes-export-stream/final-inventory.json"
+    ],
+    "limitation": "LLVM21 progress prefixes are not understood by the existing make summarizer. Raw reports, normalized full inventories and four cleanup rechecks are preserved. Advisory findings remain, including repository-style pragma once and an options ownership/copy advisory."
+  },
+  "limits": "Experimental single-query export only; no source-to-CNF proof or default/headline performance promotion. Six examples and four known-fast corpus inputs (all reduction modes, proof SAT with --no-factor) have kernel proofs. Two Goel inputs retain checker proof-construction failures; see stress report/reproducers."
+}

@@ -4,8 +4,12 @@ This original implementation note specifies an output/storage change, not a new
 solving or minimization algorithm. Export must use the normal query preparation
 and solver dispatch, including the existing extended-term lowering. No second
 `ite` lowering is introduced. Main UNSAT must be established before CORE/MUS
-reduction starts. Fresh SLURM qualification of this change is pending; the
-tests described below are implementation coverage, not a completed run claim.
+reduction starts. Qualification at `cf82b726` passed the regular tests, a fresh
+1,000-case reference gate, ASan tests and six Micromath example replays; see the
+[qualification report](../coverage/cnf-export-streaming.json). The separate
+[real-input stress report](../coverage/micromath-fast-stress.json) records twelve
+kernel-verified profiles on four inputs and two remaining Goel replay failures.
+Source-to-CNF conversion proof is still outside this work.
 
 The query owns its frontend through collection and serialization. An optional
 {preparedexportsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` is passed through the {preparedexportsource}`normal session <src/smt/solver_session.cpp>` and

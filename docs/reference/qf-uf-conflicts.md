@@ -70,6 +70,13 @@ With `--stats`, `:export.cnf.clauses` counts captured input/definition clauses a
 `:export.theory.conflicts-collected` and `:export.theory.conflicts-removed`
 distinguish the original collection from reduction.
 
+The producer at `cf82b726` passed 48 CTests, 301 Python tests, 1,000 fresh
+reference-checked cases, 48 ASan tests, and six complete Micromath example
+replays with negative controls. The {download}`qualification report
+<../coverage/cnf-export-streaming.json>` records jobs, commands, hashes, and the
+empty-clause reference-validator repair. Real-corpus proof coverage has the
+separate limits below.
+
 ## Reducing theory lemmas
 
 ```bash
@@ -208,6 +215,26 @@ relationship between that CNF and the source SMT-LIB script still needs the
 conversion evidence discussed above. A conflict-only check with
 `./smt/check-conflicts` does not establish propositional sufficiency.
 
+CaDiCaL's bounded variable addition can introduce fresh variables into LRAT,
+which this RUP-only checker does not support. To use the tested compatibility
+profile, supply a wrapper as the proof-generating `--cadical` executable:
+
+```bash
+export CADICAL_REAL="$cadical"
+cat > "$proof_dir/cadical-no-factor" <<'SH'
+#!/bin/sh
+exec "$CADICAL_REAL" --no-factor "$@"
+SH
+chmod +x "$proof_dir/cadical-no-factor"
+./smt/prove-cnf "$certificate" "$proof_dir/problem.cnf" "$proof_dir/problem.lrat" --cadical "$proof_dir/cadical-no-factor"
+```
+
+This changes the separate SAT proof generator. Primo's main solver and numeric
+lemma reducer keep their selected options. Disabling BVA removes the observed
+fresh-variable obstacle; it is not a promise that every generated trace is
+supported. The Goel proof-construction error below persists even with plain SAT
+traces and in both Micromath versions.
+
 The workflow also checks three rejection cases: a consistent alleged conflict,
 an insufficient lemma collection, and a corrupt proof file. Exact revisions,
 commands, job status, proof hashes and scope are recorded in
@@ -244,7 +271,7 @@ retained the same lemmas on inputs whose export completed, so this sample shows
 no minimization benefit. This is a bounded diagnostic sample, not full-corpus
 coverage or a performance comparison.
 
-### Selecting the next stress inputs
+### Stress inputs selected from known-fast results
 
 The current {preparedexportsource}`stress harness <scripts/micromath_stress.py>` requires a hash-pinned manifest drawn
 from recorded native UNSAT results within one second. The
@@ -268,8 +295,49 @@ limit; downstream stage limits and the shared 60-second profile budget remain.
 Historical native timings and current export/checking timings are separate
 measurements. Large source bytes alone do not establish stress on the proof
 framework: exported CNF size, collected/retained lemmas and proof sizes must also
-be reported. This revised selection and producer are awaiting fresh SLURM
-qualification; the historical pilot above validates their earlier revisions only.
+be reported.
+
+Job `345296` exported all six selected inputs in all three modes. Each reference
+answer was UNSAT; no native timeout, wrong answer, crash or rejected input was
+observed. Exports, including requested reduction, took approximately 0.6–2.5
+seconds and contained 8,623–36,171 CNF clauses. These are actual SAT-boundary
+problems, rather than preprocessing-only false goals. The historical timings
+select inputs; they are not a comparable speed baseline.
+
+| Input | CNF clauses | Lemmas: none / core / MUS | Full replay evidence |
+| --- | ---: | ---: | --- |
+| Goel peg solitaire 2, br | 11,985 | 336 / 115 / 95 | MUS weakening-mask error, both checker revisions |
+| Goel peg solitaire 5, fp | 15,073 | 249 / 82 / 52 | Plain MUS weakening-mask error, both revisions |
+| QG `gensys_icl_sk006` | 36,171 | 820 / 575 / 526 | All modes kernel-verified with `--no-factor` |
+| QG `gensys_icl006` | 35,826 | 773 / 556 / 525 | All modes kernel-verified with `--no-factor` |
+| SEQ005 size9 | 9,064 | 513 / 461 / 404 | All modes kernel-verified with `--no-factor` |
+| SEQ038 size9 | 8,623 | 1,179 / 754 / 573 | All modes kernel-verified with `--no-factor` |
+
+All eighteen initial profiles passed conflict checking and CaDiCaL reported
+propositional UNSAT, but their default LRAT traces introduced fresh variables;
+full Micromath proof construction failed. Those initial attempts are not counted
+as kernel proofs. Jobs `345309` and `345343` regenerated compatible traces with
+`--no-factor`, reusing the certificates and challenges, and established twelve
+kernel proofs for the four QG/SEQ inputs. Source solving was not repeated.
+On the same SEQ005 MUS trace, Mirek's update reduced SAT kernel work from
+1,448,860 to 800,848 steps; both versions' proofs replayed successfully.
+
+Both Goel inputs still fail `global literal weakening mask` with plain traces
+in both `df5c5d3` and `505588a` (job `345317`). Goel 2 also fails with
+`--no-factor` (job `345309`), with no fresh variables or negative LRAT hints.
+This remaining proof-construction failure is not established as a regression
+in the latest optimization. No invalid completed proof was accepted.
+
+The {download}`stress and diagnosis report <../coverage/micromath-fast-stress.json>`
+records per-phase outcomes, resources and proof hashes. The
+{download}`Goel checker input <../../benchmarks/checker-regressions/micromath-20261103/goel-weakening-mask.primo>`
+and {download}`SEQ checker input <../../benchmarks/checker-regressions/micromath-20261103/seq-extension-vars.primo>`
+are saved with {download}`reproduction notes <../../benchmarks/checker-regressions/micromath-20261103/README.md>`.
+They are MUS-reduced certificates, not failures minimized for the checker.
+A local self-contained archive adds the exact challenge/LRAT files and a replay
+script; its path and hash are in the report. Both replay payloads reproduced
+the expected errors after relocation in job `345343`; the final archive adds
+only its root metadata manifest to those unchanged replay files.
 
 ## Container and literal syntax
 

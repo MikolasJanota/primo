@@ -3,6 +3,242 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-03-normal-pipeline-streamed-export",
+      "date": "2026-11-03",
+      "kind": "solver-certificate-export-qualification",
+      "evidence_status": "qualified experimental producer; external Goel replay limitation separately recorded",
+      "commit": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+      "report": "docs/coverage/cnf-export-streaming.json",
+      "jobs": {
+        "build": "345282",
+        "check_fuzz_asan": "345293",
+        "micromath_six_examples": "345294"
+      },
+      "commands": {
+        "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --jobs 4 --extra-target all (clean source; temporary srun node exclusion after launch errors)",
+        "tests": "sbatch scripts/slurm_cnf_export_gate.sbatch (prepared workspace, matching C++ headers, ASan runtime, offline Ruff wheel)",
+        "fuzz": "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 20261102 --out results/cnf-export-345293/fuzz",
+        "asan": "make -o contrib/local/.cli11.stamp -o contrib/local/.cadical.stamp -o contrib/local/.gmp.stamp asan-test ASAN_BUILD_DIR=build-slurm-asan",
+        "proofs": "MICROMATH_REUSE_BUILD=1 MICROMATH_GIT=505588a6a0b184c992c3cbcd97721507365ec428 PRIMO_EXPECTED_GIT=cf82b726 sbatch scripts/slurm_micromath_check.sbatch (separate pinned external checkouts)"
+      },
+      "correctness": {
+        "ctest_pass": 48,
+        "python_pass": 301,
+        "asan_ctest_pass": 48,
+        "fuzz": {
+          "seed": 20261102,
+          "requested": 1000,
+          "reduction_modes": "round-robin none/core/mus",
+          "solver_paths": "alternating off/auto preprocessing; four propagation modes; both EUF engines; ite on every seventh case",
+          "sort_erasure": "enabled on odd indices; multi-sort input on every fifth index",
+          "pass": 1000,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_error": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "invalid_artifact": 0
+        },
+        "six_example_kernel_replays": 6,
+        "negative_control_exits": [
+          1,
+          2,
+          1
+        ]
+      },
+      "artifacts": {
+        "gate": "results/cnf-export-345293",
+        "six_proofs": "results/micromath-prepared-345294",
+        "preparation": "results/cnf-export-streaming-preparation"
+      },
+      "triaged_attempts": [
+        {
+          "job": "345262",
+          "result": "SLURM credential expired before compilation"
+        },
+        {
+          "job": "345263",
+          "result": "same launch error; node excluded for later builds"
+        },
+        {
+          "job": "345265",
+          "result": "source 374e5ed7 built successfully"
+        },
+        {
+          "job": "345270",
+          "result": "48 CTests and 301 Python tests passed; fuzz stopped at index9 on invalid empty-or query emitted by test validator, not by Primo; no ASan stage reached"
+        },
+        {
+          "job": "345271",
+          "result": "six kernel replays and negative controls passed for source374e5ed7"
+        }
+      ],
+      "limits": "Experimental single-query export only; no source-to-CNF proof or default/headline performance promotion. Six examples and four known-fast corpus inputs (all reduction modes, proof SAT with --no-factor) have kernel proofs. Two Goel inputs retain checker proof-construction failures; see stress report/reproducers."
+    },
+    {
+      "id": "2026-11-03-known-fast-real-certificate-stress",
+      "date": "2026-11-03",
+      "kind": "real-corpus-certificate-stress-and-replay-diagnosis",
+      "evidence_status": "producer qualified; 18 fast exports; four of six inputs kernel-verified in all three modes with BVA disabled; Goel weakening-mask failures remain",
+      "commit": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+      "report": "docs/coverage/micromath-fast-stress.json",
+      "jobs": {
+        "initial": "345296",
+        "no_factor_comparison": "345309",
+        "plain_comparison": "345317",
+        "compatible_replay_and_archive_validation": "345343"
+      },
+      "manifest": "benchmarks/micromath-fast-unsat-20261103.json",
+      "commands": {
+        "selection": "scripts/select_micromath_fast_cases.py --history RECORDED_SHARDS --historical-source-git 5efbd02293e15a53fbaad748ceda78bc7d27bbac --corpus QF_UF --exclude-manifest benchmarks/micromath-pilot-20261103.json --out MANIFEST (SLURM)",
+        "stress": "PILOT_MANIFEST=benchmarks/micromath-fast-unsat-20261103.json PRIMO_EXPECTED_GIT=cf82b726 MICROMATH_GIT=505588a6a0b184c992c3cbcd97721507365ec428 TMPDIR=/tmp sbatch scripts/slurm_micromath_stress.sbatch (prepared frozen binary; explicit pinned tools)",
+        "compatible_trace": "Use a --cadical wrapper executing REAL_CADICAL --no-factor \"$@\"; reuse saved input.primo/challenge.umd, run prove-cnf then prove-lrat and check-solution. Raw job scripts and command arrays are in cited artifacts."
+      },
+      "summary": {
+        "inputs": 6,
+        "native_unsat_exports": 18,
+        "native_timeout_wrong_answer_crash": 0,
+        "default_profile_proof_errors": 18,
+        "corrected_profile_verified_inputs": 4,
+        "corrected_profile_verified_profiles": 12,
+        "remaining_inputs": 2
+      },
+      "reproducers": {
+        "commit": "07c59614",
+        "directory": "benchmarks/checker-regressions/micromath-20261103",
+        "archive": "results/micromath-repro-20261103.tar.gz",
+        "sha256": "0b74aaed931e9fefe9d9eb3dfc776ac0278b74566c026e6fc56ab3c1ae6a9eee"
+      },
+      "artifacts": [
+        "results/micromath-fast-stress-345296",
+        "results/micromath-proof-diagnosis-345309",
+        "results/micromath-proof-plain-345317",
+        "results/micromath-rup-replay-345343"
+      ],
+      "limits": {
+        "initial_job_345296": {
+          "primo_git": "cf82b726",
+          "micromath_git": "505588a6a0b184c992c3cbcd97721507365ec428",
+          "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+          "job_id": "345296",
+          "host": "node-03.ciircluster",
+          "python": "3.11.7",
+          "workers": 4,
+          "reference_timeout_seconds": 20.0,
+          "mode_budget_seconds": 60.0,
+          "phase_limits_seconds": {
+            "baseline_export": 5,
+            "reduced_export": 30,
+            "conflicts": 10,
+            "challenge": 10,
+            "cnf": 15,
+            "proof": 30,
+            "kernel": 10
+          },
+          "as_limit_bytes_per_worker_and_child": 3221225472,
+          "file_size_limit_bytes": 268435456,
+          "binary_sha256": {
+            "primo": "92893c0735dea9a615927d0bc8341b1b3d064d5ac909263a429d9fd3bed000c2",
+            "reference": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+            "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+            "check-solution": "78302a478f6f96102b761038a9184e6820b4eb7cb25d45a2e6fd3cf0883c4af2"
+          },
+          "harness_sha256": "a3446c4a85b5373507acb682e63283f10ecfe8dc4d85840edbbf4ebb393d7ce1",
+          "command": [
+            "/home/janotmik/primo-cnf-mus-20261102/scripts/micromath_stress.py",
+            "--corpus",
+            "/home/janotmik/primo-cadical-profile/tmp/QF_UF",
+            "--primo",
+            "/home/janotmik/primo-micromath-20261103/binaries/primo-cf82b726",
+            "--expected-git",
+            "cf82b726",
+            "--micromath",
+            "/home/janotmik/primo-micromath-20261103/micromath-505588a6a0b184c992c3cbcd97721507365ec428",
+            "--cadical",
+            "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+            "--reference",
+            "/home/janotmik/primo-cnf-mus-20261102/contrib/local/bin/z3",
+            "--out",
+            "/home/janotmik/primo-micromath-20261103/fast-stress-cf82b726",
+            "--workers",
+            "4",
+            "--reference-timeout",
+            "20",
+            "--mode-budget",
+            "60",
+            "--manifest",
+            "/home/janotmik/primo-cnf-mus-20261102/benchmarks/micromath-fast-unsat-20261103.json"
+          ]
+        },
+        "replay_jobs": {
+          "345309": {
+            "cpus": 2,
+            "memory_gib": 4,
+            "job_wall_minutes": 10,
+            "process_address_space_gib": 3,
+            "file_size_limit_mib": 256,
+            "stage_timeout_seconds": {
+              "cnf": 90,
+              "updated_prover": 90,
+              "baseline_prover": 90,
+              "each_successful_kernel": 90
+            },
+            "concurrency": "sequential stages and cases",
+            "workflow_artifact": "results/micromath-proof-diagnosis-345309/workflow.sbatch",
+            "workflow_sha256": "af9fca751a267ca78831c2c91e5e721ee377e9eca7d09f4f31935017e7bb6f8c",
+            "node": "node-03",
+            "job_state": "COMPLETED",
+            "job_exit_code": "0:0",
+            "job_elapsed_seconds": 8
+          },
+          "345317": {
+            "cpus": 2,
+            "memory_gib": 4,
+            "job_wall_minutes": 10,
+            "process_address_space_gib": 3,
+            "file_size_limit_mib": 256,
+            "stage_timeout_seconds": {
+              "cnf": 90,
+              "updated_prover": 90,
+              "baseline_prover": 90,
+              "each_successful_kernel": 90
+            },
+            "concurrency": "sequential stages and cases",
+            "workflow_artifact": "results/micromath-proof-plain-345317/workflow.sbatch",
+            "workflow_sha256": "94ac1471beb9a0c09a57cec5cadfe6cec55bf758caa8b49640dd56c19d127856",
+            "node": "node-03",
+            "job_state": "COMPLETED",
+            "job_exit_code": "0:0",
+            "job_elapsed_seconds": 9
+          },
+          "345343": {
+            "cpus": 4,
+            "memory_gib": 16,
+            "job_wall_minutes": 10,
+            "workers": 4,
+            "worker_and_child_address_space_gib": 3,
+            "worker_and_child_file_size_limit_mib": 256,
+            "stage_timeout_seconds": {
+              "cnf": 30,
+              "proof": 60,
+              "kernel": 30,
+              "each_archive_replay": 30
+            },
+            "termination_grace_seconds": 2,
+            "archive_validation_limits": "Archive validation runs sequentially before workers, with 30s timeout per replay and the allocation memory limit; per-worker address/file limits do not apply to these two preliminary calls.",
+            "workflow_artifact": "results/micromath-rup-replay-345343/workflow.sbatch",
+            "workflow_sha256": "a90f6b112a315d2192c3d31ca713b22ff8e6d7ddbe9a317f099e1e147ad74828",
+            "node": "node-03",
+            "job_state": "COMPLETED",
+            "job_exit_code": "0:0",
+            "job_elapsed_seconds": 16
+          }
+        }
+      },
+      "scope": "Known-fast UNSAT sample, not full corpus; historical native results are selection evidence, not comparable timings. Source-to-CNF proof absent. Main solver SAT models are not applicable: all selected answers UNSAT."
+    },
+    {
       "id": "2026-11-03-micromath-sat-update",
       "date": "2026-11-03",
       "kind": "external-checker-fixed-artifact-replay",
