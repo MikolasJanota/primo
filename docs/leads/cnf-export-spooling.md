@@ -70,7 +70,8 @@ Tests compare spooled bytes against the existing standalone serializer, cover
 nonadjacent/empty/all selections and records exceeding the copy buffer, reject
 invalid selections, and exercise temporary-file errors without touching a final
 artifact. A counting stream tests expanded shared ground terms without building
-an output string. The normal CLI/reference/fuzz/ASan and external Micromath
+an output string. The reference gate translates an empty clause to `false`,
+rather than the invalid zero-argument SMT-LIB application `(or)`. The normal CLI/reference/fuzz/ASan and external Micromath
 checks still apply. The {preparedexportsource}`benchmark selector <scripts/select_micromath_fast_cases.py>` uses recorded fast UNSAT results
 with matching hashes; historical/default timings and current export timings must
 be labelled separately. Previously timed-out inputs are excluded from this

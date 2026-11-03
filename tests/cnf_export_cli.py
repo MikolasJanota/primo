@@ -132,7 +132,10 @@ def validate_artifact(root: list, reference_solver: str, minimal: bool = False) 
     theory_clauses = [[complement(lit) for lit in c[1:]] for c in root[5][1:]]
     clauses += theory_clauses
     assertions = [
-        "(assert (or " + " ".join(map(abstract, clause)) + "))" for clause in clauses
+        "(assert "
+        + ("(or " + " ".join(map(abstract, clause)) + ")" if clause else "false")
+        + ")"
+        for clause in clauses
     ]
     declarations = [f"(declare-fun {name} () Bool)" for name in atoms.values()]
     source = "(set-logic QF_UF)" + "".join(declarations + assertions) + "(check-sat)"
