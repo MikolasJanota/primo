@@ -7,6 +7,9 @@ observable mechanism, and result that would reject the proposal.
 
 The dedicated lead pages in the navigation cover library lifetime, compact
 storage, statistics, theory lemmas, arithmetic, combination, and quantifiers.
+The [weighted LRA certificate proposal](lra-conflict-certificates.md) specifies
+the next arithmetic export boundary, its exact checking rule and remaining
+implementation obligations.
 The [arithmetic-symmetry lead](arithmetic-symmetry.md) connects existing finite
 integer choices with broader SMT and integer-programming symmetry research.
 This register also accounts for the remaining numbered entries in the
