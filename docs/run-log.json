@@ -3,6 +3,685 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-04-qf-uflia-m124-full-paired60-5dec036",
+      "date": "2026-11-04",
+      "commit": "5dec036329b8b8cc6d929835fa1c6dfa644b8fb3",
+      "branch": "lia-integrality",
+      "kind": "slurm-full-corpus-four-profile-option-comparison",
+      "evidence_status": "complete; paired timing and all SAT models qualified; M124 does not recover the QF_UFLIA regression",
+      "scope": "Test whether the M124 profile helps QF_UFLIA; compare default/off, M12, M124 and all on the same existing binary. No solver source or defaults change.",
+      "parents": [
+        "2026-11-04-lia-m124-full-paired60-5dec036",
+        "2026-11-03-wisas-m2-regression-diagnosis",
+        "2026-11-03-paired-120s-rerun"
+      ],
+      "environment": {
+        "corpus": "Complete 659-file QF_UFLIA corpus; four families; 60-second per-input wall cutoff",
+        "scheduler": "SLURM compute nodes, 132 timing array tasks, concurrency 64, two CPUs and 4 GiB requested each, one-hour task wall. Each task runs all four profiles on its shard in rotated order.",
+        "binary": "Existing Release 5dec036, CaDiCaL cadical-3.0.0-7b99c07; SHA-256 11d4d983bc11bca49f70032a89f25101dd077b7602fbc81da1e20b775f20ae68",
+        "model_stage": "Separate afterok-dependent replay; 132 tasks, concurrency 48, two CPUs and 12 GiB requested each, one-hour task wall; Primo 180 s, Dolmen 300 s, --size 8G --strict=false. Every successful SAT row in every profile selected.",
+        "machine": "Intel Xeon E5-2690 v4 compute nodes 02, 03 and 04; per-task node/CPU records preserved"
+      },
+      "jobs": {
+        "timing": "349196; all 132 tasks COMPLETED 0:0",
+        "models": "349264; all 132 tasks COMPLETED 0:0; dependency afterok:349196"
+      },
+      "commands": {
+        "runner": "scripts/qualification/lia_integrality/paired_replay.sbatch at dbedbfd1, SHA-256 8ad351199f677c6093b161fada3e04f04e6676f7d3755615a3e84fa886b5056a",
+        "preflight": "slurm_prepare_benchmark_workspace.py --check-only --no-sync with clean detached 5dec036 worktree before each submission; require Dolmen and Z3. Set core.abbrev=7 for this command only, matching the preserved binary banner; full 5dec036 identity and binary SHA-256 recorded. No rebuild or source sync.",
+        "shared": "PRIMO_PAIRED_ARMS=\"off m12 m124 all\" PRIMO_PAIRED_SHARDS=132 PRIMO_PAIRED_CHUNKS=1 PRIMO_COMPARE_TIMEOUT=60 PRIMO_EXPECTED_GIT=5dec036 PRIMO_CAMPAIGN_ID=uflia-m124-review-20261104-full60; binary/corpus/workspace/output paths provided outside tracked files",
+        "off": "--quiet --stats --no-lia-round-integer-bounds --no-lia-primitive-int-rows --no-lia-patch-integral-moves --no-lia-integer-slacks",
+        "m12": "--quiet --stats --lia-round-integer-bounds --lia-primitive-int-rows --no-lia-patch-integral-moves --no-lia-integer-slacks",
+        "m124": "--quiet --stats --lia-round-integer-bounds --lia-primitive-int-rows --lia-patch-integral-moves --no-lia-integer-slacks",
+        "all": "--quiet --stats --lia-round-integer-bounds --lia-primitive-int-rows --lia-patch-integral-moves --lia-integer-slacks",
+        "timing": "PRIMO_PHASE=benchmark sbatch --array=0-131%64 --cpus-per-task=2 --mem=4G --time=01:00:00 --export=ALL <runner>",
+        "model_replay": "PRIMO_PHASE=replay sbatch --dependency=afterok:349196 --array=0-131%48 --cpus-per-task=2 --mem=12G --time=01:00:00 --export=ALL <runner>",
+        "analysis": "python3 scripts/qualification/lia_integrality/analyze.py --root results/uflia-integrality-review-20261104/full60 --reference-root results/uflia-integrality-review-20261104/references/z3 --expected-files 659 --arms off m12 m124 all --baseline off --candidate m124 --out results/uflia-integrality-review-20261104/full-summary.json"
+      },
+      "artifacts": {
+        "remote": "<lia-default-workspace>/results/uflia-m124-review-20261104-full60/{off,m12,m124,all}/shard-*",
+        "local": "results/uflia-integrality-review-20261104",
+        "references": "Retained complete 659-file Z3 and cvc5 answer/provenance archives from <model-fix-workspace>/results/full-revalidation-287b743/real/QF_UFLIA; no reference solver rerun",
+        "metadata": "benchmarks/qf-uflia-m124-review-20261104.json",
+        "analysis_sha256": "0da9adc8d056d8fd3ff91ccc5a1bc2faeaf72577113e97d680cdd948f5be33ce",
+        "audit_sha256": "4555611ae1604184777eafd6b659d59303765e19696338c9d935c4a6f881555b"
+      },
+      "acceptance": "Require complete input/binary identities, zero wrong answers or reference disagreements, no crashes/parser/unsupported errors, all selected SAT models directly accepted by Dolmen, and family/per-file comparison. This is evaluation of existing options, not a fresh behavior change or a default-promotion campaign.",
+      "diagnostic_case": {
+        "file": "wisas/xs_28_48.smt2",
+        "scope": "Completed per-input timing records from the qualified full-corpus comparison. Timed-out work counters are partial statistics reported during termination, not completed-search totals.",
+        "off": "SAT in 0.613161 s, 385 SAT conflicts; 99 completion/patch calls, 97 initially fully integral, 16 patch candidates scored.",
+        "m12": "TIMEOUT at 60 s; 17 completion/patch calls, all initially fully integral; zero patch candidates.",
+        "m124": "TIMEOUT at 60 s; 17 completion/patch calls, all initially fully integral; zero patch candidates or lattice moves.",
+        "all": "TIMEOUT at 60 s; 17 completion/patch calls, all initially fully integral; zero patch candidates.",
+        "interpretation": "M4 cannot change a patch call that returns before candidate collection because every integer obligation is already integral. This supports the prior search/combination diagnosis on this example, without claiming a fresh trace of its chosen values."
+      },
+      "results": {
+        "profiles": {
+          "all": {
+            "error": 0,
+            "files": 659,
+            "par2": 14938.417023,
+            "sat": 374,
+            "solved": 544,
+            "solved_seconds": 1138.417023,
+            "timeout": 115,
+            "unknown": 0,
+            "unsat": 170,
+            "unsupported": 0,
+            "wrong": 0,
+            "z3_checked": 544,
+            "z3_disagreements": []
+          },
+          "m12": {
+            "error": 0,
+            "files": 659,
+            "par2": 14872.539389,
+            "sat": 375,
+            "solved": 545,
+            "solved_seconds": 1192.539389,
+            "timeout": 114,
+            "unknown": 0,
+            "unsat": 170,
+            "unsupported": 0,
+            "wrong": 0,
+            "z3_checked": 545,
+            "z3_disagreements": []
+          },
+          "m124": {
+            "error": 0,
+            "files": 659,
+            "par2": 14883.27538,
+            "sat": 375,
+            "solved": 545,
+            "solved_seconds": 1203.27538,
+            "timeout": 114,
+            "unknown": 0,
+            "unsat": 170,
+            "unsupported": 0,
+            "wrong": 0,
+            "z3_checked": 545,
+            "z3_disagreements": []
+          },
+          "off": {
+            "error": 0,
+            "files": 659,
+            "par2": 11353.81203,
+            "sat": 405,
+            "solved": 575,
+            "solved_seconds": 1273.81203,
+            "timeout": 84,
+            "unknown": 0,
+            "unsat": 170,
+            "unsupported": 0,
+            "wrong": 0,
+            "z3_checked": 575,
+            "z3_disagreements": []
+          }
+        },
+        "families": {
+          "all": {
+            "20230314-Jaroslav-Bendik-Certora": {
+              "error": 0,
+              "files": 76,
+              "par2": 8584.647036,
+              "sat": 4,
+              "solved": 5,
+              "timeout": 71,
+              "unknown": 0,
+              "unsat": 1,
+              "unsupported": 0
+            },
+            "TwoSquares": {
+              "error": 0,
+              "files": 21,
+              "par2": 0.17649499999999999,
+              "sat": 5,
+              "solved": 21,
+              "timeout": 0,
+              "unknown": 0,
+              "unsat": 16,
+              "unsupported": 0
+            },
+            "mathsat": {
+              "error": 0,
+              "files": 454,
+              "par2": 2367.3832,
+              "sat": 313,
+              "solved": 441,
+              "timeout": 13,
+              "unknown": 0,
+              "unsat": 128,
+              "unsupported": 0
+            },
+            "wisas": {
+              "error": 0,
+              "files": 108,
+              "par2": 3986.210292,
+              "sat": 52,
+              "solved": 77,
+              "timeout": 31,
+              "unknown": 0,
+              "unsat": 25,
+              "unsupported": 0
+            }
+          },
+          "m12": {
+            "20230314-Jaroslav-Bendik-Certora": {
+              "error": 0,
+              "files": 76,
+              "par2": 8544.845106,
+              "sat": 5,
+              "solved": 6,
+              "timeout": 70,
+              "unknown": 0,
+              "unsat": 1,
+              "unsupported": 0
+            },
+            "TwoSquares": {
+              "error": 0,
+              "files": 21,
+              "par2": 0.176764,
+              "sat": 5,
+              "solved": 21,
+              "timeout": 0,
+              "unknown": 0,
+              "unsat": 16,
+              "unsupported": 0
+            },
+            "mathsat": {
+              "error": 0,
+              "files": 454,
+              "par2": 2343.794047,
+              "sat": 313,
+              "solved": 441,
+              "timeout": 13,
+              "unknown": 0,
+              "unsat": 128,
+              "unsupported": 0
+            },
+            "wisas": {
+              "error": 0,
+              "files": 108,
+              "par2": 3983.723472,
+              "sat": 52,
+              "solved": 77,
+              "timeout": 31,
+              "unknown": 0,
+              "unsat": 25,
+              "unsupported": 0
+            }
+          },
+          "m124": {
+            "20230314-Jaroslav-Bendik-Certora": {
+              "error": 0,
+              "files": 76,
+              "par2": 8553.036899,
+              "sat": 5,
+              "solved": 6,
+              "timeout": 70,
+              "unknown": 0,
+              "unsat": 1,
+              "unsupported": 0
+            },
+            "TwoSquares": {
+              "error": 0,
+              "files": 21,
+              "par2": 0.177892,
+              "sat": 5,
+              "solved": 21,
+              "timeout": 0,
+              "unknown": 0,
+              "unsat": 16,
+              "unsupported": 0
+            },
+            "mathsat": {
+              "error": 0,
+              "files": 454,
+              "par2": 2344.65138,
+              "sat": 313,
+              "solved": 441,
+              "timeout": 13,
+              "unknown": 0,
+              "unsat": 128,
+              "unsupported": 0
+            },
+            "wisas": {
+              "error": 0,
+              "files": 108,
+              "par2": 3985.409209,
+              "sat": 52,
+              "solved": 77,
+              "timeout": 31,
+              "unknown": 0,
+              "unsat": 25,
+              "unsupported": 0
+            }
+          },
+          "off": {
+            "20230314-Jaroslav-Bendik-Certora": {
+              "error": 0,
+              "files": 76,
+              "par2": 8541.14397,
+              "sat": 5,
+              "solved": 6,
+              "timeout": 70,
+              "unknown": 0,
+              "unsat": 1,
+              "unsupported": 0
+            },
+            "TwoSquares": {
+              "error": 0,
+              "files": 21,
+              "par2": 0.430674,
+              "sat": 5,
+              "solved": 21,
+              "timeout": 0,
+              "unknown": 0,
+              "unsat": 16,
+              "unsupported": 0
+            },
+            "mathsat": {
+              "error": 0,
+              "files": 454,
+              "par2": 2423.693892,
+              "sat": 313,
+              "solved": 441,
+              "timeout": 13,
+              "unknown": 0,
+              "unsat": 128,
+              "unsupported": 0
+            },
+            "wisas": {
+              "error": 0,
+              "files": 108,
+              "par2": 388.543494,
+              "sat": 82,
+              "solved": 107,
+              "timeout": 1,
+              "unknown": 0,
+              "unsat": 25,
+              "unsupported": 0
+            }
+          }
+        },
+        "comparisons": {
+          "all": {
+            "baseline_common_solved_seconds": 1194.1942549999999,
+            "baseline_only": 0,
+            "candidate_common_solved_seconds": 1138.417023,
+            "candidate_only": 0,
+            "common_files": 659,
+            "common_solved": 544,
+            "decisive_answer_disagreements": [],
+            "losses": [
+              "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+              "wisas/xs_24_44.smt2",
+              "wisas/xs_25_35.smt2",
+              "wisas/xs_26_36.smt2",
+              "wisas/xs_26_46.smt2",
+              "wisas/xs_27_47.smt2",
+              "wisas/xs_28_38.smt2",
+              "wisas/xs_28_48.smt2",
+              "wisas/xs_29_39.smt2",
+              "wisas/xs_29_49.smt2",
+              "wisas/xs_30_40.smt2",
+              "wisas/xs_30_50.smt2",
+              "wisas/xs_31_41.smt2",
+              "wisas/xs_31_51.smt2",
+              "wisas/xs_32_42.smt2",
+              "wisas/xs_32_52.smt2",
+              "wisas/xs_33_43.smt2",
+              "wisas/xs_33_53.smt2",
+              "wisas/xs_34_44.smt2",
+              "wisas/xs_34_54.smt2",
+              "wisas/xs_35_45.smt2",
+              "wisas/xs_35_55.smt2",
+              "wisas/xs_36_46.smt2",
+              "wisas/xs_36_56.smt2",
+              "wisas/xs_37_47.smt2",
+              "wisas/xs_37_57.smt2",
+              "wisas/xs_38_48.smt2",
+              "wisas/xs_38_58.smt2",
+              "wisas/xs_39_59.smt2",
+              "wisas/xs_40_50.smt2",
+              "wisas/xs_40_60.smt2"
+            ],
+            "recoveries": []
+          },
+          "m12": {
+            "baseline_common_solved_seconds": 1245.573393,
+            "baseline_only": 0,
+            "candidate_common_solved_seconds": 1192.539389,
+            "candidate_only": 0,
+            "common_files": 659,
+            "common_solved": 545,
+            "decisive_answer_disagreements": [],
+            "losses": [
+              "wisas/xs_24_44.smt2",
+              "wisas/xs_25_35.smt2",
+              "wisas/xs_26_36.smt2",
+              "wisas/xs_26_46.smt2",
+              "wisas/xs_27_47.smt2",
+              "wisas/xs_28_38.smt2",
+              "wisas/xs_28_48.smt2",
+              "wisas/xs_29_39.smt2",
+              "wisas/xs_29_49.smt2",
+              "wisas/xs_30_40.smt2",
+              "wisas/xs_30_50.smt2",
+              "wisas/xs_31_41.smt2",
+              "wisas/xs_31_51.smt2",
+              "wisas/xs_32_42.smt2",
+              "wisas/xs_32_52.smt2",
+              "wisas/xs_33_43.smt2",
+              "wisas/xs_33_53.smt2",
+              "wisas/xs_34_44.smt2",
+              "wisas/xs_34_54.smt2",
+              "wisas/xs_35_45.smt2",
+              "wisas/xs_35_55.smt2",
+              "wisas/xs_36_46.smt2",
+              "wisas/xs_36_56.smt2",
+              "wisas/xs_37_47.smt2",
+              "wisas/xs_37_57.smt2",
+              "wisas/xs_38_48.smt2",
+              "wisas/xs_38_58.smt2",
+              "wisas/xs_39_59.smt2",
+              "wisas/xs_40_50.smt2",
+              "wisas/xs_40_60.smt2"
+            ],
+            "recoveries": []
+          },
+          "m124": {
+            "baseline_common_solved_seconds": 1245.573393,
+            "baseline_only": 0,
+            "candidate_common_solved_seconds": 1203.27538,
+            "candidate_only": 0,
+            "common_files": 659,
+            "common_solved": 545,
+            "decisive_answer_disagreements": [],
+            "losses": [
+              "wisas/xs_24_44.smt2",
+              "wisas/xs_25_35.smt2",
+              "wisas/xs_26_36.smt2",
+              "wisas/xs_26_46.smt2",
+              "wisas/xs_27_47.smt2",
+              "wisas/xs_28_38.smt2",
+              "wisas/xs_28_48.smt2",
+              "wisas/xs_29_39.smt2",
+              "wisas/xs_29_49.smt2",
+              "wisas/xs_30_40.smt2",
+              "wisas/xs_30_50.smt2",
+              "wisas/xs_31_41.smt2",
+              "wisas/xs_31_51.smt2",
+              "wisas/xs_32_42.smt2",
+              "wisas/xs_32_52.smt2",
+              "wisas/xs_33_43.smt2",
+              "wisas/xs_33_53.smt2",
+              "wisas/xs_34_44.smt2",
+              "wisas/xs_34_54.smt2",
+              "wisas/xs_35_45.smt2",
+              "wisas/xs_35_55.smt2",
+              "wisas/xs_36_46.smt2",
+              "wisas/xs_36_56.smt2",
+              "wisas/xs_37_47.smt2",
+              "wisas/xs_37_57.smt2",
+              "wisas/xs_38_48.smt2",
+              "wisas/xs_38_58.smt2",
+              "wisas/xs_39_59.smt2",
+              "wisas/xs_40_50.smt2",
+              "wisas/xs_40_60.smt2"
+            ],
+            "recoveries": []
+          }
+        },
+        "common_runtime": {
+          "files_both_at_least_half_second": 141,
+          "geometric_mean_candidate_over_baseline": 1.0054810619924521,
+          "median_candidate_over_baseline": 1.0088941042237254
+        },
+        "models": {
+          "all": {
+            "complete": true,
+            "completed_replay_rows": 374,
+            "dolmen_pass": 374,
+            "expected_sat_in_replays": 374,
+            "outcomes": {
+              "pass": 374
+            },
+            "selected_sat": 374,
+            "shard_states": {
+              "complete": 132
+            }
+          },
+          "m12": {
+            "complete": true,
+            "completed_replay_rows": 375,
+            "dolmen_pass": 375,
+            "expected_sat_in_replays": 375,
+            "outcomes": {
+              "pass": 375
+            },
+            "selected_sat": 375,
+            "shard_states": {
+              "complete": 132
+            }
+          },
+          "m124": {
+            "complete": true,
+            "completed_replay_rows": 375,
+            "dolmen_pass": 375,
+            "expected_sat_in_replays": 375,
+            "outcomes": {
+              "pass": 375
+            },
+            "selected_sat": 375,
+            "shard_states": {
+              "complete": 132
+            }
+          },
+          "off": {
+            "complete": true,
+            "completed_replay_rows": 405,
+            "dolmen_pass": 405,
+            "expected_sat_in_replays": 405,
+            "outcomes": {
+              "pass": 405
+            },
+            "selected_sat": 405,
+            "shard_states": {
+              "complete": 132
+            }
+          }
+        },
+        "model_audit": {
+          "off": {
+            "shards": 132,
+            "direct_passes": 405,
+            "validator_sha256": [
+              "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+            ],
+            "validator_script_sha256": [
+              "a921a3210d2753581c97e18909e423d9ff61bbddf2a792f5f462c9acab0b2d41"
+            ],
+            "parent_and_artifact_hashes_verified": true,
+            "exact_sat_sets_verified": true
+          },
+          "m12": {
+            "shards": 132,
+            "direct_passes": 375,
+            "validator_sha256": [
+              "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+            ],
+            "validator_script_sha256": [
+              "a921a3210d2753581c97e18909e423d9ff61bbddf2a792f5f462c9acab0b2d41"
+            ],
+            "parent_and_artifact_hashes_verified": true,
+            "exact_sat_sets_verified": true
+          },
+          "m124": {
+            "shards": 132,
+            "direct_passes": 375,
+            "validator_sha256": [
+              "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+            ],
+            "validator_script_sha256": [
+              "a921a3210d2753581c97e18909e423d9ff61bbddf2a792f5f462c9acab0b2d41"
+            ],
+            "parent_and_artifact_hashes_verified": true,
+            "exact_sat_sets_verified": true
+          },
+          "all": {
+            "shards": 132,
+            "direct_passes": 374,
+            "validator_sha256": [
+              "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+            ],
+            "validator_script_sha256": [
+              "a921a3210d2753581c97e18909e423d9ff61bbddf2a792f5f462c9acab0b2d41"
+            ],
+            "parent_and_artifact_hashes_verified": true,
+            "exact_sat_sets_verified": true
+          }
+        },
+        "reference_checks": {
+          "off": {
+            "z3": {
+              "content_hashes": 659,
+              "joint_decisions": 575,
+              "disagreements": []
+            },
+            "cvc5": {
+              "content_hashes": 659,
+              "joint_decisions": 572,
+              "disagreements": []
+            }
+          },
+          "m12": {
+            "z3": {
+              "content_hashes": 659,
+              "joint_decisions": 545,
+              "disagreements": []
+            },
+            "cvc5": {
+              "content_hashes": 659,
+              "joint_decisions": 542,
+              "disagreements": []
+            }
+          },
+          "m124": {
+            "z3": {
+              "content_hashes": 659,
+              "joint_decisions": 545,
+              "disagreements": []
+            },
+            "cvc5": {
+              "content_hashes": 659,
+              "joint_decisions": 542,
+              "disagreements": []
+            }
+          },
+          "all": {
+            "z3": {
+              "content_hashes": 659,
+              "joint_decisions": 544,
+              "disagreements": []
+            },
+            "cvc5": {
+              "content_hashes": 659,
+              "joint_decisions": 541,
+              "disagreements": []
+            }
+          }
+        },
+        "lost_wisas_patch_counters": {
+          "off": {
+            "files": 30,
+            "solved": 30,
+            "zero_candidates": 0,
+            "all_calls_initially_integral": 0,
+            "reported_partial_timeout_stats": 0
+          },
+          "m12": {
+            "files": 30,
+            "solved": 0,
+            "zero_candidates": 30,
+            "all_calls_initially_integral": 30,
+            "reported_partial_timeout_stats": 30
+          },
+          "m124": {
+            "files": 30,
+            "solved": 0,
+            "zero_candidates": 30,
+            "all_calls_initially_integral": 30,
+            "reported_partial_timeout_stats": 30
+          },
+          "all": {
+            "files": 30,
+            "solved": 0,
+            "zero_candidates": 30,
+            "all_calls_initially_integral": 30,
+            "reported_partial_timeout_stats": 30
+          }
+        },
+        "m124_vs_all": {
+          "common_files": 659,
+          "baseline_only": 0,
+          "candidate_only": 0,
+          "recoveries": [
+            "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2"
+          ],
+          "losses": [],
+          "decisive_answer_disagreements": [],
+          "common_solved": 544,
+          "baseline_common_solved_seconds": 1138.417023,
+          "candidate_common_solved_seconds": 1146.376557
+        },
+        "m124_vs_m12": {
+          "common_files": 659,
+          "baseline_only": 0,
+          "candidate_only": 0,
+          "recoveries": [],
+          "losses": [],
+          "decisive_answer_disagreements": [],
+          "common_solved": 545,
+          "baseline_common_solved_seconds": 1192.539389,
+          "candidate_common_solved_seconds": 1203.27538
+        },
+        "historical_solved_sets": "Off, M12 and all reproduce the exact 2e120fa solved sets, with no contradictory decisions.",
+        "accounting": {
+          "349196": {
+            "tasks": 132,
+            "states": {
+              "COMPLETED 0:0": 132
+            },
+            "first_start": "2026-11-04T23:16:56",
+            "last_end": "2026-11-04T23:29:43",
+            "nodes": [
+              "node-02",
+              "node-03",
+              "node-04"
+            ],
+            "max_batch_rss_kib": 2902584
+          },
+          "349264": {
+            "tasks": 132,
+            "states": {
+              "COMPLETED 0:0": 132
+            },
+            "first_start": "2026-11-04T23:29:43",
+            "last_end": "2026-11-04T23:33:05",
+            "nodes": [
+              "node-02",
+              "node-03",
+              "node-04"
+            ],
+            "max_batch_rss_kib": 92620
+          }
+        }
+      },
+      "outcome": "Keep all four options disabled by default on QF_UFLIA. M124 loses exactly the same 30 wisas SAT inputs as M12, gains none over the default and recovers one Certora SAT input from all-options. No patch candidates were scored on any lost wisas input in any M2-enabled profile; every recorded completion call was initially integral. Continue the search-diversification lead; no repair algorithm or solver setting promoted."
+    },
+    {
       "id": "2026-11-04-qf-lia-m124-reference-cactus",
       "date": "2026-11-04",
       "kind": "archived-timing-cactus-comparison",

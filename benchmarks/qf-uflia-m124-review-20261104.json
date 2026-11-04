@@ -1,0 +1,868 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-04",
+  "kind": "full-corpus-paired-QF_UFLIA-option-evaluation",
+  "solver_commit": "5dec036329b8b8cc6d929835fa1c6dfa644b8fb3",
+  "methods_commit": "dbedbfd12b213508ede009f3a413116f63fa8973",
+  "corpus": {
+    "logic": "QF_UFLIA",
+    "files": 659,
+    "families": 4,
+    "timeout_seconds": 60,
+    "selection": "All SMT2 files; input SHA-256 sets match all four profiles and both archived reference sets."
+  },
+  "summary": {
+    "baseline": "off",
+    "binary_sha256": "11d4d983bc11bca49f70032a89f25101dd077b7602fbc81da1e20b775f20ae68",
+    "candidate": "m124",
+    "common_runtime": {
+      "files_both_at_least_half_second": 141,
+      "geometric_mean_candidate_over_baseline": 1.0054810619924521,
+      "median_candidate_over_baseline": 1.0088941042237254
+    },
+    "comparison": {
+      "baseline_common_solved_seconds": 1245.573393,
+      "baseline_only": 0,
+      "candidate_common_solved_seconds": 1203.27538,
+      "candidate_only": 0,
+      "common_files": 659,
+      "common_solved": 545,
+      "decisive_answer_disagreements": [],
+      "losses": [
+        "wisas/xs_24_44.smt2",
+        "wisas/xs_25_35.smt2",
+        "wisas/xs_26_36.smt2",
+        "wisas/xs_26_46.smt2",
+        "wisas/xs_27_47.smt2",
+        "wisas/xs_28_38.smt2",
+        "wisas/xs_28_48.smt2",
+        "wisas/xs_29_39.smt2",
+        "wisas/xs_29_49.smt2",
+        "wisas/xs_30_40.smt2",
+        "wisas/xs_30_50.smt2",
+        "wisas/xs_31_41.smt2",
+        "wisas/xs_31_51.smt2",
+        "wisas/xs_32_42.smt2",
+        "wisas/xs_32_52.smt2",
+        "wisas/xs_33_43.smt2",
+        "wisas/xs_33_53.smt2",
+        "wisas/xs_34_44.smt2",
+        "wisas/xs_34_54.smt2",
+        "wisas/xs_35_45.smt2",
+        "wisas/xs_35_55.smt2",
+        "wisas/xs_36_46.smt2",
+        "wisas/xs_36_56.smt2",
+        "wisas/xs_37_47.smt2",
+        "wisas/xs_37_57.smt2",
+        "wisas/xs_38_48.smt2",
+        "wisas/xs_38_58.smt2",
+        "wisas/xs_39_59.smt2",
+        "wisas/xs_40_50.smt2",
+        "wisas/xs_40_60.smt2"
+      ],
+      "recoveries": []
+    },
+    "comparisons": {
+      "all": {
+        "baseline_common_solved_seconds": 1194.1942549999999,
+        "baseline_only": 0,
+        "candidate_common_solved_seconds": 1138.417023,
+        "candidate_only": 0,
+        "common_files": 659,
+        "common_solved": 544,
+        "decisive_answer_disagreements": [],
+        "losses": [
+          "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+          "wisas/xs_24_44.smt2",
+          "wisas/xs_25_35.smt2",
+          "wisas/xs_26_36.smt2",
+          "wisas/xs_26_46.smt2",
+          "wisas/xs_27_47.smt2",
+          "wisas/xs_28_38.smt2",
+          "wisas/xs_28_48.smt2",
+          "wisas/xs_29_39.smt2",
+          "wisas/xs_29_49.smt2",
+          "wisas/xs_30_40.smt2",
+          "wisas/xs_30_50.smt2",
+          "wisas/xs_31_41.smt2",
+          "wisas/xs_31_51.smt2",
+          "wisas/xs_32_42.smt2",
+          "wisas/xs_32_52.smt2",
+          "wisas/xs_33_43.smt2",
+          "wisas/xs_33_53.smt2",
+          "wisas/xs_34_44.smt2",
+          "wisas/xs_34_54.smt2",
+          "wisas/xs_35_45.smt2",
+          "wisas/xs_35_55.smt2",
+          "wisas/xs_36_46.smt2",
+          "wisas/xs_36_56.smt2",
+          "wisas/xs_37_47.smt2",
+          "wisas/xs_37_57.smt2",
+          "wisas/xs_38_48.smt2",
+          "wisas/xs_38_58.smt2",
+          "wisas/xs_39_59.smt2",
+          "wisas/xs_40_50.smt2",
+          "wisas/xs_40_60.smt2"
+        ],
+        "recoveries": []
+      },
+      "m12": {
+        "baseline_common_solved_seconds": 1245.573393,
+        "baseline_only": 0,
+        "candidate_common_solved_seconds": 1192.539389,
+        "candidate_only": 0,
+        "common_files": 659,
+        "common_solved": 545,
+        "decisive_answer_disagreements": [],
+        "losses": [
+          "wisas/xs_24_44.smt2",
+          "wisas/xs_25_35.smt2",
+          "wisas/xs_26_36.smt2",
+          "wisas/xs_26_46.smt2",
+          "wisas/xs_27_47.smt2",
+          "wisas/xs_28_38.smt2",
+          "wisas/xs_28_48.smt2",
+          "wisas/xs_29_39.smt2",
+          "wisas/xs_29_49.smt2",
+          "wisas/xs_30_40.smt2",
+          "wisas/xs_30_50.smt2",
+          "wisas/xs_31_41.smt2",
+          "wisas/xs_31_51.smt2",
+          "wisas/xs_32_42.smt2",
+          "wisas/xs_32_52.smt2",
+          "wisas/xs_33_43.smt2",
+          "wisas/xs_33_53.smt2",
+          "wisas/xs_34_44.smt2",
+          "wisas/xs_34_54.smt2",
+          "wisas/xs_35_45.smt2",
+          "wisas/xs_35_55.smt2",
+          "wisas/xs_36_46.smt2",
+          "wisas/xs_36_56.smt2",
+          "wisas/xs_37_47.smt2",
+          "wisas/xs_37_57.smt2",
+          "wisas/xs_38_48.smt2",
+          "wisas/xs_38_58.smt2",
+          "wisas/xs_39_59.smt2",
+          "wisas/xs_40_50.smt2",
+          "wisas/xs_40_60.smt2"
+        ],
+        "recoveries": []
+      },
+      "m124": {
+        "baseline_common_solved_seconds": 1245.573393,
+        "baseline_only": 0,
+        "candidate_common_solved_seconds": 1203.27538,
+        "candidate_only": 0,
+        "common_files": 659,
+        "common_solved": 545,
+        "decisive_answer_disagreements": [],
+        "losses": [
+          "wisas/xs_24_44.smt2",
+          "wisas/xs_25_35.smt2",
+          "wisas/xs_26_36.smt2",
+          "wisas/xs_26_46.smt2",
+          "wisas/xs_27_47.smt2",
+          "wisas/xs_28_38.smt2",
+          "wisas/xs_28_48.smt2",
+          "wisas/xs_29_39.smt2",
+          "wisas/xs_29_49.smt2",
+          "wisas/xs_30_40.smt2",
+          "wisas/xs_30_50.smt2",
+          "wisas/xs_31_41.smt2",
+          "wisas/xs_31_51.smt2",
+          "wisas/xs_32_42.smt2",
+          "wisas/xs_32_52.smt2",
+          "wisas/xs_33_43.smt2",
+          "wisas/xs_33_53.smt2",
+          "wisas/xs_34_44.smt2",
+          "wisas/xs_34_54.smt2",
+          "wisas/xs_35_45.smt2",
+          "wisas/xs_35_55.smt2",
+          "wisas/xs_36_46.smt2",
+          "wisas/xs_36_56.smt2",
+          "wisas/xs_37_47.smt2",
+          "wisas/xs_37_57.smt2",
+          "wisas/xs_38_48.smt2",
+          "wisas/xs_38_58.smt2",
+          "wisas/xs_39_59.smt2",
+          "wisas/xs_40_50.smt2",
+          "wisas/xs_40_60.smt2"
+        ],
+        "recoveries": []
+      }
+    },
+    "counters_common_solved": {
+      "m124": {
+        ":lia.generalized-lemmas": 2,
+        ":lia.patch-affected-rows-inspected": 450187,
+        ":lia.patch-candidates-scored": 12515,
+        ":lia.patch-occurrence-entries": 15296845,
+        ":lia.patch-rounds-fully-integral": 46445,
+        ":lia.patch-sweeps": 46472,
+        ":lra.pivots": 5306717,
+        ":sat.conflicts": 415825
+      },
+      "off": {
+        ":lia.generalized-lemmas": 3806,
+        ":lia.patch-affected-rows-inspected": 417915,
+        ":lia.patch-candidates-scored": 16258,
+        ":lia.patch-occurrence-entries": 16496660,
+        ":lia.patch-rounds-fully-integral": 44020,
+        ":lia.patch-sweeps": 47864,
+        ":lra.pivots": 4829592,
+        ":sat.conflicts": 214281
+      }
+    },
+    "models": {
+      "all": {
+        "complete": true,
+        "completed_replay_rows": 374,
+        "dolmen_pass": 374,
+        "expected_sat_in_replays": 374,
+        "outcomes": {
+          "pass": 374
+        },
+        "selected_sat": 374,
+        "shard_states": {
+          "complete": 132
+        }
+      },
+      "m12": {
+        "complete": true,
+        "completed_replay_rows": 375,
+        "dolmen_pass": 375,
+        "expected_sat_in_replays": 375,
+        "outcomes": {
+          "pass": 375
+        },
+        "selected_sat": 375,
+        "shard_states": {
+          "complete": 132
+        }
+      },
+      "m124": {
+        "complete": true,
+        "completed_replay_rows": 375,
+        "dolmen_pass": 375,
+        "expected_sat_in_replays": 375,
+        "outcomes": {
+          "pass": 375
+        },
+        "selected_sat": 375,
+        "shard_states": {
+          "complete": 132
+        }
+      },
+      "off": {
+        "complete": true,
+        "completed_replay_rows": 405,
+        "dolmen_pass": 405,
+        "expected_sat_in_replays": 405,
+        "outcomes": {
+          "pass": 405
+        },
+        "selected_sat": 405,
+        "shard_states": {
+          "complete": 132
+        }
+      }
+    },
+    "pairwise_disagreements": {
+      "m12/all": [],
+      "m12/m124": [],
+      "m124/all": [],
+      "off/all": [],
+      "off/m12": [],
+      "off/m124": []
+    },
+    "runs": {
+      "all": {
+        "error": 0,
+        "families": {
+          "20230314-Jaroslav-Bendik-Certora": {
+            "error": 0,
+            "files": 76,
+            "par2": 8584.647036,
+            "sat": 4,
+            "solved": 5,
+            "timeout": 71,
+            "unknown": 0,
+            "unsat": 1,
+            "unsupported": 0
+          },
+          "TwoSquares": {
+            "error": 0,
+            "files": 21,
+            "par2": 0.17649499999999999,
+            "sat": 5,
+            "solved": 21,
+            "timeout": 0,
+            "unknown": 0,
+            "unsat": 16,
+            "unsupported": 0
+          },
+          "mathsat": {
+            "error": 0,
+            "files": 454,
+            "par2": 2367.3832,
+            "sat": 313,
+            "solved": 441,
+            "timeout": 13,
+            "unknown": 0,
+            "unsat": 128,
+            "unsupported": 0
+          },
+          "wisas": {
+            "error": 0,
+            "files": 108,
+            "par2": 3986.210292,
+            "sat": 52,
+            "solved": 77,
+            "timeout": 31,
+            "unknown": 0,
+            "unsat": 25,
+            "unsupported": 0
+          }
+        },
+        "files": 659,
+        "nonstandard_rows": [],
+        "par2": 14938.417023,
+        "sat": 374,
+        "solved": 544,
+        "solved_seconds": 1138.417023,
+        "timeout": 115,
+        "unknown": 0,
+        "unsat": 170,
+        "unsupported": 0,
+        "wrong": 0,
+        "z3_checked": 544,
+        "z3_disagreements": []
+      },
+      "m12": {
+        "error": 0,
+        "families": {
+          "20230314-Jaroslav-Bendik-Certora": {
+            "error": 0,
+            "files": 76,
+            "par2": 8544.845106,
+            "sat": 5,
+            "solved": 6,
+            "timeout": 70,
+            "unknown": 0,
+            "unsat": 1,
+            "unsupported": 0
+          },
+          "TwoSquares": {
+            "error": 0,
+            "files": 21,
+            "par2": 0.176764,
+            "sat": 5,
+            "solved": 21,
+            "timeout": 0,
+            "unknown": 0,
+            "unsat": 16,
+            "unsupported": 0
+          },
+          "mathsat": {
+            "error": 0,
+            "files": 454,
+            "par2": 2343.794047,
+            "sat": 313,
+            "solved": 441,
+            "timeout": 13,
+            "unknown": 0,
+            "unsat": 128,
+            "unsupported": 0
+          },
+          "wisas": {
+            "error": 0,
+            "files": 108,
+            "par2": 3983.723472,
+            "sat": 52,
+            "solved": 77,
+            "timeout": 31,
+            "unknown": 0,
+            "unsat": 25,
+            "unsupported": 0
+          }
+        },
+        "files": 659,
+        "nonstandard_rows": [],
+        "par2": 14872.539389,
+        "sat": 375,
+        "solved": 545,
+        "solved_seconds": 1192.539389,
+        "timeout": 114,
+        "unknown": 0,
+        "unsat": 170,
+        "unsupported": 0,
+        "wrong": 0,
+        "z3_checked": 545,
+        "z3_disagreements": []
+      },
+      "m124": {
+        "error": 0,
+        "families": {
+          "20230314-Jaroslav-Bendik-Certora": {
+            "error": 0,
+            "files": 76,
+            "par2": 8553.036899,
+            "sat": 5,
+            "solved": 6,
+            "timeout": 70,
+            "unknown": 0,
+            "unsat": 1,
+            "unsupported": 0
+          },
+          "TwoSquares": {
+            "error": 0,
+            "files": 21,
+            "par2": 0.177892,
+            "sat": 5,
+            "solved": 21,
+            "timeout": 0,
+            "unknown": 0,
+            "unsat": 16,
+            "unsupported": 0
+          },
+          "mathsat": {
+            "error": 0,
+            "files": 454,
+            "par2": 2344.65138,
+            "sat": 313,
+            "solved": 441,
+            "timeout": 13,
+            "unknown": 0,
+            "unsat": 128,
+            "unsupported": 0
+          },
+          "wisas": {
+            "error": 0,
+            "files": 108,
+            "par2": 3985.409209,
+            "sat": 52,
+            "solved": 77,
+            "timeout": 31,
+            "unknown": 0,
+            "unsat": 25,
+            "unsupported": 0
+          }
+        },
+        "files": 659,
+        "nonstandard_rows": [],
+        "par2": 14883.27538,
+        "sat": 375,
+        "solved": 545,
+        "solved_seconds": 1203.27538,
+        "timeout": 114,
+        "unknown": 0,
+        "unsat": 170,
+        "unsupported": 0,
+        "wrong": 0,
+        "z3_checked": 545,
+        "z3_disagreements": []
+      },
+      "off": {
+        "error": 0,
+        "families": {
+          "20230314-Jaroslav-Bendik-Certora": {
+            "error": 0,
+            "files": 76,
+            "par2": 8541.14397,
+            "sat": 5,
+            "solved": 6,
+            "timeout": 70,
+            "unknown": 0,
+            "unsat": 1,
+            "unsupported": 0
+          },
+          "TwoSquares": {
+            "error": 0,
+            "files": 21,
+            "par2": 0.430674,
+            "sat": 5,
+            "solved": 21,
+            "timeout": 0,
+            "unknown": 0,
+            "unsat": 16,
+            "unsupported": 0
+          },
+          "mathsat": {
+            "error": 0,
+            "files": 454,
+            "par2": 2423.693892,
+            "sat": 313,
+            "solved": 441,
+            "timeout": 13,
+            "unknown": 0,
+            "unsat": 128,
+            "unsupported": 0
+          },
+          "wisas": {
+            "error": 0,
+            "files": 108,
+            "par2": 388.543494,
+            "sat": 82,
+            "solved": 107,
+            "timeout": 1,
+            "unknown": 0,
+            "unsat": 25,
+            "unsupported": 0
+          }
+        },
+        "files": 659,
+        "nonstandard_rows": [],
+        "par2": 11353.81203,
+        "sat": 405,
+        "solved": 575,
+        "solved_seconds": 1273.81203,
+        "timeout": 84,
+        "unknown": 0,
+        "unsat": 170,
+        "unsupported": 0,
+        "wrong": 0,
+        "z3_checked": 575,
+        "z3_disagreements": []
+      }
+    },
+    "timeout_seconds": 60
+  },
+  "audit": {
+    "historical_sets": {
+      "off": {
+        "common_files": 659,
+        "baseline_only": 0,
+        "candidate_only": 0,
+        "recoveries": [],
+        "losses": [],
+        "decisive_answer_disagreements": [],
+        "common_solved": 575,
+        "baseline_common_solved_seconds": 1295.113085,
+        "candidate_common_solved_seconds": 1273.81203
+      },
+      "m12": {
+        "common_files": 659,
+        "baseline_only": 0,
+        "candidate_only": 0,
+        "recoveries": [],
+        "losses": [],
+        "decisive_answer_disagreements": [],
+        "common_solved": 545,
+        "baseline_common_solved_seconds": 1221.781801,
+        "candidate_common_solved_seconds": 1192.539389
+      },
+      "all": {
+        "common_files": 659,
+        "baseline_only": 0,
+        "candidate_only": 0,
+        "recoveries": [],
+        "losses": [],
+        "decisive_answer_disagreements": [],
+        "common_solved": 544,
+        "baseline_common_solved_seconds": 1134.341863,
+        "candidate_common_solved_seconds": 1138.417023
+      }
+    },
+    "reference_checks": {
+      "off": {
+        "z3": {
+          "content_hashes": 659,
+          "joint_decisions": 575,
+          "disagreements": []
+        },
+        "cvc5": {
+          "content_hashes": 659,
+          "joint_decisions": 572,
+          "disagreements": []
+        }
+      },
+      "m12": {
+        "z3": {
+          "content_hashes": 659,
+          "joint_decisions": 545,
+          "disagreements": []
+        },
+        "cvc5": {
+          "content_hashes": 659,
+          "joint_decisions": 542,
+          "disagreements": []
+        }
+      },
+      "m124": {
+        "z3": {
+          "content_hashes": 659,
+          "joint_decisions": 545,
+          "disagreements": []
+        },
+        "cvc5": {
+          "content_hashes": 659,
+          "joint_decisions": 542,
+          "disagreements": []
+        }
+      },
+      "all": {
+        "z3": {
+          "content_hashes": 659,
+          "joint_decisions": 544,
+          "disagreements": []
+        },
+        "cvc5": {
+          "content_hashes": 659,
+          "joint_decisions": 541,
+          "disagreements": []
+        }
+      }
+    },
+    "model_audit": {
+      "off": {
+        "shards": 132,
+        "direct_passes": 405,
+        "validator_sha256": [
+          "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+        ],
+        "validator_script_sha256": [
+          "a921a3210d2753581c97e18909e423d9ff61bbddf2a792f5f462c9acab0b2d41"
+        ],
+        "parent_and_artifact_hashes_verified": true,
+        "exact_sat_sets_verified": true
+      },
+      "m12": {
+        "shards": 132,
+        "direct_passes": 375,
+        "validator_sha256": [
+          "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+        ],
+        "validator_script_sha256": [
+          "a921a3210d2753581c97e18909e423d9ff61bbddf2a792f5f462c9acab0b2d41"
+        ],
+        "parent_and_artifact_hashes_verified": true,
+        "exact_sat_sets_verified": true
+      },
+      "m124": {
+        "shards": 132,
+        "direct_passes": 375,
+        "validator_sha256": [
+          "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+        ],
+        "validator_script_sha256": [
+          "a921a3210d2753581c97e18909e423d9ff61bbddf2a792f5f462c9acab0b2d41"
+        ],
+        "parent_and_artifact_hashes_verified": true,
+        "exact_sat_sets_verified": true
+      },
+      "all": {
+        "shards": 132,
+        "direct_passes": 374,
+        "validator_sha256": [
+          "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+        ],
+        "validator_script_sha256": [
+          "a921a3210d2753581c97e18909e423d9ff61bbddf2a792f5f462c9acab0b2d41"
+        ],
+        "parent_and_artifact_hashes_verified": true,
+        "exact_sat_sets_verified": true
+      }
+    },
+    "runtimes": {
+      "off": {
+        "min": 0.007759,
+        "median": 0.225971,
+        "p95": 13.171565,
+        "max": 58.931128
+      },
+      "m12": {
+        "min": 0.00754,
+        "median": 0.213723,
+        "p95": 11.530144,
+        "max": 56.427718
+      },
+      "m124": {
+        "min": 0.00766,
+        "median": 0.21729,
+        "p95": 11.779432,
+        "max": 59.581493
+      },
+      "all": {
+        "min": 0.007646,
+        "median": 0.219643,
+        "p95": 11.3333,
+        "max": 53.212111
+      }
+    },
+    "lost_wisas_patch_counters": {
+      "off": {
+        "files": 30,
+        "solved": 30,
+        "zero_candidates": 0,
+        "all_calls_initially_integral": 0,
+        "reported_partial_timeout_stats": 0
+      },
+      "m12": {
+        "files": 30,
+        "solved": 0,
+        "zero_candidates": 30,
+        "all_calls_initially_integral": 30,
+        "reported_partial_timeout_stats": 30
+      },
+      "m124": {
+        "files": 30,
+        "solved": 0,
+        "zero_candidates": 30,
+        "all_calls_initially_integral": 30,
+        "reported_partial_timeout_stats": 30
+      },
+      "all": {
+        "files": 30,
+        "solved": 0,
+        "zero_candidates": 30,
+        "all_calls_initially_integral": 30,
+        "reported_partial_timeout_stats": 30
+      }
+    },
+    "m124_vs_m12": {
+      "common_files": 659,
+      "baseline_only": 0,
+      "candidate_only": 0,
+      "recoveries": [],
+      "losses": [],
+      "decisive_answer_disagreements": [],
+      "common_solved": 545,
+      "baseline_common_solved_seconds": 1192.539389,
+      "candidate_common_solved_seconds": 1203.27538
+    },
+    "m124_vs_all": {
+      "common_files": 659,
+      "baseline_only": 0,
+      "candidate_only": 0,
+      "recoveries": [
+        "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2"
+      ],
+      "losses": [],
+      "decisive_answer_disagreements": [],
+      "common_solved": 544,
+      "baseline_common_solved_seconds": 1138.417023,
+      "candidate_common_solved_seconds": 1146.376557
+    },
+    "example": {
+      "off": {
+        "status": "ok",
+        "answer": "sat",
+        "seconds": "0.613161",
+        ":lia.patch-affected-rows-inspected": "16",
+        ":lia.patch-candidates-scored": "16",
+        ":lia.patch-fractional-candidates-rejected": "0",
+        ":lia.patch-fractional-nonbasic-moves": "0",
+        ":lia.patch-full-scan-equivalent": "2064",
+        ":lia.patch-lattice-candidates-scored": "0",
+        ":lia.patch-lattice-moves-accepted": "0",
+        ":lia.patch-occurrence-entries": "28607",
+        ":lia.patch-rounds-fully-integral": "97",
+        ":lia.patch-sweeps": "99",
+        ":lia.patched-variables": "0",
+        ":sat.conflicts": "385"
+      },
+      "m12": {
+        "status": "timeout",
+        "answer": "unknown",
+        "seconds": "60.078732",
+        ":lia.patch-affected-rows-inspected": "0",
+        ":lia.patch-candidates-scored": "0",
+        ":lia.patch-fractional-candidates-rejected": "0",
+        ":lia.patch-fractional-nonbasic-moves": "0",
+        ":lia.patch-full-scan-equivalent": "0",
+        ":lia.patch-lattice-candidates-scored": "0",
+        ":lia.patch-lattice-moves-accepted": "0",
+        ":lia.patch-occurrence-entries": "5796",
+        ":lia.patch-rounds-fully-integral": "17",
+        ":lia.patch-sweeps": "17",
+        ":lia.patched-variables": "0",
+        ":sat.conflicts": "51133"
+      },
+      "m124": {
+        "status": "timeout",
+        "answer": "unknown",
+        "seconds": "60.073605",
+        ":lia.patch-affected-rows-inspected": "0",
+        ":lia.patch-candidates-scored": "0",
+        ":lia.patch-fractional-candidates-rejected": "0",
+        ":lia.patch-fractional-nonbasic-moves": "0",
+        ":lia.patch-full-scan-equivalent": "0",
+        ":lia.patch-lattice-candidates-scored": "0",
+        ":lia.patch-lattice-moves-accepted": "0",
+        ":lia.patch-occurrence-entries": "5796",
+        ":lia.patch-rounds-fully-integral": "17",
+        ":lia.patch-sweeps": "17",
+        ":lia.patched-variables": "0",
+        ":sat.conflicts": "51314"
+      },
+      "all": {
+        "status": "timeout",
+        "answer": "unknown",
+        "seconds": "60.075958",
+        ":lia.patch-affected-rows-inspected": "0",
+        ":lia.patch-candidates-scored": "0",
+        ":lia.patch-fractional-candidates-rejected": "0",
+        ":lia.patch-fractional-nonbasic-moves": "0",
+        ":lia.patch-full-scan-equivalent": "0",
+        ":lia.patch-lattice-candidates-scored": "0",
+        ":lia.patch-lattice-moves-accepted": "0",
+        ":lia.patch-occurrence-entries": "7241",
+        ":lia.patch-rounds-fully-integral": "17",
+        ":lia.patch-sweeps": "17",
+        ":lia.patched-variables": "0",
+        ":sat.conflicts": "51020"
+      }
+    }
+  },
+  "accounting": {
+    "349196": {
+      "tasks": 132,
+      "states": {
+        "COMPLETED 0:0": 132
+      },
+      "first_start": "2026-11-04T23:16:56",
+      "last_end": "2026-11-04T23:29:43",
+      "nodes": [
+        "node-02",
+        "node-03",
+        "node-04"
+      ],
+      "max_batch_rss_kib": 2902584
+    },
+    "349264": {
+      "tasks": 132,
+      "states": {
+        "COMPLETED 0:0": 132
+      },
+      "first_start": "2026-11-04T23:29:43",
+      "last_end": "2026-11-04T23:33:05",
+      "nodes": [
+        "node-02",
+        "node-03",
+        "node-04"
+      ],
+      "max_batch_rss_kib": 92620
+    }
+  },
+  "phase_order": "Latest timing task end <= earliest model task start, same scheduler clock. All 264 submitted array tasks completed 0:0.",
+  "scope": "Existing solver binary and options only; no source/default changes, fresh reference runs, reference-model validation or default-promotion fuzz campaign. M124 is rejected as a QF_UFLIA default candidate; keep the existing options-off default.",
+  "limitations": [
+    "Timeout work counters are partial termination snapshots, not complete-search totals.",
+    "No fresh trace of chosen slack values or restarts; historical trajectory evidence covers four wisas files.",
+    "The exact cause of the single Certora recovery on disabling M3 was not traced."
+  ],
+  "artifacts": {
+    "local": "results/uflia-integrality-review-20261104",
+    "remote": "<lia-default-workspace>/results/uflia-m124-review-20261104-full60/{off,m12,m124,all}/shard-*; raw models and command-adapted inputs retained remotely",
+    "analysis_command": "python3 scripts/qualification/lia_integrality/analyze.py --root results/uflia-integrality-review-20261104/full60 --reference-root results/uflia-integrality-review-20261104/references/z3 --expected-files 659 --arms off m12 m124 all --baseline off --candidate m124 --out results/uflia-integrality-review-20261104/full-summary.json",
+    "comparison_to_historical": "Normalize only tmp/QF_UFLIA/ from archived paths before joining to the same relative filenames.",
+    "lost_counter_definition": "For each file in summary.comparisons.m12.losses, count candidates-scored == 0 and patch-sweeps == patch-rounds-fully-integral. All three M2-enabled profiles satisfy both on all 30 files; all 30 report timed_out_with_stats=true.",
+    "sha256": {
+      "full-summary.json": "0da9adc8d056d8fd3ff91ccc5a1bc2faeaf72577113e97d680cdd948f5be33ce",
+      "full-audit.json": "4555611ae1604184777eafd6b659d59303765e19696338c9d935c4a6f881555b",
+      "reference-raw.tar.gz": "a2a244dda9adb03e7182834c2cdbdbd46167358b54770df792609c3b54cec1ac",
+      "history-ablation.tar.gz": "6df38ea4212ca5f23453933cc87d4cb5c238a24a2a3329d0e516ba3693f1d2af",
+      "accounting-final.txt": "564bb807288b1a9368f6885361d25ba5a7118c09cc880f104685e08c5fa5729d"
+    }
+  }
+}

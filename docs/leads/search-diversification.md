@@ -24,6 +24,14 @@ bad region. The clearest recorded case is the QF_UFLIA `wisas` family under
   out on the same file. So the default also succeeds by search order, not by
   a mechanism that would find its way out.
 
+The {ref}`four-profile follow-up <qf-uflia-m124-review>` at `5dec036`
+confirms that removing integer slack repair obligations does not recover the
+30 lost `wisas` files. On every lost file, each M2-enabled profile reports
+that all recorded completion calls started integral and scored zero patch
+candidates. These are partial statistics from timed-out runs, not new traces
+of the chosen slack values. They place the next investigation in the search
+that follows integral completion rather than in the patch candidate rule.
+
 The CaDiCaL restarts within the 30 s, 62,873-conflict `xs_28_48` run under
 the option apparently do not leave
 the region; restart counts were not recorded. A possible reason is that
