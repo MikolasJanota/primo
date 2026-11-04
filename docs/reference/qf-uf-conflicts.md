@@ -601,6 +601,62 @@ original native-export timeouts and four challenge-construction timeouts.
 The {download}`pipe replay report <../coverage/micromath-pipe-replay.json>`
 records hashes, limits, exit codes, resource measurements and setup failures.
 
+### Audit against recorded UNSAT cases without Boolean function arguments
+
+The 4,175-case sweep is complete as an **attempted** set, but it does not cover
+every recorded UNSAT case after excluding only functions with Boolean
+arguments. A source-signature audit in SLURM job `348182` rechecked the hashes
+of all 4,355 historical UNSAT inputs and reproduced the original selector's
+lexical declaration screen. Its exclusions split as follows:
+
+| Declared signature category | Cases | Disposition |
+| --- | ---: | --- |
+| Boolean argument, no positive-arity Boolean result | 8 | Excluded by the requested Boolean-argument restriction |
+| Boolean argument and positive-arity Boolean result | 21 | Excluded by the requested Boolean-argument restriction |
+| Positive-arity Boolean result, no Boolean argument | 151 | Additional checker restriction; outside the attempted sweep |
+| Neither restriction | 4,175 | All attempted by the CORE sweep |
+
+Thus, excluding `f(Bool, ...)` removes **29** cases, leaving **4,326** target
+UNSAT cases. Of these, **4,017** have checked kernel proofs; **309** remain
+uncovered:
+
+| Gap | Cases |
+| --- | ---: |
+| Not attempted: Boolean-valued functions with non-Boolean arguments | 151 |
+| Export timed out | 154 |
+| Challenge construction timed out | 4 |
+
+The 151 additional exclusions are 98 Goel, 47 NEQ and six SEQ inputs. They are
+functions such as `p(U) : Bool`, rather than functions taking `Bool` arguments.
+The pinned checker's supported format excludes these predicates. They were
+screened out, not shown to fail by a checker run.
+
+Of the 154 export timeouts, 135 had already recorded `:export.main-unsat=1`;
+the remaining 19 have no main-UNSAT confirmation in the recorded export
+statistics. Export includes collection, CORE reduction and serialization,
+so an export timeout does not mean the original problem was never solved.
+All four challenge-timeout cases also have the main-UNSAT marker.
+
+The metadata audit joins every manifest position exactly once to the original
+sweep and later raw/pipe replays, checks certificate/source hash relationships,
+and rechecks all 4,017 positive kernel logs for exact confirmation and absence
+of the inconsistency marker. It finds no missing attempted rows, duplicate
+indices or unaccounted source cases. It does not rerun a solver or checker.
+The {download}`audit report <../coverage/micromath-coverage-audit.json>` retains
+source exclusions, declaration witnesses, per-case gaps, hashes and provenance;
+the {download}`309-case gap list <../../benchmarks/micromath-coverage-gaps-20261104.csv>`
+provides source names, hashes, historical solve times and latest outcomes.
+
+The denominator is the available recorded 60-second QF_UF run at `5efbd022`,
+whose 64 completed unchanged-input shards contain 7,503 inputs: 4,355 UNSAT,
+3,142 SAT and six timeouts. SAT cases are outside UNSAT certification. This is
+not a union of all revisions/configurations or all SMT-LIB cases. The signature
+classification reproduces the conservative lexical `declare-fun` screen; it
+is not a full parser or a post-lowering checker-compatibility proof. Use the
+{download}`audit script <../../scripts/audit_micromath_coverage.py>` to reproduce
+it: run its `signatures` subcommand inside SLURM and join saved logs with its
+`results` subcommand. Exact commands are in the report.
+
 ### Replaying saved certificates without Primo
 
 The {download}`replay driver <../../scripts/micromath_replay.py>` reads saved

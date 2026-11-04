@@ -3,6 +3,47 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-04-micromath-coverage-audit",
+      "date": "2026-11-04",
+      "kind": "saved-UF-certificate-coverage-audit",
+      "evidence_status": "All4175 selected cases accounted for,4017 audited positive kernels. User exclusion removes29 Bool-domain cases, leaving4326target:151additional Bool-result-only exclusions and158unverified attempted cases. No new solver/checker runs.",
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "native_producer_git": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+      "signature_audit_job": "348182",
+      "report": "docs/coverage/micromath-coverage-audit.json",
+      "coverage_gaps": "benchmarks/micromath-coverage-gaps-20261104.csv",
+      "user_scope": {
+        "exclusion": "Any declared positive-arity function with a Bool argument, as classified by the original lexical selector screen.",
+        "excluded_bool_argument_cases": 29,
+        "target_unsat": 4326,
+        "kernel_proven": 4017,
+        "attempted": 4175,
+        "unattempted_bool_result_only": 151,
+        "unverified_attempted": 158,
+        "total_uncovered": 309
+      },
+      "limits": {
+        "signature_audit_cpus": 1,
+        "signature_audit_memory_gib": 4,
+        "signature_audit_wall_minutes": 10,
+        "historical_solver_timeout_seconds": 60
+      },
+      "commands": {
+        "signatures": "python3 scripts/audit_micromath_coverage.py signatures --history \"$HISTORY\" --source-git 5efbd02293e15a53fbaad748ceda78bc7d27bbac --manifest benchmarks/micromath-core-sweep-20261103.json --corpus \"$CORPUS\" --out \"$SIGNATURES\" (SLURM)",
+        "results": "python3 scripts/audit_micromath_coverage.py results --history results/known-fast-selection/october-primo --source-git 5efbd02293e15a53fbaad748ceda78bc7d27bbac --manifest benchmarks/micromath-core-sweep-20261103.json --signatures results/micromath-coverage-audit-348182/signatures.json --sweep results/micromath-core-sweep-final-347445/run --raw results/micromath-raw-recheck-347770 --pipe results/micromath-pipe-replay-348181/replay --out results/micromath-coverage-audit-348182/coverage.json"
+      },
+      "artifacts": {
+        "local": "results/micromath-coverage-audit-348182",
+        "remote_signature_audit": "$EXTERNAL_WORKSPACE/coverage-audit-348182",
+        "previous_jobs": [
+          "347445",
+          "347770",
+          "348181"
+        ],
+        "source_history": "64 completed unchanged-input shards from the recorded 60s QF_UF run at5efbd022; archived under results/known-fast-selection/october-primo."
+      }
+    },
+    {
       "id": "2026-11-04-micromath-pipe-replay",
       "date": "2026-11-04",
       "kind": "Micromath-raw-pipe-replay",
