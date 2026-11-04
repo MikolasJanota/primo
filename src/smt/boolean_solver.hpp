@@ -16,13 +16,13 @@ class Statistics;
 
 namespace primo::smt {
 
-class QfUfConflictCollector;
+class CnfConflictCollector;
 
 CheckSatOutcome solve_boolean_conjunction(core::TermManager& terms,
                                           const std::vector<core::TermId>& assertions,
                                           const CheckSatOptions& options,
                                           util::Statistics& statistics,
                                           const ModelConversionChain& conversions,
-                                          QfUfConflictCollector* collector = nullptr);
+                                          CnfConflictCollector* collector = nullptr);
 
 }  // namespace primo::smt

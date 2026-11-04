@@ -121,7 +121,8 @@ class Section {
 
 class ConflictSpool::Implementation {
  public:
-  explicit Implementation(bool index) : indexed(index) {}
+  Implementation(bool index, ConflictFormat selected_format)
+      : indexed(index), format(selected_format) {}
   struct Record {
     std::uint64_t offset;
     std::uint64_t length;
@@ -133,6 +134,7 @@ class ConflictSpool::Implementation {
   std::size_t clause_count = 0;
   std::size_t conflict_count = 0;
   bool indexed;
+  ConflictFormat format;
   bool sealed = false;
   bool busy = false;
   bool failed = false;
@@ -167,7 +169,9 @@ class ConflictSpool::Implementation {
         first = false;
       }
     }
-    output << "(primo-conflicts\n  (version 1)\n  (logic QF_UF)\n  (signature";
+    output << (format == ConflictFormat::QfUfV1
+                   ? "(primo-conflicts\n  (version 1)\n  (logic QF_UF)\n  (signature"
+                   : "(primo-conflicts\n  (version 2)\n  (logic QF_LRA)\n  (signature");
     signature.copy(output, 0, signature.bytes());
     output << ")\n  (cnf";
     clauses.copy(output, 0, clauses.bytes());
@@ -185,8 +189,8 @@ class ConflictSpool::Implementation {
   }
 };
 
-ConflictSpool::ConflictSpool(bool index_conflicts)
-    : implementation_(std::make_unique<Implementation>(index_conflicts)) {}
+ConflictSpool::ConflictSpool(bool index_conflicts, ConflictFormat format)
+    : implementation_(std::make_unique<Implementation>(index_conflicts, format)) {}
 ConflictSpool::~ConflictSpool() = default;
 
 void ConflictSpool::declaration(std::string_view text) {
@@ -208,7 +212,7 @@ void ConflictSpool::conflict(const std::function<void(std::ostream&)>& facts) {
   state.append([&] {
     const auto start = state.conflicts.bytes();
     auto& output = state.conflicts.output();
-    output << "\n    (conflict";
+    output << (state.format == ConflictFormat::QfUfV1 ? "\n    (conflict" : "\n    (conflict-lra");
     facts(output);
     output << ')';
     if (state.indexed) state.records.push_back({start, state.conflicts.bytes() - start});

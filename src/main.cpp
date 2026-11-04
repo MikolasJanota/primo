@@ -320,7 +320,7 @@ int run_main(int argc, char** argv) {
   std::vector<std::string> cadical_options;
   CLI::App app{"Primo SMT solver scaffold"};
   app.add_option("--export-cnf", solver_options.export_cnf,
-                 "Write generated CNF and conflicts for one UNSAT QF_UF query to FILE")
+                 "Write CNF and theory certificates for one UNSAT QF_UF or QF_LRA query to FILE")
       ->type_name("FILE");
   add_enum_option(app, "--export-cnf-reduction", solver_options.export_cnf_reduction,
                   primo::cli::kExportCnfReductionNames,

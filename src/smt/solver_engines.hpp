@@ -22,7 +22,7 @@ class TheoryComponent;
 
 namespace primo::smt {
 
-class QfUfConflictCollector;
+class CnfConflictCollector;
 
 // Complete single-goal engines used by the formula-valued solver leaves.
 // These functions own no session state; all execution capabilities arrive via
@@ -31,12 +31,13 @@ CheckSatOutcome solve_qf_uf_engine(core::TermManager& terms,
                                    const std::vector<core::TermId>& assertions,
                                    const CheckSatOptions& options, util::Statistics& statistics,
                                    const ModelConversionChain& conversions,
-                                   QfUfConflictCollector* collector = nullptr);
+                                   CnfConflictCollector* collector = nullptr);
 CheckSatOutcome solve_qf_lra_engine(core::TermManager& terms,
                                     const std::vector<core::TermId>& assertions,
                                     const std::vector<core::TermId>& model_terms,
                                     const ModelConversionChain& conversions,
-                                    const CheckSatOptions& options, util::Statistics& statistics);
+                                    const CheckSatOptions& options, util::Statistics& statistics,
+                                    CnfConflictCollector* collector = nullptr);
 CheckSatOutcome solve_qf_lia_engine(core::TermManager& terms,
                                     const std::vector<core::TermId>& assertions,
                                     const std::vector<core::TermId>& model_terms,

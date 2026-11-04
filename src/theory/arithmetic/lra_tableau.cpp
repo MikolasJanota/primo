@@ -1712,7 +1712,7 @@ LraTableau::ModelMutationResult LraTableau::diversify_shared_model(
   return result;
 }
 
-std::optional<std::vector<sat::Lit>> LraTableau::check() {
+std::optional<std::vector<sat::Lit>> LraTableau::check(const std::function<bool()>& cancelled) {
   // Anti-cycling fallback for every non-Bland rule (see the PivotingRule class
   // comment): once more than this many pivots have happened within
   // this call, switch to Bland's-rule selection (both loops below) for
@@ -1733,6 +1733,7 @@ std::optional<std::vector<sat::Lit>> LraTableau::check() {
     // assert_lower always sync a nonbasic variable's assignment
     // immediately, so N∩E is always empty by construction; nothing to do.
     while (pivot_count <= bland_fallback_threshold) {
+      if (cancelled && cancelled()) throw LraCheckInterrupted();
       const auto selection = soi_select();
       if (!selection.has_value()) {
         // Flex(f) empty (Section V/V-B): either satisfiable (no basic
@@ -1797,6 +1798,7 @@ std::optional<std::vector<sat::Lit>> LraTableau::check() {
   }
 
   while (true) {
+    if (cancelled && cancelled()) throw LraCheckInterrupted();
     // Counted for every rule that can fall back, not just Dantzig. It read
     // `rule_ == PivotingRule::Dantzig` until 2026-08-06, which meant the
     // counter stayed at 0 under Sparse -- the solver's *default* rule -- even

@@ -1,6 +1,10 @@
 # Proposed weighted certificates for QF_LRA conflicts
 
-**Status: format proposal; no LRA certificate producer or checker implemented.**
+**Status: experimental implementation; cluster qualification pending.**
+The [version-2 reference](../reference/qf-lra-certificates.md) describes the
+implemented producer and independent arithmetic validator. This page retains
+the design argument and acceptance criteria; source-to-CNF proof and external
+proof-language translation remain unimplemented.
 Extend the [single-query CNF/conflict format](../reference/qf-uf-conflicts.md)
 with arithmetic conflicts carrying exact rational multipliers. The objective
 is an independently checkable artifact with a small arithmetic inference rule,
@@ -17,14 +21,14 @@ intermediate inequalities is unnecessary for this first extension.
 select the retained clauses with the existing propositional CORE/MUS oracle,
 then reconstruct weights only for those retained clauses. No coefficient
 history is required in the main LRA search. This is a proposed implementation
-order, not a change already made to Primo.
+order, now implemented and awaiting qualification.
 
 ## Proposed version 2 syntax and meaning
 
 Use an explicit version increment; do not reinterpret version 1. Initially,
 version 2 adds the `QF_LRA` logic, declarations of Real and Boolean constants,
 linear arithmetic atoms in clauses, and `conflict-lra` records. The following
-is illustrative proposed syntax, not an input accepted by current Primo:
+is the version-2 output syntax:
 
 ```lisp
 (primo-conflicts
@@ -151,11 +155,12 @@ or choose one of its branches inside the arithmetic checker.
 
 ## Producer integration and resource behavior
 
-The current {micromathpipesource}`QfUfConflictCollector
-<src/smt/qf_uf_export.hpp>` exports QF_UF facts without arithmetic witnesses;
+The former {micromathpipesource}`QfUfConflictCollector
+<src/smt/qf_uf_export.hpp>` has been generalized to `CnfConflictCollector` in
+`src/smt/cnf_export.*`. The existing
 {ref}`LRA conflict construction <a-bound-contradiction-and-its-cancellation-proof>`
-returns premise literals without exporting multipliers. Adding a format tag
-alone does not supply the required arithmetic evidence.
+returns premise literals without weights; the new collector reconstructs
+selected witnesses after propositional reduction.
 
 The witness must be reconstructed from the selected exported facts themselves,
 including their exact coefficients, constants and signed-literal polarity.
@@ -282,16 +287,13 @@ immediate bound contradiction or a conflict from `check()` means no model
 was obtained, not a weight vector. The first reconstruction context can use
 the existing Bland policy, avoiding a new heuristic or performance claim.
 
-The current `LraTableau::check()` has no budget/cancellation argument and no
-inconclusive return value. Its existing API alone is therefore insufficient
-for bounded reconstruction. The implementation must provide a
-reconstruction-safe cooperative budget/cancellation hook inside the pivot loop
-and long-running reconstruction work, with an explicit interrupted outcome
-at the reconstruction boundary; interruption must never be interpreted as
-`check()`'s successful `nullopt` result. A killable isolated feasibility worker
-is an alternative if that hook is not introduced. Checks only between records
-are insufficient. The tests must interrupt inside a single feasibility check
-and confirm that no completed artifact is published. Cooperative checks do
+`LraTableau::check()` now accepts an optional cooperative cancellation callback
+inside its pivot loops and throws `LraCheckInterrupted` when it fires.
+Reconstruction catches this as an explicit interrupted status; it never treats
+interruption as `check()`'s successful `nullopt` result. Setup and model extraction
+also poll the phase callback. Checks only between records would be insufficient.
+The native tests interrupt inside one feasibility check and exercise preservation
+of an existing artifact when export reconstruction is cancelled. Cooperative checks do
 not promise a hard real-time bound on an individual exact-number operation;
 external process/allocation limits remain the final bound.
 
@@ -388,8 +390,8 @@ normalization and independent rule validation. The exact `conflict-lra` record,
 accumulator check, normalized reconstruction system and integration checklist
 above are our proposal, not CPC
 syntax or a claim that CPC's whole arithmetic calculus is implemented.
-The existing QF_UF export and LRA solver retain their documented behavior;
-the version-2 producer, arithmetic certificate checker, witness export and
-optional proof-language translation are unimplemented. Motzkin's theorem is a
+The existing QF_UF/version-1 export retains its format. The version-2 producer,
+arithmetic validator and selected witness export are implemented pending
+qualification; optional proof-language translation is unimplemented. Motzkin's theorem is a
 mathematical basis for witness reconstruction, not a claim to implement
 Leike–Heizmann's synthesis procedure or an optimized LP algorithm from that paper.

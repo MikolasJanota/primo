@@ -16,7 +16,7 @@ chapter states the actual subset, deviations, invariants and tests.
 | Clause forgetting | [Survey](papers/clause-forgetting.md): logical redundancy, reason lifetime and termination are separate obligations. |
 | Learned-clause minimization and all-UIP shrinking | [Survey and probe design](papers/conflict-explanation-minimization.md): Sörensson–Biere 2009, Feng–Bacchus 2020 and Fleury–Biere 2021 distinguish literal deletion from replacement by shared antecedents. Backend configuration and benefit remain to be measured. |
 | Plaisted–Greenbaum and SMT encodings | [Survey](papers/polarity-aware-cnf.md): direction-sensitive definitions remain an open extension; the rejected root-only prototype is retained history. |
-| Reynolds et al., *The Cooperating Proof Calculus* (2026) | [Reading note](papers/cooperating-proof-calculus.md): CPC/Eunoia/Ethos, theory witnesses, CNF/resolution checking, trust boundaries and evaluation. A reference for our certificate extension; CPC and an LRA certificate exporter are not implemented. |
+| Reynolds et al., *The Cooperating Proof Calculus* (2026) | [Reading note](papers/cooperating-proof-calculus.md): CPC/Eunoia/Ethos, theory witnesses, CNF/resolution checking, trust boundaries and evaluation. CPC is not implemented; [LRA certificate export](reference/qf-lra-certificates.md) is experimental with qualification pending. |
 | Relevance and don't-cares | [Survey](papers/relevance-filtering.md) and [quantifier relevance](leads/quantifier-relevance.md): deciding which obligation matters differs from filtering instances of an active obligation. |
 
 ## Arithmetic papers and theses

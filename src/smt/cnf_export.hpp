@@ -1,6 +1,11 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
+#include <functional>
+#include <memory>
+#include <optional>
+#include <span>
 #include <string_view>
 #include <unordered_map>
 #include <utility>
@@ -20,19 +25,28 @@ class ConflictSpool;
 
 namespace primo::smt {
 class BooleanClausifier;
+class NumericClauseSpool;
 
-// Borrows the query term manager and text spool. Copies SAT clauses only for
-// reduction; writes text synchronously and retains no clausifier/stream borrows.
-class QfUfConflictCollector {
+enum class ExportCnfTheory { Uf, Lra };
+
+// Borrows the query term manager and text spool through publication. Copies SAT
+// clauses for reduction; LRA additionally spools numeric clauses for selected-only
+// witness reconstruction. Retains no clausifier, term-node or stream borrows.
+class CnfConflictCollector {
  public:
-  QfUfConflictCollector(core::TermManager& terms, smtlib::ConflictSpool& document,
-                        ExportCnfReduction reduction = ExportCnfReduction::None,
-                        bool erase_sorts = false);
+  CnfConflictCollector(core::TermManager& terms, smtlib::ConflictSpool& document,
+                       ExportCnfReduction reduction = ExportCnfReduction::None,
+                       bool erase_sorts = false, ExportCnfTheory theory = ExportCnfTheory::Uf);
+  ~CnfConflictCollector();
   void record_preprocessing_unsat();
   void record_input_clause(const sat::Clause& clause);
   void bind(const BooleanClausifier& clausifier);
   void record(const sat::Clause& clause);
   sat::ClauseSubsetResult reduce(sat::Terminator* terminator) const;
+  // Returns false only on interruption; invalid premises/witnesses throw.
+  bool reconstruct(std::optional<std::span<const std::size_t>> selected,
+                   const std::function<bool()>& cancelled, util::Statistics& statistics);
+  std::size_t collected_count() const;
   std::uint64_t input_format_microseconds() const { return input_format_microseconds_; }
   std::uint64_t conflict_format_microseconds() const { return conflict_format_microseconds_; }
 
@@ -43,6 +57,8 @@ class QfUfConflictCollector {
   sat::Cnf theory_clauses_;
   ExportCnfReduction reduction_;
   bool erase_sorts_;
+  ExportCnfTheory theory_;
+  std::unique_ptr<NumericClauseSpool> numeric_;
   bool bound_ = false;
   std::uint64_t input_format_microseconds_ = 0;
   std::uint64_t conflict_format_microseconds_ = 0;
@@ -51,6 +67,6 @@ class QfUfConflictCollector {
 
 // Buffered, nonincremental entry point. Validates the entire script before
 // solving; writes export_cnf only after an UNSAT result.
-CheckSatOutcome export_qf_uf_cnf(std::string_view input, CheckSatOptions options);
+CheckSatOutcome export_cnf_once(std::string_view input, CheckSatOptions options);
 
 }  // namespace primo::smt

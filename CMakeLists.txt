@@ -521,6 +521,12 @@ primo_enable_sanitizers(primo_lra_tableau_tests)
 target_link_libraries(primo_lra_tableau_tests PRIVATE primo_core)
 add_test(NAME primo_lra_tableau_tests COMMAND primo_lra_tableau_tests)
 
+add_executable(primo_lra_certificate_tests tests/unit/lra_certificate_tests.cpp)
+primo_enable_warnings(primo_lra_certificate_tests)
+primo_enable_sanitizers(primo_lra_certificate_tests)
+target_link_libraries(primo_lra_certificate_tests PRIVATE primo_core)
+add_test(NAME primo_lra_certificate_tests COMMAND primo_lra_certificate_tests)
+
 add_executable(primo_lia_completion_tests tests/unit/lia_completion_tests.cpp)
 primo_enable_warnings(primo_lia_completion_tests)
 primo_enable_sanitizers(primo_lia_completion_tests)

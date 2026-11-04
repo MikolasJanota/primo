@@ -35,6 +35,7 @@
 #include "smt/boolean_solver.hpp"
 #include "smt/check_sat.hpp"
 #include "smt/clausifier.hpp"
+#include "smt/cnf_export.hpp"
 #include "smt/component_solver.hpp"
 #include "smt/formula_analysis.hpp"
 #include "smt/frontend.hpp"
@@ -43,7 +44,6 @@
 #include "smt/model_based_combination.hpp"
 #include "smt/model_reconstruction.hpp"
 #include "smt/preprocessing_tactics.hpp"
-#include "smt/qf_uf_export.hpp"
 #include "smt/solver_error.hpp"
 #include "smt/solver_runtime.hpp"
 #include "smt/solver_support.hpp"
@@ -1639,7 +1639,7 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
                       core::TermId true_term, core::TermId false_term,
                       const CheckSatOptions& options, bool adaptive_propagation,
                       util::Statistics& statistics, const PreparedFlatTheory* prepared = nullptr,
-                      bool count_conflicts = true, QfUfConflictCollector* collector = nullptr)
+                      bool count_conflicts = true, CnfConflictCollector* collector = nullptr)
       : terms_(terms),
         theory_atoms_(theory_atoms),
         true_term_(true_term),
@@ -2577,7 +2577,7 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
   bool adaptive_propagation_ = false;
   util::Statistics& statistics_;
   bool count_conflicts_;
-  QfUfConflictCollector* collector_;
+  CnfConflictCollector* collector_;
   std::vector<unsigned char> observed_vars_;
   std::vector<std::optional<std::size_t>> atom_index_by_var_;
   bool generated_registration_valid_ = true;
@@ -6990,7 +6990,8 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                       const LraRowPropagationLimits& row_propagation_limits,
                       sat::IpasirUpBackend& backend, util::Statistics& statistics,
                       bool count_query_conflicts = false,
-                      std::optional<std::size_t> conflict_limit = std::nullopt)
+                      std::optional<std::size_t> conflict_limit = std::nullopt,
+                      CnfConflictCollector* collector = nullptr)
       : theory_atoms_(theory_atoms),
         prepared_(prepared),
         tableau_(prepared.base_tableau),
@@ -7004,7 +7005,8 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
         backend_(backend),
         statistics_(statistics),
         count_query_conflicts_(count_query_conflicts),
-        conflict_limit_(conflict_limit) {
+        conflict_limit_(conflict_limit),
+        collector_(collector) {
     int max_theory_var = 0;
     for (const BooleanClausifier::TheoryAtom& atom : theory_atoms_) {
       max_theory_var =
@@ -7207,6 +7209,11 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     }
     reason_stream_active_lit_ = 0;
     reason_stream_index_ = 0;
+    if (collector_ != nullptr) {
+      sat::Clause clause{sat::Lit{propagated_lit}};
+      clause.insert(clause.end(), found->second.begin(), found->second.end());
+      collector_->record(clause);
+    }
     return 0;
   }
 
@@ -7308,6 +7315,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
 
   int cb_add_external_clause_lit() override {
     if (external_clause_index_ >= external_clause_.size()) {
+      if (collector_ != nullptr) collector_->record(external_clause_);
       external_clause_.clear();
       external_clause_pending_ = false;
       external_clause_index_ = 0;
@@ -7897,6 +7905,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
   util::Statistics& statistics_;
   bool count_query_conflicts_ = false;
   std::optional<std::size_t> conflict_limit_;
+  CnfConflictCollector* collector_ = nullptr;
   bool external_clause_pending_ = false;
   std::vector<char> observed_vars_;
   std::vector<int> model_phase_by_var_;
@@ -8325,7 +8334,8 @@ CheckSatOutcome solve_qf_lra_impl(core::TermManager& terms,
                                   const std::vector<core::TermId>& assertions,
                                   const std::vector<core::TermId>& model_terms,
                                   const ModelConversionChain& conversions,
-                                  const CheckSatOptions& options, util::Statistics& statistics) {
+                                  const CheckSatOptions& options, util::Statistics& statistics,
+                                  CnfConflictCollector* collector = nullptr) {
 #if !PRIMO_HAVE_IPASIR
   if (options.lra_equality_propagation) {
     throw UnsupportedInput("--lra-equality-propagation requires IPASIR-UP");
@@ -8335,10 +8345,14 @@ CheckSatOutcome solve_qf_lra_impl(core::TermManager& terms,
   sat::CadicalBackend backend(options.cadical_options);
   SolveTerminator terminator(options.cancelled, statistics, options.max_theory_conflicts);
   const ScopedTerminatorConnection terminator_connection(backend, terminator);
-  BooleanClausifier clausifier(backend, terms, options.top_level_or_tseitin);
+  BooleanClausifier::ClauseObserver observer;
+  if (collector != nullptr)
+    observer = [collector](const sat::Clause& clause) { collector->record_input_clause(clause); };
+  BooleanClausifier clausifier(backend, terms, options.top_level_or_tseitin, observer);
   for (const core::TermId assertion : assertions) {
     clausifier.assert_formula(assertion);
   }
+  if (collector != nullptr) collector->bind(clausifier);
   statistics.set(kStatTheoryAtoms, clausifier.theory_atoms().size());
   publish_theory_atom_purity_stats(terms, clausifier.theory_atoms(), statistics);
   publish_sat_stats(backend.statistics(), statistics);
@@ -8361,7 +8375,8 @@ CheckSatOutcome solve_qf_lra_impl(core::TermManager& terms,
       options.lra_row_propagation, options.lra_bidirectional_row_propagation,
       options.lra_theory_decisions, options.lra_model_phase.value_or(false),
       options.lra_pivoting_rule == LraPivotingRule::Soi || options.lra_fixed_elimination,
-      options.lra_row_propagation_limits, backend, statistics, false, options.max_theory_conflicts);
+      options.lra_row_propagation_limits, backend, statistics, false, options.max_theory_conflicts,
+      collector);
   if (options.lra_equality_propagation) {
     online_propagator.enable_variable_equality_propagation();
   }
@@ -8449,6 +8464,7 @@ CheckSatOutcome solve_qf_lra_impl(core::TermManager& terms,
     statistics.increment(kStatLraTheoryConflicts);
     record_theory_conflict(statistics);
     if (auto stop = terminator.stop_outcome()) return *stop;
+    if (collector != nullptr) collector->record(*conflict_clause);
     if (conflict_clause->empty()) {
       publish_sat_stats(backend.statistics(), statistics);
       return CheckSatOutcome{CheckSatResult::Unsat, "", statistics, ""};
@@ -10357,7 +10373,7 @@ CheckSatOutcome solve_qf_uf_engine_impl(core::TermManager& terms,
                                         const CheckSatOptions& options,
                                         util::Statistics& statistics,
                                         const ModelConversionChain& conversions,
-                                        QfUfConflictCollector* collector) {
+                                        CnfConflictCollector* collector) {
   statistics.increment(kStatSolverQfUf);
   sat::CadicalBackend backend(options.cadical_options);
   SolveTerminator terminator(options.cancelled, statistics, options.max_theory_conflicts);
@@ -10587,11 +10603,12 @@ CheckSatOutcome solve_qf_lra_engine_impl(core::TermManager& terms,
                                          const std::vector<core::TermId>& model_terms,
                                          const ModelConversionChain& conversions,
                                          const CheckSatOptions& options,
-                                         util::Statistics& statistics) {
+                                         util::Statistics& statistics,
+                                         CnfConflictCollector* collector = nullptr) {
   const std::uint64_t promotions_before = util::Rational::promotion_count();
   const std::uint64_t big_operations_before = util::Rational::big_operation_count();
-  CheckSatOutcome outcome =
-      solve_qf_lra_impl(terms, assertions, model_terms, conversions, options, statistics);
+  CheckSatOutcome outcome = solve_qf_lra_impl(terms, assertions, model_terms, conversions, options,
+                                              statistics, collector);
   const std::uint64_t promotions = util::Rational::promotion_count() - promotions_before;
   const std::uint64_t big_operations =
       util::Rational::big_operation_count() - big_operations_before;
@@ -12503,7 +12520,7 @@ CheckSatOutcome solve_qf_uf_engine(core::TermManager& terms,
                                    const std::vector<core::TermId>& assertions,
                                    const CheckSatOptions& options, util::Statistics& statistics,
                                    const ModelConversionChain& conversions,
-                                   QfUfConflictCollector* collector) {
+                                   CnfConflictCollector* collector) {
   return enforce_theory_conflict_limit(
       solve_qf_uf_engine_impl(terms, assertions, options, statistics, conversions, collector),
       options, statistics);
@@ -12513,9 +12530,11 @@ CheckSatOutcome solve_qf_lra_engine(core::TermManager& terms,
                                     const std::vector<core::TermId>& assertions,
                                     const std::vector<core::TermId>& model_terms,
                                     const ModelConversionChain& conversions,
-                                    const CheckSatOptions& options, util::Statistics& statistics) {
+                                    const CheckSatOptions& options, util::Statistics& statistics,
+                                    CnfConflictCollector* collector) {
   return enforce_theory_conflict_limit(
-      solve_qf_lra_engine_impl(terms, assertions, model_terms, conversions, options, statistics),
+      solve_qf_lra_engine_impl(terms, assertions, model_terms, conversions, options, statistics,
+                               collector),
       options, statistics);
 }
 

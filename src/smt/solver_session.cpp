@@ -12,6 +12,7 @@
 #include "core/ids.hpp"
 #include "core/model.hpp"
 #include "smt/check_sat.hpp"
+#include "smt/cnf_export.hpp"
 #include "smt/formula_analysis.hpp"
 #include "smt/formula_metrics.hpp"
 #include "smt/frontend.hpp"
@@ -19,7 +20,6 @@
 #include "smt/model_reconstruction.hpp"
 #include "smt/preprocessing.hpp"
 #include "smt/preprocessing_strategy.hpp"
-#include "smt/qf_uf_export.hpp"
 #include "smt/quantifiers/quantified_solver.hpp"
 #include "smt/solver_engines.hpp"
 #include "smt/solver_error.hpp"
@@ -346,7 +346,7 @@ namespace {
 
 CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
                           Frontend* supplied_frontend, std::vector<core::TermId> assertions,
-                          QfUfConflictCollector* collector = nullptr) {
+                          CnfConflictCollector* collector = nullptr) {
   std::unique_ptr<Frontend> owned_frontend;
   const PhaseClock::time_point total_start = PhaseClock::now();
   util::Statistics statistics;
@@ -831,7 +831,7 @@ CheckSatOutcome check_sat_frontend_once(std::unique_ptr<Frontend> frontend,
 CheckSatOutcome check_sat_frontend_export_once(Frontend& frontend,
                                                std::vector<core::TermId> assertions,
                                                CheckSatOptions options,
-                                               QfUfConflictCollector& collector) {
+                                               CnfConflictCollector& collector) {
   return run_query({}, std::move(options), &frontend, std::move(assertions), &collector);
 }
 

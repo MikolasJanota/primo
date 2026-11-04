@@ -7,9 +7,10 @@ conflicts; producing it does not independently validate conflicts or certify
 UNSAT. Primo bundles no checker; the external Micromath route below covers a
 restricted subset of this format.
 
-The [proposed QF_LRA extension](../leads/lra-conflict-certificates.md) adds
-weighted arithmetic conflicts in a new format version. It is a design proposal;
-the current option still exports only QF_UF.
+The [QF_LRA extension](qf-lra-certificates.md) adds weighted arithmetic conflicts
+in version 2, with qualification pending. This page continues to specify the
+unchanged QF_UF/version-1 artifact. The [arithmetic design note](../leads/lra-conflict-certificates.md)
+records the coefficient-reconstruction argument.
 
 ```bash
 ./build/primo --quiet --export-cnf certificate.sexp docs/examples/qf-uf-export.smt2

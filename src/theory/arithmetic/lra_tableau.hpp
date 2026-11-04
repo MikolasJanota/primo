@@ -2,8 +2,10 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <set>
+#include <stdexcept>
 #include <unordered_map>
 #include <utility>
 #include <variant>
@@ -13,6 +15,12 @@
 #include "util/rational.hpp"
 
 namespace primo::theory::arithmetic {
+
+// An inconclusive private feasibility run; never a satisfiable check result.
+class LraCheckInterrupted final : public std::runtime_error {
+ public:
+  LraCheckInterrupted() : std::runtime_error("LRA feasibility check interrupted") {}
+};
 
 using LraVarId = std::size_t;
 
@@ -329,7 +337,7 @@ class LraTableau {
   // (returns nullopt -- satisfiable, see assignment()) or some basic
   // variable is out of bounds with no repairing pivot available (returns
   // its Farkas-style conflict certificate, Section 3.2).
-  std::optional<std::vector<sat::Lit>> check();
+  std::optional<std::vector<sat::Lit>> check(const std::function<bool()>& cancelled = {});
 
   const DeltaRational& assignment(LraVarId var) const { return vars_.at(var).assignment; }
 

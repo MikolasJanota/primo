@@ -9,8 +9,8 @@
 #include "sat/cadical_backend.hpp"
 #include "smt/check_sat.hpp"
 #include "smt/clausifier.hpp"
+#include "smt/cnf_export.hpp"
 #include "smt/model_reconstruction.hpp"
-#include "smt/qf_uf_export.hpp"
 #include "smt/solver_runtime.hpp"
 #include "smt/solver_support.hpp"
 #include "smt/typed_model_builder.hpp"
@@ -23,7 +23,7 @@ CheckSatOutcome solve_boolean_conjunction(core::TermManager& terms,
                                           const CheckSatOptions& options,
                                           util::Statistics& statistics,
                                           const ModelConversionChain& conversions,
-                                          QfUfConflictCollector* collector) {
+                                          CnfConflictCollector* collector) {
   statistics.increment(util::StatKey::SolverBoolean);
   sat::CadicalBackend backend(options.cadical_options);
   SolveTerminator terminator(options.cancelled, statistics, options.max_theory_conflicts);

@@ -4,7 +4,7 @@
 #include <string_view>
 #include <utility>
 
-#include "smt/qf_uf_export.hpp"
+#include "smt/cnf_export.hpp"
 #include "smt/session_portfolio.hpp"
 #include "smt/smt_session.hpp"
 #include "smtlib/parser.hpp"
@@ -21,7 +21,7 @@ CheckSatOutcome check_sat_smtlib(std::string_view input, CheckSatOptions options
             {},
             ""};
   }
-  if (!options.export_cnf.empty()) return export_qf_uf_cnf(input, std::move(options));
+  if (!options.export_cnf.empty()) return export_cnf_once(input, std::move(options));
   if (options.incremental_mode == IncrementalMode::Assumptions) {
     SmtSession session(options);
     CheckSatOutcome outcome;

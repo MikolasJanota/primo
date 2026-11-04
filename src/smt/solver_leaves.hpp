@@ -9,7 +9,7 @@ class Statistics;
 
 namespace primo::smt {
 
-class QfUfConflictCollector;
+class CnfConflictCollector;
 
 class Frontend;
 class TacticContext;
@@ -20,6 +20,6 @@ class TacticContext;
 // storage and do not carry execution state.
 Strategy make_session_solver_strategy(Frontend& frontend, CheckSatOptions options,
                                       util::Statistics& statistics, const TacticContext& context,
-                                      QfUfConflictCollector* collector = nullptr);
+                                      CnfConflictCollector* collector = nullptr);
 
 }  // namespace primo::smt

@@ -498,7 +498,7 @@ struct CheckSatOptions {
   // Quantified UF: file receiving the instantiation tuples and Skolem lemmas as
   // SMT-LIB pools (smt/quantifiers/pool_export.hpp); empty writes nothing.
   std::string quantifier_export_pools;
-  // Single-query QF_UF CNF/conflict artifact; empty disables export.
+  // Single-query QF_UF/v1 or QF_LRA/v2 CNF/conflict artifact; empty disables export.
   std::string export_cnf;
   ExportCnfReduction export_cnf_reduction = ExportCnfReduction::None;
   // Temporary export-only workaround while external checkers grow sort support.
