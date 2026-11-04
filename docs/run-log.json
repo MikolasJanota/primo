@@ -3,6 +3,47 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-04-micromath-pipe-replay",
+      "date": "2026-11-04",
+      "kind": "Micromath-raw-pipe-replay",
+      "commit": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+      "workflow_git": "0e138801312bfa94d9846cfbb799809daf766aca",
+      "micromath_git": "48addc4b6843122a970560199769919e90e31cd3",
+      "job_id": "348181",
+      "report": "docs/coverage/micromath-pipe-replay.json",
+      "evidence_status": "Four saved raw-proof file-limit cases replayed through pipe; see report for exact outcomes and per-process RSS.",
+      "limits": {
+        "address_space_gib_per_process": 3,
+        "regular_file_limit_mib": 1024,
+        "combined_pipe_stage_seconds": 135,
+        "shared_pipeline_seconds": 180,
+        "termination_grace_seconds": 2,
+        "note": "Producer and kernel run concurrently, each with its own address-space cap. Pipe buffering is bounded; internal tool state is not bounded by transport. No regular-file cap on the pipe stream."
+      },
+      "allocation": {
+        "cpus": 4,
+        "memory_gib": 24,
+        "wall_minutes": 15,
+        "workers": 2
+      },
+      "commands": {
+        "prepare": "scripts/slurm_prepare_benchmark_workspace.py --check-only --build-via-slurm against qualified frozen native workspace before each sbatch",
+        "replay": "python3 scripts/micromath_replay.py --micromath \"$MICROMATH\" --micromath-git 48addc4b6843122a970560199769919e90e31cd3 --cadical \"$CADICAL\" --inputs \"$SAVED_INPUTS\" --out \"$FRESH_OUTPUT\" --workers 2 --reuse-lrat --pipe-proof",
+        "kernel": "smt/prove-lrat challenge.umd input.primo problem.lrat - --raw | check-solution challenge.umd - (bounded helper; both exit codes checked)"
+      },
+      "results": {
+        "attempted": 4,
+        "counts": {
+          "kernel_proven": 4
+        }
+      },
+      "artifacts": {
+        "local": "results/micromath-pipe-replay-348181",
+        "remote": "$EXTERNAL_WORKSPACE/pipe-replay-348181",
+        "proof_artifact": "No .ump proof file or proof-stream hash retained; exact source hashes and logs retained for regeneration."
+      }
+    },
+    {
       "id": "2026-11-04-micromath-raw-export",
       "date": "2026-11-04",
       "kind": "Micromath-raw-export-update",

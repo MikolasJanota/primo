@@ -553,18 +553,18 @@ and 6.9 MiB LRAT, while `SEQ009_size10` has a 421 KiB certificate with no theory
 lemmas and a 79.9 MiB LRAT. Both generated proofs hit the 1 GiB cap. These are
 output-file limits, not evidence of an input-parser limit.
 
-Together with the original compact proofs, 4,013 of the 4,175 selected source
-cases now have kernel proofs of their exported CNFs. This combines checker
-versions and budgets; the remaining cases are 154 original Primo export
+Together with the original compact proofs, this brought coverage to 4,013 of
+the 4,175 selected source cases. This combines checker versions and budgets;
+at that point the remaining cases were 154 original Primo export
 timeouts, four challenge timeouts and four proof-file limits. The
 {download}`raw export report <../coverage/micromath-raw-export.json>` preserves
 the exact pins, limits, byte sizes and outcome mapping.
 
-For author feedback, the remaining eight cases are exported as original solver
+For author feedback, those eight checker-limited cases were exported as original solver
 outputs. Each archive contains four unmodified `.primo` files; the author can
 regenerate the downstream checker artifacts using the normal workflow.
 
-- {download}`Smallest remaining solver output (421 KiB, no theory lemmas) <../../benchmarks/checker-regressions/micromath-raw-limits-20261104/3492-SEQ009_size10.primo>`
+- {download}`Smallest proof-file-limit solver output (421 KiB, no theory lemmas) <../../benchmarks/checker-regressions/micromath-raw-limits-20261104/3492-SEQ009_size10.primo>`
 - {download}`Four proof-file-limit inputs (3.16 MiB compressed) <../../benchmarks/checker-regressions/micromath-raw-limits-20261104/proof-file-limit-inputs.tar.gz>`
 - {download}`Four challenge-timeout inputs (4.28 MiB compressed) <../../benchmarks/checker-regressions/micromath-raw-limits-20261104/challenge-timeout-inputs.tar.gz>`
 
@@ -574,6 +574,28 @@ describe the cases and resource caps; the
 records exact sizes and hashes. These inputs
 already use CORE reduction and object-sort erasure; no new solver or checker
 run was performed for packaging.
+
+SLURM job `348181` subsequently replayed the four proof-file-limit cases through
+a pipe using the same `48addc4` checker, `--raw` mode and saved source,
+challenge/CNF/LRAT files. All four passed independent kernel checking: both
+processes exited zero and every kernel log contained `challenge proven` without
+`Inconsistency proven!`. No Primo or CaDiCaL query was repeated.
+
+| Source case | Combined export/check seconds | Exporter peak RSS (MiB) | Kernel peak RSS (MiB) |
+| --- | ---: | ---: | ---: |
+| `PEQ002_size7` | 40.98 | 592.1 | 32.7 |
+| `PEQ012_size6` | 61.02 | 773.0 | 58.2 |
+| `iso_icl_repgen_sk010` | 34.77 | 507.2 | 59.4 |
+| `SEQ009_size10` | 84.94 | 490.4 | 30.7 |
+
+These are separate per-process peaks from GNU time, not simultaneous aggregate
+memory measurements. The job used two workers, four CPUs and 24 GiB allocated
+memory; each producer and kernel retained a 3 GiB address-space cap. No proof
+file was written. This resolves the four regular-file caps and brings combined
+coverage to **4,017 of 4,175** selected cases. The remaining cases are 154
+original native-export timeouts and four challenge-construction timeouts.
+The {download}`pipe replay report <../coverage/micromath-pipe-replay.json>`
+records hashes, limits, exit codes, resource measurements and setup failures.
 
 ### Replaying saved certificates without Primo
 
@@ -593,6 +615,37 @@ Run the driver within SLURM. `--reuse-lrat` instead reads each input's adjacent
 challenge/trace bytes for regression diagnosis. The supplied CaDiCaL executable
 is hashed for provenance in both modes; saved-trace mode does not execute it.
 
+`--pipe-proof` connects raw proof export directly to the independent kernel:
+
+```bash
+python3 scripts/micromath_replay.py --micromath "$micromath" --micromath-git 48addc4b6843122a970560199769919e90e31cd3 --cadical "$cadical" --inputs "$saved_certificates" --out "$proof_dir" --workers 2 --reuse-lrat --pipe-proof
+```
+
+The {micromathpipesource}`pipe helper <scripts/check_micromath_pipe.sh>`
+({download}`download <../../scripts/check_micromath_pipe.sh>`) connects
+`smt/prove-lrat challenge input lrat - --raw` to
+`check-solution challenge -` through an operating-system pipe. Its bounded
+buffer applies backpressure: proof bytes are never accumulated in Python or
+written to a proof file. The 1 GiB regular-file limit therefore does not limit
+the proof stream. Both child processes must exit zero, and the kernel must print
+the exact `challenge proven` line without `Inconsistency proven!`.
+For completed pipelines, the driver records both exit statuses and the helper hash;
+interrupted pipelines may have no child exit-status record. Separate GNU
+`time` reports retain each child's peak resident memory. This mode requires
+Bash, GNU `timeout`, `prlimit` and GNU time (default `/usr/bin/time`).
+Set `MICROMATH_TIME` to an alternative GNU time executable if it is installed
+outside `/usr/bin`; the driver records that path in provenance.
+
+Each child retains its own 3 GiB address-space limit. The producer and kernel
+run concurrently, so their aggregate memory can exceed 3 GiB per worker;
+choose the worker count and SLURM allocation accordingly. A pipe bounds transit
+buffering, but does not bound either tool's internal proof state. The combined
+export/check stage has a 135-second deadline within the shared 180-second
+pipeline budget, with a two-second termination grace for the process group.
+No `.ump` artifact or proof-stream hash is retained, even with
+`--keep-success-artifacts all`; source hashes and logs remain available for
+regeneration. File transport remains the default.
+
 A parent process owns result records and atomically replaces `summary.json`;
 workers own separate output directories and synchronous subprocess stages.
 By default, logs and generated proof files remain on disk. Hashing streams files through
@@ -608,8 +661,9 @@ This is an original orchestration workflow, not another SAT or theory checker.
 Each of at most four workers and its children has a 3 GiB address-space limit
 and 1 GiB per-file limit. Proof generation always requests `--raw`. Subprocess
 stages share a 180-second budget, with
-individual limits of 15 seconds for conflicts/challenge, 30 for CNF generation,
-90 for proof construction and 45 for kernel replay, plus a two-second
+individual limits of 15 seconds for conflicts/challenge and 30 for CNF generation.
+File transport allows 90 seconds for proof construction and 45 for kernel replay;
+pipe transport combines them into one 135-second stage. Both have a two-second
 termination grace. Subsequent metadata parsing and hashing are outside that
 pipeline budget; the allocation's wall limit bounds the complete job.
 `kernel_proven` requires exit zero and the exact `challenge proven` output;

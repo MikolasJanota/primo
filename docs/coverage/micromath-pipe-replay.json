@@ -1,0 +1,271 @@
+{
+  "date": "2026-11-04",
+  "kind": "Micromath-raw-pipe-replay",
+  "primo_git": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+  "workflow_git": "0e138801312bfa94d9846cfbb799809daf766aca",
+  "workflow_baseline_git": "6b1cab7b",
+  "micromath_git": "48addc4b6843122a970560199769919e90e31cd3",
+  "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+  "original_sweep": "347445",
+  "previous_raw_replay": "347770",
+  "job_id": "348181",
+  "host": "node-05.ciircluster",
+  "allocation": {
+    "cpus": 4,
+    "memory_gib": 24,
+    "wall_minutes": 15,
+    "workers": 2
+  },
+  "scheduler": [
+    "348179|FAILED|1:0|00:00:03||node-05",
+    "348179.batch|FAILED|1:0|00:00:03|257084K|node-05",
+    "348180|FAILED|1:0|00:00:14||node-05",
+    "348180.batch|FAILED|1:0|00:00:14|4328K|node-05",
+    "348181|COMPLETED|0:0|00:02:42||node-05",
+    "348181.batch|COMPLETED|0:0|00:02:42|1016996K|node-05"
+  ],
+  "limits": {
+    "address_space_gib_per_process": 3,
+    "regular_file_limit_mib": 1024,
+    "combined_pipe_stage_seconds": 135,
+    "shared_pipeline_seconds": 180,
+    "termination_grace_seconds": 2,
+    "note": "Producer and kernel run concurrently, each with its own address-space cap. Pipe buffering is bounded; internal tool state is not bounded by transport. No regular-file cap on the pipe stream."
+  },
+  "workflow_sha256": {
+    "micromath_replay.py": "02ed52c6a858dd6ef87b00678b351ef96cd8881a9375a56331ad08e5c29a1f6f",
+    "micromath_stress.py": "69d5b794a134084a1ae5eb2db3fb667233746b3f1496188e7b0a0e0cff4887e0",
+    "check_micromath_pipe.sh": "6ed10e20f93771a4978275775ad8c30463135001686bfa302903fba11a8c6c67"
+  },
+  "measurement_time_sha256": "34ba90f8199989d88f2f02d40ddcee60be27a7f361db9fb7c100578cc8d7bf1e",
+  "setup_failures": [
+    {
+      "job": "348179",
+      "reason": "Checksum glob included __pycache__ directory; stopped before checks."
+    },
+    {
+      "job": "348180",
+      "reason": "GNU time absent on compute node; both measurement wrappers exited127 before either Micromath child executed. Provisioned executable and configured MICROMATH_TIME for348181."
+    }
+  ],
+  "commands": {
+    "prepare": "scripts/slurm_prepare_benchmark_workspace.py --check-only --build-via-slurm against qualified frozen native workspace before each sbatch",
+    "replay": "python3 scripts/micromath_replay.py --micromath \"$MICROMATH\" --micromath-git 48addc4b6843122a970560199769919e90e31cd3 --cadical \"$CADICAL\" --inputs \"$SAVED_INPUTS\" --out \"$FRESH_OUTPUT\" --workers 2 --reuse-lrat --pipe-proof",
+    "kernel": "smt/prove-lrat challenge.umd input.primo problem.lrat - --raw | check-solution challenge.umd - (bounded helper; both exit codes checked)"
+  },
+  "validation": {
+    "workflow_unit_tests": 8,
+    "local_lint": "make lint passed",
+    "transport": "Real OS pipe; no proof bytes buffered in Python or stored in .ump files.",
+    "inputs": "All four input/challenge/CNF/LRAT files hash-checked against original sweep before execution; input/challenge/LRAT hashes rechecked in replay results. No new Primo or CaDiCaL queries.",
+    "positive_predicate": "Both child exits zero; exact challenge proven line; no Inconsistency proven! line.",
+    "scope": "Workflow and saved-certificate replays only; no owned native solver change, no new full native suite/fuzz/tidy campaign."
+  },
+  "results": {
+    "attempted": 4,
+    "counts": {
+      "kernel_proven": 4
+    },
+    "all_kernel_proven": true,
+    "rows": [
+      {
+        "index": 362,
+        "source_benchmark": "PEQ/PEQ002_size7.smt2",
+        "status": "kernel_proven",
+        "source_files": {
+          "input.primo": {
+            "bytes": 30599268,
+            "sha256": "ae02781e02937710043aef5822090dc6da4570ebef6fdeb5b50e28afc06f3353"
+          },
+          "challenge.umd": {
+            "bytes": 765002,
+            "sha256": "ca93ddab0417995cbb024fcf359908b90f9bf9eee41266ece3d1e2a75f8cbc0b"
+          },
+          "problem.cnf": {
+            "bytes": 4687768,
+            "sha256": "07a10dae471d9ce454c4b0a78aaacb17017d3e824cde6c03322e17720ddfb196"
+          },
+          "problem.lrat": {
+            "bytes": 7250093,
+            "sha256": "24dee196eae9f0ef5e15082df58923970e31dbbf85fe0900f27cd0809c05cb17"
+          }
+        },
+        "proof_transport": "pipe",
+        "combined_stage_seconds": 40.98100174100546,
+        "process_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_verdict_lines": [
+          "challenge proven"
+        ],
+        "process_usage": {
+          "producer": {
+            "peak_rss_kib": 606340,
+            "time_report_sha256": "efdb74f6024410a7b7007971b9a3a95143cd79ad7a9cc321ee77f0d03b837580"
+          },
+          "kernel": {
+            "peak_rss_kib": 33504,
+            "time_report_sha256": "ed1f22d9993d82eed6a708bd71f4dda99eb548efb84e1727423ee21f94cc6ebb"
+          }
+        },
+        "generated_proof_files": 0
+      },
+      {
+        "index": 1800,
+        "source_benchmark": "PEQ/PEQ012_size6.smt2",
+        "status": "kernel_proven",
+        "source_files": {
+          "input.primo": {
+            "bytes": 56996020,
+            "sha256": "9f80db7634097c798e8e583fb292948ae848365eb3a72bb3487fc684b26eb333"
+          },
+          "challenge.umd": {
+            "bytes": 1533351,
+            "sha256": "8d176bd5e2681f764e2cac3f5b2d67acaa4f5cc44e583bf9ddd0996a32d13088"
+          },
+          "problem.cnf": {
+            "bytes": 6993781,
+            "sha256": "e5763481183ba2cf181c1aeae21a133ac8b48317c6b15580f97315823306aeb7"
+          },
+          "problem.lrat": {
+            "bytes": 12554474,
+            "sha256": "fedcd7a9892950369ad123c4feda80114bdfe28790c661f27c99e6150463ef7e"
+          }
+        },
+        "proof_transport": "pipe",
+        "combined_stage_seconds": 61.01525272100116,
+        "process_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_verdict_lines": [
+          "challenge proven"
+        ],
+        "process_usage": {
+          "producer": {
+            "peak_rss_kib": 791572,
+            "time_report_sha256": "b184929c2f98054dbc491bfdf4ccfa1d85703ecacefaaf2c43332ce36fff08c6"
+          },
+          "kernel": {
+            "peak_rss_kib": 59564,
+            "time_report_sha256": "5b265755fbbd5413da3bf9958b896593153d8f43b8cdbd241d36c9383d1ae63f"
+          }
+        },
+        "generated_proof_files": 0
+      },
+      {
+        "index": 2723,
+        "source_benchmark": "QG-classification/qg6/iso_icl_repgen_sk010.smt2",
+        "status": "kernel_proven",
+        "source_files": {
+          "input.primo": {
+            "bytes": 19258506,
+            "sha256": "9f6de839f103d9aeef3ad7096fdbcea98c6f1a9a36bb42dd5938e78fb1e2674e"
+          },
+          "challenge.umd": {
+            "bytes": 165459,
+            "sha256": "2d0a981292f9bb5dc51961fc82be98b18e766da465be11827d624e5745c8a0d6"
+          },
+          "problem.cnf": {
+            "bytes": 4853284,
+            "sha256": "b5d9d69e7fb616d0f97b15302f4a634be4d9bf958f2a850bf331debdc1f820ea"
+          },
+          "problem.lrat": {
+            "bytes": 9657026,
+            "sha256": "65269f09144c89925e691ec83c8e877f3c9c420fda35603dee90432d7702ecc2"
+          }
+        },
+        "proof_transport": "pipe",
+        "combined_stage_seconds": 34.771375712996814,
+        "process_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_verdict_lines": [
+          "challenge proven"
+        ],
+        "process_usage": {
+          "producer": {
+            "peak_rss_kib": 519328,
+            "time_report_sha256": "47a032ebfaaafa730a5c9a7e08e917d80b4815d90eeaae6b188630bb62c30612"
+          },
+          "kernel": {
+            "peak_rss_kib": 60872,
+            "time_report_sha256": "8d6f93841eac5e4783d957729cd60107946c69b3c7c839cdc39ee7e13e95d11f"
+          }
+        },
+        "generated_proof_files": 0
+      },
+      {
+        "index": 3492,
+        "source_benchmark": "SEQ/SEQ009_size10.smt2",
+        "status": "kernel_proven",
+        "source_files": {
+          "input.primo": {
+            "bytes": 430806,
+            "sha256": "f58c86dcbe55cf3e22df11e2397c1df9833d89bda957210daa99cdbb5afc407d"
+          },
+          "challenge.umd": {
+            "bytes": 760075,
+            "sha256": "bedf1ee94c754dc0ef88ed7649a58353163c4541d05bb17424cbd8785043674f"
+          },
+          "problem.cnf": {
+            "bytes": 284856,
+            "sha256": "95bdaf1950ea6cf9b58e62edfb6ef5a3d4a9e44274f832f4187147f70610b457"
+          },
+          "problem.lrat": {
+            "bytes": 83809076,
+            "sha256": "343f5378436d4e3830975738e2312108f5ccc1e2d607f52a02d3fe1f82667f9b"
+          }
+        },
+        "proof_transport": "pipe",
+        "combined_stage_seconds": 84.94412729800388,
+        "process_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_verdict_lines": [
+          "challenge proven"
+        ],
+        "process_usage": {
+          "producer": {
+            "peak_rss_kib": 502128,
+            "time_report_sha256": "e74231dfbddfdd965fe41142fe8767b673ba5579729e9674183a264d6c69232d"
+          },
+          "kernel": {
+            "peak_rss_kib": 31388,
+            "time_report_sha256": "34a579fa2ab02bd0b62fc03f9acfb23a4378d99745347a89851c2ee916e6ea86"
+          }
+        },
+        "generated_proof_files": 0
+      }
+    ]
+  },
+  "artifacts": {
+    "local": "results/micromath-pipe-replay-348181",
+    "remote": "$EXTERNAL_WORKSPACE/pipe-replay-348181",
+    "proof_artifact": "No .ump proof file or proof-stream hash retained; exact source hashes and logs retained for regeneration."
+  },
+  "combined_source_sweep_coverage": {
+    "kernel_proven": 4017,
+    "selected": 4175,
+    "remaining": {
+      "native_export_timeout": 154,
+      "challenge_timeout": 4
+    },
+    "meaning": "Distinct source cases across original compact, current raw file, and current raw pipe runs; unchanged selected source cohort."
+  },
+  "allocation_accounting": [
+    "348181|4|24G|00:15:00|4|COMPLETED",
+    "348181.batch|4|||4|COMPLETED"
+  ],
+  "artifact_checksums": {
+    "allocation.txt": "92147ea8bc4a65db857aadf938d18915132a46516a93ab96d4ea3157102c5544",
+    "workflow.sbatch": "f5d723a83bde04676254430eb49a32017103bdfd30a3664aa0682579d0291e0c",
+    "setup-348179.err": "de3144e6c30681ae777c33670799e6a4e198c6d81c3a926cce297278ae403afa",
+    "setup-348180-producer.err": "adff07f5bc40ddab2bb5eedbf09cefc5430793628bbe26c3c13521886f47e338",
+    "setup-348180-kernel.err": "fcd100416b1e346d31ff197ca4ade0daa75d97e6ce792e2684686365568f2382",
+    "workflow-tests.log": "bdcbb3e9293548073e6734b9f249887fb2c564700e2d39b65bab48a265131919"
+  }
+}
