@@ -212,6 +212,19 @@ def has_solver_error(stdout: str, stderr: str) -> bool:
     return "(error" in stdout or "(error" in stderr
 
 
+# Unknown answers that report an exhausted search budget rather than an
+# internal inconsistency. Primo prints the reason on stderr; any other reason
+# (for example a stale or incomplete theory model) keeps the run a
+# solver-error, so a gate that accepts solver-unknown accepts only these.
+RESOURCE_LIMIT_UNKNOWN_REASONS = frozenset(
+    {
+        "integer branch-and-bound node limit",
+        "theory conflict limit reached",
+        "quantifier instantiation budget reached",
+    }
+)
+
+
 def refused_model_after_non_sat(
     answer: str, exit_code: int | None, stdout: str, stderr: str
 ) -> bool:
@@ -223,8 +236,10 @@ def refused_model_after_non_sat(
     Primo (like other solvers) returns one and a nonzero exit status. Accept it
     only in exactly that shape: stdout is the answer followed by one error
     line, stderr repeats at most that error's message, and the process exited
-    normally rather than by a signal. A crash, sanitizer report, extra output
-    or any error after sat still counts as a solver error.
+    normally rather than by a signal. After unknown, stderr may also carry one
+    resource-limit reason (RESOURCE_LIMIT_UNKNOWN_REASONS) printed before the
+    refusal. A crash, sanitizer report, any other extra output or any error
+    after sat still counts as a solver error.
     """
     if answer not in {"unsat", "unknown"} or exit_code is None or exit_code < 0:
         return False
@@ -237,9 +252,26 @@ def refused_model_after_non_sat(
     message = error[len('(error "') : -len('")')]
     if not message or '"' in message:
         return False
-    return all(
-        line.strip() in {message, error} for line in stderr.splitlines() if line.strip()
+    extra = [
+        line.strip()
+        for line in stderr.splitlines()
+        if line.strip() and line.strip() not in {message, error}
+    ]
+    if not extra:
+        return True
+    return (
+        answer == "unknown"
+        and len(extra) == 1
+        and extra[0] in RESOURCE_LIMIT_UNKNOWN_REASONS
     )
+
+
+def resource_limit_reason(stderr: str) -> str:
+    """The resource-limit reason Primo printed for an unknown answer, or ''."""
+    for line in stderr.splitlines():
+        if line.strip() in RESOURCE_LIMIT_UNKNOWN_REASONS:
+            return line.strip()
+    return ""
 
 
 def safe_stem(index: int, path: Path) -> str:
@@ -562,7 +594,12 @@ def main() -> int:
                     else "solver-output-error",
                     "solver_exit": str(solver_exit),
                     "seconds": f"{solver_seconds:.3f}",
-                    "message": "model production did not return sat or unsat",
+                    "message": "model production did not return sat or unsat"
+                    + (
+                        f"; reason: {resource_limit_reason(solver_stderr)}"
+                        if answer == "unknown" and resource_limit_reason(solver_stderr)
+                        else ""
+                    ),
                 }
             )
             failures += 1

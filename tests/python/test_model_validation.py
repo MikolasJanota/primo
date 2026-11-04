@@ -236,6 +236,64 @@ class ModelValidationTests(unittest.TestCase):
         self.assertFalse(accept("unsat", -11, 'unsat\n(error "m")\n', ""))
         self.assertFalse(accept("unsat", 2, 'unsat\n(error "m")\n', "other\n"))
         self.assertFalse(accept("unsat", 2, 'unsat\n(error "a"b")\n', ""))
+        # A resource-limit reason before the refusal is accepted after unknown
+        # only, once, and only from the allowlist.
+        limit = "integer branch-and-bound node limit\n"
+        self.assertTrue(accept("unknown", 2, 'unknown\n(error "m")\n', limit + "m\n"))
+        self.assertFalse(accept("unsat", 2, 'unsat\n(error "m")\n', limit + "m\n"))
+        self.assertFalse(
+            accept(
+                "unknown",
+                2,
+                'unknown\n(error "m")\n',
+                limit + "theory conflict limit reached\n" + "m\n",
+            )
+        )
+        self.assertFalse(
+            accept(
+                "unknown",
+                2,
+                'unknown\n(error "m")\n',
+                "LIA model omitted a shared Int term\nm\n",
+            )
+        )
+
+    def test_resource_limit_unknown_is_solver_unknown_with_its_reason(self) -> None:
+        # The shape of fuzzsmt_447507__file_288 in the 2026-11-04 QF_LIA gate.
+        stdout = 'unknown\n(error "get-model requires a current SAT model")\n'
+        cases = [
+            (
+                (
+                    "integer branch-and-bound node limit\n"
+                    "get-model requires a current SAT model\n"
+                ),
+                "solver-unknown",
+                "; reason: integer branch-and-bound node limit",
+            ),
+            (
+                "stale theory model snapshot\nget-model requires a current SAT model\n",
+                "solver-error",
+                None,
+            ),
+        ]
+        for stderr, expected, suffix in cases:
+            with (
+                self.subTest(expected=expected),
+                tempfile.TemporaryDirectory() as temporary,
+            ):
+                root = Path(temporary)
+                case = root / "case.smt2"
+                self.write_case(case)
+                result, out = self.run_main(
+                    ["--out", str(root / "out"), str(case)],
+                    [("done", 2, stdout, stderr, 0.01)],
+                )
+                self.assertEqual(result, 1)
+                with (out / "summary.csv").open() as stream:
+                    row = next(csv.DictReader(stream))
+                self.assertEqual(row["outcome"], expected)
+                if suffix is not None:
+                    self.assertTrue(row["message"].endswith(suffix), row["message"])
 
     def test_unsupported_query_is_recorded_without_launching_solver(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:

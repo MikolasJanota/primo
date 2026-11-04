@@ -206,11 +206,14 @@ if (( TASK_ID < opfuzz_start )); then
     # --lia-branch-limit and come back Unknown -- confirmed by hand for
     # job 127441's one occurrence (its solver.stderr said exactly "QF_LIA
     # branch-and-bound node limit reached", not a reconstruction conflict).
-    # If a future change adds a second source of Unknown for this solve
-    # path (e.g. the non-IPASIR fallback's own "model reconstruction found
-    # a ... conflict" outcomes -- see solve_qf_lia_impl), this blanket
-    # allowance would start hiding a real bug; narrowing it to inspect each
-    # case's actual message is the fix if that ever happens.
+    # The validator classifies an Unknown as `solver-unknown` only when its
+    # stderr carries no reason line or one resource-limit reason
+    # (RESOURCE_LIMIT_UNKNOWN_REASONS in validate_qfuf_models_with_dolmen.py,
+    # e.g. "integer branch-and-bound node limit"); any other reason, such as
+    # a reconstruction or stale-model failure, stays `solver-error` and fails
+    # the task. Before that narrowing, the node-limit
+    # reason line itself made the run a solver-error (2026-11-02 file_181,
+    # 2026-11-04 file_288).
     non_timeout_failures=$(python3 -c "
 import csv, sys
 n = 0
