@@ -1,5 +1,10 @@
 # Small Micromath resource-failure inputs
 
+These immutable archives reproduce the historical compact-export failures.
+Current Primo checking workflows use the author-recommended `--raw` mode and
+newer Micromath, with a 1 GiB file cap. The archived replay scripts deliberately
+retain their original mode and limits.
+
 These packages contain unchanged failing inputs from the completed CORE sweep
 (array `347445`). All 799 proof-generation errors had the same recorded
 `Proof export: out of memory` diagnostic under a 3 GiB address-space cap.

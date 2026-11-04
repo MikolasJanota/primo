@@ -15,7 +15,7 @@ from collections import Counter
 from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
-from micromath_stress import invoke
+from micromath_stress import FILE_SIZE_LIMIT_BYTES, invoke
 
 
 def digest(path: Path) -> str:
@@ -60,7 +60,9 @@ def trace_info(cnf: Path, lrat: Path) -> dict:
 
 def replay(args: argparse.Namespace, source: Path) -> dict:
     resource.setrlimit(resource.RLIMIT_AS, (3 * 1024**3, 3 * 1024**3))
-    resource.setrlimit(resource.RLIMIT_FSIZE, (256 * 1024**2, 256 * 1024**2))
+    resource.setrlimit(
+        resource.RLIMIT_FSIZE, (FILE_SIZE_LIMIT_BYTES, FILE_SIZE_LIMIT_BYTES)
+    )
     relative = source.parent.relative_to(args.inputs)
     dest = args.out / "cases" / relative
     dest.mkdir(parents=True)
@@ -115,6 +117,7 @@ def replay(args: argparse.Namespace, source: Path) -> dict:
                 str(source),
                 str(lrat),
                 str(proof),
+                "--raw",
             ],
             90,
         ),
@@ -174,6 +177,14 @@ def replay(args: argparse.Namespace, source: Path) -> dict:
             for path in dest.iterdir()
             if path.suffix in (".ump", ".umd", ".cnf", ".lrat")
         }
+        row["removed_success_artifacts"] = []
+        if (
+            row["status"] == "kernel_proven"
+            and args.keep_success_artifacts == "certificates"
+        ):
+            for name in row["outputs"]:
+                (dest / name).unlink()
+                row["removed_success_artifacts"].append(name)
     except (OSError, ValueError, StopIteration) as error:
         row["status"] = "workflow_error"
         row["error"] = repr(error)
@@ -188,6 +199,9 @@ def main() -> None:
     parser.add_argument("--micromath-git", required=True)
     parser.add_argument("--workers", type=int, choices=range(1, 5), default=4)
     parser.add_argument("--reuse-lrat", action="store_true")
+    parser.add_argument(
+        "--keep-success-artifacts", choices=("all", "certificates"), default="all"
+    )
     args = parser.parse_args()
     if not os.environ.get("SLURM_JOB_ID"):
         parser.error("checker batches require a SLURM allocation")
@@ -214,7 +228,9 @@ def main() -> None:
         "workers": args.workers,
         "input_count": len(sources),
         "worker_address_space_gib": 3,
-        "worker_file_limit_mib": 256,
+        "worker_file_limit_mib": FILE_SIZE_LIMIT_BYTES // 1024**2,
+        "proof_export_mode": "raw",
+        "keep_success_artifacts": args.keep_success_artifacts,
         "pipeline_seconds": 180,
         "stage_limits_seconds": {
             "conflicts": 15,
@@ -279,6 +295,7 @@ def main() -> None:
                 json.dumps({k: v for k, v in summary.items() if k != "rows"}),
                 flush=True,
             )
+            del futures[future]
     if not summary["all_kernel_proven"]:
         raise SystemExit(1)
 

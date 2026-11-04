@@ -72,7 +72,7 @@ for variant in original erased-multisort; do
     ./smt/prove-cnf "$case_dir/input.primo" "$case_dir/problem.cnf" \
       "$case_dir/problem.lrat" --cadical "$CADICAL_DIR/build/cadical" > "$case_dir/cnf.log" 2>&1
     ./smt/prove-lrat "$case_dir/challenge.umd" "$case_dir/input.primo" \
-      "$case_dir/problem.lrat" "$case_dir/solution.ump" > "$case_dir/proof.log" 2>&1
+      "$case_dir/problem.lrat" "$case_dir/solution.ump" --raw > "$case_dir/proof.log" 2>&1
     ./check-solution "$case_dir/challenge.umd" "$case_dir/solution.ump" > "$case_dir/check.log" 2>&1
     grep -F 'challenge proven' "$case_dir/check.log"
   done
@@ -120,6 +120,7 @@ result = {
     'cadical_git': os.environ['CADICAL_GIT'],
     'primo_git': os.environ['PRIMO_EXPECTED_GIT'],
     'reused_external_build': os.environ.get('MICROMATH_REUSE_BUILD') == '1',
+    'proof_export_mode': 'raw',
     'binary_sha256': {name: hashlib.sha256(Path(path).read_bytes()).hexdigest() for name, path in {'primo': os.environ['PRIMO_BINARY'], 'cadical': str(Path(os.environ['CADICAL_DIR']) / 'build/cadical'), 'check-solution': str(Path(os.environ['MICROMATH_DIR']) / 'check-solution')}.items()},
     'job_id': os.environ['SLURM_JOB_ID'],
     'input_sha256': {name: hashlib.sha256((Path(os.environ['PRIMO_SOURCE_DIR']) / 'docs/examples' / name).read_bytes()).hexdigest() for name in ('qf-uf-export.smt2', 'qf-uf-export-multisort.smt2')},

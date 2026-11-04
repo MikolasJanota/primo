@@ -19,6 +19,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 from pathlib import Path
 
 MODES = ("none", "core", "mus")
+FILE_SIZE_LIMIT_BYTES = 1024**3
 
 
 def digest(path: Path) -> str:
@@ -116,7 +117,9 @@ def select(args: argparse.Namespace) -> dict:
 def run_case(args: argparse.Namespace, index: int, case: dict) -> dict:
     # Each worker and its children share explicit per-process resource ceilings.
     resource.setrlimit(resource.RLIMIT_AS, (3 * 1024**3, 3 * 1024**3))
-    resource.setrlimit(resource.RLIMIT_FSIZE, (256 * 1024**2, 256 * 1024**2))
+    resource.setrlimit(
+        resource.RLIMIT_FSIZE, (FILE_SIZE_LIMIT_BYTES, FILE_SIZE_LIMIT_BYTES)
+    )
     directory = args.out / "cases" / f"{index:03d}"
     directory.mkdir(parents=True)
     source = args.corpus / case["file"]
@@ -196,6 +199,7 @@ def run_case(args: argparse.Namespace, index: int, case: dict) -> dict:
                     str(exported),
                     str(trial / "problem.lrat"),
                     str(trial / "solution.ump"),
+                    "--raw",
                 ],
                 30,
             ),
@@ -364,7 +368,8 @@ def main() -> None:
             "kernel": 10,
         },
         "as_limit_bytes_per_worker_and_child": 3 * 1024**3,
-        "file_size_limit_bytes": 256 * 1024**2,
+        "file_size_limit_bytes": FILE_SIZE_LIMIT_BYTES,
+        "proof_export_mode": "raw",
         "binary_sha256": {
             name: digest(Path(path))
             for name, path in {

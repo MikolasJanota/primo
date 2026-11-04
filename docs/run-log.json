@@ -3,6 +3,218 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-04-micromath-raw-export",
+      "date": "2026-11-04",
+      "kind": "Micromath-raw-export-update",
+      "evidence_status": "Raw workflow qualified on all3 saved failures;805-case checker recheck running",
+      "commit": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+      "workflow_baseline_git": "0d17c40b",
+      "micromath_git": "48addc4b6843122a970560199769919e90e31cd3",
+      "cadical_git": "7b99c07f0bcab5824a5a3ce62c7066554017f641",
+      "report": "docs/coverage/micromath-raw-export.json",
+      "jobs": {
+        "qualification": "347769",
+        "header_setup_failure": "347768",
+        "corpus_recheck": "347770"
+      },
+      "limits": {
+        "worker_address_space_gib": 3,
+        "worker_file_limit_mib": 1024,
+        "pipeline_seconds": 180,
+        "stage_limits_seconds": {
+          "conflicts": 15,
+          "challenge": 15,
+          "cnf": 30,
+          "proof": 90,
+          "kernel": 45
+        },
+        "termination_grace_seconds": 2
+      },
+      "qualification": {
+        "status": "passed",
+        "allocation": {
+          "cpus": 4,
+          "memory_gib": 16,
+          "wall_minutes": 30
+        },
+        "elapsed": "00:00:48",
+        "upstream": "make check passed",
+        "workflow_regressions": 6,
+        "saved_failure_kernel_proofs": 3,
+        "corrupt_proof_exit_code": 1,
+        "compile_flags": "upstream defaults: gcc -O2 -g -Wall -Wextra; matching pre-provisioned C headers via C_INCLUDE_PATH",
+        "setup_failure": "First build lacked standard C headers; it stopped before tests/replays. Reused matching provisioned C/header roots and rebuilt unchanged upstream source.",
+        "artifacts": "results/micromath-raw-qualification-347769",
+        "cases": [
+          {
+            "name": "smallest-input",
+            "original_case_index": 2494,
+            "input_sha256": "717e489b64613c2708e72422aa66cc325514e44f2af3125625dba314acee0e77",
+            "status": "kernel_proven",
+            "trace": {
+              "dimacs_variables": 625,
+              "largest_lrat_variable": 565,
+              "introduces_variables": false,
+              "additions_with_negative_hints": 0
+            },
+            "source_files": {
+              "input": {
+                "sha256": "717e489b64613c2708e72422aa66cc325514e44f2af3125625dba314acee0e77",
+                "bytes": 197048
+              },
+              "challenge": {
+                "sha256": "5f445e4e61e883f5ed96ac9dd2031fc869d41cc36f5a212d99eedae0f6c74834",
+                "bytes": 226482
+              },
+              "lrat": {
+                "sha256": "49ad59d8683742d5cff5602ba32adfd20a13389f426fc086618389240653a0d1",
+                "bytes": 2746120
+              }
+            },
+            "outputs": {
+              "solution.ump": {
+                "sha256": "f7bdda4d3b4b1cb7359d30c54ac5b6882bbe16401c353b318bd5316400b20ceb",
+                "bytes": 160254817
+              }
+            },
+            "stage_seconds": {
+              "conflicts": 0.021511062994250096,
+              "proof": 3.021441909004352,
+              "kernel": 2.1223708969919244
+            },
+            "proof_arguments": [
+              "challenge.umd",
+              "input.primo",
+              "problem.lrat",
+              "solution.ump",
+              "--raw"
+            ]
+          },
+          {
+            "name": "smallest-replay",
+            "original_case_index": 2019,
+            "input_sha256": "51716f79d8de036a42c56edac5c6c6034b2714029dd7036fb785b04c6ac52b3f",
+            "status": "kernel_proven",
+            "trace": {
+              "dimacs_variables": 700,
+              "largest_lrat_variable": 673,
+              "introduces_variables": false,
+              "additions_with_negative_hints": 0
+            },
+            "source_files": {
+              "input": {
+                "sha256": "51716f79d8de036a42c56edac5c6c6034b2714029dd7036fb785b04c6ac52b3f",
+                "bytes": 260826
+              },
+              "challenge": {
+                "sha256": "43afed6f046396be75229a8f761b38ae1ab11b5b9be528ce6a9e61ab44cb5527",
+                "bytes": 258768
+              },
+              "lrat": {
+                "sha256": "0c215a6bfae20f9e06d01f518c6a3b5e40059fd00f3664bea11f024f54f5f4e0",
+                "bytes": 2077456
+              }
+            },
+            "outputs": {
+              "solution.ump": {
+                "sha256": "39facbd39789783f2fd3c9045586085b57164ec3bbf577c54782d993b269c58e",
+                "bytes": 108282476
+              }
+            },
+            "stage_seconds": {
+              "conflicts": 0.06991431799542625,
+              "proof": 3.672719269001391,
+              "kernel": 1.4712911849928787
+            },
+            "proof_arguments": [
+              "challenge.umd",
+              "input.primo",
+              "problem.lrat",
+              "solution.ump",
+              "--raw"
+            ]
+          },
+          {
+            "name": "zero-lemmas",
+            "original_case_index": 3884,
+            "input_sha256": "82f2c054ccaa1d4e64e380a33124b7d64b8b7db872a0872cf8a56d3c1177e828",
+            "status": "kernel_proven",
+            "trace": {
+              "dimacs_variables": 1098,
+              "largest_lrat_variable": 1090,
+              "introduces_variables": false,
+              "additions_with_negative_hints": 0
+            },
+            "source_files": {
+              "input": {
+                "sha256": "82f2c054ccaa1d4e64e380a33124b7d64b8b7db872a0872cf8a56d3c1177e828",
+                "bytes": 287482
+              },
+              "challenge": {
+                "sha256": "534c92220c146a511c327622a4b74d2b8f783a24584bf42735a8e02d212fdf31",
+                "bytes": 520460
+              },
+              "lrat": {
+                "sha256": "eef7c4714648d161348c8cab8731461489eeeaaceb0997b97835f7b0207aadb4",
+                "bytes": 7185912
+              }
+            },
+            "outputs": {
+              "solution.ump": {
+                "sha256": "f5a73e8525a7138ff18d02fbdf2298eb0d93a36cbfad5f596d616118ec01b6a3",
+                "bytes": 423086128
+              }
+            },
+            "stage_seconds": {
+              "conflicts": 0.037657252003555186,
+              "proof": 8.881018797008437,
+              "kernel": 3.373841022999841
+            },
+            "proof_arguments": [
+              "challenge.umd",
+              "input.primo",
+              "problem.lrat",
+              "solution.ump",
+              "--raw"
+            ]
+          }
+        ]
+      },
+      "recheck": {
+        "status": "running",
+        "job_id": "347770",
+        "expected": 805,
+        "original_outcomes": {
+          "proof_error_OOM": 799,
+          "proof_timeout": 2,
+          "challenge_timeout": 4
+        },
+        "reuse_saved_challenge_CNF_LRAT": 801,
+        "fresh_challenge_and_LRAT_from_saved_certificate": 4,
+        "allocation_per_shard": {
+          "cpus": 4,
+          "memory_gib": 16,
+          "wall_hours": 2
+        },
+        "shards": 4,
+        "keep_success_artifacts": "certificates",
+        "remote": "$EXTERNAL_WORKSPACE/raw-recheck-347770",
+        "scope": "Only saved checker failures; no new native SMT solves. Original certificate/input hashes verified before replay. Successful generated payloads discarded after hashing and kernel checking."
+      },
+      "commands": {
+        "prepare": "Canonical slurm_prepare_benchmark_workspace.py --build-via-slurm --check-only against qualified cf82b726 native workspace before sbatch.",
+        "upstream": "Archive official Micromath48addc4b6843122a970560199769919e90e31cd3; build make -j4 and run make check in SLURM.",
+        "qualification": "python3 scripts/micromath_replay.py --micromath CHECKER --micromath-git 48addc4b6843122a970560199769919e90e31cd3 --cadical CADICAL --inputs UNPACKED_THREE_ARCHIVES --out OUTPUT --workers 3 --reuse-lrat",
+        "recheck": "Same replay driver, four workers per shard, --keep-success-artifacts certificates; --reuse-lrat for the801 existing traces, fresh mode for the4 challenge timeouts."
+      },
+      "scope": [
+        "Use the author-recommended public --raw option; no checker implementation changes or internal investigation.",
+        "The mode, checker revision and per-file cap changed together. No isolated speedup claim is made. Historical compact results and immutable reproducer archives retain original pins/options.",
+        "Raw generation and independent kernel replay use the same original three saved input/challenge/LRAT bytes; the largest new proof exceeds the old256MiB file cap.",
+        "No native C++ behavior changes, native queries, printed SAT-model validation or source-to-CNF proof. Native suites/fuzz/ASan/tidy were not rerun; prior producer qualification remains separate."
+      ]
+    },
+    {
       "id": "2026-11-03-micromath-core-sweep-completed",
       "date": "2026-11-03",
       "kind": "completed-CORE-certificate-sweep-and-small-resource-replays",

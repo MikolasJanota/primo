@@ -31,6 +31,8 @@ def load(name):
 
 STRESS = load("micromath_stress")
 SELECTOR = load("select_micromath_fast_cases")
+with mock.patch.dict(sys.modules, {"micromath_stress": STRESS}):
+    REPLAY = load("micromath_replay")
 
 
 class ImmediatePool:
@@ -50,6 +52,115 @@ class ImmediatePool:
 
 
 class MicromathWorkflowTests(unittest.TestCase):
+    def test_raw_replay_preserves_sources_and_discards_only_successful_outputs(self):
+        for confirmed in (True, False):
+            with (
+                self.subTest(confirmed=confirmed),
+                tempfile.TemporaryDirectory() as temporary,
+            ):
+                root = Path(temporary)
+                source = root / "inputs" / "case"
+                source.mkdir(parents=True)
+                for name in (
+                    "input.primo",
+                    "challenge.umd",
+                    "problem.cnf",
+                    "problem.lrat",
+                ):
+                    (source / name).write_text(
+                        "p cnf 0 1\n" if name == "problem.cnf" else "0\n"
+                    )
+                before = {p.name: p.read_bytes() for p in source.iterdir()}
+                args = SimpleNamespace(
+                    inputs=source.parent,
+                    out=root / "out",
+                    reuse_lrat=True,
+                    micromath=root,
+                    cadical=root / "cadical",
+                    keep_success_artifacts="certificates",
+                )
+                commands = []
+
+                def invoke(
+                    command, cwd, log, timeout, commands=commands, confirmed=confirmed
+                ):
+                    commands.append(command)
+                    if log.name == "proof":
+                        self.assertEqual(command[-1], "--raw")
+                        Path(command[-2]).write_bytes(b"proof")
+                    output = "challenge proven\n" if confirmed else "unconfirmed\n"
+                    log.with_suffix(".out").write_text(output)
+                    log.with_suffix(".err").write_text("")
+                    return {
+                        "state": "ok",
+                        "stdout": str(log.with_suffix(".out")),
+                        "stderr": str(log.with_suffix(".err")),
+                    }
+
+                with (
+                    mock.patch.object(REPLAY, "invoke", invoke),
+                    mock.patch.object(REPLAY.resource, "setrlimit") as limits,
+                    mock.patch.object(REPLAY, "trace_info", return_value={}),
+                ):
+                    row = REPLAY.replay(args, source / "input.primo")
+                self.assertEqual(
+                    [Path(c[0]).name for c in commands],
+                    ["check-conflicts", "prove-lrat", "check-solution"],
+                )
+                limits.assert_any_call(REPLAY.resource.RLIMIT_FSIZE, (1024**3, 1024**3))
+                self.assertEqual(
+                    {p.name: p.read_bytes() for p in source.iterdir()}, before
+                )
+                self.assertEqual(
+                    (args.out / "cases/case/solution.ump").exists(), not confirmed
+                )
+                self.assertEqual(
+                    row["removed_success_artifacts"],
+                    ["solution.ump"] if confirmed else [],
+                )
+
+    def test_stress_uses_raw_proof_export_and_one_gib_file_limit(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "input.smt2").write_text("source")
+            args = SimpleNamespace(
+                out=root / "out",
+                corpus=root,
+                micromath=root,
+                reference="reference",
+                reference_timeout=1,
+                modes=["core"],
+                primo="primo",
+                mode_budget=60,
+                admission_timeout=5,
+                export_timeout=30,
+                cadical="cadical",
+                keep_success_artifacts="all",
+            )
+
+            def invoke(command, cwd, log, timeout):
+                if log.name == "proof":
+                    self.assertEqual(command[-1], "--raw")
+                log.with_suffix(".out").write_text(
+                    "challenge proven\n" if log.name == "kernel" else "unsat\n"
+                )
+                log.with_suffix(".err").write_text("")
+                return {
+                    "state": "ok",
+                    "stdout": str(log.with_suffix(".out")),
+                    "stderr": str(log.with_suffix(".err")),
+                    "exit_code": 0,
+                }
+
+            case = {"file": "input.smt2", "sha256": STRESS.digest(root / "input.smt2")}
+            with (
+                mock.patch.object(STRESS, "invoke", invoke),
+                mock.patch.object(STRESS.resource, "setrlimit") as limits,
+            ):
+                row = STRESS.run_case(args, 0, case)
+            limits.assert_any_call(STRESS.resource.RLIMIT_FSIZE, (1024**3, 1024**3))
+            self.assertEqual(row["profiles"][0]["status"], "kernel_proven")
+
     def test_uncapped_selection_and_boolean_signature_filter(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

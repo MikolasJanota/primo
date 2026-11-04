@@ -150,17 +150,25 @@ Boolean arguments, positive-arity Boolean-valued functions or Boolean conflict f
 
 ## Checking with Micromath
 
-[Micromath's SMT tools](https://git.olsak.net/mirek/Micromath/src/commit/ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/README.md)
+[Micromath's SMT tools](https://git.olsak.net/mirek/Micromath/src/commit/48addc4b6843122a970560199769919e90e31cd3/smt/README.md)
 consume this container directly. The current tested pin is
-`ac052d97ea441ca52cfd0a6b904fad8d34098a8e`. It fixes the saved Goel weakening-mask failure and
-adds `--no-factor` to proof generation. All eighteen certificates in the six-input
-stress set now have independent kernel proofs (job `345415`); see the
-{download}`update report <../coverage/micromath-fixes.json>`.
+`48addc4b6843122a970560199769919e90e31cd3`, including the later SAT optimizations.
+Current proof-generation workflows pass `--raw`, as recommended in the
+[upstream resource notes](https://git.olsak.net/mirek/Micromath/src/commit/48addc4b6843122a970560199769919e90e31cd3/smt/Proof-notes.md).
+This streams proof steps during generation. Driver workers retain the 3 GiB
+address-space cap and allow 1 GiB per output file for the larger raw proofs.
+The mode and file cap are recorded in provenance.
+
+The earlier `ac052d97ea441ca52cfd0a6b904fad8d34098a8e` pin fixed the saved Goel
+weakening-mask failure and added `--no-factor` to SAT proof generation.
+All eighteen certificates in the six-input stress set had independent kernel
+proofs at that pin (job `345415`); see the
+{download}`historical update report <../coverage/micromath-fixes.json>`.
 
 Earlier qualification used `df5c5d3` and `505588a`; the
 {download}`SAT-optimization comparison <../coverage/micromath-sat-update.json>`
 retains their historical counters. Those measurements are not attributed to the
-new pin. Its [input specification](https://git.olsak.net/mirek/Micromath/src/commit/ac052d97ea441ca52cfd0a6b904fad8d34098a8e/smt/Primo.md)
+new pin. Its [input specification](https://git.olsak.net/mirek/Micromath/src/commit/48addc4b6843122a970560199769919e90e31cd3/smt/Primo.md)
 supports exactly one uninterpreted object sort, functions from objects to
 objects, and propositional Boolean variables in CNF. Conflicts contain object
 equalities/disequalities or truth constants. Multiple object sorts,
@@ -172,7 +180,7 @@ Download the external checkout into the ignored dependency directory:
 
 ```bash
 git clone https://git.olsak.net/mirek/Micromath.git contrib/src/micromath
-git -C contrib/src/micromath checkout ac052d97ea441ca52cfd0a6b904fad8d34098a8e
+git -C contrib/src/micromath checkout 48addc4b6843122a970560199769919e90e31cd3
 ```
 
 Build Micromath with `make` in that checkout and provide a CaDiCaL executable
@@ -180,7 +188,7 @@ with text LRAT support. Its SMT regression suite needs Python 3.10 or newer;
 `MICROMATH_PYTHON` selects an interpreter for the batch workflow.
 `MICROMATH_REUSE_BUILD=1` explicitly reuses already built external binaries;
 the report records that choice and their hashes. On this project's cluster, building and batch checking
-belong in SLURM. The optional {micromathworkflowsource}`Micromath workflow <scripts/slurm_micromath_check.sbatch>`
+belong in SLURM. The optional {download}`Micromath workflow <../../scripts/slurm_micromath_check.sbatch>`
 builds both external tools inside its allocation, runs Micromath's `make
 check-smt`, and checks fresh artifacts from all three export-reduction modes, both for
 the ordinary single-sort example and the erased multi-sort example.
@@ -200,7 +208,7 @@ mkdir -p "$proof_dir"
 ./build-axioms --fragment equality "$proof_dir/axioms.umd"
 ./smt/build-challenge "$proof_dir/axioms.umd" "$certificate" "$proof_dir/challenge.umd"
 ./smt/prove-cnf "$certificate" "$proof_dir/problem.cnf" "$proof_dir/problem.lrat" --cadical "$cadical"
-./smt/prove-lrat "$proof_dir/challenge.umd" "$certificate" "$proof_dir/problem.lrat" "$proof_dir/solution.ump"
+./smt/prove-lrat "$proof_dir/challenge.umd" "$certificate" "$proof_dir/problem.lrat" "$proof_dir/solution.ump" --raw
 ./check-solution "$proof_dir/challenge.umd" "$proof_dir/solution.ump"
 ```
 
@@ -425,7 +433,7 @@ and `CORE_PROFILE_BUDGET` (60 seconds shared across export and proof stages).
 Downstream stage limits remain 10/10/15/30/10 seconds for conflict checking,
 challenge construction, CNF generation, proof construction and kernel replay,
 with two seconds of termination grace. Each worker and child has 3 GiB address
-space and a 256 MiB per-file cap. Timeouts remain distinct from checker errors;
+space and a 1 GiB per-file cap in the current driver. Timeouts remain distinct from checker errors;
 export statistics retain main-UNSAT evidence even when reduction times out.
 Reference statuses are recorded separately and never replace kernel checking.
 
@@ -510,6 +518,34 @@ it runs the original failed proof-generation stage with resource limits.
 - {download}`Replay with smallest certificate (892 KiB) <../../benchmarks/checker-regressions/micromath-resource-20261103/smallest-input.tar.gz>`
 - {download}`Replay without theory lemmas (1.46 MiB) <../../benchmarks/checker-regressions/micromath-resource-20261103/zero-lemmas.tar.gz>`
 
+### Raw replay with the current checker
+
+Micromath `48addc4` was built and checked in SLURM job `347769`. The upstream
+`make check` suite and six workflow regressions passed. The three saved memory
+failures above were replayed using exactly their original input, challenge and
+LRAT bytes, with `--raw`: all three generated proofs and passed independent
+kernel replay. A corrupt-proof control was rejected.
+
+| Saved case | Raw proof bytes | Kernel result |
+|---|---:|---|
+| Smallest certificate | 160,254,817 | Proven |
+| Smallest complete replay | 108,282,476 | Proven |
+| No theory lemmas | 423,086,128 | Proven |
+
+Workers kept the 3 GiB address-space limit and used a 1 GiB per-file limit.
+The last proof exceeds the historical 256 MiB cap. This update changes the
+checker revision and export mode together; these observations do not isolate
+an optimization's performance effect. Historical compact-mode reports and
+failure archives retain their original options and byte identities.
+
+Array `347770` is rechecking all 805 prior checker failures from saved
+certificates: 801 reuse their original challenge/CNF/LRAT, and the four old
+challenge timeouts rebuild those downstream inputs. No native SMT query is
+repeated. Successful generated payloads are discarded after hashing and kernel
+confirmation, with source inputs and metadata retained. The
+{download}`raw export report <../coverage/micromath-raw-export.json>` records
+pins, limits, qualification evidence and the separate recheck status.
+
 ### Replaying saved certificates without Primo
 
 The {download}`replay driver <../../scripts/micromath_replay.py>` reads saved
@@ -520,7 +556,7 @@ the external tools through the existing
 runs Primo or mutates saved input files. Supply a fresh `--out` directory:
 
 ```bash
-python3 scripts/micromath_replay.py --micromath "$micromath" --micromath-git ac052d97ea441ca52cfd0a6b904fad8d34098a8e --cadical "$cadical" --inputs "$saved_certificates" --out "$proof_dir" --workers 4
+python3 scripts/micromath_replay.py --micromath "$micromath" --micromath-git 48addc4b6843122a970560199769919e90e31cd3 --cadical "$cadical" --inputs "$saved_certificates" --out "$proof_dir" --workers 4
 ```
 
 Run the driver within SLURM. `--reuse-lrat` instead reads each input's adjacent
@@ -530,14 +566,19 @@ is hashed for provenance in both modes; saved-trace mode does not execute it.
 
 A parent process owns result records and atomically replaces `summary.json`;
 workers own separate output directories and synchronous subprocess stages.
-Logs and generated proof files remain on disk. Hashing streams files through
+By default, logs and generated proof files remain on disk. Hashing streams files through
 1 MiB buffers. The driver also records input/challenge/trace hashes, tool hashes,
 DIMACS/LRAT variable counts, command lines, exit statuses and phase times.
 It checks that each certificate's hash remains unchanged through replay.
+`--keep-success-artifacts certificates` discards generated proof/challenge/trace
+payloads only after successful kernel replay and hashing, while retaining saved
+source inputs, logs and metadata. The default `all` retains generated payloads.
+Removed output names are recorded in `removed_success_artifacts`.
 This is an original orchestration workflow, not another SAT or theory checker.
 
 Each of at most four workers and its children has a 3 GiB address-space limit
-and 256 MiB per-file limit. Subprocess stages share a 180-second budget, with
+and 1 GiB per-file limit. Proof generation always requests `--raw`. Subprocess
+stages share a 180-second budget, with
 individual limits of 15 seconds for conflicts/challenge, 30 for CNF generation,
 90 for proof construction and 45 for kernel replay, plus a two-second
 termination grace. Subsequent metadata parsing and hashing are outside that
@@ -546,7 +587,8 @@ pipeline budget; the allocation's wall limit bounds the complete job.
 `Inconsistency proven!`, a mere zero exit, errors and timeouts do not count.
 Other outcomes retain their stage logs, and the driver exits nonzero unless
 every input is kernel-verified. These limits and the saved/regenerated modes
-were exercised in job `345415`.
+were exercised in job `345415` with compact export and a 256 MiB file cap.
+Current raw workflows use the larger cap described above.
 
 ## Container and literal syntax
 
