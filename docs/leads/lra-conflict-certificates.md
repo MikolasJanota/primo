@@ -13,6 +13,12 @@ proof obligations. We can check those operations directly for one compact
 record. Expanding it into a general proof language or a large trace of
 intermediate inequalities is unnecessary for this first extension.
 
+**Planned production strategy:** collect theory clauses during the normal solve,
+select the retained clauses with the existing propositional CORE/MUS oracle,
+then reconstruct weights only for those retained clauses. No coefficient
+history is required in the main LRA search. This is a proposed implementation
+order, not a change already made to Primo.
+
 ## Proposed version 2 syntax and meaning
 
 Use an explicit version increment; do not reinterpret version 1. Initially,
@@ -54,10 +60,11 @@ record order has no mathematical significance.
 
 Coefficients are nonnegative exact rationals: integer numerals or `(/ N D)`
 with nonnegative integer numerator and positive integer denominator. No decimal
-floating-point approximation is permitted. The exporter should omit zero
-coefficients; a checker may accept them, but they contribute neither a numeric
-sum nor strictness. An empty record cannot pass the arithmetic contradiction
-check. Affine term constants may additionally be signed rationals, and SMT-LIB
+floating-point approximation is permitted. The initial producer retains the
+selected fact sequence, including premises whose reconstructed coefficient is
+zero. This preserves the exact selected theory clause; zero coefficients
+contribute neither a numeric sum nor strictness. An empty record cannot pass
+the arithmetic contradiction check. Affine term constants may additionally be signed rationals, and SMT-LIB
 decimal constants must have their exact rational meaning.
 
 ## Independent arithmetic check
@@ -150,19 +157,176 @@ The current {micromathpipesource}`QfUfConflictCollector
 returns premise literals without exporting multipliers. Adding a format tag
 alone does not supply the required arithmetic evidence.
 
-An implementation must preserve the coefficients and scaling that connect a
-conflict to its exported atoms. Expand internal slack definitions and derived
-bounds into justified exported premises. An internal tableau identity or bound
-must not become an unproved extra assumption. SAT sees only the resulting
-lemma clause; arithmetic witness construction belongs to the theory/SMT
-explanation boundary, and serialization belongs to the export layer.
+The witness must be reconstructed from the selected exported facts themselves,
+including their exact coefficients, constants and signed-literal polarity.
+Internal slack definitions or derived bounds are not additional assumptions.
+Reconstructing from these facts avoids depending on the main tableau's current
+basis, its pivot history or its earlier normalization scale. SAT sees only the
+lemma clause; the export-side reconstruction context owns coefficient search,
+and the independent checker validates the resulting weighted combination.
 
 Keep record serialization incremental using the existing
 {micromathpipesource}`ConflictSpool <src/smtlib/conflict_spool.hpp>` ownership
 model rather than accumulating formatted proof strings. The SAT-based CORE/MUS
-oracle should continue selecting whole theory clauses against the fixed input
-CNF; retained records carry their witnesses unchanged. Selectors remain private
-to reduction. Literal-level conflict minimization is a different operation.
+oracle continues selecting whole theory clauses against the fixed input CNF;
+the selected records receive witnesses afterwards. Selectors remain private to
+reduction. Literal-level conflict minimization is a different operation.
+
+## Reconstructing coefficients after lemma selection
+
+This is the preferred initial design. The reduction oracle needs the numeric
+SAT clauses, not arithmetic witnesses. Each retained clause must independently
+be valid in LRA, so its complemented facts form an inconsistent arithmetic
+conjunction without the rest of the input CNF or the main solver's trail.
+Reconstructing only these conjunctions avoids constructing and retaining
+weights for lemmas discarded by CORE/MUS. It trades that work and storage for
+an additional exact feasibility problem per retained lemma; a speed or total
+memory improvement must be measured, not assumed.
+
+### Export phases and retained state
+
+1. **Solve and collect.** Capture the prepared CNF and the complete theory
+   conflict/reason clauses actually sent to SAT. Keep stable record indices and
+   query-owned SAT-variable-to-atom bindings. Preserve the term manager until
+   reconstruction and final writing finish. Collect literals, not snapshots of
+   tableau states or histories of coefficients.
+2. **Select whole lemmas.** Run the existing propositional CORE/MUS reduction
+   against the fixed CNF. For `none`, retain all collected records. For an empty
+   selected set, perform no coefficient reconstruction. Arithmetic checking is
+   not the reduction oracle: every valid theory lemma would be redundant to an
+   SMT solver with the same theory available.
+3. **Reconstruct one retained record.** Read its numeric literals, complement
+   them into facts, and derive their exact affine forms and strictness flags
+   using the original atom bindings. Search for weights in a fresh arithmetic
+   context, using no other input clauses, collected lemmas or main-solver
+   bounds. Propagation reasons use their antecedents plus the negated
+   conclusion, exactly as specified above.
+4. **Check and stage.** Pass the candidate to the small exact accumulator
+   checker, which checks the facts rather than trusting the reconstruction
+   context's private rows. Stream the checked weighted record to a private
+   output section, release its temporary matrix/tableau/weight vector, then
+   process the next selected record.
+5. **Publish.** Only after every selected witness checks, assemble the version-2
+   signature, unchanged CNF and weighted conflicts. A later independent
+   propositional refutation must use the same clauses and atom mapping. The
+   artifact's completeness does not certify source-to-CNF conversion.
+
+CORE/MUS can reuse the existing retained numeric CNFs. For `none`, do not add
+an unbounded in-memory vector of every clause merely to defer reconstruction:
+stage numeric lemma records in a query-owned temporary spool and read them
+successively. A private numeric spool belongs in the SMT/export layer, where
+SAT literals have meaning; the existing generic text `ConflictSpool` must not
+gain SAT or arithmetic dependencies. Do not parse expanded SMT-LIB text back
+into clauses to feed reconstruction. Weighted output remains disk-backed;
+string accumulation is unnecessary in either mode.
+
+### Recovering weights as an ordinary exact feasibility model
+
+Let a retained record have $m$ normalized premises, with coefficient matrix
+$M\in\mathbb Q^{m\times n}$, right-hand-side vector $b\in\mathbb Q^m$,
+and strictness vector $s\in\{0,1\}^m$. Entry $s_i$ is one exactly when premise
+$i$ is strict. Use sparse rows and only variables occurring in this record;
+do not allocate a matrix indexed by the whole query's term-manager capacity.
+Introduce one unknown multiplier $\lambda_i$ per premise and
+solve the following **non-strict rational linear feasibility** problem:
+
+$$
+\lambda\ge0,\qquad M^T\lambda=0,\qquad
+b^T\lambda\le0,\qquad (s-b)^T\lambda=1.
+$$
+
+This normalization is our construction from the certificate criterion, not a
+new rule required in the public format. Write $B=b^T\lambda$ and
+$T=s^T\lambda$. Nonnegativity gives $T\ge0$. The last two constraints imply
+$B\le0$ and $T-B=1$, hence either $B<0$ or $B=0$ and $T>0$. The resulting
+weights therefore satisfy the independent arithmetic check. Conversely, any
+valid weighted contradiction has $T-B>0$; dividing all its weights by that
+positive rational makes $T-B=1$ without changing cancellation or validity.
+Thus the normalization does not lose witnesses.
+
+Here $M$, $b$ and $s$ belong to the temporary reconstruction context. The
+external arithmetic validator must derive its own affine forms from the
+serialized facts; rechecking the producer's already-normalized matrix would
+not independently validate that matrix's connection to the artifact.
+
+Motzkin's transposition theorem supplies the existence of such weights for
+inconsistent conjunctions of strict and non-strict linear inequalities over
+the supported rational/real domains; see Leike and Heizmann,
+*Ranking Templates for Linear Loops*, §6.1, Theorem 6.1
+{cite:p}`LeikeHeizmann2015Ranking`. The reading scope for that citation is the
+field convention in §2 and §6.1, not the paper's ranking-template algorithms.
+Our normalized system is linear because all coefficients of the exported
+premises are fixed rationals. No optimization objective is needed.
+
+The proposed first implementation builds this private feasibility system using
+the existing {micromathpipesource}`LraTableau
+<src/theory/arithmetic/lra_tableau.hpp>` machinery: multiplier variables,
+non-strict lower bounds, rows for the equalities and auxiliary affine
+expressions, then `check()` and `assignment()`. Its satisfying assignment is
+the certificate weight vector. It does not ask `check()` for a certificate of
+its own infeasibility, so it needs no coefficient-provenance extension to the
+main conflict API. Because this new system has only non-strict rational bounds,
+its candidate weights must be ordinary rationals; reject any unexpected
+nonzero infinitesimal component before using them. Source SAT literals and
+private feasibility reason labels must stay in separate namespaces.
+
+Concretely, allocate all multiplier variables and rows before asserting
+bounds. For each column $j$ of $M$, define an auxiliary variable
+$r_j=\sum_i M_{ij}\lambda_i$ and fix its lower and upper bounds to zero.
+Define $r_B=\sum_i b_i\lambda_i$ with upper bound zero and
+$r_N=\sum_i(s_i-b_i)\lambda_i$ with both bounds equal to one. Give each
+$\lambda_i$ lower bound zero. This uses `add_variable`, `add_row`,
+`assert_lower` and `assert_upper`; nonzero constants are bounds, so the
+tableau's homogeneous-row representation needs no extension. Either an
+immediate bound contradiction or a conflict from `check()` means no model
+was obtained, not a weight vector. The first reconstruction context can use
+the existing Bland policy, avoiding a new heuristic or performance claim.
+
+The current `LraTableau::check()` has no budget/cancellation argument and no
+inconclusive return value. Its existing API alone is therefore insufficient
+for bounded reconstruction. The implementation must provide a
+reconstruction-safe cooperative budget/cancellation hook inside the pivot loop
+and long-running reconstruction work, with an explicit interrupted outcome
+at the reconstruction boundary; interruption must never be interpreted as
+`check()`'s successful `nullopt` result. A killable isolated feasibility worker
+is an alternative if that hook is not introduced. Checks only between records
+are insufficient. The tests must interrupt inside a single feasibility check
+and confirm that no completed artifact is published. Cooperative checks do
+not promise a hard real-time bound on an individual exact-number operation;
+external process/allocation limits remain the final bound.
+
+For the strict example above, $\lambda=(1,1,1)$ has $B=0$ and $T=1$. For the
+non-unit example, $\lambda=(1,2,1)$ has $B=-1$ and $T=0$. Both already satisfy
+the normalization. Satisfiable premise sets, including a strict inequality
+given zero weight, must have no accepted reconstructed witness.
+
+### Clause identity, failure and cancellation
+
+A reconstructed vector may give some premises zero weight. Keep those
+premises in the emitted record initially: dropping them strengthens the theory
+clause. Although independently justified strengthening can preserve UNSAT, it
+changes the clause selected by CORE/MUS, can alter minimality and can invalidate
+a pre-existing propositional proof's clause references. Literal-level shrinking
+would require a separate design and rechecking. The external arithmetic
+checker must handle zero weights without giving them strictness.
+
+Reconstruction failure must not silently drop a selected lemma, substitute
+unchecked weights or borrow assumptions from the original problem. An
+infeasible reconstruction problem for an allegedly valid supported lemma is a
+diagnostic requiring investigation of the lemma, normalization or implementation.
+Timeout, cancellation and unsupported input are inconclusive, not evidence
+that the original query is SAT. Preserve the main-UNSAT status in diagnostics,
+report certificate generation as incomplete, and do not publish a completed
+artifact. Stage witnesses before opening the final output path; preserve the
+existing documented limitations on failures during final publication itself.
+
+For the initial implementation, use one fresh reconstruction context at a
+time. Record selected/reconstructed/failed lemma counts, premise counts,
+feasibility dimensions and nonzeros, pivot counts, largest coefficient sizes,
+phase times and peak memory. Bound reconstruction separately from main solving
+and CORE/MUS so postprocessing cannot be mistaken for failure to establish
+main UNSAT. Direct weight capture in the main solver remains a later option
+if measurements show that reconstruction dominates.
 
 An external checker should compute the weighted combination directly. A future
 translator may elaborate it into CPC scaling, summation and normalization steps,
@@ -175,9 +339,10 @@ Before describing an LRA exporter as implemented:
 
 1. Define version-2 parsing, exact rational syntax, supported affine expressions
    and rejection behavior. Keep version-1 interpretation unchanged.
-2. Produce exact weights over exported signed atoms, including direct-bound,
-   blocked-row and any enabled alternative conflict paths. Explain each
-   normalization/scaling boundary and internal-definition expansion. Include
+2. Reconstruct exact weights after whole-lemma selection, using only the
+   selected exported signed atoms. Cover direct-bound, blocked-row and any
+   enabled alternative conflict paths, without retaining their original
+   tableau histories. Explain normalization and private feasibility setup. Include
    theory-propagation reason clauses: a justification $P\Rightarrow l$ can be
    certified by recording the premises $P$ together with $\neg l$ as conflicting
    facts. State explicitly which propagation modes the first producer supports;
@@ -192,7 +357,9 @@ Before describing an LRA exporter as implemented:
    disequality branches. These validate the rule specification as well as its
    implementation.
 5. Retain streaming, cancellation and failure behavior; verify that CORE/MUS
-   preserves witnesses and that interrupted runs cannot publish a success.
+   preserves clause identities, discarded records trigger no reconstruction,
+   zero-weight premises remain in selected records, and interrupted or failed
+   reconstruction cannot publish a success.
 6. Record collected/retained conflicts, nonzero witness entries, coefficient
    sizes, certificate bytes and per-stage/checker memory/time. Run the required
    native, sanitizer and fresh fuzz gates on the implemented revision, followed
@@ -202,14 +369,27 @@ The certified starting point remains the exported CNF. This extension does not
 prove the original SMT script's preprocessing or clausification, solve LIA,
 verify an entire checker, or introduce incremental certification.
 
+Implement in reviewable milestones: first the independent version-2 arithmetic
+validator and rejection tests; then isolated post-selection reconstruction,
+its interruption mechanism and exact feasibility tests; then SAT-boundary LRA
+collection, numeric spooling
+and CORE/MUS integration; finally the required correctness gates and real-input
+SLURM evaluation. Keep the existing CLI shape: `--export-cnf FILE` and
+`--export-cnf-reduction=none|core|mus`, with one query and no new coefficient
+strategy option for the initial producer. Version 1 remains the QF_UF path;
+version 2 is planned for QF_LRA. No default reduction change is proposed.
+
 ## Sources and implementation status
 
 Reynolds et al., *The Cooperating Proof Calculus: Comprehensive Proofs for an
 SMT Solver* {cite:p}`ReynoldsEtAl2026CPC`, §§2.2–2.3, 3.2–3.5 and 4, is the
 primary design reference for scoped theory proofs, arithmetic operations,
 normalization and independent rule validation. The exact `conflict-lra` record,
-accumulator check and integration checklist above are our proposal, not CPC
+accumulator check, normalized reconstruction system and integration checklist
+above are our proposal, not CPC
 syntax or a claim that CPC's whole arithmetic calculus is implemented.
 The existing QF_UF export and LRA solver retain their documented behavior;
 the version-2 producer, arithmetic certificate checker, witness export and
-optional proof-language translation are unimplemented.
+optional proof-language translation are unimplemented. Motzkin's theorem is a
+mathematical basis for witness reconstruction, not a claim to implement
+Leike–Heizmann's synthesis procedure or an optimized LP algorithm from that paper.
