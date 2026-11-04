@@ -64,6 +64,19 @@ def models(directory: Path, rows: dict) -> dict:
             != hashlib.sha256(parent.read_bytes()).hexdigest()
         ):
             raise ValueError("replay parent identity mismatch")
+        answers_path = path.parents[1] / "answers.csv"
+        if (
+            identity["parent_answers_sha256"]
+            != hashlib.sha256(answers_path.read_bytes()).hexdigest()
+        ):
+            raise ValueError("replay parent answers identity mismatch")
+        with answers_path.open(newline="") as handle:
+            shard_sat = sum(
+                is_solved(row) and row["answer"] == "sat"
+                for row in csv.DictReader(handle)
+            )
+        if data["expected_sat"] != shard_sat:
+            raise ValueError("replay shard SAT selection differs from parent answers")
     selected = sum(is_solved(row) and row["answer"] == "sat" for row in rows.values())
     return {
         "selected_sat": selected,
@@ -149,7 +162,10 @@ def main() -> int:
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
     clean = all(
-        not r["wrong"] and not r["error"] and not r["z3_disagreements"]
+        not r["wrong"]
+        and not r["error"]
+        and not r["unsupported"]
+        and not r["z3_disagreements"]
         for r in result["runs"].values()
     )
     return (
