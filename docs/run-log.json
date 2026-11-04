@@ -18,7 +18,7 @@
         "binary": "Existing 5dec036 Release, CaDiCaL cadical-3.0.0-7b99c07; SHA-256 11d4d983bc11bca49f70032a89f25101dd077b7602fbc81da1e20b775f20ae68",
         "corpus": "Complete existing QF_LIA division, expected 13,306 files; per-input SHA-256 captured by benchmark_model_replay.py before timing and checked after it; input enumeration identical in both arms",
         "machine": "Existing Xeon E5-2690 v4 compute nodes; exact host and CPU metadata retained per task",
-        "model_limits": "Separate dependent replay job; 400 tasks, concurrency 64, two CPUs and 12 GiB each; no model checking overlaps the parent timing job."
+        "model_limits": "Separate dependent replay job; 400 tasks, final concurrency 80 (raised from 64 while still pending), two CPUs and 12 GiB each; no model checking overlaps the parent timing job."
       },
       "commands": {
         "runner": "scripts/qualification/lia_integrality/paired_replay.sbatch at 80506552, SHA-256 593c0b8ee55d6b2316c8031ac416afe568cb35f841f1351c4d9ab0c80a80482a",
@@ -26,17 +26,161 @@
         "timing": "PRIMO_PHASE=benchmark; PRIMO_PAIRED_SHARDS=400; PRIMO_PAIRED_CHUNKS=1; PRIMO_COMPARE_TIMEOUT=60; PRIMO_EXPECTED_GIT=5dec036; PRIMO_CAMPAIGN_ID=lia-m124-review-20261104-full60; sbatch --array=0-399%96 --cpus-per-task=2 --mem=3G --time=02:00:00 --export=ALL <runner>; workspace/binary/corpus/output paths supplied outside tracked files",
         "all_arguments": "--quiet --stats --lia-round-integer-bounds --lia-primitive-int-rows --lia-patch-integral-moves --lia-integer-slacks",
         "m124_arguments": "--quiet --stats --lia-round-integer-bounds --lia-primitive-int-rows --lia-patch-integral-moves --no-lia-integer-slacks",
-        "model_replay": "Same runner, PRIMO_PHASE=replay; sbatch --dependency=afterok:348396 --array=0-399%64 --cpus-per-task=2 --mem=12G --time=02:00:00 --export=ALL; default replay budgets: Primo 180 s, Dolmen 300 s with --size 8G and --strict=false; benchmark_model_replay.py selects every successful SAT row and verifies parent input/binary identities."
+        "model_replay": "Same runner, PRIMO_PHASE=replay; sbatch --dependency=afterok:348396 --array=0-399%64 --cpus-per-task=2 --mem=12G --time=02:00:00 --export=ALL; default replay budgets: Primo 180 s, Dolmen 300 s with --size 8G and --strict=false; benchmark_model_replay.py selects every successful SAT row and verifies parent input/binary identities. Before the dependent job started, scontrol update JobId=348493 ArrayTaskThrottle=80 raised only replay concurrency to 80; timing concurrency and resources were unchanged.",
+        "analysis": "python3 scripts/qualification/lia_integrality/analyze.py --root <collected-full60> --reference-root <collected-archived-z3> --out <analysis>/full-summary.json; accepted analyzer fix at 1e35a874; exits 0 with complete timing identities, answers and model coverage. Six Python regressions and make lint pass."
       },
       "jobs": {
-        "timing": "348396 (running)",
-        "model_replay": "348493 (pending on afterok:348396)"
+        "timing": "348396; all 400 tasks COMPLETED 0:0",
+        "model_replay": "348493; all 400 tasks COMPLETED 0:0; final concurrency 80"
       },
       "artifacts": {
-        "remote": "<default-promotion-workspace>/results/m124-review-20261104-full60/{all,m124}/shard-*/{provenance.json,inputs.txt,answers.csv,answers.csv.jsonl}; nodes/benchmark-task-*.txt",
-        "local": "results/integrality-review-20261104/full60; active-run.json and full-progress.json alongside full60 (ignored local copies)"
+        "remote": "<default-promotion-workspace>/results/m124-review-20261104-full60/{all,m124}/shard-*/{provenance.json,inputs.txt,answers.csv,answers.csv.jsonl}; nodes/benchmark-task-*.txt; model-validation/{replay-provenance.json,coverage.json,models/summary.csv} with original/adapted inputs and raw models retained per shard",
+        "local": "results/integrality-review-20261104/full60; active-run.json and full-progress.json alongside full60 (ignored local copies); final full-summary.json and accounting snapshots alongside full60; all ignored local copies"
       },
-      "evidence_status": "running; no full-corpus outcome accepted yet"
+      "evidence_status": "complete paired timing and complete separate SAT-model validation for exact binary 5dec036; single paired run, archived Z3 used for answers only, no default promotion",
+      "reference_comparison": {
+        "source": "<model-fix-workspace>/results/full-revalidation-287b743/real/QF_LIA/z3/shard-*/{answers.csv,provenance.json}",
+        "version": "Z3 5.1.0, archived decisive answers on 12,144 of the 13,306 files; not a fresh timing comparison",
+        "input_identity": "All 13,306 current per-input SHA-256 values match the archived Z3 values exactly in each arm",
+        "answer_agreements": {
+          "all": 9561,
+          "m124": 9675
+        },
+        "answer_disagreements": 0
+      },
+      "results": {
+        "all": {
+          "files": 13306,
+          "solved": 9748,
+          "sat": 6520,
+          "unsat": 3228,
+          "timeout": 3108,
+          "unknown": 450,
+          "unsupported": 0,
+          "error": 0,
+          "wrong": 0,
+          "par2": 465051.620717
+        },
+        "m124": {
+          "files": 13306,
+          "solved": 9865,
+          "sat": 6580,
+          "unsat": 3285,
+          "timeout": 3041,
+          "unknown": 400,
+          "unsupported": 0,
+          "error": 0,
+          "wrong": 0,
+          "par2": 451149.937984
+        }
+      },
+      "comparison": {
+        "gains_m124": 277,
+        "losses_m124": 160,
+        "net_solved": 117,
+        "par2_reduction_seconds": 13901.682732999965,
+        "par2_relative_reduction": 0.02989277343355312,
+        "decisive_answer_disagreements": 0,
+        "common_solved": 9588,
+        "common_runtime": {
+          "files_both_at_least_half_second": 2143,
+          "geometric_mean_m124_over_all": 0.9843569852544395,
+          "median_m124_over_all": 0.9979654023257205
+        },
+        "family_solved_delta_m124_minus_all": {
+          "20180326-Bromberger": 31,
+          "20220307-SMPT": 3,
+          "CAV_2009_benchmarks": 15,
+          "cut_lemmas": 24,
+          "dillig": -8,
+          "miplib2003": 2,
+          "nec-smt": -7,
+          "pb2010": 5,
+          "prime-cone": 17,
+          "rings": 5,
+          "rings_preprocessed": 3,
+          "slacks": 23,
+          "tightrhombus": 4
+        }
+      },
+      "work_counters_common_solved": {
+        "all": {
+          ":lia.generalized-lemmas": 4093,
+          ":lia.patch-affected-rows-inspected": 6237744,
+          ":lia.patch-candidates-scored": 1682957,
+          ":lia.patch-occurrence-entries": 133567090,
+          ":lia.patch-rounds-fully-integral": 6205,
+          ":lia.patch-sweeps": 10469,
+          ":lra.pivots": 14877735,
+          ":sat.conflicts": 2911477
+        },
+        "m124": {
+          ":lia.generalized-lemmas": 4111,
+          ":lia.patch-affected-rows-inspected": 7540121,
+          ":lia.patch-candidates-scored": 1747476,
+          ":lia.patch-occurrence-entries": 97030375,
+          ":lia.patch-rounds-fully-integral": 6145,
+          ":lia.patch-sweeps": 10487,
+          ":lra.pivots": 14877846,
+          ":sat.conflicts": 2911766
+        }
+      },
+      "model_validation": {
+        "status": "complete",
+        "all": {
+          "complete": true,
+          "completed_replay_rows": 6520,
+          "dolmen_pass": 6520,
+          "expected_sat_in_replays": 6520,
+          "outcomes": {
+            "pass": 6520
+          },
+          "selected_sat": 6520,
+          "shard_states": {
+            "complete": 400
+          }
+        },
+        "m124": {
+          "complete": true,
+          "completed_replay_rows": 6580,
+          "dolmen_pass": 6580,
+          "expected_sat_in_replays": 6580,
+          "outcomes": {
+            "pass": 6580
+          },
+          "selected_sat": 6580,
+          "shard_states": {
+            "complete": 400
+          }
+        },
+        "invalid_models": 0,
+        "sat_to_unsat": 0,
+        "solver_errors": 0,
+        "solver_timeouts_or_unknowns": 0,
+        "validator_timeouts": 0,
+        "unsupported_inputs": 0,
+        "missing_rows": 0,
+        "validator_script_sha256": [
+          "a921a3210d2753581c97e18909e423d9ff61bbddf2a792f5f462c9acab0b2d41"
+        ],
+        "dolmen_versions": [
+          "0.10"
+        ],
+        "phase_separation": {
+          "last_timing_end": "2026-11-04T19:29:07",
+          "first_replay_start": "2026-11-04T19:29:07",
+          "timezone": "scheduler local time"
+        }
+      },
+      "resource_observations": {
+        "timing_requested": "2 CPUs, 3 GiB per allocation, 2 h wall; 60 s per input",
+        "timing_max_batch_rss": "8,376,592 KiB (about 7.99 GiB), task 372; includes the paired batch, not a per-profile comparison",
+        "timing_memory_limit_interpretation": "Reported batch RSS exceeds the nominal 3 GiB request; this is not evidence of an enforced 3 GiB upper bound. All tasks completed and no OOM was reported.",
+        "replay_requested": "2 CPUs, 12 GiB per allocation, 2 h wall; Primo 180 s, Dolmen 300 s and --size 8G",
+        "replay_max_batch_rss": "4,304,268 KiB, task 398",
+        "accounting_artifact": "results/integrality-review-20261104/{full-accounting,phase-accounting}.txt (ignored local copies)"
+      },
+      "outcome": "Accepted ablation evidence: M124 wins this paired QF_LIA comparison by 117 solved files and 2.99% PAR2, with 277 gains and 160 losses and essentially unchanged common-solve median. The bundled M3 policy costs performance overall here, but its five mechanisms are not individually isolated. Every selected SAT row in both profiles has a direct Dolmen pass. No solver source or default changes; a default-promotion campaign and targeted policy separation are outside this diagnostic."
     },
     {
       "id": "2026-11-04-lia-integrality-four-arm-diagnostic-5dec036",

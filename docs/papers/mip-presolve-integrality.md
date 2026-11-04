@@ -480,6 +480,91 @@ records input and executable hashes before timing and checks them again in
 the separately scheduled SAT-model replay. No default is changed by the
 first diagnostic.
 
+### Full paired comparison at 60 seconds
+
+The follow-up ran both profiles on all 13,306 QF_LIA files with the same
+`5dec036` Release binary, two CPUs per allocation, and a 60 s limit. Every
+allocation ran both profiles on its shard, with their order alternating by
+shard. The {integralityreviewsource}`analysis script
+<scripts/qualification/lia_integrality/analyze.py>` checks complete file
+coverage, matching executable hashes and equality with all 13,306 input
+hashes of the archived Z3 run. Run-log entry
+`2026-11-04-lia-m124-full-paired60-5dec036` records the commands and artifacts.
+
+| Configuration | Solved | SAT | UNSAT | Timeout | Clean unknown | PAR2 (s) |
+| --- | --- | --- | --- | --- | --- | --- |
+| All four on (current QF_LIA default) | 9,748 | 6,520 | 3,228 | 3,108 | 450 | 465,051.62 |
+| M1+M2+M4 (M3 off) | 9,865 | 6,580 | 3,285 | 3,041 | 400 | 451,149.94 |
+
+M1+M2+M4 gains 277 files and loses 160: a net of **117**. PAR2 improves by
+13,901.68 s, or 2.99%. On the 2,143 common solves where both profiles take
+at least 0.5 s, its median time ratio to all four is 0.998 and its geometric
+mean ratio is 0.984. The improvement is concentrated in some search paths;
+it is not a large, uniform speedup.
+
+| Family | Net solved change, M1+M2+M4 minus all four |
+| --- | ---: |
+| Bromberger | +31 |
+| `cut_lemmas` | +24 |
+| `slacks` | +23 |
+| `prime-cone` | +17 |
+| CAV 2009 | +15 |
+| `rings` | +5 |
+| `pb2010` | +5 |
+| `tightrhombus` | +4 |
+| `rings_preprocessed` | +3 |
+| SMPT | +3 |
+| `miplib2003` | +2 |
+| `nec-smt` | -7 |
+| `dillig` | -8 |
+
+The other 19 families have no solved-count change. No profile gives an error,
+unsupported result or wrong answer against the available declared statuses.
+There are no decisive disagreements between profiles or with the archived
+Z3 decisions: 9,561 all-options answers and 9,675 M1+M2+M4 answers can be
+checked against Z3. These are answer checks, not new Z3 timing measurements.
+
+The work counters also show a mixed effect. On the 9,588 files both profiles
+solve, M3 off builds fewer patch-scoring index entries, but scores more
+candidates and inspects more affected rows:
+
+| Recorded patching work on common solves | All four | M1+M2+M4 |
+| --- | ---: | ---: |
+| Index entries stored | 133,567,090 | 97,030,375 |
+| Candidates scored | 1,682,957 | 1,747,476 |
+| Affected integer rows inspected during scoring | 6,237,744 | 7,540,121 |
+
+The {settingssource}`scoring index <src/theory/arithmetic/lia_patching.cpp>`
+counts actual operations over its chosen integer-variable list. These counts
+do not measure their time, and the list itself changes with M3. QF_LIA does
+not publish separate patch/GCD/cut/branch timings or branch-node counts;
+private integer-search pivots are not included in the online LRA pivot
+counter. The experiment isolates the combined effect of M3's five choices,
+not their individual costs. In particular, it does not establish how often
+the plateau example explains a lost solve.
+
+**Separate model validation is complete.** Direct Dolmen replay accepts all
+6,520 all-options models and all 6,580 M1+M2+M4 models, with no invalid model,
+changed answer, solver error, timeout, unsupported input or missing row. The
+analyzer verifies each replay's parent provenance and answer-file hashes and
+its per-shard SAT selection count. All 400 timing tasks finished before any
+of the 400 replay tasks started; model-checking time does not enter PAR2.
+
+The timing job requested 3 GiB per allocation, but its largest reported batch
+MaxRSS was 8,376,592 KiB (about 7.99 GiB). All tasks completed without a
+reported OOM. This records the actual observed footprint; the experiment does
+not establish performance under an enforced 3 GiB bound. Replay requested
+12 GiB per allocation and reported a maximum of 4,304,268 KiB. Accounting
+covers a whole batch, not each option profile separately.
+
+**Decision.** M1+M2+M4 wins this single paired comparison, while still losing
+160 files that all four solve. The result supports separating integer
+membership from patch-scoring and branching policy; it does not identify one
+of M3's five effects as the dominant cost. No default is changed. A promotion
+would still need the campaign and seed-mutation gate for the proposed profile;
+the fresh 1,000-case merge gate and full model replay are the correctness
+evidence for this diagnostic.
+
 ## Tests derived from the steps
 
 Gap 1 is pinned by `rounding_integer_bounds_keeps_answers_and_skips_completion`

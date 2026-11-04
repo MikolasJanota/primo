@@ -102,7 +102,7 @@ sphinx:
         - "https://github.com/primo-solver/primo/blob/5c96568/%s"
         - "%s"
       integralityreviewsource:
-        - "https://github.com/primo-solver/primo/blob/80506552/%s"
+        - "https://github.com/primo-solver/primo/blob/1e35a874b1280911084126541401f7c5a228fc7e/%s"
         - "%s"
       settingssource:
         - "https://github.com/primo-solver/primo/blob/5dec036329b8b8cc6d929835fa1c6dfa644b8fb3/%s"
