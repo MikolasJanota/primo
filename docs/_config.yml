@@ -102,7 +102,7 @@ sphinx:
         - "https://github.com/primo-solver/primo/blob/5c96568/%s"
         - "%s"
       settingssource:
-        - "https://github.com/primo-solver/primo/blob/5aaca1f6ac69724807a4ccd811251a77cc61149d/%s"
+        - "https://github.com/primo-solver/primo/blob/5dec036329b8b8cc6d929835fa1c6dfa644b8fb3/%s"
         - "%s"
       toolsource:
         - "https://github.com/primo-solver/primo/blob/d16acb42d87a55eaa5f76faf14a904900a9a7e8b/%s"

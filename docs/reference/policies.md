@@ -147,7 +147,8 @@ form dependent groups:
   [quantifiers](../implementation/quantifiers.md).
 - The `--lia-*` and `--no-lia-*` flags are overrides. Each integer route
   (QF_LIA and QF_UFLIA) takes its LIA defaults from `default_lia_settings`,
-  as described in {ref}`settings and who sets them <lia-settings>`.
+  as described in {ref}`settings and who sets them <lia-settings>`. QF_LIA
+  defaults the four integrality switches on, and QF_UFLIA defaults them off.
 
 Before tuning a parameter, confirm its call path and compare mechanism counters
 at two admissible values. A flag's presence in help does not establish that it

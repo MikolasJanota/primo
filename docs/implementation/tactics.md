@@ -275,7 +275,10 @@ route's default; see {ref}`lia-settings`. The `solve-qf-lia` and
 `SolverStrategyOptions` renders both values into the solver-dispatch leaf's
 parameters. Each key is the route prefix followed by the hyphenated setting
 name, for example `qf-lia.primitive-int-rows` and
-`qf-uflia.primitive-int-rows`. Both sets are rendered in every session,
+`qf-uflia.primitive-int-rows`. Since `5dec036` the two default sets differ:
+`qf-lia.primitive-int-rows` is `true` and `qf-uflia.primitive-int-rows`
+is `false`, and likewise for the other three integrality switches. Both
+sets are rendered in every session,
 whatever the declared logic, so a `--lia-*` flag that changes a setting also
 changes the fingerprint of a QF_LRA query. Two option sets that run different LIA settings have different
 canonical forms and fingerprints. The change also gives every solver-dispatch

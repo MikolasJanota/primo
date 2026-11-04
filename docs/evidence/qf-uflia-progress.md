@@ -35,7 +35,10 @@ answers against the declared statuses.
   30 `wisas` and 1 Certora. That leaves it only one file above the September
   baseline. The `wisas` loss is a search-order effect of the primitive-row
   option, traced in the {ref}`integrality evaluation
-  <integrality-evaluation>`. This is why the options are not the default.
+  <integrality-evaluation>`. This is why the options are off for QF_UFLIA.
+  Since `5dec036` they are on by default for QF_LIA only, and the QF_UFLIA
+  default is unchanged: a paired check found identical answers and search
+  counters on all 539 files solved ({ref}`promotion <integrality-promotion>`).
 - **The results are reproducible.** A rerun of both Primo `2e120fa` arms on
   2026-11-03 (job 339383) produced exactly the same solved sets, and so did
   the paired rerun below, cut at 60 s.

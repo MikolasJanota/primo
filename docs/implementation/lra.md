@@ -164,8 +164,9 @@ records the original row-sharing objective and available evidence. Choosing
 an initial normal form and maintaining integer rows throughout pivoting are
 separate design questions.
 
-For `Int` atoms, `--lia-primitive-int-rows` (off by default) selects the
-coprime-integer form instead; see [integer slacks](lia.md). Real atoms always
+For `Int` atoms, `--lia-primitive-int-rows` (on by default for QF_LIA, off
+for QF_UFLIA) selects the coprime-integer form instead; see [integer
+slacks](lia.md). Real atoms always
 use the leading-coefficient form.
 
 Primo also has a separate, optional

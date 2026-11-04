@@ -143,7 +143,9 @@ The shared stage owner is
 called through the [standalone and combined LIA component routes](../implementation/lia.md#when-integer-reasoning-runs).
 A new LIA setting goes into `LiaSettings`, its override, the route policy,
 its CLI flag (`main.cpp`) and its strategy parameter
-(`lia_strategy_parameters`); see {ref}`lia-settings`. SAT continues to receive theory-valid explanations,
+(`lia_strategy_parameters`); see {ref}`lia-settings`. A switch whose
+default differs by route takes its `--help` default from
+`lia_route_default_text`. SAT continues to receive theory-valid explanations,
 not heuristic restrictions. Model acceptance remains with the pure or combined
 completion caller.
 

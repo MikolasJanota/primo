@@ -7,7 +7,16 @@ dates and nodes, so this is not a paired experiment. A {ref}`paired rerun
 conclusions drawn from it: the size of the gap to October, and the `nec-smt`
 part of the integrality options' gain.
 
-![QF_LIA at 60 seconds: Primo's August baseline, the current default and the integrality options, against z3, cvc5 and OpenSMT](../_static/qf-lia-cactus.svg)
+Since commit `5dec036` (2026-11-04) the QF_LIA default turns on all four
+integrality options ({ref}`promotion <integrality-promotion>`). On this page,
+the "default" series and rows of 2026-11 runs are the options-off
+configuration. The new binary
+reproduces that configuration with the four `--no-lia-*` flags. The "all four
+integrality options" series now describes the QF_LIA default; a paired check
+found the `5dec036` default identical to it in answers and search counters
+on every file both solved within 10 s.
+
+![QF_LIA at 60 seconds: Primo's August baseline, the options-off default and the integrality options, against z3, cvc5 and OpenSMT](../_static/qf-lia-cactus.svg)
 
 In the figure legend, M1-M4 means all four integrality options, milestones M1
 to M4 of the {ref}`integrality evaluation <integrality-evaluation>`.
@@ -53,8 +62,9 @@ entry `2026-08-21-qf-lia-conflict-generalization` records the August run as
   are `nec-smt`. Counting only files that behave the same in both runs, the
   options gain 348 and lose 274, an estimated stable net of +74. The paired
   rerun measures +53, with `nec-smt` contributing +3. On QF_UFLIA the same
-  options lose 31 files ([QF_UFLIA progress](qf-uflia-progress.md)), so they
-  are not the default.
+  options lose 31 files ([QF_UFLIA progress](qf-uflia-progress.md)). For
+  that reason the 2026-11-04 promotion makes them the default for QF_LIA
+  only.
 - **The 43-file gap to October is not a code regression.** In these runs
   the default gains 3 files against `5efbd02` and loses 46, all of which had
   solved in 52.5 to 59.9 s in the October run; 38 of the 41 that also stay
@@ -149,7 +159,7 @@ columns, 240 s in the 120 s columns. No configuration gives a wrong answer
 against the declared statuses, and no two configurations give different
 `sat`/`unsat` answers on any file.
 
-- **`5efbd02` and the current default run within 1% of each other.** At
+- **`5efbd02` and the options-off default run within 1% of each other.** At
   60 s the default gains 10 files against `5efbd02` and loses 12, all
   `nec-smt` but one; at 120 s it gains 15 and loses 22. On the 3,140 files
   both solve in at least 0.5 s, the default takes a median 1.007 times the

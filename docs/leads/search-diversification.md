@@ -109,15 +109,20 @@ commitment:
   restart: saved phases, the theory's re-proposed decisions, or both.
 - Every mechanism must keep answers, models and incremental behavior intact.
   It needs the merge fuzz gate and model validation like any search change.
-- Evaluate on QF_UFLIA and QF_LIA at 60 s against the current default, with a
-  rerun of the default to bound timing noise. The 2026-11-03 reruns found
-  QF_UFLIA reproducible exactly and the QF_LIA default within five files.
+- Evaluate at 60 s against each route's default (on QF_LIA since `5dec036`
+  the four integrality options are on; on QF_UFLIA they are off), with a
+  rerun of that default to bound timing noise. The 2026-11-03 reruns found
+  QF_UFLIA reproducible exactly and the QF_LIA options-off configuration
+  within five files. The all-options arm, now the QF_LIA default, solved 53
+  fewer on its rerun, almost all near the cutoff, so a QF_LIA comparison
+  needs a paired run.
 - **Falsifier:** with `--lia-primitive-int-rows` on, the mechanism must
   recover at least 20 of the 30 lost `wisas` files. It must also not lose,
   net, files that the same configuration without the mechanism solves on
   QF_LIA or QF_UFLIA, beyond the noise the reruns bound. Otherwise reject
   it. Measured with the options off, it must not lose net files against
-  the default.
+  the options-off configuration, which is the QF_UFLIA default and, on
+  QF_LIA, the `--no-lia-*` form.
 
 The time-sliced portfolio of separate configurations is a different project;
 see the [portfolio lead](portfolio.md).

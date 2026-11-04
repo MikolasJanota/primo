@@ -226,8 +226,9 @@ $$x<r\iff x\le\lceil r\rceil-1,
 Thus `3*x < 5` yields $x\le1$, while a false `3*x <= 5` yields $x\ge2$.
 Subtracting or adding one to the rational threshold $5/3$ would be wrong.
 
-By default, non-strict bounds keep their rational threshold: a true
-`3*x <= 5` asserts $x\le5/3$. With `--lia-round-integer-bounds`, the same
+With `--no-lia-round-integer-bounds`, the QF_UFLIA default, non-strict
+bounds keep their rational threshold: a true `3*x <= 5` asserts
+$x\le5/3$. With `--lia-round-integer-bounds`, the QF_LIA default, the same
 integer-valued variables also get rounded non-strict bounds,
 
 $$x\le r\iff x\le\lfloor r\rfloor,\qquad x\ge r\iff x\ge\lceil r\rceil,$$
@@ -239,12 +240,14 @@ mode (`None`, `StrictOnly` or `All`), and every assertion, entailment check,
 propagation and model-phase hint reads it through `bound_assertion`, so all
 uses agree. In `3*x <= 5`, `3*y <= 5`, `x + y >= 3` the rounded bounds
 $x,y\le1$ refute the candidate in the rational check, without integer
-completion. The option is off by default until it is qualified; see the
+completion. The option is on by default for QF_LIA since `5dec036` and off
+for QF_UFLIA; see the
 [integrality checklist](../papers/mip-presolve-integrality.md).
 
 {source}`PreparedLraTheory::append_atom
 <src/smt/solver_engines.cpp#L3529-L3656>` marks direct bounds on `Int` terms
-as integer. For compound polynomials its default sufficient condition is more
+as integer. For compound polynomials its sufficient condition without
+`--lia-primitive-int-rows` is more
 conservative: the input is integer-sorted and the normalization scale is
 $1$ or $-1$. Other auxiliary variables use the real strict-bound encoding,
 even if a stronger analysis could prove some of them integer-valued.
@@ -260,12 +263,13 @@ atoms keep leading-coefficient-one normalization. Together with
 al. §3.5: `2*x + 4*y <= 5` becomes $x+2y\le2$. In the parity case
 $2x+4y=3$, written as two inequalities, the rounded bounds $2\le s\le1$
 conflict in the rational check. In a case with $13/2\le2x+3y\le7$ over
-unbounded variables, the default route exhausts its branch-node limit,
-while the integral bound $s=7$ lets one patch move find $x=2,y=1$. Both
-options are off by default. The SLURM evaluation at `2e120fa` found no wrong
-answer. It also found that `--lia-primitive-int-rows` loses 30 QF_UFLIA
+unbounded variables, with both options off (the QF_UFLIA default),
+completion exhausts its branch-node limit, while the integral bound $s=7$
+lets one patch move find $x=2,y=1$. Both options are on by default for
+QF_LIA and off for QF_UFLIA. The SLURM evaluation at `2e120fa` found no
+wrong answer. It also found that `--lia-primitive-int-rows` loses 30 QF_UFLIA
 `wisas` files ({ref}`integrality evaluation <integrality-evaluation>`). The
-cause, traced in four of the files, is search order: the default form escapes
+cause, traced in four of the files, is search order: the leading-coefficient form escapes
 them because its first commitment is fractional and cheap to refute.
 
 A slack marked integer this way can also become an integer obligation of
@@ -328,8 +332,8 @@ integer completion remains necessary.
 King's thesis §4.3 describes the underlying integer tightening, including
 strict bounds obtained from negated SAT atoms {cite:p}`king2014`.
 [Preserving this spacing during bound preparation](../leads/lia-infinitesimals.md)
-is an open lead for the default normalization. Under
-`--lia-primitive-int-rows` the slack is $P$ itself, so a strict compound
+is an open lead for the leading-coefficient normalization, which QF_UFLIA
+still uses. Under `--lia-primitive-int-rows`, the QF_LIA default, the slack is $P$ itself, so a strict compound
 `Int` atom becomes an integral non-strict bound and no infinitesimal is
 introduced. Simply discarding a nonzero delta would change a strict
 inequality and is not a valid replacement.
@@ -374,12 +378,12 @@ that would remain nonintegral. Only a strict reduction is accepted. Among
 inspected candidates with the same count, a smaller rational move wins;
 the scan stops early on finding a move that makes the whole assignment
 integral. Each accepted move decreases a nonnegative integer, so the sweep
-terminates even apart from its configured move budget. By default it can
-make an individual previously integral variable fractional, provided the
+terminates even apart from its configured move budget. Without
+`--lia-patch-integral-moves`, the QF_UFLIA default, it can make an individual previously integral variable fractional, provided the
 total count improves. An integral assignment is still subject to the
 ordinary model checks.
 
-`--lia-patch-integral-moves` (off by default) removes that freedom for
+`--lia-patch-integral-moves` (on by default for QF_LIA) removes that freedom for
 integer nonbasic variables: a candidate that would leave one at a
 non-integer value is rejected. In exchange, an integer nonbasic $y$ with
 coefficient $a=p/q$ in the row of a fractional basic $x_b$ also gets
@@ -672,20 +676,22 @@ it is not by itself evidence of a performance improvement.
 The integer settings below apply to both the pure and the combined route.
 Each route resolves its own values, as described in {ref}`lia-settings`.
 
-| Option | Default (both routes) | Meaning per integer completion |
+| Option | Default | Meaning per integer completion |
 | --- | --- | --- |
 | `--lia-patch-limit` | `100` | Maximum accepted patch moves; zero disables patching. |
 | `--lia-gomory-cut-limit` | `100` | Maximum cut-and-recheck iterations; zero disables cuts. Exhaustion falls through to branching. |
 | `--lia-branch-limit` | `100000` | Maximum new split nodes. Exhaustion before finding a model or refuting the tree returns a resource-limit result. |
 | `--no-lia-conflict-generalization` | Generalization on | Disables the default attempt to replace coarse clauses with accumulated explanations. |
-| `--lia-round-integer-bounds` | Off | Rounds non-strict thresholds on integer-valued tableau variables inward. Preparation-time, not a per-completion budget. |
-| `--lia-primitive-int-rows` | Off | Stores `Int` rows with coprime integer coefficients, making every `Int` slack integer-valued. Preparation-time. |
-| `--lia-integer-slacks` | Off | Adds slacks proved integer to the front of the integer obligations of completion. |
-| `--lia-patch-integral-moves` | Off | Keeps integer nonbasic variables integral while patching and adds lattice candidates. |
+| `--lia-round-integer-bounds` | On for QF_LIA, off for QF_UFLIA | Rounds non-strict thresholds on integer-valued tableau variables inward. Preparation-time, not a per-completion budget. |
+| `--lia-primitive-int-rows` | On for QF_LIA, off for QF_UFLIA | Stores `Int` rows with coprime integer coefficients, making every `Int` slack integer-valued. Preparation-time. |
+| `--lia-integer-slacks` | On for QF_LIA, off for QF_UFLIA | Adds slacks proved integer to the front of the integer obligations of completion. |
+| `--lia-patch-integral-moves` | On for QF_LIA, off for QF_UFLIA | Keeps integer nonbasic variables integral while patching and adds lattice candidates. |
 
-Each of the last four switches also has a `--no-` form, for example
-`--no-lia-primitive-int-rows`. If both forms are given, the `--no-` form wins,
-as for `--lra-model-phase`.
+The first four rows apply to both routes. The last four switches are on by
+default for QF_LIA and off for QF_UFLIA, as {ref}`lia-settings` explains.
+Each also has a `--no-` form, for example `--no-lia-primitive-int-rows`,
+which turns it off on either route. If both forms are given, the `--no-` form
+wins, as for `--lra-model-phase`.
 
 These are finite operational limits, not empirically optimal settings.
 Both routes report typed `ResourceLimit` to the shared driver, producing
@@ -703,6 +709,15 @@ branching can keep translating the fractional assignment along the unbounded
 direction. The {source}`node-limit regression
 <tests/unit/qf_lia_solver_tests.cpp#L252-L274>` preserves this incomplete case.
 Adding GCD checks and cuts before DFS does not supply a completeness proof.
+
+QF_LIA's default refutes this example during preparation. Primitive rows
+store the row as $x+y$ with bounds $[1/2, 3/4]$, and rounding them inward
+gives the empty range $[1, 0]$. The {settingssource}`route-default regression
+<tests/unit/qf_lia_solver_tests.cpp#L280-L301>` checks this, and checks that
+the same input under QF_UFLIA still returns unknown within the same 20-node
+budget. Rounding helps
+only when one row's bounds leave no integer value; it is no completeness
+argument either.
 
 Dillig, Dillig and Aiken's *Cuts from proofs* {cite:p}`dillig2011cuts`
 provides a different branching rule based on integer-infeasible intersections.
@@ -754,7 +769,7 @@ for each row of the {ref}`budget table <lia-limits>`, for example
 
 Choosing the values is a separate step. In the order the data flows:
 
-1. The {settingssource}`command line <src/main.cpp#L1015-L1037>` records an
+1. The {settingssource}`command line <src/main.cpp#L1034-L1056>` records an
    override in `CheckSatOptions::lia`, a `LiaSettingOverrides` whose fields
    are all optional. It does this only for a flag that is given, including an
    explicit `--lia-round-integer-bounds=false`.
@@ -766,19 +781,31 @@ Choosing the values is a separate step. In the order the data flows:
    `default_lia_settings(route)` and applies every override that is set. An
    explicit value therefore always wins over the route default.
 
-Both routes currently default to the values in the budget table, so the split
-leaves every result unchanged. A paired 10 s run of 5aaca1f against 2e120fa
-on the full QF_LIA and QF_UFLIA corpora found no answer or search-counter
-difference, with default options or with all four integrality switches. The
-only differences in the solved sets were files at the time limit. Fuzz gates
-with both option sets found no wrong answer and no invalid model (run-log
-entry `2026-11-04-lia-settings-preservation-and-fuzz-5aaca1f` in the
-{source}`run log <docs/run-log.json>`). The decision to give a route its
-own default, such as the integrality switches on QF_LIA only, belongs in
-`default_lia_settings`. The `--help` defaults in `main.cpp`, the CLI help
-snapshot and the table's default column do not follow the policy
-automatically. They must be updated with it, or made route-aware, as
-`--lra-model-phase` shows `[default: auto]`.
+The {settingssource}`policy <src/smt/lia_settings_policy.cpp#L7-L20>` gives
+QF_UFLIA the engine defaults, `LiaSettings{}`. QF_LIA additionally turns on
+the four integrality switches of the [integrality
+page](../papers/mip-presolve-integrality.md). They are on since `5dec036`.
+The page's {ref}`promotion <integrality-promotion>` section gives the
+evidence: in a paired rerun they solve a net 53
+more QF_LIA files, but they lose 31 QF_UFLIA files, so only the QF_LIA route
+uses them.
+
+Making the policy a separate function did not by itself change any result. A
+paired 10 s run of `5aaca1f`, which split the settings out with both route
+defaults still off, against `2e120fa` found no answer or search-counter
+difference. That held with default options and with all four switches on,
+on the full QF_LIA and QF_UFLIA corpora. The only differences in the solved
+sets were files at the time limit. Fuzz gates with both option sets found no
+wrong answer and no invalid model (run-log entry
+`2026-11-04-lia-settings-preservation-and-fuzz-5aaca1f` in the
+{source}`run log <docs/run-log.json>`).
+
+The `--help` text takes each switch's default from `default_lia_settings`
+({settingssource}`lia_route_default_text <src/main.cpp#L200-L209>`). It shows
+`[default: on for QF_LIA, off for QF_UFLIA]` and follows any later policy
+change. The default column of the table above and the CLI help snapshot
+must still be updated by hand. The documentation checks compare the snapshot
+against the binary.
 
 The QF_LIA and QF_UFLIA solver steps each capture their resolved settings by
 value. The solver-dispatch leaf renders both sets as strategy parameters, so
@@ -787,16 +814,26 @@ route runs ({ref}`tactics-lia-settings`). That holds only while
 `lia_strategy_parameters` renders every field, so a new setting must be added
 there too.
 
-Three regressions in {settingssource}`tactic_tests.cpp <tests/unit/tactic_tests.cpp#L1158-L1237>`
+Three regressions in {settingssource}`tactic_tests.cpp <tests/unit/tactic_tests.cpp#L1158-L1280>`
 pin this design:
 
-- `lia_settings_policy_resolves_route_defaults_and_overrides` checks that both
-  route defaults equal `LiaSettings{}`, whose field defaults are the previous
-  `CheckSatOptions` defaults, and that each override wins.
-- `lia_overrides_change_the_solver_strategy_identity` checks that a changed
-  override changes the fingerprint.
-- `lia_route_settings_reach_the_engine` checks that a patch budget of 0 reaches
-  the QF_LIA engine.
+- `lia_settings_policy_resolves_route_defaults_and_overrides` checks both
+  route defaults, that each override wins against either default, and that an
+  explicit `false` turns a QF_LIA default off.
+- `lia_overrides_change_the_solver_strategy_identity` checks that the
+  canonical form records the two routes' different defaults, and that a
+  changed override changes the fingerprint.
+- `lia_route_settings_reach_the_engine` checks the route defaults and the
+  overrides at the engine. On $2x+2y=3$, QF_LIA's default refutes the
+  equation during preparation without patching, and QF_UFLIA's default
+  patches. On QF_LIA, the switches turned off bring patching back, and a
+  patch budget of 0 then disables it.
+
+The stage tests in
+{settingssource}`qf_lia_solver_tests.cpp <tests/unit/qf_lia_solver_tests.cpp#L19-L36>`
+run under `set-logic QF_LIA`, but they test the engine's stages with the
+switches off. They therefore build their options from `engine_defaults()`
+rather than taking the route default.
 
 (lia-models-evidence)=
 ## Models, regression coverage and retained evidence

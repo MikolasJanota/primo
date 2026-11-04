@@ -1,17 +1,19 @@
 # Integral bounds and integral nonbasic variables
 
-**Status: Design checklist with partial implementation.** Prevalence counters
-are implemented. Gap 1 is implemented behind `--lia-round-integer-bounds`
-gap 2 behind `--lia-primitive-int-rows`, gap 3 behind
-`--lia-integer-slacks` and gap 4 behind `--lia-patch-integral-moves`, all
-default off. The {ref}`evaluation <integrality-evaluation>` found no wrong
-answers and did not qualify any option for the default.
+**Status: Implemented; the QF_LIA route default since `5dec036`.**
+Prevalence counters are implemented. Gap 1 is implemented by
+`--lia-round-integer-bounds`, gap 2 by `--lia-primitive-int-rows`, gap 3 by
+`--lia-integer-slacks` and gap 4 by `--lia-patch-integral-moves`. Since
+commit `5dec036` all four are on by default for QF_LIA and off for QF_UFLIA;
+the `--no-lia-*` forms turn them off. The {ref}`evaluation
+<integrality-evaluation>` found no wrong answers. {ref}`The promotion
+<integrality-promotion>` records the evidence for the QF_LIA default.
 
 This note lists the primary sources behind one invariant of integer
-completion. It maps each source step to the Primo function that would own it
-and records the obligations an implementation must meet.
+completion. It maps each source step to the Primo function that owns it and
+records the obligations the implementation meets.
 
-## The invariant and why Primo does not have it yet
+## The invariant and why Primo did not have it
 
 > Every integer-sorted nonbasic tableau variable holds an integer value.
 
@@ -30,9 +32,10 @@ nonbasic variable can sit strictly inside its interval. That stale value is
 still an earlier bound value. If every bound on an integer variable is an
 integer, the invariant therefore holds without patching.
 
-Four preparation and completion choices break it:
+Four preparation and completion choices break it when the options are off,
+as on the QF_UFLIA route or with the `--no-lia-*` flags:
 
-| Gap | Current owner | Effect |
+| Gap | Owner | Effect with the option off |
 | --- | --- | --- |
 | 1. Non-strict integer thresholds are not rounded | {source}`bound_assertion <src/smt/solver_engines.cpp>` rounds only strict bounds | `3*x <= 5` becomes the bound $x\le5/3$ |
 | 2. Leading-coefficient-one rows | `canonical_polynomial` and `PreparedLraTheory::append_atom` | `2*x + 3*y` becomes $s=x+\tfrac32y$, which is not integer-valued; the slack is marked integer only for scale $\pm1$ |
@@ -45,7 +48,7 @@ the same completion.
 
 ## Sources and the steps they contribute
 
-| Source | Step used | Planned Primo owner |
+| Source | Step used | Primo owner |
 | --- | --- | --- |
 | King, thesis, §4.3, pp. 106–109 {cite:p}`king2014` | For an all-integer relation, clear denominators, turn strict into non-strict by $\pm1$, divide by the coefficient GCD $g$, and round the threshold: $\lfloor d/g\rfloor$ for $\le$, $\lceil d/g\rceil$ for $\ge$; an equation with $g\nmid d$ is false. The leading coefficient's sign is normalized for sharing. Negated integer bounds are tightened when asserted. King concludes that “the upper and lower bounds of all integer variables are always integer values”. Footnote 4: an auxiliary variable for an all-integer sum “may also be marked as an integer variable”. | Gaps 1–3: `bound_assertion`, `canonical_polynomial`, `append_atom`, the LIA adapter's `integer_vars_` |
 | Achterberg, Bixby, Gu, Rothberg and Weninger, ZIB Report 16-44 version {cite:p}`achterberg2020presolve` | §3.5, equation (3.7): divide an all-integer row by the GCD and round the right side; its modular-inverse substitution. §4.2: rounding fractional bounds of integer variables is mandatory in Gurobi because its MIP algorithms rely on integral bounds. §7.6: primal implied-integer detection for a variable defined by an all-integer equation. | Gaps 1–3 as MIP counterparts; §3.5's modular inverse motivates the gap-4 lattice move |
@@ -67,7 +70,7 @@ of $y$ alone makes $x_b$ integral.
   and asserted. Reasons stay the original atom literals.
 - King's rewrite of odd right-hand sides for extra sharing is not planned.
 - Real atoms keep leading-coefficient-one normalization; only `Int` atoms
-  change, and only behind an option.
+  change, and only under `--lia-primitive-int-rows`.
 - Achterberg et al. report Gurobi measurements. They are not evidence for
   Primo.
 
@@ -280,8 +283,8 @@ files:
   covered. Typefuzz on the two `tropical-matrix` seeds made no solver call
   before the 90-minute wall. Opfuzz covered both seeds.
 
-**Decision.** No option is promoted to the default. M2 and M4 together are
-the promising part on QF_LIA, though the gain there is smaller than the
+**Decision on 2026-11-03.** No option is promoted to the default. M2 and
+M4 together are the promising part on QF_LIA, though the gain there is smaller than the
 first run suggested: all four options together gain a net 53 files in the
 paired rerun, against 136 in the first run. They lose 31 QF_UFLIA files
 reproducibly, which puts Primo's QF_UFLIA count back to roughly its
@@ -296,7 +299,80 @@ diversification](../leads/search-diversification.md); a time-sliced
 would be a route default in `default_lia_settings`
 ({settingssource}`lia_settings_policy.cpp <src/smt/lia_settings_policy.cpp>`,
 see {ref}`lia-settings`), which could enable the options on QF_LIA without
-changing QF_UFLIA.
+changing QF_UFLIA. The next section makes that promotion.
+
+(integrality-promotion)=
+## Promotion on QF_LIA at `5dec036`
+
+The settings split at `5aaca1f` made the promotion possible without changing
+QF_UFLIA. Commit `5dec036` sets the four switches in `default_lia_settings`
+for the QF_LIA route only
+({settingssource}`lia_settings_policy.cpp <src/smt/lia_settings_policy.cpp>`).
+The timing evidence is the paired 120 s rerun above: a net +53 QF_LIA files
+at both 60 s and 120 s. The QF_UFLIA loss does not apply, because the
+QF_UFLIA route keeps all four off. The checks below were run on SLURM against
+the `5dec036` Release binary ({source}`run log <docs/run-log.json>` entry
+`2026-11-04-qf-lia-integrality-default-5dec036`).
+
+- **Same search as the measured configuration.** A paired run at 10 s per
+  file compared `5dec036` with the `5aaca1f` binary. `5aaca1f` had already
+  matched `2e120fa`, the binary of the timing runs, counter for counter.
+  - On all 13,306 QF_LIA files, the new default matches `5aaca1f` with the
+    four options on. Of 8,683 files both solve, 0 differ in answer and 0 in
+    any of 357 non-timing statistics.
+  - The new binary with the four `--no-lia-*` flags matches the old
+    default: 8,610 files, 0 differences.
+  - The files solved by only one arm (9 and 8) all finish within 0.4 s of the
+    cutoff.
+  - On QF_UFLIA, both the new default and the `--no-` form match the old
+    default on all 539 files solved, with 0 differences over 384 statistics.
+- **Real-corpus models.** The paired rerun's all-options arm answered SAT on
+  7,015 QF_LIA files. A separate Dolmen replay of 6,543 of them, at
+  `2e120fa` with the four options (run-log entry
+  `2026-11-03-lia-integrality-model-validation-2e120fa`), had accepted every
+  model. The other 472 files were replayed with the `5dec036` default at
+  120 s: 459 pass, with 0 invalid models and 0 answers turning UNSAT. The 13
+  that timed out at 120 s were rerun at 900 s (job 348166), and all 13 pass,
+  with solver times of 128 to 160 s. So Dolmen has accepted a model for all
+  7,015 files.
+- **Campaign fuzz gate.** It was run at `5dec036` with default options:
+  - 4,000 QF_LIA FuzzSMT cases against z3 (seeds 447777 to 447784): 3,936
+    pass and 64 time out, with no wrong answer, crash or parser error. The 64
+    saved bug files are all timeouts.
+  - Dolmen on every case: 3,504 models pass, 450 cases are not SAT, 46 time
+    out; no invalid model and no solver error.
+  - One opfuzz and two typefuzz tasks found no bug file. All three stopped
+    at their 1,500 s wall, after about 16,700 opfuzz solver calls and
+    about 780 and 2,380 typefuzz calls, as last reported in their logs.
+- **Seed mutation.** One task per fuzzer and seed covered 116 of 118 pairs on
+  the 59 QF_LIA seeds, with no bug file. Opfuzz covered all 59 seeds,
+  including both `tropical-matrix` seeds. Typefuzz covered 57.
+- **The two `tropical-matrix` typefuzz pairs.** These are the two pairs the
+  2026-11-03 decision required to be rerun with a longer wall. They were
+  given a 4 h wall and cancelled by hand after 1 h 43 min. Neither log
+  shows a solver call after "Processing seed". The job steps' peak RSS
+  (`sstat` MaxRSS) was about 57 and 61 GiB against a `--mem=4G` request; on
+  node-02, `ps` attributed the 57 GiB to typefuzz's Python process. The
+  second task's peak rose between two readings taken minutes apart. Node-02
+  was also running the model-validation rerun. The seed files are 130 and
+  143 kB, within the 200 kB limit. Because the stall happens in typefuzz
+  before any solver runs, these pairs are recorded as a typefuzz
+  limitation, not as solver coverage.
+- **Unit tests.** Release and ASan Debug builds passed 45 of 45 test
+  targets. Among them, `route_default_closes_the_scaled_interval_gap` checks
+  that the QF_LIA default refutes $2\le4x+4y\le3$ during preparation, which
+  the QF_UFLIA route does not.
+
+**Decision on 2026-11-04.** The four options are the QF_LIA route default.
+The 2026-11-03 condition on the two `tropical-matrix` typefuzz pairs is not
+met: a longer wall did not get typefuzz to a solver call. The promotion
+accepts that gap, because opfuzz covered both seeds at `5dec036` and the
+stall happens inside the mutation tool, before any solver is called.
+QF_UFLIA keeps the options off until the `wisas` search-order regression is
+understood; that remains the [search
+diversification](../leads/search-diversification.md) lead. The QF_LIA
+progress page's "all four integrality options" series now describes the
+QF_LIA default.
 
 ## Tests derived from the steps
 

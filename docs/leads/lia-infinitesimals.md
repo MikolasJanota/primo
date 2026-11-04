@@ -1,12 +1,13 @@
 # Avoiding infinitesimals in integer relaxation
 
-**Status: Open lead for the default normalization; addressed by an option.**
-Under `--lia-primitive-int-rows` (off by default), `Int` slacks are integer
-polynomials, so strict compound `Int` atoms get integral bounds without an
-infinitesimal; see the
-[integrality checklist](../papers/mip-presolve-integrality.md). That option is
-not the default: it gains 104 files net on QF_LIA, with timing noise not
-measured, but loses 30 QF_UFLIA `wisas` files. The checklist's evaluation
+**Status: Addressed by the QF_LIA default; open for QF_UFLIA.**
+Under `--lia-primitive-int-rows`, `Int` slacks are integer polynomials, so
+strict compound `Int` atoms get integral bounds without an infinitesimal; see
+the [integrality checklist](../papers/mip-presolve-integrality.md). Since
+`5dec036` the option is on by default for QF_LIA, together with the other
+three integrality options, after a paired rerun measured a net gain of 53
+files for the four. It stays off for QF_UFLIA, where it loses 30 `wisas`
+files. The checklist's evaluation
 traces that loss, in four of the files, to search order rather than to the
 integral bounds being wrong.
 The spacing rule below remains the alternative if the leading-coefficient form

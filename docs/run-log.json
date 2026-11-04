@@ -3,6 +3,51 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-04-qf-lia-integrality-default-5dec036",
+      "date": "2026-11-04",
+      "commit": "5dec036",
+      "branch": "lia-integrality",
+      "kind": "slurm-default-promotion-gates",
+      "scope": "Promotion of the four integrality options (round_integer_bounds, primitive_int_rows, integer_slacks, patch_integral_moves) to the QF_LIA route default in default_lia_settings (5dec036; QF_UFLIA unchanged). Timing evidence is the paired 120 s rerun (2026-11-03, jobs 345182/345183: net +53 QF_LIA files at 60 s and 120 s). This entry records the correctness and identity gates for the promotion: Release and ASan unit tests; a 10 s paired equivalence run against 5aaca1f on the full QF_LIA (13,306) and QF_UFLIA (659) corpora; Dolmen validation of the paired run's SAT rows not covered before; the campaign fuzz gate; a per-seed mutation campaign. docs/papers/mip-presolve-integrality.md#integrality-promotion.",
+      "environment": {
+        "host": "CIIRC SLURM cluster, partition compute, nodes node-02..05; remote workdirs /home/janotmik/primo-lia-default (5dec036 source from git archive, contrib/local symlinked to /home/janotmik/primo-lra-bound-structure-fixed-20261026/contrib/local), /home/janotmik/primo-lia-settings (5aaca1f), /home/janotmik/primo-lia-integrality (corpora, seeds, paired script)",
+        "binaries": {
+          "5dec036": "/home/janotmik/primo-lia-default/build-slurm-rel/primo, Release, -DPRIMO_GIT_REVISION_OVERRIDE=5dec036, sha256 11d4d983bc11bca49f70032a89f25101dd077b7602fbc81da1e20b775f20ae68",
+          "5aaca1f": "/home/janotmik/primo-lia-settings/build-slurm-rel/primo, sha256 b23e9c99c70d500bf4a20038178ec3d3e0028dce400f9943354bc59c2866615d (counter-identical to 2e120fa, run-log 2026-11-04-lia-settings-preservation-and-fuzz-5aaca1f)"
+        },
+        "reference": "z3 and Dolmen (--strict=false) from contrib/local/bin; fuzzsmt, opfuzz and typefuzz from /home/janotmik/primo-qflia-fuzz-gate/{contrib/local/bin,.venv-yinyang/bin}",
+        "limits": "equivalence: 10 s per file, --quiet --stats, 2 CPUs per task, all four arms of a sub-shard in one task with rotated order; model validation: solver 120 s (rerun 900 s), Dolmen 300 s with --dolmen-size 8G, 1 CPU and 12 GB per task; fuzz gate defaults (FuzzSMT 5 s, model validation 10 s, opfuzz/typefuzz 5 s per call and 1500 s wall); seed mutation 200 opfuzz / 100 typefuzz mutants per seed, 5 s per call, 14400 s wall, --mem=4G request"
+      },
+      "commands": {
+        "unit_tests": "scratch settings-tests.sbatch (as in run-log 2026-11-04-lia-settings-preservation-and-fuzz-5aaca1f) with PRIMO_REVISION=5dec036: PRIMO_PHASE=rel (clean Release build with the header-manifest -isystem flags, ctest -j8) and PRIMO_PHASE=asan (Debug -DPRIMO_SANITIZERS=address, GCCcore 11.3.0, CXXFLAGS=-idirafter <manifest's last root>, ctest -j8)",
+        "equivalence": "REF=\"/home/janotmik/primo-lia-settings/build-slurm-rel/primo --quiet --stats\"; NEW=\"/home/janotmik/primo-lia-default/build-slurm-rel/primo --quiet --stats\"; ALL=\"--lia-round-integer-bounds --lia-primitive-int-rows --lia-integer-slacks --lia-patch-integral-moves\"; NO=\"--no-lia-round-integer-bounds --no-lia-primitive-int-rows --no-lia-integer-slacks --no-lia-patch-integral-moves\"; PRIMO_COMPARE_SOLVERS=\"refall=$REF $ALL;new=$NEW;refoff=$REF;newoff=$NEW $NO\" (equiv-env.sh); sbatch --array=0-199%40 --cpus-per-task=2 --time=04:00:00 --export=ALL,PRIMO_COMPARE_ROOT=tmp/QF_LIA,PRIMO_COMPARE_TIMEOUT=10,PRIMO_PAIRED_SHARDS=200,PRIMO_PAIRED_CHUNKS=4,PRIMO_COMPARE_OUT_ROOT=$W/results/lia-default-equivalence-5dec036/QF_LIA scripts/slurm_paired_solver_compare.sbatch; QF_UFLIA the same with --array=0-39%12 --time=02:00:00, PRIMO_PAIRED_SHARDS=40, root tmp/QF_UFLIA (W=/home/janotmik/primo-lia-integrality)",
+        "model_validation": "default-models.sbatch: python3 scripts/validate_model.py --solver build-slurm-rel/primo --solver-arg=--quiet --dolmen dolmen --dolmen-arg=--strict=false --z3 z3 --require-dolmen-pass --expect-sat --timeout 120 --dolmen-timeout 300 --dolmen-size 8G --manifest QF_LIA-paired120-all-extra-sat.txt --root /home/janotmik/primo-lia-integrality/tmp/QF_LIA --shards 8 --shard-index $SLURM_ARRAY_TASK_ID; manifest = the 472 SAT rows of job 345183's all-options arm absent from tmp/m5-manifests/QF_LIA-all-sat.txt (which covered 6,543 of 7,015). Rerun of its 13 solver timeouts: same with --timeout 900, --shards 13, manifest model-timeouts-manifest.txt",
+        "fuzz_gate": "cd /home/janotmik/primo-lia-default; PATH=/home/janotmik/primo-qflia-fuzz-gate/contrib/local/bin:/home/janotmik/primo-qflia-fuzz-gate/.venv-yinyang/bin:$PATH sbatch --export=ALL,PRIMO_WORKDIR=$PWD,PRIMO_FUZZ_OPFUZZ_SEEDS=/home/janotmik/primo-lia-integrality/tmp/seeds/qf_lia_division,PRIMO_FUZZ_YINYANG_SEEDS=<same>,PRIMO_FUZZ_OUT_ROOT=$PWD/fuzz-results/default-5dec036 scripts/slurm_qf_lia_model_fuzz_gate.sbatch (default options; 8x500 FuzzSMT -ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4; 1 opfuzz task; 2 typefuzz tasks)",
+        "seed_mutation": "sbatch --array=0-117 --time=04:30:00 --export=ALL,PRIMO_WORKDIR=$PWD,PRIMO_MUTATION_SEEDS=/home/janotmik/primo-lia-integrality/tmp/seeds/qf_lia_division,PRIMO_MUTATION_OUT=$PWD/fuzz-results/seed-mutation-5dec036,PRIMO_EXPECTED_GIT=5dec036,PRIMO_MUTATION_WALL_SECONDS=14400 scripts/slurm_seed_mutation_per_seed.sbatch (59 seeds <= 200 kB, fuzzers opfuzz then typefuzz)",
+        "analysis": "equivalence: per arm pair, files solved by both (ok, sat/unsat, <= 10 s) must agree in answer and in every --stats key except time, memory and the CSV's wall-clock fields"
+      },
+      "jobs": {
+        "release_tests": "347774 (COMPLETED, node-05)",
+        "asan_tests": "347775 (COMPLETED, node-05)",
+        "equivalence": "347779 (QF_UFLIA, 40 tasks) and 347780 (QF_LIA, 200 tasks), COMPLETED",
+        "model_validation": "347776 (8 tasks, node-05; 6 tasks exit FAILED only because --require-dolmen-pass treats a solver timeout as failure), rerun 348166 (13 tasks); 348153, a first submission of the rerun without --dolmen-size, was cancelled",
+        "fuzz_gate": "347777 (11 tasks COMPLETED)",
+        "seed_mutation": "347778 (116 tasks COMPLETED; tasks 114 and 115 cancelled by hand at 01:43:24)"
+      },
+      "artifacts": "/home/janotmik/primo-lia-integrality/results/lia-default-equivalence-5dec036/{QF_LIA,QF_UFLIA}/{refall,new,refoff,newoff}/shard-*.csv; /home/janotmik/primo-lia-default/results/models-5dec036-paired120-extra{,-long}/shard-*/summary.csv; /home/janotmik/primo-lia-default/fuzz-results/default-5dec036/{fuzzsmt,model-validation,opfuzz,yinyang}; /home/janotmik/primo-lia-default/fuzz-results/seed-mutation-5dec036/task-*/{status.tsv,bugs,CANCELLED.txt}; logs in /home/janotmik/primo-lia-default/logs and /home/janotmik/primo-lia-integrality/logs",
+      "results": {
+        "unit_tests": "Release 45/45 passed; ASan 45/45 passed",
+        "equivalence_qf_lia": "13,306 files per arm, 0 wrong in any arm. refall (5aaca1f + four flags) vs new (5dec036 default): 8,683 solved by both, 0 answer differences, 0 counter differences over 357 keys; 3 only refall and 6 only new, all at 9.7-10.3 s. refoff vs newoff (5dec036 + four --no- flags): 8,610 both, 0 answer or counter differences over 357 keys; 3 only refoff and 5 only newoff, all at 9.6-10.3 s",
+        "equivalence_qf_uflia": "659 files per arm, 0 wrong. refoff vs new and refoff vs newoff: 539 solved by both, 0 solved by only one arm, 0 answer or counter differences over 384 keys",
+        "model_validation": "472 files at 120 s: 459 Dolmen pass, 13 solver timeouts (10 nec-smt/large prp-*, SMPT Referendum-PT-0500 RC-05 and RC-07, arctic-matrix constraint-1107622), 0 invalid models, 0 SAT->UNSAT. Rerun of the 13 at 900 s: 13/13 Dolmen pass (job 348166, solver 128-160 s), so all 472 pass; with the 6,543 files of run-log 2026-11-03-lia-integrality-model-validation-2e120fa, every one of the 7,015 SAT files of job 345183's all-options arm has a Dolmen-accepted model",
+        "fuzzsmt": "4,000 cases (seeds 447777..447784): 3,936 PASS, 64 TIMEOUT, 0 wrong answer, crash, parser/type error, unsupported or reference disagreement; the 64 files in fuzzsmt/shard-*/bugs are all TIMEOUT rows (52 with z3 sat, 1 with z3 unsat, 11 with z3 timeout)",
+        "fuzz_model_validation": "3,504 pass, 450 not-sat, 46 solver-timeout; 0 invalid models and 0 solver errors",
+        "opfuzz_typefuzz_gate": "opfuzz task 8 (16,740 solver calls in its last log line) and typefuzz tasks 9 and 10 (778 and 2,376 calls): 0 bug files; all three reached the 1500 s wall, so per-seed coverage is not established by the gate",
+        "seed_mutation": "118 (fuzzer, seed) pairs: opfuzz 59/59 COVERED, typefuzz 57/59 COVERED, 0 bug files. The two uncovered pairs are typefuzz on tropical-matrix_constraint-170961.smt2 (129,763 bytes) and tropical-matrix_constraint-187292.smt2 (142,750 bytes): no solver call in 01:43:24, typefuzz's Python process at sstat MaxRSS 59,595,200 kB and 64,036,084 kB against --mem=4G (task 115 rose from 63,902,452 kB between readings; ps on node-02 showed 59,484,760 kB RSS for the typefuzz python3 process of task 114); cancelled to protect shared nodes. Recorded as a typefuzz limitation, not solver coverage (the 2026-11-03 run had stalled the same way at a 90-minute wall)"
+      },
+      "conclusion": "The 5dec036 QF_LIA default is search-identical to the measured all-options configuration and the QF_UFLIA default is unchanged; no gate found a wrong answer, crash, invalid model or reference disagreement. The four options are promoted to the QF_LIA route default; QF_UFLIA keeps them off."
+    },
+    {
       "id": "2026-11-04-lia-settings-preservation-and-fuzz-5aaca1f",
       "date": "2026-11-04",
       "commit": "5aaca1f",
