@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cstddef>
+#include <ios>
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
@@ -12,6 +13,7 @@
 #include <string>
 #include <vector>
 
+#include "core/ids.hpp"
 #include "core/symbol_table.hpp"
 #include "core/term_manager.hpp"
 #include "smt/check_sat.hpp"
@@ -164,9 +166,39 @@ void ground_streaming() {
   assert(buffer.bytes == expected_bytes && buffer.largest <= 5);
 }
 
+void arithmetic_streaming_round_trip() {
+  const std::string source =
+      "(set-logic QF_LRA)(declare-fun |real x| () Real)(declare-fun y () Real)"
+      "(assert (<= (+ (* (- (/ 2 7)) |real x|) y) (- (/ 3 11))))"
+      "(assert (< (+ |real x| (* 2 y)) 0))";
+  Frontend frontend;
+  std::vector<TermId> assertions;
+  for (const auto& command : primo::smtlib::Parser(source).parse_commands())
+    frontend.process_command(command, assertions);
+  std::string printed = "(set-logic QF_LRA)(declare-fun |real x| () Real)(declare-fun y () Real)";
+  for (const auto root : assertions) {
+    std::ostringstream output;
+    primo::smtlib::print_ground_term(output, frontend.terms(), root);
+    printed += "(assert " + output.str() + ")";
+  }
+  Frontend reparsed;
+  std::vector<TermId> repeated;
+  for (const auto& command : primo::smtlib::Parser(printed).parse_commands())
+    reparsed.process_command(command, repeated);
+  assert(repeated.size() == assertions.size());
+  for (std::size_t i = 0; i < repeated.size(); ++i) {
+    std::ostringstream before;
+    std::ostringstream after;
+    primo::smtlib::print_ground_term(before, frontend.terms(), assertions[i]);
+    primo::smtlib::print_ground_term(after, reparsed.terms(), repeated[i]);
+    assert(before.str() == after.str());
+  }
+}
+
 }  // namespace
 
 int main() {
+  arithmetic_streaming_round_trip();
   ground_streaming();
   round_trip_is_stable();
   names_are_fresh_and_quoted();

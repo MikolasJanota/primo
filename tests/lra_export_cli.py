@@ -24,6 +24,70 @@ def invoke(command, source):
     )
 
 
+def generate(index, rng):
+    a, b = rng.randrange(-20, 21), rng.randrange(-20, 21)
+    scale = rng.randrange(1, 10)
+    unsat = index % 5 != 0
+    strict = index % 2 == 0
+    bound = a + b if strict or not unsat else a + b - 1
+    if not unsat:
+        bound += 3
+    p = "(> y " + str(b) + ")" if strict else "(>= y " + str(b) + ")"
+    premises = [f"(>= x {a})", p, f"(<= (* {scale} (+ x y)) {scale * bound})"]
+    if index % 7 == 0:
+        # Negated comparisons exercise recorded literal polarity.
+        premises[0] = f"(not (< x {a}))"
+    if index % 11 == 0:
+        premises.append("(or (= x y) (not (= x y)))")
+    if index % 13 == 0:
+        premises.append("(= z (ite flag (+ x y) (- y x)))")
+    if index % 3 == 0:
+        second = [f"(>= x {a + 1})", f"(>= y {b - 1})", f"(< (+ x y) {a + b})"]
+        body = (
+            "(assert (or (and "
+            + " ".join(premises[:3])
+            + ") (and "
+            + " ".join(second)
+            + ")))"
+        )
+        body += "".join(f"(assert {fact})" for fact in premises[3:])
+    else:
+        body = "".join(f"(assert {fact})" for fact in premises)
+    source = (
+        "(set-logic QF_LRA)(declare-fun x () Real)(declare-fun y () Real)(declare-fun z () Real)(declare-fun flag () Bool)"
+        + body
+        + "(check-sat)"
+    )
+    return source, "unsat" if unsat else "sat"
+
+
+def focused_cases():
+    prelude = "(set-logic QF_LRA)(declare-fun x () Real)(declare-fun y () Real)(declare-fun z () Real)(declare-fun flag () Bool)"
+    problems = [
+        ("(assert (= x y))(assert (< x y))", "unsat"),
+        ("(assert (distinct x y))(assert (<= x y))(assert (<= y x))", "unsat"),
+        ("(assert (distinct x y))(assert (< x y))", "sat"),
+        (
+            "(assert flag)(assert (= z (ite flag (+ x y) (- x y))))(assert (>= x 2))(assert (>= y 3))(assert (< z 5))",
+            "unsat",
+        ),
+        (
+            "(define-fun sum ((a Real) (b Real)) Real (+ a b))(assert (<= (sum x y) 0))(assert (> x 1))(assert (>= y 0))",
+            "unsat",
+        ),
+        ("(assert (<= (* (/ 2 7) x) (- (/ 3 11))))(assert (>= x 0))", "unsat"),
+        (
+            "(assert (<= (* 100000000000000000000000000001 x) 1))(assert (>= x 1))",
+            "unsat",
+        ),
+        (
+            "(declare-fun |quoted real| () Real)(assert (not (<= |quoted real| (/ 1 3))))(assert (<= |quoted real| (/ 1 3)))",
+            "unsat",
+        ),
+    ]
+    return [(prelude + body + "(check-sat)", expected) for body, expected in problems]
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--solver", required=True)
@@ -47,45 +111,17 @@ def main():
     }
     entries = 0
     profiles = ["none", "core", "mus"]
-    for index in range(args.count):
-        a, b = rng.randrange(-20, 21), rng.randrange(-20, 21)
-        scale = rng.randrange(1, 10)
-        unsat = index % 5 != 0
-        strict = index % 2 == 0
-        bound = a + b if strict or not unsat else a + b - 1
-        if not unsat:
-            bound += 3
-        p = "(> y " + str(b) + ")" if strict else "(>= y " + str(b) + ")"
-        premises = [f"(>= x {a})", p, f"(<= (* {scale} (+ x y)) {scale * bound})"]
-        if index % 7 == 0:
-            # Negated comparisons exercise recorded literal polarity.
-            premises[0] = f"(not (< x {a}))"
-        if index % 11 == 0:
-            premises.append("(or (= x y) (not (= x y)))")
-        if index % 13 == 0:
-            premises.append("(= z (ite flag (+ x y) (- y x)))")
-        if index % 3 == 0:
-            second = [f"(>= x {a + 1})", f"(>= y {b - 1})", f"(< (+ x y) {a + b})"]
-            body = (
-                "(assert (or (and "
-                + " ".join(premises[:3])
-                + ") (and "
-                + " ".join(second)
-                + ")))"
-            )
-            body += "".join(f"(assert {fact})" for fact in premises[3:])
+    focused = focused_cases()
+    for index in range(args.count + len(focused)):
+        if index < len(focused):
+            source, expected = focused[index]
         else:
-            body = "".join(f"(assert {fact})" for fact in premises)
-        source = (
-            "(set-logic QF_LRA)(declare-fun x () Real)(declare-fun y () Real)(declare-fun z () Real)(declare-fun flag () Bool)"
-            + body
-            + "(check-sat)"
-        )
+            source, expected = generate(index - len(focused), rng)
+        unsat = expected == "unsat"
         path = args.out / f"{index:04d}.sexp"
         (args.out / f"{index:04d}.smt2").write_text(source)
         try:
             ref = invoke([args.reference, "-in"], source)
-            expected = "unsat" if unsat else "sat"
             if ref.returncode or ref.stdout.strip() != expected:
                 raise ValueError(f"reference disagrees: {ref}")
             mode = profiles[index % 3]
@@ -114,7 +150,8 @@ def main():
                 if x.strip() in ("sat", "unsat", "unknown")
             ]
             if result.returncode or answers != [expected]:
-                counts["wrong_answer"] += 1
+                if answers and answers[0] in ("sat", "unsat") and answers != [expected]:
+                    counts["wrong_answer"] += 1
                 raise ValueError(f"solver/export failed: {result}")
             if unsat:
                 checked = CHECKER.check_file(path, args.sat_solver)
@@ -133,7 +170,9 @@ def main():
             json.dumps(
                 {
                     "seed": args.seed,
-                    "count": args.count,
+                    "generated_count": args.count,
+                    "focused_count": len(focused),
+                    "count": args.count + len(focused),
                     "completed": index + 1,
                     "counts": counts,
                     "witness_entries": entries,

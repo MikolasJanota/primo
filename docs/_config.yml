@@ -35,6 +35,9 @@ sphinx:
   config:
     bibtex_reference_style: label
     extlinks:
+      lraexportsource:
+        - "https://github.com/primo-solver/primo/blob/79c5dfb8d2c46b45c79b4eacb74877eaf7ec344e/%s"
+        - "%s"
       micromathpipesource:
         - "https://github.com/primo-solver/primo/blob/0e138801312bfa94d9846cfbb799809daf766aca/%s"
         - "%s"

@@ -155,9 +155,8 @@ or choose one of its branches inside the arithmetic checker.
 
 ## Producer integration and resource behavior
 
-The former {micromathpipesource}`QfUfConflictCollector
-<src/smt/qf_uf_export.hpp>` has been generalized to `CnfConflictCollector` in
-`src/smt/cnf_export.*`. The existing
+The former UF collector has been generalized to
+{lraexportsource}`CnfConflictCollector <src/smt/cnf_export.hpp>`. The existing
 {ref}`LRA conflict construction <a-bound-contradiction-and-its-cancellation-proof>`
 returns premise literals without weights; the new collector reconstructs
 selected witnesses after propositional reduction.

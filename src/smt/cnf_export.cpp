@@ -19,6 +19,7 @@
 #include "core/ids.hpp"
 #include "core/sort.hpp"
 #include "core/symbol_table.hpp"
+#include "core/term.hpp"
 #include "core/term_manager.hpp"
 #include "sat/cadical_backend.hpp"
 #include "sat/clause.hpp"

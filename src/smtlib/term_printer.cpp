@@ -15,6 +15,7 @@
 #include "core/term.hpp"
 #include "core/term_manager.hpp"
 #include "smtlib/lexer.hpp"
+#include "util/rational.hpp"
 
 namespace primo::smtlib {
 
@@ -47,6 +48,23 @@ const char* operator_name(core::TermKind kind) {
     default:
       return nullptr;
   }
+}
+
+// Arithmetic payloads are literal rationals, not child terms. Emit legal
+// SMT-LIB numerals, including unary minus rather than signed numeral tokens.
+void print_rational(std::ostream& output, const util::Rational& value) {
+  auto text = value.to_string();
+  const bool negative = value.sign() < 0;
+  if (negative) {
+    output << "(- ";
+    text.erase(0, 1);
+  }
+  const auto slash = text.find('/');
+  if (slash == std::string::npos)
+    output << text;
+  else
+    output << "(/ " << text.substr(0, slash) << ' ' << text.substr(slash + 1) << ')';
+  if (negative) output << ')';
 }
 
 }  // namespace
@@ -180,6 +198,10 @@ void print_ground_term(std::ostream& output, const core::TermManager& terms, cor
       output << symbol_text(terms.symbols().get_symbol(node.symbol).name);
       continue;
     }
+    if (node.kind == core::TermKind::Rational) {
+      print_rational(output, node.rational_value);
+      continue;
+    }
     if ((node.kind == core::TermKind::And || node.kind == core::TermKind::Or) &&
         node.children.empty()) {
       output << (node.kind == core::TermKind::And ? "true" : "false");
@@ -187,10 +209,19 @@ void print_ground_term(std::ostream& output, const core::TermManager& terms, cor
     }
     if (node.kind == core::TermKind::Application) {
       output << '(' << symbol_text(terms.symbols().get_symbol(node.symbol).name);
+    } else if (node.kind == core::TermKind::Times) {
+      output << "(* ";
+      print_rational(output, node.rational_value);
+    } else if (node.kind == core::TermKind::Plus || node.kind == core::TermKind::Le ||
+               node.kind == core::TermKind::Lt) {
+      output << '('
+             << (node.kind == core::TermKind::Plus ? "+"
+                 : node.kind == core::TermKind::Le ? "<="
+                                                   : "<");
     } else if (const char* name = operator_name(node.kind)) {
       output << '(' << name;
     } else {
-      throw std::invalid_argument("term outside the ground UF fragment");
+      throw std::invalid_argument("term outside the ground UF/linear arithmetic fragment");
     }
     steps.push_back({Step::Kind::Text, core::kInvalidTermId, ")", 0});
     for (auto child = node.children.rbegin(); child != node.children.rend(); ++child) {

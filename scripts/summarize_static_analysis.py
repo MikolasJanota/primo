@@ -11,7 +11,10 @@ import shlex
 from collections import Counter
 from pathlib import Path
 
-COMMAND = re.compile(r"^(?:\S*/)?clang-tidy(?:-\d+)?\s", re.MULTILINE)
+COMMAND = re.compile(
+    r"^(?:\[\s*\d+/\d+\]\[[^\]\n]+\]\s+)?(?:\S*/)?clang-tidy(?:-\d+)?\s",
+    re.MULTILINE,
+)
 DIAGNOSTIC = re.compile(
     r"^(.+?):(\d+):(\d+): (warning|error|fatal error): (.*?)(?: \[([^\]]+)\])?$",
     re.MULTILINE,

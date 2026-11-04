@@ -38,6 +38,12 @@ commands. Sort erasure is restricted to the QF_UF path. Existing Real-equality
 and extended-term lowering are reused, so there is no new exporter-specific
 equality or `ite` translation.
 
+The streaming `smtlib::print_ground_term` printer supports rational literals,
+linear sums/scalings and comparisons as well as its original ground UF terms.
+It prints negative rationals with SMT-LIB unary minus and retains no cache of
+expanded subterm strings. The separate quantified UF string printer remains
+restricted to UF.
+
 Each `conflict-lra` pair contains a signed comparison literal and a nonnegative
 exact rational coefficient, printed as an integer or `(/ NUM DEN)` with positive
 denominator. Zero coefficients and all original selected premise positions
@@ -50,7 +56,7 @@ infinitesimal appears in the artifact.
 
 ## Implementation, ownership and failure
 
-The generic `smt::CnfConflictCollector` in `src/smt/cnf_export.*` replaces the
+The generic {lraexportsource}`smt::CnfConflictCollector <src/smt/cnf_export.hpp>` replaces the
 formerly UF-specific collector. Both Boolean/UF and LRA leaves bind it to the
 actual clausifier observer. LRA collection covers complete external conflicts,
 propagation reasons when their terminating zero is delivered, and lazy
@@ -58,7 +64,7 @@ fallback conflicts. No weights are stored by the normal LRA search.
 
 The collector borrows the query's term manager, owns atom-ID/polarity bindings,
 and keeps numeric CNFs only when subset reduction needs them. Its
-`NumericClauseSpool` owns an anonymous C `tmpfile`, native-binary literal records
+{lraexportsource}`NumericClauseSpool <src/smt/numeric_clause_spool.hpp>` owns an anonymous C `tmpfile`, native-binary literal records
 and, for reduction modes, record offsets. `none` uses sequential reading with
 no offset index. These are private query-local records, not a portable format.
 This numeric temporary file uses the C library's temporary-file location; the
@@ -66,8 +72,9 @@ existing text spool separately honors the repository's temporary-directory
 mechanism. All temporary files close when their query owner is destroyed.
 
 For each retained lemma, the collector normalizes only that lemma's facts and
-passes sparse exact coefficients to `theory::arithmetic::reconstruct_lra_certificate`
-in `src/theory/arithmetic/lra_certificate.*`. A fresh Bland tableau solves the
+passes sparse exact coefficients to
+{lraexportsource}`theory::arithmetic::reconstruct_lra_certificate <src/theory/arithmetic/lra_certificate.hpp>`.
+A fresh Bland tableau solves the
 non-strict multiplier problem below. Here the rows of $M$ are normalized
 premise coefficient vectors, $b$ contains their right-hand sides, $s_i$ is one
 for a strict premise and zero otherwise, and $\lambda_i$ is that premise's weight.
@@ -79,7 +86,8 @@ $$
 
 Its model supplies ordinary rational weights. A separate exact accumulator
 checks the candidate before text is staged. The temporary arithmetic state is
-released between lemmas. The tableau accepts an optional cancellation callback
+released between lemmas. The {lraexportsource}`tableau <src/theory/arithmetic/lra_tableau.hpp>`
+accepts an optional cancellation callback
 inside its pivot loops and throws `LraCheckInterrupted`; the reconstruction
 boundary returns an explicit interrupted status rather than interpreting it as
 SAT. Non-export solving passes no callback and retains its former behavior.

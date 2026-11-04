@@ -73,6 +73,15 @@ class StaticReportingTests(unittest.TestCase):
         self.assertEqual(report["diagnostic_occurrences"], 2)
         self.assertEqual(report["diagnostics"][0]["file"], self.files[2])
 
+    def test_llvm21_progress_prefixes_preserve_coverage(self):
+        log = "".join(
+            f"[{index:3d}/2][0.8s] {command}\n"
+            for index, command in enumerate(self.log.splitlines(), 1)
+        )
+        report = SUMMARY.summarize(self.manifest, log, 0)
+        self.assertEqual(report["status"], "clean")
+        self.assertEqual(report["analyzed_translation_units"], 2)
+
     def test_unbracketed_compiler_errors_are_failures(self):
         error = f"{self.repo / self.files[0]}:1:2: fatal error: missing header\n"
         self.assertEqual(

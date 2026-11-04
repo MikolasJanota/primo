@@ -526,6 +526,7 @@ primo_enable_warnings(primo_lra_certificate_tests)
 primo_enable_sanitizers(primo_lra_certificate_tests)
 target_link_libraries(primo_lra_certificate_tests PRIVATE primo_core)
 add_test(NAME primo_lra_certificate_tests COMMAND primo_lra_certificate_tests)
+set_tests_properties(primo_lra_certificate_tests PROPERTIES TIMEOUT 120)
 
 add_executable(primo_lia_completion_tests tests/unit/lia_completion_tests.cpp)
 primo_enable_warnings(primo_lia_completion_tests)

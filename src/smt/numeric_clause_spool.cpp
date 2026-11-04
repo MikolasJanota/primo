@@ -1,7 +1,5 @@
 #include "smt/numeric_clause_spool.hpp"
 
-#include <sys/types.h>
-
 #include <cerrno>
 #include <limits>
 #include <stdexcept>
@@ -39,10 +37,11 @@ void NumericClauseSpool::append(const sat::Clause& clause) {
 sat::Clause NumericClauseSpool::read(std::size_t index) {
   if (index >= count_) throw std::out_of_range("numeric lemma index");
   if (indexed_) {
+    using FileOffset = decltype(::ftello(file_));
     const auto offset = offsets_.at(index);
-    if (offset > static_cast<std::uint64_t>(std::numeric_limits<off_t>::max()))
+    if (offset > static_cast<std::uint64_t>(std::numeric_limits<FileOffset>::max()))
       throw std::length_error("numeric lemma offset overflow");
-    if (::fseeko(file_, static_cast<off_t>(offset), SEEK_SET) != 0) spool_error();
+    if (::fseeko(file_, static_cast<FileOffset>(offset), SEEK_SET) != 0) spool_error();
   } else if (next_ == 0) {
     if (index != 0) throw std::logic_error("numeric lemmas require sequential reading");
     if (::fseeko(file_, 0, SEEK_SET) != 0) spool_error();
