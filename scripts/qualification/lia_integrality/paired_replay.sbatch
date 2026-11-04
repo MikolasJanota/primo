@@ -6,7 +6,7 @@
 #SBATCH --output=logs/%x-%A-%a.out
 #SBATCH --error=logs/%x-%A-%a.err
 
-# Compare the existing all-options default with M1+M2+M4, then validate SAT
+# Compare selected integrality profiles, then validate SAT
 # models in a separately scheduled replay phase. Reuse the common provenance
 # and replay workflow; each phase owns its own results and resource limits.
 set -euo pipefail
@@ -29,7 +29,17 @@ mkdir -p "$out/nodes"
   sha256sum "$solver"
   lscpu | grep -E 'Model name|^CPU\(s\)|MHz' || true
 } > "$out/nodes/$phase-task-$task.txt"
-names=(all m124)
+read -r -a names <<< "${PRIMO_PAIRED_ARMS:-all m124}"
+declare -A seen=()
+for name in "${names[@]}"; do
+  case "$name" in
+    off|m12|m124|all) ;;
+    *) echo "invalid integrality profile: $name" >&2; exit 2 ;;
+  esac
+  if [[ -v seen[$name] ]]; then echo "duplicate profile: $name" >&2; exit 2; fi
+  seen[$name]=1
+done
+(( ${#names[@]} >= 2 ))
 status=0
 for ((chunk = 0; chunk < chunks; ++chunk)); do
   index=$((task * chunks + chunk))
@@ -39,8 +49,14 @@ for ((chunk = 0; chunk < chunks; ++chunk)); do
     args=("$phase" --out "$directory")
     case "$phase" in
       benchmark)
-        flags=(--quiet --stats --lia-round-integer-bounds --lia-primitive-int-rows
-               --lia-patch-integral-moves)
+        flags=(--quiet --stats)
+        if [[ $name == off ]]; then
+          flags+=(--no-lia-round-integer-bounds --no-lia-primitive-int-rows)
+        else
+          flags+=(--lia-round-integer-bounds --lia-primitive-int-rows)
+        fi
+        if [[ $name == all || $name == m124 ]]; then flags+=(--lia-patch-integral-moves)
+        else flags+=(--no-lia-patch-integral-moves); fi
         if [[ $name == all ]]; then flags+=(--lia-integer-slacks)
         else flags+=(--no-lia-integer-slacks); fi
         args+=(--root "$root" --solver "$solver" --expected-git "${PRIMO_EXPECTED_GIT:?}"

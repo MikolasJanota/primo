@@ -7,6 +7,7 @@ import argparse
 import collections
 import csv
 import hashlib
+import itertools
 import json
 import statistics
 import sys
@@ -97,13 +98,24 @@ def main() -> int:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--expected-files", type=int, default=13306)
     parser.add_argument("--timeout", type=float, default=60)
+    parser.add_argument("--arms", nargs="+", default=["all", "m124"])
+    parser.add_argument("--baseline", default="all")
+    parser.add_argument("--candidate", default="m124")
     args = parser.parse_args()
     if args.timeout <= 0 or args.expected_files <= 0:
         parser.error("timeout and expected file count must be positive")
+    if (
+        len(set(args.arms)) != len(args.arms)
+        or not set(args.arms) <= {"off", "m12", "m124", "all"}
+        or args.baseline not in args.arms
+        or args.candidate not in args.arms
+        or args.baseline == args.candidate
+    ):
+        parser.error("choose distinct supported arms including baseline and candidate")
     reference, reference_inputs, _ = load(args.reference_root)
     data, identities, provenance = {}, {}, {}
     result = {"timeout_seconds": args.timeout, "runs": {}, "models": {}}
-    for arm in ("all", "m124"):
+    for arm in args.arms:
         raw, identities[arm], parents = load(args.root / arm)
         if len(raw) != args.expected_files:
             raise ValueError(
@@ -131,33 +143,48 @@ def main() -> int:
         ]
         result["runs"][arm]["z3_checked"] = len(checked)
         result["runs"][arm]["z3_disagreements"] = disagreements
-    if provenance["all"] != provenance["m124"]:
+    if len(set(provenance.values())) != 1:
         raise ValueError("comparison binaries differ")
-    result["binary_sha256"] = provenance["all"]
-    result["comparison"] = compare(data["all"], data["m124"])
+    result["binary_sha256"] = provenance[args.baseline]
+    result["baseline"] = args.baseline
+    result["candidate"] = args.candidate
+    result["comparisons"] = {
+        arm: compare(data[args.baseline], data[arm])
+        for arm in args.arms if arm != args.baseline
+    }
+    result["comparison"] = result["comparisons"][args.candidate]
+    result["pairwise_disagreements"] = {
+        f"{left}/{right}": compare(data[left], data[right])["decisive_answer_disagreements"]
+        for left, right in itertools.combinations(args.arms, 2)
+    }
     common = [
         name
-        for name in data["all"]
-        if is_solved(data["all"][name]) and is_solved(data["m124"][name])
+        for name in data[args.baseline]
+        if is_solved(data[args.baseline][name]) and is_solved(data[args.candidate][name])
     ]
     ratios = [
-        float(data["m124"][name]["seconds"]) / float(data["all"][name]["seconds"])
+        float(data[args.candidate][name]["seconds"]) / float(data[args.baseline][name]["seconds"])
         for name in common
-        if min(float(data[a][name]["seconds"]) for a in data) >= 0.5
+        if min(float(data[a][name]["seconds"]) for a in (args.baseline, args.candidate)) >= 0.5
     ]
     result["common_runtime"] = {
         "files_both_at_least_half_second": len(ratios),
-        "median_m124_over_all": statistics.median(ratios) if ratios else None,
-        "geometric_mean_m124_over_all": statistics.geometric_mean(ratios)
+        "median_candidate_over_baseline": statistics.median(ratios) if ratios else None,
+        "geometric_mean_candidate_over_baseline": statistics.geometric_mean(ratios)
         if ratios
         else None,
     }
+    if (args.baseline, args.candidate) == ("all", "m124"):
+        result["common_runtime"]["median_m124_over_all"] = statistics.median(ratios) if ratios else None
+        result["common_runtime"]["geometric_mean_m124_over_all"] = (
+            statistics.geometric_mean(ratios) if ratios else None
+        )
     result["counters_common_solved"] = {
         arm: {
             key: sum(int(data[arm][name].get(key) or 0) for name in common)
             for key in COUNTERS
         }
-        for arm in data
+        for arm in (args.baseline, args.candidate)
     }
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
@@ -171,7 +198,7 @@ def main() -> int:
     return (
         0
         if clean
-        and not result["comparison"]["decisive_answer_disagreements"]
+        and not any(result["pairwise_disagreements"].values())
         and all(m["complete"] for m in result["models"].values())
         else 1
     )
