@@ -6,7 +6,7 @@
       "id": "2026-11-04-micromath-raw-export",
       "date": "2026-11-04",
       "kind": "Micromath-raw-export-update",
-      "evidence_status": "Raw workflow qualified on all3 saved failures;805-case checker recheck running",
+      "evidence_status": "Raw export qualified; all805 checker failures rechecked:797 kernel proofs,4 proof-file limits,4 challenge timeouts.",
       "commit": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
       "workflow_baseline_git": "0d17c40b",
       "micromath_git": "48addc4b6843122a970560199769919e90e31cd3",
@@ -181,7 +181,7 @@
         ]
       },
       "recheck": {
-        "status": "running",
+        "status": "completed",
         "job_id": "347770",
         "expected": 805,
         "original_outcomes": {
@@ -199,7 +199,186 @@
         "shards": 4,
         "keep_success_artifacts": "certificates",
         "remote": "$EXTERNAL_WORKSPACE/raw-recheck-347770",
-        "scope": "Only saved checker failures; no new native SMT solves. Original certificate/input hashes verified before replay. Successful generated payloads discarded after hashing and kernel checking."
+        "scope": "Only saved checker failures; no new native SMT solves. Original certificate/input hashes verified before replay. Successful generated payloads discarded after hashing and kernel checking.",
+        "completed_at_collection_utc": "2026-11-04T06:57:04+00:00",
+        "counts": {
+          "challenge_timeout": 4,
+          "kernel_proven": 797,
+          "proof_file_limit": 4
+        },
+        "raw_driver_counts": {
+          "challenge_timeout": 4,
+          "kernel_proven": 797,
+          "proof_error": 4
+        },
+        "by_original_outcome": {
+          "challenge_timeout": {
+            "challenge_timeout": 4
+          },
+          "proof_error": {
+            "kernel_proven": 797,
+            "proof_file_limit": 2
+          },
+          "proof_timeout": {
+            "proof_file_limit": 2
+          }
+        },
+        "remaining": [
+          {
+            "index": 8,
+            "file": "QG-classification/qg7/iso_icl_nogen_sk005.smt2",
+            "original_status": "challenge_timeout",
+            "status": "challenge_timeout",
+            "original_smt_bytes": 6012398,
+            "certificate_bytes": 24496551,
+            "challenge_bytes": 0,
+            "lrat_bytes": null,
+            "partial_proof_bytes": null,
+            "proof_exit_code": null,
+            "cnf_clauses": 257947,
+            "collected_lemmas": 16356,
+            "retained_lemmas": 9838,
+            "proof_seconds": null
+          },
+          {
+            "index": 9,
+            "file": "QG-classification/qg7/iso_icl_nogen_sk006.smt2",
+            "original_status": "challenge_timeout",
+            "status": "challenge_timeout",
+            "original_smt_bytes": 6012386,
+            "certificate_bytes": 17488186,
+            "challenge_bytes": 0,
+            "lrat_bytes": null,
+            "partial_proof_bytes": null,
+            "proof_exit_code": null,
+            "cnf_clauses": 222651,
+            "collected_lemmas": 2658,
+            "retained_lemmas": 2211,
+            "proof_seconds": null
+          },
+          {
+            "index": 11,
+            "file": "QG-classification/qg7/iso_icl_nogen006.smt2",
+            "original_status": "challenge_timeout",
+            "status": "challenge_timeout",
+            "original_smt_bytes": 6012106,
+            "certificate_bytes": 17524390,
+            "challenge_bytes": 0,
+            "lrat_bytes": null,
+            "partial_proof_bytes": null,
+            "proof_exit_code": null,
+            "cnf_clauses": 222306,
+            "collected_lemmas": 2587,
+            "retained_lemmas": 2300,
+            "proof_seconds": null
+          },
+          {
+            "index": 15,
+            "file": "2018-Goel-hwbench/QF_UF_sokoban.3.prop1_ab_br_max.smt2",
+            "original_status": "challenge_timeout",
+            "status": "challenge_timeout",
+            "original_smt_bytes": 1391629,
+            "certificate_bytes": 20362346,
+            "challenge_bytes": 0,
+            "lrat_bytes": null,
+            "partial_proof_bytes": null,
+            "proof_exit_code": null,
+            "cnf_clauses": 213075,
+            "collected_lemmas": 1668,
+            "retained_lemmas": 616,
+            "proof_seconds": null
+          },
+          {
+            "index": 362,
+            "file": "PEQ/PEQ002_size7.smt2",
+            "original_status": "proof_error",
+            "status": "proof_file_limit",
+            "original_smt_bytes": 62827,
+            "certificate_bytes": 30599268,
+            "challenge_bytes": 765002,
+            "lrat_bytes": 7250093,
+            "partial_proof_bytes": 1073741824,
+            "proof_exit_code": -25,
+            "cnf_clauses": 5720,
+            "collected_lemmas": 26510,
+            "retained_lemmas": 17870,
+            "proof_seconds": 39.37825693799823
+          },
+          {
+            "index": 1800,
+            "file": "PEQ/PEQ012_size6.smt2",
+            "original_status": "proof_timeout",
+            "status": "proof_file_limit",
+            "original_smt_bytes": 42150,
+            "certificate_bytes": 56996020,
+            "challenge_bytes": 1533351,
+            "lrat_bytes": 12554474,
+            "partial_proof_bytes": 1073741824,
+            "proof_exit_code": -25,
+            "cnf_clauses": 10001,
+            "collected_lemmas": 27514,
+            "retained_lemmas": 18478,
+            "proof_seconds": 60.03749022400007
+          },
+          {
+            "index": 2723,
+            "file": "QG-classification/qg6/iso_icl_repgen_sk010.smt2",
+            "original_status": "proof_timeout",
+            "status": "proof_file_limit",
+            "original_smt_bytes": 35761,
+            "certificate_bytes": 19258506,
+            "challenge_bytes": 165459,
+            "lrat_bytes": 9657026,
+            "partial_proof_bytes": 1073741824,
+            "proof_exit_code": -25,
+            "cnf_clauses": 714,
+            "collected_lemmas": 92810,
+            "retained_lemmas": 53979,
+            "proof_seconds": 34.73178436300077
+          },
+          {
+            "index": 3492,
+            "file": "SEQ/SEQ009_size10.smt2",
+            "original_status": "proof_error",
+            "status": "proof_file_limit",
+            "original_smt_bytes": 28245,
+            "certificate_bytes": 430806,
+            "challenge_bytes": 760075,
+            "lrat_bytes": 83809076,
+            "partial_proof_bytes": 1073741824,
+            "proof_exit_code": -25,
+            "cnf_clauses": 6500,
+            "collected_lemmas": 1600,
+            "retained_lemmas": 0,
+            "proof_seconds": 31.73278544099594
+          }
+        ],
+        "kernel_output_audit": {
+          "files_checked": 797,
+          "digest": "2a03388c3c1e1df6c37a0c114a80a559826fcbc25df58049713bc89655f7c607",
+          "encoding": "SHA256 of index:sha256(kernel.out) records followed by LF, in lexically sorted summary-path order and row order."
+        },
+        "scheduler": [
+          "347770_0|COMPLETED|0:0|00:17:35|node-05",
+          "347770_0.batch|COMPLETED|0:0|00:17:35|node-05",
+          "347770_1|COMPLETED|0:0|00:19:11|node-05",
+          "347770_1.batch|COMPLETED|0:0|00:19:11|node-05",
+          "347770_2|COMPLETED|0:0|00:16:38|node-05",
+          "347770_2.batch|COMPLETED|0:0|00:16:38|node-05",
+          "347770_3|COMPLETED|0:0|00:16:18|node-05",
+          "347770_3.batch|COMPLETED|0:0|00:16:18|node-05"
+        ],
+        "local_artifacts": "results/micromath-raw-recheck-347770",
+        "combined_coverage": {
+          "original_compact_kernel_proofs": 3216,
+          "additional_raw_kernel_proofs": 797,
+          "distinct_source_cases_with_kernel_proofs": 4013,
+          "original_selected": 4175,
+          "remaining_original_export_timeouts": 154,
+          "remaining_challenge_timeouts": 4,
+          "remaining_proof_file_limits": 4,
+          "scope": "Mixed-version/mode/budget coverage of the same saved exported CNFs. The three qualification examples are part of the797 rechecks and are not counted again. No source-to-CNF proof or isolated speedup claim."
+        }
       },
       "commands": {
         "prepare": "Canonical slurm_prepare_benchmark_workspace.py --build-via-slurm --check-only against qualified cf82b726 native workspace before sbatch.",
@@ -212,7 +391,29 @@
         "The mode, checker revision and per-file cap changed together. No isolated speedup claim is made. Historical compact results and immutable reproducer archives retain original pins/options.",
         "Raw generation and independent kernel replay use the same original three saved input/challenge/LRAT bytes; the largest new proof exceeds the old256MiB file cap.",
         "No native C++ behavior changes, native queries, printed SAT-model validation or source-to-CNF proof. Native suites/fuzz/ASan/tidy were not rerun; prior producer qualification remains separate."
-      ]
+      ],
+      "solver_output_feedback": {
+        "manifest": "benchmarks/checker-regressions/micromath-raw-limits-20261104/manifest.json",
+        "archives": [
+          {
+            "file": "benchmarks/checker-regressions/micromath-raw-limits-20261104/proof-file-limit-inputs.tar.gz",
+            "cases": 4,
+            "uncompressed_input_bytes": 107284600,
+            "archive_bytes": 3313004,
+            "sha256": "005b149020382a045d8fbb22fead131aedb5f5b683244f6ec5844682133eced7"
+          },
+          {
+            "file": "benchmarks/checker-regressions/micromath-raw-limits-20261104/challenge-timeout-inputs.tar.gz",
+            "cases": 4,
+            "uncompressed_input_bytes": 79871473,
+            "archive_bytes": 4488005,
+            "sha256": "6c3354560d55cc6107ffead8582384954888d0d84cde302881ffcb07bfe57789"
+          }
+        ],
+        "standalone": "benchmarks/checker-regressions/micromath-raw-limits-20261104/3492-SEQ009_size10.primo",
+        "contents": "Original unmodified .primo solver outputs only, for the8 remaining checker resource-limit cases. Author regenerates downstream artifacts.",
+        "validation": "All file hashes/lengths match original published exporter artifacts; every archive member was independently read back and hash-checked. No new solver/checker runs."
+      }
     },
     {
       "id": "2026-11-03-micromath-core-sweep-completed",

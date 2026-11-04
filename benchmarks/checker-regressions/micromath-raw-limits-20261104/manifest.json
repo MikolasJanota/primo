@@ -1,0 +1,178 @@
+{
+  "date": "2026-11-04",
+  "kind": "original-solver-outputs-for-checker-author",
+  "source_sweep": "347445",
+  "raw_replay": "347770",
+  "primo_git": "cf82b726353a904cde7d14a2b4e9f1bf6bdaf0fd",
+  "observed_checker_git": "48addc4b6843122a970560199769919e90e31cd3",
+  "producer_options": [
+    "--experimental-export-erase-sorts",
+    "--export-cnf-reduction=core"
+  ],
+  "archives_contain": "Only original unmodified .primo solver outputs; author regenerates downstream artifacts.",
+  "packaging_checks": "All file hashes/lengths match original published exporter artifacts; every archive member was independently read back and hash-checked. No new solver/checker runs.",
+  "limits": {
+    "worker_address_space_gib": 3,
+    "worker_file_limit_mib": 1024,
+    "pipeline_seconds": 180,
+    "stage_limits_seconds": {
+      "conflicts": 15,
+      "challenge": 15,
+      "cnf": 30,
+      "proof": 90,
+      "kernel": 45
+    },
+    "termination_grace_seconds": 2
+  },
+  "archives": [
+    {
+      "file": "benchmarks/checker-regressions/micromath-raw-limits-20261104/proof-file-limit-inputs.tar.gz",
+      "cases": 4,
+      "uncompressed_input_bytes": 107284600,
+      "archive_bytes": 3313004,
+      "sha256": "005b149020382a045d8fbb22fead131aedb5f5b683244f6ec5844682133eced7"
+    },
+    {
+      "file": "benchmarks/checker-regressions/micromath-raw-limits-20261104/challenge-timeout-inputs.tar.gz",
+      "cases": 4,
+      "uncompressed_input_bytes": 79871473,
+      "archive_bytes": 4488005,
+      "sha256": "6c3354560d55cc6107ffead8582384954888d0d84cde302881ffcb07bfe57789"
+    }
+  ],
+  "smallest_standalone_input": "3492-SEQ009_size10.primo",
+  "inputs": [
+    {
+      "index": 3492,
+      "filename": "3492-SEQ009_size10.primo",
+      "source_benchmark": "SEQ/SEQ009_size10.smt2",
+      "status": "proof_file_limit",
+      "bytes": 430806,
+      "sha256": "f58c86dcbe55cf3e22df11e2397c1df9833d89bda957210daa99cdbb5afc407d",
+      "retained_theory_lemmas": 0,
+      "cnf_clauses": 6500,
+      "archive": "proof-file-limit-inputs.tar.gz",
+      "archive_member": "proof-file-limit-inputs/3492-SEQ009_size10.primo",
+      "observed_limit": {
+        "stage": "smt/prove-lrat",
+        "proof_bytes": 1073741824,
+        "exit_signal": "SIGXFSZ"
+      }
+    },
+    {
+      "index": 9,
+      "filename": "0009-iso_icl_nogen_sk006.primo",
+      "source_benchmark": "QG-classification/qg7/iso_icl_nogen_sk006.smt2",
+      "status": "challenge_timeout",
+      "bytes": 17488186,
+      "sha256": "9ad7c69a61ed60f0abda7ea990635863fa6b02526faf9c1f009a53ed2a94773a",
+      "retained_theory_lemmas": 2211,
+      "cnf_clauses": 222651,
+      "archive": "challenge-timeout-inputs.tar.gz",
+      "archive_member": "challenge-timeout-inputs/0009-iso_icl_nogen_sk006.primo",
+      "observed_limit": {
+        "stage": "smt/build-challenge",
+        "wall_limit_seconds": 15
+      }
+    },
+    {
+      "index": 11,
+      "filename": "0011-iso_icl_nogen006.primo",
+      "source_benchmark": "QG-classification/qg7/iso_icl_nogen006.smt2",
+      "status": "challenge_timeout",
+      "bytes": 17524390,
+      "sha256": "9a606474f9be0a2c2ac2ee9a5e1af49d28275cada748bb2b7de42b4633116384",
+      "retained_theory_lemmas": 2300,
+      "cnf_clauses": 222306,
+      "archive": "challenge-timeout-inputs.tar.gz",
+      "archive_member": "challenge-timeout-inputs/0011-iso_icl_nogen006.primo",
+      "observed_limit": {
+        "stage": "smt/build-challenge",
+        "wall_limit_seconds": 15
+      }
+    },
+    {
+      "index": 2723,
+      "filename": "2723-iso_icl_repgen_sk010.primo",
+      "source_benchmark": "QG-classification/qg6/iso_icl_repgen_sk010.smt2",
+      "status": "proof_file_limit",
+      "bytes": 19258506,
+      "sha256": "9f6de839f103d9aeef3ad7096fdbcea98c6f1a9a36bb42dd5938e78fb1e2674e",
+      "retained_theory_lemmas": 53979,
+      "cnf_clauses": 714,
+      "archive": "proof-file-limit-inputs.tar.gz",
+      "archive_member": "proof-file-limit-inputs/2723-iso_icl_repgen_sk010.primo",
+      "observed_limit": {
+        "stage": "smt/prove-lrat",
+        "proof_bytes": 1073741824,
+        "exit_signal": "SIGXFSZ"
+      }
+    },
+    {
+      "index": 15,
+      "filename": "0015-QF_UF_sokoban.3.prop1_ab_br_max.primo",
+      "source_benchmark": "2018-Goel-hwbench/QF_UF_sokoban.3.prop1_ab_br_max.smt2",
+      "status": "challenge_timeout",
+      "bytes": 20362346,
+      "sha256": "3359d0db08bbc2de524850d970c8ced600e43807b4f1c73e5830c8dad1abdfc7",
+      "retained_theory_lemmas": 616,
+      "cnf_clauses": 213075,
+      "archive": "challenge-timeout-inputs.tar.gz",
+      "archive_member": "challenge-timeout-inputs/0015-QF_UF_sokoban.3.prop1_ab_br_max.primo",
+      "observed_limit": {
+        "stage": "smt/build-challenge",
+        "wall_limit_seconds": 15
+      }
+    },
+    {
+      "index": 8,
+      "filename": "0008-iso_icl_nogen_sk005.primo",
+      "source_benchmark": "QG-classification/qg7/iso_icl_nogen_sk005.smt2",
+      "status": "challenge_timeout",
+      "bytes": 24496551,
+      "sha256": "bee843e6da34b0b3bf2c813f6249b5add891b6e5888f63624a597e95435be5a0",
+      "retained_theory_lemmas": 9838,
+      "cnf_clauses": 257947,
+      "archive": "challenge-timeout-inputs.tar.gz",
+      "archive_member": "challenge-timeout-inputs/0008-iso_icl_nogen_sk005.primo",
+      "observed_limit": {
+        "stage": "smt/build-challenge",
+        "wall_limit_seconds": 15
+      }
+    },
+    {
+      "index": 362,
+      "filename": "0362-PEQ002_size7.primo",
+      "source_benchmark": "PEQ/PEQ002_size7.smt2",
+      "status": "proof_file_limit",
+      "bytes": 30599268,
+      "sha256": "ae02781e02937710043aef5822090dc6da4570ebef6fdeb5b50e28afc06f3353",
+      "retained_theory_lemmas": 17870,
+      "cnf_clauses": 5720,
+      "archive": "proof-file-limit-inputs.tar.gz",
+      "archive_member": "proof-file-limit-inputs/0362-PEQ002_size7.primo",
+      "observed_limit": {
+        "stage": "smt/prove-lrat",
+        "proof_bytes": 1073741824,
+        "exit_signal": "SIGXFSZ"
+      }
+    },
+    {
+      "index": 1800,
+      "filename": "1800-PEQ012_size6.primo",
+      "source_benchmark": "PEQ/PEQ012_size6.smt2",
+      "status": "proof_file_limit",
+      "bytes": 56996020,
+      "sha256": "9f80db7634097c798e8e583fb292948ae848365eb3a72bb3487fc684b26eb333",
+      "retained_theory_lemmas": 18478,
+      "cnf_clauses": 10001,
+      "archive": "proof-file-limit-inputs.tar.gz",
+      "archive_member": "proof-file-limit-inputs/1800-PEQ012_size6.primo",
+      "observed_limit": {
+        "stage": "smt/prove-lrat",
+        "proof_bytes": 1073741824,
+        "exit_signal": "SIGXFSZ"
+      }
+    }
+  ]
+}

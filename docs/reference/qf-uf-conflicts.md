@@ -538,13 +538,42 @@ checker revision and export mode together; these observations do not isolate
 an optimization's performance effect. Historical compact-mode reports and
 failure archives retain their original options and byte identities.
 
-Array `347770` is rechecking all 805 prior checker failures from saved
-certificates: 801 reuse their original challenge/CNF/LRAT, and the four old
-challenge timeouts rebuild those downstream inputs. No native SMT query is
-repeated. Successful generated payloads are discarded after hashing and kernel
-confirmation, with source inputs and metadata retained. The
-{download}`raw export report <../coverage/micromath-raw-export.json>` records
-pins, limits, qualification evidence and the separate recheck status.
+Array `347770` completed all 805 prior checker failures from saved certificates:
+801 reused their original challenge/CNF/LRAT, and four attempted to rebuild
+those downstream inputs. The result is 797 additional kernel proofs, four
+1 GiB proof-file limits, and four challenge-construction timeouts. No native
+SMT query was repeated. All 797 positive kernel logs were individually audited;
+the source certificate hashes match the original sweep. Successful generated
+payloads were discarded after hashing and kernel confirmation, with source
+inputs and metadata retained.
+
+The file-size failures occur during raw proof generation, before independent
+kernel checking. Input sizes vary: `PEQ002_size7` has a 29.2 MiB certificate
+and 6.9 MiB LRAT, while `SEQ009_size10` has a 421 KiB certificate with no theory
+lemmas and a 79.9 MiB LRAT. Both generated proofs hit the 1 GiB cap. These are
+output-file limits, not evidence of an input-parser limit.
+
+Together with the original compact proofs, 4,013 of the 4,175 selected source
+cases now have kernel proofs of their exported CNFs. This combines checker
+versions and budgets; the remaining cases are 154 original Primo export
+timeouts, four challenge timeouts and four proof-file limits. The
+{download}`raw export report <../coverage/micromath-raw-export.json>` preserves
+the exact pins, limits, byte sizes and outcome mapping.
+
+For author feedback, the remaining eight cases are exported as original solver
+outputs. Each archive contains four unmodified `.primo` files; the author can
+regenerate the downstream checker artifacts using the normal workflow.
+
+- {download}`Smallest remaining solver output (421 KiB, no theory lemmas) <../../benchmarks/checker-regressions/micromath-raw-limits-20261104/3492-SEQ009_size10.primo>`
+- {download}`Four proof-file-limit inputs (3.16 MiB compressed) <../../benchmarks/checker-regressions/micromath-raw-limits-20261104/proof-file-limit-inputs.tar.gz>`
+- {download}`Four challenge-timeout inputs (4.28 MiB compressed) <../../benchmarks/checker-regressions/micromath-raw-limits-20261104/challenge-timeout-inputs.tar.gz>`
+
+The {download}`input list and limits <../../benchmarks/checker-regressions/micromath-raw-limits-20261104/README.md>`
+describe the cases and resource caps; the
+{download}`manifest <../../benchmarks/checker-regressions/micromath-raw-limits-20261104/manifest.json>`
+records exact sizes and hashes. These inputs
+already use CORE reduction and object-sort erasure; no new solver or checker
+run was performed for packaging.
 
 ### Replaying saved certificates without Primo
 
