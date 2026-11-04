@@ -197,6 +197,17 @@ CLI::Option* add_flag_with_default(CLI::App& app, std::string name, bool& value,
   return option;
 }
 
+// --help text for a LIA switch whose default is decided per solver route by
+// default_lia_settings, so the help follows the policy.
+std::string lia_route_default_text(bool (*field)(const primo::smt::LiaSettings&)) {
+  const auto on_off = [](bool value) { return value ? "on" : "off"; };
+  const bool qf_lia = field(primo::smt::default_lia_settings(primo::smt::LiaRoute::QfLia));
+  const bool qf_uflia = field(primo::smt::default_lia_settings(primo::smt::LiaRoute::QfUflia));
+  if (qf_lia == qf_uflia) return std::string("[default: ") + on_off(qf_lia) + "]";
+  return std::string("[default: ") + on_off(qf_lia) + " for QF_LIA, " + on_off(qf_uflia) +
+         " for QF_UFLIA]";
+}
+
 // An option selecting an enumerator of `value` by its name in `names`. The
 // parsed value is written straight into `value`, and --help shows the name of
 // the value it holds when the option is added, so the default is written only
@@ -582,25 +593,33 @@ int run_main(int argc, char** argv) {
   add_flag_with_default(app, "--lia-round-integer-bounds", lia_round_integer_bounds,
                         "Round non-strict QF_LIA/QF_UFLIA thresholds on integer-valued tableau "
                         "variables inward (x <= 5/3 becomes x <= 1); strict thresholds are "
-                        "always rounded");
+                        "always rounded")
+      ->option_text(lia_route_default_text(
+          [](const primo::smt::LiaSettings& settings) { return settings.round_integer_bounds; }));
   add_flag_with_default(app, "--no-lia-round-integer-bounds", no_lia_round_integer_bounds,
                         "Disable --lia-round-integer-bounds; wins over it");
   add_flag_with_default(app, "--lia-primitive-int-rows", lia_primitive_int_rows,
                         "Store QF_LIA/QF_UFLIA atom rows with coprime integer coefficients "
                         "(2x + 3y stays 2x + 3y instead of x + 3/2 y), so every Int slack is "
-                        "integer-valued and its thresholds can be rounded");
+                        "integer-valued and its thresholds can be rounded")
+      ->option_text(lia_route_default_text(
+          [](const primo::smt::LiaSettings& settings) { return settings.primitive_int_rows; }));
   add_flag_with_default(app, "--no-lia-primitive-int-rows", no_lia_primitive_int_rows,
                         "Disable --lia-primitive-int-rows; wins over it");
   add_flag_with_default(app, "--lia-integer-slacks", lia_integer_slacks,
                         "Treat QF_LIA/QF_UFLIA slacks whose rows are integer polynomials over Int "
                         "variables as integer variables in patching, GCD tests, cuts and "
-                        "branching");
+                        "branching")
+      ->option_text(lia_route_default_text(
+          [](const primo::smt::LiaSettings& settings) { return settings.integer_slacks; }));
   add_flag_with_default(app, "--no-lia-integer-slacks", no_lia_integer_slacks,
                         "Disable --lia-integer-slacks; wins over it");
   add_flag_with_default(app, "--lia-patch-integral-moves", lia_patch_integral_moves,
                         "QF_LIA/QF_UFLIA patching: never leave an integer nonbasic variable "
                         "fractional, and propose the integer values of a row's nonbasic variable "
-                        "that make its basic variable integral");
+                        "that make its basic variable integral")
+      ->option_text(lia_route_default_text(
+          [](const primo::smt::LiaSettings& settings) { return settings.patch_integral_moves; }));
   add_flag_with_default(app, "--no-lia-patch-integral-moves", no_lia_patch_integral_moves,
                         "Disable --lia-patch-integral-moves; wins over it");
   add_flag_with_default(

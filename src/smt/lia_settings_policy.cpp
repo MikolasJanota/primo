@@ -5,11 +5,18 @@
 namespace primo::smt {
 
 LiaSettings default_lia_settings(LiaRoute route) {
-  // Both routes currently run the engine defaults. The decision to give a
-  // route its own default, such as the integrality options on QF_LIA only,
-  // is made here; the --help defaults in main.cpp must then follow it.
-  static_cast<void>(route);
-  return LiaSettings{};
+  LiaSettings settings;
+  if (route == LiaRoute::QfLia) {
+    // The four integrality switches of docs/papers/mip-presolve-integrality.md
+    // together: in the paired 120 s rerun at 2e120fa they solve a net 53 more
+    // QF_LIA files, cut at 60 s and at 120 s. QF_UFLIA keeps them off, since
+    // there they lose 31 wisas files (search-order effect, same page).
+    settings.round_integer_bounds = true;
+    settings.primitive_int_rows = true;
+    settings.integer_slacks = true;
+    settings.patch_integral_moves = true;
+  }
+  return settings;
 }
 
 LiaSettings resolve_lia_settings(LiaRoute route, const LiaSettingOverrides& overrides) {

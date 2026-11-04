@@ -429,25 +429,25 @@ QF_LIA theory options:
                               QF_LIA patching budget, run before the integer refutation stages
                               on every candidate model: caps how many nonbasic moves are taken
                               to nudge Int variables onto integer values. 0 disables patching
-          --lia-round-integer-bounds [default: off]
+          --lia-round-integer-bounds [default: on for QF_LIA, off for QF_UFLIA]
                               Round non-strict QF_LIA/QF_UFLIA thresholds on integer-valued
                               tableau variables inward (x <= 5/3 becomes x <= 1); strict
                               thresholds are always rounded
           --no-lia-round-integer-bounds [default: off]
                               Disable --lia-round-integer-bounds; wins over it
-          --lia-primitive-int-rows [default: off]
+          --lia-primitive-int-rows [default: on for QF_LIA, off for QF_UFLIA]
                               Store QF_LIA/QF_UFLIA atom rows with coprime integer coefficients
                               (2x + 3y stays 2x + 3y instead of x + 3/2 y), so every Int slack
                               is integer-valued and its thresholds can be rounded
           --no-lia-primitive-int-rows [default: off]
                               Disable --lia-primitive-int-rows; wins over it
-          --lia-integer-slacks [default: off]
+          --lia-integer-slacks [default: on for QF_LIA, off for QF_UFLIA]
                               Treat QF_LIA/QF_UFLIA slacks whose rows are integer polynomials
                               over Int variables as integer variables in patching, GCD tests,
                               cuts and branching
           --no-lia-integer-slacks [default: off]
                               Disable --lia-integer-slacks; wins over it
-          --lia-patch-integral-moves [default: off]
+          --lia-patch-integral-moves [default: on for QF_LIA, off for QF_UFLIA]
                               QF_LIA/QF_UFLIA patching: never leave an integer nonbasic
                               variable fractional, and propose the integer values of a row's
                               nonbasic variable that make its basic variable integral

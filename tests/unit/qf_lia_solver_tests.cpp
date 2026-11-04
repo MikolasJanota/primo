@@ -16,19 +16,33 @@ using primo::smt::CheckSatResult;
 
 namespace {
 
-const auto check_sat_smtlib = [](std::string_view input, CheckSatOptions options = {}) {
+// The engine's own defaults (LiaSettings{}), with the integrality switches
+// off. QF_LIA's route default turns them on (lia_settings_policy.cpp), so
+// tests of the stages below pin these settings explicitly instead of
+// inheriting the route default; the route default is tested separately.
+CheckSatOptions engine_defaults() {
+  CheckSatOptions options;
+  options.lia.round_integer_bounds = false;
+  options.lia.primitive_int_rows = false;
+  options.lia.integer_slacks = false;
+  options.lia.patch_integral_moves = false;
+  return options;
+}
+
+const auto check_sat_smtlib = [](std::string_view input,
+                                 CheckSatOptions options = engine_defaults()) {
   options.check_model = true;
   return primo::smt::check_sat_smtlib(input, std::move(options));
 };
 
 CheckSatOptions small_branch_limit(std::size_t limit) {
-  CheckSatOptions options;
+  CheckSatOptions options = engine_defaults();
   options.lia.branch_limit = limit;
   return options;
 }
 
 CheckSatOptions branch_and_cut_limits(std::size_t branch_limit, std::size_t cut_limit) {
-  CheckSatOptions options;
+  CheckSatOptions options = engine_defaults();
   options.lia.branch_limit = branch_limit;
   options.lia.gomory_cut_limit = cut_limit;
   return options;
@@ -263,6 +277,29 @@ void gcd_uncatchable_divergent_system_hits_the_node_limit() {
   assert(result.message.find("node limit") != std::string::npos);
 }
 
+// The QF_LIA route default enables the integrality switches
+// (lia_settings_policy.cpp). With primitive rows, the previous test's row is
+// stored as x + y with bounds [1/2, 3/4]; rounding them inward to [1, 0]
+// refutes it before branch-and-bound, within the same node budget. Under
+// set-logic QF_UFLIA the switches stay off and the node limit is reached.
+void route_default_closes_the_scaled_interval_gap() {
+  const std::string body = R"(
+    (declare-fun x () Int)
+    (declare-fun y () Int)
+    (assert (>= (+ (* 4 x) (* 4 y)) 2))
+    (assert (<= (+ (* 4 x) (* 4 y)) 3))
+    (check-sat)
+  )";
+  CheckSatOptions route_default;
+  route_default.lia.branch_limit = 20;
+  route_default.check_model = true;
+  const auto qf_lia = primo::smt::check_sat_smtlib("(set-logic QF_LIA)" + body, route_default);
+  assert(qf_lia.result == CheckSatResult::Unsat);
+  assert(qf_lia.statistics.get(":lia.prep-fractional-int-thresholds") > 0);
+  const auto qf_uflia = primo::smt::check_sat_smtlib("(set-logic QF_UFLIA)" + body, route_default);
+  assert(qf_uflia.result == CheckSatResult::Unknown);
+}
+
 // 3x + 5y = 7, x,y >= 0: no non-negative integer solution exists (y=0
 // needs x=7/3; y=1 needs 3x=2; y>=2 makes 5y>7 alone), confirmed
 // independently against z3 (unsat). The LP relaxation is feasible
@@ -321,7 +358,7 @@ void conflict_generalization_narrows_the_lemma_to_the_derivation() {
     (assert (<= w 20))
     (check-sat)
   )";
-  const auto result = check_sat_smtlib(script, CheckSatOptions{});
+  const auto result = check_sat_smtlib(script, engine_defaults());
   assert(result.result == CheckSatResult::Unsat);
 
   const auto generalized = result.statistics.get(primo::util::StatKey::LiaGeneralizedLemmas);
@@ -358,9 +395,9 @@ void conflict_generalization_does_not_change_answers() {
     (assert (distinct x y))
     (check-sat)
   )";
-  CheckSatOptions coarse;
+  CheckSatOptions coarse = engine_defaults();
   coarse.lia.conflict_generalization = false;
-  const CheckSatOptions generalized;
+  const CheckSatOptions generalized = engine_defaults();
 
   assert(check_sat_smtlib(unsat_script, generalized).result == CheckSatResult::Unsat);
   assert(check_sat_smtlib(unsat_script, coarse).result == CheckSatResult::Unsat);
@@ -393,7 +430,7 @@ void patching_finds_a_model_without_branching() {
     (check-sat)
     (get-model)
   )";
-  CheckSatOptions patched;
+  CheckSatOptions patched = engine_defaults();
   patched.lia.branch_limit = 0;
   const auto result = check_sat_smtlib(script, patched);
   assert(result.result == CheckSatResult::Sat);
@@ -403,7 +440,7 @@ void patching_finds_a_model_without_branching() {
 
   // The same instance with patching off cannot be solved at that branch
   // limit, which is what pins the gain to patching specifically.
-  CheckSatOptions unpatched;
+  CheckSatOptions unpatched = engine_defaults();
   unpatched.lia.branch_limit = 0;
   unpatched.lia.patch_limit = 0;
   assert(check_sat_smtlib(script, unpatched).result == CheckSatResult::Unknown);
@@ -426,7 +463,7 @@ void integer_preparation_counters_report_bound_gaps() {
     (assert (< (+ (* 2 y) (* 4 x)) 9))
     (check-sat)
   )";
-  const auto result = check_sat_smtlib(script, CheckSatOptions{});
+  const auto result = check_sat_smtlib(script, engine_defaults());
   assert(result.result == CheckSatResult::Sat);
   assert(result.statistics.get(primo::util::StatKey::LiaPrepFractionalIntThresholds) == 1);
   assert(result.statistics.get(primo::util::StatKey::LiaPrepNonIntegerIntSlackAtoms) == 3);
@@ -440,7 +477,7 @@ void integer_preparation_counters_report_bound_gaps() {
 // must be the same; only the integer-completion work differs.
 void rounding_integer_bounds_keeps_answers_and_skips_completion() {
   const auto run = [](const std::string& body, bool round) {
-    CheckSatOptions options;
+    CheckSatOptions options = engine_defaults();
     options.lia.round_integer_bounds = round;
     options.produce_model = true;
     return check_sat_smtlib("(set-logic QF_LIA)\n(declare-fun x () Int)\n(declare-fun y () Int)\n" +
@@ -474,7 +511,7 @@ void rounding_integer_bounds_keeps_answers_and_skips_completion() {
 // the same answer under all four combinations of the two options.
 void primitive_integer_rows_keep_answers() {
   const auto run = [](const std::string& body, bool round, bool primitive) {
-    CheckSatOptions options;
+    CheckSatOptions options = engine_defaults();
     options.lia.round_integer_bounds = round;
     options.lia.primitive_int_rows = primitive;
     options.produce_model = true;
@@ -550,7 +587,7 @@ void integer_slacks_join_completion() {
     (assert (>= (+ (* 4 x) (* 6 y)) 13))
     (check-sat)
   )";
-  CheckSatOptions options;
+  CheckSatOptions options = engine_defaults();
   options.lia.primitive_int_rows = true;
   options.lia.branch_limit = 50;
   const auto inputs_only = check_sat_smtlib(script, options);
@@ -577,12 +614,12 @@ void integral_patch_moves_reach_completion() {
     (assert (< (+ (* 2 y) (* 4 x)) 9))
     (check-sat)
   )";
-  CheckSatOptions plain;
+  CheckSatOptions plain = engine_defaults();
   const auto off = check_sat_smtlib(script, plain);
   assert(off.result == CheckSatResult::Sat);
   assert(off.statistics.get(primo::util::StatKey::LiaPatchFractionalCandidatesRejected) == 0);
   assert(off.statistics.get(primo::util::StatKey::LiaPatchLatticeCandidatesScored) == 0);
-  CheckSatOptions integral;
+  CheckSatOptions integral = engine_defaults();
   integral.lia.patch_integral_moves = true;
   const auto on = check_sat_smtlib(script, integral);
   assert(on.result == CheckSatResult::Sat);
@@ -627,7 +664,7 @@ void integer_preparation_options_do_not_touch_real_arithmetic() {
     (assert (>= x (/ 1 3)))
     (check-sat)
   )";
-  CheckSatOptions plain;
+  CheckSatOptions plain = engine_defaults();
   plain.produce_model = true;
   CheckSatOptions integer = plain;
   integer.lia.round_integer_bounds = true;
@@ -661,9 +698,9 @@ void patching_does_not_change_answers() {
     (assert (>= y 0))
     (check-sat)
   )";
-  CheckSatOptions without;
+  CheckSatOptions without = engine_defaults();
   without.lia.patch_limit = 0;
-  const CheckSatOptions with;
+  const CheckSatOptions with = engine_defaults();
 
   assert(check_sat_smtlib(sat_script, with).result == CheckSatResult::Sat);
   assert(check_sat_smtlib(sat_script, without).result == CheckSatResult::Sat);
@@ -867,7 +904,7 @@ void qf_lia_rejects_nonlinear_and_zero_division() {
 // Lowering runs in the initial sequence, before the preprocessing mode is
 // consulted, so no setting can leave an extended term for the solver.
 void qf_lia_lowers_extended_terms_with_preprocessing_off() {
-  CheckSatOptions options;
+  CheckSatOptions options = engine_defaults();
   options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
   const auto result = check_sat_smtlib(R"(
     (set-logic QF_LIA)
@@ -886,7 +923,7 @@ void qf_lia_lowers_extended_terms_with_preprocessing_off() {
 void shared_driver_preserves_boolean_models_and_recipe_isolation() {
   for (const bool guided : {false, true}) {
     for (const auto euf : {primo::smt::EufEngine::Lazy, primo::smt::EufEngine::Incremental}) {
-      CheckSatOptions options;
+      CheckSatOptions options = engine_defaults();
       options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
       options.qf_uflia_model_combination = guided;
       options.qf_uflia_online_components = false;
@@ -923,7 +960,7 @@ void shared_driver_preserves_boolean_models_and_recipe_isolation() {
 }
 
 void boolean_only_lia_and_solving_without_models() {
-  CheckSatOptions options;
+  CheckSatOptions options = engine_defaults();
   options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
   const auto boolean = check_sat_smtlib(R"(
     (set-logic QF_LIA)
@@ -966,7 +1003,7 @@ void internal_integer_branches_do_not_spend_the_conflict_budget() {
     (assert (<= y 3))
     (check-sat)
   )";
-  CheckSatOptions options;
+  CheckSatOptions options = engine_defaults();
   options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
   options.lia.patch_limit = 0;
   options.lia.gomory_cut_limit = 0;
@@ -990,7 +1027,7 @@ void shared_driver_preserves_typed_limits_and_cancellation() {
     (assert (= (+ (* 2 x) (* 4 y)) 1))
     (check-sat)
   )";
-  CheckSatOptions options;
+  CheckSatOptions options = engine_defaults();
   options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
   options.max_theory_conflicts = 1;
   const auto limited = check_sat_smtlib(input, options);
@@ -1036,6 +1073,7 @@ int main() {
   strict_inequalities_tighten_to_pin_one_value();
   gcd_inconsistent_system_is_unsat_without_branching();
   gcd_uncatchable_divergent_system_hits_the_node_limit();
+  route_default_closes_the_scaled_interval_gap();
   gomory_cut_resolves_what_branch_and_bound_alone_cannot();
   conflict_generalization_narrows_the_lemma_to_the_derivation();
   conflict_generalization_does_not_change_answers();

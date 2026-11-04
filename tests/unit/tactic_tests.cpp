@@ -1157,33 +1157,54 @@ void solver_dispatch_uses_formula_tactics() {
 // engine defaults, and an explicit override always wins on every route.
 void lia_settings_policy_resolves_route_defaults_and_overrides() {
   using primo::smt::LiaRoute;
-  for (const LiaRoute route : {LiaRoute::QfLia, LiaRoute::QfUflia}) {
-    check(primo::smt::default_lia_settings(route) == primo::smt::LiaSettings{});
-    check(primo::smt::resolve_lia_settings(route, {}) == primo::smt::default_lia_settings(route));
+  using primo::smt::LiaSettings;
+  // QF_UFLIA runs the engine defaults; QF_LIA adds the four integrality
+  // switches (docs/papers/mip-presolve-integrality.md).
+  LiaSettings qf_lia_expected;
+  qf_lia_expected.round_integer_bounds = true;
+  qf_lia_expected.primitive_int_rows = true;
+  qf_lia_expected.integer_slacks = true;
+  qf_lia_expected.patch_integral_moves = true;
+  check(primo::smt::default_lia_settings(LiaRoute::QfLia) == qf_lia_expected);
+  check(primo::smt::default_lia_settings(LiaRoute::QfUflia) == LiaSettings{});
 
+  for (const LiaRoute route : {LiaRoute::QfLia, LiaRoute::QfUflia}) {
+    const LiaSettings defaults = primo::smt::default_lia_settings(route);
+    check(primo::smt::resolve_lia_settings(route, {}) == defaults);
+
+    // Every override wins, in the direction opposite to the route default.
     primo::smt::LiaSettingOverrides overrides;
     overrides.branch_limit = 7;
     overrides.gomory_cut_limit = 0;
     overrides.patch_limit = 3;
-    overrides.conflict_generalization = false;
-    overrides.round_integer_bounds = true;
-    overrides.primitive_int_rows = true;
-    overrides.integer_slacks = true;
-    overrides.patch_integral_moves = true;
-    const primo::smt::LiaSettings resolved = primo::smt::resolve_lia_settings(route, overrides);
+    overrides.conflict_generalization = !defaults.conflict_generalization;
+    overrides.round_integer_bounds = !defaults.round_integer_bounds;
+    overrides.primitive_int_rows = !defaults.primitive_int_rows;
+    overrides.integer_slacks = !defaults.integer_slacks;
+    overrides.patch_integral_moves = !defaults.patch_integral_moves;
+    const LiaSettings resolved = primo::smt::resolve_lia_settings(route, overrides);
     check(resolved.branch_limit == 7);
     check(resolved.gomory_cut_limit == 0);
     check(resolved.patch_limit == 3);
-    check(!resolved.conflict_generalization);
-    check(resolved.round_integer_bounds && resolved.primitive_int_rows);
-    check(resolved.integer_slacks && resolved.patch_integral_moves);
+    check(resolved.conflict_generalization == !defaults.conflict_generalization);
+    check(resolved.round_integer_bounds == !defaults.round_integer_bounds);
+    check(resolved.primitive_int_rows == !defaults.primitive_int_rows);
+    check(resolved.integer_slacks == !defaults.integer_slacks);
+    check(resolved.patch_integral_moves == !defaults.patch_integral_moves);
 
-    // An explicit false is an override too: it is kept, not treated as unset.
-    primo::smt::LiaSettingOverrides off;
-    off.round_integer_bounds = false;
-    off.conflict_generalization = true;
-    check(primo::smt::resolve_lia_settings(route, off) == primo::smt::default_lia_settings(route));
+    // An override equal to the default is kept and changes nothing.
+    primo::smt::LiaSettingOverrides same;
+    same.round_integer_bounds = defaults.round_integer_bounds;
+    same.conflict_generalization = defaults.conflict_generalization;
+    check(primo::smt::resolve_lia_settings(route, same) == defaults);
   }
+
+  // An explicit false turns a QF_LIA default off: it is not treated as unset.
+  primo::smt::LiaSettingOverrides off;
+  off.primitive_int_rows = false;
+  const LiaSettings resolved = primo::smt::resolve_lia_settings(LiaRoute::QfLia, off);
+  check(!resolved.primitive_int_rows);
+  check(resolved.round_integer_bounds && resolved.integer_slacks && resolved.patch_integral_moves);
 }
 
 // Each LIA route's resolved settings are part of the dispatch leaf's
@@ -1197,43 +1218,65 @@ void lia_overrides_change_the_solver_strategy_identity() {
   const primo::smt::Strategy base =
       primo::smt::make_session_solver_strategy(frontend, options, statistics, context);
 
+  // The two routes' defaults differ, and the identity records both.
+  check(base.canonical().find("(\"qf-lia.primitive-int-rows\" \"true\")") != std::string::npos);
+  check(base.canonical().find("(\"qf-uflia.primitive-int-rows\" \"false\")") != std::string::npos);
+
   primo::smt::CheckSatOptions same;
-  same.lia.round_integer_bounds = false;
+  same.lia.conflict_generalization = true;
   check(
       primo::smt::make_session_solver_strategy(frontend, same, statistics, context).fingerprint() ==
       base.fingerprint());
 
   primo::smt::CheckSatOptions rows;
-  rows.lia.primitive_int_rows = true;
-  const primo::smt::Strategy with_rows =
+  rows.lia.primitive_int_rows = false;
+  const primo::smt::Strategy without_rows =
       primo::smt::make_session_solver_strategy(frontend, rows, statistics, context);
-  check(with_rows.fingerprint() != base.fingerprint());
-  check(with_rows.canonical().find("(\"qf-lia.primitive-int-rows\" \"true\")") !=
+  check(without_rows.fingerprint() != base.fingerprint());
+  check(without_rows.canonical().find("(\"qf-lia.primitive-int-rows\" \"false\")") !=
         std::string::npos);
-  check(with_rows.canonical().find("(\"qf-uflia.primitive-int-rows\" \"true\")") !=
+  check(without_rows.canonical().find("(\"qf-uflia.primitive-int-rows\" \"false\")") !=
         std::string::npos);
 }
-
-// The resolved settings, not a session-wide options copy, reach the engine:
-// a patch budget of 0 skips patching and its statistics on the QF_LIA route.
 void lia_route_settings_reach_the_engine() {
-  const char* input = R"(
-    (set-logic QF_LIA)
-    (declare-fun x () Int)
-    (declare-fun y () Int)
-    (assert (= (+ (* 2 x) (* 2 y)) 3))
-    (check-sat)
-  )";
-  primo::smt::CheckSatOptions patched;
-  const auto with_patching = primo::smt::check_sat_smtlib(input, patched);
-  check(with_patching.result == primo::smt::CheckSatResult::Unsat);
-  check(with_patching.statistics.get(":lia.patch-sweeps") > 0);
+  const auto input = [](std::string_view logic) {
+    return "(set-logic " + std::string(logic) + R"()
+      (declare-fun x () Int)
+      (declare-fun y () Int)
+      (assert (= (+ (* 2 x) (* 2 y)) 3))
+      (check-sat)
+    )";
+  };
+  // QF_LIA's default stores the row as x + y with integer thresholds, so the
+  // fractional bound 3/2 is refuted during preparation, before patching.
+  const auto qf_lia = primo::smt::check_sat_smtlib(input("QF_LIA"), {});
+  check(qf_lia.result == primo::smt::CheckSatResult::Unsat);
+  check(qf_lia.statistics.get(":lia.prep-fractional-int-thresholds") > 0);
+  check(qf_lia.statistics.get(":lia.patch-sweeps") == 0);
 
-  primo::smt::CheckSatOptions unpatched;
-  unpatched.lia.patch_limit = 0;
-  const auto without_patching = primo::smt::check_sat_smtlib(input, unpatched);
-  check(without_patching.result == primo::smt::CheckSatResult::Unsat);
-  check(without_patching.statistics.get(":lia.patch-sweeps") == 0);
+  // QF_UFLIA's default leaves the switches off: the slack stays non-integer
+  // and patching runs.
+  const auto qf_uflia = primo::smt::check_sat_smtlib(input("QF_UFLIA"), {});
+  check(qf_uflia.result == primo::smt::CheckSatResult::Unsat);
+  check(qf_uflia.statistics.get(":lia.prep-fractional-int-thresholds") == 0);
+  check(qf_uflia.statistics.get(":lia.patch-sweeps") > 0);
+
+  // Overrides reach the QF_LIA engine: switches off brings patching back,
+  // and a zero patch budget then disables it again.
+  primo::smt::CheckSatOptions off;
+  off.lia.round_integer_bounds = false;
+  off.lia.primitive_int_rows = false;
+  off.lia.integer_slacks = false;
+  off.lia.patch_integral_moves = false;
+  const auto patched = primo::smt::check_sat_smtlib(input("QF_LIA"), off);
+  check(patched.result == primo::smt::CheckSatResult::Unsat);
+  check(patched.statistics.get(":lia.prep-fractional-int-thresholds") == 0);
+  check(patched.statistics.get(":lia.patch-sweeps") > 0);
+
+  off.lia.patch_limit = 0;
+  const auto unpatched = primo::smt::check_sat_smtlib(input("QF_LIA"), off);
+  check(unpatched.result == primo::smt::CheckSatResult::Unsat);
+  check(unpatched.statistics.get(":lia.patch-sweeps") == 0);
 }
 
 void production_solver_strategy_has_stable_typed_identity() {
@@ -1248,13 +1291,16 @@ void production_solver_strategy_has_stable_typed_identity() {
       primo::smt::make_session_solver_strategy(frontend, options, statistics, context);
   check(strategy.kind() == primo::smt::StrategyKind::Leaf);
   check(strategy.leaf_id() == "solver-dispatch");
-  const std::string default_lia =
-      "(\"branch-limit\" \"100000\") (\"conflict-generalization\" \"true\") "
-      "(\"gomory-cut-limit\" \"100\") (\"integer-slacks\" \"false\") "
-      "(\"patch-integral-moves\" \"false\") (\"patch-limit\" \"100\") "
-      "(\"primitive-int-rows\" \"false\") (\"round-integer-bounds\" \"false\")";
-  const auto route = [&default_lia](std::string_view prefix) {
-    std::string rendered = default_lia;
+  // QF_LIA defaults the four integrality switches on, QF_UFLIA off.
+  const auto lia = [](std::string_view integrality) {
+    return "(\"branch-limit\" \"100000\") (\"conflict-generalization\" \"true\") "
+           "(\"gomory-cut-limit\" \"100\") (\"integer-slacks\" \"" +
+           std::string(integrality) + "\") (\"patch-integral-moves\" \"" +
+           std::string(integrality) + "\") (\"patch-limit\" \"100\") (\"primitive-int-rows\" \"" +
+           std::string(integrality) + "\") (\"round-integer-bounds\" \"" +
+           std::string(integrality) + "\")";
+  };
+  const auto route = [](std::string_view prefix, std::string rendered) {
     for (std::size_t at = rendered.find("(\""); at != std::string::npos;
          at = rendered.find("(\"", at + 2)) {
       rendered.insert(at + 2, prefix);
@@ -1264,7 +1310,7 @@ void production_solver_strategy_has_stable_typed_identity() {
   check(strategy.canonical() ==
         "(leaf \"solver-dispatch\" (\"has-declared-real-constants\" \"false\") "
         "(\"logic\" \"\") (\"mixed-dispatch\" \"wide\") " +
-            route("qf-lia.") + " " + route("qf-uflia.") + ")");
+            route("qf-lia.", lia("true")) + " " + route("qf-uflia.", lia("false")) + ")");
   check(strategy ==
         primo::smt::make_session_solver_strategy(frontend, options, statistics, context));
   check(strategy.fingerprint() ==
