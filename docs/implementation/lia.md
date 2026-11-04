@@ -767,7 +767,13 @@ Choosing the values is a separate step. In the order the data flows:
    explicit value therefore always wins over the route default.
 
 Both routes currently default to the values in the budget table, so the split
-is meant to leave every result unchanged. The decision to give a route its
+leaves every result unchanged. A paired 10 s run of 5aaca1f against 2e120fa
+on the full QF_LIA and QF_UFLIA corpora found no answer or search-counter
+difference, with default options or with all four integrality switches. The
+only differences in the solved sets were files at the time limit. Fuzz gates
+with both option sets found no wrong answer and no invalid model (run-log
+entry `2026-11-04-lia-settings-preservation-and-fuzz-5aaca1f` in the
+{source}`run log <docs/run-log.json>`). The decision to give a route its
 own default, such as the integrality switches on QF_LIA only, belongs in
 `default_lia_settings`. The `--help` defaults in `main.cpp`, the CLI help
 snapshot and the table's default column do not follow the policy

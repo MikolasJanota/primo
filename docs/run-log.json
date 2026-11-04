@@ -3,6 +3,48 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-04-lia-settings-preservation-and-fuzz-5aaca1f",
+      "date": "2026-11-04",
+      "commit": "5aaca1f",
+      "branch": "lia-integrality",
+      "kind": "slurm-preservation-and-fuzz-gate",
+      "scope": "Verification of the LIA settings split (5aaca1f: LiaSettings held by the engine, resolve_lia_settings per route, --no-lia-* flags; docs/implementation/lia.md#lia-settings). Release and ASan unit tests; a paired preservation run against 2e120fa with default options and with all four integrality options on the full QF_LIA (13,306) and QF_UFLIA (659) corpora; QF_LIA merge fuzz gates with default options and with all four options.",
+      "environment": {
+        "host": "CIIRC SLURM cluster, partition compute, Xeon E5-2690 v4 nodes node-02..05 (node-01 and node-06..09 down); remote workdirs /home/janotmik/primo-lia-settings (5aaca1f source) and /home/janotmik/primo-lia-integrality (2e120fa, corpora, paired script)",
+        "binaries": {
+          "5aaca1f": "/home/janotmik/primo-lia-settings/build-slurm-rel/primo, banner git 5aaca1f, Release, cadical-3.0.0-7b99c07, sha256 b23e9c99c70d500bf4a20038178ec3d3e0028dce400f9943354bc59c2866615d",
+          "2e120fa": "/home/janotmik/primo-lia-integrality/build-slurm-rel/primo, banner git 2e120fa, sha256 c501bffa5807f7c6947128c0e78be95c6c8d8b9d975e0a4de269065fd3c28fea"
+        },
+        "reference": "z3 and Dolmen (--strict=false) from contrib/local/bin; fuzzsmt, opfuzz and typefuzz from /home/janotmik/primo-qflia-fuzz-gate/{contrib/local/bin,.venv-yinyang/bin}",
+        "limits": "preservation: 10 s wall per file through bench_qf_uf_full.py, --quiet --stats, 2 CPUs and 3 GB per task, all four arms of a sub-shard in the same task with rotated order; fuzz: gate defaults (FuzzSMT 5 s, model validation 10 s, opfuzz/typefuzz 5 s per call and 1500 s wall per task)"
+      },
+      "commands": {
+        "unit_tests": "detached sbatch of a scratch build script (the prepare script's synchronous srun had timed out on a full cluster): job 347495 = clean Release build with the header-manifest -isystem flags and -DPRIMO_GIT_REVISION_OVERRIDE=5aaca1f, then ctest --test-dir build-slurm-rel -j8; job 347522 = cmake Debug -DPRIMO_SANITIZERS=address with GCCcore 11.3.0 g++/gcc and CXXFLAGS=-idirafter <manifest's last root>, then its ctest. Job 347496, the first ASan attempt without -idirafter, failed to compile (features.h not found)",
+        "solvers": "OLD=\"$W/build-slurm-rel/primo --quiet --stats\"; NEW=\"/home/janotmik/primo-lia-settings/build-slurm-rel/primo --quiet --stats\"; ALL=\"--lia-round-integer-bounds --lia-primitive-int-rows --lia-integer-slacks --lia-patch-integral-moves\"; PRIMO_COMPARE_SOLVERS=\"old=$OLD;new=$NEW;oldall=$OLD $ALL;newall=$NEW $ALL\" (W=/home/janotmik/primo-lia-integrality, file preserve-env.sh there)",
+        "qf_uflia": "sbatch --dependency=afterok:347495 --array=0-39%12 --cpus-per-task=2 --time=02:00:00 --export=ALL,PRIMO_COMPARE_ROOT=tmp/QF_UFLIA,PRIMO_COMPARE_TIMEOUT=10,PRIMO_PAIRED_SHARDS=40,PRIMO_PAIRED_CHUNKS=4,PRIMO_COMPARE_OUT_ROOT=$W/results/settings-preservation-5aaca1f/QF_UFLIA scripts/slurm_paired_solver_compare.sbatch (sha256 6d2fc6597f34161357d20566cdb8afe9ff159dd46fdb674ce5907015ea967871)",
+        "qf_lia": "same with --array=0-199%40 --time=04:00:00, PRIMO_COMPARE_ROOT=tmp/QF_LIA, PRIMO_PAIRED_SHARDS=200, out $W/results/settings-preservation-5aaca1f/QF_LIA",
+        "fuzz_default": "cd /home/janotmik/primo-lia-settings; PATH=/home/janotmik/primo-qflia-fuzz-gate/contrib/local/bin:/home/janotmik/primo-qflia-fuzz-gate/.venv-yinyang/bin:$PATH sbatch --dependency=afterok:347495 --export=ALL,PRIMO_WORKDIR=$PWD,PRIMO_FUZZ_OPFUZZ_SEEDS=/home/janotmik/primo-lia-integrality/tmp/seeds/qf_lia_division,PRIMO_FUZZ_YINYANG_SEEDS=<same>,PRIMO_FUZZ_OUT_ROOT=$PWD/fuzz-results/settings-default-5aaca1f scripts/slurm_qf_lia_model_fuzz_gate.sbatch (default 8x500 FuzzSMT -ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4, seeds 447501..447508; 1 opfuzz task; 2 typefuzz tasks)",
+        "fuzz_all": "same with PRIMO_FUZZ_SOLVER_EXTRA_ARGS='--lia-round-integer-bounds --lia-primitive-int-rows --lia-integer-slacks --lia-patch-integral-moves' and PRIMO_FUZZ_OUT_ROOT=$PWD/fuzz-results/settings-all-5aaca1f (seeds 447502..447509)",
+        "analysis": "per arm pair (old/new, oldall/newall): files solved by both (status ok, sat/unsat, <= 10 s) must give the same answer and identical values for every --stats key except :time.* and the CSV's wall-clock fields; files solved by only one arm listed with both times"
+      },
+      "jobs": {
+        "release_tests": "347495 (COMPLETED, node-04)",
+        "asan_tests": "347496 (FAILED, compile include path), 347522 (COMPLETED)",
+        "preservation": "347499 (QF_UFLIA, 40 tasks) and 347500 (QF_LIA, 200 tasks), all COMPLETED 2026-11-03 22:53 to 2026-11-04 00:41; QF_LIA tasks on node-02 86, node-03 36, node-04 41, node-05 37",
+        "fuzz": "347501 (default, 11 tasks: task 6 FAILED, see results) and 347502 (all options, 11 tasks COMPLETED)"
+      },
+      "artifacts": "/home/janotmik/primo-lia-integrality/results/settings-preservation-5aaca1f/{QF_LIA,QF_UFLIA}/{old,new,oldall,newall}/shard-*.csv and nodes/task-*.txt; /home/janotmik/primo-lia-settings/fuzz-results/settings-{default,all}-5aaca1f/{fuzzsmt,model-validation,opfuzz,yinyang}; logs in /home/janotmik/primo-lia-settings/logs",
+      "results": {
+        "unit_tests": "Release 45/45 passed; ASan 45/45 passed",
+        "preservation_qf_uflia": "659 files per arm, 0 wrong. old vs new: 538 solved by both, 0 solved by only one, 0 answer differences, 0 counter differences over 384 keys. oldall vs newall: 510 both, 1 only oldall (mathsat/Hash/hash_sat_08_15: 9.81 s vs timeout at 10.04 s), 0 answer or counter differences over 381 keys",
+        "preservation_qf_lia": "13,306 files per arm, 0 wrong. old vs new: 8,622 solved by both, 4 only old and 2 only new, all finishing between 9.67 and 10.27 s in the arm that solved them, 0 answer differences, 0 counter differences over 357 keys. oldall vs newall: 8,689 both, 4 only oldall (one at 8.44 s, nec-smt/large/checkpass/prp-55-50, the others 9.36-9.74 s) and 2 only newall (9.88-9.95 s), 0 answer or counter differences over 357 keys",
+        "fuzz_default": "FuzzSMT 4,000 cases vs z3: PASS 3,905, TIMEOUT 94, UNKNOWN_INVOLVED 1, wrong 0, crash 0. Model validation: 3,458 sat models pass Dolmen, 469 unsat, 72 timeouts, 1 solver-error. opfuzz and both typefuzz tasks: 0 bug files, all reached the 1500 s wall",
+        "fuzz_all": "FuzzSMT 4,000 cases vs z3: PASS 3,922, TIMEOUT 78, wrong 0, crash 0. Model validation: 3,470 sat models pass Dolmen, 471 unsat, 59 timeouts. opfuzz and both typefuzz tasks: 0 bug files, all reached the 1500 s wall",
+        "triage": "The one solver-error (fuzzsmt_447507__file_288, z3 sat) is a branch-and-bound node-limit Unknown: stderr 'integer branch-and-bound node limit' followed by the get-model refusal. refused_model_after_non_sat in scripts/validate_qfuf_models_with_dolmen.py accepts only the refusal message on stderr, so the reason line turns it into solver-error and fails task 6; the 2026-11-02 gates hit the same shape on fuzzsmt_435565__file_181. Rerun with srun on a compute node: 2e120fa and 5aaca1f both answer unknown with identical counters (141 decisions, 0 conflicts, 53 pivots, 1 patch sweep), so it is not caused by this change. The validator gap is not fixed here",
+        "summary": "Preservation holds: no answer or search-counter difference between 2e120fa and 5aaca1f with either option set; the only differences in solved sets are files at the 10 s limit. Merge gate met for default options and for all four options: no wrong answer, crash, invalid model or reference disagreement. Seed-mutation fuzzing ran only time-boxed (coverage of every seed not established)."
+      }
+    },
+    {
       "id": "2026-11-03-paired-120s-rerun",
       "date": "2026-11-03",
       "kind": "slurm-paired-timing-comparison",
