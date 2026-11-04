@@ -3,6 +3,193 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-04-lia-integrality-four-arm-diagnostic-5dec036",
+      "date": "2026-11-04",
+      "commit": "5dec0363",
+      "branch": "lia-integrality",
+      "kind": "slurm-paired-option-diagnostic",
+      "scope": "First timing test of M1+M2+M4 without integer slack obligations. Four arms on 985 deliberately selected diagnostic files; no source or default change.",
+      "environment": {
+        "scheduler": "SLURM compute partition; 100 tasks with concurrency 56, 2 CPUs and 3 GiB per task; 10 s per solver call, 30 minute allocation wall",
+        "binary_sha256": "11d4d983bc11bca49f70032a89f25101dd077b7602fbc81da1e20b775f20ae68",
+        "binary": "Existing 5dec036 Release with CaDiCaL cadical-3.0.0-7b99c07",
+        "manifest": "benchmarks/lia-integrality-review-985.txt; SHA-256 21e5047619c17ac42f9f8ea66224cf259f3707b95fc99f554af7aea6738e59cf; 985 files, 32 families: all 336 gains and 283 losses at 60 s in job 345183 plus deterministic controls (166 nontrivial solves, 106 easy solves, 94 unsolved)",
+        "declared_status": "651 SAT, 281 UNSAT, 53 without a decisive declared status"
+      },
+      "commands": {
+        "runner": "scripts/qualification/lia_integrality/compare.sbatch at 09456b39; SHA-256 af0b69145b4256d24f926c146ac840edf26c0bd63d5d1539f278eb6391e1b284",
+        "selection": "python3 scripts/qualification/lia_integrality/select.py --historical-root <collected-paired120>/QF_LIA --out benchmarks/lia-integrality-review-985.txt --metadata <output>/manifest-metadata.json; byte-for-byte manifest reproduction passed",
+        "submit": "sbatch --array=0-99%56 --cpus-per-task=2 --mem=3G --time=00:30:00; PRIMO_PAIRED_SHARDS=100; PRIMO_PAIRED_CHUNKS=2; PRIMO_COMPARE_TIMEOUT=10; required workspace/root/manifest/binary/output variables identify preserved corpus, fixed manifest and existing qualified binary",
+        "arms": "off = four --no-lia-* switches; m12 = round bounds and primitive rows on, integer slacks and integral patch moves off; m124 = same with integral moves on; all = all four on; all use --quiet --stats",
+        "analysis": "python3 scripts/summarize_benchmark_shards.py --timeout 10 --run off=<out>/off --run m12=<out>/m12 --run m124=<out>/m124 --run all=<out>/all --baseline all --candidate m124"
+      },
+      "jobs": {
+        "timing": "348296; all 100 array tasks completed successfully"
+      },
+      "artifacts": {
+        "remote": "<original-integrality-workspace>/results/m124-review-20261104-10s/{off,m12,m124,all}/shard-*.csv and JSONL journals; nodes/task-*.txt records binary hash, manifest hash and host",
+        "local": "results/integrality-review-20261104/quick; quick-summary.json alongside quick (ignored local copies)"
+      },
+      "results": {
+        "all": {
+          "files": 985,
+          "solved": 550,
+          "sat": 389,
+          "unsat": 161,
+          "timeout": 397,
+          "unknown": 38,
+          "unsupported": 0,
+          "error": 0,
+          "wrong": 0,
+          "par2": 9053.331591
+        },
+        "m12": {
+          "files": 985,
+          "solved": 518,
+          "sat": 305,
+          "unsat": 213,
+          "timeout": 442,
+          "unknown": 25,
+          "unsupported": 0,
+          "error": 0,
+          "wrong": 0,
+          "par2": 9778.740068
+        },
+        "m124": {
+          "files": 985,
+          "solved": 612,
+          "sat": 399,
+          "unsat": 213,
+          "timeout": 348,
+          "unknown": 25,
+          "unsupported": 0,
+          "error": 0,
+          "wrong": 0,
+          "par2": 7892.746048
+        },
+        "off": {
+          "files": 985,
+          "solved": 477,
+          "sat": 312,
+          "unsat": 165,
+          "timeout": 442,
+          "unknown": 66,
+          "unsupported": 0,
+          "error": 0,
+          "wrong": 0,
+          "par2": 10670.914997
+        }
+      },
+      "comparison": {
+        "m124_vs_all": {
+          "gains": 200,
+          "losses": 138,
+          "net": 62,
+          "decisive_answer_disagreements": 0
+        },
+        "family_solved_deltas": {
+          "20180326-Bromberger": 10,
+          "2019-cmodelsdiff": -1,
+          "CAV_2009_benchmarks": -3,
+          "cut_lemmas": 16,
+          "dillig": -9,
+          "miplib2003": 1,
+          "pb2010": 2,
+          "prime-cone": 17,
+          "rings": 5,
+          "rings_preprocessed": 4,
+          "slacks": 16,
+          "tightrhombus": 4
+        }
+      },
+      "qualification": "Fresh 1000-case generated merge gate is run-log 2026-11-04-lia-m124-review-merge-gate-5dec036. No real-corpus models replayed for this 10 s diagnostic; it is preliminary speed evidence, not default-promotion evidence.",
+      "conclusion": "M124 is promising enough to extend to the full division at 60 s. This biased diagnostic sample does not establish the whole-corpus gain; M3 remains enabled by default pending full evidence."
+    },
+    {
+      "id": "2026-11-04-lia-integrality-recorded-counter-review",
+      "date": "2026-11-04",
+      "kind": "historical-artifact-reanalysis",
+      "commit": "2e120fa",
+      "branch": "lia-integrality",
+      "scope": "Reaggregate mechanism counters of job 335585 to check the attribution of the original M2 gain; no new solver runs or timing claim.",
+      "parent_run": "2026-11-02-lia-integrality-ab-2e120fa",
+      "commands": {
+        "collection": "Compressed archive of shard-[0-9]+.csv only, from results/m5-ab-2e120fa/QF_LIA; no source or binary changed",
+        "analysis": "For each arm off/m12/m123/all, read every durable shard CSV with csv.DictReader; sum int(row.get(statistic) or 0) by family for :lia.generalized-lemmas, :lia.patch-sweeps and patch scoring counters. Include available partial timeout statistics; missing counters contribute zero."
+      },
+      "artifacts": {
+        "source": "<original-integrality-workspace>/results/m5-ab-2e120fa/QF_LIA/<arm>/shard-*.csv",
+        "local": "results/integrality-review-20261104/history/m5-ab-2e120fa/QF_LIA; derived historical-mechanism-totals.json alongside history (ignored local copies)"
+      },
+      "results": {
+        "generalized_integer_lemmas": {
+          "off": 177808,
+          "m12": 14585,
+          "reduction": 163223,
+          "rings_reduction": 124349,
+          "rings_preprocessed_reduction": 38692,
+          "two_rings_families_reduction": 163041
+        },
+        "patch_sweeps": {
+          "off": 184996,
+          "m12": 21537
+        },
+        "fully_integral_at_end_of_patching": {
+          "off": 5982,
+          "m12": 6015
+        },
+        "interpretation": "Generalized lemmas count refutations from all integer completion stages, not patch lemmas. Patch sweeps count completion invocations even when the input is already integral. Almost all recorded lemma reduction is localized in the two rings families; neither total alone measures repair time or establishes that more initial relaxation models are integral."
+      },
+      "evidence_status": "historical reanalysis of the recorded 60 s ablation; timeout censoring and different solved sets limit counter comparisons"
+    },
+    {
+      "id": "2026-11-04-lia-m124-review-merge-gate-5dec036",
+      "date": "2026-11-04",
+      "commit": "5dec0363",
+      "branch": "lia-integrality",
+      "kind": "slurm-option-ablation-merge-gate",
+      "scope": "Fresh merge gate for M1+M2+M4 with M3 disabled, before diagnostic timing. No solver source or default changed.",
+      "environment": {
+        "scheduler": "SLURM compute partition; eight array tasks, two CPUs and 3 GiB per task, 30 minute wall limit",
+        "binary": "Existing qualified Release binary; git banner 5dec036; CaDiCaL cadical-3.0.0-7b99c07; SHA-256 11d4d983bc11bca49f70032a89f25101dd077b7602fbc81da1e20b775f20ae68",
+        "tools": "Z3 and Dolmen from the default-promotion workspace; FuzzSMT from the established profiling workspace; no new dependency build"
+      },
+      "commands": {
+        "preflight": "scripts/slurm_prepare_benchmark_workspace.py --check-only --no-sync with a clean detached 5dec036 worktree (core.abbrev=7 to match the existing banner), requiring contrib/local/bin/z3 and contrib/local/bin/dolmen",
+        "gate": "scripts/slurm_qf_lia_model_fuzz_gate.sbatch; PRIMO_FUZZ_SOLVER_EXTRA_ARGS=\"--lia-round-integer-bounds --lia-primitive-int-rows --no-lia-integer-slacks --lia-patch-integral-moves\"; PRIMO_FUZZ_FUZZSMT_SHARDS=8; PRIMO_FUZZ_FUZZSMT_COUNT=125; PRIMO_FUZZ_FUZZSMT_SEED_BASE=527410; PRIMO_FUZZ_OPFUZZ_TASKS=0; PRIMO_FUZZ_YINYANG_SHARDS=0; sbatch --array=0-7%8 --cpus-per-task=2 --mem=3G --time=00:30:00",
+        "reference": "z3; 5 s per candidate/reference; model replay 10 s for Primo and 10 s for Dolmen with --strict=false and --require-dolmen-pass"
+      },
+      "jobs": {
+        "gate": "348288; all eight tasks COMPLETED 0:0"
+      },
+      "artifacts": {
+        "remote": "<default-promotion-workspace>/fuzz-results/m124-review-20261104/{fuzzsmt,model-validation}/shard-*; generated inputs, saved timeout cases, model outputs and summaries retained there",
+        "local": "results/integrality-review-20261104/fuzz/{fuzzsmt,model-validation}/shard-*/summary.csv; ignored local copy"
+      },
+      "results": {
+        "generated_inputs": 1000,
+        "answer_gate": {
+          "pass": 978,
+          "timeout": 22,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_error": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "timeout_breakdown": "17 candidate timeouts with reference sat; 5 mutual candidate/reference timeouts"
+        },
+        "models": {
+          "direct_dolmen_pass": 861,
+          "not_sat": 126,
+          "solver_timeout": 13,
+          "invalid_model": 0,
+          "solver_error": 0
+        },
+        "seeds": "527410 through 527417, 125 generated cases each"
+      },
+      "conclusion": "Merge gate passed for this diagnostic option profile, with timeout-only incomplete cases. No campaign/default-promotion claim and no real-corpus validation claim."
+    },
+    {
       "id": "2026-11-04-qf-lia-integrality-default-5dec036",
       "date": "2026-11-04",
       "commit": "5dec036",

@@ -165,9 +165,14 @@ counting 120 s for each unsolved file:
 | + integral patch moves (M4) | 9,798 | 459,979 | 544 | 14,934 |
 
 - **M1** is neutral alone.
-- **M2** sharply reduces patching on QF_LIA: generalized patch lemmas fall
-  from 177,808 to 14,585, and patch sweeps from 184,996 to 21,537. This
-  suggests that more relaxation solutions are already integral.
+- **M2** reduces generalized integer conflict lemmas from 177,808 to
+  14,585 and completion calls counted as patch sweeps from 184,996 to
+  21,537. These counters do not distinguish patching work from GCD, cuts
+  and branching. Of the 163,223 fewer generalized lemmas, 163,041 are in
+  `rings` and `rings_preprocessed`; this is a concentrated change in search,
+  not evidence of a corpus-wide reduction in repair cost. The counts include
+  partial statistics from timed-out runs and omit runs killed before printing
+  them. The review below tests the interaction with slack obligations.
 - **Adding M3 without M4** is harmful.
 - **M4** with all the others gives the best QF_LIA result (+411 −275 files
   against all off) and accepts 528 lattice moves.
@@ -373,6 +378,99 @@ understood; that remains the [search
 diversification](../leads/search-diversification.md) lead. The QF_LIA
 progress page's "all four integrality options" series now describes the
 QF_LIA default.
+
+(integrality-slack-review)=
+## Reviewing the effect of integer slack obligations
+
+The paired result establishes a modest gain from the four switches together;
+it does not identify the contribution of each switch. M3 changes four
+choices through the same ordered integer-variable list: which variables the
+patcher scores, which rows pass the integer-membership guard of GCD
+consistency, which rows can produce a cut, and which fractional variable
+branch-and-bound splits first. Membership affects all four stages; list order
+also determines the first eligible cut and first fractional split and can
+break patch-score ties. The {settingssource}`adapter's integer obligations
+<src/smt/solver_engines.cpp>` place slacks before input variables. An integer
+slack is redundant for checking a fully integral input assignment, but its
+presence can change the path to that assignment.
+
+For example, let $s_1=2x-y=1$, $s_2=2z-v=1$, and let $d=x-z$ be another
+integer slack with loose bounds. In a basis with $s_1,s_2,y,v$ nonbasic, the
+rows are
+
+$$x=(s_1+y)/2,\qquad z=(s_2+v)/2,\qquad
+  d=(s_1-s_2+y-v)/2.$$
+
+At $s_1=s_2=1$ and $y=v=0$, all nonbasics are integral. The inputs $x,z$
+are fractional and $d=0$ is integral. Moving $y$ to 1 repairs $x$ but makes
+$d=1/2$: the count of fractional inputs falls from two to one, while the
+count including $d$ stays two. The {settingssource}`patcher's strict improvement
+rule <src/theory/arithmetic/lia_patching.cpp>` rejects the latter move.
+Moving $v$ to 1 has the same obstruction. Moving both to 1 gives an integer
+model, but neither individual move is accepted when the slack contributes
+to the score. The fixed $s_1,s_2$ cannot move. This is a source-level example
+of a plateau introduced by redundant obligations, not evidence of its
+frequency in the benchmark corpus.
+
+The first experiment compares four configurations of the existing `5dec036`
+Release binary: all switches off, M1+M2, M1+M2+M4, and all four switches on.
+Every switch is set explicitly, including its `--no-lia-*` form where needed.
+No solver source or default is changed. The {integralityreviewsource}`paired runner
+<scripts/qualification/lia_integrality/compare.sbatch>` runs all four arms
+in the same allocation and rotates their order for each sub-shard.
+
+The {integralityreviewsource}`985-file diagnostic manifest
+<benchmarks/lia-integrality-review-985.txt>` includes every file gained
+(336) or lost (283) by all-options against off at 60 s in the earlier paired
+run. It adds up to eight stable nontrivial solves, four stable easy solves
+and four stable unsolved files per family, selected by a fixed SHA-256
+ordering. Here "easy" means both old arms took less than 0.5 s; other common
+solves are "nontrivial". The resulting controls number 166, 106 and 94,
+respectively, and all 32 families are represented. The {integralityreviewsource}`selection
+script <scripts/qualification/lia_integrality/select.py>` reproduces the
+manifest from the old off/all CSVs. Because the selection deliberately
+includes all old gains and losses, its solved counts must not be extrapolated
+to the whole division.
+
+Before timing, a fresh 1,000-case merge gate for M1+M2+M4 at `5dec036`
+produced 978 agreements with Z3 and 22 timeouts, with no wrong answer,
+crash, parser/type error, unsupported result or reference disagreement.
+A separate replay accepted 861 SAT models directly with Dolmen, reported
+126 non-SAT cases and timed out on 13. The run-log entry `2026-11-04-lia-m124-review-merge-gate-5dec036`
+records seeds, binary identity, commands and artifacts. This gate qualifies
+the diagnostic profile; it is not a campaign or a real-corpus model gate.
+
+### First diagnostic at 10 seconds
+
+Run-log entry `2026-11-04-lia-integrality-four-arm-diagnostic-5dec036`
+records the four-arm paired run. All 985 files completed in every arm; PAR2
+charges 20 s for each undecided file:
+
+| Configuration | Solved | SAT | UNSAT | Timeout | Clean unknown | PAR2 (s) |
+| --- | --- | --- | --- | --- | --- | --- |
+| All four off | 477 | 312 | 165 | 442 | 66 | 10,670.91 |
+| M1+M2 | 518 | 305 | 213 | 442 | 25 | 9,778.74 |
+| M1+M2+M4 | 612 | 399 | 213 | 348 | 25 | 7,892.75 |
+| All four on | 550 | 389 | 161 | 397 | 38 | 9,053.33 |
+
+M1+M2+M4 gains 200 files and loses 138 against all four, a net of 62. The
+largest family gains are `prime-cone` (+17), `slacks` and `cut_lemmas` (+16
+each), and Bromberger (+10); it loses `dillig` (-9) and CAV 2009 (-3).
+All arms have zero errors, unsupported results and wrong answers against
+available declared statuses, and no two arms disagree on a decisive answer.
+The corpus has 651 declared SAT files, 281 declared UNSAT and 53 without a
+decisive declaration. Real-corpus models have not been replayed for this
+10 s diagnostic.
+
+This is evidence that M3 can hurt in combination with the other switches,
+not a measurement of the plateau example's frequency or of the whole-division
+gain. M3 also changes GCD eligibility, cut selection and branching. The next
+experiment compares M1+M2+M4 with all four on the full division at 60 s,
+using the {integralityreviewsource}`paired timing and separate replay runner
+<scripts/qualification/lia_integrality/paired_replay.sbatch>`. That workflow
+records input and executable hashes before timing and checks them again in
+the separately scheduled SAT-model replay. No default is changed by the
+first diagnostic.
 
 ## Tests derived from the steps
 
