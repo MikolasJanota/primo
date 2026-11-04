@@ -1,0 +1,27 @@
+(primo-conflicts
+  (version 2)
+  (logic QF_LRA)
+  (signature
+    (declare-fun x () Real)
+    (declare-fun y () Real)
+    (declare-fun z () Real)
+    (declare-fun p () Bool)
+    (declare-fun primo_cnf_0 () Bool)
+    (declare-fun primo_cnf_1 () Bool))
+  (cnf
+    (clause (not primo_cnf_0) (<= z x))
+    (clause (not primo_cnf_0) (<= x z))
+    (clause primo_cnf_0 (not (<= z x)) (not (<= x z)))
+    (clause (not p) primo_cnf_0)
+    (clause (not primo_cnf_1) (<= z y))
+    (clause (not primo_cnf_1) (<= y z))
+    (clause primo_cnf_1 (not (<= z y)) (not (<= y z)))
+    (clause p primo_cnf_1)
+    (clause (<= x 0))
+    (clause (<= 0 x))
+    (clause (<= y 1))
+    (clause (<= 1 y))
+    (clause (< 1 z)))
+  (conflicts
+    (conflict-lra ((<= z y) 1) ((< 1 z) 1) ((<= y 1) 1))
+    (conflict-lra ((<= z x) (/ 1 2)) ((< 1 z) (/ 1 2)) ((<= x 0) (/ 1 2)))))

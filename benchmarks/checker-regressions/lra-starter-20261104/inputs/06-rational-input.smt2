@@ -1,0 +1,5 @@
+(set-logic QF_LRA)
+(declare-fun x () Real)
+(assert (<= (* (/ 2 3) x) (- (/ 1 5))))
+(assert (>= x 0))
+(check-sat)

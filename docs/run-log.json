@@ -3,6 +3,105 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-04-lra-checker-starter-examples",
+      "date": "2026-11-04",
+      "kind": "small-original-certificate-examples-for-checker-author",
+      "commit": "e910cfdec073e0d3ba937fe9d95e6669e0eb7359",
+      "workflow_baseline_git": "69d9054f",
+      "evidence_status": "Twelve tiny native QF_LRA outputs validated; exact forwardable archive checked in SLURM including one valid zero-weight control and two expected invalid-witness rejections. Solver source unchanged.",
+      "manifest": "benchmarks/checker-regressions/lra-starter-20261104/manifest.json",
+      "archive": {
+        "file": "benchmarks/checker-regressions/lra-starter-20261104/lra-starter.tar.gz",
+        "bytes": 11508,
+        "sha256": "74936f79b4ed11201e1fff6d56d9a3fcc9cc8ea8a6521b20455acaa42be9d71b",
+        "regular_members": 31,
+        "members": "lra-starter/ with guide,manifest,12 inputs,12 certificates,3 authored controls and2 Python utilities"
+      },
+      "jobs": {
+        "native_examples": "348286",
+        "exact_archive_verification": "348287",
+        "discarded_example_design": "348285"
+      },
+      "job_outcomes": {
+        "348286": "COMPLETED,0:0,node-05,1s",
+        "348287": "COMPLETED,0:0,node-05,1s",
+        "348285": "FAILED,1:0,node-05,1s: coverage guard rejected purely propositional disequality example; no incorrect solver answer"
+      },
+      "allocation": {
+        "native": {
+          "cpus": 1,
+          "memory_gib": 2,
+          "wall_minutes": 5
+        },
+        "archive_check": {
+          "cpus": 1,
+          "memory_gib": 2,
+          "wall_minutes": 3
+        }
+      },
+      "limits_seconds": {
+        "reference": 10,
+        "export": 10,
+        "propositional_check": 60
+      },
+      "producer_options": [
+        "--quiet",
+        "--stats",
+        "--preprocessing-mode=off",
+        "--export-cnf-reduction=core"
+      ],
+      "binary_sha256": {
+        "primo": "5f6e8e2cb12ad3c2324d71e8310d38aa6807f92f4da242b237ab663f014abb74",
+        "z3": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+        "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107"
+      },
+      "workflow_sha256": {
+        "replay_lra_checker_examples.py": "d2d369da445deffe37c586324bcf9f7934f96804c8913ce2115f0bf02c12ab6b",
+        "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a",
+        "slurm_lra_checker_examples.sbatch": "7826ae5233cbef417642b603408909b9e5dab48e0ef83823c02367e2d93e8479",
+        "slurm_verify_lra_checker_bundle.sbatch": "cef3ad7b80703145fbad5b9014ce5d6d7f91c035a8788979e52b8f8130ff2530",
+        "verify.py": "7a7e81513f527c917edda8ae32f178f20f46b6f5d92853b1752ee97ac99a3f83"
+      },
+      "commands": {
+        "preflight": "python3 scripts/slurm_prepare_benchmark_workspace.py --local-dir \"$FROZEN_SOURCE\" --ssh-config \"$SSH_CONFIG\" --remote \"$REMOTE\" --remote-dir \"$WORKSPACE\" --cmake \"$CMAKE\" --build-via-slurm --reuse-dependencies --cxx-header-manifest \"$HEADERS\" --require-tool contrib/local/bin/z3 --require-tool contrib/local/bin/rg --check-only",
+        "native": "sbatch scripts/slurm_lra_checker_examples.sbatch with PRIMO_WORKDIR,PRIMO_PRODUCER_GIT,PRIMO_EXAMPLE_INPUTS,PRIMO_EXAMPLE_TOOLS,PRIMO_SAT_SOLVER supplied outside tracked files",
+        "native_driver": "python3 scripts/replay_lra_checker_examples.py --inputs \"$INPUTS\" --out \"$OUTPUT\" --producer-git e910cfdec073e0d3ba937fe9d95e6669e0eb7359 --solver \"$PRIMO\" --reference \"$Z3\" --sat-solver \"$CADICAL\"",
+        "archive": "sbatch scripts/slurm_verify_lra_checker_bundle.sbatch with PRIMO_WORKDIR,PRIMO_BUNDLE_ARCHIVE,PRIMO_SAT_SOLVER supplied outside tracked files",
+        "bundle_verifier": "python3 lra-starter/verify.py --sat-solver \"$CADICAL\" (unpacks and verifies exact shipped archive in SLURM)",
+        "local": "python3 benchmarks/checker-regressions/lra-starter-20261104/verify.py (arithmetic/hash checks only, no solver); archive every member read back and matched byte-for-byte; Ruff, bash, make lint and docs/link checks"
+      },
+      "results": {
+        "native_certificates": 12,
+        "nonempty_native_arithmetic_certificates": 11,
+        "native_certificate_bytes": 4092,
+        "smallest_native_certificate_bytes": 149,
+        "largest_native_certificate_bytes": 844,
+        "native_conflicts": 13,
+        "native_weighted_entries": 32,
+        "accept_controls": 1,
+        "reject_controls": 2,
+        "source_z3_unsat": 12,
+        "native_witness_and_propositional_checks_pass": 12,
+        "bundle_valid_files_accepted": 13,
+        "bundle_invalid_files_rejected": 2,
+        "wrong_answer": 0,
+        "crash": 0,
+        "timeout": 0,
+        "unsupported": 0,
+        "parser_type_error": 0,
+        "reference_disagreement": 0
+      },
+      "discarded_design": "Initial x!=y,x<=y,y<=x source lowered to a propositional contradiction with no arithmetic lemma, triggering the selection guard in348285. Replaced by x!=y,x<=z,z<=y,y<=x; final10-disequality contains a genuine transitivity conflict. Old inputs/output/logs remain in results/lra-starter-348285.",
+      "artifacts": {
+        "tracked": "benchmarks/checker-regressions/lra-starter-20261104",
+        "native_local": "results/lra-starter-348286",
+        "archive_check_local": "results/lra-starter-verify-348287",
+        "discarded_design_local": "results/lra-starter-348285",
+        "remote": "$LRA_EXPORT_WORKSPACE/results/ corresponding directories; exact archive copy retained"
+      },
+      "scope": "No native solver change or performance/corpus claim. Certificates are exact producer bytes; controls are separately labelled authored mutations. Micromath v2 arithmetic support is still to be developed. Exported CNF is the starting problem; source-to-CNF proof and kernel verification of the external SAT run are not included."
+    },
+    {
       "id": "2026-11-04-lra-export-qualified",
       "date": "2026-11-04",
       "kind": "experimental-certificate-export-correctness-qualification",

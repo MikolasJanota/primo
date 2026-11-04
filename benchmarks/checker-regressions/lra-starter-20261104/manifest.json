@@ -1,0 +1,382 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-04",
+  "purpose": "Small original examples for implementing version-2 QF_LRA conflict checking in Micromath",
+  "format": "primo-conflicts/version2/QF_LRA",
+  "native_output_policy": "certificates/ files are exact unedited Primo output bytes; controls/ files are authored mutations",
+  "producer_git": "e910cfdec073e0d3ba937fe9d95e6669e0eb7359",
+  "version": "primo 0.2.0\ngit: e910cfde\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07\n",
+  "job_id": "348286",
+  "producer_options": [
+    "--quiet",
+    "--stats",
+    "--preprocessing-mode=off",
+    "--export-cnf-reduction=core"
+  ],
+  "binary_sha256": {
+    "primo": "5f6e8e2cb12ad3c2324d71e8310d38aa6807f92f4da242b237ab663f014abb74",
+    "z3": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107"
+  },
+  "workflow_sha256": {
+    "replay_lra_checker_examples.py": "d2d369da445deffe37c586324bcf9f7934f96804c8913ce2115f0bf02c12ab6b",
+    "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+  },
+  "limits_seconds": {
+    "reference": 10,
+    "export": 10,
+    "propositional_check": 60
+  },
+  "allocation": {
+    "cpus": 1,
+    "memory_gib": 2,
+    "wall_minutes": 5
+  },
+  "native_validation": "Every source independently UNSAT in Z3; exact Fraction witness checking plus external CaDiCaL propositional confirmation for every exported artifact",
+  "counts": {
+    "native_certificates": 12,
+    "nonempty_native_arithmetic_certificates": 11,
+    "native_certificate_bytes": 4092,
+    "smallest_native_certificate_bytes": 149,
+    "largest_native_certificate_bytes": 844,
+    "native_conflicts": 13,
+    "native_weighted_entries": 32,
+    "accept_controls": 1,
+    "reject_controls": 2
+  },
+  "cases": [
+    {
+      "name": "00-boolean",
+      "input": "inputs/00-boolean.smt2",
+      "certificate": "certificates/00-boolean.sexp",
+      "feature": "Boolean-only control",
+      "expected": "accept",
+      "expected_source": "unsat",
+      "cnf_clauses": 2,
+      "check": {
+        "conflicts": 0,
+        "entries": 0,
+        "variables": 1,
+        "propositional_unsat": true
+      }
+    },
+    {
+      "name": "01-weak-gap",
+      "input": "inputs/01-weak-gap.smt2",
+      "certificate": "certificates/01-weak-gap.sexp",
+      "feature": "Weak constant contradiction",
+      "expected": "accept",
+      "expected_source": "unsat",
+      "cnf_clauses": 2,
+      "check": {
+        "conflicts": 1,
+        "entries": 2,
+        "variables": 2,
+        "propositional_unsat": true
+      }
+    },
+    {
+      "name": "02-strict-boundary",
+      "input": "inputs/02-strict-boundary.smt2",
+      "certificate": "certificates/02-strict-boundary.sexp",
+      "feature": "Strict zero-bound contradiction",
+      "expected": "accept",
+      "expected_source": "unsat",
+      "cnf_clauses": 2,
+      "check": {
+        "conflicts": 1,
+        "entries": 2,
+        "variables": 2,
+        "propositional_unsat": true
+      }
+    },
+    {
+      "name": "03-three-premises",
+      "input": "inputs/03-three-premises.smt2",
+      "certificate": "certificates/03-three-premises.sexp",
+      "feature": "Three-premise cancellation",
+      "expected": "accept",
+      "expected_source": "unsat",
+      "cnf_clauses": 3,
+      "check": {
+        "conflicts": 1,
+        "entries": 3,
+        "variables": 3,
+        "propositional_unsat": true
+      }
+    },
+    {
+      "name": "04-scaling",
+      "input": "inputs/04-scaling.smt2",
+      "certificate": "certificates/04-scaling.sexp",
+      "feature": "Non-unit integer scaling",
+      "expected": "accept",
+      "expected_source": "unsat",
+      "cnf_clauses": 3,
+      "check": {
+        "conflicts": 1,
+        "entries": 3,
+        "variables": 3,
+        "propositional_unsat": true
+      }
+    },
+    {
+      "name": "05-rational-weight",
+      "input": "inputs/05-rational-weight.smt2",
+      "certificate": "certificates/05-rational-weight.sexp",
+      "feature": "Fractional proof weight",
+      "expected": "accept",
+      "expected_source": "unsat",
+      "cnf_clauses": 2,
+      "check": {
+        "conflicts": 1,
+        "entries": 2,
+        "variables": 2,
+        "propositional_unsat": true
+      }
+    },
+    {
+      "name": "06-rational-input",
+      "input": "inputs/06-rational-input.smt2",
+      "certificate": "certificates/06-rational-input.sexp",
+      "feature": "Rational input coefficient and bound",
+      "expected": "accept",
+      "expected_source": "unsat",
+      "cnf_clauses": 2,
+      "check": {
+        "conflicts": 1,
+        "entries": 2,
+        "variables": 2,
+        "propositional_unsat": true
+      }
+    },
+    {
+      "name": "07-negated-premise",
+      "input": "inputs/07-negated-premise.smt2",
+      "certificate": "certificates/07-negated-premise.sexp",
+      "feature": "Negated comparison premise",
+      "expected": "accept",
+      "expected_source": "unsat",
+      "cnf_clauses": 3,
+      "check": {
+        "conflicts": 1,
+        "entries": 3,
+        "variables": 3,
+        "propositional_unsat": true
+      }
+    },
+    {
+      "name": "08-boolean-branches",
+      "input": "inputs/08-boolean-branches.smt2",
+      "certificate": "certificates/08-boolean-branches.sexp",
+      "feature": "Two Boolean branches",
+      "expected": "accept",
+      "expected_source": "unsat",
+      "cnf_clauses": 7,
+      "check": {
+        "conflicts": 2,
+        "entries": 4,
+        "variables": 6,
+        "propositional_unsat": true
+      }
+    },
+    {
+      "name": "09-equality",
+      "input": "inputs/09-equality.smt2",
+      "certificate": "certificates/09-equality.sexp",
+      "feature": "Already lowered source equality",
+      "expected": "accept",
+      "expected_source": "unsat",
+      "cnf_clauses": 3,
+      "check": {
+        "conflicts": 1,
+        "entries": 2,
+        "variables": 3,
+        "propositional_unsat": true
+      }
+    },
+    {
+      "name": "10-disequality",
+      "input": "inputs/10-disequality.smt2",
+      "certificate": "certificates/10-disequality.sexp",
+      "feature": "Already lowered source disequality plus transitivity",
+      "expected": "accept",
+      "expected_source": "unsat",
+      "cnf_clauses": 7,
+      "check": {
+        "conflicts": 1,
+        "entries": 3,
+        "variables": 5,
+        "propositional_unsat": true
+      }
+    },
+    {
+      "name": "11-ite",
+      "input": "inputs/11-ite.smt2",
+      "certificate": "certificates/11-ite.sexp",
+      "feature": "Already lowered Real ite with two branch conflicts",
+      "expected": "accept",
+      "expected_source": "unsat",
+      "cnf_clauses": 13,
+      "check": {
+        "conflicts": 2,
+        "entries": 6,
+        "variables": 12,
+        "propositional_unsat": true
+      }
+    }
+  ],
+  "controls": [
+    {
+      "name": "accept-zero-weight",
+      "certificate": "controls/accept-zero-weight.sexp",
+      "expected": "accept",
+      "derived_from": "certificates/01-weak-gap.sexp",
+      "mutation": "Declare y, append CNF fact y<=10 and the same premise at weight zero",
+      "check": {
+        "conflicts": 1,
+        "entries": 3,
+        "variables": 3
+      }
+    },
+    {
+      "name": "reject-zeroed-weight",
+      "certificate": "controls/reject-zeroed-weight.sexp",
+      "expected": "reject",
+      "derived_from": "certificates/01-weak-gap.sexp",
+      "mutation": "Set the first conflict weight to zero; cancellation fails",
+      "expected_error": "invalid weighted contradiction"
+    },
+    {
+      "name": "reject-lost-strictness",
+      "certificate": "controls/reject-lost-strictness.sexp",
+      "expected": "reject",
+      "derived_from": "certificates/02-strict-boundary.sexp",
+      "mutation": "Weaken only the strict conflict premise; sum is 0<=0",
+      "expected_error": "invalid weighted contradiction"
+    }
+  ],
+  "files": {
+    "README.md": {
+      "bytes": 6682,
+      "sha256": "563a4016a583aaa43276a08dc63e6088fa85d8a17bb26c5dc54c393fe983f260"
+    },
+    "certificates/00-boolean.sexp": {
+      "bytes": 149,
+      "sha256": "2b6c1984d4bde2401bddf44b7e8e68fb8a84b22d5af4862c0c8e3acc1abd6290"
+    },
+    "certificates/01-weak-gap.sexp": {
+      "bytes": 202,
+      "sha256": "4e458a1b78a03d3420682db427977d845c395cfe64baa02204aac217d9f7f11a"
+    },
+    "certificates/02-strict-boundary.sexp": {
+      "bytes": 200,
+      "sha256": "c3f5c57e9ff841624bfd4298e5a449ba58c379f70c5145ddbb2b81521c05f7c3"
+    },
+    "certificates/03-three-premises.sexp": {
+      "bytes": 275,
+      "sha256": "db2960b954228028f140a102e791209a3806dd01ca1712a589af13c33dce99be"
+    },
+    "certificates/04-scaling.sexp": {
+      "bytes": 289,
+      "sha256": "ab88d65ee0d862691c74f364d83b23f6eeecffac869a2a18219fe9057f5870b5"
+    },
+    "certificates/05-rational-weight.sexp": {
+      "bytes": 218,
+      "sha256": "5a036c86fc803692bc30af48483520e8e0523c4f11a46d5e5f8939162edf1063"
+    },
+    "certificates/06-rational-input.sexp": {
+      "bytes": 253,
+      "sha256": "337abcdeac4e50ab4a2df5fab931d93c7578afa520845a9ba67560bd8bc3d411"
+    },
+    "certificates/07-negated-premise.sexp": {
+      "bytes": 295,
+      "sha256": "880463673138ae976c1cd47fbe64b4003b615a03c0f5ae79c81ec107c7eab63a"
+    },
+    "certificates/08-boolean-branches.sexp": {
+      "bytes": 614,
+      "sha256": "e7194d8540563d1c5c8dbd63165f41dd0eefb69f71bbeda89f2c85db116c87e2"
+    },
+    "certificates/09-equality.sexp": {
+      "bytes": 250,
+      "sha256": "1745640b2ded540b6b8e562f6ea8838c23ee49e1c1e0ff2a9449077c6c1e8756"
+    },
+    "certificates/10-disequality.sexp": {
+      "bytes": 503,
+      "sha256": "6f2ada280aace56bc9a2ec6251a963b5fe25188324102634fd300bd7b937b65e"
+    },
+    "certificates/11-ite.sexp": {
+      "bytes": 844,
+      "sha256": "1361835f5c695c7e838ba218e5dc576e5bc4f3c197320121b7dc9d544f60dcf7"
+    },
+    "check_lra_certificate.py": {
+      "bytes": 9777,
+      "sha256": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+    },
+    "controls/accept-zero-weight.sexp": {
+      "bytes": 244,
+      "sha256": "b82da2c9f4cb3acc93beb2fa8aa8346ebe625ef8a367883f11a075438ba5c1ee"
+    },
+    "controls/reject-lost-strictness.sexp": {
+      "bytes": 186,
+      "sha256": "bec42702437e5f6b60d6de71a06c9667523da541d425cb5e607235a7df46ab05"
+    },
+    "controls/reject-zeroed-weight.sexp": {
+      "bytes": 187,
+      "sha256": "38e82ac7abc87b7cc6a526e2de2a81f15f3f1cc6db357d69340b7447f6e2271d"
+    },
+    "inputs/00-boolean.smt2": {
+      "bytes": 83,
+      "sha256": "6de438f4bf2d8e6f8da47ae531f024a4465b92b0fd97f74c2858455c2ad58cd9"
+    },
+    "inputs/01-weak-gap.smt2": {
+      "bytes": 91,
+      "sha256": "73ce2d1119ea600a8fd9971dfdf5d644467a3387cee9b90f69bea55551db5787"
+    },
+    "inputs/02-strict-boundary.smt2": {
+      "bytes": 90,
+      "sha256": "979fef18d0431aba6de45031549d8a194533091aed2de7b02d1e71dabb77714e"
+    },
+    "inputs/03-three-premises.smt2": {
+      "bytes": 138,
+      "sha256": "985b739b38a1c76bc25d2a97fe2233e501f6a804e6cb723c95120a51c5ec5a67"
+    },
+    "inputs/04-scaling.smt2": {
+      "bytes": 145,
+      "sha256": "96b96b431e11e84e0c77466a1161b0e907c02b7ea212663d86bfe87dcff4dfa3"
+    },
+    "inputs/05-rational-weight.smt2": {
+      "bytes": 96,
+      "sha256": "7ce04e2d183daa379a2c5b2b98fa304a1595d9fc6c548a09bb0ecbf181c46616"
+    },
+    "inputs/06-rational-input.smt2": {
+      "bytes": 113,
+      "sha256": "d6868142f2faf041da2bbb6e3b0827e36c59f3f0a273d80bbbf93bc2a2209e17"
+    },
+    "inputs/07-negated-premise.smt2": {
+      "bytes": 148,
+      "sha256": "120b6b1be8a0a8e10e0006a044426299ad71dd50d9c4d8a838f55903b603de3d"
+    },
+    "inputs/08-boolean-branches.smt2": {
+      "bytes": 153,
+      "sha256": "d957f35e9152b8302ea7bd572c660ee92df3662255064be2cb3ae8f5b55d8793"
+    },
+    "inputs/09-equality.smt2": {
+      "bytes": 113,
+      "sha256": "7a6d3e7d1a350912ded73b103bb34e9614762caa0a60fc73f3d1bd6fae266e93"
+    },
+    "inputs/10-disequality.smt2": {
+      "bytes": 181,
+      "sha256": "100fa2f5274dd166619cbe3180f1c1fe541a5f1dd50b8da79162816660f7984c"
+    },
+    "inputs/11-ite.smt2": {
+      "bytes": 205,
+      "sha256": "fd2e06b4cd47d5e872d3de361544ba977ccc5bf37a9599288b75925f3528a6b2"
+    },
+    "verify.py": {
+      "bytes": 1944,
+      "sha256": "7a7e81513f527c917edda8ae32f178f20f46b6f5d92853b1752ee97ac99a3f83"
+    }
+  },
+  "scope": "Starter theory-rule examples, not a corpus evaluation. Current Micromath compatibility is not claimed. Source-to-CNF proof and proof-kernel checking of the external SAT run are outside this bundle."
+}

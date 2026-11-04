@@ -24,6 +24,27 @@ formatted text or a vector of all numeric lemmas in RAM. Empty selection needs
 no reconstruction. SAT or inconclusive results write no artifact and leave
 an existing output untouched. Reconstruction failure is not a SAT result.
 
+## Small examples for checker development
+
+The {download}`starter archive <../../benchmarks/checker-regressions/lra-starter-20261104/lra-starter.tar.gz>`
+contains 12 original small SMT-LIB problems and their exact exported
+certificates (149–844 bytes each), ordered from weak/strict bounds through
+integer and rational scaling to signed literals, Boolean branches and native
+equality/`ite` lowering. The first certificate is a Boolean-only control.
+Three separately labelled authored controls exercise acceptance of zero weights
+and rejection of broken cancellation or missing strictness.
+
+The archive includes a standalone guide, file hashes and a standard-library
+Python verifier. It is intended for developing Micromath's arithmetic support;
+current Micromath compatibility is not claimed. The
+{download}`guide <../../benchmarks/checker-regressions/lra-starter-20261104/README.md>`
+explains the polarity convention and works through the rational-weight example.
+Native generation and independent source/witness/propositional checks ran in
+SLURM job `348286`; the producer is the qualified implementation `e910cfde`.
+Job `348287` checked the exact archive's hashes and confirmed all 13 accepted
+files (including the zero-weight control) and both expected rejections, with
+external propositional checking enabled.
+
 ## Format and supported fragment
 
 ```lisp
