@@ -1,5 +1,118 @@
 # QF_LIA progress against reference solvers
 
+(qf-lia-m124-cactus)=
+## Latest comparison: integer slacks disabled (2026-11-04)
+
+The new curve is **Primo M124**: Release `5dec036` with M1 (integer-bound
+rounding), M2 (primitive integer rows), and M4 (integral patch moves) enabled,
+and M3 (integer slack obligations) disabled. It is an experimental option
+profile on the same binary as **Primo default**, which enables all four.
+No defaults change in this comparison. The {ref}`integrality slack review
+<integrality-slack-review>` explains the mechanism and the paired experiment.
+
+![QF_LIA cactus plot: Primo M124 and the current all-four default against Z3, OpenSMT and cvc5, on 13,306 files at 60 seconds](../_static/qf-lia-m124-cactus.svg)
+
+| Series | Solved | SAT | UNSAT | Timeout | Clean unknown | Error | PAR2 (s) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Z3 5.1.0 | 12,144 | 7,826 | 4,318 | 1,162 | 0 | 0 | 174,586 |
+| OpenSMT 2.9.2 | 10,654 | 6,692 | 3,962 | 2,631 | 0 | 21 | 361,027 |
+| Primo `5dec036`, M124 | 9,865 | 6,580 | 3,285 | 3,041 | 400 | 0 | 451,150 |
+| Primo `5dec036`, default | 9,748 | 6,520 | 3,228 | 3,108 | 450 | 0 | 465,052 |
+| cvc5 1.3.4 | 9,239 | 6,527 | 2,712 | 4,067 | 0 | 0 | 507,295 |
+
+Each point is a successful `sat` or `unsat` answer within the time budget;
+clean `unknown` exits and errors remain unsolved. PAR2 charges every unsolved
+file 120 s. The time axis is logarithmic, starting at 10 ms; faster solves
+are drawn at its left edge. No instances are filtered out.
+
+M124 gains 117 solves over the paired default and reduces PAR2 by 2.99%.
+Its curves remain close to the default's across most budgets: this is a
+modest improvement, with 277 gains and 160 losses. Against the archived
+references, M124 is 626 solves ahead of cvc5, 789 behind OpenSMT, and 2,279
+behind Z3. These latter gaps are contextual, because only the two Primo
+profiles ran together.
+
+**Provenance and limits.** Both Primo profiles ran in SLURM job 348396 on
+2026-11-04, in rotated order within each of 400 tasks, with two CPUs and
+3 GiB requested per task. The batch peak RSS reached 8,376,592 KiB, so the
+request is not evidence of an enforced 3 GiB limit. Separate job 348493
+obtained direct Dolmen acceptance for every SAT answer: 6,580 M124 and 6,520
+default models. This validation did not overlap timing. The historical
+reference runs are Z3 on 2026-09-07, OpenSMT job 181259 on 2026-10-09, and
+cvc5 job 127709 on 2026-08-21. They requested one CPU and respectively
+4, 3 and 3 GiB per task. All use Xeon E5-2690 v4 cluster nodes, but dates,
+nodes and allocations differ. This figure does not establish paired speed
+ratios against reference solvers or independently validate their models.
+
+All five raw result sets contain exactly the same 13,306 unique relative
+paths, with no duplicate rows. There are zero recorded wrong answers and no
+contradictory decisions in any jointly solved pair. Primo input hashes match
+the archived Z3 hashes. The earlier OpenSMT content audit also matched Z3;
+cvc5 has no archived input hashes, so its identity check is limited to paths.
+OpenSMT's 21 errors were already
+{integralityreviewsource}`triaged <benchmarks/qf-lia-opensmt-errors-20261009.json>` and
+remain excluded from its solved count. Full counts, runtime quantiles,
+family summaries and normalized timing hashes are in
+`benchmarks/qf-lia-m124-cactus-20261104.json`; the run-log entry is
+`2026-11-04-qf-lia-m124-reference-cactus`.
+
+### Latest cactus reproduction
+
+Use the collected artifacts under `results/integrality-review-20261104`.
+The references are retained from the historical runs; this procedure runs no
+solvers. Prepare flat CSV views for the existing
+{integralityreviewsource}`plot_cactus.py <scripts/plot_cactus.py>` loader,
+removing only the historical corpus-root prefix from reference paths:
+
+```python
+import csv
+from pathlib import Path
+
+root = Path("results/integrality-review-20261104")
+for arm in ("all", "m124", "z3", "opensmt", "cvc5"):
+    if arm in ("all", "m124"):
+        source, pattern = root / "full60" / arm, "shard-*/answers.csv"
+    elif arm == "z3":
+        source, pattern = root / "reference-z3", "shard-*/answers.csv"
+    else:
+        source, pattern = root / "references" / arm, "shard-*.csv"
+    output = root / "plot-views" / arm
+    output.mkdir(parents=True, exist_ok=True)
+    for index, path in enumerate(sorted(source.glob(pattern))):
+        with path.open() as handle:
+            reader = csv.DictReader(handle)
+            fields, rows = reader.fieldnames, list(reader)
+        for row in rows:
+            row["file"] = row["file"].removeprefix("sandbox/non-incremental/QF_LIA/")
+        with (output / f"shard-{index}.csv").open("w", newline="") as handle:
+            writer = csv.DictWriter(handle, fieldnames=fields)
+            writer.writeheader()
+            writer.writerows(rows)
+```
+
+Start with an empty `plot-views` directory, keeping raw inputs elsewhere.
+The audit before plotting checks identical path sets and 13,306 rows per
+arm, zero duplicate rows, zero contradictory decisions, and no successful
+answer above 60 s. The plotting script itself does not enforce that cutoff
+or these identity checks; its `--timeout` sets the axis and PAR2 penalty.
+
+```bash
+V=results/integrality-review-20261104/plot-views
+python3 scripts/plot_cactus.py --timeout 60 --sort-by-solved \
+  --title "QF_LIA: integrality ablation vs reference solvers" \
+  --highlight-series "Primo M124" \
+  --series "Z3 5.1.0=$V/z3" --series "OpenSMT 2.9.2=$V/opensmt" \
+  --series "Primo M124=$V/m124" --series "Primo default=$V/all" \
+  --series "cvc5 1.3.4=$V/cvc5" \
+  --note "Primo 5dec036: M124 = M1+M2+M4, integer slacks off; default = all four options. Timing job 348396, Nov 4." \
+  --note "References: Z3 Sep 7; OpenSMT Oct 9 (job 181259); cvc5 Aug 21 (job 127709). OpenSMT: 21 errors, unsolved." \
+  --note "Different dates, nodes and allocations: contextual comparison. Primo SAT models: 6,580/6,520 direct Dolmen passes." \
+  --out docs/_static/qf-lia-m124-cactus.svg
+```
+
+## Historical comparison (2026-11-03)
+
+
 **Status: contextual comparison, 2026-11-03.** All series cover the same
 13,306 QF_LIA files at 60 s per file, but they come from runs on different
 dates and nodes, so this is not a paired experiment. A {ref}`paired rerun
@@ -8,7 +121,7 @@ conclusions drawn from it: the size of the gap to October, and the `nec-smt`
 part of the integrality options' gain.
 
 Since commit `5dec036` (2026-11-04) the QF_LIA default turns on all four
-integrality options ({ref}`promotion <integrality-promotion>`). On this page,
+integrality options ({ref}`promotion <integrality-promotion>`). In the historical comparison below,
 the "default" series and rows of 2026-11 runs are the options-off
 configuration. The new binary
 reproduces that configuration with the four `--no-lia-*` flags. The "all four

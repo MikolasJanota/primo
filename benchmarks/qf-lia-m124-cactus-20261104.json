@@ -1,0 +1,1781 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-04",
+  "kind": "archived-timing-cactus-comparison",
+  "code_revision": "cf14c7ea",
+  "solver_revision": "5dec0363",
+  "corpus": {
+    "logic": "QF_LIA",
+    "files": 13306,
+    "families": 32,
+    "timeout_seconds": 60,
+    "filter": null
+  },
+  "scope": "Existing full-corpus SLURM timings only; no solver execution, source changes or default promotion. M124 is an option profile on the same binary as the default.",
+  "parents": [
+    "2026-11-04-lia-m124-full-paired60-5dec036",
+    "2026-10-09-qf-lia-opensmt-full-division",
+    "2026-10-09-recovered-qf-lia-comparison-5efbd02"
+  ],
+  "labels": {
+    "m124": "Primo M124",
+    "all": "Primo default",
+    "z3": "Z3 5.1.0",
+    "opensmt": "OpenSMT 2.9.2",
+    "cvc5": "cvc5 1.3.4"
+  },
+  "arguments": {
+    "m124": "--quiet --stats --lia-round-integer-bounds --lia-primitive-int-rows --lia-patch-integral-moves --no-lia-integer-slacks",
+    "all": "--quiet --stats --lia-round-integer-bounds --lia-primitive-int-rows --lia-patch-integral-moves --lia-integer-slacks",
+    "z3": [],
+    "cvc5": [],
+    "opensmt": []
+  },
+  "environment": {
+    "cluster_cpu": "Intel Xeon E5-2690 v4 compute nodes",
+    "primo": "Timing job 348396, 400 tasks, two CPUs and 3 GiB requested per task; batch MaxRSS 8,376,592 KiB, so 3 GiB is not an enforced bound. Model job 348493, 400 tasks, two CPUs and 12 GiB each.",
+    "references": "Historical Z3 2026-09-07: one CPU, 4 GiB; OpenSMT job 181259, 2026-10-09: one CPU, 3 GiB; cvc5 job 127709, 2026-08-21: one CPU, 3 GiB. Different dates, nodes and allocations; contextual comparison."
+  },
+  "audit": {
+    "paths": "All five arms have exactly 13,306 raw rows and unique relative paths, identical sets. Historical reference path prefix sandbox/non-incremental/QF_LIA/ removed only in derived plot views. No duplicate or missing rows.",
+    "cutoff": "No successful sat/unsat row exceeds 60 s. Timeouts, errors and clean unknown exits are excluded from curves and charged 120 s in PAR2.",
+    "answers": "Zero wrong flags; zero contradictory sat/unsat answers across all ten jointly solved pairs.",
+    "identity": "Primo/Z3 input SHA-256 equality established by full paired analyzer. Historical OpenSMT corpus content audit matches archived Z3; cvc5 provides matching relative paths only, no archived input content hashes. No fresh reference input-content audit.",
+    "models": "All 6,580 M124 and 6,520 default SAT answers directly accepted by Dolmen 0.10 in separate job 348493. No fresh reference-model-validation claim.",
+    "errors": "OpenSMT 21 errors remain unsolved. Already triaged in benchmarks/qf-lia-opensmt-errors-20261009.json and parent run log; no new correctness failure."
+  },
+  "artifacts": {
+    "plot": "docs/_static/qf-lia-m124-cactus.svg",
+    "plot_sha256": "c4ed909d7f8cf57da0c3fa09d35e746eb5f8a6ad2d135687dcf8fc2bb63ff9af",
+    "raw_local": "results/integrality-review-20261104",
+    "primo": "<lia-default-workspace>/results/m124-review-20261104-full60/{all,m124}/shard-*/answers.csv",
+    "z3": "<model-fix-workspace>/results/full-revalidation-287b743/real/QF_LIA/z3/shard-*/answers.csv",
+    "opensmt": "<cadical-profile-workspace>/results/qf-lia-opensmt-20261009/opensmt/shard-*.csv",
+    "cvc5": "<cadical-profile-workspace>/results/qf-lia-full-compare-127709/cvc5/shard-*.csv",
+    "reproduction": "docs/evidence/qf-lia-progress.md, Latest cactus reproduction; scripts/plot_cactus.py unchanged from cf14c7ea",
+    "raw_reference_archive_sha256": "b053aaa65ab1dd6ed7bc2f5962f0a7f196518411a5dfaaf58fb7f52e3be18fda"
+  },
+  "normalization_hash_format": "Sorted rows by normalized relative path, each file + TAB + status + TAB + answer + TAB + seconds + NEWLINE; UTF-8. Runtime quantiles use sorted successful times at index floor((n-1)*p).",
+  "series": {
+    "m124": {
+      "total": 13306,
+      "clean_unknown": 400,
+      "sat": 6580,
+      "unsat": 3285,
+      "wrong": 0,
+      "nonstandard": {},
+      "par2": 451149.937984,
+      "solved": 9865,
+      "runtime_seconds": {
+        "min": 0.006695,
+        "median": 0.017279,
+        "p95": 30.207971,
+        "max": 59.809514
+      },
+      "statuses": {
+        "ok": 10265,
+        "timeout": 3041
+      },
+      "normalized_rows_sha256": "e23d453df07e1418e5cbc4566ecb9ed629c3df64f0640184262cd2d8b611be6f",
+      "families": {
+        "20180326-Bromberger": {
+          "total": 806,
+          "clean_unknown": 68,
+          "sat": 254,
+          "unsat": 94,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 55095.977803,
+          "solved": 348
+        },
+        "2019-cmodelsdiff": {
+          "total": 149,
+          "clean_unknown": 0,
+          "sat": 125,
+          "unsat": 7,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2701.711723,
+          "solved": 132
+        },
+        "2019-ezsmt": {
+          "total": 123,
+          "clean_unknown": 0,
+          "sat": 92,
+          "unsat": 14,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2616.317011,
+          "solved": 106
+        },
+        "20210219-Dartagnan": {
+          "total": 153,
+          "clean_unknown": 0,
+          "sat": 12,
+          "unsat": 83,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 7922.898147,
+          "solved": 95
+        },
+        "20220307-SMPT": {
+          "total": 5852,
+          "clean_unknown": 0,
+          "sat": 4213,
+          "unsat": 1554,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 13883.670083,
+          "solved": 5767
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.018566,
+          "solved": 2
+        },
+        "20231117-c_inference": {
+          "total": 80,
+          "clean_unknown": 0,
+          "sat": 18,
+          "unsat": 6,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 7290.276298,
+          "solved": 24
+        },
+        "Averest": {
+          "total": 19,
+          "clean_unknown": 0,
+          "sat": 9,
+          "unsat": 10,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 23.067334,
+          "solved": 19
+        },
+        "CAV_2009_benchmarks": {
+          "total": 591,
+          "clean_unknown": 86,
+          "sat": 339,
+          "unsat": 85,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 20248.534457,
+          "solved": 424
+        },
+        "CIRC": {
+          "total": 51,
+          "clean_unknown": 0,
+          "sat": 18,
+          "unsat": 14,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2311.657427,
+          "solved": 32
+        },
+        "RTCL": {
+          "total": 2,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.181994,
+          "solved": 2
+        },
+        "RWS": {
+          "total": 20,
+          "clean_unknown": 0,
+          "sat": 9,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1355.591197,
+          "solved": 9
+        },
+        "arctic-matrix": {
+          "total": 100,
+          "clean_unknown": 0,
+          "sat": 15,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 10573.961493,
+          "solved": 15
+        },
+        "bofill-scheduling": {
+          "total": 652,
+          "clean_unknown": 0,
+          "sat": 403,
+          "unsat": 245,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1173.568098,
+          "solved": 648
+        },
+        "calypto": {
+          "total": 37,
+          "clean_unknown": 0,
+          "sat": 22,
+          "unsat": 13,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 242.608143,
+          "solved": 35
+        },
+        "check": {
+          "total": 5,
+          "clean_unknown": 0,
+          "sat": 1,
+          "unsat": 4,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.048458,
+          "solved": 5
+        },
+        "convert": {
+          "total": 319,
+          "clean_unknown": 131,
+          "sat": 141,
+          "unsat": 39,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 16792.893108,
+          "solved": 180
+        },
+        "cut_lemmas": {
+          "total": 93,
+          "clean_unknown": 6,
+          "sat": 0,
+          "unsat": 78,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2144.010392,
+          "solved": 78
+        },
+        "dillig": {
+          "total": 233,
+          "clean_unknown": 28,
+          "sat": 162,
+          "unsat": 3,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 8211.777168,
+          "solved": 165
+        },
+        "fft": {
+          "total": 9,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 2,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 600.407296,
+          "solved": 4
+        },
+        "mathsat": {
+          "total": 121,
+          "clean_unknown": 0,
+          "sat": 21,
+          "unsat": 100,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 240.950689,
+          "solved": 121
+        },
+        "miplib2003": {
+          "total": 16,
+          "clean_unknown": 0,
+          "sat": 8,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1027.99229,
+          "solved": 8
+        },
+        "nec-smt": {
+          "total": 2780,
+          "clean_unknown": 0,
+          "sat": 534,
+          "unsat": 734,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 210190.92561,
+          "solved": 1268
+        },
+        "pb2010": {
+          "total": 81,
+          "clean_unknown": 0,
+          "sat": 12,
+          "unsat": 22,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 5872.325655,
+          "solved": 34
+        },
+        "pidgeons": {
+          "total": 19,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 19,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.30133,
+          "solved": 19
+        },
+        "prime-cone": {
+          "total": 37,
+          "clean_unknown": 0,
+          "sat": 19,
+          "unsat": 18,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.522518,
+          "solved": 37
+        },
+        "rings": {
+          "total": 294,
+          "clean_unknown": 52,
+          "sat": 0,
+          "unsat": 62,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 27910.628131,
+          "solved": 62
+        },
+        "rings_preprocessed": {
+          "total": 294,
+          "clean_unknown": 12,
+          "sat": 0,
+          "unsat": 69,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 27001.433911,
+          "solved": 69
+        },
+        "slacks": {
+          "total": 233,
+          "clean_unknown": 3,
+          "sat": 122,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 13346.883967,
+          "solved": 122
+        },
+        "tightrhombus": {
+          "total": 22,
+          "clean_unknown": 14,
+          "sat": 0,
+          "unsat": 8,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1680.213699,
+          "solved": 8
+        },
+        "tropical-matrix": {
+          "total": 108,
+          "clean_unknown": 0,
+          "sat": 22,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 10684.459321,
+          "solved": 22
+        },
+        "wisa": {
+          "total": 5,
+          "clean_unknown": 0,
+          "sat": 3,
+          "unsat": 2,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 4.124667,
+          "solved": 5
+        }
+      }
+    },
+    "all": {
+      "total": 13306,
+      "clean_unknown": 450,
+      "sat": 6520,
+      "unsat": 3228,
+      "wrong": 0,
+      "nonstandard": {},
+      "par2": 465051.620717,
+      "solved": 9748,
+      "runtime_seconds": {
+        "min": 0.006766,
+        "median": 0.017113,
+        "p95": 30.367312,
+        "max": 59.895528
+      },
+      "statuses": {
+        "ok": 10198,
+        "timeout": 3108
+      },
+      "normalized_rows_sha256": "3a755d14882b8b6e54cc401b8f9aa58cc250afc6824955844c8962a95170b596",
+      "families": {
+        "20180326-Bromberger": {
+          "total": 806,
+          "clean_unknown": 32,
+          "sat": 218,
+          "unsat": 99,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 58787.057931,
+          "solved": 317
+        },
+        "2019-cmodelsdiff": {
+          "total": 149,
+          "clean_unknown": 0,
+          "sat": 125,
+          "unsat": 7,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2725.63123,
+          "solved": 132
+        },
+        "2019-ezsmt": {
+          "total": 123,
+          "clean_unknown": 0,
+          "sat": 92,
+          "unsat": 14,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2623.554487,
+          "solved": 106
+        },
+        "20210219-Dartagnan": {
+          "total": 153,
+          "clean_unknown": 0,
+          "sat": 12,
+          "unsat": 83,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 7944.838701,
+          "solved": 95
+        },
+        "20220307-SMPT": {
+          "total": 5852,
+          "clean_unknown": 0,
+          "sat": 4210,
+          "unsat": 1554,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 14175.033065,
+          "solved": 5764
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.019118999999999997,
+          "solved": 2
+        },
+        "20231117-c_inference": {
+          "total": 80,
+          "clean_unknown": 0,
+          "sat": 18,
+          "unsat": 6,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 7291.298356,
+          "solved": 24
+        },
+        "Averest": {
+          "total": 19,
+          "clean_unknown": 0,
+          "sat": 9,
+          "unsat": 10,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 22.703658,
+          "solved": 19
+        },
+        "CAV_2009_benchmarks": {
+          "total": 591,
+          "clean_unknown": 58,
+          "sat": 331,
+          "unsat": 78,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 21865.901896,
+          "solved": 409
+        },
+        "CIRC": {
+          "total": 51,
+          "clean_unknown": 0,
+          "sat": 18,
+          "unsat": 14,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2311.966462,
+          "solved": 32
+        },
+        "RTCL": {
+          "total": 2,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.18378899999999998,
+          "solved": 2
+        },
+        "RWS": {
+          "total": 20,
+          "clean_unknown": 0,
+          "sat": 9,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1355.853133,
+          "solved": 9
+        },
+        "arctic-matrix": {
+          "total": 100,
+          "clean_unknown": 0,
+          "sat": 15,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 10569.001703,
+          "solved": 15
+        },
+        "bofill-scheduling": {
+          "total": 652,
+          "clean_unknown": 0,
+          "sat": 403,
+          "unsat": 245,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1175.251293,
+          "solved": 648
+        },
+        "calypto": {
+          "total": 37,
+          "clean_unknown": 0,
+          "sat": 22,
+          "unsat": 13,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 243.095669,
+          "solved": 35
+        },
+        "check": {
+          "total": 5,
+          "clean_unknown": 0,
+          "sat": 1,
+          "unsat": 4,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.048527,
+          "solved": 5
+        },
+        "convert": {
+          "total": 319,
+          "clean_unknown": 131,
+          "sat": 141,
+          "unsat": 39,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 16801.883448,
+          "solved": 180
+        },
+        "cut_lemmas": {
+          "total": 93,
+          "clean_unknown": 30,
+          "sat": 0,
+          "unsat": 54,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 4855.686095,
+          "solved": 54
+        },
+        "dillig": {
+          "total": 233,
+          "clean_unknown": 18,
+          "sat": 173,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 7218.776715,
+          "solved": 173
+        },
+        "fft": {
+          "total": 9,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 2,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 600.404152,
+          "solved": 4
+        },
+        "mathsat": {
+          "total": 121,
+          "clean_unknown": 0,
+          "sat": 21,
+          "unsat": 100,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 240.366264,
+          "solved": 121
+        },
+        "miplib2003": {
+          "total": 16,
+          "clean_unknown": 0,
+          "sat": 6,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1209.212116,
+          "solved": 6
+        },
+        "nec-smt": {
+          "total": 2780,
+          "clean_unknown": 0,
+          "sat": 540,
+          "unsat": 735,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 209769.701071,
+          "solved": 1275
+        },
+        "pb2010": {
+          "total": 81,
+          "clean_unknown": 0,
+          "sat": 7,
+          "unsat": 22,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 6337.05798,
+          "solved": 29
+        },
+        "pidgeons": {
+          "total": 19,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 19,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.301628,
+          "solved": 19
+        },
+        "prime-cone": {
+          "total": 37,
+          "clean_unknown": 11,
+          "sat": 19,
+          "unsat": 1,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2040.234327,
+          "solved": 20
+        },
+        "rings": {
+          "total": 294,
+          "clean_unknown": 73,
+          "sat": 0,
+          "unsat": 57,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 28535.314574,
+          "solved": 57
+        },
+        "rings_preprocessed": {
+          "total": 294,
+          "clean_unknown": 75,
+          "sat": 0,
+          "unsat": 66,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 27385.236807,
+          "solved": 66
+        },
+        "slacks": {
+          "total": 233,
+          "clean_unknown": 4,
+          "sat": 99,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 16118.697005,
+          "solved": 99
+        },
+        "tightrhombus": {
+          "total": 22,
+          "clean_unknown": 18,
+          "sat": 0,
+          "unsat": 4,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2160.056975,
+          "solved": 4
+        },
+        "tropical-matrix": {
+          "total": 108,
+          "clean_unknown": 0,
+          "sat": 22,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 10683.088989,
+          "solved": 22
+        },
+        "wisa": {
+          "total": 5,
+          "clean_unknown": 0,
+          "sat": 3,
+          "unsat": 2,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 4.163552,
+          "solved": 5
+        }
+      }
+    },
+    "z3": {
+      "total": 13306,
+      "clean_unknown": 0,
+      "sat": 7826,
+      "unsat": 4318,
+      "wrong": 0,
+      "nonstandard": {},
+      "par2": 174585.785332,
+      "solved": 12144,
+      "runtime_seconds": {
+        "min": 0.013203,
+        "median": 0.059986,
+        "p95": 19.972026,
+        "max": 59.888755
+      },
+      "statuses": {
+        "ok": 12144,
+        "timeout": 1162
+      },
+      "normalized_rows_sha256": "0bcb0d0008cd0e6533828b288d845460eb3f35e2e3c4dd14f3e9348e860547c1",
+      "families": {
+        "20180326-Bromberger": {
+          "total": 806,
+          "clean_unknown": 0,
+          "sat": 557,
+          "unsat": 171,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 10462.271184,
+          "solved": 728
+        },
+        "2019-cmodelsdiff": {
+          "total": 149,
+          "clean_unknown": 0,
+          "sat": 119,
+          "unsat": 6,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 3523.1411550000003,
+          "solved": 125
+        },
+        "2019-ezsmt": {
+          "total": 123,
+          "clean_unknown": 0,
+          "sat": 93,
+          "unsat": 15,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2462.547084,
+          "solved": 108
+        },
+        "20210219-Dartagnan": {
+          "total": 153,
+          "clean_unknown": 0,
+          "sat": 24,
+          "unsat": 118,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1595.825175,
+          "solved": 142
+        },
+        "20220307-SMPT": {
+          "total": 5852,
+          "clean_unknown": 0,
+          "sat": 4200,
+          "unsat": 1496,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 20838.921188,
+          "solved": 5696
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.03548,
+          "solved": 2
+        },
+        "20231117-c_inference": {
+          "total": 80,
+          "clean_unknown": 0,
+          "sat": 25,
+          "unsat": 9,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 5676.490398,
+          "solved": 34
+        },
+        "Averest": {
+          "total": 19,
+          "clean_unknown": 0,
+          "sat": 9,
+          "unsat": 10,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1.840916,
+          "solved": 19
+        },
+        "CAV_2009_benchmarks": {
+          "total": 591,
+          "clean_unknown": 0,
+          "sat": 506,
+          "unsat": 84,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 487.748113,
+          "solved": 590
+        },
+        "CIRC": {
+          "total": 51,
+          "clean_unknown": 0,
+          "sat": 18,
+          "unsat": 15,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2277.1652,
+          "solved": 33
+        },
+        "RTCL": {
+          "total": 2,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.06578200000000001,
+          "solved": 2
+        },
+        "RWS": {
+          "total": 20,
+          "clean_unknown": 0,
+          "sat": 13,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 888.535967,
+          "solved": 13
+        },
+        "arctic-matrix": {
+          "total": 100,
+          "clean_unknown": 0,
+          "sat": 21,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 9951.066406,
+          "solved": 21
+        },
+        "bofill-scheduling": {
+          "total": 652,
+          "clean_unknown": 0,
+          "sat": 400,
+          "unsat": 245,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1477.474457,
+          "solved": 645
+        },
+        "calypto": {
+          "total": 37,
+          "clean_unknown": 0,
+          "sat": 24,
+          "unsat": 13,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 6.466811,
+          "solved": 37
+        },
+        "check": {
+          "total": 5,
+          "clean_unknown": 0,
+          "sat": 1,
+          "unsat": 4,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.08391,
+          "solved": 5
+        },
+        "convert": {
+          "total": 319,
+          "clean_unknown": 0,
+          "sat": 280,
+          "unsat": 39,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 987.780452,
+          "solved": 319
+        },
+        "cut_lemmas": {
+          "total": 93,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 89,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 779.7735359999999,
+          "solved": 89
+        },
+        "dillig": {
+          "total": 233,
+          "clean_unknown": 0,
+          "sat": 230,
+          "unsat": 2,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 319.494381,
+          "solved": 232
+        },
+        "fft": {
+          "total": 9,
+          "clean_unknown": 0,
+          "sat": 3,
+          "unsat": 3,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 409.028485,
+          "solved": 6
+        },
+        "mathsat": {
+          "total": 121,
+          "clean_unknown": 0,
+          "sat": 21,
+          "unsat": 99,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 322.271372,
+          "solved": 120
+        },
+        "miplib2003": {
+          "total": 16,
+          "clean_unknown": 0,
+          "sat": 11,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 630.733213,
+          "solved": 11
+        },
+        "nec-smt": {
+          "total": 2780,
+          "clean_unknown": 0,
+          "sat": 955,
+          "unsat": 1275,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 90452.338249,
+          "solved": 2230
+        },
+        "pb2010": {
+          "total": 81,
+          "clean_unknown": 0,
+          "sat": 34,
+          "unsat": 31,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2190.21825,
+          "solved": 65
+        },
+        "pidgeons": {
+          "total": 19,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 11,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1000.1540669999999,
+          "solved": 11
+        },
+        "prime-cone": {
+          "total": 37,
+          "clean_unknown": 0,
+          "sat": 19,
+          "unsat": 18,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2.44691,
+          "solved": 37
+        },
+        "rings": {
+          "total": 294,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 281,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2631.156848,
+          "solved": 281
+        },
+        "rings_preprocessed": {
+          "total": 294,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 258,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 4564.798625,
+          "solved": 258
+        },
+        "slacks": {
+          "total": 233,
+          "clean_unknown": 0,
+          "sat": 230,
+          "unsat": 2,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 283.290615,
+          "solved": 232
+        },
+        "tightrhombus": {
+          "total": 22,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 22,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 6.667378,
+          "solved": 22
+        },
+        "tropical-matrix": {
+          "total": 108,
+          "clean_unknown": 0,
+          "sat": 26,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 10353.749364,
+          "solved": 26
+        },
+        "wisa": {
+          "total": 5,
+          "clean_unknown": 0,
+          "sat": 3,
+          "unsat": 2,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2.204361,
+          "solved": 5
+        }
+      }
+    },
+    "cvc5": {
+      "total": 13306,
+      "clean_unknown": 0,
+      "sat": 6527,
+      "unsat": 2712,
+      "wrong": 0,
+      "nonstandard": {},
+      "par2": 507295.331516,
+      "solved": 9239,
+      "runtime_seconds": {
+        "min": 0.007401,
+        "median": 0.03438,
+        "p95": 12.660215,
+        "max": 59.042229
+      },
+      "statuses": {
+        "ok": 9239,
+        "timeout": 4067
+      },
+      "normalized_rows_sha256": "58b4f861ae36c8d7cb483419d47dbd483f89dc3282c204d1bfef345f0a8f47af",
+      "families": {
+        "20180326-Bromberger": {
+          "total": 806,
+          "clean_unknown": 0,
+          "sat": 407,
+          "unsat": 101,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 37684.365077,
+          "solved": 508
+        },
+        "2019-cmodelsdiff": {
+          "total": 149,
+          "clean_unknown": 0,
+          "sat": 122,
+          "unsat": 8,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 3023.3487139999997,
+          "solved": 130
+        },
+        "2019-ezsmt": {
+          "total": 123,
+          "clean_unknown": 0,
+          "sat": 79,
+          "unsat": 14,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 4572.46359,
+          "solved": 93
+        },
+        "20210219-Dartagnan": {
+          "total": 153,
+          "clean_unknown": 0,
+          "sat": 20,
+          "unsat": 110,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 3471.060461,
+          "solved": 130
+        },
+        "20220307-SMPT": {
+          "total": 5852,
+          "clean_unknown": 0,
+          "sat": 4213,
+          "unsat": 1550,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 14228.529694,
+          "solved": 5763
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.023361,
+          "solved": 2
+        },
+        "20231117-c_inference": {
+          "total": 80,
+          "clean_unknown": 0,
+          "sat": 18,
+          "unsat": 4,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 7563.302854,
+          "solved": 22
+        },
+        "Averest": {
+          "total": 19,
+          "clean_unknown": 0,
+          "sat": 9,
+          "unsat": 10,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 28.380095999999998,
+          "solved": 19
+        },
+        "CAV_2009_benchmarks": {
+          "total": 591,
+          "clean_unknown": 0,
+          "sat": 486,
+          "unsat": 85,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 3249.363222,
+          "solved": 571
+        },
+        "CIRC": {
+          "total": 51,
+          "clean_unknown": 0,
+          "sat": 18,
+          "unsat": 13,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2480.635042,
+          "solved": 31
+        },
+        "RTCL": {
+          "total": 2,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.170652,
+          "solved": 2
+        },
+        "RWS": {
+          "total": 20,
+          "clean_unknown": 0,
+          "sat": 12,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1120.789483,
+          "solved": 12
+        },
+        "arctic-matrix": {
+          "total": 100,
+          "clean_unknown": 0,
+          "sat": 4,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 11652.821132,
+          "solved": 4
+        },
+        "bofill-scheduling": {
+          "total": 652,
+          "clean_unknown": 0,
+          "sat": 391,
+          "unsat": 245,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 3152.229458,
+          "solved": 636
+        },
+        "calypto": {
+          "total": 37,
+          "clean_unknown": 0,
+          "sat": 24,
+          "unsat": 13,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 3.931308,
+          "solved": 37
+        },
+        "check": {
+          "total": 5,
+          "clean_unknown": 0,
+          "sat": 1,
+          "unsat": 4,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.053188,
+          "solved": 5
+        },
+        "convert": {
+          "total": 319,
+          "clean_unknown": 0,
+          "sat": 165,
+          "unsat": 39,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 16165.092551,
+          "solved": 204
+        },
+        "cut_lemmas": {
+          "total": 93,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 70,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 3159.127001,
+          "solved": 70
+        },
+        "dillig": {
+          "total": 233,
+          "clean_unknown": 0,
+          "sat": 218,
+          "unsat": 3,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1830.356092,
+          "solved": 221
+        },
+        "fft": {
+          "total": 9,
+          "clean_unknown": 0,
+          "sat": 3,
+          "unsat": 2,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 481.238945,
+          "solved": 5
+        },
+        "mathsat": {
+          "total": 121,
+          "clean_unknown": 0,
+          "sat": 20,
+          "unsat": 98,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 584.390385,
+          "solved": 118
+        },
+        "miplib2003": {
+          "total": 16,
+          "clean_unknown": 0,
+          "sat": 7,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1128.829445,
+          "solved": 7
+        },
+        "nec-smt": {
+          "total": 2780,
+          "clean_unknown": 0,
+          "sat": 91,
+          "unsat": 92,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 315117.289702,
+          "solved": 183
+        },
+        "pb2010": {
+          "total": 81,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 22,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 6936.132229,
+          "solved": 24
+        },
+        "pidgeons": {
+          "total": 19,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 19,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.948938,
+          "solved": 19
+        },
+        "prime-cone": {
+          "total": 37,
+          "clean_unknown": 0,
+          "sat": 19,
+          "unsat": 18,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 3.198628,
+          "solved": 37
+        },
+        "rings": {
+          "total": 294,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 88,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 24888.552669,
+          "solved": 88
+        },
+        "rings_preprocessed": {
+          "total": 294,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 94,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 24089.166347,
+          "solved": 94
+        },
+        "slacks": {
+          "total": 233,
+          "clean_unknown": 0,
+          "sat": 182,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 6815.994925,
+          "solved": 182
+        },
+        "tightrhombus": {
+          "total": 22,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 8,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1695.176406,
+          "solved": 8
+        },
+        "tropical-matrix": {
+          "total": 108,
+          "clean_unknown": 0,
+          "sat": 9,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 12148.806098000001,
+          "solved": 9
+        },
+        "wisa": {
+          "total": 5,
+          "clean_unknown": 0,
+          "sat": 3,
+          "unsat": 2,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 19.563823,
+          "solved": 5
+        }
+      }
+    },
+    "opensmt": {
+      "total": 13306,
+      "clean_unknown": 0,
+      "sat": 6692,
+      "unsat": 3962,
+      "wrong": 0,
+      "nonstandard": {
+        "status=error": 21
+      },
+      "par2": 361026.801334,
+      "solved": 10654,
+      "runtime_seconds": {
+        "min": 0.005064,
+        "median": 0.037338,
+        "p95": 29.562333,
+        "max": 59.853358
+      },
+      "statuses": {
+        "ok": 10654,
+        "timeout": 2631,
+        "error": 21
+      },
+      "normalized_rows_sha256": "febd23b0a902a50455a1d22f2681106685e1c24aa690845e60d88c63602eb786",
+      "families": {
+        "20180326-Bromberger": {
+          "total": 806,
+          "clean_unknown": 0,
+          "sat": 297,
+          "unsat": 171,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 42283.213082,
+          "solved": 468
+        },
+        "2019-cmodelsdiff": {
+          "total": 149,
+          "clean_unknown": 0,
+          "sat": 114,
+          "unsat": 7,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 3928.186703,
+          "solved": 121
+        },
+        "2019-ezsmt": {
+          "total": 123,
+          "clean_unknown": 0,
+          "sat": 94,
+          "unsat": 15,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2737.6182719999997,
+          "solved": 109
+        },
+        "20210219-Dartagnan": {
+          "total": 153,
+          "clean_unknown": 0,
+          "sat": 20,
+          "unsat": 105,
+          "wrong": 0,
+          "nonstandard": {
+            "status=error": 21
+          },
+          "par2": 3749.275662,
+          "solved": 125
+        },
+        "20220307-SMPT": {
+          "total": 5852,
+          "clean_unknown": 0,
+          "sat": 4234,
+          "unsat": 1564,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 7923.675256,
+          "solved": 5798
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.020729,
+          "solved": 2
+        },
+        "20231117-c_inference": {
+          "total": 80,
+          "clean_unknown": 0,
+          "sat": 22,
+          "unsat": 6,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 6671.044371,
+          "solved": 28
+        },
+        "Averest": {
+          "total": 19,
+          "clean_unknown": 0,
+          "sat": 9,
+          "unsat": 10,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 89.13517,
+          "solved": 19
+        },
+        "CAV_2009_benchmarks": {
+          "total": 591,
+          "clean_unknown": 0,
+          "sat": 386,
+          "unsat": 85,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 17847.018847,
+          "solved": 471
+        },
+        "CIRC": {
+          "total": 51,
+          "clean_unknown": 0,
+          "sat": 18,
+          "unsat": 16,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 2126.417968,
+          "solved": 34
+        },
+        "RTCL": {
+          "total": 2,
+          "clean_unknown": 0,
+          "sat": 2,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.380733,
+          "solved": 2
+        },
+        "RWS": {
+          "total": 20,
+          "clean_unknown": 0,
+          "sat": 12,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1034.3789,
+          "solved": 12
+        },
+        "arctic-matrix": {
+          "total": 100,
+          "clean_unknown": 0,
+          "sat": 42,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 7629.280133,
+          "solved": 42
+        },
+        "bofill-scheduling": {
+          "total": 652,
+          "clean_unknown": 0,
+          "sat": 403,
+          "unsat": 245,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 875.962775,
+          "solved": 648
+        },
+        "calypto": {
+          "total": 37,
+          "clean_unknown": 0,
+          "sat": 24,
+          "unsat": 13,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1.235428,
+          "solved": 37
+        },
+        "check": {
+          "total": 5,
+          "clean_unknown": 0,
+          "sat": 1,
+          "unsat": 4,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.108289,
+          "solved": 5
+        },
+        "convert": {
+          "total": 319,
+          "clean_unknown": 0,
+          "sat": 237,
+          "unsat": 39,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 5749.557191,
+          "solved": 276
+        },
+        "cut_lemmas": {
+          "total": 93,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 93,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 171.647802,
+          "solved": 93
+        },
+        "dillig": {
+          "total": 233,
+          "clean_unknown": 0,
+          "sat": 175,
+          "unsat": 3,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 8140.200645,
+          "solved": 178
+        },
+        "fft": {
+          "total": 9,
+          "clean_unknown": 0,
+          "sat": 3,
+          "unsat": 3,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 393.355361,
+          "solved": 6
+        },
+        "mathsat": {
+          "total": 121,
+          "clean_unknown": 0,
+          "sat": 21,
+          "unsat": 99,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 295.823311,
+          "solved": 120
+        },
+        "miplib2003": {
+          "total": 16,
+          "clean_unknown": 0,
+          "sat": 11,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 654.691039,
+          "solved": 11
+        },
+        "nec-smt": {
+          "total": 2780,
+          "clean_unknown": 0,
+          "sat": 363,
+          "unsat": 890,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 210477.955037,
+          "solved": 1253
+        },
+        "pb2010": {
+          "total": 81,
+          "clean_unknown": 0,
+          "sat": 15,
+          "unsat": 23,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 5351.367287,
+          "solved": 38
+        },
+        "pidgeons": {
+          "total": 19,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 19,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 0.368411,
+          "solved": 19
+        },
+        "prime-cone": {
+          "total": 37,
+          "clean_unknown": 0,
+          "sat": 19,
+          "unsat": 18,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1.509219,
+          "solved": 37
+        },
+        "rings": {
+          "total": 294,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 248,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 6072.44413,
+          "solved": 248
+        },
+        "rings_preprocessed": {
+          "total": 294,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 260,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 4499.8408,
+          "solved": 260
+        },
+        "slacks": {
+          "total": 233,
+          "clean_unknown": 0,
+          "sat": 105,
+          "unsat": 2,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 15686.783423,
+          "solved": 107
+        },
+        "tightrhombus": {
+          "total": 22,
+          "clean_unknown": 0,
+          "sat": 0,
+          "unsat": 22,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1.571219,
+          "solved": 22
+        },
+        "tropical-matrix": {
+          "total": 108,
+          "clean_unknown": 0,
+          "sat": 60,
+          "unsat": 0,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 6631.667762,
+          "solved": 60
+        },
+        "wisa": {
+          "total": 5,
+          "clean_unknown": 0,
+          "sat": 3,
+          "unsat": 2,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 1.066379,
+          "solved": 5
+        }
+      }
+    }
+  }
+}

@@ -3,6 +3,163 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-04-qf-lia-m124-reference-cactus",
+      "date": "2026-11-04",
+      "kind": "archived-timing-cactus-comparison",
+      "parents": [
+        "2026-11-04-lia-m124-full-paired60-5dec036",
+        "2026-10-09-qf-lia-opensmt-full-division",
+        "2026-10-09-recovered-qf-lia-comparison-5efbd02"
+      ],
+      "corpus": {
+        "logic": "QF_LIA",
+        "files": 13306,
+        "families": 32,
+        "timeout_seconds": 60,
+        "filter": null
+      },
+      "scope": "Existing full-corpus SLURM timings only; no solver execution, source changes or default promotion. M124 is an option profile on the same binary as the default.",
+      "environment": {
+        "cluster_cpu": "Intel Xeon E5-2690 v4 compute nodes",
+        "primo": "Timing job 348396, 400 tasks, two CPUs and 3 GiB requested per task; batch MaxRSS 8,376,592 KiB, so 3 GiB is not an enforced bound. Model job 348493, 400 tasks, two CPUs and 12 GiB each.",
+        "references": "Historical Z3 2026-09-07: one CPU, 4 GiB; OpenSMT job 181259, 2026-10-09: one CPU, 3 GiB; cvc5 job 127709, 2026-08-21: one CPU, 3 GiB. Different dates, nodes and allocations; contextual comparison."
+      },
+      "audit": {
+        "paths": "All five arms have exactly 13,306 raw rows and unique relative paths, identical sets. Historical reference path prefix sandbox/non-incremental/QF_LIA/ removed only in derived plot views. No duplicate or missing rows.",
+        "cutoff": "No successful sat/unsat row exceeds 60 s. Timeouts, errors and clean unknown exits are excluded from curves and charged 120 s in PAR2.",
+        "answers": "Zero wrong flags; zero contradictory sat/unsat answers across all ten jointly solved pairs.",
+        "identity": "Primo/Z3 input SHA-256 equality established by full paired analyzer. Historical OpenSMT corpus content audit matches archived Z3; cvc5 provides matching relative paths only, no archived input content hashes. No fresh reference input-content audit.",
+        "models": "All 6,580 M124 and 6,520 default SAT answers directly accepted by Dolmen 0.10 in separate job 348493. No fresh reference-model-validation claim.",
+        "errors": "OpenSMT 21 errors remain unsolved. Already triaged in benchmarks/qf-lia-opensmt-errors-20261009.json and parent run log; no new correctness failure."
+      },
+      "artifacts": {
+        "plot": "docs/_static/qf-lia-m124-cactus.svg",
+        "plot_sha256": "c4ed909d7f8cf57da0c3fa09d35e746eb5f8a6ad2d135687dcf8fc2bb63ff9af",
+        "raw_local": "results/integrality-review-20261104",
+        "primo": "<lia-default-workspace>/results/m124-review-20261104-full60/{all,m124}/shard-*/answers.csv",
+        "z3": "<model-fix-workspace>/results/full-revalidation-287b743/real/QF_LIA/z3/shard-*/answers.csv",
+        "opensmt": "<cadical-profile-workspace>/results/qf-lia-opensmt-20261009/opensmt/shard-*.csv",
+        "cvc5": "<cadical-profile-workspace>/results/qf-lia-full-compare-127709/cvc5/shard-*.csv",
+        "reproduction": "docs/evidence/qf-lia-progress.md, Latest cactus reproduction; scripts/plot_cactus.py unchanged from cf14c7ea",
+        "raw_reference_archive_sha256": "b053aaa65ab1dd6ed7bc2f5962f0a7f196518411a5dfaaf58fb7f52e3be18fda"
+      },
+      "commit": "5dec0363",
+      "analysis_revision": "cf14c7ea",
+      "evidence_status": "contextual comparison of qualified current-profile timings with historical references",
+      "results": {
+        "m124": {
+          "total": 13306,
+          "clean_unknown": 400,
+          "sat": 6580,
+          "unsat": 3285,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 451149.937984,
+          "solved": 9865,
+          "runtime_seconds": {
+            "min": 0.006695,
+            "median": 0.017279,
+            "p95": 30.207971,
+            "max": 59.809514
+          },
+          "statuses": {
+            "ok": 10265,
+            "timeout": 3041
+          },
+          "normalized_rows_sha256": "e23d453df07e1418e5cbc4566ecb9ed629c3df64f0640184262cd2d8b611be6f"
+        },
+        "all": {
+          "total": 13306,
+          "clean_unknown": 450,
+          "sat": 6520,
+          "unsat": 3228,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 465051.620717,
+          "solved": 9748,
+          "runtime_seconds": {
+            "min": 0.006766,
+            "median": 0.017113,
+            "p95": 30.367312,
+            "max": 59.895528
+          },
+          "statuses": {
+            "ok": 10198,
+            "timeout": 3108
+          },
+          "normalized_rows_sha256": "3a755d14882b8b6e54cc401b8f9aa58cc250afc6824955844c8962a95170b596"
+        },
+        "z3": {
+          "total": 13306,
+          "clean_unknown": 0,
+          "sat": 7826,
+          "unsat": 4318,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 174585.785332,
+          "solved": 12144,
+          "runtime_seconds": {
+            "min": 0.013203,
+            "median": 0.059986,
+            "p95": 19.972026,
+            "max": 59.888755
+          },
+          "statuses": {
+            "ok": 12144,
+            "timeout": 1162
+          },
+          "normalized_rows_sha256": "0bcb0d0008cd0e6533828b288d845460eb3f35e2e3c4dd14f3e9348e860547c1"
+        },
+        "cvc5": {
+          "total": 13306,
+          "clean_unknown": 0,
+          "sat": 6527,
+          "unsat": 2712,
+          "wrong": 0,
+          "nonstandard": {},
+          "par2": 507295.331516,
+          "solved": 9239,
+          "runtime_seconds": {
+            "min": 0.007401,
+            "median": 0.03438,
+            "p95": 12.660215,
+            "max": 59.042229
+          },
+          "statuses": {
+            "ok": 9239,
+            "timeout": 4067
+          },
+          "normalized_rows_sha256": "58b4f861ae36c8d7cb483419d47dbd483f89dc3282c204d1bfef345f0a8f47af"
+        },
+        "opensmt": {
+          "total": 13306,
+          "clean_unknown": 0,
+          "sat": 6692,
+          "unsat": 3962,
+          "wrong": 0,
+          "nonstandard": {
+            "status=error": 21
+          },
+          "par2": 361026.801334,
+          "solved": 10654,
+          "runtime_seconds": {
+            "min": 0.005064,
+            "median": 0.037338,
+            "p95": 29.562333,
+            "max": 59.853358
+          },
+          "statuses": {
+            "ok": 10654,
+            "timeout": 2631,
+            "error": 21
+          },
+          "normalized_rows_sha256": "febd23b0a902a50455a1d22f2681106685e1c24aa690845e60d88c63602eb786"
+        }
+      },
+      "metadata": "benchmarks/qf-lia-m124-cactus-20261104.json",
+      "commands": "Prepare normalized flat CSV views as documented, then scripts/plot_cactus.py --timeout 60 --sort-by-solved --highlight-series \"Primo M124\" with five named series, three provenance notes and --out docs/_static/qf-lia-m124-cactus.svg. Exact command in docs/evidence/qf-lia-progress.md."
+    },
+    {
       "id": "2026-11-04-lia-m124-full-paired60-5dec036",
       "date": "2026-11-04",
       "commit": "5dec0363",
