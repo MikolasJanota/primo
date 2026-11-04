@@ -24,6 +24,10 @@ def invoke(command, source):
     )
 
 
+def numeral(value):
+    return f"(- {-value})" if value < 0 else str(value)
+
+
 def generate(index, rng):
     a, b = rng.randrange(-20, 21), rng.randrange(-20, 21)
     scale = rng.randrange(1, 10)
@@ -32,17 +36,25 @@ def generate(index, rng):
     bound = a + b if strict or not unsat else a + b - 1
     if not unsat:
         bound += 3
-    p = "(> y " + str(b) + ")" if strict else "(>= y " + str(b) + ")"
-    premises = [f"(>= x {a})", p, f"(<= (* {scale} (+ x y)) {scale * bound})"]
+    p = "(> y " + numeral(b) + ")" if strict else "(>= y " + numeral(b) + ")"
+    premises = [
+        f"(>= x {numeral(a)})",
+        p,
+        f"(<= (* {scale} (+ x y)) {numeral(scale * bound)})",
+    ]
     if index % 7 == 0:
         # Negated comparisons exercise recorded literal polarity.
-        premises[0] = f"(not (< x {a}))"
+        premises[0] = f"(not (< x {numeral(a)}))"
     if index % 11 == 0:
         premises.append("(or (= x y) (not (= x y)))")
     if index % 13 == 0:
         premises.append("(= z (ite flag (+ x y) (- y x)))")
     if index % 3 == 0:
-        second = [f"(>= x {a + 1})", f"(>= y {b - 1})", f"(< (+ x y) {a + b})"]
+        second = [
+            f"(>= x {numeral(a + 1)})",
+            f"(>= y {numeral(b - 1)})",
+            f"(< (+ x y) {numeral(a + b)})",
+        ]
         body = (
             "(assert (or (and "
             + " ".join(premises[:3])

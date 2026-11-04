@@ -17,9 +17,9 @@ for that capture.
 | `--version` | Off | Print revision/build information and exit. |
 | `--quiet`, `-q` | Off | Suppress the startup banner; SMT-LIB responses remain enabled. |
 | `--stats` | Off | Write query statistics to stderr. See [](../reference/statistics.md). |
-| `--export-cnf FILE` | Off | Write one UNSAT CNF/conflict artifact for a QF_UF problem; nested Boolean structure is clausified; see [](qf-uf-conflicts.md). Incremental solving is unsupported. |
+| `--export-cnf FILE` | Off | Write one UNSAT CNF/conflict artifact for QF_UF (version 1) or experimental QF_LRA (version 2); nested Boolean structure is clausified. See [](qf-uf-conflicts.md) and [](qf-lra-certificates.md). Incremental solving is unsupported. |
 | `--export-cnf-reduction=none\|core\|mus` | `none` | Requires `--export-cnf`; retain all theory lemmas, an UNSAT core, or a subset-minimal set relative to fixed input CNF. See [](qf-uf-conflicts.md#reducing-theory-lemmas). |
-| `--experimental-export-erase-sorts` | Off | Temporary external-checker experiment; requires `--export-cnf`. Print one fresh object sort, preserving `Bool`. See [](qf-uf-conflicts.md#temporary-object-sort-erasure). |
+| `--experimental-export-erase-sorts` | Off | Temporary QF_UF external-checker experiment; requires `--export-cnf`. Print one fresh object sort, preserving `Bool`; QF_LRA rejects it. See [](qf-uf-conflicts.md#temporary-object-sort-erasure). |
 | `--check-model` | Off | Check original assertions against a requested model. Set `:produce-models true` separately; see [](../guide/models.md). |
 | `--incremental-mode` | `rebuild` | Choose `rebuild` or the restricted `assumptions` session engine. See [](../guide/sessions.md). |
 | `--preprocessing-mode` | `auto` | Choose `auto`, `off`, `basic`, or `strong`. `off` does not bypass required lowering. Assumptions mode admits only `auto` or `off`. |

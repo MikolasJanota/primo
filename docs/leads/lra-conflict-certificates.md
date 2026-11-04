@@ -1,6 +1,6 @@
 # Proposed weighted certificates for QF_LRA conflicts
 
-**Status: experimental implementation; cluster qualification pending.**
+**Status: experimental implementation with bounded SLURM qualification.**
 The [version-2 reference](../reference/qf-lra-certificates.md) describes the
 implemented producer and independent arithmetic validator. This page retains
 the design argument and acceptance criteria; source-to-CNF proof and external
@@ -17,11 +17,12 @@ proof obligations. We can check those operations directly for one compact
 record. Expanding it into a general proof language or a large trace of
 intermediate inequalities is unnecessary for this first extension.
 
-**Planned production strategy:** collect theory clauses during the normal solve,
+**Production strategy:** collect theory clauses during the normal solve,
 select the retained clauses with the existing propositional CORE/MUS oracle,
 then reconstruct weights only for those retained clauses. No coefficient
-history is required in the main LRA search. This is a proposed implementation
-order, now implemented and awaiting qualification.
+history is required in the main LRA search. This order is implemented; the
+[reference](../reference/qf-lra-certificates.md#independent-validation-and-qualification-scope)
+records the bounded correctness checks.
 
 ## Proposed version 2 syntax and meaning
 
@@ -390,7 +391,7 @@ accumulator check, normalized reconstruction system and integration checklist
 above are our proposal, not CPC
 syntax or a claim that CPC's whole arithmetic calculus is implemented.
 The existing QF_UF/version-1 export retains its format. The version-2 producer,
-arithmetic validator and selected witness export are implemented pending
+arithmetic validator and selected witness export are implemented with bounded
 qualification; optional proof-language translation is unimplemented. Motzkin's theorem is a
 mathematical basis for witness reconstruction, not a claim to implement
 Leike–Heizmann's synthesis procedure or an optimized LP algorithm from that paper.

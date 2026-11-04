@@ -4,11 +4,11 @@
 write this format for one QF_UF problem that Primo reports UNSAT. The input may
 contain nested Boolean structure. The file records the generated CNF and theory
 conflicts; producing it does not independently validate conflicts or certify
-UNSAT. Primo bundles no checker; the external Micromath route below covers a
+UNSAT. Primo bundles no UF checker; the external Micromath route below covers a
 restricted subset of this format.
 
 The [QF_LRA extension](qf-lra-certificates.md) adds weighted arithmetic conflicts
-in version 2, with qualification pending. This page continues to specify the
+in version 2, with bounded experimental qualification. This page continues to specify the
 unchanged QF_UF/version-1 artifact. The [arithmetic design note](../leads/lra-conflict-certificates.md)
 records the coefficient-reconstruction argument.
 
@@ -877,7 +877,7 @@ when reduction needs selection. `TMPDIR` can select node-local scratch. Securely
 created temporary files are unlinked immediately and closed on every return.
 Temporary-storage failure aborts export; it does not fall back to text in RAM.
 
-{preparedexportsource}`export_qf_uf_cnf <src/smt/qf_uf_export.cpp>` owns one `Frontend`, its term
+{lraexportsource}`export_cnf_once <src/smt/cnf_export.cpp>` owns one `Frontend`, its term
 manager, the spool, and collector through solving and serialization. It validates
 the whole command sequence and QF_UF sorts, then calls
 {preparedexportsource}`check_sat_frontend_export_once <src/smt/solver_session.cpp>`. That entry point
@@ -892,7 +892,7 @@ it retains and must not mutate the clausifier, term manager, or backend, or reen
 clausification. Both the Boolean and EUF solver leaves accept a collector; without
 one they retain ordinary clause insertion and early-return behavior.
 
-{preparedexportsource}`QfUfConflictCollector <src/smt/qf_uf_export.hpp>` borrows the frontend's term
+{lraexportsource}`CnfConflictCollector <src/smt/cnf_export.hpp>` borrows the frontend's term
 manager and spool. It copies initial clauses as SAT literals while the clausifier
 builds its atom mapping. After Boolean argument registration, binding copies the
 SAT-variable-to-TermId mapping, assigns fresh Boolean auxiliary names, and streams

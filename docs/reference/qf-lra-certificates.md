@@ -1,6 +1,6 @@
 # QF_LRA weighted conflict certificates, version 2
 
-**Status: experimental implementation; SLURM qualification pending.**
+**Status: experimental implementation with bounded SLURM qualification.**
 `--export-cnf FILE` now accepts one QF_LRA query using the same single-query
 command/session restrictions as [QF_UF export](qf-uf-conflicts.md). QF_UF keeps
 its version-1 format; QF_LRA writes version 2. This certifies the prepared CNF
@@ -9,9 +9,14 @@ The [design note](../leads/lra-conflict-certificates.md) gives the mathematical
 contract, reconstruction argument and implementation checklist.
 
 ```bash
-./build/primo --quiet --export-cnf result.sexp --export-cnf-reduction=core input.smt2
-python3 scripts/check_lra_certificate.py result.sexp --sat-solver contrib/local/bin/cadical
+./build/primo --quiet --export-cnf result.sexp --export-cnf-reduction=core docs/examples/qf-lra-export.smt2
+python3 scripts/check_lra_certificate.py result.sexp --sat-solver /path/to/cadical
 ```
+
+The {download}`example <../examples/qf-lra-export.smt2>` is the strict-boundary
+contradiction shown below.
+The second command needs an external CaDiCaL executable for the propositional
+check; omitting `--sat-solver` checks only the arithmetic witnesses and syntax.
 
 CORE and MUS select complete theory clauses before any coefficients are
 reconstructed. `none` reconstructs every collected lemma; it does not retain
@@ -38,7 +43,7 @@ commands. Sort erasure is restricted to the QF_UF path. Existing Real-equality
 and extended-term lowering are reused, so there is no new exporter-specific
 equality or `ite` translation.
 
-The streaming `smtlib::print_ground_term` printer supports rational literals,
+The streaming {lraexportsource}`smtlib::print_ground_term <src/smtlib/term_printer.cpp>` printer supports rational literals,
 linear sums/scalings and comparisons as well as its original ground UF terms.
 It prints negative rationals with SMT-LIB unary minus and retains no cache of
 expanded subterm strings. The separate quantified UF string printer remains
@@ -133,8 +138,24 @@ coefficient entries, zero-support premises, infeasible systems, interruption
 inside one tableau check, numeric-spool access and preservation of a pre-existing
 artifact when reconstruction is cancelled. Python tests mutate coefficients,
 constants, polarity, strictness and syntax. `tests/lra_export_cli.py` is the
-SLURM reference/witness/propositional validation driver; native, sanitizer,
-fresh fuzzing and real-input qualification are still pending.
+SLURM reference/witness/propositional validation driver.
+
+At implementation revision `e910cfde`, SLURM qualification has passed 49 native
+tests and the Python suite (318 tests, two skips), 1,000 fresh generated LRA inputs plus
+eight focused cases, and 1,000 fresh UF export regressions. All 807 UNSAT LRA
+artifacts passed exact witness checking and external propositional confirmation;
+the 201 SAT cases created no artifact. ASan also passed all 49 native tests.
+
+A separate CORE replay selected 12 real inputs from recorded native UNSAT
+results of at most one second, checking unchanged source hashes and limiting
+selection to three files per family. All 12 passed the reference, witness and
+propositional checks. Seven artifacts have nonempty arithmetic conflicts;
+five need no theory lemmas after propositional reduction. CORE retained 1,440
+of 3,220 collected lemmas, so 1,780 lemmas required no coefficient reconstruction.
+The largest retained set has 1,147 lemmas. These are bounded correctness checks,
+not full-corpus coverage or a solver performance comparison. The
+{download}`qualification report <../coverage/lra-certificate-export.json>` records
+the jobs, limits, source/input/binary hashes, commands and rejected attempts.
 
 ## Sources and implementation status
 
