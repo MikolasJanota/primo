@@ -10,6 +10,8 @@ import importlib.util
 import io
 import json
 import os
+import shutil
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -20,6 +22,7 @@ from types import SimpleNamespace
 from unittest import mock
 
 SCRIPTS = Path(__file__).parents[2] / "scripts"
+TIME_COMMAND = Path(os.environ.get("MICROMATH_TIME", "/usr/bin/time"))
 
 
 def load(name):
@@ -52,6 +55,126 @@ class ImmediatePool:
 
 
 class MicromathWorkflowTests(unittest.TestCase):
+    @unittest.skipUnless(
+        shutil.which("prlimit") and shutil.which("timeout") and TIME_COMMAND.exists(),
+        "GNU pipeline tools required",
+    )
+    def test_pipe_replay_requires_both_successes_and_preserves_saved_inputs(self):
+        for producer_exit, consumer_exit, verdict in [
+            (0, 0, "challenge proven"),
+            (7, 0, "challenge proven"),
+            (0, 9, "challenge proven"),
+            (0, 0, "Inconsistency proven!\nchallenge proven"),
+        ]:
+            with (
+                self.subTest(producer_exit=producer_exit, verdict=verdict),
+                tempfile.TemporaryDirectory() as temporary,
+            ):
+                root = Path(temporary)
+                checker = root / "checker"
+                (checker / "smt").mkdir(parents=True)
+                producer = checker / "smt/prove-lrat"
+                producer.write_text(
+                    f"#!{sys.executable}\nimport sys,resource\n"
+                    "assert sys.argv[-2:] == ['-', '--raw']\n"
+                    "resource.setrlimit(resource.RLIMIT_FSIZE, (1024,1024))\n"
+                    "for _ in range(64): sys.stdout.buffer.write(b'x'*65536)\n"
+                    f"sys.stdout.buffer.flush()\nsys.exit({producer_exit})\n"
+                )
+                consumer = checker / "check-solution"
+                consumer.write_text(
+                    f"#!{sys.executable}\nimport sys\n"
+                    "assert sys.argv[-1] == '-'\nn=0\n"
+                    "while chunk:=sys.stdin.buffer.read(65536): n+=len(chunk)\n"
+                    f"assert n==4194304\nprint({verdict!r})\n"
+                    f"sys.exit({consumer_exit})\n"
+                )
+                producer.chmod(0o755)
+                consumer.chmod(0o755)
+                source = root / "inputs/case"
+                source.mkdir(parents=True)
+                for name in (
+                    "input.primo",
+                    "challenge.umd",
+                    "problem.cnf",
+                    "problem.lrat",
+                ):
+                    (source / name).write_text("data")
+                original = {p.name: p.read_bytes() for p in source.iterdir()}
+                args = SimpleNamespace(
+                    inputs=source.parent,
+                    out=root / "out",
+                    reuse_lrat=True,
+                    micromath=checker,
+                    cadical=root / "cadical",
+                    pipe_proof=True,
+                    keep_success_artifacts="all",
+                )
+                real_invoke = REPLAY.invoke
+
+                def invoke(command, cwd, log, timeout, real_invoke=real_invoke):
+                    if log.name == "conflicts":
+                        log.with_suffix(".out").write_text("")
+                        log.with_suffix(".err").write_text("")
+                        return {
+                            "state": "ok",
+                            "stdout": str(log.with_suffix(".out")),
+                            "stderr": str(log.with_suffix(".err")),
+                            "exit_code": 0,
+                        }
+                    return real_invoke(command, cwd, log, min(timeout, 5))
+
+                with (
+                    mock.patch.object(REPLAY, "invoke", invoke),
+                    mock.patch.object(REPLAY.resource, "setrlimit"),
+                    mock.patch.object(REPLAY, "trace_info", return_value={}),
+                ):
+                    row = REPLAY.replay(args, source / "input.primo")
+                valid = (
+                    producer_exit == consumer_exit == 0
+                    and verdict == "challenge proven"
+                )
+                self.assertEqual(row["status"] == "kernel_proven", valid)
+                self.assertEqual(row["proof_transport"], "pipe")
+                self.assertEqual(
+                    row["stages"]["proof_pipe"]["process_exit_codes"][0], producer_exit
+                )
+                self.assertEqual(
+                    row["stages"]["proof_pipe"]["process_exit_codes"][1], consumer_exit
+                )
+                self.assertFalse(list(args.out.rglob("*.ump")))
+                self.assertEqual(
+                    {p.name: p.read_bytes() for p in source.iterdir()}, original
+                )
+
+    @unittest.skipUnless(
+        shutil.which("prlimit") and shutil.which("timeout") and TIME_COMMAND.exists(),
+        "GNU pipeline tools required",
+    )
+    def test_pipe_timeout_terminates_the_pipeline(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            (root / "smt").mkdir()
+            for target in (root / "smt/prove-lrat", root / "check-solution"):
+                target.write_text(f"#!{sys.executable}\nimport time\ntime.sleep(30)\n")
+                target.chmod(0o755)
+            result = subprocess.run(
+                [
+                    "bash",
+                    str(SCRIPTS / "check_micromath_pipe.sh"),
+                    str(root),
+                    "challenge",
+                    "input",
+                    "lrat",
+                    str(root / "logs"),
+                    "0.2",
+                ],
+                capture_output=True,
+                timeout=5,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 124)
+
     def test_raw_replay_preserves_sources_and_discards_only_successful_outputs(self):
         for confirmed in (True, False):
             with (
@@ -78,6 +201,7 @@ class MicromathWorkflowTests(unittest.TestCase):
                     micromath=root,
                     cadical=root / "cadical",
                     keep_success_artifacts="certificates",
+                    pipe_proof=False,
                 )
                 commands = []
 

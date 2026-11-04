@@ -71,6 +71,7 @@ def replay(args: argparse.Namespace, source: Path) -> dict:
         "input_sha256": digest(source),
         "status": "not_started",
         "stages": {},
+        "proof_transport": "pipe" if args.pipe_proof else "file",
     }
     challenge = (
         source.with_name("challenge.umd") if args.reuse_lrat else dest / "challenge.umd"
@@ -127,6 +128,23 @@ def replay(args: argparse.Namespace, source: Path) -> dict:
             45,
         ),
     ]
+    if args.pipe_proof:
+        commands[-2:] = [
+            (
+                "proof_pipe",
+                [
+                    "bash",
+                    str(Path(__file__).with_name("check_micromath_pipe.sh")),
+                    str(args.micromath),
+                    str(challenge),
+                    str(source),
+                    str(lrat),
+                    str(dest / "pipe"),
+                    "135",
+                ],
+                135,
+            )
+        ]
     deadline = time.monotonic() + 180
     try:
         for name, command, limit in commands:
@@ -137,6 +155,17 @@ def replay(args: argparse.Namespace, source: Path) -> dict:
                 min(limit, deadline - time.monotonic()),
             )
             row["stages"][name] = stage
+            if name == "proof_pipe":
+                statuses = dest / "pipe/exit-status.txt"
+                codes = (
+                    [int(x) for x in statuses.read_text().split()]
+                    if statuses.exists()
+                    else []
+                )
+                stage["process_exit_codes"] = codes
+                if stage["state"] == "ok" and codes != [0, 0]:
+                    row["status"] = "pipe_exit_unconfirmed"
+                    break
             if stage["state"] != "ok":
                 message = log_text(Path(stage["stderr"]))
                 row["status"] = name + "_" + stage["state"]
@@ -151,7 +180,7 @@ def replay(args: argparse.Namespace, source: Path) -> dict:
                     row["status"] = "unsupported_trace"
                 row["error"] = message[-4000:]
                 break
-            if name == "kernel":
+            if name in ("kernel", "proof_pipe"):
                 lines = log_text(Path(stage["stdout"])).splitlines()
                 row["status"] = (
                     "kernel_proven"
@@ -200,6 +229,11 @@ def main() -> None:
     parser.add_argument("--workers", type=int, choices=range(1, 5), default=4)
     parser.add_argument("--reuse-lrat", action="store_true")
     parser.add_argument(
+        "--pipe-proof",
+        action="store_true",
+        help="pipe raw proof directly into the independent kernel checker",
+    )
+    parser.add_argument(
         "--keep-success-artifacts", choices=("all", "certificates"), default="all"
     )
     args = parser.parse_args()
@@ -231,6 +265,15 @@ def main() -> None:
         "worker_file_limit_mib": FILE_SIZE_LIMIT_BYTES // 1024**2,
         "proof_export_mode": "raw",
         "keep_success_artifacts": args.keep_success_artifacts,
+        "proof_transport": "pipe" if args.pipe_proof else "file",
+        "pipe_helper_sha256": digest(
+            Path(__file__).with_name("check_micromath_pipe.sh")
+        )
+        if args.pipe_proof
+        else None,
+        "pipe_time_command": os.environ.get("MICROMATH_TIME", "/usr/bin/time")
+        if args.pipe_proof
+        else None,
         "pipeline_seconds": 180,
         "stage_limits_seconds": {
             "conflicts": 15,
@@ -238,6 +281,7 @@ def main() -> None:
             "cnf": 30,
             "proof": 90,
             "kernel": 45,
+            "proof_pipe": 135,
         },
         "termination_grace_seconds": 2,
         "binary_sha256": {
