@@ -3,6 +3,42 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-04-lia-m124-full-paired60-5dec036",
+      "date": "2026-11-04",
+      "commit": "5dec0363",
+      "branch": "lia-integrality",
+      "kind": "slurm-full-corpus-paired-option-comparison",
+      "scope": "Full QF_LIA follow-up to the 985-file diagnostic: all four integrality options against M1+M2+M4 with integer slacks disabled. Same binary, no source or default changes. Separate model replay will cover every SAT answer in each arm.",
+      "parent_runs": [
+        "2026-11-04-lia-integrality-four-arm-diagnostic-5dec036",
+        "2026-11-04-lia-m124-review-merge-gate-5dec036"
+      ],
+      "environment": {
+        "scheduler": "SLURM compute partition; 400 array tasks, concurrency 96, two CPUs and 3 GiB per timing task, two-hour wall; one task runs both arms on its deterministic shard, arm order rotated by shard index",
+        "binary": "Existing 5dec036 Release, CaDiCaL cadical-3.0.0-7b99c07; SHA-256 11d4d983bc11bca49f70032a89f25101dd077b7602fbc81da1e20b775f20ae68",
+        "corpus": "Complete existing QF_LIA division, expected 13,306 files; per-input SHA-256 captured by benchmark_model_replay.py before timing and checked after it; input enumeration identical in both arms",
+        "machine": "Existing Xeon E5-2690 v4 compute nodes; exact host and CPU metadata retained per task",
+        "model_limits": "Separate dependent replay job; 400 tasks, concurrency 64, two CPUs and 12 GiB each; no model checking overlaps the parent timing job."
+      },
+      "commands": {
+        "runner": "scripts/qualification/lia_integrality/paired_replay.sbatch at 80506552, SHA-256 593c0b8ee55d6b2316c8031ac416afe568cb35f841f1351c4d9ab0c80a80482a",
+        "preflight": "scripts/slurm_prepare_benchmark_workspace.py --check-only --no-sync with clean detached 5dec036 worktree; verify exact binary revision, CaDiCaL and required Z3/Dolmen executables; no source synchronization or rebuild needed",
+        "timing": "PRIMO_PHASE=benchmark; PRIMO_PAIRED_SHARDS=400; PRIMO_PAIRED_CHUNKS=1; PRIMO_COMPARE_TIMEOUT=60; PRIMO_EXPECTED_GIT=5dec036; PRIMO_CAMPAIGN_ID=lia-m124-review-20261104-full60; sbatch --array=0-399%96 --cpus-per-task=2 --mem=3G --time=02:00:00 --export=ALL <runner>; workspace/binary/corpus/output paths supplied outside tracked files",
+        "all_arguments": "--quiet --stats --lia-round-integer-bounds --lia-primitive-int-rows --lia-patch-integral-moves --lia-integer-slacks",
+        "m124_arguments": "--quiet --stats --lia-round-integer-bounds --lia-primitive-int-rows --lia-patch-integral-moves --no-lia-integer-slacks",
+        "model_replay": "Same runner, PRIMO_PHASE=replay; sbatch --dependency=afterok:348396 --array=0-399%64 --cpus-per-task=2 --mem=12G --time=02:00:00 --export=ALL; default replay budgets: Primo 180 s, Dolmen 300 s with --size 8G and --strict=false; benchmark_model_replay.py selects every successful SAT row and verifies parent input/binary identities."
+      },
+      "jobs": {
+        "timing": "348396 (running)",
+        "model_replay": "348493 (pending on afterok:348396)"
+      },
+      "artifacts": {
+        "remote": "<default-promotion-workspace>/results/m124-review-20261104-full60/{all,m124}/shard-*/{provenance.json,inputs.txt,answers.csv,answers.csv.jsonl}; nodes/benchmark-task-*.txt",
+        "local": "results/integrality-review-20261104/full60; active-run.json and full-progress.json alongside full60 (ignored local copies)"
+      },
+      "evidence_status": "running; no full-corpus outcome accepted yet"
+    },
+    {
       "id": "2026-11-04-lia-integrality-four-arm-diagnostic-5dec036",
       "date": "2026-11-04",
       "commit": "5dec0363",

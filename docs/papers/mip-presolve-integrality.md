@@ -383,13 +383,13 @@ QF_LIA default.
 ## Reviewing the effect of integer slack obligations
 
 The paired result establishes a modest gain from the four switches together;
-it does not identify the contribution of each switch. M3 changes four
+it does not identify the contribution of each switch. M3 changes five
 choices through the same ordered integer-variable list: which variables the
-patcher scores, which rows pass the integer-membership guard of GCD
-consistency, which rows can produce a cut, and which fractional variable
-branch-and-bound splits first. Membership affects all four stages; list order
-also determines the first eligible cut and first fractional split and can
-break patch-score ties. The {settingssource}`adapter's integer obligations
+patcher scores; when M4 is enabled, which moved variables its integer filter
+and lattice generator recognize; which rows pass the integer-membership guard
+of GCD consistency; which rows can produce a cut; and which fractional
+variable branch-and-bound splits first. List order also determines the first
+eligible cut and first fractional split and can break patch-score ties. The {settingssource}`adapter's integer obligations
 <src/smt/solver_engines.cpp>` place slacks before input variables. An integer
 slack is redundant for checking a fully integral input assignment, but its
 presence can change the path to that assignment.
@@ -464,7 +464,15 @@ decisive declaration. Real-corpus models have not been replayed for this
 
 This is evidence that M3 can hurt in combination with the other switches,
 not a measurement of the plateau example's frequency or of the whole-division
-gain. M3 also changes GCD eligibility, cut selection and branching. The next
+gain. In particular, M1+M2+M4 does not preserve integrality of every auxiliary
+slack during patching. The patcher's integer-membership bitmap comes from
+`integer_vars`: without M3 it still protects the input variables, but can move
+a nonbasic slack to a fractional value within its bounds and does not propose
+lattice candidates for that slack. Once every input variable is integral,
+the integer-polynomial slacks are integral as well. This is sound, but it
+relaxes the intermediate invariant as well as changing the score, GCD
+eligibility, cuts and branching. A later experiment must separate those
+choices to identify which one explains the gain. The next
 experiment compares M1+M2+M4 with all four on the full division at 60 s,
 using the {integralityreviewsource}`paired timing and separate replay runner
 <scripts/qualification/lia_integrality/paired_replay.sbatch>`. That workflow
