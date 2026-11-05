@@ -410,3 +410,7 @@ related branch-orientation experiment. Its successful randomized orientation
 and unsuccessful split-point heuristics motivate separating those controls;
 they do not establish an adaptive trigger for Primo or imply that every narrow
 region should be avoided.
+
+The [phase-region simulation report](../leads/phase-region-simulation.md)
+records the bounded follow-up, including immediate wider/narrower controls,
+history-gated random flips, actual activation counts and qualification limits.

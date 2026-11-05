@@ -9,10 +9,10 @@
       "qualified_solver_commit": "ade90f98d568bb8946a4490600f04a61b1e5de63",
       "branch": "lia-integrality",
       "kind": "phase-region-policy-simulation",
-      "evidence_status": "qualification_passed_timing_running",
+      "evidence_status": "completed_rejected_for_adoption",
       "artifacts": "results/phase-region-20261105",
       "artifact_storage": "Local raw evidence plus preserved isolated SLURM workspace; connection settings external to tracked files.",
-      "source_status": "Isolated experiment; disposition pending measurement.",
+      "source_status": "Experimental CMake/src/unit-test delta retired; production files restored exactly to 2eb17d8e. Frozen ade90f98 history and source.patch retain all prototype code.",
       "source_patch": {
         "path": "scripts/qualification/phase_region/source.patch",
         "sha256": "197b7eb009f0a9f722aba22c56179588a91a2f521f836a1098579eb61f8b3b6b",
@@ -26,7 +26,8 @@
         "asan": "4 CPUs, 24 GiB, 40 minutes; generated-case timeout 10s",
         "static": "4 CPUs, 12 GiB, 30 minutes; all 131 src/tests translation units and 4 doc examples",
         "compiler": "GNU C++ 11.4.1",
-        "cadical": "cadical-3.0.0-7b99c07"
+        "cadical": "cadical-3.0.0-7b99c07",
+        "nodes": "Timing node-02; Intel Xeon E5-2690 v4 2.60 GHz, 56 logical CPUs. Per-shard hostname/lscpu retained in timing/node-*.txt. Allocated 2 CPUs/task; serial solver processes."
       },
       "identities": {
         "primo_release_sha256": "40b861ab7a88c97a36b2240a58c209423a6ed8564195e8494a10db469f4c1f54",
@@ -197,8 +198,16 @@
         }
       ],
       "jobs": {
-        "timing": "357085",
-        "models": "357086"
+        "timing": {
+          "job": "357085",
+          "tasks": 12,
+          "status": "COMPLETED 0:0"
+        },
+        "models": {
+          "job": "357086",
+          "tasks": 12,
+          "status": "COMPLETED 0:0"
+        }
       },
       "protocol": {
         "selection": "scripts/qualification/adaptive_phase/selection.json",
@@ -231,14 +240,190 @@
         "scripts/qualification/phase_region/asan.sbatch",
         "scripts/qualification/phase_region/static.sbatch",
         "scripts/qualification/phase_region/run.sbatch",
-        "scripts/qualification/phase_region/replay.sbatch"
+        "scripts/qualification/phase_region/replay.sbatch",
+        "python3 scripts/qualification/phase_region/summarize.py --timing results/phase-region-20261105/timing --models results/phase-region-20261105/models --selection scripts/qualification/adaptive_phase/selection.json --expected-git ade90f98 --expected-solver-sha256 40b861ab7a88c97a36b2240a58c209423a6ed8564195e8494a10db469f4c1f54 --out results/phase-region-20261105/verified-summary.json"
       ],
       "limitations": [
         "Retrospective targeted selection, 15-second cutoff, three seeds; no full-corpus/default promotion claim.",
         "Interval candidate counts are not feasible EUF/LIA model counts.",
         "Equality decisions are outside the arithmetic inequality producer.",
-        "Counters align actual decisions to installed preference, not counterfactual beta; preference flips are not necessarily actual decision changes."
-      ]
+        "Counters align actual decisions to installed preference, not counterfactual beta; preference flips are not necessarily actual decision changes.",
+        "Region instrumentation adds bound/backtrack refresh work and measurable search-work overhead; no cost-free-policy negative result follows.",
+        "Persistent hint-context sampling differs from once-per-node randomized orientation in the supplied thesis.",
+        "Observed installed-sign alignment does not identify which eventual decisions differ from counterfactual beta.",
+        "Random and gated arms match flip probability per eligible context, not actual total override budgets."
+      ],
+      "metadata": "benchmarks/qf-uflia-phase-region-20261105.json",
+      "totals": {
+        "timing_rows": 1452,
+        "statuses": {
+          "ok": 591,
+          "timeout": 861
+        },
+        "wrong_answers": 0,
+        "unsupported": 0,
+        "unknown": 0,
+        "reference_disagreements": 0,
+        "sat_models_direct_dolmen": 393
+      },
+      "profiles": {
+        "native": {
+          "losses_solved_by_seed": {
+            "2026110531": 30,
+            "2026110532": 30,
+            "2026110533": 30
+          },
+          "controls_solved": 42,
+          "controls_rows": 42,
+          "timeouts": 0,
+          "par2_sum_seconds": 99.577097,
+          "loss_contexts": 0,
+          "loss_preference_flips": 0,
+          "loss_rows_with_flips": 0
+        },
+        "m124": {
+          "losses_solved_by_seed": {
+            "2026110531": 0,
+            "2026110532": 0,
+            "2026110533": 0
+          },
+          "controls_solved": 42,
+          "controls_rows": 42,
+          "timeouts": 90,
+          "par2_sum_seconds": 2720.12368,
+          "loss_contexts": 0,
+          "loss_preference_flips": 0,
+          "loss_rows_with_flips": 0
+        },
+        "beta-plain": {
+          "losses_solved_by_seed": {
+            "2026110531": 0,
+            "2026110532": 0,
+            "2026110533": 0
+          },
+          "controls_solved": 42,
+          "controls_rows": 42,
+          "timeouts": 90,
+          "par2_sum_seconds": 2742.029717,
+          "loss_contexts": 0,
+          "loss_preference_flips": 0,
+          "loss_rows_with_flips": 0
+        },
+        "observe": {
+          "losses_solved_by_seed": {
+            "2026110531": 0,
+            "2026110532": 0,
+            "2026110533": 0
+          },
+          "controls_solved": 42,
+          "controls_rows": 42,
+          "timeouts": 90,
+          "par2_sum_seconds": 2763.249112,
+          "loss_contexts": 107024728,
+          "loss_preference_flips": 0,
+          "loss_rows_with_flips": 0
+        },
+        "force-positive": {
+          "losses_solved_by_seed": {
+            "2026110531": 15,
+            "2026110532": 15,
+            "2026110533": 15
+          },
+          "controls_solved": 42,
+          "controls_rows": 42,
+          "timeouts": 45,
+          "par2_sum_seconds": 1589.570422,
+          "loss_contexts": 0,
+          "loss_preference_flips": 0,
+          "loss_rows_with_flips": 0
+        },
+        "random-16": {
+          "losses_solved_by_seed": {
+            "2026110531": 0,
+            "2026110532": 0,
+            "2026110533": 0
+          },
+          "controls_solved": 39,
+          "controls_rows": 42,
+          "timeouts": 93,
+          "par2_sum_seconds": 2824.0394069999998,
+          "loss_contexts": 110727805,
+          "loss_preference_flips": 6922091,
+          "loss_rows_with_flips": 90
+        },
+        "random-4": {
+          "losses_solved_by_seed": {
+            "2026110531": 0,
+            "2026110532": 0,
+            "2026110533": 0
+          },
+          "controls_solved": 39,
+          "controls_rows": 42,
+          "timeouts": 93,
+          "par2_sum_seconds": 2828.011237,
+          "loss_contexts": 115301358,
+          "loss_preference_flips": 28905122,
+          "loss_rows_with_flips": 90
+        },
+        "gated-16": {
+          "losses_solved_by_seed": {
+            "2026110531": 0,
+            "2026110532": 0,
+            "2026110533": 0
+          },
+          "controls_solved": 42,
+          "controls_rows": 42,
+          "timeouts": 90,
+          "par2_sum_seconds": 2763.149992,
+          "loss_contexts": 106806788,
+          "loss_preference_flips": 668,
+          "loss_rows_with_flips": 12
+        },
+        "gated-4": {
+          "losses_solved_by_seed": {
+            "2026110531": 0,
+            "2026110532": 0,
+            "2026110533": 0
+          },
+          "controls_solved": 42,
+          "controls_rows": 42,
+          "timeouts": 90,
+          "par2_sum_seconds": 2763.3728450000003,
+          "loss_contexts": 106740657,
+          "loss_preference_flips": 2360,
+          "loss_rows_with_flips": 12
+        },
+        "least": {
+          "losses_solved_by_seed": {
+            "2026110531": 0,
+            "2026110532": 0,
+            "2026110533": 0
+          },
+          "controls_solved": 42,
+          "controls_rows": 42,
+          "timeouts": 90,
+          "par2_sum_seconds": 2763.387443,
+          "loss_contexts": 107233708,
+          "loss_preference_flips": 233548,
+          "loss_rows_with_flips": 90
+        },
+        "most": {
+          "losses_solved_by_seed": {
+            "2026110531": 0,
+            "2026110532": 0,
+            "2026110533": 0
+          },
+          "controls_solved": 42,
+          "controls_rows": 42,
+          "timeouts": 90,
+          "par2_sum_seconds": 2763.0785559999995,
+          "loss_contexts": 108653149,
+          "loss_preference_flips": 307766,
+          "loss_rows_with_flips": 90
+        }
+      },
+      "conclusion": "No new policy recovered any of the 30 recorded losses in any of three seeds. Native solved all losses; fixed-positive control recovered a subset. Geometry and gated policies did activate. Random-only perturbation also lost an easier control. Reject these policies for adoption on this evidence; interval geometry/history alone is not a demonstrated useful escape signal.",
+      "profiling_basis": "Prior adaptive-phase diagnostic f0cf49b2: recorded GDB profile on wisas/xs_28_48; see 2026-11-05-adaptive-phase-diagnostic-f0cf49b2 and adaptive-phase-probe lead. This experiment changes preferences, not a claimed implementation fast path."
     },
     {
       "date": "2026-11-05",

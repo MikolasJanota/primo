@@ -86,7 +86,15 @@ seeded sign overrides versus overrides conditioned on repeated entry into a
 bounded region, with comparable declared override budgets. Actual override
 counts and effects must be reported; equal budgets do not imply equal search
 trajectories. This would test whether the region signal adds information
-beyond perturbing phases. Neither version is implemented or evaluated here.
+beyond perturbing phases.
+
+The follow-up [phase-region simulations](../leads/phase-region-simulation.md)
+evaluate an isolated adaptation on the recorded QF_UFLIA losses. They match
+the probability per eligible hint context, rather than the total number of
+overrides: the history gate permits far fewer flips. This is therefore not
+a comparison at matched actual override counts. Its implementation and
+measurement status are recorded in that report; the thesis remains motivation,
+not the source of Primo's interval/history gate.
 
 The [repair schedule](../implementation/lia.md#repair-schedule-and-phase-advice)
 still matters: live rational β and the later private integer-completion model
@@ -94,5 +102,6 @@ are different measurements. A forced bound or an active combination assumption
 cannot be reversed by a phase preference. Narrowness alone must not classify
 a branch as bad: useful propagation and difficult repetitive reasoning can
 both restrict the apparent options. The
-[completed phase diagnostic](../leads/adaptive-phase-probe.md) remains the
-measured evidence; this reading adds no benchmark result or default proposal.
+[earlier phase diagnostic](../leads/adaptive-phase-probe.md) and the follow-up
+simulations hold the measured evidence. This reading itself adds no benchmark
+result or default proposal.

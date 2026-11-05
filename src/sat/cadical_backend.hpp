@@ -14,8 +14,6 @@ class Solver;
 
 namespace primo::sat {
 
-class PhaseProbe;
-
 std::string_view cadical_signature();
 
 class CadicalBackend final : public IpasirUpBackend {
@@ -49,12 +47,7 @@ class CadicalBackend final : public IpasirUpBackend {
   class ExternalPropagatorAdapter;
   class TerminatorAdapter;
 
-  void probe_assignment(int literal);
-  void probe_backtrack(std::size_t level);
-  void probe_phase(int literal, bool release);
-
   CaDiCaL::Solver* solver_ = nullptr;
-  std::unique_ptr<PhaseProbe> phase_probe_;
   std::unique_ptr<ExternalPropagatorAdapter> external_adapter_;
   std::unique_ptr<TerminatorAdapter> terminator_adapter_;
   int max_var_ = 0;
