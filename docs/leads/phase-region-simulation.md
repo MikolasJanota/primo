@@ -1,6 +1,6 @@
 # Phase-region simulation protocol
 
-**Status: isolated diagnostic under qualification; no default proposal.**
+**Status: isolated diagnostic; timing is queued after correctness qualification. No default proposal.**
 This follows the [CSP reading](../papers/csp-restarts-phase-control.md) and
 the [earlier phase diagnostic](adaptive-phase-probe.md). It is an original
 bounded adaptation, not an implementation of finite-domain impact-based search.
@@ -81,7 +81,7 @@ static review on SLURM before accepting timing claims. Keep failures blocking.
 
 Reuse the committed four development losses, all 30 recorded losses and 14
 family controls from `scripts/qualification/adaptive_phase/selection.json`.
-Compare native, M124 without β, uninstrumented β, observe, sparse random,
+Compare native, M124 without β, β without the region controller, observe, sparse random,
 gated random, least and most. Use 15 seconds per process, rotated arm order
 and three recorded seeds for the randomized policies. This is a targeted
 diagnostic, not a full-corpus or default-promotion evaluation. Validate every
@@ -91,3 +91,34 @@ Retain exact source/binary/input hashes, commands, resource limits, context and
 decision counters, per-family outcomes and PAR2 in artifacts/run-log metadata.
 After measurement, decide the prototype's disposition and restore production
 source unless further qualification establishes a reason to adopt it.
+
+
+## Qualified snapshot and run receipt
+
+The release binary is frozen at `ade90f98d568bb8946a4490600f04a61b1e5de63`.
+SLURM build 357080 completed successfully. Earlier builds 357077 and 357078
+were superseded before qualification: the first lacked the initial assignment-view
+guard, and the second preceded the immediate least/most geometry controls.
+Neither supplies timing or correctness evidence for the final policies.
+
+Checks job 357082 passed 47 CTest targets and 311 Python tests. Four fresh 1,000-case
+mixed QF_UFLIA streams (random, gated, least and most; generator seeds
+2026110541–2026110544) agreed with Z3, with no timeout, wrong answer, crash,
+parser/type rejection, unsupported result or reference disagreement. The
+2,024 successful generated SAT cases were independently accepted by Dolmen
+(516/501/517/490 respectively). ASan job 357083 passed all 47 CTest targets and
+four further 20-case streams, with no reported sanitizer failures. Both gates
+stress random sampling at denominator 1; timing uses 4 and 16.
+
+Static review is job 357084. The 12-task timing array is 357085, followed by
+SAT-model replay array 357086. All arms retain the SAT observer; `beta-plain`
+omits only the region controller. Timing uses seeds 2026110531, 2026110532 and
+2026110533 for every arm, including deterministic controls, for a planned
+1,452 attempts. All 44 selected files are measured together; the four earlier
+development files are a pre-existing marked subset, not a new parameter sweep.
+
+The complete source delta is retained as
+{download}`source.patch <../../scripts/qualification/phase_region/source.patch>`.
+The current production tip will retain experimental source only if measurements
+justify a further qualification proposal. Raw local receipts and results are
+under `results/phase-region-20261105/`; connection settings remain external.

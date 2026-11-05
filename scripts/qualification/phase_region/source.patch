@@ -1,0 +1,881 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fa544add..43057889 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -411,0 +412,6 @@ add_test(NAME primo_smt_session_tests COMMAND primo_smt_session_tests)
++add_executable(primo_phase_probe_tests tests/unit/phase_probe_tests.cpp)
++primo_enable_warnings(primo_phase_probe_tests)
++primo_enable_sanitizers(primo_phase_probe_tests)
++target_include_directories(primo_phase_probe_tests PRIVATE src)
++add_test(NAME primo_phase_probe_tests COMMAND primo_phase_probe_tests)
++
+@@ -554,0 +561,6 @@ add_test(NAME primo_lia_gomory_cuts_tests COMMAND primo_lia_gomory_cuts_tests)
++
++add_executable(primo_arithmetic_phase_simulation_tests tests/unit/arithmetic_phase_simulation_tests.cpp)
++primo_enable_warnings(primo_arithmetic_phase_simulation_tests)
++primo_enable_sanitizers(primo_arithmetic_phase_simulation_tests)
++target_link_libraries(primo_arithmetic_phase_simulation_tests PRIVATE primo_core)
++add_test(NAME primo_arithmetic_phase_simulation_tests COMMAND primo_arithmetic_phase_simulation_tests)
+diff --git a/src/sat/cadical_backend.cpp b/src/sat/cadical_backend.cpp
+index 3ae1bde8..525efa90 100644
+--- a/src/sat/cadical_backend.cpp
++++ b/src/sat/cadical_backend.cpp
+@@ -13,0 +14,2 @@
++#include "sat/phase_probe.hpp"
++
+@@ -37,2 +39,2 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
+-  explicit ExternalPropagatorAdapter(::primo::sat::ExternalPropagator& propagator)
+-      : propagator_(propagator) {
++  ExternalPropagatorAdapter(::primo::sat::ExternalPropagator& propagator, CadicalBackend& owner)
++      : propagator_(propagator), owner_(owner) {
+@@ -43,0 +46 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
++    for (const int literal : lits) owner_.probe_assignment(literal);
+@@ -47,0 +51 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
++    owner_.probe_assignment(lit);
+@@ -54 +58,4 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
+-  void notify_new_decision_level() override { propagator_.notify_new_decision_level(); }
++  void notify_new_decision_level() override {
++    if (owner_.phase_probe_) owner_.phase_probe_->new_level();
++    propagator_.notify_new_decision_level();
++  }
+@@ -56 +63,4 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
+-  void notify_backtrack(size_t new_level) override { propagator_.notify_backtrack(new_level); }
++  void notify_backtrack(size_t new_level) override {
++    owner_.probe_backtrack(new_level);
++    propagator_.notify_backtrack(new_level);
++  }
+@@ -81,0 +92 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
++  CadicalBackend& owner_;
+@@ -129,0 +141,2 @@ CadicalBackend::CadicalBackend(const std::vector<std::pair<std::string, int>>& o
++  if (const auto config = PhaseProbe::environment())
++    phase_probe_ = std::make_unique<PhaseProbe>(*config);
+@@ -217,0 +231 @@ void CadicalBackend::assume(Lit lit) {
++  if (phase_probe_) phase_probe_->assume(lit.value);
+@@ -225,0 +240,4 @@ SatResult CadicalBackend::solve() {
++  if (phase_probe_) {
++    for (const auto action : phase_probe_->begin_solve())
++      probe_phase(action.literal, action.release);
++  }
+@@ -226,0 +245,4 @@ SatResult CadicalBackend::solve() {
++  if (phase_probe_) {
++    for (const auto action : phase_probe_->finish_solve())
++      probe_phase(action.literal, action.release);
++  }
+@@ -307 +329,5 @@ void CadicalBackend::phase(Lit lit) {
+-  solver_->phase(lit.value);
++  if (phase_probe_) {
++    const auto action = phase_probe_->hint(lit.value);
++    probe_phase(action.literal, action.release);
++  } else
++    solver_->phase(lit.value);
+@@ -312,0 +339,28 @@ void CadicalBackend::phase(Lit lit) {
++void CadicalBackend::probe_phase(int literal, bool release) {
++#if PRIMO_HAVE_IPASIR
++  if (release)
++    solver_->unphase(literal);
++  else
++    solver_->phase(literal);
++#else
++  (void)literal;
++  (void)release;
++#endif
++}
++
++void CadicalBackend::probe_assignment(int literal) {
++#if PRIMO_HAVE_IPASIR
++  if (!phase_probe_) return;
++  for (const auto action : phase_probe_->assignment(literal, solver_->is_decision(literal)))
++    probe_phase(action.literal, action.release);
++#else
++  (void)literal;
++#endif
++}
++
++void CadicalBackend::probe_backtrack(std::size_t level) {
++  if (!phase_probe_) return;
++  for (const auto action : phase_probe_->backtrack(level))
++    probe_phase(action.literal, action.release);
++}
++
+@@ -320 +374,2 @@ void CadicalBackend::connect_external_propagator(ExternalPropagator* propagator)
+-  external_adapter_ = std::make_unique<ExternalPropagatorAdapter>(*propagator);
++  if (phase_probe_) phase_probe_->connect();
++  external_adapter_ = std::make_unique<ExternalPropagatorAdapter>(*propagator, *this);
+diff --git a/src/sat/cadical_backend.hpp b/src/sat/cadical_backend.hpp
+index 8e308057..6ff2936e 100644
+--- a/src/sat/cadical_backend.hpp
++++ b/src/sat/cadical_backend.hpp
+@@ -16,0 +17,2 @@ namespace primo::sat {
++class PhaseProbe;
++
+@@ -49,0 +52,4 @@ class CadicalBackend final : public IpasirUpBackend {
++  void probe_assignment(int literal);
++  void probe_backtrack(std::size_t level);
++  void probe_phase(int literal, bool release);
++
+@@ -50,0 +57 @@ class CadicalBackend final : public IpasirUpBackend {
++  std::unique_ptr<PhaseProbe> phase_probe_;
+diff --git a/src/sat/phase_probe.hpp b/src/sat/phase_probe.hpp
+new file mode 100644
+index 00000000..6ed3e749
+--- /dev/null
++++ b/src/sat/phase_probe.hpp
+@@ -0,0 +1,243 @@
++#pragma once
++
++#include <charconv>
++#include <cstddef>
++#include <cstdio>
++#include <cstdlib>
++#include <optional>
++#include <stdexcept>
++#include <string_view>
++#include <system_error>
++#include <unordered_map>
++#include <unordered_set>
++#include <vector>
++
++namespace primo::sat {
++
++// Isolated diagnostic, original design: docs/leads/adaptive-phase-probe.md.
++// Phase advice is never a proof reason. The controller returns actions so no
++// reference into its storage survives an operation on the borrowed backend.
++class PhaseProbe {
++ public:
++  enum class Mode { Observe, Release, Invert };
++  struct Config {
++    Mode mode = Mode::Observe;
++    std::size_t threshold = 8;
++    std::size_t window = 64;
++    std::size_t trace_limit = 0;
++    bool report = false;
++  };
++  struct Action {
++    int literal;
++    bool release;
++  };
++  struct Counts {
++    std::size_t hints = 0, changes = 0, decisions = 0, hinted = 0, aligned = 0;
++    std::size_t overridden = 0, propagated = 0, assumptions = 0, removed = 0;
++    std::size_t aligned_removed = 0, activations = 0, releases = 0, inversions = 0;
++    std::size_t restores = 0;
++  };
++
++  explicit PhaseProbe(Config config) : config_(config) {
++    if (config.window == 0) throw std::invalid_argument("phase probe window must be positive");
++  }
++  ~PhaseProbe() {
++    if (!config_.report) return;
++    std::fprintf(stderr,
++                 "PHASE_PROBE_SUMMARY {\"hints\":%zu,\"changes\":%zu,\"decisions\":%zu,"
++                 "\"hinted\":%zu,\"aligned\":%zu,\"overridden\":%zu,\"propagated\":%zu,"
++                 "\"assumptions\":%zu,\"removed\":%zu,\"aligned_removed\":%zu,"
++                 "\"activations\":%zu,\"releases\":%zu,\"inversions\":%zu,\"restores\":%zu}\n",
++                 counts_.hints, counts_.changes, counts_.decisions, counts_.hinted, counts_.aligned,
++                 counts_.overridden, counts_.propagated, counts_.assumptions, counts_.removed,
++                 counts_.aligned_removed, counts_.activations, counts_.releases, counts_.inversions,
++                 counts_.restores);
++  }
++  PhaseProbe(const PhaseProbe&) = delete;
++  PhaseProbe& operator=(const PhaseProbe&) = delete;
++
++  static std::optional<Config> environment() {
++    const char* text = std::getenv("PRIMO_PHASE_PROBE");
++    if (text == nullptr) return std::nullopt;
++    Config config;
++    const std::string_view mode(text);
++    if (mode == "release")
++      config.mode = Mode::Release;
++    else if (mode == "invert")
++      config.mode = Mode::Invert;
++    else if (mode != "observe")
++      throw std::invalid_argument("invalid PRIMO_PHASE_PROBE");
++    config.threshold = number("PRIMO_PHASE_PROBE_K", 8);
++    config.window = number("PRIMO_PHASE_PROBE_WINDOW", 64);
++    config.trace_limit = number("PRIMO_PHASE_PROBE_TRACE", 0);
++    config.report = true;
++    return config;
++  }
++
++  const Counts& counts() const { return counts_; }
++  void assume(int literal) { assumptions_.insert(variable(literal)); }
++  void connect() {
++    live_.clear();
++    level_ = 0;
++  }
++  void new_level() { ++level_; }
++
++  Action hint(int literal) {
++    ++counts_.hints;
++    auto& state = hints_[variable(literal)];
++    if (state.literal != literal) {
++      ++counts_.changes;
++      const auto context = state.context + 1;
++      state = Hint{literal, 0, 0, context, false};
++      active_.erase(variable(literal));
++    }
++    if (config_.mode != Mode::Observe && config_.threshold == 0 && !state.active) {
++      activate(variable(literal), state);
++    }
++    return action(state);
++  }
++
++  std::vector<Action> assignment(int literal, bool decision) {
++    std::vector<Action> result;
++    if (!decision) {
++      ++counts_.propagated;
++      return result;
++    }
++    if (assumptions_.contains(variable(literal))) {
++      ++counts_.assumptions;
++      return result;
++    }
++    if (level_ == 0) return result;  // Re-observation is not a fresh decision.
++    ++clock_;
++    ++counts_.decisions;
++    const auto found = hints_.find(variable(literal));
++    if (found != hints_.end()) {
++      const Hint snapshot = found->second;
++      ++counts_.hinted;
++      if (snapshot.active) ++counts_.overridden;
++      if (literal == snapshot.literal) ++counts_.aligned;
++      live_.push_back(
++          Decision{literal, snapshot.literal, level_, snapshot.context, snapshot.active});
++      trace("decision", literal, snapshot.literal);
++    }
++    for (auto it = active_.begin(); it != active_.end();) {
++      auto& state = hints_.at(*it);
++      if (config_.threshold != 0 && clock_ >= state.until) {
++        state.active = false;
++        state.removals = 0;
++        result.push_back(Action{state.literal, false});
++        ++counts_.restores;
++        it = active_.erase(it);
++      } else
++        ++it;
++    }
++    return result;
++  }
++
++  std::vector<Action> backtrack(std::size_t level) {
++    std::vector<Action> result;
++    while (!live_.empty() && live_.back().level > level) {
++      const Decision decision = live_.back();
++      live_.pop_back();
++      ++counts_.removed;
++      auto& state = hints_.at(variable(decision.literal));
++      if (!decision.overridden && !state.active && decision.literal == decision.hint &&
++          state.literal == decision.hint && state.context == decision.context) {
++        ++counts_.aligned_removed;
++        if (state.removals < config_.threshold) ++state.removals;
++        if (config_.mode != Mode::Observe && config_.threshold != 0 &&
++            state.removals >= config_.threshold) {
++          activate(variable(decision.literal), state);
++          result.push_back(action(state));
++        }
++      }
++    }
++    level_ = level;
++    return result;
++  }
++
++  std::vector<Action> begin_solve() {
++    std::vector<Action> result;
++    if (config_.mode != Mode::Observe && config_.threshold == 0) {
++      for (auto& [var, state] : hints_) {
++        if (!state.active) activate(var, state);
++        result.push_back(action(state));
++      }
++    }
++    return result;
++  }
++
++  std::vector<Action> finish_solve() {
++    std::vector<Action> result;
++    for (const int var : active_) {
++      auto& state = hints_.at(var);
++      state.active = false;
++      result.push_back(Action{state.literal, false});
++      ++counts_.restores;
++    }
++    active_.clear();
++    for (auto& [var, state] : hints_) {
++      (void)var;
++      state.removals = 0;
++    }
++    assumptions_.clear();
++    connect();
++    return result;
++  }
++
++ private:
++  struct Hint {
++    int literal;
++    std::size_t removals, until, context;
++    bool active;
++  };
++  struct Decision {
++    int literal, hint;
++    std::size_t level, context;
++    bool overridden;
++  };
++  static int variable(int literal) { return literal < 0 ? -literal : literal; }
++  static std::size_t number(const char* name, std::size_t fallback) {
++    const char* text = std::getenv(name);
++    if (text == nullptr) return fallback;
++    const std::string_view input(text);
++    std::size_t value = 0;
++    const auto parsed = std::from_chars(input.data(), input.data() + input.size(), value);
++    if (input.empty() || parsed.ec != std::errc{} || parsed.ptr != input.data() + input.size() ||
++        value > 1000000000)
++      throw std::invalid_argument(name);
++    return value;
++  }
++  void activate(int var, Hint& state) {
++    state.active = true;
++    state.removals = 0;
++    state.until = clock_ + config_.window;
++    active_.insert(var);
++    ++counts_.activations;
++    trace("activate", var, state.literal);
++  }
++  Action action(const Hint& state) {
++    if (!state.active) return Action{state.literal, false};
++    if (config_.mode == Mode::Release) {
++      ++counts_.releases;
++      return Action{state.literal, true};
++    }
++    ++counts_.inversions;
++    return Action{-state.literal, false};
++  }
++  void trace(const char* event, int literal, int hint_literal) {
++    if (trace_count_++ >= config_.trace_limit) return;
++    std::fprintf(stderr,
++                 "PHASE_PROBE_EVENT {\"event\":\"%s\",\"literal\":%d,\"hint\":%d,"
++                 "\"level\":%zu,\"clock\":%zu}\n",
++                 event, literal, hint_literal, level_, clock_);
++  }
++  Config config_;
++  Counts counts_;
++  std::unordered_map<int, Hint> hints_;
++  std::unordered_set<int> active_, assumptions_;
++  std::vector<Decision> live_;
++  std::size_t level_ = 0, clock_ = 0, trace_count_ = 0;
++};
++
++}  // namespace primo::sat
+diff --git a/src/smt/arithmetic_phase_simulation.hpp b/src/smt/arithmetic_phase_simulation.hpp
+new file mode 100644
+index 00000000..46ee984f
+--- /dev/null
++++ b/src/smt/arithmetic_phase_simulation.hpp
+@@ -0,0 +1,214 @@
++#pragma once
++
++#include <algorithm>
++#include <charconv>
++#include <cstddef>
++#include <cstdint>
++#include <cstdio>
++#include <cstdlib>
++#include <deque>
++#include <memory>
++#include <optional>
++#include <random>
++#include <stdexcept>
++#include <string>
++#include <string_view>
++#include <system_error>
++#include <unordered_map>
++#include <utility>
++
++#include "util/rational.hpp"
++
++namespace primo::smt {
++
++// Original isolated diagnostic: docs/leads/phase-region-simulation.md.
++// All results are preferences; neither interval counts nor history prove a lemma.
++class ArithmeticPhaseSimulation {
++ public:
++  enum class Mode : std::uint8_t { Observe, Random, Gated, Least, Most };
++  struct Config {
++    Mode mode = Mode::Observe;
++    std::uint32_t seed = 1;
++    unsigned denominator = 16;
++    std::size_t visits = 2;
++    std::size_t history_limit = 4096;
++    bool report = false;
++  };
++  struct Domain {
++    std::optional<util::Rational> lower;
++    std::optional<util::Rational> upper;
++    bool operator==(const Domain&) const = default;
++  };
++  struct Counts {
++    std::size_t refreshes = 0, entries = 0, finite_entries = 0, revisits = 0;
++    std::size_t candidates = 0, contexts = 0, assigned = 0, finite_splits = 0;
++    std::size_t narrow = 0, repeated = 0, flips = 0, evictions = 0;
++  };
++
++  explicit ArithmeticPhaseSimulation(Config config) : config_(config), random_(config.seed) {
++    if (config.denominator == 0 || config.visits == 0 || config.history_limit == 0)
++      throw std::invalid_argument("invalid arithmetic phase simulation limits");
++  }
++  ~ArithmeticPhaseSimulation() {
++    if (!config_.report) return;
++    std::fprintf(stderr,
++                 "ARITH_PHASE_SUMMARY {\"refreshes\":%zu,\"entries\":%zu,\"finite_entries\":%zu,"
++                 "\"revisits\":%zu,\"candidates\":%zu,\"contexts\":%zu,\"assigned\":%zu,"
++                 "\"finite_splits\":%zu,\"narrow\":%zu,\"repeated\":%zu,\"flips\":%zu,"
++                 "\"evictions\":%zu}\n",
++                 counts_.refreshes, counts_.entries, counts_.finite_entries, counts_.revisits,
++                 counts_.candidates, counts_.contexts, counts_.assigned, counts_.finite_splits,
++                 counts_.narrow, counts_.repeated, counts_.flips, counts_.evictions);
++  }
++  ArithmeticPhaseSimulation(const ArithmeticPhaseSimulation&) = delete;
++  ArithmeticPhaseSimulation& operator=(const ArithmeticPhaseSimulation&) = delete;
++
++  static std::unique_ptr<ArithmeticPhaseSimulation> environment() {
++    const char* text = std::getenv("PRIMO_REGION_PHASE");
++    if (text == nullptr) return nullptr;
++    Config config;
++    const std::string_view mode(text);
++    if (mode == "random")
++      config.mode = Mode::Random;
++    else if (mode == "gated")
++      config.mode = Mode::Gated;
++    else if (mode == "least")
++      config.mode = Mode::Least;
++    else if (mode == "most")
++      config.mode = Mode::Most;
++    else if (mode != "observe")
++      throw std::invalid_argument("invalid PRIMO_REGION_PHASE");
++    config.seed = number("PRIMO_REGION_SEED", 1);
++    config.denominator = number("PRIMO_REGION_RATE", 16);
++    config.report = true;
++    return std::make_unique<ArithmeticPhaseSimulation>(config);
++  }
++
++  void begin_refresh() { ++counts_.refreshes; }
++  const Counts& counts() const { return counts_; }
++  std::size_t history_size() const { return history_.size(); }
++
++  void domain(std::size_t variable, Domain value) {
++    auto& state = domains_[variable];
++    if (state.valid && state.value == value) return;
++    state.value = std::move(value);
++    state.valid = true;
++    ++state.generation;
++    ++counts_.entries;
++    if (!size(state.value).has_value()) return;
++    ++counts_.finite_entries;
++    const auto name = key(variable, state.value);
++    if (const auto found = history_.find(name); found != history_.end()) {
++      if (found->second < config_.visits) ++found->second;
++      ++counts_.revisits;
++      return;
++    }
++    if (history_.size() == config_.history_limit) {
++      history_.erase(history_order_.front());
++      history_order_.pop_front();
++      ++counts_.evictions;
++    }
++    history_.emplace(name, 1);
++    history_order_.push_back(name);
++  }
++
++  // true_upper/false_endpoint are CLOSED integer endpoints, computed with
++  // existing delta-aware rounding by the SMT integration, never guessed +/-1.
++  int choose(std::size_t atom, std::size_t variable, int true_literal, int beta_literal,
++             bool unassigned, bool integer, bool true_upper, const util::Rational& true_endpoint,
++             const util::Rational& false_endpoint) {
++    ++counts_.candidates;
++    if (!unassigned) {
++      ++counts_.assigned;
++      atoms_.erase(atom);
++      return beta_literal;
++    }
++    const auto& region = domains_.at(variable);
++    auto& state = atoms_[atom];
++    if (state.valid && state.generation == region.generation && state.beta == beta_literal)
++      return state.chosen;
++    ++counts_.contexts;
++    state = AtomState{region.generation, beta_literal, beta_literal, true};
++    const bool beta_true = beta_literal == true_literal;
++    bool narrow_split = false;
++    bool geometric_gate = false;
++    bool narrow_true = false;
++    if (integer) {
++      Domain yes = intersect(region.value, true_upper, true_endpoint);
++      Domain no = intersect(region.value, !true_upper, false_endpoint);
++      const auto yes_size = size(yes);
++      const auto no_size = size(no);
++      if (yes_size && no_size && *yes_size > util::Rational(0) && *no_size > util::Rational(0)) {
++        ++counts_.finite_splits;
++        narrow_true = *yes_size < *no_size;
++        const auto& small = narrow_true ? *yes_size : *no_size;
++        const auto& large = narrow_true ? *no_size : *yes_size;
++        if (small <= util::Rational(4) && large >= small * util::Rational(4)) {
++          narrow_split = true;
++          ++counts_.narrow;
++          const Domain& child = narrow_true ? yes : no;
++          const auto found = history_.find(key(variable, child));
++          geometric_gate = found != history_.end() && found->second >= config_.visits;
++          if (geometric_gate) ++counts_.repeated;
++        }
++      }
++    }
++    if (config_.mode == Mode::Random ||
++        (config_.mode == Mode::Gated && geometric_gate && beta_true == narrow_true)) {
++      if (std::uniform_int_distribution<unsigned>(0, config_.denominator - 1)(random_) == 0)
++        state.chosen = -beta_literal;
++    } else if (narrow_split && config_.mode == Mode::Least) {
++      state.chosen = narrow_true ? -true_literal : true_literal;
++    } else if (narrow_split && config_.mode == Mode::Most) {
++      state.chosen = narrow_true ? true_literal : -true_literal;
++    }
++    if (state.chosen != beta_literal) ++counts_.flips;
++    return state.chosen;
++  }
++
++ private:
++  struct DomainState {
++    Domain value;
++    std::size_t generation = 0;
++    bool valid = false;
++  };
++  struct AtomState {
++    std::size_t generation = 0;
++    int beta = 0;
++    int chosen = 0;
++    bool valid = false;
++  };
++  static unsigned number(const char* name, unsigned fallback) {
++    const char* value = std::getenv(name);
++    if (value == nullptr) return fallback;
++    const std::string_view text(value);
++    unsigned result = 0;
++    const auto parsed = std::from_chars(text.data(), text.data() + text.size(), result);
++    if (parsed.ec != std::errc{} || parsed.ptr != text.data() + text.size())
++      throw std::invalid_argument(std::string("invalid ") + name);
++    return result;
++  }
++  static std::optional<util::Rational> size(const Domain& domain) {
++    if (!domain.lower || !domain.upper) return std::nullopt;
++    return std::max(util::Rational(0), *domain.upper - *domain.lower + util::Rational(1));
++  }
++  static Domain intersect(Domain domain, bool upper, const util::Rational& endpoint) {
++    auto& bound = upper ? domain.upper : domain.lower;
++    if (!bound || (upper ? endpoint < *bound : endpoint > *bound)) bound = endpoint;
++    return domain;
++  }
++  static std::string key(std::size_t variable, const Domain& domain) {
++    return std::to_string(variable) + ":" + domain.lower->to_string() + ":" +
++           domain.upper->to_string();
++  }
++
++  Config config_;
++  std::mt19937 random_;
++  Counts counts_;
++  std::unordered_map<std::size_t, DomainState> domains_;
++  std::unordered_map<std::size_t, AtomState> atoms_;
++  std::unordered_map<std::string, std::size_t> history_;
++  std::deque<std::string> history_order_;
++};
++
++}  // namespace primo::smt
+diff --git a/src/smt/solver_engines.cpp b/src/smt/solver_engines.cpp
+index dde40224..51896b92 100644
+--- a/src/smt/solver_engines.cpp
++++ b/src/smt/solver_engines.cpp
+@@ -33,0 +34 @@
++#include "smt/arithmetic_phase_simulation.hpp"
+@@ -55,0 +57 @@
++#include "theory/arithmetic/lia_integer_values.hpp"
+@@ -8823 +8825,2 @@ class ComponentLraExecution final {
+-        statistics_(statistics) {
++        statistics_(statistics),
++        phase_simulation_(ArithmeticPhaseSimulation::environment()) {
+@@ -8838,0 +8842 @@ class ComponentLraExecution final {
++    phase_region_refresh_.assign(tableau_.variable_count(), 0);
+@@ -8881 +8885 @@ class ComponentLraExecution final {
+-    if (model_phase_backtrack_may_change_beta_) {
++    if (model_phase_backtrack_may_change_beta_ || phase_simulation_) {
+@@ -9189,0 +9194 @@ class ComponentLraExecution final {
++    if (phase_simulation_) mark_model_phase_bound_var_dirty(prepared_atom.bound_var);
+@@ -9269,0 +9275,4 @@ class ComponentLraExecution final {
++    if (phase_simulation_) {
++      phase_simulation_->begin_refresh();
++      ++phase_region_generation_;
++    }
+@@ -9290 +9299 @@ class ComponentLraExecution final {
+-    const std::optional<sat::Lit> phase_lit = model_phase_literal(atom_index);
++    std::optional<sat::Lit> phase_lit = model_phase_literal(atom_index);
+@@ -9293,0 +9303,31 @@ class ComponentLraExecution final {
++    if (phase_simulation_) {
++      const auto& prepared_atom = prepared_.atoms[atom_index];
++      const auto bound_var = prepared_atom.bound_var;
++      const bool integer = prepared_atom.integer_rounding != IntegerBoundRounding::None;
++      if (phase_region_refresh_[bound_var] != phase_region_generation_) {
++        ArithmeticPhaseSimulation::Domain domain;
++        if (integer) {
++          if (const auto lower = tableau_.lower_bound(bound_var))
++            domain.lower = theory::arithmetic::delta_ceil(lower->value);
++          if (const auto upper = tableau_.upper_bound(bound_var))
++            domain.upper = theory::arithmetic::delta_floor(upper->value);
++        }
++        phase_simulation_->domain(bound_var, std::move(domain));
++        phase_region_refresh_[bound_var] = phase_region_generation_;
++      }
++      const auto yes = bound_assertion(prepared_atom.relation, prepared_atom.rhs,
++                                       prepared_atom.asserts_lower_when_true, true,
++                                       prepared_atom.integer_rounding);
++      const auto no = bound_assertion(prepared_atom.relation, prepared_atom.rhs,
++                                      prepared_atom.asserts_lower_when_true, false,
++                                      prepared_atom.integer_rounding);
++      const auto endpoint = [](const BoundAssertion& bound) {
++        return bound.is_upper ? theory::arithmetic::delta_floor(bound.value)
++                              : theory::arithmetic::delta_ceil(bound.value);
++      };
++      const int true_lit = theory_atoms_[atom_index].lit.value;
++      phase_lit = sat::Lit{phase_simulation_->choose(
++          atom_index, bound_var, true_lit, phase_lit->value,
++          !assignment_view().attached() || !is_assigned_var(true_lit > 0 ? true_lit : -true_lit),
++          integer, yes.is_upper, endpoint(yes), endpoint(no))};
++    }
+@@ -9589,0 +9630,3 @@ class ComponentLraExecution final {
++  std::unique_ptr<ArithmeticPhaseSimulation> phase_simulation_;
++  std::vector<std::size_t> phase_region_refresh_;
++  std::size_t phase_region_generation_ = 0;
+diff --git a/tests/unit/arithmetic_phase_simulation_tests.cpp b/tests/unit/arithmetic_phase_simulation_tests.cpp
+new file mode 100644
+index 00000000..dd446417
+--- /dev/null
++++ b/tests/unit/arithmetic_phase_simulation_tests.cpp
+@@ -0,0 +1,129 @@
++#ifdef NDEBUG
++#undef NDEBUG
++#endif
++
++#include <cassert>
++#include <optional>
++#include <stdexcept>
++
++#include "smt/arithmetic_phase_simulation.hpp"
++#include "theory/arithmetic/lia_integer_values.hpp"
++#include "util/rational.hpp"
++
++using Probe = primo::smt::ArithmeticPhaseSimulation;
++using primo::util::Rational;
++
++namespace {
++Probe::Domain range(int lower, int upper) { return {Rational(lower), Rational(upper)}; }
++
++void revisit(Probe& probe) {
++  probe.domain(0, range(0, 17));
++  probe.domain(0, range(16, 17));
++  probe.domain(0, range(0, 17));
++  probe.domain(0, range(16, 17));
++  probe.domain(0, range(0, 17));
++}
++
++int choose(Probe& probe, int beta = 7, bool unassigned = true, bool integer = true,
++           int true_literal = 7) {
++  return probe.choose(0, 0, true_literal, beta, unassigned, integer, false, Rational(16),
++                      Rational(15));
++}
++
++void geometric_policies() {
++  Probe least({.mode = Probe::Mode::Least});
++  least.domain(0, range(0, 17));
++  assert(choose(least) == -7);  // immediate geometry control, without a revisit gate
++  revisit(least);
++  assert(choose(least) == -7);
++  assert(least.counts().repeated == 1);
++  assert(least.counts().flips == 2);
++  assert(choose(least) == -7);
++  assert(least.counts().flips == 2);
++  assert(choose(least, 7, false) == 7);
++  assert(choose(least, 7, true, false) == 7);
++
++  Probe most({.mode = Probe::Mode::Most});
++  most.domain(0, range(0, 17));
++  assert(choose(most, -7) == 7);
++  revisit(most);
++  assert(choose(most, -7) == 7);
++
++  Probe negative({.mode = Probe::Mode::Least});
++  revisit(negative);
++  assert(choose(negative, -7, true, true, -7) == 7);
++
++  Probe upper({.mode = Probe::Mode::Most});
++  upper.domain(0, range(0, 17));
++  upper.domain(0, range(0, 1));
++  upper.domain(0, range(0, 17));
++  upper.domain(0, range(0, 1));
++  upper.domain(0, range(0, 17));
++  assert(upper.choose(0, 0, 9, -9, true, true, true, Rational(1), Rational(2)) == 9);
++}
++
++void bounds_and_history() {
++  Probe probe({.mode = Probe::Mode::Least, .history_limit = 2});
++  probe.domain(0, {});
++  assert(choose(probe) == 7);
++  assert(probe.counts().finite_splits == 0);
++  probe.domain(0, range(0, 17));
++  const auto entries = probe.counts().entries;
++  probe.domain(0, range(0, 17));
++  assert(probe.counts().entries == entries);
++  probe.domain(0, range(16, 17));
++  probe.domain(0, range(2, 14));
++  assert(probe.history_size() == 2);
++  assert(probe.counts().evictions == 1);
++  probe.domain(0, range(16, 17));
++  assert(choose(probe) == 7);  // the false side has no remaining integer candidate
++
++  using primo::theory::arithmetic::delta_ceil;
++  using primo::theory::arithmetic::delta_floor;
++  using primo::theory::arithmetic::DeltaRational;
++  const DeltaRational lower{Rational(-3), Rational(1)};
++  const DeltaRational upper{Rational(2), Rational(-1)};
++  const Probe::Domain strict{delta_ceil(lower), delta_floor(upper)};
++  assert(strict == range(-2, 1));
++}
++
++void seeded_sampling_and_gating() {
++  Probe left({.mode = Probe::Mode::Random, .seed = 20261105, .denominator = 4});
++  Probe right({.mode = Probe::Mode::Random, .seed = 20261105, .denominator = 4});
++  for (int index = 0; index < 100; ++index) {
++    left.domain(0, range(0, index + 2));
++    right.domain(0, range(0, index + 2));
++    assert(choose(left) == choose(right));
++    const auto flips = left.counts().flips;
++    static_cast<void>(choose(left));
++    assert(left.counts().flips == flips);
++  }
++  assert(left.counts().flips > 0 && left.counts().flips < 100);
++
++  Probe gated({.mode = Probe::Mode::Gated, .denominator = 1});
++  gated.domain(0, range(0, 17));
++  assert(choose(gated) == 7);
++  revisit(gated);
++  assert(choose(gated) == -7);
++  assert(choose(gated, -7) == -7);  // beta already selects the wider side
++
++  Probe always({.mode = Probe::Mode::Random, .denominator = 1});
++  always.domain(0, {});
++  assert(choose(always) == -7);
++  assert(choose(always, 7, false) == 7);
++
++  bool rejected = false;
++  try {
++    const Probe invalid({.denominator = 0});
++  } catch (const std::invalid_argument&) {
++    rejected = true;
++  }
++  assert(rejected);
++}
++}  // namespace
++
++int main() {
++  geometric_policies();
++  bounds_and_history();
++  seeded_sampling_and_gating();
++}
+diff --git a/tests/unit/phase_probe_tests.cpp b/tests/unit/phase_probe_tests.cpp
+new file mode 100644
+index 00000000..6fa723c5
+--- /dev/null
++++ b/tests/unit/phase_probe_tests.cpp
+@@ -0,0 +1,91 @@
++#ifdef NDEBUG
++#undef NDEBUG
++#endif
++
++#include <cassert>
++
++#include "sat/phase_probe.hpp"
++
++using primo::sat::PhaseProbe;
++
++namespace {
++void cancel(PhaseProbe& probe, int literal) {
++  probe.new_level();
++  probe.assignment(literal, true);
++  probe.backtrack(0);
++}
++
++void count_only_context_matching_decisions() {
++  PhaseProbe probe({.mode = PhaseProbe::Mode::Release, .threshold = 2, .window = 2});
++  probe.hint(1);
++  probe.new_level();
++  probe.assignment(1, false);
++  assert(probe.backtrack(0).empty());
++  assert(probe.counts().aligned_removed == 0);
++  probe.assume(1);
++  cancel(probe, 1);
++  assert(probe.counts().assumptions == 1 && probe.counts().activations == 0);
++  probe.finish_solve();
++  cancel(probe, -1);
++  assert(probe.counts().aligned_removed == 0);
++  probe.new_level();
++  probe.assignment(1, true);
++  probe.hint(-1);
++  probe.hint(1);
++  assert(probe.backtrack(0).empty());
++  assert(probe.counts().aligned_removed == 0);
++  cancel(probe, 1);
++  assert(probe.counts().activations == 0);
++  probe.new_level();
++  probe.assignment(1, true);
++  const auto release = probe.backtrack(0);
++  assert(release.size() == 1 && release[0].release && release[0].literal == 1);
++  assert(probe.counts().activations == 1);
++  probe.new_level();
++  assert(probe.assignment(1, true).empty());
++  assert(probe.backtrack(0).empty());  // An overridden decision does not retrigger.
++  probe.new_level();
++  const auto restored = probe.assignment(2, true);
++  assert(restored.size() == 1 && !restored[0].release && restored[0].literal == 1);
++  assert(probe.counts().restores == 1);
++}
++
++void opposite_sign_and_changed_hint() {
++  PhaseProbe probe({.mode = PhaseProbe::Mode::Invert, .threshold = 1});
++  probe.hint(-2);
++  probe.new_level();
++  probe.assignment(-2, true);
++  const auto opposite = probe.backtrack(0);
++  assert(opposite.size() == 1 && opposite[0].literal == 2 && !opposite[0].release);
++  const auto changed = probe.hint(2);
++  assert(changed.literal == 2 && !changed.release);
++  probe.new_level();
++  probe.assignment(-2, true);
++  assert(probe.backtrack(0).empty());
++}
++
++void static_controls_and_solve_reset() {
++  PhaseProbe probe({.mode = PhaseProbe::Mode::Release, .threshold = 0});
++  assert(probe.hint(3).release);
++  assert(probe.finish_solve().size() == 1);
++  const auto next = probe.begin_solve();
++  assert(next.size() == 1 && next[0].release);
++  PhaseProbe counted({.mode = PhaseProbe::Mode::Release, .threshold = 2});
++  counted.hint(3);
++  cancel(counted, 3);
++  counted.finish_solve();
++  cancel(counted, 3);
++  assert(counted.counts().activations == 0);
++  PhaseProbe observe({.mode = PhaseProbe::Mode::Observe, .threshold = 1});
++  assert(!observe.hint(1).release);
++  cancel(observe, 1);
++  cancel(observe, 1);
++  assert(observe.counts().activations == 0 && observe.counts().aligned_removed == 2);
++}
++}  // namespace
++
++int main() {
++  count_only_context_matching_decisions();
++  opposite_sign_and_changed_hint();
++  static_controls_and_solve_reset();
++}
