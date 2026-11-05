@@ -17,7 +17,8 @@ common controls; the complete captured inventory below supplies accepted values 
 | `--check-model` | Off | Check original assertions against a requested model. Set `:produce-models true` separately; see [](../guide/models.md). |
 | `--incremental-mode` | `rebuild` | Choose `rebuild` or the restricted `assumptions` session engine. See [](../guide/sessions.md). |
 | `--preprocessing-mode` | `auto` | Choose `auto`, `off`, `basic`, or `strong`. `off` does not bypass required lowering. Assumptions mode admits only `auto` or `off`. |
-| `--lra-model-phase`, `--no-lra-model-phase` | `auto` | Enable or disable arithmetic phase hints; see {ref}`automatic-lra-heuristics`. |
+| `--initial-theory-phase=MODE` | `negative` | Initial SAT truth-value preference: `negative`, `positive`, `none`, `polarity`, or `auto`. See [phase policies](policies.md#initial-phase-hints) for route coverage. |
+| `--arithmetic-model-phase=MODE` | `auto` | Refresh arithmetic truth-value preferences from the tableau: `on`, `off`, or `auto`; see {ref}`automatic-lra-heuristics`. |
 | `--monotone-elimination`, `--no-monotone-elimination` | `auto` | Enable or disable one-sided Real elimination under the same policy; assumptions sessions reject explicit enabling. |
 | `--max-theory-conflicts=N` | Unlimited | Positive budget, up to 1,000,000,000. Counts aggregate SMT-reported conflicts across supported routes; see [conflict-limit accounting](statistics.md#uniform-conflict-budget-implementation-contract). Exhaustion returns `unknown` with `ResourceLimit`. |
 | `--lia-branch-limit=N` | `100000` | Bound integer branch-and-bound nodes; reaching the bound can return `unknown`. See [](../implementation/lia.md). |
@@ -44,6 +45,23 @@ accept exactly `auto`, `unlimited`, or unsigned decimal digits fitting in
 characters and overflow are CLI errors detected before solving by
 {repairsource}`parse_auto_budget <src/main.cpp>`. The options'
 different zero meanings are described in [effective policies](policies.md).
+
+## Phase option names and compatibility
+
+`--initial-theory-phase` chooses the policy installed at initialization;
+`--arithmetic-model-phase` controls later tableau-based preferences for
+arithmetic atoms. Both control truth values, while SAT keeps variable
+selection. Neither option introduces numeric assumptions or a target-value
+search policy. The rename preserves defaults and route behavior.
+
+The old `--theory-phase` spelling is an alias of
+`--initial-theory-phase`. Legacy `--lra-model-phase` (including
+`--lra-model-phase=false`) and `--no-lra-model-phase` remain accepted in the
+help's compatibility section. If both legacy flags are supplied, the negative
+form retains precedence. Do not mix the new arithmetic policy with either
+legacy flag: this is a command-line error, even when their values agree.
+Use `--arithmetic-model-phase=auto` explicitly to request automatic selection.
+C++ policy fields and existing statistic keys keep their names.
 
 ## Preprocessing diagnostic
 

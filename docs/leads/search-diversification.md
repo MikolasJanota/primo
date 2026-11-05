@@ -2,6 +2,11 @@
 
 **Status: Open lead. Owner: unassigned.** Nothing here is implemented.
 
+The current CLI names are `--initial-theory-phase` and
+`--arithmetic-model-phase=on|off|auto`. The older spellings in the dated
+investigations below remain compatibility aliases; see
+[phase option names](../reference/options.md#phase-option-names-and-compatibility).
+
 ## The problem
 
 On some inputs the run time depends on which part of the search space the

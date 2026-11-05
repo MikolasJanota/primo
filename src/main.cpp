@@ -245,6 +245,7 @@ constexpr const char* kGroupUf = "QF_UF / EUF theory options";
 constexpr const char* kGroupPreprocessing = "Preprocessing options";
 constexpr const char* kGroupSat = "SAT and DPLL(T) options";
 constexpr const char* kGroupProcedural = "Procedural options";
+constexpr const char* kGroupCompatibility = "Compatibility aliases";
 constexpr const char* kGroupExperimentalTactics = "Experimental tactic options";
 
 }  // namespace
@@ -301,6 +302,10 @@ int run_main(int argc, char** argv) {
   bool guarded_real_equality_lowering = solver_options.guarded_real_equality_lowering;
   bool lra_model_phase = solver_options.lra_model_phase.value_or(false);
   bool no_lra_model_phase = false;
+  std::string arithmetic_model_phase =
+      !solver_options.lra_model_phase.has_value()
+          ? "auto"
+          : (solver_options.lra_model_phase.value() ? "on" : "off");
   bool monotone_elimination = solver_options.monotone_elimination.value_or(false);
   bool no_monotone_elimination = false;
   bool top_level_or_tseitin = solver_options.top_level_or_tseitin;
@@ -424,14 +429,13 @@ int run_main(int argc, char** argv) {
   add_flag_with_default(app, "--lra-equality-propagation", solver_options.lra_equality_propagation,
                         "Enable experimental pure QF_LRA model-unit equality discovery and "
                         "propagation of existing difference comparisons (IPASIR-UP only)");
-  add_flag_with_default(app, "--lra-model-phase", lra_model_phase,
-                        "Enable model-based SAT phase hints (automatic for QF_LRA rebuild "
-                        "queries with auto preprocessing): keep CaDiCaL's "
-                        "variable choice, but refresh arithmetic atom polarity from the current "
-                        "tableau assignment at quiescence points")
-      ->option_text("[default: auto]");
-  add_flag_with_default(app, "--no-lra-model-phase", no_lra_model_phase,
-                        "Disable model-based SAT phase hints");
+  CLI::Option* arithmetic_model_phase_option =
+      app.add_option("--arithmetic-model-phase", arithmetic_model_phase,
+                     "Refresh arithmetic SAT phase preferences from the current tableau: "
+                     "on, off, or auto (QF_LRA rebuild with automatic preprocessing). "
+                     "Keeps SAT variable selection; requires an arithmetic phase-output path")
+          ->check(CLI::IsMember({"on", "off", "auto"}))
+          ->default_str(arithmetic_model_phase);
   add_enum_option(app, "--lra-pivoting-rule", solver_options.lra_pivoting_rule,
                   primo::cli::kLraPivotingRuleNames,
                   "QF_LRA Check/Pivot variable-selection rule: sparse (prices "
@@ -772,8 +776,10 @@ int run_main(int argc, char** argv) {
   add_enum_option(app, "--pure-theory-filter", solver_options.pure_theory_filter,
                   primo::cli::kPureTheoryFilterNames, "T-pure theory literal filtering mode");
   CLI::Option* theory_phase_option =
-      add_enum_option(app, "--theory-phase", solver_options.theory_phase,
-                      primo::cli::kTheoryPhaseNames, "Initial SAT phase for theory atoms");
+      add_enum_option(app, "--initial-theory-phase,--theory-phase", solver_options.theory_phase,
+                      primo::cli::kTheoryPhaseNames,
+                      "Initial SAT truth-value preference for theory atoms on routes that "
+                      "install it; --theory-phase is a compatibility alias");
   app.add_option("--euf-prop-budget", euf_prop_budget,
                  "EUF propagation candidate budget: auto, unlimited, or a nonnegative integer");
   app.add_option("--euf-prop-delivery,--prop-delivery-budget", euf_prop_delivery,
@@ -866,9 +872,21 @@ int run_main(int argc, char** argv) {
       ->default_str("");
   app.set_version_flag("--version", version_text());
 
-  // Sort the 60-odd options into sections for --help. Done here, by name,
+  // Keep old scripts working without mixing their flag precedence with the new policy option.
+  CLI::Option* legacy_model_phase_option =
+      add_flag_with_default(app, "--lra-model-phase", lra_model_phase,
+                            "Compatibility flag; use --arithmetic-model-phase=on")
+          ->option_text("[compatibility alias]");
+  CLI::Option* legacy_no_model_phase_option =
+      add_flag_with_default(app, "--no-lra-model-phase", no_lra_model_phase,
+                            "Compatibility flag; use --arithmetic-model-phase=off")
+          ->option_text("[compatibility alias]");
+  arithmetic_model_phase_option->excludes(legacy_model_phase_option);
+  arithmetic_model_phase_option->excludes(legacy_no_model_phase_option);
+
+  // Group options into sections for --help. Done here, by name,
   // rather than by threading a group into every add_flag/add_option call:
-  // one table to read instead of sixty scattered ->group() calls, and a new
+  // one table to read instead of scattered ->group() calls, and a new
   // option lands in the right section by virtue of being named consistently
   // with the ones it belongs beside.
   //
@@ -882,6 +900,9 @@ int run_main(int argc, char** argv) {
     return text.rfind(prefix, 0) == 0;
   };
   const auto group_for = [&starts_with](const std::string& name) -> std::string {
+    if (name == "--lra-model-phase" || name == "--no-lra-model-phase") {
+      return kGroupCompatibility;
+    }
     if (starts_with(name, "--lra-") || starts_with(name, "--no-lra-") ||
         name == "--gaussian-elimination" || name == "--no-gaussian-elimination" ||
         name == "--qf-uflra-candidate-final-scan" || name == "--qf-uflra-lra-equality-producer" ||
@@ -912,7 +933,8 @@ int run_main(int argc, char** argv) {
     // theory-conflict budget, and how top-level disjunctions get clausified.
     if (name == "--cadical-option" || name == "--max-theory-conflicts" ||
         name == "--qf-uflra-online-euf" || name == "--pure-theory-filter" ||
-        name == "--theory-phase" || starts_with(name, "--top-level-or-tseitin") ||
+        name == "--initial-theory-phase" || name == "--theory-phase" ||
+        name == "--arithmetic-model-phase" || starts_with(name, "--top-level-or-tseitin") ||
         starts_with(name, "--no-top-level-or-tseitin") ||
         starts_with(name, "--no-auto-top-level-or-tseitin")) {
       return kGroupSat;
@@ -1071,11 +1093,15 @@ int run_main(int argc, char** argv) {
       qf_uflia_online_components && !no_qf_uflia_online_components;
   solver_options.qf_uflia_model_decision_budget = qf_uflia_model_decision_budget;
   solver_options.qf_uflra_online_euf = qf_uflra_online_euf;
-  if (app.get_option("--lra-model-phase")->count() != 0) {
-    solver_options.lra_model_phase = lra_model_phase;
-  }
-  if (no_lra_model_phase) {
-    solver_options.lra_model_phase = false;
+  if (arithmetic_model_phase_option->count() != 0) {
+    if (arithmetic_model_phase == "auto") {
+      solver_options.lra_model_phase.reset();
+    } else {
+      solver_options.lra_model_phase = arithmetic_model_phase == "on";
+    }
+  } else {
+    if (legacy_model_phase_option->count() != 0) solver_options.lra_model_phase = lra_model_phase;
+    if (no_lra_model_phase) solver_options.lra_model_phase = false;
   }
   if (app.get_option("--monotone-elimination")->count() != 0) {
     solver_options.monotone_elimination = monotone_elimination;

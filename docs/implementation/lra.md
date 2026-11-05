@@ -1235,7 +1235,7 @@ requires nonzero elimination counters when enabled.
 
 ### Model phase hints
 
-`--lra-model-phase` lets the arithmetic assignment suggest a Boolean polarity
+`--arithmetic-model-phase=on` lets the arithmetic assignment suggest a Boolean polarity
 for an arithmetic atom. If the current tableau assigns $x=2$, it recommends
 the positive literal for $x\leq3$ and the negative literal for $x<1$.
 This is a search preference: the current assignment is not a proof that either

@@ -273,6 +273,7 @@ add_test(
   COMMAND ${CMAKE_COMMAND}
     -DPRIMO_EXECUTABLE=$<TARGET_FILE:primo>
     -DPRIMO_TEST_INPUT=${CMAKE_SOURCE_DIR}/benchmarks/smoke/qf_lra/default_heuristics.smt2
+    -DPRIMO_INITIAL_PHASE_INPUT=${CMAKE_SOURCE_DIR}/benchmarks/smoke/qf_uf/sat_uninterpreted_constants.smt2
     -P ${CMAKE_SOURCE_DIR}/tests/cmake/check_lra_heuristic_cli.cmake
 )
 add_test(

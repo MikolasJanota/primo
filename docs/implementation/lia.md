@@ -691,7 +691,9 @@ The first four rows apply to both routes. The last four switches are on by
 default for QF_LIA and off for QF_UFLIA, as {ref}`lia-settings` explains.
 Each also has a `--no-` form, for example `--no-lia-primitive-int-rows`,
 which turns it off on either route. If both forms are given, the `--no-` form
-wins, as for `--lra-model-phase`.
+wins, as for the legacy `--lra-model-phase` / `--no-lra-model-phase` pair.
+The current `--arithmetic-model-phase=on|off|auto` form rejects mixing with
+those legacy flags; see [option compatibility](../reference/options.md#phase-option-names-and-compatibility).
 
 These are finite operational limits, not empirically optimal settings.
 Both routes report typed `ResourceLimit` to the shared driver, producing

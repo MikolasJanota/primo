@@ -40,7 +40,7 @@ attempts, inspected candidates, deliveries, and cutoffs.
 
 ## Initial phase hints
 
-`--theory-phase` defaults to `negative`. `positive` prefers equalities, `none`
+`--initial-theory-phase` defaults to `negative`. `positive` prefers equalities, `none`
 leaves backend phases unchanged, and `polarity` sets a hint only for atoms with
 one syntactic polarity. These are hints before SAT search, not theory-selected
 decision variables.
@@ -53,9 +53,17 @@ matters; zero pure-negative atoms do not select polarity. See
 
 Separately, automatic basic preprocessing can select polarity hints for its
 multi-assertion profile or its narrower single-assertion predicate profile.
-An explicitly supplied `--theory-phase` disables these overrides;
+An explicitly supplied `--initial-theory-phase` disables these overrides;
 `--no-auto-basic-multi-polarity` also disables the multi-assertion override.
 The `:sat.phase.auto-*` counters report which policy actually ran.
+
+The nonincremental QF_LIA/QF_UFLIA shared component driver does not currently
+install this initial policy. Renaming the option does not change that route
+coverage. Arithmetic model preferences are separate: on QF_UFLIA their output
+requires online components and incremental EUF, the default combination path.
+They can update preferences previously installed by an initial policy on
+routes that support both. Legacy spellings are listed in
+[option compatibility](options.md#phase-option-names-and-compatibility).
 
 ## Structural preprocessing selection
 
@@ -98,12 +106,14 @@ remains historical evidence.
 (automatic-lra-heuristics)=
 ## Automatic QF_LRA heuristics
 
-The unspecified `--lra-model-phase` and `--monotone-elimination` policies resolve
+The `auto` value of `--arithmetic-model-phase` and the unspecified
+`--monotone-elimination` policy resolve
 to enabled only when the declared logic is `QF_LRA`, the session mode is
 `rebuild`, and preprocessing is `auto`. Other routes and explicit preprocessing
-profiles resolve them to disabled. Use `--no-lra-model-phase` and
-`--no-monotone-elimination` to disable either policy explicitly; the positive
-flags explicitly enable them. Explicitly enabling monotone elimination remains
+profiles resolve them to disabled. Use `--arithmetic-model-phase=off` and
+`--no-monotone-elimination` to disable them explicitly;
+`--arithmetic-model-phase=on` and `--monotone-elimination` explicitly enable
+them. Explicitly enabling monotone elimination remains
 an error in assumptions mode, whose assertions can later be popped.
 
 The {lrapolicysource}`query policy resolution
