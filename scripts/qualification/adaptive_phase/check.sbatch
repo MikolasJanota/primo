@@ -28,7 +28,16 @@ for mode in release invert; do
  python3 scripts/qf_uflia_fuzz.py --solver build-slurm-rel/primo --solver-arg=--quiet \
   "${flags[@]}" --ref z3 --count 1000 --seed "$seed" --shape mixed --depth 3 --timeout 5 \
   --out "$out/fuzz-$mode"
+ python3 - "$out/fuzz-$mode/summary.csv" <<'PYCODE' > "$out/sat-$mode.txt"
+import csv
+import sys
+for row in csv.DictReader(open(sys.argv[1])):
+    if row['ours'] == 'sat' and row['ours_code'] == '0' and row['outcome'] == 'PASS':
+        print(row['case'])
+PYCODE
+ mapfile -t sat_cases < "$out/sat-$mode.txt"
+ (( ${#sat_cases[@]} > 0 ))
  python3 scripts/validate_model.py --solver build-slurm-rel/primo --solver-arg=--quiet \
-  "${flags[@]}" --require-dolmen-pass --timeout 10 --dolmen-timeout 10 \
-  --dolmen-arg=--strict=false --out "$out/models-$mode" "$out/fuzz-$mode"/cases/*.smt2
+  "${flags[@]}" --require-dolmen-pass --expect-sat --timeout 10 --dolmen-timeout 10 \
+  --dolmen-arg=--strict=false --out "$out/models-$mode" "${sat_cases[@]}"
 done

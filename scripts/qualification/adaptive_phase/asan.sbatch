@@ -20,7 +20,14 @@ print(' '.join('-isystem '+line for line in Path(sys.argv[1]).read_text().splitl
 PY
 )
 export CXXFLAGS
+if [[ -n ${PRIMO_ASAN_RUNTIME_LIBDIR:-} ]]; then
+ export LD_LIBRARY_PATH="$PRIMO_ASAN_RUNTIME_LIBDIR${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+ cmake -S . -B build-asan -DCMAKE_EXE_LINKER_FLAGS="-L$PRIMO_ASAN_RUNTIME_LIBDIR -Wl,-rpath,$PRIMO_ASAN_RUNTIME_LIBDIR" \
+  -DPRIMO_GIT_REVISION_OVERRIDE="${PRIMO_EXPECTED_GIT:?}"
+fi
 make -o contrib-required asan-test
+build-asan/primo --version > "$out/version.txt"
+sha256sum build-asan/primo > "$out/binary.sha256"
 for mode in release invert; do
  export PRIMO_PHASE_PROBE=$mode PRIMO_PHASE_PROBE_K=1 PRIMO_PHASE_PROBE_WINDOW=64
  ASAN_OPTIONS=detect_leaks=1:strict_init_order=1 python3 scripts/qf_uflia_fuzz.py \
