@@ -409,12 +409,6 @@ primo_enable_sanitizers(primo_smt_session_tests)
 target_link_libraries(primo_smt_session_tests PRIVATE primo_core)
 add_test(NAME primo_smt_session_tests COMMAND primo_smt_session_tests)
 
-add_executable(primo_phase_probe_tests tests/unit/phase_probe_tests.cpp)
-primo_enable_warnings(primo_phase_probe_tests)
-primo_enable_sanitizers(primo_phase_probe_tests)
-target_include_directories(primo_phase_probe_tests PRIVATE src)
-add_test(NAME primo_phase_probe_tests COMMAND primo_phase_probe_tests)
-
 add_executable(primo_sat_backend_tests tests/unit/sat_backend_tests.cpp)
 primo_enable_warnings(primo_sat_backend_tests)
 primo_enable_sanitizers(primo_sat_backend_tests)

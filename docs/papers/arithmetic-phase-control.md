@@ -239,7 +239,10 @@ discrete gate is another candidate. Repeated visits to the same threshold
 pattern could trigger a bounded alternative-policy window, but choosing the
 trigger, duration and recovery rule remains design work. One conflict does
 not show that the selected phase was bad; learning can represent progress.
-Neither the blend nor a gate is implemented or validated.
+The weighted blend and a progress-sensitive gate remain design work.
+The simpler per-atom removal-count gate was tested in a retired isolated
+snapshot; the [diagnostic report](../leads/adaptive-phase-probe.md) records
+its negative result and the broader phase controls that recovered some losses.
 
 The {settingssource}`current phase-output path <src/smt/solver_engines.cpp#L9242-L9301>`
 publishes persistent signs rather than receiving the selected SAT variable
@@ -262,5 +265,5 @@ they do not demonstrate a new search improvement. Any later phase-policy
 implementation needs the applicable correctness gate and paired full-corpus
 evaluation before changing defaults.
 
-The isolated [adaptive phase diagnostic](../leads/adaptive-phase-probe.md)
-records the counter-based simulation protocol and its acceptance limits.
+The [adaptive phase diagnostic](../leads/adaptive-phase-probe.md) records the
+counter-based simulation, independent correctness checks, results and limits.

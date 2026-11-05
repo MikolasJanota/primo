@@ -1,6 +1,9 @@
 # Diversifying the DPLL(T) search
 
-**Status: Open lead. Owner: unassigned.** Nothing here is implemented.
+**Status: Open lead. Owner: unassigned.** No new policy is retained in production.
+The [bounded phase diagnostic](adaptive-phase-probe.md) tested an isolated
+removal-count gate and broader phase controls; the gate was rejected and its
+solver hooks removed after measurement. The alternatives below remain leads.
 
 The current CLI names are `--initial-theory-phase` and
 `--arithmetic-model-phase=on|off|auto`. The older spellings in the dated

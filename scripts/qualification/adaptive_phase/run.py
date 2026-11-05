@@ -55,6 +55,7 @@ def profile(name: str) -> tuple[list[str], dict[str, str]]:
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--solver", type=Path, required=True)
+    parser.add_argument("--expected-git")
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
@@ -81,6 +82,8 @@ def main() -> None:
                 "shards": args.shards, "shard": args.shard,
                 "inputs": {str(p.relative_to(args.root)): hashlib.sha256(p.read_bytes()).hexdigest()
                            for _, p in inputs}}
+    if args.expected_git and f"git: {args.expected_git}" not in identity["version"].splitlines():
+        raise SystemExit("unexpected solver revision")
     (args.out / "provenance.json").write_text(json.dumps(identity, indent=2) + "\n")
     for key in ENV_KEYS:
         os.environ.pop(key, None)

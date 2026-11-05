@@ -3,6 +3,201 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "date": "2026-11-05",
+      "qualified_solver_commit": "f0cf49b252b4f9b9ecca22166d4c49d54d60f4b2",
+      "source_status": "Probe retired after measurement. Current CMakeLists.txt, src/ and unit tests restored to 9b30e491. Frozen history and source.patch preserve the experiment.",
+      "artifacts": "results/adaptive-phase-20261105",
+      "environment": {
+        "execution": "SLURM compute nodes only; all jobs terminal",
+        "timing": "2 CPUs/task, 8 GiB, 20-minute allocation, 15-second per-process timeout, serial arms, rotated arm order; no model-checking time included",
+        "models": "2 CPUs/task, 12 GiB, 30-minute allocation; 60-second solver and Dolmen limits; --expect-sat --require-dolmen-pass --strict=false",
+        "checks": "4 CPUs, 16 GiB, 30 minutes; 5-second generated-answer timeout; 10-second generated model replay timeout",
+        "asan": "4 CPUs, 24 GiB, 40 minutes; 10-second generated-answer timeout",
+        "static": "4 CPUs, 12 GiB, 30 minutes",
+        "compiler": "GNU C++ 11.4.1",
+        "cadical": "cadical-3.0.0-7b99c07",
+        "nodes": "Original checks/grid/selected on node-02; later uniform/early arrays on node-04/node-05; model replays also node-03. Per-task hostname/lscpu in raw artifacts."
+      },
+      "identities": {
+        "primo_release_sha256": "9bb8cc30f957037306911f02bac71f4b63d4c1b5be0d48da3a3e7f4a7bbeb85d",
+        "primo_asan_sha256": "2f07c46fc9e025871269f31303cf669ae708a1beda0e626432ed812c9cba45a7",
+        "z3_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+        "dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+        "preserved_8357ff8b_primo_sha256": "5ad25ab16c29076de7297a110a6af31e2220c089e83a239c4510a2c48e5d931f"
+      },
+      "qualification": {
+        "build": {
+          "job": "354170",
+          "status": "COMPLETED 0:0",
+          "method": "slurm_prepare_benchmark_workspace.py --build-via-slurm --jobs 4 --extra-target primo_phase_probe_tests; preserved dependency prefix, explicit C++ header manifest"
+        },
+        "checks": {
+          "job": "354174",
+          "status": "COMPLETED 0:0",
+          "ctest_pass": 46,
+          "python_tests_pass": 311,
+          "command": "scripts/qualification/adaptive_phase/check.sbatch; make -o contrib-required check BUILD_DIR=build-slurm-rel",
+          "fuzz": {
+            "logic": "QF_UFLIA",
+            "generator": "scripts/qf_uflia_fuzz.py --shape mixed --depth 3",
+            "profiles": "M124 + arithmetic-model-phase=on; release/invert k=1 window=64",
+            "seeds": [
+              2026110511,
+              2026110512
+            ],
+            "cases_each": 1000,
+            "reference": "z3",
+            "pass": 2000,
+            "wrong_answer": 0,
+            "crash": 0,
+            "parser_type_error": 0,
+            "timeout": 0,
+            "unsupported": 0,
+            "reference_disagreement": 0,
+            "failure_artifacts": "collected/results/adaptive-check2-20261105/fuzz-{release,invert}; full generated inputs retained in remote result workspace"
+          },
+          "generated_sat_models": {
+            "release_direct_dolmen_pass": 495,
+            "invert_direct_dolmen_pass": 507,
+            "fail": 0
+          }
+        },
+        "asan": {
+          "job": "354175",
+          "status": "COMPLETED 0:0",
+          "ctest_pass": 46,
+          "generated_reference_pass": 40,
+          "profiles": "primitive-int-rows + arithmetic-model-phase=on; release/invert k=1 window=64",
+          "generator": "scripts/qf_uflia_fuzz.py mixed default depth; 20 cases each, seed 2026110513, z3 reference, 10-second timeout",
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_error": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "runtime_package": "https://dl.rockylinux.org/vault/rocky/9.4/AppStream/x86_64/os/Packages/l/libasan-11.4.1-3.el9.x86_64.rpm",
+          "runtime_rpm_sha256": "c72fddd916c15f948c5f9a7ac5192f498f43b9bf8553b5347812734aaaa92896",
+          "runtime_library_sha256": "b90ccedfb345dde2053ff0013e092c88ab7f361e70d86ed827c10f8b3df24512",
+          "runtime_installation": "Extracted under isolated workspace tmp; no system installation or local/login-host compilation."
+        },
+        "uniform_gate": {
+          "job": "354200",
+          "status": "COMPLETED 0:0",
+          "cases_each": 1000,
+          "seeds": [
+            2026110520,
+            2026110521
+          ],
+          "generator": "scripts/qf_uflia_fuzz.py --shape mixed --depth 3 --timeout 5",
+          "profiles": "M124 + arithmetic-model-phase=off + forcephase=1 + phase=0/1",
+          "reference": "z3",
+          "pass": 2000,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_error": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "model_validation": "Answer-only gate; no claim of generated uniform SAT model validation.",
+          "failure_artifacts": "collected/results/uniform-phase-gate-20261105/value-{0,1}; full generated inputs retained remotely"
+        },
+        "static": {
+          "job": "354176",
+          "status": "COMPLETED 0:0",
+          "translation_units_src_tests": 130,
+          "documentation_examples": 4,
+          "checks": "clang-analyzer-*,misc-include-cleaner plus configured checks",
+          "raw_warnings": 2188,
+          "unique_warnings": 755,
+          "errors": 0,
+          "log_sha256": "8467073755607eebf999d9d736c23ce3af9591cdb724162d49356b41e143585d",
+          "disposition": "Existing baseline advisories remain; diagnostic adds enum-size and test main exception-escape advisories. No claim of warning-free tree. Probe source subsequently removed."
+        }
+      },
+      "prior_attempts": [
+        {
+          "job": "354165",
+          "result": "COMPLETED but all eight /usr/bin/time timing commands failed exit127; excluded from timing evidence. GDB sampling succeeded separately: 88 samples on xs_28_48 with M124+beta and 10000 theory-conflict limit; debugger time excluded."
+        },
+        {
+          "job": "354166",
+          "result": "Four-task baseline retry at 8357ff8b: native four SAT in 0.412410/0.599942/1.455768/1.789173 seconds; all eight M124/M124+beta rows timeout at12s."
+        },
+        {
+          "job": "354171",
+          "result": "46 CTest,311 Python and1000 release-k1 reference answers pass; model harness mistakenly included UNSAT inputs.495 SAT direct-Dolmen passes,214 not-sat,291 solver-error after legitimate UNSAT/get-model refusal plus probe stderr. Triaged harness error; corrected SAT-only replay rerun in354174."
+        },
+        {
+          "job": "354172",
+          "result": "ASan linker failed before tests because system libasan runtime absent; isolated runtime staged and successful rerun354175."
+        },
+        {
+          "job": "354173",
+          "result": "Intentionally cancelled pending static job after354171 failure; successful replacement354176."
+        }
+      ],
+      "totals": {
+        "candidate_timing_rows": 628,
+        "statuses": {
+          "ok": 282,
+          "timeout": 346
+        },
+        "successful_answers": {
+          "sat": 204,
+          "unsat": 78
+        },
+        "candidate_sat_replays_direct_dolmen_pass": 204
+      },
+      "conclusion": "Do not adopt the k-removal gate or promote M124. Uniform native phase controls recover15/30 losses, continuous beta inversion4/30, tested k=1/8 gates0/30, unchanged native30/30. Controls14/14 at cutoff in every selected arm. Uniform signs recover identical sets; beta inversion adds one unique recovery, so16/30 is only an oracle union, not a measured selector.",
+      "limitations": [
+        "Single attempt per file/arm,15-second cutoff,selected retrospective sample,not full corpus. No general speedup or absence-of-runtime-regression claim.",
+        "Development four all have B=A+20; inversion recoveries all B=A+10. Held-out labels identify cases outside development, not a blinded prospective test.",
+        "Probe overhead includes repeated beta computation and active-override scans, including static k=0. Release0 is not timing-equivalent to beta-off.",
+        "overridden counts observed decisions while an override is active, not counterfactual changed signs. Agreement does not imply advice caused the choice/conflict.",
+        "Arithmetic phase producer skips equality atoms; uniform backend controls cover a broader SAT variable set. Raw input/source audit does not establish equality atoms caused losses.",
+        "Same solved set under both forcephase signs suggests native phase evolution/history matters, but does not isolate phase saving from other native mechanisms.",
+        "No new assumptions, values, atoms, variable-selection rule, clauses or restart schedule. No production solver policy retained."
+      ],
+      "id": "2026-11-05-adaptive-phase-diagnostic-f0cf49b2",
+      "commit": "f0cf49b252b4f9b9ecca22166d4c49d54d60f4b2",
+      "branch": "lia-integrality; isolated phase-abandon-diagnostic snapshot, probe reverted after evaluation",
+      "kind": "phase-control-diagnostic-rejected-policy",
+      "evidence_status": "Qualified diagnostic; complete selected evaluation and SAT validation. No new default or full-corpus improvement claim.",
+      "metadata": "benchmarks/qf-uflia-adaptive-phase-20261105.json",
+      "jobs": {
+        "development": {
+          "timing": "354177",
+          "models": "354178",
+          "status": "COMPLETED 0:0"
+        },
+        "selected": {
+          "timing": "354185",
+          "models": "354186",
+          "status": "COMPLETED 0:0"
+        },
+        "uniform_development": {
+          "timing": "354201",
+          "models": "354202",
+          "status": "COMPLETED 0:0"
+        },
+        "uniform_selected": {
+          "timing": "357025",
+          "models": "357028",
+          "status": "COMPLETED 0:0"
+        },
+        "early_selected": {
+          "timing": "357026",
+          "models": "357027",
+          "status": "COMPLETED 0:0"
+        }
+      },
+      "commands": {
+        "timing": "scripts/qualification/adaptive_phase/run.sbatch -> run.py; manifests and profile flags committed; --timeout15 --rounds1; four/eight shards",
+        "models": "scripts/qualification/adaptive_phase/replay.sbatch -> replay.py; every successful SAT row with exact same profile/env and binary hash; separate timing stage",
+        "analysis": "scripts/qualification/adaptive_phase/analyze.py --root <timing-directory> --selection scripts/qualification/adaptive_phase/selection.json --timeout 15 --out <summary.json>"
+      }
+    },
+    {
       "id": "2026-11-05-phase-option-cli-rename-8357ff8b",
       "date": "2026-11-05",
       "commit": "8357ff8b2ec6b8f896cca1ee6223da697a389e0e",

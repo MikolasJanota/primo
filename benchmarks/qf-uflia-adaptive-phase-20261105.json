@@ -1,0 +1,5176 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-05",
+  "purpose": "Bounded diagnostic of phase-only recovery on 30 previously recorded M124 QF_UFLIA losses; not a full-corpus evaluation or default promotion.",
+  "baseline_commit": "9b30e491",
+  "qualified_solver_commit": "f0cf49b252b4f9b9ecca22166d4c49d54d60f4b2",
+  "source_status": "Probe retired after measurement. Current CMakeLists.txt, src/ and unit tests restored to 9b30e491. Frozen history and source.patch preserve the experiment.",
+  "source_patch": {
+    "path": "scripts/qualification/adaptive_phase/source.patch",
+    "sha256": "86d0c2247342227c9d50ddc482c70266c8adfd75aa960898b94239cbc7cf0cf6",
+    "apply": "git apply --unidiff-zero scripts/qualification/adaptive_phase/source.patch"
+  },
+  "selection": {
+    "source": "benchmarks/qf-uflia-m124-review-20261104.json",
+    "source_solver_commit": "5dec036329b8b8cc6d929835fa1c6dfa644b8fb3",
+    "losses": [
+      "wisas/xs_24_44.smt2",
+      "wisas/xs_25_35.smt2",
+      "wisas/xs_26_36.smt2",
+      "wisas/xs_26_46.smt2",
+      "wisas/xs_27_47.smt2",
+      "wisas/xs_28_38.smt2",
+      "wisas/xs_28_48.smt2",
+      "wisas/xs_29_39.smt2",
+      "wisas/xs_29_49.smt2",
+      "wisas/xs_30_40.smt2",
+      "wisas/xs_30_50.smt2",
+      "wisas/xs_31_41.smt2",
+      "wisas/xs_31_51.smt2",
+      "wisas/xs_32_42.smt2",
+      "wisas/xs_32_52.smt2",
+      "wisas/xs_33_43.smt2",
+      "wisas/xs_33_53.smt2",
+      "wisas/xs_34_44.smt2",
+      "wisas/xs_34_54.smt2",
+      "wisas/xs_35_45.smt2",
+      "wisas/xs_35_55.smt2",
+      "wisas/xs_36_46.smt2",
+      "wisas/xs_36_56.smt2",
+      "wisas/xs_37_47.smt2",
+      "wisas/xs_37_57.smt2",
+      "wisas/xs_38_48.smt2",
+      "wisas/xs_38_58.smt2",
+      "wisas/xs_39_59.smt2",
+      "wisas/xs_40_50.smt2",
+      "wisas/xs_40_60.smt2"
+    ],
+    "controls": [
+      "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+      "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+      "TwoSquares/smtlib.606691.smt2",
+      "TwoSquares/smtlib.666078.smt2",
+      "TwoSquares/smtlib.675451.smt2",
+      "TwoSquares/smtlib.686091.smt2",
+      "mathsat/Hash/hash_sat_07_15.smt2",
+      "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+      "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+      "mathsat/Wisa/xs-18-19-4-1-1-5.smt2",
+      "wisas/xs_13_13.smt2",
+      "wisas/xs_14_24.smt2",
+      "wisas/xs_17_17.smt2",
+      "wisas/xs_6_11.smt2"
+    ],
+    "control_selection": "up to four per family (two Certora); both historical arms solved within5s; SHA256(20261105:phase-control:path)",
+    "development_losses": [
+      "wisas/xs_24_44.smt2",
+      "wisas/xs_28_48.smt2",
+      "wisas/xs_33_53.smt2",
+      "wisas/xs_40_60.smt2"
+    ],
+    "evaluation_manifest_sha256": "6364e30c80e940f824b285bddaaa45f7e7cf1369233b83e207ed14f8d73b082f"
+  },
+  "input_sha256": {
+    "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2": "217dc9cacd1f312bf0fa58ba1cb25bfbf1f4d89629c8ea285a77298d4ccc02af",
+    "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2": "96a8408ca44eb53bf21ea3adcfb740dc6122740da06cac7f87fb416125f2c304",
+    "TwoSquares/smtlib.606691.smt2": "c7e913fc8e0815b128f5a6464a8d53a5ed96186ba92f638fb3ea9ef7915d7e73",
+    "TwoSquares/smtlib.666078.smt2": "ff0d58b5331d074b57f964d6993b7a7b00d4c9d193d0deff5382b6e90bcd5f6c",
+    "TwoSquares/smtlib.675451.smt2": "5a93af3b6be8c9c6c53cb8a33c8aa00e4edf7f82f25c6eca7aef2a2227de0e0f",
+    "TwoSquares/smtlib.686091.smt2": "4a4273490ccf9c65e5ead17078d8af64414d46f621127f198af8e0b8789036bc",
+    "mathsat/Hash/hash_sat_07_15.smt2": "378e37f0c64026f27b9abea166ebc6d2696ecfacb2d2ea0169c2f2e64552c45d",
+    "mathsat/Wisa/xs-14-06-4-4-1-2.smt2": "720eb5313d7d586a1cc321b6f40f25d92f6ea41ac78d92cb836fe16d8b3f21d8",
+    "mathsat/Wisa/xs-18-15-4-1-3-1.smt2": "dd19126f8099ad66a1402f68b5549990ce7983e001747a35f07cc322744bc26e",
+    "mathsat/Wisa/xs-18-19-4-1-1-5.smt2": "3a30c8b57430901063df752011a9637d922037b035b5d93b640125bd2ce6cf4e",
+    "wisas/xs_13_13.smt2": "79bc628201e189fea8bf3ce976b57859a2ae018600db870d4561e1c8d2cbc247",
+    "wisas/xs_14_24.smt2": "47929afe8ff752079ea9673ad1eea06859bac1e181d0655b37cba550b605d7d4",
+    "wisas/xs_17_17.smt2": "8a6ae9c3fbe600ea19a02c705b937adb5a943d2d8bb9876c6165bf1dea0cb693",
+    "wisas/xs_24_44.smt2": "8f45e31163fef6ba6af7f197d8a8ccdd932f38140ca86035f3e0cf032b9c440e",
+    "wisas/xs_25_35.smt2": "5690f67a2e02051ff2dc9551f95562aec690b35550cad1bb2b5471772a780335",
+    "wisas/xs_26_36.smt2": "90a2bc18ffdff88e878d3cddd36409f8ef5d155799a11c9f17ef20965e239ea0",
+    "wisas/xs_26_46.smt2": "ba46fd580314ed8a12a76fc14dc75ad1fba8c998f630cbd558e34b581ec65442",
+    "wisas/xs_27_47.smt2": "3e0ad654e08a68996ea025d4d53838e9717bd08f1ecd4b0a67059df6d88202a5",
+    "wisas/xs_28_38.smt2": "cd31505828dc50b6f3f0fc82a28073e350392c7159ad48d75bf976e16ee9a8e2",
+    "wisas/xs_28_48.smt2": "35a7d5e684256f6534c855297725eee577bd445d3fcb1fdc0fd8bd5a70472b78",
+    "wisas/xs_29_39.smt2": "3a84c76e73cd94f236e888c93784917190ee770d012122cba67266f8f0104620",
+    "wisas/xs_29_49.smt2": "94394f43319b4ff04fb06328203beff260dfeb41b07ba44052463579342e57a1",
+    "wisas/xs_30_40.smt2": "53430d2438157046de3ea347f76a99c4a322ffc9b7a4a2219635442f55d2f009",
+    "wisas/xs_30_50.smt2": "6292f829252b04275bb4f54fef3f5e2324ecfbddf73d43d00ee6938813da01f3",
+    "wisas/xs_31_41.smt2": "207e3bf7410fc140dab429a747ba66102b4b9fddc9569d3548ed21163fa56cee",
+    "wisas/xs_31_51.smt2": "9eb5687a62dcc1455fcb17b8d722969283d26e154273e1ad7419497c3496a57c",
+    "wisas/xs_32_42.smt2": "93d7d5a3313f31f30ca3beff0d192de0f421cd0f1234f5c8095f75ae45d17743",
+    "wisas/xs_32_52.smt2": "7cb8ce693218c1bb2d691dab6289e1067d10da0b853c4099a48e465f70e46169",
+    "wisas/xs_33_43.smt2": "2917e473aa98b3eeccb5fd00ef7db60e6f4296a0c0883c1e190beffda154333f",
+    "wisas/xs_33_53.smt2": "1ff68fd4cfd297d1e9e93ee8451af735ffe173e5c959fd5fc9ae64391d77ab53",
+    "wisas/xs_34_44.smt2": "5d26f38b70222d17a3b8c0a38d48f8858bd54fd0ae1dd22edca25170ddeafee1",
+    "wisas/xs_34_54.smt2": "c416634fbb11c230ca39df2f3d4748c1c317005e2611126533dfced02efbc0c8",
+    "wisas/xs_35_45.smt2": "141fae98d0b0600e56b22cfa88dec17ee9f3b13558d9583df1680511ea593293",
+    "wisas/xs_35_55.smt2": "73db3b456b690f693bc0e4d0dad4d56140d78dc352cad8a61e4dd5f6f4f1496d",
+    "wisas/xs_36_46.smt2": "a0d10b5001f3ebb2eb1fb4e24635aee07f3b8ed59ad2450a65b190e87724ce39",
+    "wisas/xs_36_56.smt2": "7a89f2ab135048b798ab660b5153a4189413aaf9d986e3c77e6e620b72431382",
+    "wisas/xs_37_47.smt2": "423d7bcf70f600adcefa12c3c37fe1498d7c25695c9a7fa8acf5f73b9e90c95a",
+    "wisas/xs_37_57.smt2": "5c70a76d2c4f181502c3dd51966f39ddec4fd9eac378d543f4e52d603eca3a56",
+    "wisas/xs_38_48.smt2": "245b178b4a73a7ba2a0992b2e84ffde902b15d20fe1e55036a34033ee3b33d34",
+    "wisas/xs_38_58.smt2": "24470c72b0d806b8c7700e5f48b142b742d8dde53fac4d23971cf43dc447bb97",
+    "wisas/xs_39_59.smt2": "3ca156dede687955b9e6111c6a4114541e4653cd61e08a7969d4532b7cc519e8",
+    "wisas/xs_40_50.smt2": "af9ecc874a0afc078e8875f73ad172f362782d387c1c69b0e59bdc2e9e9fe421",
+    "wisas/xs_40_60.smt2": "fa124901569f60ea66d681caf79e6c5caec2563eb74343f7aa57a37ba857c312",
+    "wisas/xs_6_11.smt2": "35c994342c1f6512d7924042bbc942dbb2da86cf5c7be39a5383de70adee6708"
+  },
+  "artifacts": "results/adaptive-phase-20261105",
+  "collected_archive_sha256": "f205ab52629e84c13a5eb3779ccafb30b3d5686b3f1e0d779a2c100145c06999",
+  "environment": {
+    "execution": "SLURM compute nodes only; all jobs terminal",
+    "timing": "2 CPUs/task, 8 GiB, 20-minute allocation, 15-second per-process timeout, serial arms, rotated arm order; no model-checking time included",
+    "models": "2 CPUs/task, 12 GiB, 30-minute allocation; 60-second solver and Dolmen limits; --expect-sat --require-dolmen-pass --strict=false",
+    "checks": "4 CPUs, 16 GiB, 30 minutes; 5-second generated-answer timeout; 10-second generated model replay timeout",
+    "asan": "4 CPUs, 24 GiB, 40 minutes; 10-second generated-answer timeout",
+    "static": "4 CPUs, 12 GiB, 30 minutes",
+    "compiler": "GNU C++ 11.4.1",
+    "cadical": "cadical-3.0.0-7b99c07",
+    "nodes": "Original checks/grid/selected on node-02; later uniform/early arrays on node-04/node-05; model replays also node-03. Per-task hostname/lscpu in raw artifacts."
+  },
+  "identities": {
+    "primo_release_sha256": "9bb8cc30f957037306911f02bac71f4b63d4c1b5be0d48da3a3e7f4a7bbeb85d",
+    "primo_asan_sha256": "2f07c46fc9e025871269f31303cf669ae708a1beda0e626432ed812c9cba45a7",
+    "z3_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+    "preserved_8357ff8b_primo_sha256": "5ad25ab16c29076de7297a110a6af31e2220c089e83a239c4510a2c48e5d931f"
+  },
+  "qualification": {
+    "build": {
+      "job": "354170",
+      "status": "COMPLETED 0:0",
+      "method": "slurm_prepare_benchmark_workspace.py --build-via-slurm --jobs 4 --extra-target primo_phase_probe_tests; preserved dependency prefix, explicit C++ header manifest"
+    },
+    "checks": {
+      "job": "354174",
+      "status": "COMPLETED 0:0",
+      "ctest_pass": 46,
+      "python_tests_pass": 311,
+      "command": "scripts/qualification/adaptive_phase/check.sbatch; make -o contrib-required check BUILD_DIR=build-slurm-rel",
+      "fuzz": {
+        "logic": "QF_UFLIA",
+        "generator": "scripts/qf_uflia_fuzz.py --shape mixed --depth 3",
+        "profiles": "M124 + arithmetic-model-phase=on; release/invert k=1 window=64",
+        "seeds": [
+          2026110511,
+          2026110512
+        ],
+        "cases_each": 1000,
+        "reference": "z3",
+        "pass": 2000,
+        "wrong_answer": 0,
+        "crash": 0,
+        "parser_type_error": 0,
+        "timeout": 0,
+        "unsupported": 0,
+        "reference_disagreement": 0,
+        "failure_artifacts": "collected/results/adaptive-check2-20261105/fuzz-{release,invert}; full generated inputs retained in remote result workspace"
+      },
+      "generated_sat_models": {
+        "release_direct_dolmen_pass": 495,
+        "invert_direct_dolmen_pass": 507,
+        "fail": 0
+      }
+    },
+    "asan": {
+      "job": "354175",
+      "status": "COMPLETED 0:0",
+      "ctest_pass": 46,
+      "generated_reference_pass": 40,
+      "profiles": "primitive-int-rows + arithmetic-model-phase=on; release/invert k=1 window=64",
+      "generator": "scripts/qf_uflia_fuzz.py mixed default depth; 20 cases each, seed 2026110513, z3 reference, 10-second timeout",
+      "wrong_answer": 0,
+      "crash": 0,
+      "parser_type_error": 0,
+      "timeout": 0,
+      "unsupported": 0,
+      "reference_disagreement": 0,
+      "runtime_package": "https://dl.rockylinux.org/vault/rocky/9.4/AppStream/x86_64/os/Packages/l/libasan-11.4.1-3.el9.x86_64.rpm",
+      "runtime_rpm_sha256": "c72fddd916c15f948c5f9a7ac5192f498f43b9bf8553b5347812734aaaa92896",
+      "runtime_library_sha256": "b90ccedfb345dde2053ff0013e092c88ab7f361e70d86ed827c10f8b3df24512",
+      "runtime_installation": "Extracted under isolated workspace tmp; no system installation or local/login-host compilation."
+    },
+    "uniform_gate": {
+      "job": "354200",
+      "status": "COMPLETED 0:0",
+      "cases_each": 1000,
+      "seeds": [
+        2026110520,
+        2026110521
+      ],
+      "generator": "scripts/qf_uflia_fuzz.py --shape mixed --depth 3 --timeout 5",
+      "profiles": "M124 + arithmetic-model-phase=off + forcephase=1 + phase=0/1",
+      "reference": "z3",
+      "pass": 2000,
+      "wrong_answer": 0,
+      "crash": 0,
+      "parser_type_error": 0,
+      "timeout": 0,
+      "unsupported": 0,
+      "reference_disagreement": 0,
+      "model_validation": "Answer-only gate; no claim of generated uniform SAT model validation.",
+      "failure_artifacts": "collected/results/uniform-phase-gate-20261105/value-{0,1}; full generated inputs retained remotely"
+    },
+    "static": {
+      "job": "354176",
+      "status": "COMPLETED 0:0",
+      "translation_units_src_tests": 130,
+      "documentation_examples": 4,
+      "checks": "clang-analyzer-*,misc-include-cleaner plus configured checks",
+      "raw_warnings": 2188,
+      "unique_warnings": 755,
+      "errors": 0,
+      "log_sha256": "8467073755607eebf999d9d736c23ce3af9591cdb724162d49356b41e143585d",
+      "disposition": "Existing baseline advisories remain; diagnostic adds enum-size and test main exception-escape advisories. No claim of warning-free tree. Probe source subsequently removed."
+    }
+  },
+  "prior_attempts": [
+    {
+      "job": "354165",
+      "result": "COMPLETED but all eight /usr/bin/time timing commands failed exit127; excluded from timing evidence. GDB sampling succeeded separately: 88 samples on xs_28_48 with M124+beta and 10000 theory-conflict limit; debugger time excluded."
+    },
+    {
+      "job": "354166",
+      "result": "Four-task baseline retry at 8357ff8b: native four SAT in 0.412410/0.599942/1.455768/1.789173 seconds; all eight M124/M124+beta rows timeout at12s."
+    },
+    {
+      "job": "354171",
+      "result": "46 CTest,311 Python and1000 release-k1 reference answers pass; model harness mistakenly included UNSAT inputs.495 SAT direct-Dolmen passes,214 not-sat,291 solver-error after legitimate UNSAT/get-model refusal plus probe stderr. Triaged harness error; corrected SAT-only replay rerun in354174."
+    },
+    {
+      "job": "354172",
+      "result": "ASan linker failed before tests because system libasan runtime absent; isolated runtime staged and successful rerun354175."
+    },
+    {
+      "job": "354173",
+      "result": "Intentionally cancelled pending static job after354171 failure; successful replacement354176."
+    }
+  ],
+  "stages": {
+    "development": {
+      "timing_job": "354177",
+      "model_job": "354178",
+      "artifact_subdirectory": "collected/results/adaptive-grid-20261105",
+      "timing_rows": 48,
+      "timeout_seconds": 15,
+      "rounds": 1,
+      "solver_sha256": "9bb8cc30f957037306911f02bac71f4b63d4c1b5be0d48da3a3e7f4a7bbeb85d",
+      "version": "primo 0.2.0\ngit: f0cf49b2\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07\n",
+      "runner_sha256": [
+        "2e59b055c09802e1ea3c6ffbb174a3748469c8f5c964b211dea42ed74225b825"
+      ],
+      "model_replay": {
+        "expected_sat": 4,
+        "direct_dolmen_pass": 4,
+        "other": 0
+      },
+      "summary": {
+        "timeout": 15,
+        "source_rows_sha256": {
+          "task-0/rows.jsonl": "8ded887e71728fbf140c41c1e4486324879a4477e7165a4655b1535679c9a49a",
+          "task-1/rows.jsonl": "4c9c330009608c744fdd6dfeaa38b6c0cc30f4b81be693f29737245470c411fe",
+          "task-2/rows.jsonl": "ca264d9ad7c73fb859db303b91721ab22bf30714826f48039956a745eca598b2",
+          "task-3/rows.jsonl": "92fd28b240b5d5eb383a62ff4ce06904da3bd8e0ce7775e8793531c0220e213b"
+        },
+        "profiles": {
+          "beta": {
+            "rows": 4,
+            "solved": 0,
+            "statuses": {
+              "timeout": 4
+            },
+            "answers": {},
+            "wrong": 0,
+            "par2_sum_seconds": 120,
+            "rows_with_probe_summary": 4,
+            "probe_totals": {
+              "hints": 1773217,
+              "changes": 1624571,
+              "decisions": 204662,
+              "hinted": 202555,
+              "aligned": 202555,
+              "overridden": 0,
+              "propagated": 12661385,
+              "assumptions": 10616,
+              "removed": 185524,
+              "aligned_removed": 185524,
+              "activations": 0,
+              "releases": 0,
+              "inversions": 0,
+              "restores": 0
+            },
+            "solved_runtime_seconds": null,
+            "losses": {
+              "rows": 4,
+              "solved": 0,
+              "statuses": {
+                "timeout": 4
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 120,
+              "rows_with_probe_summary": 4,
+              "probe_totals": {
+                "hints": 1773217,
+                "changes": 1624571,
+                "decisions": 204662,
+                "hinted": 202555,
+                "aligned": 202555,
+                "overridden": 0,
+                "propagated": 12661385,
+                "assumptions": 10616,
+                "removed": 185524,
+                "aligned_removed": 185524,
+                "activations": 0,
+                "releases": 0,
+                "inversions": 0,
+                "restores": 0
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "held_out_losses": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "wisas": {
+                "rows": 4,
+                "solved": 0,
+                "statuses": {
+                  "timeout": 4
+                },
+                "answers": {},
+                "wrong": 0,
+                "par2_sum_seconds": 120,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 1773217,
+                  "changes": 1624571,
+                  "decisions": 204662,
+                  "hinted": 202555,
+                  "aligned": 202555,
+                  "overridden": 0,
+                  "propagated": 12661385,
+                  "assumptions": 10616,
+                  "removed": 185524,
+                  "aligned_removed": 185524,
+                  "activations": 0,
+                  "releases": 0,
+                  "inversions": 0,
+                  "restores": 0
+                },
+                "solved_runtime_seconds": null
+              }
+            },
+            "solved_files": []
+          },
+          "beta-uninstrumented": {
+            "rows": 4,
+            "solved": 0,
+            "statuses": {
+              "timeout": 4
+            },
+            "answers": {},
+            "wrong": 0,
+            "par2_sum_seconds": 120,
+            "rows_with_probe_summary": 0,
+            "probe_totals": {},
+            "solved_runtime_seconds": null,
+            "losses": {
+              "rows": 4,
+              "solved": 0,
+              "statuses": {
+                "timeout": 4
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 120,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "held_out_losses": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "wisas": {
+                "rows": 4,
+                "solved": 0,
+                "statuses": {
+                  "timeout": 4
+                },
+                "answers": {},
+                "wrong": 0,
+                "par2_sum_seconds": 120,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": null
+              }
+            },
+            "solved_files": []
+          },
+          "invert-0": {
+            "rows": 4,
+            "solved": 0,
+            "statuses": {
+              "timeout": 4
+            },
+            "answers": {},
+            "wrong": 0,
+            "par2_sum_seconds": 120,
+            "rows_with_probe_summary": 4,
+            "probe_totals": {
+              "hints": 3241846,
+              "changes": 2698954,
+              "decisions": 196179,
+              "hinted": 190014,
+              "aligned": 1635,
+              "overridden": 188379,
+              "propagated": 13800374,
+              "assumptions": 30776,
+              "removed": 160811,
+              "aligned_removed": 1635,
+              "activations": 3509328,
+              "releases": 0,
+              "inversions": 4499689,
+              "restores": 1257843
+            },
+            "solved_runtime_seconds": null,
+            "losses": {
+              "rows": 4,
+              "solved": 0,
+              "statuses": {
+                "timeout": 4
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 120,
+              "rows_with_probe_summary": 4,
+              "probe_totals": {
+                "hints": 3241846,
+                "changes": 2698954,
+                "decisions": 196179,
+                "hinted": 190014,
+                "aligned": 1635,
+                "overridden": 188379,
+                "propagated": 13800374,
+                "assumptions": 30776,
+                "removed": 160811,
+                "aligned_removed": 1635,
+                "activations": 3509328,
+                "releases": 0,
+                "inversions": 4499689,
+                "restores": 1257843
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "held_out_losses": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "wisas": {
+                "rows": 4,
+                "solved": 0,
+                "statuses": {
+                  "timeout": 4
+                },
+                "answers": {},
+                "wrong": 0,
+                "par2_sum_seconds": 120,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 3241846,
+                  "changes": 2698954,
+                  "decisions": 196179,
+                  "hinted": 190014,
+                  "aligned": 1635,
+                  "overridden": 188379,
+                  "propagated": 13800374,
+                  "assumptions": 30776,
+                  "removed": 160811,
+                  "aligned_removed": 1635,
+                  "activations": 3509328,
+                  "releases": 0,
+                  "inversions": 4499689,
+                  "restores": 1257843
+                },
+                "solved_runtime_seconds": null
+              }
+            },
+            "solved_files": []
+          },
+          "invert-2": {
+            "rows": 4,
+            "solved": 0,
+            "statuses": {
+              "timeout": 4
+            },
+            "answers": {},
+            "wrong": 0,
+            "par2_sum_seconds": 120,
+            "rows_with_probe_summary": 4,
+            "probe_totals": {
+              "hints": 1951128,
+              "changes": 1785292,
+              "decisions": 224005,
+              "hinted": 221432,
+              "aligned": 204842,
+              "overridden": 16590,
+              "propagated": 15160490,
+              "assumptions": 8905,
+              "removed": 203632,
+              "aligned_removed": 187140,
+              "activations": 27110,
+              "releases": 0,
+              "inversions": 27110,
+              "restores": 2571
+            },
+            "solved_runtime_seconds": null,
+            "losses": {
+              "rows": 4,
+              "solved": 0,
+              "statuses": {
+                "timeout": 4
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 120,
+              "rows_with_probe_summary": 4,
+              "probe_totals": {
+                "hints": 1951128,
+                "changes": 1785292,
+                "decisions": 224005,
+                "hinted": 221432,
+                "aligned": 204842,
+                "overridden": 16590,
+                "propagated": 15160490,
+                "assumptions": 8905,
+                "removed": 203632,
+                "aligned_removed": 187140,
+                "activations": 27110,
+                "releases": 0,
+                "inversions": 27110,
+                "restores": 2571
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "held_out_losses": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "wisas": {
+                "rows": 4,
+                "solved": 0,
+                "statuses": {
+                  "timeout": 4
+                },
+                "answers": {},
+                "wrong": 0,
+                "par2_sum_seconds": 120,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 1951128,
+                  "changes": 1785292,
+                  "decisions": 224005,
+                  "hinted": 221432,
+                  "aligned": 204842,
+                  "overridden": 16590,
+                  "propagated": 15160490,
+                  "assumptions": 8905,
+                  "removed": 203632,
+                  "aligned_removed": 187140,
+                  "activations": 27110,
+                  "releases": 0,
+                  "inversions": 27110,
+                  "restores": 2571
+                },
+                "solved_runtime_seconds": null
+              }
+            },
+            "solved_files": []
+          },
+          "invert-32": {
+            "rows": 4,
+            "solved": 0,
+            "statuses": {
+              "timeout": 4
+            },
+            "answers": {},
+            "wrong": 0,
+            "par2_sum_seconds": 120,
+            "rows_with_probe_summary": 4,
+            "probe_totals": {
+              "hints": 1822499,
+              "changes": 1674672,
+              "decisions": 218653,
+              "hinted": 216558,
+              "aligned": 216076,
+              "overridden": 482,
+              "propagated": 13042351,
+              "assumptions": 10690,
+              "removed": 199592,
+              "aligned_removed": 199110,
+              "activations": 39,
+              "releases": 0,
+              "inversions": 39,
+              "restores": 23
+            },
+            "solved_runtime_seconds": null,
+            "losses": {
+              "rows": 4,
+              "solved": 0,
+              "statuses": {
+                "timeout": 4
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 120,
+              "rows_with_probe_summary": 4,
+              "probe_totals": {
+                "hints": 1822499,
+                "changes": 1674672,
+                "decisions": 218653,
+                "hinted": 216558,
+                "aligned": 216076,
+                "overridden": 482,
+                "propagated": 13042351,
+                "assumptions": 10690,
+                "removed": 199592,
+                "aligned_removed": 199110,
+                "activations": 39,
+                "releases": 0,
+                "inversions": 39,
+                "restores": 23
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "held_out_losses": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "wisas": {
+                "rows": 4,
+                "solved": 0,
+                "statuses": {
+                  "timeout": 4
+                },
+                "answers": {},
+                "wrong": 0,
+                "par2_sum_seconds": 120,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 1822499,
+                  "changes": 1674672,
+                  "decisions": 218653,
+                  "hinted": 216558,
+                  "aligned": 216076,
+                  "overridden": 482,
+                  "propagated": 13042351,
+                  "assumptions": 10690,
+                  "removed": 199592,
+                  "aligned_removed": 199110,
+                  "activations": 39,
+                  "releases": 0,
+                  "inversions": 39,
+                  "restores": 23
+                },
+                "solved_runtime_seconds": null
+              }
+            },
+            "solved_files": []
+          },
+          "invert-8": {
+            "rows": 4,
+            "solved": 0,
+            "statuses": {
+              "timeout": 4
+            },
+            "answers": {},
+            "wrong": 0,
+            "par2_sum_seconds": 120,
+            "rows_with_probe_summary": 4,
+            "probe_totals": {
+              "hints": 2008775,
+              "changes": 1835773,
+              "decisions": 226815,
+              "hinted": 224674,
+              "aligned": 223509,
+              "overridden": 1165,
+              "propagated": 14261377,
+              "assumptions": 12011,
+              "removed": 206091,
+              "aligned_removed": 204931,
+              "activations": 907,
+              "releases": 0,
+              "inversions": 907,
+              "restores": 157
+            },
+            "solved_runtime_seconds": null,
+            "losses": {
+              "rows": 4,
+              "solved": 0,
+              "statuses": {
+                "timeout": 4
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 120,
+              "rows_with_probe_summary": 4,
+              "probe_totals": {
+                "hints": 2008775,
+                "changes": 1835773,
+                "decisions": 226815,
+                "hinted": 224674,
+                "aligned": 223509,
+                "overridden": 1165,
+                "propagated": 14261377,
+                "assumptions": 12011,
+                "removed": 206091,
+                "aligned_removed": 204931,
+                "activations": 907,
+                "releases": 0,
+                "inversions": 907,
+                "restores": 157
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "held_out_losses": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "wisas": {
+                "rows": 4,
+                "solved": 0,
+                "statuses": {
+                  "timeout": 4
+                },
+                "answers": {},
+                "wrong": 0,
+                "par2_sum_seconds": 120,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 2008775,
+                  "changes": 1835773,
+                  "decisions": 226815,
+                  "hinted": 224674,
+                  "aligned": 223509,
+                  "overridden": 1165,
+                  "propagated": 14261377,
+                  "assumptions": 12011,
+                  "removed": 206091,
+                  "aligned_removed": 204931,
+                  "activations": 907,
+                  "releases": 0,
+                  "inversions": 907,
+                  "restores": 157
+                },
+                "solved_runtime_seconds": null
+              }
+            },
+            "solved_files": []
+          },
+          "m124": {
+            "rows": 4,
+            "solved": 0,
+            "statuses": {
+              "timeout": 4
+            },
+            "answers": {},
+            "wrong": 0,
+            "par2_sum_seconds": 120,
+            "rows_with_probe_summary": 0,
+            "probe_totals": {},
+            "solved_runtime_seconds": null,
+            "losses": {
+              "rows": 4,
+              "solved": 0,
+              "statuses": {
+                "timeout": 4
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 120,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "held_out_losses": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "wisas": {
+                "rows": 4,
+                "solved": 0,
+                "statuses": {
+                  "timeout": 4
+                },
+                "answers": {},
+                "wrong": 0,
+                "par2_sum_seconds": 120,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": null
+              }
+            },
+            "solved_files": []
+          },
+          "native": {
+            "rows": 4,
+            "solved": 4,
+            "statuses": {
+              "ok": 4
+            },
+            "answers": {
+              "sat": 4
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 4.295545,
+            "rows_with_probe_summary": 0,
+            "probe_totals": {},
+            "solved_runtime_seconds": {
+              "min": 0.416498,
+              "median": 1.0340475,
+              "p90": 1.810952,
+              "max": 1.810952,
+              "sum": 4.295545
+            },
+            "losses": {
+              "rows": 4,
+              "solved": 4,
+              "statuses": {
+                "ok": 4
+              },
+              "answers": {
+                "sat": 4
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 4.295545,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 0.416498,
+                "median": 1.0340475,
+                "p90": 1.810952,
+                "max": 1.810952,
+                "sum": 4.295545
+              }
+            },
+            "controls": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "held_out_losses": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "wisas": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 4.295545,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.416498,
+                  "median": 1.0340475,
+                  "p90": 1.810952,
+                  "max": 1.810952,
+                  "sum": 4.295545
+                }
+              }
+            },
+            "solved_files": [
+              "wisas/xs_24_44.smt2",
+              "wisas/xs_28_48.smt2",
+              "wisas/xs_33_53.smt2",
+              "wisas/xs_40_60.smt2"
+            ]
+          },
+          "release-0": {
+            "rows": 4,
+            "solved": 0,
+            "statuses": {
+              "timeout": 4
+            },
+            "answers": {},
+            "wrong": 0,
+            "par2_sum_seconds": 120,
+            "rows_with_probe_summary": 4,
+            "probe_totals": {
+              "hints": 1989676,
+              "changes": 1850332,
+              "decisions": 247460,
+              "hinted": 245796,
+              "aligned": 154600,
+              "overridden": 245128,
+              "propagated": 15290961,
+              "assumptions": 8917,
+              "removed": 232237,
+              "aligned_removed": 668,
+              "activations": 2064914,
+              "releases": 2314685,
+              "inversions": 0,
+              "restores": 325009
+            },
+            "solved_runtime_seconds": null,
+            "losses": {
+              "rows": 4,
+              "solved": 0,
+              "statuses": {
+                "timeout": 4
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 120,
+              "rows_with_probe_summary": 4,
+              "probe_totals": {
+                "hints": 1989676,
+                "changes": 1850332,
+                "decisions": 247460,
+                "hinted": 245796,
+                "aligned": 154600,
+                "overridden": 245128,
+                "propagated": 15290961,
+                "assumptions": 8917,
+                "removed": 232237,
+                "aligned_removed": 668,
+                "activations": 2064914,
+                "releases": 2314685,
+                "inversions": 0,
+                "restores": 325009
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "held_out_losses": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "wisas": {
+                "rows": 4,
+                "solved": 0,
+                "statuses": {
+                  "timeout": 4
+                },
+                "answers": {},
+                "wrong": 0,
+                "par2_sum_seconds": 120,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 1989676,
+                  "changes": 1850332,
+                  "decisions": 247460,
+                  "hinted": 245796,
+                  "aligned": 154600,
+                  "overridden": 245128,
+                  "propagated": 15290961,
+                  "assumptions": 8917,
+                  "removed": 232237,
+                  "aligned_removed": 668,
+                  "activations": 2064914,
+                  "releases": 2314685,
+                  "inversions": 0,
+                  "restores": 325009
+                },
+                "solved_runtime_seconds": null
+              }
+            },
+            "solved_files": []
+          },
+          "release-2": {
+            "rows": 4,
+            "solved": 0,
+            "statuses": {
+              "timeout": 4
+            },
+            "answers": {},
+            "wrong": 0,
+            "par2_sum_seconds": 120,
+            "rows_with_probe_summary": 4,
+            "probe_totals": {
+              "hints": 1859370,
+              "changes": 1688572,
+              "decisions": 216563,
+              "hinted": 213331,
+              "aligned": 205671,
+              "overridden": 16597,
+              "propagated": 13136138,
+              "assumptions": 10979,
+              "removed": 192057,
+              "aligned_removed": 175803,
+              "activations": 23126,
+              "releases": 23126,
+              "inversions": 0,
+              "restores": 3548
+            },
+            "solved_runtime_seconds": null,
+            "losses": {
+              "rows": 4,
+              "solved": 0,
+              "statuses": {
+                "timeout": 4
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 120,
+              "rows_with_probe_summary": 4,
+              "probe_totals": {
+                "hints": 1859370,
+                "changes": 1688572,
+                "decisions": 216563,
+                "hinted": 213331,
+                "aligned": 205671,
+                "overridden": 16597,
+                "propagated": 13136138,
+                "assumptions": 10979,
+                "removed": 192057,
+                "aligned_removed": 175803,
+                "activations": 23126,
+                "releases": 23126,
+                "inversions": 0,
+                "restores": 3548
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "held_out_losses": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "wisas": {
+                "rows": 4,
+                "solved": 0,
+                "statuses": {
+                  "timeout": 4
+                },
+                "answers": {},
+                "wrong": 0,
+                "par2_sum_seconds": 120,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 1859370,
+                  "changes": 1688572,
+                  "decisions": 216563,
+                  "hinted": 213331,
+                  "aligned": 205671,
+                  "overridden": 16597,
+                  "propagated": 13136138,
+                  "assumptions": 10979,
+                  "removed": 192057,
+                  "aligned_removed": 175803,
+                  "activations": 23126,
+                  "releases": 23126,
+                  "inversions": 0,
+                  "restores": 3548
+                },
+                "solved_runtime_seconds": null
+              }
+            },
+            "solved_files": []
+          },
+          "release-32": {
+            "rows": 4,
+            "solved": 0,
+            "statuses": {
+              "timeout": 4
+            },
+            "answers": {},
+            "wrong": 0,
+            "par2_sum_seconds": 120,
+            "rows_with_probe_summary": 4,
+            "probe_totals": {
+              "hints": 1863810,
+              "changes": 1715186,
+              "decisions": 219707,
+              "hinted": 217593,
+              "aligned": 217470,
+              "overridden": 206,
+              "propagated": 13371665,
+              "assumptions": 10602,
+              "removed": 200593,
+              "aligned_removed": 200388,
+              "activations": 20,
+              "releases": 20,
+              "inversions": 0,
+              "restores": 10
+            },
+            "solved_runtime_seconds": null,
+            "losses": {
+              "rows": 4,
+              "solved": 0,
+              "statuses": {
+                "timeout": 4
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 120,
+              "rows_with_probe_summary": 4,
+              "probe_totals": {
+                "hints": 1863810,
+                "changes": 1715186,
+                "decisions": 219707,
+                "hinted": 217593,
+                "aligned": 217470,
+                "overridden": 206,
+                "propagated": 13371665,
+                "assumptions": 10602,
+                "removed": 200593,
+                "aligned_removed": 200388,
+                "activations": 20,
+                "releases": 20,
+                "inversions": 0,
+                "restores": 10
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "held_out_losses": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "wisas": {
+                "rows": 4,
+                "solved": 0,
+                "statuses": {
+                  "timeout": 4
+                },
+                "answers": {},
+                "wrong": 0,
+                "par2_sum_seconds": 120,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 1863810,
+                  "changes": 1715186,
+                  "decisions": 219707,
+                  "hinted": 217593,
+                  "aligned": 217470,
+                  "overridden": 206,
+                  "propagated": 13371665,
+                  "assumptions": 10602,
+                  "removed": 200593,
+                  "aligned_removed": 200388,
+                  "activations": 20,
+                  "releases": 20,
+                  "inversions": 0,
+                  "restores": 10
+                },
+                "solved_runtime_seconds": null
+              }
+            },
+            "solved_files": []
+          },
+          "release-8": {
+            "rows": 4,
+            "solved": 0,
+            "statuses": {
+              "timeout": 4
+            },
+            "answers": {},
+            "wrong": 0,
+            "par2_sum_seconds": 120,
+            "rows_with_probe_summary": 4,
+            "probe_totals": {
+              "hints": 1845421,
+              "changes": 1690841,
+              "decisions": 223299,
+              "hinted": 221697,
+              "aligned": 220910,
+              "overridden": 1901,
+              "propagated": 14309810,
+              "assumptions": 11051,
+              "removed": 204433,
+              "aligned_removed": 202535,
+              "activations": 841,
+              "releases": 841,
+              "inversions": 0,
+              "restores": 344
+            },
+            "solved_runtime_seconds": null,
+            "losses": {
+              "rows": 4,
+              "solved": 0,
+              "statuses": {
+                "timeout": 4
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 120,
+              "rows_with_probe_summary": 4,
+              "probe_totals": {
+                "hints": 1845421,
+                "changes": 1690841,
+                "decisions": 223299,
+                "hinted": 221697,
+                "aligned": 220910,
+                "overridden": 1901,
+                "propagated": 14309810,
+                "assumptions": 11051,
+                "removed": 204433,
+                "aligned_removed": 202535,
+                "activations": 841,
+                "releases": 841,
+                "inversions": 0,
+                "restores": 344
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "held_out_losses": {
+              "rows": 0,
+              "solved": 0,
+              "statuses": {},
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 0,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "wisas": {
+                "rows": 4,
+                "solved": 0,
+                "statuses": {
+                  "timeout": 4
+                },
+                "answers": {},
+                "wrong": 0,
+                "par2_sum_seconds": 120,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 1845421,
+                  "changes": 1690841,
+                  "decisions": 223299,
+                  "hinted": 221697,
+                  "aligned": 220910,
+                  "overridden": 1901,
+                  "propagated": 14309810,
+                  "assumptions": 11051,
+                  "removed": 204433,
+                  "aligned_removed": 202535,
+                  "activations": 841,
+                  "releases": 841,
+                  "inversions": 0,
+                  "restores": 344
+                },
+                "solved_runtime_seconds": null
+              }
+            },
+            "solved_files": []
+          }
+        }
+      }
+    },
+    "selected": {
+      "timing_job": "354185",
+      "model_job": "354186",
+      "artifact_subdirectory": "collected/results/adaptive-evaluation-20261105",
+      "timing_rows": 308,
+      "timeout_seconds": 15,
+      "rounds": 1,
+      "solver_sha256": "9bb8cc30f957037306911f02bac71f4b63d4c1b5be0d48da3a3e7f4a7bbeb85d",
+      "version": "primo 0.2.0\ngit: f0cf49b2\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07\n",
+      "runner_sha256": [
+        "2e59b055c09802e1ea3c6ffbb174a3748469c8f5c964b211dea42ed74225b825"
+      ],
+      "model_replay": {
+        "expected_sat": 90,
+        "direct_dolmen_pass": 90,
+        "other": 0
+      },
+      "summary": {
+        "timeout": 15,
+        "source_rows_sha256": {
+          "task-0/rows.jsonl": "c5ec0fbc828c3b8b4158494ec5534504fce6dbb9749e5bce79d13ff582ad2613",
+          "task-1/rows.jsonl": "5d379cbe398472efba99a3e8b24da4739087e4e46bb04e1cdee8f9c9292943c3",
+          "task-2/rows.jsonl": "6c0e955884b3f691cfbb8ad554ffabfaa9ef44b9c00e809ffc646540bbee8ebc",
+          "task-3/rows.jsonl": "a78d3240ec5375ce0e9afee7169f79b9a45d3c7d3220191d3b59a2b04524c090",
+          "task-4/rows.jsonl": "aeab0c924358ab056dd14e86b44d2629c8ea97ddfd030291663846a8b0afe46b",
+          "task-5/rows.jsonl": "12a2214ad19118677c27556652b5fe02fbd84c4d476ec99a12cdaa66e6d6c5ae",
+          "task-6/rows.jsonl": "20bd6c8799a1a7fb1d9fdf64817a8ff86d35e58d27f1bb1604b9f4fa122e4e8b",
+          "task-7/rows.jsonl": "6211892ce152a1581ba6c79e2694c390a968263a885aa25f446e2fd87e920cf4"
+        },
+        "profiles": {
+          "beta": {
+            "rows": 44,
+            "solved": 14,
+            "statuses": {
+              "timeout": 30,
+              "ok": 14
+            },
+            "answers": {
+              "unsat": 6,
+              "sat": 8
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 913.908597,
+            "rows_with_probe_summary": 44,
+            "probe_totals": {
+              "hints": 14355273,
+              "changes": 13064604,
+              "decisions": 2053875,
+              "hinted": 2037816,
+              "aligned": 2037816,
+              "overridden": 0,
+              "propagated": 116947888,
+              "assumptions": 101537,
+              "removed": 1889831,
+              "aligned_removed": 1889658,
+              "activations": 0,
+              "releases": 0,
+              "inversions": 0,
+              "restores": 0
+            },
+            "solved_runtime_seconds": {
+              "min": 0.008694,
+              "median": 0.3497505,
+              "p90": 1.249668,
+              "max": 8.13047,
+              "sum": 13.908597
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 0,
+              "statuses": {
+                "timeout": 30
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 900,
+              "rows_with_probe_summary": 30,
+              "probe_totals": {
+                "hints": 12657297,
+                "changes": 11969634,
+                "decisions": 1685436,
+                "hinted": 1677975,
+                "aligned": 1677975,
+                "overridden": 0,
+                "propagated": 113974396,
+                "assumptions": 62415,
+                "removed": 1617971,
+                "aligned_removed": 1617969,
+                "activations": 0,
+                "releases": 0,
+                "inversions": 0,
+                "restores": 0
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 13.908597,
+              "rows_with_probe_summary": 14,
+              "probe_totals": {
+                "hints": 1697976,
+                "changes": 1094970,
+                "decisions": 368439,
+                "hinted": 359841,
+                "aligned": 359841,
+                "overridden": 0,
+                "propagated": 2973492,
+                "assumptions": 39122,
+                "removed": 271860,
+                "aligned_removed": 271689,
+                "activations": 0,
+                "releases": 0,
+                "inversions": 0,
+                "restores": 0
+              },
+              "solved_runtime_seconds": {
+                "min": 0.008694,
+                "median": 0.3497505,
+                "p90": 1.249668,
+                "max": 8.13047,
+                "sum": 13.908597
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 0,
+              "statuses": {
+                "timeout": 26
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 780,
+              "rows_with_probe_summary": 26,
+              "probe_totals": {
+                "hints": 10888336,
+                "changes": 10349319,
+                "decisions": 1481312,
+                "hinted": 1475958,
+                "aligned": 1475958,
+                "overridden": 0,
+                "propagated": 101348497,
+                "assumptions": 51799,
+                "removed": 1432995,
+                "aligned_removed": 1432993,
+                "activations": 0,
+                "releases": 0,
+                "inversions": 0,
+                "restores": 0
+              },
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 1.498395,
+                "rows_with_probe_summary": 2,
+                "probe_totals": {
+                  "hints": 152065,
+                  "changes": 48446,
+                  "decisions": 26445,
+                  "hinted": 26198,
+                  "aligned": 26198,
+                  "overridden": 0,
+                  "propagated": 194233,
+                  "assumptions": 5615,
+                  "removed": 1882,
+                  "aligned_removed": 1882,
+                  "activations": 0,
+                  "releases": 0,
+                  "inversions": 0,
+                  "restores": 0
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.248727,
+                  "median": 0.7491975,
+                  "p90": 1.249668,
+                  "max": 1.249668,
+                  "sum": 1.498395
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.035342,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 15,
+                  "changes": 15,
+                  "decisions": 0,
+                  "hinted": 0,
+                  "aligned": 0,
+                  "overridden": 0,
+                  "propagated": 40,
+                  "assumptions": 0,
+                  "removed": 0,
+                  "aligned_removed": 0,
+                  "activations": 0,
+                  "releases": 0,
+                  "inversions": 0,
+                  "restores": 0
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.008694,
+                  "median": 0.0088695,
+                  "p90": 0.008909,
+                  "max": 0.008909,
+                  "sum": 0.035342
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 9.795964000000001,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 1019433,
+                  "changes": 718596,
+                  "decisions": 303555,
+                  "hinted": 298994,
+                  "aligned": 298994,
+                  "overridden": 0,
+                  "propagated": 1844944,
+                  "assumptions": 21527,
+                  "removed": 259201,
+                  "aligned_removed": 259031,
+                  "activations": 0,
+                  "releases": 0,
+                  "inversions": 0,
+                  "restores": 0
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.147605,
+                  "median": 0.7589444999999999,
+                  "p90": 8.13047,
+                  "max": 8.13047,
+                  "sum": 9.795964000000001
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 4,
+                "statuses": {
+                  "timeout": 30,
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 3,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 902.578896,
+                "rows_with_probe_summary": 34,
+                "probe_totals": {
+                  "hints": 13183760,
+                  "changes": 12297547,
+                  "decisions": 1723875,
+                  "hinted": 1712624,
+                  "aligned": 1712624,
+                  "overridden": 0,
+                  "propagated": 114908671,
+                  "assumptions": 74395,
+                  "removed": 1628748,
+                  "aligned_removed": 1628745,
+                  "activations": 0,
+                  "releases": 0,
+                  "inversions": 0,
+                  "restores": 0
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.099661,
+                  "median": 0.641032,
+                  "p90": 1.197171,
+                  "max": 1.197171,
+                  "sum": 2.578896
+                }
+              }
+            },
+            "solved_files": [
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          },
+          "invert-0": {
+            "rows": 44,
+            "solved": 18,
+            "statuses": {
+              "timeout": 26,
+              "ok": 18
+            },
+            "answers": {
+              "unsat": 6,
+              "sat": 12
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 836.3074969999999,
+            "rows_with_probe_summary": 44,
+            "probe_totals": {
+              "hints": 22503043,
+              "changes": 19857049,
+              "decisions": 1639236,
+              "hinted": 1610990,
+              "aligned": 7204,
+              "overridden": 1603786,
+              "propagated": 100968117,
+              "assumptions": 176644,
+              "removed": 1477293,
+              "aligned_removed": 7204,
+              "activations": 23518696,
+              "releases": 0,
+              "inversions": 28424228,
+              "restores": 5921185
+            },
+            "solved_runtime_seconds": {
+              "min": 0.008783,
+              "median": 0.30043149999999996,
+              "p90": 12.609407,
+              "max": 13.722206,
+              "sum": 56.307497
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 4,
+              "statuses": {
+                "timeout": 26,
+                "ok": 4
+              },
+              "answers": {
+                "sat": 4
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 817.043,
+              "rows_with_probe_summary": 30,
+              "probe_totals": {
+                "hints": 20497284,
+                "changes": 18226423,
+                "decisions": 1574521,
+                "hinted": 1549163,
+                "aligned": 6171,
+                "overridden": 1542992,
+                "propagated": 98953910,
+                "assumptions": 152721,
+                "removed": 1432943,
+                "aligned_removed": 6171,
+                "activations": 21481091,
+                "releases": 0,
+                "inversions": 25737937,
+                "restores": 5240653
+              },
+              "solved_runtime_seconds": {
+                "min": 1.797821,
+                "median": 10.7614865,
+                "p90": 13.722206,
+                "max": 13.722206,
+                "sum": 37.043
+              }
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 19.264497000000002,
+              "rows_with_probe_summary": 14,
+              "probe_totals": {
+                "hints": 2005759,
+                "changes": 1630626,
+                "decisions": 64715,
+                "hinted": 61827,
+                "aligned": 1033,
+                "overridden": 60794,
+                "propagated": 2014207,
+                "assumptions": 23923,
+                "removed": 44350,
+                "aligned_removed": 1033,
+                "activations": 2037605,
+                "releases": 0,
+                "inversions": 2686291,
+                "restores": 680532
+              },
+              "solved_runtime_seconds": {
+                "min": 0.008783,
+                "median": 0.226967,
+                "p90": 2.908287,
+                "max": 12.53729,
+                "sum": 19.264497000000002
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 4,
+              "statuses": {
+                "timeout": 22,
+                "ok": 4
+              },
+              "answers": {
+                "sat": 4
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 697.043,
+              "rows_with_probe_summary": 26,
+              "probe_totals": {
+                "hints": 17286586,
+                "changes": 15547780,
+                "decisions": 1379339,
+                "hinted": 1360038,
+                "aligned": 4540,
+                "overridden": 1355498,
+                "propagated": 85200875,
+                "assumptions": 122679,
+                "removed": 1272582,
+                "aligned_removed": 4540,
+                "activations": 18007693,
+                "releases": 0,
+                "inversions": 21291983,
+                "restores": 4005397
+              },
+              "solved_runtime_seconds": {
+                "min": 1.797821,
+                "median": 10.7614865,
+                "p90": 13.722206,
+                "max": 13.722206,
+                "sum": 37.043
+              }
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 4.345719,
+                "rows_with_probe_summary": 2,
+                "probe_totals": {
+                  "hints": 189264,
+                  "changes": 103194,
+                  "decisions": 12838,
+                  "hinted": 12426,
+                  "aligned": 195,
+                  "overridden": 12231,
+                  "propagated": 228213,
+                  "assumptions": 4804,
+                  "removed": 4212,
+                  "aligned_removed": 195,
+                  "activations": 189264,
+                  "releases": 0,
+                  "inversions": 310324,
+                  "restores": 121060
+                },
+                "solved_runtime_seconds": {
+                  "min": 1.437432,
+                  "median": 2.1728595,
+                  "p90": 2.908287,
+                  "max": 2.908287,
+                  "sum": 4.345719
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.037945,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 15,
+                  "changes": 15,
+                  "decisions": 0,
+                  "hinted": 0,
+                  "aligned": 0,
+                  "overridden": 0,
+                  "propagated": 40,
+                  "assumptions": 0,
+                  "removed": 0,
+                  "aligned_removed": 0,
+                  "activations": 15,
+                  "releases": 0,
+                  "inversions": 30,
+                  "restores": 15
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.008783,
+                  "median": 0.008930500000000001,
+                  "p90": 0.011301,
+                  "max": 0.011301,
+                  "sum": 0.037945
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 13.206381,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 1484599,
+                  "changes": 1297064,
+                  "decisions": 40226,
+                  "hinted": 39258,
+                  "aligned": 439,
+                  "overridden": 38819,
+                  "propagated": 1257062,
+                  "assumptions": 12050,
+                  "removed": 35709,
+                  "aligned_removed": 439,
+                  "activations": 1484599,
+                  "releases": 0,
+                  "inversions": 1826926,
+                  "restores": 342327
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.1652,
+                  "median": 0.2519455,
+                  "p90": 12.53729,
+                  "max": 12.53729,
+                  "sum": 13.206381
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 8,
+                "statuses": {
+                  "timeout": 26,
+                  "ok": 8
+                },
+                "answers": {
+                  "sat": 7,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 818.717452,
+                "rows_with_probe_summary": 34,
+                "probe_totals": {
+                  "hints": 20829165,
+                  "changes": 18456776,
+                  "decisions": 1586172,
+                  "hinted": 1559306,
+                  "aligned": 6570,
+                  "overridden": 1552736,
+                  "propagated": 99482802,
+                  "assumptions": 159790,
+                  "removed": 1437372,
+                  "aligned_removed": 6570,
+                  "activations": 21844818,
+                  "releases": 0,
+                  "inversions": 26286948,
+                  "restores": 5457783
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.096684,
+                  "median": 1.4123415,
+                  "p90": 13.722206,
+                  "max": 13.722206,
+                  "sum": 38.717452
+                }
+              }
+            },
+            "solved_files": [
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "wisas/xs_25_35.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "wisas/xs_26_36.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "wisas/xs_28_38.smt2",
+              "wisas/xs_32_42.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          },
+          "invert-8": {
+            "rows": 44,
+            "solved": 14,
+            "statuses": {
+              "timeout": 30,
+              "ok": 14
+            },
+            "answers": {
+              "unsat": 6,
+              "sat": 8
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 915.115795,
+            "rows_with_probe_summary": 44,
+            "probe_totals": {
+              "hints": 14288970,
+              "changes": 13073637,
+              "decisions": 2016302,
+              "hinted": 2002396,
+              "aligned": 1966088,
+              "overridden": 36308,
+              "propagated": 120096215,
+              "assumptions": 80439,
+              "removed": 1870029,
+              "aligned_removed": 1833673,
+              "activations": 23448,
+              "releases": 0,
+              "inversions": 23448,
+              "restores": 13693
+            },
+            "solved_runtime_seconds": {
+              "min": 0.008663,
+              "median": 0.3308185,
+              "p90": 1.494701,
+              "max": 8.566484,
+              "sum": 15.115795
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 0,
+              "statuses": {
+                "timeout": 30
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 900,
+              "rows_with_probe_summary": 30,
+              "probe_totals": {
+                "hints": 12559386,
+                "changes": 11949397,
+                "decisions": 1713822,
+                "hinted": 1708316,
+                "aligned": 1676745,
+                "overridden": 31571,
+                "propagated": 116765413,
+                "assumptions": 43798,
+                "removed": 1659004,
+                "aligned_removed": 1627471,
+                "activations": 10297,
+                "releases": 0,
+                "inversions": 10297,
+                "restores": 2320
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 15.115795,
+              "rows_with_probe_summary": 14,
+              "probe_totals": {
+                "hints": 1729584,
+                "changes": 1124240,
+                "decisions": 302480,
+                "hinted": 294080,
+                "aligned": 289343,
+                "overridden": 4737,
+                "propagated": 3330802,
+                "assumptions": 36641,
+                "removed": 211025,
+                "aligned_removed": 206202,
+                "activations": 13151,
+                "releases": 0,
+                "inversions": 13151,
+                "restores": 11373
+              },
+              "solved_runtime_seconds": {
+                "min": 0.008663,
+                "median": 0.3308185,
+                "p90": 1.494701,
+                "max": 8.566484,
+                "sum": 15.115795
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 0,
+              "statuses": {
+                "timeout": 26
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 780,
+              "rows_with_probe_summary": 26,
+              "probe_totals": {
+                "hints": 10542961,
+                "changes": 10105974,
+                "decisions": 1486123,
+                "hinted": 1482758,
+                "aligned": 1452351,
+                "overridden": 30407,
+                "propagated": 102438455,
+                "assumptions": 31787,
+                "removed": 1452024,
+                "aligned_removed": 1421650,
+                "activations": 9390,
+                "releases": 0,
+                "inversions": 9390,
+                "restores": 2163
+              },
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 1.559598,
+                "rows_with_probe_summary": 2,
+                "probe_totals": {
+                  "hints": 152249,
+                  "changes": 48630,
+                  "decisions": 26578,
+                  "hinted": 26331,
+                  "aligned": 26299,
+                  "overridden": 32,
+                  "propagated": 194840,
+                  "assumptions": 5615,
+                  "removed": 2015,
+                  "aligned_removed": 1983,
+                  "activations": 79,
+                  "releases": 0,
+                  "inversions": 79,
+                  "restores": 43
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.274276,
+                  "median": 0.779799,
+                  "p90": 1.285322,
+                  "max": 1.285322,
+                  "sum": 1.559598
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.037547,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 15,
+                  "changes": 15,
+                  "decisions": 0,
+                  "hinted": 0,
+                  "aligned": 0,
+                  "overridden": 0,
+                  "propagated": 40,
+                  "assumptions": 0,
+                  "removed": 0,
+                  "aligned_removed": 0,
+                  "activations": 0,
+                  "releases": 0,
+                  "inversions": 0,
+                  "restores": 0
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.008663,
+                  "median": 0.008782,
+                  "p90": 0.01132,
+                  "max": 0.01132,
+                  "sum": 0.037547
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 10.487508,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 978125,
+                  "changes": 693084,
+                  "decisions": 231097,
+                  "hinted": 227652,
+                  "aligned": 222955,
+                  "overridden": 4697,
+                  "propagated": 2027656,
+                  "assumptions": 17384,
+                  "removed": 195461,
+                  "aligned_removed": 190677,
+                  "activations": 13062,
+                  "releases": 0,
+                  "inversions": 13062,
+                  "restores": 11329
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.145696,
+                  "median": 0.887664,
+                  "p90": 8.566484,
+                  "max": 8.566484,
+                  "sum": 10.487508
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 4,
+                "statuses": {
+                  "timeout": 30,
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 3,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 903.031142,
+                "rows_with_probe_summary": 34,
+                "probe_totals": {
+                  "hints": 13158581,
+                  "changes": 12331908,
+                  "decisions": 1758627,
+                  "hinted": 1748413,
+                  "aligned": 1716834,
+                  "overridden": 31579,
+                  "propagated": 117873679,
+                  "assumptions": 57440,
+                  "removed": 1672553,
+                  "aligned_removed": 1641013,
+                  "activations": 10307,
+                  "releases": 0,
+                  "inversions": 10307,
+                  "restores": 2321
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.099824,
+                  "median": 0.7183085,
+                  "p90": 1.494701,
+                  "max": 1.494701,
+                  "sum": 3.031142
+                }
+              }
+            },
+            "solved_files": [
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          },
+          "m124": {
+            "rows": 44,
+            "solved": 14,
+            "statuses": {
+              "timeout": 30,
+              "ok": 14
+            },
+            "answers": {
+              "unsat": 6,
+              "sat": 8
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 906.792432,
+            "rows_with_probe_summary": 0,
+            "probe_totals": {},
+            "solved_runtime_seconds": {
+              "min": 0.008702,
+              "median": 0.2035565,
+              "p90": 1.292852,
+              "max": 3.073332,
+              "sum": 6.792432
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 0,
+              "statuses": {
+                "timeout": 30
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 900,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 6.792432,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 0.008702,
+                "median": 0.2035565,
+                "p90": 1.292852,
+                "max": 3.073332,
+                "sum": 6.792432
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 0,
+              "statuses": {
+                "timeout": 26
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 780,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 1.318017,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.2425,
+                  "median": 0.6590085,
+                  "p90": 1.075517,
+                  "max": 1.075517,
+                  "sum": 1.318017
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.035713,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.008702,
+                  "median": 0.008928,
+                  "p90": 0.009155,
+                  "max": 0.009155,
+                  "sum": 0.035713
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 3.650849,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.147533,
+                  "median": 0.21499200000000002,
+                  "p90": 3.073332,
+                  "max": 3.073332,
+                  "sum": 3.650849
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 4,
+                "statuses": {
+                  "timeout": 30,
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 3,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 901.787853,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.087888,
+                  "median": 0.2035565,
+                  "p90": 1.292852,
+                  "max": 1.292852,
+                  "sum": 1.787853
+                }
+              }
+            },
+            "solved_files": [
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          },
+          "native": {
+            "rows": 44,
+            "solved": 44,
+            "statuses": {
+              "ok": 44
+            },
+            "answers": {
+              "sat": 38,
+              "unsat": 6
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 32.96312,
+            "rows_with_probe_summary": 0,
+            "probe_totals": {},
+            "solved_runtime_seconds": {
+              "min": 0.00863,
+              "median": 0.6496315,
+              "p90": 1.618376,
+              "max": 3.143553,
+              "sum": 32.96312
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 30,
+              "statuses": {
+                "ok": 30
+              },
+              "answers": {
+                "sat": 30
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 27.264746,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 0.39841,
+                "median": 0.7890135,
+                "p90": 1.634326,
+                "max": 1.820909,
+                "sum": 27.264746
+              }
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 5.698374,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 0.00863,
+                "median": 0.1705835,
+                "p90": 1.041584,
+                "max": 3.143553,
+                "sum": 5.698374
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 26,
+              "statuses": {
+                "ok": 26
+              },
+              "answers": {
+                "sat": 26
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 22.952231,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 0.39841,
+                "median": 0.7890135,
+                "p90": 1.618376,
+                "max": 1.635905,
+                "sum": 22.952231
+              }
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 1.2849240000000002,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.24334,
+                  "median": 0.6424620000000001,
+                  "p90": 1.041584,
+                  "max": 1.041584,
+                  "sum": 1.2849240000000002
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.036453,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.00863,
+                  "median": 0.008686,
+                  "p90": 0.010451,
+                  "max": 0.010451,
+                  "sum": 0.036453
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 3.7046639999999997,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.138741,
+                  "median": 0.211185,
+                  "p90": 3.143553,
+                  "max": 3.143553,
+                  "sum": 3.7046639999999997
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 34,
+                "statuses": {
+                  "ok": 34
+                },
+                "answers": {
+                  "sat": 33,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 27.937079,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.103923,
+                  "median": 0.7360005000000001,
+                  "p90": 1.618376,
+                  "max": 1.820909,
+                  "sum": 27.937079
+                }
+              }
+            },
+            "solved_files": [
+              "wisas/xs_24_44.smt2",
+              "wisas/xs_29_49.smt2",
+              "wisas/xs_33_53.smt2",
+              "wisas/xs_37_57.smt2",
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "wisas/xs_25_35.smt2",
+              "wisas/xs_30_40.smt2",
+              "wisas/xs_34_44.smt2",
+              "wisas/xs_38_48.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "wisas/xs_26_36.smt2",
+              "wisas/xs_30_50.smt2",
+              "wisas/xs_34_54.smt2",
+              "wisas/xs_38_58.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "wisas/xs_26_46.smt2",
+              "wisas/xs_31_41.smt2",
+              "wisas/xs_35_45.smt2",
+              "wisas/xs_39_59.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "wisas/xs_27_47.smt2",
+              "wisas/xs_31_51.smt2",
+              "wisas/xs_35_55.smt2",
+              "wisas/xs_40_50.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "wisas/xs_28_38.smt2",
+              "wisas/xs_32_42.smt2",
+              "wisas/xs_36_46.smt2",
+              "wisas/xs_40_60.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "wisas/xs_28_48.smt2",
+              "wisas/xs_32_52.smt2",
+              "wisas/xs_36_56.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "wisas/xs_29_39.smt2",
+              "wisas/xs_33_43.smt2",
+              "wisas/xs_37_47.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          },
+          "release-0": {
+            "rows": 44,
+            "solved": 14,
+            "statuses": {
+              "timeout": 30,
+              "ok": 14
+            },
+            "answers": {
+              "unsat": 6,
+              "sat": 8
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 910.8818,
+            "rows_with_probe_summary": 44,
+            "probe_totals": {
+              "hints": 14582320,
+              "changes": 13626610,
+              "decisions": 1871186,
+              "hinted": 1861684,
+              "aligned": 1203424,
+              "overridden": 1859180,
+              "propagated": 120767920,
+              "assumptions": 66422,
+              "removed": 1752276,
+              "aligned_removed": 2504,
+              "activations": 14875233,
+              "releases": 16634533,
+              "inversions": 0,
+              "restores": 2052213
+            },
+            "solved_runtime_seconds": {
+              "min": 0.008609,
+              "median": 0.2484795,
+              "p90": 2.485335,
+              "max": 4.965864,
+              "sum": 10.8818
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 0,
+              "statuses": {
+                "timeout": 30
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 900,
+              "rows_with_probe_summary": 30,
+              "probe_totals": {
+                "hints": 13394787,
+                "changes": 12845926,
+                "decisions": 1784722,
+                "hinted": 1779529,
+                "aligned": 1131496,
+                "overridden": 1777877,
+                "propagated": 119303031,
+                "assumptions": 41074,
+                "removed": 1728970,
+                "aligned_removed": 1652,
+                "activations": 13636873,
+                "releases": 14709619,
+                "inversions": 0,
+                "restores": 1314832
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 10.8818,
+              "rows_with_probe_summary": 14,
+              "probe_totals": {
+                "hints": 1187533,
+                "changes": 780684,
+                "decisions": 86464,
+                "hinted": 82155,
+                "aligned": 71928,
+                "overridden": 81303,
+                "propagated": 1464889,
+                "assumptions": 25348,
+                "removed": 23306,
+                "aligned_removed": 852,
+                "activations": 1238360,
+                "releases": 1924914,
+                "inversions": 0,
+                "restores": 737381
+              },
+              "solved_runtime_seconds": {
+                "min": 0.008609,
+                "median": 0.2484795,
+                "p90": 2.485335,
+                "max": 4.965864,
+                "sum": 10.8818
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 0,
+              "statuses": {
+                "timeout": 26
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 780,
+              "rows_with_probe_summary": 26,
+              "probe_totals": {
+                "hints": 11402909,
+                "changes": 10993392,
+                "decisions": 1536378,
+                "hinted": 1532841,
+                "aligned": 976151,
+                "overridden": 1531857,
+                "propagated": 103975289,
+                "assumptions": 32153,
+                "removed": 1495848,
+                "aligned_removed": 984,
+                "activations": 11569757,
+                "releases": 12392732,
+                "inversions": 0,
+                "restores": 989823
+              },
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 2.8856260000000002,
+                "rows_with_probe_summary": 2,
+                "probe_totals": {
+                  "hints": 168505,
+                  "changes": 75009,
+                  "decisions": 20934,
+                  "hinted": 19747,
+                  "aligned": 16659,
+                  "overridden": 19747,
+                  "propagated": 196612,
+                  "assumptions": 5106,
+                  "removed": 2282,
+                  "aligned_removed": 0,
+                  "activations": 168505,
+                  "releases": 292015,
+                  "inversions": 0,
+                  "restores": 123510
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.400291,
+                  "median": 1.4428130000000001,
+                  "p90": 2.485335,
+                  "max": 2.485335,
+                  "sum": 2.8856260000000002
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.035106,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 15,
+                  "changes": 15,
+                  "decisions": 0,
+                  "hinted": 0,
+                  "aligned": 0,
+                  "overridden": 0,
+                  "propagated": 40,
+                  "assumptions": 0,
+                  "removed": 0,
+                  "aligned_removed": 0,
+                  "activations": 15,
+                  "releases": 30,
+                  "inversions": 0,
+                  "restores": 15
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.008609,
+                  "median": 0.0088105,
+                  "p90": 0.008876,
+                  "max": 0.008876,
+                  "sum": 0.035106
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 5.683657999999999,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 637310,
+                  "changes": 446003,
+                  "decisions": 44112,
+                  "hinted": 43544,
+                  "aligned": 40258,
+                  "overridden": 43240,
+                  "propagated": 560674,
+                  "assumptions": 12266,
+                  "removed": 14034,
+                  "aligned_removed": 304,
+                  "activations": 639542,
+                  "releases": 986164,
+                  "inversions": 0,
+                  "restores": 348854
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.189666,
+                  "median": 0.26406399999999997,
+                  "p90": 4.965864,
+                  "max": 4.965864,
+                  "sum": 5.683657999999999
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 4,
+                "statuses": {
+                  "timeout": 30,
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 3,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 902.27741,
+                "rows_with_probe_summary": 34,
+                "probe_totals": {
+                  "hints": 13776490,
+                  "changes": 13105583,
+                  "decisions": 1806140,
+                  "hinted": 1798393,
+                  "aligned": 1146507,
+                  "overridden": 1796193,
+                  "propagated": 120010594,
+                  "assumptions": 49050,
+                  "removed": 1735960,
+                  "aligned_removed": 2200,
+                  "activations": 14067171,
+                  "releases": 15356324,
+                  "inversions": 0,
+                  "restores": 1579834
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.103856,
+                  "median": 0.251562,
+                  "p90": 1.67043,
+                  "max": 1.67043,
+                  "sum": 2.27741
+                }
+              }
+            },
+            "solved_files": [
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          },
+          "release-8": {
+            "rows": 44,
+            "solved": 14,
+            "statuses": {
+              "timeout": 30,
+              "ok": 14
+            },
+            "answers": {
+              "unsat": 6,
+              "sat": 8
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 914.3381760000001,
+            "rows_with_probe_summary": 44,
+            "probe_totals": {
+              "hints": 14716871,
+              "changes": 13371588,
+              "decisions": 2064996,
+              "hinted": 2047922,
+              "aligned": 2038479,
+              "overridden": 28124,
+              "propagated": 117564311,
+              "assumptions": 104649,
+              "removed": 1883999,
+              "aligned_removed": 1855973,
+              "activations": 28187,
+              "releases": 28187,
+              "inversions": 0,
+              "restores": 22088
+            },
+            "solved_runtime_seconds": {
+              "min": 0.008733,
+              "median": 0.348484,
+              "p90": 1.252726,
+              "max": 8.168304,
+              "sum": 14.338175999999999
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 0,
+              "statuses": {
+                "timeout": 30
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 900,
+              "rows_with_probe_summary": 30,
+              "probe_totals": {
+                "hints": 12906860,
+                "changes": 12190353,
+                "decisions": 1707552,
+                "hinted": 1700255,
+                "aligned": 1690830,
+                "overridden": 23288,
+                "propagated": 114597711,
+                "assumptions": 63970,
+                "removed": 1635344,
+                "aligned_removed": 1612097,
+                "activations": 9994,
+                "releases": 9994,
+                "inversions": 0,
+                "restores": 4294
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 14.338175999999999,
+              "rows_with_probe_summary": 14,
+              "probe_totals": {
+                "hints": 1810011,
+                "changes": 1181235,
+                "decisions": 357444,
+                "hinted": 347667,
+                "aligned": 347649,
+                "overridden": 4836,
+                "propagated": 2966600,
+                "assumptions": 40679,
+                "removed": 248655,
+                "aligned_removed": 243876,
+                "activations": 18193,
+                "releases": 18193,
+                "inversions": 0,
+                "restores": 17794
+              },
+              "solved_runtime_seconds": {
+                "min": 0.008733,
+                "median": 0.348484,
+                "p90": 1.252726,
+                "max": 8.168304,
+                "sum": 14.338175999999999
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 0,
+              "statuses": {
+                "timeout": 26
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 780,
+              "rows_with_probe_summary": 26,
+              "probe_totals": {
+                "hints": 11067785,
+                "changes": 10505858,
+                "decisions": 1485218,
+                "hinted": 1479523,
+                "aligned": 1470884,
+                "overridden": 21388,
+                "propagated": 100348936,
+                "assumptions": 52919,
+                "removed": 1431874,
+                "aligned_removed": 1410523,
+                "activations": 9156,
+                "releases": 9156,
+                "inversions": 0,
+                "restores": 3950
+              },
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 1.501255,
+                "rows_with_probe_summary": 2,
+                "probe_totals": {
+                  "hints": 152065,
+                  "changes": 48446,
+                  "decisions": 26445,
+                  "hinted": 26198,
+                  "aligned": 26198,
+                  "overridden": 55,
+                  "propagated": 194233,
+                  "assumptions": 5615,
+                  "removed": 1882,
+                  "aligned_removed": 1827,
+                  "activations": 66,
+                  "releases": 66,
+                  "inversions": 0,
+                  "restores": 66
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.248529,
+                  "median": 0.7506275,
+                  "p90": 1.252726,
+                  "max": 1.252726,
+                  "sum": 1.501255
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.037847,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 15,
+                  "changes": 15,
+                  "decisions": 0,
+                  "hinted": 0,
+                  "aligned": 0,
+                  "overridden": 0,
+                  "propagated": 40,
+                  "assumptions": 0,
+                  "removed": 0,
+                  "aligned_removed": 0,
+                  "activations": 0,
+                  "releases": 0,
+                  "inversions": 0,
+                  "restores": 0
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.008733,
+                  "median": 0.0089155,
+                  "p90": 0.011283,
+                  "max": 0.011283,
+                  "sum": 0.037847
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 9.884215999999999,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 1095965,
+                  "changes": 780155,
+                  "decisions": 288713,
+                  "hinted": 283164,
+                  "aligned": 283150,
+                  "overridden": 4756,
+                  "propagated": 1716046,
+                  "assumptions": 22745,
+                  "removed": 234407,
+                  "aligned_removed": 229708,
+                  "activations": 18113,
+                  "releases": 18113,
+                  "inversions": 0,
+                  "restores": 17725
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.145696,
+                  "median": 0.785108,
+                  "p90": 8.168304,
+                  "max": 8.168304,
+                  "sum": 9.884215999999999
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 4,
+                "statuses": {
+                  "timeout": 30,
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 3,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 902.914858,
+                "rows_with_probe_summary": 34,
+                "probe_totals": {
+                  "hints": 13468826,
+                  "changes": 12542972,
+                  "decisions": 1749838,
+                  "hinted": 1738560,
+                  "aligned": 1729131,
+                  "overridden": 23313,
+                  "propagated": 115653992,
+                  "assumptions": 76289,
+                  "removed": 1647710,
+                  "aligned_removed": 1624438,
+                  "activations": 10008,
+                  "releases": 10008,
+                  "inversions": 0,
+                  "restores": 4297
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.099578,
+                  "median": 0.8094485,
+                  "p90": 1.196383,
+                  "max": 1.196383,
+                  "sum": 2.9148579999999997
+                }
+              }
+            },
+            "solved_files": [
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          }
+        }
+      }
+    },
+    "uniform_development": {
+      "timing_job": "354201",
+      "model_job": "354202",
+      "artifact_subdirectory": "collected/results/uniform-phase-grid-20261105",
+      "timing_rows": 8,
+      "timeout_seconds": 15,
+      "rounds": 1,
+      "solver_sha256": "9bb8cc30f957037306911f02bac71f4b63d4c1b5be0d48da3a3e7f4a7bbeb85d",
+      "version": "primo 0.2.0\ngit: f0cf49b2\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07\n",
+      "runner_sha256": [
+        "f5b0580d444af50d6cccb814a7c9a968d4baf39d33f7c8de939949a9e84a837d"
+      ],
+      "model_replay": {
+        "expected_sat": 2,
+        "direct_dolmen_pass": 2,
+        "other": 0
+      },
+      "summary": {
+        "profiles": {
+          "force-negative": {
+            "rows": 4,
+            "solved": 1,
+            "solved_files": [
+              "wisas/xs_33_53.smt2"
+            ]
+          },
+          "force-positive": {
+            "rows": 4,
+            "solved": 1,
+            "solved_files": [
+              "wisas/xs_33_53.smt2"
+            ]
+          }
+        },
+        "source_rows_sha256": {
+          "task-0/rows.jsonl": "8e4daf4865e1b81f61e53ab2cff74b7ab4bf45eaea8c3e178615f38c1dd36154",
+          "task-1/rows.jsonl": "642fc07290eb0cfa0f6bc254c3954694c5ef29d6873b08d3b4d0bc4890b9772d",
+          "task-2/rows.jsonl": "57b5485d18e8ceed84806f53fc66bd5fdc9d1b800545e7478960b4c8e6f682ea",
+          "task-3/rows.jsonl": "135dface8025fd42398b8b9527b87969d53e6e127f9d69826c5e3b861b70655e"
+        }
+      }
+    },
+    "uniform_selected": {
+      "timing_job": "357025",
+      "model_job": "357028",
+      "artifact_subdirectory": "collected/results/uniform-phase-evaluation-20261105",
+      "timing_rows": 88,
+      "timeout_seconds": 15,
+      "rounds": 1,
+      "solver_sha256": "9bb8cc30f957037306911f02bac71f4b63d4c1b5be0d48da3a3e7f4a7bbeb85d",
+      "version": "primo 0.2.0\ngit: f0cf49b2\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07\n",
+      "runner_sha256": [
+        "f5b0580d444af50d6cccb814a7c9a968d4baf39d33f7c8de939949a9e84a837d"
+      ],
+      "model_replay": {
+        "expected_sat": 46,
+        "direct_dolmen_pass": 46,
+        "other": 0
+      },
+      "summary": {
+        "timeout": 15,
+        "source_rows_sha256": {
+          "task-0/rows.jsonl": "006f3581fec8d6986ce46f210cc475210013b0f12a2f0f86063def04fa6d7499",
+          "task-1/rows.jsonl": "8ab93a46825398570aea60d46305c6a4184fa06c85924c049c6e401aabb52e41",
+          "task-2/rows.jsonl": "508407bfa3641a50412c0864c900662cfa4cd9b9002fcb750893f826176b295f",
+          "task-3/rows.jsonl": "8d46e4f0abaa18fae6686e5aebf76b23adbac037a0ed225e48232403e03a7cc7",
+          "task-4/rows.jsonl": "adc7ca4e2e99a14db58acd1fcdc404ef7b48dc1a39557e51ab5ac35a2d0a4525",
+          "task-5/rows.jsonl": "cc6eb994a28d9595c021cdfb736af4a90bdf2277cb7f64b45bc0551003356de4",
+          "task-6/rows.jsonl": "6e56e67dff24d41165b728d0c47f6ef92e5218aa2f175aba2888c71d770c4939",
+          "task-7/rows.jsonl": "5d64a423b04052c9e6ce7e58af6b95f08b0a514f7fe0ddb85fc9eb9429d2103b"
+        },
+        "profiles": {
+          "force-negative": {
+            "rows": 44,
+            "solved": 29,
+            "statuses": {
+              "timeout": 15,
+              "ok": 29
+            },
+            "answers": {
+              "sat": 23,
+              "unsat": 6
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 529.8690190000001,
+            "rows_with_probe_summary": 0,
+            "probe_totals": {},
+            "solved_runtime_seconds": {
+              "min": 0.009541,
+              "median": 1.988559,
+              "p90": 9.808085,
+              "max": 13.115248,
+              "sum": 79.869019
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 15,
+              "statuses": {
+                "timeout": 15,
+                "ok": 15
+              },
+              "answers": {
+                "sat": 15
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 518.047521,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 1.945681,
+                "median": 2.493703,
+                "p90": 11.60438,
+                "max": 13.115248,
+                "sum": 68.047521
+              }
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 11.821498,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 0.009541,
+                "median": 0.205063,
+                "p90": 1.210552,
+                "max": 7.945249,
+                "sum": 11.821498
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 14,
+              "statuses": {
+                "timeout": 12,
+                "ok": 14
+              },
+              "answers": {
+                "sat": 14
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 425.680338,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 1.945681,
+                "median": 2.7753455000000002,
+                "p90": 11.60438,
+                "max": 13.115248,
+                "sum": 65.680338
+              }
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 1.4612340000000001,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.250682,
+                  "median": 0.7306170000000001,
+                  "p90": 1.210552,
+                  "max": 1.210552,
+                  "sum": 1.4612340000000001
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.042959,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.009541,
+                  "median": 0.010443500000000001,
+                  "p90": 0.012531,
+                  "max": 0.012531,
+                  "sum": 0.042959
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 8.609643,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.154437,
+                  "median": 0.2549785,
+                  "p90": 7.945249,
+                  "max": 7.945249,
+                  "sum": 8.609643
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 19,
+                "statuses": {
+                  "timeout": 15,
+                  "ok": 19
+                },
+                "answers": {
+                  "sat": 18,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 519.755183,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.086844,
+                  "median": 2.367183,
+                  "p90": 11.60438,
+                  "max": 13.115248,
+                  "sum": 69.755183
+                }
+              }
+            },
+            "solved_files": [
+              "wisas/xs_33_53.smt2",
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "wisas/xs_25_35.smt2",
+              "wisas/xs_30_40.smt2",
+              "wisas/xs_34_44.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "wisas/xs_26_36.smt2",
+              "wisas/xs_30_50.smt2",
+              "wisas/xs_34_54.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "wisas/xs_39_59.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "wisas/xs_27_47.smt2",
+              "wisas/xs_31_51.smt2",
+              "wisas/xs_35_55.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "wisas/xs_28_38.smt2",
+              "wisas/xs_36_46.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "wisas/xs_29_39.smt2",
+              "wisas/xs_33_43.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          },
+          "force-positive": {
+            "rows": 44,
+            "solved": 29,
+            "statuses": {
+              "timeout": 15,
+              "ok": 29
+            },
+            "answers": {
+              "sat": 23,
+              "unsat": 6
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 530.448055,
+            "rows_with_probe_summary": 0,
+            "probe_totals": {},
+            "solved_runtime_seconds": {
+              "min": 0.009579,
+              "median": 1.979066,
+              "p90": 9.732759,
+              "max": 13.125433,
+              "sum": 80.448055
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 15,
+              "statuses": {
+                "timeout": 15,
+                "ok": 15
+              },
+              "answers": {
+                "sat": 15
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 518.0510429999999,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 1.954549,
+                "median": 2.409676,
+                "p90": 11.748882,
+                "max": 13.125433,
+                "sum": 68.05104299999999
+              }
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 12.397012,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 0.009579,
+                "median": 0.221338,
+                "p90": 1.202244,
+                "max": 8.138385,
+                "sum": 12.397012
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 14,
+              "statuses": {
+                "timeout": 12,
+                "ok": 14
+              },
+              "answers": {
+                "sat": 14
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 425.714512,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 1.954549,
+                "median": 2.7285425,
+                "p90": 11.748882,
+                "max": 13.125433,
+                "sum": 65.714512
+              }
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 1.4433570000000002,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.25202,
+                  "median": 0.7216785000000001,
+                  "p90": 1.191337,
+                  "max": 1.191337,
+                  "sum": 1.4433570000000002
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.454454,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.009579,
+                  "median": 0.11361700000000001,
+                  "p90": 0.217641,
+                  "max": 0.217641,
+                  "sum": 0.454454
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 8.79463,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.150309,
+                  "median": 0.252968,
+                  "p90": 8.138385,
+                  "max": 8.138385,
+                  "sum": 8.79463
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 19,
+                "statuses": {
+                  "timeout": 15,
+                  "ok": 19
+                },
+                "answers": {
+                  "sat": 18,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 519.755614,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.086926,
+                  "median": 2.336531,
+                  "p90": 11.748882,
+                  "max": 13.125433,
+                  "sum": 69.755614
+                }
+              }
+            },
+            "solved_files": [
+              "wisas/xs_33_53.smt2",
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "wisas/xs_25_35.smt2",
+              "wisas/xs_30_40.smt2",
+              "wisas/xs_34_44.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "wisas/xs_26_36.smt2",
+              "wisas/xs_30_50.smt2",
+              "wisas/xs_34_54.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "wisas/xs_39_59.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "wisas/xs_27_47.smt2",
+              "wisas/xs_31_51.smt2",
+              "wisas/xs_35_55.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "wisas/xs_28_38.smt2",
+              "wisas/xs_36_46.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "wisas/xs_29_39.smt2",
+              "wisas/xs_33_43.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          }
+        }
+      }
+    },
+    "early_selected": {
+      "timing_job": "357026",
+      "model_job": "357027",
+      "artifact_subdirectory": "collected/results/adaptive-early-evaluation-20261105",
+      "timing_rows": 176,
+      "timeout_seconds": 15,
+      "rounds": 1,
+      "solver_sha256": "9bb8cc30f957037306911f02bac71f4b63d4c1b5be0d48da3a3e7f4a7bbeb85d",
+      "version": "primo 0.2.0\ngit: f0cf49b2\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07\n",
+      "runner_sha256": [
+        "2e59b055c09802e1ea3c6ffbb174a3748469c8f5c964b211dea42ed74225b825"
+      ],
+      "model_replay": {
+        "expected_sat": 62,
+        "direct_dolmen_pass": 62,
+        "other": 0
+      },
+      "summary": {
+        "timeout": 15,
+        "source_rows_sha256": {
+          "task-0/rows.jsonl": "7419416c8dc9df5ec5aa8da2caccb39f7549586e045aa5c17fa28802481295e1",
+          "task-1/rows.jsonl": "6561ad1d1b0440f48b2306d2865e30e4d9e8cbdd2a1bb8b0b9c5f9e64c890ace",
+          "task-2/rows.jsonl": "af5d6cffa16c38a5ff6597dfbcdc3e7140095cefb71d451cc3d8d544e02f79dd",
+          "task-3/rows.jsonl": "2cc0a00144955fb6af6517d9ea054eec81d4e82595cd602463a71bffb85cfa6f",
+          "task-4/rows.jsonl": "731ebd538b0c4356f6ab49efe8b5dac2df1b3b679fd999d0c89b35524a8838a8",
+          "task-5/rows.jsonl": "a9e8b69b2818c8f04b1f8b8d9be674330e6d32ff14cff228993c15ad1facd98c",
+          "task-6/rows.jsonl": "89c92e947b4002fde778f1d3f86277408407c9609aa8244c1a1c875a7dbdf64c",
+          "task-7/rows.jsonl": "15b8ff67dd0d1cb140f16d0b9a6e749004a514954ef22d4063e9badf1289b575"
+        },
+        "profiles": {
+          "invert-1": {
+            "rows": 44,
+            "solved": 14,
+            "statuses": {
+              "timeout": 30,
+              "ok": 14
+            },
+            "answers": {
+              "unsat": 6,
+              "sat": 8
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 916.7902780000001,
+            "rows_with_probe_summary": 44,
+            "probe_totals": {
+              "hints": 15699772,
+              "changes": 14372451,
+              "decisions": 1828359,
+              "hinted": 1811754,
+              "aligned": 1431831,
+              "overridden": 379923,
+              "propagated": 101822411,
+              "assumptions": 100122,
+              "removed": 1696250,
+              "aligned_removed": 1318526,
+              "activations": 1318526,
+              "releases": 0,
+              "inversions": 1321177,
+              "restores": 68015
+            },
+            "solved_runtime_seconds": {
+              "min": 0.008445,
+              "median": 0.4385875,
+              "p90": 1.431322,
+              "max": 10.822327,
+              "sum": 16.790278
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 0,
+              "statuses": {
+                "timeout": 30
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 900,
+              "rows_with_probe_summary": 30,
+              "probe_totals": {
+                "hints": 13437669,
+                "changes": 12756798,
+                "decisions": 1672606,
+                "hinted": 1665871,
+                "aligned": 1304400,
+                "overridden": 361471,
+                "propagated": 98807443,
+                "assumptions": 57494,
+                "removed": 1615580,
+                "aligned_removed": 1255283,
+                "activations": 1255283,
+                "releases": 0,
+                "inversions": 1256562,
+                "restores": 39564
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 16.790278,
+              "rows_with_probe_summary": 14,
+              "probe_totals": {
+                "hints": 2262103,
+                "changes": 1615653,
+                "decisions": 155753,
+                "hinted": 145883,
+                "aligned": 127431,
+                "overridden": 18452,
+                "propagated": 3014968,
+                "assumptions": 42628,
+                "removed": 80670,
+                "aligned_removed": 63243,
+                "activations": 63243,
+                "releases": 0,
+                "inversions": 64615,
+                "restores": 28451
+              },
+              "solved_runtime_seconds": {
+                "min": 0.008445,
+                "median": 0.4385875,
+                "p90": 1.431322,
+                "max": 10.822327,
+                "sum": 16.790278
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 0,
+              "statuses": {
+                "timeout": 26
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 780,
+              "rows_with_probe_summary": 26,
+              "probe_totals": {
+                "hints": 11407515,
+                "changes": 10913049,
+                "decisions": 1449085,
+                "hinted": 1444979,
+                "aligned": 1121999,
+                "overridden": 322980,
+                "propagated": 86146881,
+                "assumptions": 47249,
+                "removed": 1413689,
+                "aligned_removed": 1091502,
+                "activations": 1091502,
+                "releases": 0,
+                "inversions": 1092221,
+                "restores": 33317
+              },
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 1.4345869999999998,
+                "rows_with_probe_summary": 2,
+                "probe_totals": {
+                  "hints": 150568,
+                  "changes": 45829,
+                  "decisions": 24099,
+                  "hinted": 23363,
+                  "aligned": 22972,
+                  "overridden": 391,
+                  "propagated": 198882,
+                  "assumptions": 5582,
+                  "removed": 2453,
+                  "aligned_removed": 2085,
+                  "activations": 2085,
+                  "releases": 0,
+                  "inversions": 2085,
+                  "restores": 1511
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.372461,
+                  "median": 0.7172934999999999,
+                  "p90": 1.062126,
+                  "max": 1.062126,
+                  "sum": 1.4345869999999998
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.036523,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 15,
+                  "changes": 15,
+                  "decisions": 0,
+                  "hinted": 0,
+                  "aligned": 0,
+                  "overridden": 0,
+                  "propagated": 40,
+                  "assumptions": 0,
+                  "removed": 0,
+                  "aligned_removed": 0,
+                  "activations": 0,
+                  "releases": 0,
+                  "inversions": 0,
+                  "restores": 0
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.008445,
+                  "median": 0.008701500000000001,
+                  "p90": 0.010675,
+                  "max": 0.010675,
+                  "sum": 0.036523
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 12.364257,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 1518062,
+                  "changes": 1185666,
+                  "decisions": 97907,
+                  "hinted": 92701,
+                  "aligned": 76920,
+                  "overridden": 15781,
+                  "propagated": 1708806,
+                  "assumptions": 23882,
+                  "removed": 67732,
+                  "aligned_removed": 52403,
+                  "activations": 52403,
+                  "releases": 0,
+                  "inversions": 53057,
+                  "restores": 24431
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.142351,
+                  "median": 0.6997895000000001,
+                  "p90": 10.822327,
+                  "max": 10.822327,
+                  "sum": 12.364257
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 4,
+                "statuses": {
+                  "timeout": 30,
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 3,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 902.954911,
+                "rows_with_probe_summary": 34,
+                "probe_totals": {
+                  "hints": 14031127,
+                  "changes": 13140941,
+                  "decisions": 1706353,
+                  "hinted": 1695690,
+                  "aligned": 1331939,
+                  "overridden": 363751,
+                  "propagated": 99914683,
+                  "assumptions": 70658,
+                  "removed": 1626065,
+                  "aligned_removed": 1264038,
+                  "activations": 1264038,
+                  "releases": 0,
+                  "inversions": 1266035,
+                  "restores": 42073
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.102192,
+                  "median": 0.7106985,
+                  "p90": 1.431322,
+                  "max": 1.431322,
+                  "sum": 2.954911
+                }
+              }
+            },
+            "solved_files": [
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          },
+          "m124": {
+            "rows": 44,
+            "solved": 14,
+            "statuses": {
+              "timeout": 30,
+              "ok": 14
+            },
+            "answers": {
+              "unsat": 6,
+              "sat": 8
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 906.764555,
+            "rows_with_probe_summary": 0,
+            "probe_totals": {},
+            "solved_runtime_seconds": {
+              "min": 0.008502,
+              "median": 0.19984849999999998,
+              "p90": 1.282486,
+              "max": 3.068431,
+              "sum": 6.764555
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 0,
+              "statuses": {
+                "timeout": 30
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 900,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 6.764555,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 0.008502,
+                "median": 0.19984849999999998,
+                "p90": 1.282486,
+                "max": 3.068431,
+                "sum": 6.764555
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 0,
+              "statuses": {
+                "timeout": 26
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 780,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 1.317034,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.243773,
+                  "median": 0.658517,
+                  "p90": 1.073261,
+                  "max": 1.073261,
+                  "sum": 1.317034
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.035469,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.008502,
+                  "median": 0.0087485,
+                  "p90": 0.00947,
+                  "max": 0.00947,
+                  "sum": 0.035469
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 3.637517,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.148921,
+                  "median": 0.2100825,
+                  "p90": 3.068431,
+                  "max": 3.068431,
+                  "sum": 3.637517
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 4,
+                "statuses": {
+                  "timeout": 30,
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 3,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 901.774535,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.087521,
+                  "median": 0.202264,
+                  "p90": 1.282486,
+                  "max": 1.282486,
+                  "sum": 1.774535
+                }
+              }
+            },
+            "solved_files": [
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          },
+          "native": {
+            "rows": 44,
+            "solved": 44,
+            "statuses": {
+              "ok": 44
+            },
+            "answers": {
+              "sat": 38,
+              "unsat": 6
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 32.967329,
+            "rows_with_probe_summary": 0,
+            "probe_totals": {},
+            "solved_runtime_seconds": {
+              "min": 0.008435,
+              "median": 0.657659,
+              "p90": 1.619424,
+              "max": 3.06888,
+              "sum": 32.967329
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 30,
+              "statuses": {
+                "ok": 30
+              },
+              "answers": {
+                "sat": 30
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 27.356342,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 0.400669,
+                "median": 0.7852985,
+                "p90": 1.627248,
+                "max": 1.823154,
+                "sum": 27.356342
+              }
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 5.610987,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 0.008435,
+                "median": 0.17010399999999998,
+                "p90": 1.036841,
+                "max": 3.06888,
+                "sum": 5.610987
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 26,
+              "statuses": {
+                "ok": 26
+              },
+              "answers": {
+                "sat": 26
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 23.030389,
+              "rows_with_probe_summary": 0,
+              "probe_totals": {},
+              "solved_runtime_seconds": {
+                "min": 0.400669,
+                "median": 0.7852985,
+                "p90": 1.619424,
+                "max": 1.633953,
+                "sum": 23.030389
+              }
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 1.2792469999999998,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.242406,
+                  "median": 0.6396234999999999,
+                  "p90": 1.036841,
+                  "max": 1.036841,
+                  "sum": 1.2792469999999998
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.035664,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.008435,
+                  "median": 0.008584999999999999,
+                  "p90": 0.010059,
+                  "max": 0.010059,
+                  "sum": 0.035664
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 3.62591,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.138086,
+                  "median": 0.209472,
+                  "p90": 3.06888,
+                  "max": 3.06888,
+                  "sum": 3.62591
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 34,
+                "statuses": {
+                  "ok": 34
+                },
+                "answers": {
+                  "sat": 33,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 28.026508,
+                "rows_with_probe_summary": 0,
+                "probe_totals": {},
+                "solved_runtime_seconds": {
+                  "min": 0.103091,
+                  "median": 0.733481,
+                  "p90": 1.619424,
+                  "max": 1.823154,
+                  "sum": 28.026508
+                }
+              }
+            },
+            "solved_files": [
+              "wisas/xs_24_44.smt2",
+              "wisas/xs_29_49.smt2",
+              "wisas/xs_33_53.smt2",
+              "wisas/xs_37_57.smt2",
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "wisas/xs_25_35.smt2",
+              "wisas/xs_30_40.smt2",
+              "wisas/xs_34_44.smt2",
+              "wisas/xs_38_48.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "wisas/xs_26_36.smt2",
+              "wisas/xs_30_50.smt2",
+              "wisas/xs_34_54.smt2",
+              "wisas/xs_38_58.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "wisas/xs_26_46.smt2",
+              "wisas/xs_31_41.smt2",
+              "wisas/xs_35_45.smt2",
+              "wisas/xs_39_59.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "wisas/xs_27_47.smt2",
+              "wisas/xs_31_51.smt2",
+              "wisas/xs_35_55.smt2",
+              "wisas/xs_40_50.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "wisas/xs_28_38.smt2",
+              "wisas/xs_32_42.smt2",
+              "wisas/xs_36_46.smt2",
+              "wisas/xs_40_60.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "wisas/xs_28_48.smt2",
+              "wisas/xs_32_52.smt2",
+              "wisas/xs_36_56.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "wisas/xs_29_39.smt2",
+              "wisas/xs_33_43.smt2",
+              "wisas/xs_37_47.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          },
+          "release-1": {
+            "rows": 44,
+            "solved": 14,
+            "statuses": {
+              "timeout": 30,
+              "ok": 14
+            },
+            "answers": {
+              "unsat": 6,
+              "sat": 8
+            },
+            "wrong": 0,
+            "par2_sum_seconds": 916.528043,
+            "rows_with_probe_summary": 44,
+            "probe_totals": {
+              "hints": 14513445,
+              "changes": 13229264,
+              "decisions": 2084708,
+              "hinted": 2069468,
+              "aligned": 1889595,
+              "overridden": 460479,
+              "propagated": 115886871,
+              "assumptions": 97501,
+              "removed": 1914759,
+              "aligned_removed": 1463798,
+              "activations": 1463798,
+              "releases": 1467785,
+              "inversions": 0,
+              "restores": 286945
+            },
+            "solved_runtime_seconds": {
+              "min": 0.008582,
+              "median": 0.2852925,
+              "p90": 1.513192,
+              "max": 10.347648,
+              "sum": 16.528043
+            },
+            "losses": {
+              "rows": 30,
+              "solved": 0,
+              "statuses": {
+                "timeout": 30
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 900,
+              "rows_with_probe_summary": 30,
+              "probe_totals": {
+                "hints": 12660377,
+                "changes": 11989949,
+                "decisions": 1707670,
+                "hinted": 1701632,
+                "aligned": 1522642,
+                "overridden": 401970,
+                "propagated": 112674704,
+                "assumptions": 58313,
+                "removed": 1642827,
+                "aligned_removed": 1244242,
+                "activations": 1244242,
+                "releases": 1245536,
+                "inversions": 0,
+                "restores": 88268
+              },
+              "solved_runtime_seconds": null
+            },
+            "controls": {
+              "rows": 14,
+              "solved": 14,
+              "statuses": {
+                "ok": 14
+              },
+              "answers": {
+                "unsat": 6,
+                "sat": 8
+              },
+              "wrong": 0,
+              "par2_sum_seconds": 16.528043,
+              "rows_with_probe_summary": 14,
+              "probe_totals": {
+                "hints": 1853068,
+                "changes": 1239315,
+                "decisions": 377038,
+                "hinted": 367836,
+                "aligned": 366953,
+                "overridden": 58509,
+                "propagated": 3212167,
+                "assumptions": 39188,
+                "removed": 271932,
+                "aligned_removed": 219556,
+                "activations": 219556,
+                "releases": 222249,
+                "inversions": 0,
+                "restores": 198677
+              },
+              "solved_runtime_seconds": {
+                "min": 0.008582,
+                "median": 0.2852925,
+                "p90": 1.513192,
+                "max": 10.347648,
+                "sum": 16.528043
+              }
+            },
+            "held_out_losses": {
+              "rows": 26,
+              "solved": 0,
+              "statuses": {
+                "timeout": 26
+              },
+              "answers": {},
+              "wrong": 0,
+              "par2_sum_seconds": 780,
+              "rows_with_probe_summary": 26,
+              "probe_totals": {
+                "hints": 10854851,
+                "changes": 10354421,
+                "decisions": 1487607,
+                "hinted": 1483899,
+                "aligned": 1324988,
+                "overridden": 358950,
+                "propagated": 100154239,
+                "assumptions": 49575,
+                "removed": 1446394,
+                "aligned_removed": 1089500,
+                "activations": 1089500,
+                "releases": 1090209,
+                "inversions": 0,
+                "restores": 77672
+              },
+              "solved_runtime_seconds": null
+            },
+            "families": {
+              "20230314-Jaroslav-Bendik-Certora": {
+                "rows": 2,
+                "solved": 2,
+                "statuses": {
+                  "ok": 2
+                },
+                "answers": {
+                  "unsat": 1,
+                  "sat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 1.5023460000000002,
+                "rows_with_probe_summary": 2,
+                "probe_totals": {
+                  "hints": 152065,
+                  "changes": 48446,
+                  "decisions": 26445,
+                  "hinted": 26198,
+                  "aligned": 26195,
+                  "overridden": 484,
+                  "propagated": 194239,
+                  "assumptions": 5615,
+                  "removed": 1885,
+                  "aligned_removed": 1515,
+                  "activations": 1515,
+                  "releases": 1517,
+                  "inversions": 0,
+                  "restores": 1434
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.251702,
+                  "median": 0.7511730000000001,
+                  "p90": 1.250644,
+                  "max": 1.250644,
+                  "sum": 1.5023460000000002
+                }
+              },
+              "TwoSquares": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "unsat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 0.036831,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 15,
+                  "changes": 15,
+                  "decisions": 0,
+                  "hinted": 0,
+                  "aligned": 0,
+                  "overridden": 0,
+                  "propagated": 40,
+                  "assumptions": 0,
+                  "removed": 0,
+                  "aligned_removed": 0,
+                  "activations": 0,
+                  "releases": 0,
+                  "inversions": 0,
+                  "restores": 0
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.008582,
+                  "median": 0.008752,
+                  "p90": 0.010745,
+                  "max": 0.010745,
+                  "sum": 0.036831
+                }
+              },
+              "mathsat": {
+                "rows": 4,
+                "solved": 4,
+                "statuses": {
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 4
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 11.391252999999999,
+                "rows_with_probe_summary": 4,
+                "probe_totals": {
+                  "hints": 1077910,
+                  "changes": 785385,
+                  "decisions": 304853,
+                  "hinted": 300006,
+                  "aligned": 299537,
+                  "overridden": 52569,
+                  "propagated": 1700395,
+                  "assumptions": 19099,
+                  "removed": 254449,
+                  "aligned_removed": 205403,
+                  "activations": 205403,
+                  "releases": 206728,
+                  "inversions": 0,
+                  "restores": 191719
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.146797,
+                  "median": 0.448404,
+                  "p90": 10.347648,
+                  "max": 10.347648,
+                  "sum": 11.391252999999999
+                }
+              },
+              "wisas": {
+                "rows": 34,
+                "solved": 4,
+                "statuses": {
+                  "timeout": 30,
+                  "ok": 4
+                },
+                "answers": {
+                  "sat": 3,
+                  "unsat": 1
+                },
+                "wrong": 0,
+                "par2_sum_seconds": 903.5976129999999,
+                "rows_with_probe_summary": 34,
+                "probe_totals": {
+                  "hints": 13283455,
+                  "changes": 12395418,
+                  "decisions": 1753410,
+                  "hinted": 1743264,
+                  "aligned": 1563863,
+                  "overridden": 407426,
+                  "propagated": 113992197,
+                  "assumptions": 72787,
+                  "removed": 1658425,
+                  "aligned_removed": 1256880,
+                  "activations": 1256880,
+                  "releases": 1259540,
+                  "inversions": 0,
+                  "restores": 93792
+                },
+                "solved_runtime_seconds": {
+                  "min": 0.109871,
+                  "median": 0.987275,
+                  "p90": 1.513192,
+                  "max": 1.513192,
+                  "sum": 3.597613
+                }
+              }
+            },
+            "solved_files": [
+              "TwoSquares/smtlib.606691.smt2",
+              "wisas/xs_13_13.smt2",
+              "TwoSquares/smtlib.666078.smt2",
+              "wisas/xs_14_24.smt2",
+              "TwoSquares/smtlib.675451.smt2",
+              "wisas/xs_17_17.smt2",
+              "TwoSquares/smtlib.686091.smt2",
+              "wisas/xs_6_11.smt2",
+              "mathsat/Hash/hash_sat_07_15.smt2",
+              "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+              "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+              "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+              "mathsat/Wisa/xs-18-19-4-1-1-5.smt2"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "successful_non_native_loss_rows": {
+    "development": [],
+    "selected": [
+      {
+        "file": "wisas/xs_25_35.smt2",
+        "profile": "invert-0",
+        "seconds": "12.609407",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_26_36.smt2",
+        "profile": "invert-0",
+        "seconds": "8.913566",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_28_38.smt2",
+        "profile": "invert-0",
+        "seconds": "1.797821",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_32_42.smt2",
+        "profile": "invert-0",
+        "seconds": "13.722206",
+        "answer": "sat"
+      }
+    ],
+    "uniform_development": [
+      {
+        "file": "wisas/xs_33_53.smt2",
+        "profile": "force-positive",
+        "seconds": "2.345121",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_33_53.smt2",
+        "profile": "force-negative",
+        "seconds": "2.278036",
+        "answer": "sat"
+      }
+    ],
+    "uniform_selected": [
+      {
+        "file": "wisas/xs_33_53.smt2",
+        "profile": "force-positive",
+        "seconds": "2.336531",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_33_53.smt2",
+        "profile": "force-negative",
+        "seconds": "2.367183",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_25_35.smt2",
+        "profile": "force-negative",
+        "seconds": "9.808085",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_25_35.smt2",
+        "profile": "force-positive",
+        "seconds": "9.732759",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_30_40.smt2",
+        "profile": "force-negative",
+        "seconds": "1.988559",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_30_40.smt2",
+        "profile": "force-positive",
+        "seconds": "1.979066",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_34_44.smt2",
+        "profile": "force-negative",
+        "seconds": "1.945681",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_34_44.smt2",
+        "profile": "force-positive",
+        "seconds": "1.954549",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_26_36.smt2",
+        "profile": "force-positive",
+        "seconds": "3.546472",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_26_36.smt2",
+        "profile": "force-negative",
+        "seconds": "3.681040",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_30_50.smt2",
+        "profile": "force-positive",
+        "seconds": "2.209575",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_30_50.smt2",
+        "profile": "force-negative",
+        "seconds": "2.187080",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_34_54.smt2",
+        "profile": "force-positive",
+        "seconds": "3.047409",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_34_54.smt2",
+        "profile": "force-negative",
+        "seconds": "3.056988",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_39_59.smt2",
+        "profile": "force-negative",
+        "seconds": "11.604380",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_39_59.smt2",
+        "profile": "force-positive",
+        "seconds": "11.748882",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_27_47.smt2",
+        "profile": "force-positive",
+        "seconds": "5.595070",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_27_47.smt2",
+        "profile": "force-negative",
+        "seconds": "5.419254",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_31_51.smt2",
+        "profile": "force-positive",
+        "seconds": "2.323253",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_31_51.smt2",
+        "profile": "force-negative",
+        "seconds": "2.343316",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_35_55.smt2",
+        "profile": "force-positive",
+        "seconds": "3.569958",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_35_55.smt2",
+        "profile": "force-negative",
+        "seconds": "3.575089",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_28_38.smt2",
+        "profile": "force-negative",
+        "seconds": "2.082030",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_28_38.smt2",
+        "profile": "force-positive",
+        "seconds": "2.092165",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_36_46.smt2",
+        "profile": "force-negative",
+        "seconds": "2.493703",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_36_46.smt2",
+        "profile": "force-positive",
+        "seconds": "2.409676",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_29_39.smt2",
+        "profile": "force-negative",
+        "seconds": "2.379885",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_29_39.smt2",
+        "profile": "force-positive",
+        "seconds": "2.380245",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_33_43.smt2",
+        "profile": "force-negative",
+        "seconds": "13.115248",
+        "answer": "sat"
+      },
+      {
+        "file": "wisas/xs_33_43.smt2",
+        "profile": "force-positive",
+        "seconds": "13.125433",
+        "answer": "sat"
+      }
+    ],
+    "early_selected": []
+  },
+  "totals": {
+    "candidate_timing_rows": 628,
+    "statuses": {
+      "ok": 282,
+      "timeout": 346
+    },
+    "successful_answers": {
+      "sat": 204,
+      "unsat": 78
+    },
+    "candidate_sat_replays_direct_dolmen_pass": 204
+  },
+  "conclusion": "Do not adopt the k-removal gate or promote M124. Uniform native phase controls recover15/30 losses, continuous beta inversion4/30, tested k=1/8 gates0/30, unchanged native30/30. Controls14/14 at cutoff in every selected arm. Uniform signs recover identical sets; beta inversion adds one unique recovery, so16/30 is only an oracle union, not a measured selector.",
+  "limitations": [
+    "Single attempt per file/arm,15-second cutoff,selected retrospective sample,not full corpus. No general speedup or absence-of-runtime-regression claim.",
+    "Development four all have B=A+20; inversion recoveries all B=A+10. Held-out labels identify cases outside development, not a blinded prospective test.",
+    "Probe overhead includes repeated beta computation and active-override scans, including static k=0. Release0 is not timing-equivalent to beta-off.",
+    "overridden counts observed decisions while an override is active, not counterfactual changed signs. Agreement does not imply advice caused the choice/conflict.",
+    "Arithmetic phase producer skips equality atoms; uniform backend controls cover a broader SAT variable set. Raw input/source audit does not establish equality atoms caused losses.",
+    "Same solved set under both forcephase signs suggests native phase evolution/history matters, but does not isolate phase saving from other native mechanisms.",
+    "No new assumptions, values, atoms, variable-selection rule, clauses or restart schedule. No production solver policy retained."
+  ]
+}

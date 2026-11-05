@@ -1,0 +1,456 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fa544add..72aa0284 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -411,0 +412,6 @@ add_test(NAME primo_smt_session_tests COMMAND primo_smt_session_tests)
++add_executable(primo_phase_probe_tests tests/unit/phase_probe_tests.cpp)
++primo_enable_warnings(primo_phase_probe_tests)
++primo_enable_sanitizers(primo_phase_probe_tests)
++target_include_directories(primo_phase_probe_tests PRIVATE src)
++add_test(NAME primo_phase_probe_tests COMMAND primo_phase_probe_tests)
++
+diff --git a/src/sat/cadical_backend.cpp b/src/sat/cadical_backend.cpp
+index 3ae1bde8..525efa90 100644
+--- a/src/sat/cadical_backend.cpp
++++ b/src/sat/cadical_backend.cpp
+@@ -13,0 +14,2 @@
++#include "sat/phase_probe.hpp"
++
+@@ -37,2 +39,2 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
+-  explicit ExternalPropagatorAdapter(::primo::sat::ExternalPropagator& propagator)
+-      : propagator_(propagator) {
++  ExternalPropagatorAdapter(::primo::sat::ExternalPropagator& propagator, CadicalBackend& owner)
++      : propagator_(propagator), owner_(owner) {
+@@ -43,0 +46 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
++    for (const int literal : lits) owner_.probe_assignment(literal);
+@@ -47,0 +51 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
++    owner_.probe_assignment(lit);
+@@ -54 +58,4 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
+-  void notify_new_decision_level() override { propagator_.notify_new_decision_level(); }
++  void notify_new_decision_level() override {
++    if (owner_.phase_probe_) owner_.phase_probe_->new_level();
++    propagator_.notify_new_decision_level();
++  }
+@@ -56 +63,4 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
+-  void notify_backtrack(size_t new_level) override { propagator_.notify_backtrack(new_level); }
++  void notify_backtrack(size_t new_level) override {
++    owner_.probe_backtrack(new_level);
++    propagator_.notify_backtrack(new_level);
++  }
+@@ -81,0 +92 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
++  CadicalBackend& owner_;
+@@ -129,0 +141,2 @@ CadicalBackend::CadicalBackend(const std::vector<std::pair<std::string, int>>& o
++  if (const auto config = PhaseProbe::environment())
++    phase_probe_ = std::make_unique<PhaseProbe>(*config);
+@@ -217,0 +231 @@ void CadicalBackend::assume(Lit lit) {
++  if (phase_probe_) phase_probe_->assume(lit.value);
+@@ -225,0 +240,4 @@ SatResult CadicalBackend::solve() {
++  if (phase_probe_) {
++    for (const auto action : phase_probe_->begin_solve())
++      probe_phase(action.literal, action.release);
++  }
+@@ -226,0 +245,4 @@ SatResult CadicalBackend::solve() {
++  if (phase_probe_) {
++    for (const auto action : phase_probe_->finish_solve())
++      probe_phase(action.literal, action.release);
++  }
+@@ -307 +329,5 @@ void CadicalBackend::phase(Lit lit) {
+-  solver_->phase(lit.value);
++  if (phase_probe_) {
++    const auto action = phase_probe_->hint(lit.value);
++    probe_phase(action.literal, action.release);
++  } else
++    solver_->phase(lit.value);
+@@ -312,0 +339,28 @@ void CadicalBackend::phase(Lit lit) {
++void CadicalBackend::probe_phase(int literal, bool release) {
++#if PRIMO_HAVE_IPASIR
++  if (release)
++    solver_->unphase(literal);
++  else
++    solver_->phase(literal);
++#else
++  (void)literal;
++  (void)release;
++#endif
++}
++
++void CadicalBackend::probe_assignment(int literal) {
++#if PRIMO_HAVE_IPASIR
++  if (!phase_probe_) return;
++  for (const auto action : phase_probe_->assignment(literal, solver_->is_decision(literal)))
++    probe_phase(action.literal, action.release);
++#else
++  (void)literal;
++#endif
++}
++
++void CadicalBackend::probe_backtrack(std::size_t level) {
++  if (!phase_probe_) return;
++  for (const auto action : phase_probe_->backtrack(level))
++    probe_phase(action.literal, action.release);
++}
++
+@@ -320 +374,2 @@ void CadicalBackend::connect_external_propagator(ExternalPropagator* propagator)
+-  external_adapter_ = std::make_unique<ExternalPropagatorAdapter>(*propagator);
++  if (phase_probe_) phase_probe_->connect();
++  external_adapter_ = std::make_unique<ExternalPropagatorAdapter>(*propagator, *this);
+diff --git a/src/sat/cadical_backend.hpp b/src/sat/cadical_backend.hpp
+index 8e308057..6ff2936e 100644
+--- a/src/sat/cadical_backend.hpp
++++ b/src/sat/cadical_backend.hpp
+@@ -16,0 +17,2 @@ namespace primo::sat {
++class PhaseProbe;
++
+@@ -49,0 +52,4 @@ class CadicalBackend final : public IpasirUpBackend {
++  void probe_assignment(int literal);
++  void probe_backtrack(std::size_t level);
++  void probe_phase(int literal, bool release);
++
+@@ -50,0 +57 @@ class CadicalBackend final : public IpasirUpBackend {
++  std::unique_ptr<PhaseProbe> phase_probe_;
+diff --git a/src/sat/phase_probe.hpp b/src/sat/phase_probe.hpp
+new file mode 100644
+index 00000000..6ed3e749
+--- /dev/null
++++ b/src/sat/phase_probe.hpp
+@@ -0,0 +1,243 @@
++#pragma once
++
++#include <charconv>
++#include <cstddef>
++#include <cstdio>
++#include <cstdlib>
++#include <optional>
++#include <stdexcept>
++#include <string_view>
++#include <system_error>
++#include <unordered_map>
++#include <unordered_set>
++#include <vector>
++
++namespace primo::sat {
++
++// Isolated diagnostic, original design: docs/leads/adaptive-phase-probe.md.
++// Phase advice is never a proof reason. The controller returns actions so no
++// reference into its storage survives an operation on the borrowed backend.
++class PhaseProbe {
++ public:
++  enum class Mode { Observe, Release, Invert };
++  struct Config {
++    Mode mode = Mode::Observe;
++    std::size_t threshold = 8;
++    std::size_t window = 64;
++    std::size_t trace_limit = 0;
++    bool report = false;
++  };
++  struct Action {
++    int literal;
++    bool release;
++  };
++  struct Counts {
++    std::size_t hints = 0, changes = 0, decisions = 0, hinted = 0, aligned = 0;
++    std::size_t overridden = 0, propagated = 0, assumptions = 0, removed = 0;
++    std::size_t aligned_removed = 0, activations = 0, releases = 0, inversions = 0;
++    std::size_t restores = 0;
++  };
++
++  explicit PhaseProbe(Config config) : config_(config) {
++    if (config.window == 0) throw std::invalid_argument("phase probe window must be positive");
++  }
++  ~PhaseProbe() {
++    if (!config_.report) return;
++    std::fprintf(stderr,
++                 "PHASE_PROBE_SUMMARY {\"hints\":%zu,\"changes\":%zu,\"decisions\":%zu,"
++                 "\"hinted\":%zu,\"aligned\":%zu,\"overridden\":%zu,\"propagated\":%zu,"
++                 "\"assumptions\":%zu,\"removed\":%zu,\"aligned_removed\":%zu,"
++                 "\"activations\":%zu,\"releases\":%zu,\"inversions\":%zu,\"restores\":%zu}\n",
++                 counts_.hints, counts_.changes, counts_.decisions, counts_.hinted, counts_.aligned,
++                 counts_.overridden, counts_.propagated, counts_.assumptions, counts_.removed,
++                 counts_.aligned_removed, counts_.activations, counts_.releases, counts_.inversions,
++                 counts_.restores);
++  }
++  PhaseProbe(const PhaseProbe&) = delete;
++  PhaseProbe& operator=(const PhaseProbe&) = delete;
++
++  static std::optional<Config> environment() {
++    const char* text = std::getenv("PRIMO_PHASE_PROBE");
++    if (text == nullptr) return std::nullopt;
++    Config config;
++    const std::string_view mode(text);
++    if (mode == "release")
++      config.mode = Mode::Release;
++    else if (mode == "invert")
++      config.mode = Mode::Invert;
++    else if (mode != "observe")
++      throw std::invalid_argument("invalid PRIMO_PHASE_PROBE");
++    config.threshold = number("PRIMO_PHASE_PROBE_K", 8);
++    config.window = number("PRIMO_PHASE_PROBE_WINDOW", 64);
++    config.trace_limit = number("PRIMO_PHASE_PROBE_TRACE", 0);
++    config.report = true;
++    return config;
++  }
++
++  const Counts& counts() const { return counts_; }
++  void assume(int literal) { assumptions_.insert(variable(literal)); }
++  void connect() {
++    live_.clear();
++    level_ = 0;
++  }
++  void new_level() { ++level_; }
++
++  Action hint(int literal) {
++    ++counts_.hints;
++    auto& state = hints_[variable(literal)];
++    if (state.literal != literal) {
++      ++counts_.changes;
++      const auto context = state.context + 1;
++      state = Hint{literal, 0, 0, context, false};
++      active_.erase(variable(literal));
++    }
++    if (config_.mode != Mode::Observe && config_.threshold == 0 && !state.active) {
++      activate(variable(literal), state);
++    }
++    return action(state);
++  }
++
++  std::vector<Action> assignment(int literal, bool decision) {
++    std::vector<Action> result;
++    if (!decision) {
++      ++counts_.propagated;
++      return result;
++    }
++    if (assumptions_.contains(variable(literal))) {
++      ++counts_.assumptions;
++      return result;
++    }
++    if (level_ == 0) return result;  // Re-observation is not a fresh decision.
++    ++clock_;
++    ++counts_.decisions;
++    const auto found = hints_.find(variable(literal));
++    if (found != hints_.end()) {
++      const Hint snapshot = found->second;
++      ++counts_.hinted;
++      if (snapshot.active) ++counts_.overridden;
++      if (literal == snapshot.literal) ++counts_.aligned;
++      live_.push_back(
++          Decision{literal, snapshot.literal, level_, snapshot.context, snapshot.active});
++      trace("decision", literal, snapshot.literal);
++    }
++    for (auto it = active_.begin(); it != active_.end();) {
++      auto& state = hints_.at(*it);
++      if (config_.threshold != 0 && clock_ >= state.until) {
++        state.active = false;
++        state.removals = 0;
++        result.push_back(Action{state.literal, false});
++        ++counts_.restores;
++        it = active_.erase(it);
++      } else
++        ++it;
++    }
++    return result;
++  }
++
++  std::vector<Action> backtrack(std::size_t level) {
++    std::vector<Action> result;
++    while (!live_.empty() && live_.back().level > level) {
++      const Decision decision = live_.back();
++      live_.pop_back();
++      ++counts_.removed;
++      auto& state = hints_.at(variable(decision.literal));
++      if (!decision.overridden && !state.active && decision.literal == decision.hint &&
++          state.literal == decision.hint && state.context == decision.context) {
++        ++counts_.aligned_removed;
++        if (state.removals < config_.threshold) ++state.removals;
++        if (config_.mode != Mode::Observe && config_.threshold != 0 &&
++            state.removals >= config_.threshold) {
++          activate(variable(decision.literal), state);
++          result.push_back(action(state));
++        }
++      }
++    }
++    level_ = level;
++    return result;
++  }
++
++  std::vector<Action> begin_solve() {
++    std::vector<Action> result;
++    if (config_.mode != Mode::Observe && config_.threshold == 0) {
++      for (auto& [var, state] : hints_) {
++        if (!state.active) activate(var, state);
++        result.push_back(action(state));
++      }
++    }
++    return result;
++  }
++
++  std::vector<Action> finish_solve() {
++    std::vector<Action> result;
++    for (const int var : active_) {
++      auto& state = hints_.at(var);
++      state.active = false;
++      result.push_back(Action{state.literal, false});
++      ++counts_.restores;
++    }
++    active_.clear();
++    for (auto& [var, state] : hints_) {
++      (void)var;
++      state.removals = 0;
++    }
++    assumptions_.clear();
++    connect();
++    return result;
++  }
++
++ private:
++  struct Hint {
++    int literal;
++    std::size_t removals, until, context;
++    bool active;
++  };
++  struct Decision {
++    int literal, hint;
++    std::size_t level, context;
++    bool overridden;
++  };
++  static int variable(int literal) { return literal < 0 ? -literal : literal; }
++  static std::size_t number(const char* name, std::size_t fallback) {
++    const char* text = std::getenv(name);
++    if (text == nullptr) return fallback;
++    const std::string_view input(text);
++    std::size_t value = 0;
++    const auto parsed = std::from_chars(input.data(), input.data() + input.size(), value);
++    if (input.empty() || parsed.ec != std::errc{} || parsed.ptr != input.data() + input.size() ||
++        value > 1000000000)
++      throw std::invalid_argument(name);
++    return value;
++  }
++  void activate(int var, Hint& state) {
++    state.active = true;
++    state.removals = 0;
++    state.until = clock_ + config_.window;
++    active_.insert(var);
++    ++counts_.activations;
++    trace("activate", var, state.literal);
++  }
++  Action action(const Hint& state) {
++    if (!state.active) return Action{state.literal, false};
++    if (config_.mode == Mode::Release) {
++      ++counts_.releases;
++      return Action{state.literal, true};
++    }
++    ++counts_.inversions;
++    return Action{-state.literal, false};
++  }
++  void trace(const char* event, int literal, int hint_literal) {
++    if (trace_count_++ >= config_.trace_limit) return;
++    std::fprintf(stderr,
++                 "PHASE_PROBE_EVENT {\"event\":\"%s\",\"literal\":%d,\"hint\":%d,"
++                 "\"level\":%zu,\"clock\":%zu}\n",
++                 event, literal, hint_literal, level_, clock_);
++  }
++  Config config_;
++  Counts counts_;
++  std::unordered_map<int, Hint> hints_;
++  std::unordered_set<int> active_, assumptions_;
++  std::vector<Decision> live_;
++  std::size_t level_ = 0, clock_ = 0, trace_count_ = 0;
++};
++
++}  // namespace primo::sat
+diff --git a/tests/unit/phase_probe_tests.cpp b/tests/unit/phase_probe_tests.cpp
+new file mode 100644
+index 00000000..6fa723c5
+--- /dev/null
++++ b/tests/unit/phase_probe_tests.cpp
+@@ -0,0 +1,91 @@
++#ifdef NDEBUG
++#undef NDEBUG
++#endif
++
++#include <cassert>
++
++#include "sat/phase_probe.hpp"
++
++using primo::sat::PhaseProbe;
++
++namespace {
++void cancel(PhaseProbe& probe, int literal) {
++  probe.new_level();
++  probe.assignment(literal, true);
++  probe.backtrack(0);
++}
++
++void count_only_context_matching_decisions() {
++  PhaseProbe probe({.mode = PhaseProbe::Mode::Release, .threshold = 2, .window = 2});
++  probe.hint(1);
++  probe.new_level();
++  probe.assignment(1, false);
++  assert(probe.backtrack(0).empty());
++  assert(probe.counts().aligned_removed == 0);
++  probe.assume(1);
++  cancel(probe, 1);
++  assert(probe.counts().assumptions == 1 && probe.counts().activations == 0);
++  probe.finish_solve();
++  cancel(probe, -1);
++  assert(probe.counts().aligned_removed == 0);
++  probe.new_level();
++  probe.assignment(1, true);
++  probe.hint(-1);
++  probe.hint(1);
++  assert(probe.backtrack(0).empty());
++  assert(probe.counts().aligned_removed == 0);
++  cancel(probe, 1);
++  assert(probe.counts().activations == 0);
++  probe.new_level();
++  probe.assignment(1, true);
++  const auto release = probe.backtrack(0);
++  assert(release.size() == 1 && release[0].release && release[0].literal == 1);
++  assert(probe.counts().activations == 1);
++  probe.new_level();
++  assert(probe.assignment(1, true).empty());
++  assert(probe.backtrack(0).empty());  // An overridden decision does not retrigger.
++  probe.new_level();
++  const auto restored = probe.assignment(2, true);
++  assert(restored.size() == 1 && !restored[0].release && restored[0].literal == 1);
++  assert(probe.counts().restores == 1);
++}
++
++void opposite_sign_and_changed_hint() {
++  PhaseProbe probe({.mode = PhaseProbe::Mode::Invert, .threshold = 1});
++  probe.hint(-2);
++  probe.new_level();
++  probe.assignment(-2, true);
++  const auto opposite = probe.backtrack(0);
++  assert(opposite.size() == 1 && opposite[0].literal == 2 && !opposite[0].release);
++  const auto changed = probe.hint(2);
++  assert(changed.literal == 2 && !changed.release);
++  probe.new_level();
++  probe.assignment(-2, true);
++  assert(probe.backtrack(0).empty());
++}
++
++void static_controls_and_solve_reset() {
++  PhaseProbe probe({.mode = PhaseProbe::Mode::Release, .threshold = 0});
++  assert(probe.hint(3).release);
++  assert(probe.finish_solve().size() == 1);
++  const auto next = probe.begin_solve();
++  assert(next.size() == 1 && next[0].release);
++  PhaseProbe counted({.mode = PhaseProbe::Mode::Release, .threshold = 2});
++  counted.hint(3);
++  cancel(counted, 3);
++  counted.finish_solve();
++  cancel(counted, 3);
++  assert(counted.counts().activations == 0);
++  PhaseProbe observe({.mode = PhaseProbe::Mode::Observe, .threshold = 1});
++  assert(!observe.hint(1).release);
++  cancel(observe, 1);
++  cancel(observe, 1);
++  assert(observe.counts().activations == 0 && observe.counts().aligned_removed == 2);
++}
++}  // namespace
++
++int main() {
++  count_only_context_matching_decisions();
++  opposite_sign_and_changed_hint();
++  static_controls_and_solve_reset();
++}
