@@ -8,6 +8,7 @@
 set -euo pipefail
 cd "${PRIMO_WORKDIR:?}"
 mkdir -p "${PRIMO_PROBE_OUT:?}"
+{ hostname; lscpu; } > "$PRIMO_PROBE_OUT/node-${SLURM_ARRAY_TASK_ID:-0}.txt"
 read -r -a profiles <<< "${PRIMO_PROBE_ARMS:?}"
 python3 "${PRIMO_PROBE_RUNNER:-scripts/qualification/adaptive_phase/run.py}" \
  --solver "${PRIMO_PROBE_SOLVER:-build-slurm-rel/primo}" --root "${PRIMO_CORPUS_ROOT:?}" \

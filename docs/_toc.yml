@@ -83,6 +83,7 @@ parts:
       - file: leads/real-combination-migration
       - file: leads/model-based-combination
       - file: leads/search-diversification
+      - file: leads/adaptive-phase-probe
       - file: leads/portfolio
       - file: leads/quantifier-instantiation
       - file: leads/quantifier-nnf

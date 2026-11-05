@@ -261,3 +261,6 @@ invalid values and mixed forms. Those checks verify policy preservation;
 they do not demonstrate a new search improvement. Any later phase-policy
 implementation needs the applicable correctness gate and paired full-corpus
 evaluation before changing defaults.
+
+The isolated [adaptive phase diagnostic](../leads/adaptive-phase-probe.md)
+records the counter-based simulation protocol and its acceptance limits.

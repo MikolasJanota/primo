@@ -35,6 +35,9 @@ sphinx:
   config:
     bibtex_reference_style: label
     extlinks:
+      adaptivephasesource:
+        - "https://github.com/primo-solver/primo/blob/ea618ba9bc8f2909ff87aa70f53c04a5bc81dd1b/%s"
+        - "%s"
       source:
         - "https://github.com/primo-solver/primo/blob/c944fa790c2043ebac93b8d6f63c7b02b0c2c235/%s"
         - "%s"
