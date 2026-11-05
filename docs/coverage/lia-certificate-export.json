@@ -1,0 +1,630 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-05",
+  "status": "Bounded experimental export qualification completed: native, Python, ASan, UF/LRA regressions and eight real inputs selected from recorded fast runs passed; LIA fuzzing recorded 1,006 passes, five baseline-confirmed native node limits and one baseline-reproduced main-search timeout.",
+  "implementation_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "scope": "Experimental single-query QF_LIA/version3 export with bounded post-selection integer cut reconstruction; no full-corpus or default-profile performance claim.",
+  "workflow_provenance": "Native C++ and unit sources are unchanged from implementation_git. The final adjacent qualification commit adds the baseline-resource-limit classification, selective regression phase and this report. Exact executed workflow hashes are recorded separately for each job.",
+  "workflow_sha256_final": {
+    "tests/lia_export_cli.py": "4b75e527aa2301a788bdd955fc90d7bc0af6801c141e372ad51c2e4c3eac4e19",
+    "tests/lra_export_cli.py": "21bdc28050d3c0f6236645af1af0ca1c05af61fdebc3bf829f4eb1f38fbcc785",
+    "tests/cnf_export_cli.py": "cf9fb774c1fb41f04b1536d1df2b1bfa9a2dc268936f4effcaecc36fb3dd3c33",
+    "scripts/check_lia_certificate.py": "ff6eedb8e63cf673a754098400a28f83cf8b573392ef69f8d0ea5e2f16de3a83",
+    "scripts/check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a",
+    "scripts/qualify_lia_export_real.py": "f40b8103ee026082a1b22267c0875783392d965e09eea520be139040e765928a",
+    "scripts/slurm_lia_export_gate.sbatch": "d17a1757e04597d856a9f893081523aec776ef6c37017f0c2cd972e7dba84d6a",
+    "scripts/slurm_lia_export_real.sbatch": "9f16174ccbbeae56b4ab37fbdd0f0416d91c84993f656579a38bbdedfa7b476b"
+  },
+  "workflow_sha256_lia_job": {
+    "tests/lia_export_cli.py": "4b75e527aa2301a788bdd955fc90d7bc0af6801c141e372ad51c2e4c3eac4e19",
+    "scripts/check_lia_certificate.py": "ff6eedb8e63cf673a754098400a28f83cf8b573392ef69f8d0ea5e2f16de3a83",
+    "tests/lra_export_cli.py": "21bdc28050d3c0f6236645af1af0ca1c05af61fdebc3bf829f4eb1f38fbcc785",
+    "scripts/check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+  },
+  "gate_357089_script_sha256": "e7f7510d257e4b26d1c35254860beb3cc34bba8f736cf65bf8801d2a432e1e7e",
+  "jobs": {
+    "initial_build_compile_failure": "357079",
+    "qualified_release_build": "357081",
+    "initial_native_lia_gate": "357087",
+    "native_lia_gate": "357089",
+    "uf_lra_asan_regressions": "357091",
+    "real_inputs": "357088",
+    "native_example": "357090",
+    "timeout_triage": "357092"
+  },
+  "job_states": {
+    "357079": "FAILED: test-only invalid Lit equality assertion; fixed before accepted build",
+    "357081": "COMPLETED",
+    "357087": "FAILED: first main-solver branch-node limit was initially treated as export failure; no wrong answer",
+    "357089": "FAILED by strict wrapper exit policy after one timeout; all 1,012 LIA cases completed with results below",
+    "357088": "COMPLETED",
+    "357090": "COMPLETED",
+    "357092": "COMPLETED",
+    "357091": "COMPLETED,0:0,00:05:41; LRA/UF regression and ASan phase only"
+  },
+  "machine": {
+    "node": "node-02",
+    "cpu": "Intel Xeon E5-2690 v4 @ 2.60GHz",
+    "node_logical_cpus": 56,
+    "gate_cpus": 4,
+    "gate_memory_gib": 24,
+    "gate_wall_minutes": 120,
+    "real_cpus": 1,
+    "real_memory_gib": 8,
+    "real_wall_minutes": 45
+  },
+  "binaries": {
+    "release_sha256": "71288893c36bb8a068fe3a5b97e660f33a7bdef4dd94aaa1506b3cfb18d090b5",
+    "baseline_git": "e910cfdec073e0d3ba937fe9d95e6669e0eb7359",
+    "baseline_sha256": "5f6e8e2cb12ad3c2324d71e8310d38aa6807f92f4da242b237ab663f014abb74",
+    "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+    "z3_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "backend": "cadical-3.0.0-7b99c07"
+  },
+  "native": {
+    "command": "make check BUILD_DIR=build-slurm-rel with reused dependency stamps and pinned Ruff Python",
+    "ctest_passed": 50,
+    "ctest_seconds": 6.52,
+    "python_tests_run": 323,
+    "python_passed": 321,
+    "python_skipped": 2,
+    "focused_passed": 4
+  },
+  "asan": {
+    "status": "passed",
+    "ctest_passed": 50,
+    "ctest_seconds": 53.87,
+    "command": "make asan-test ASAN_BUILD_DIR=build-slurm-lia-asan; ASAN_OPTIONS=detect_leaks=1:strict_init_order=1",
+    "version": "Debug, sanitizers: address; git a5123159",
+    "binary_sha256": "7cf3644abb6c4c3e4da9ac4aefd535e141b13263e93cf848a135c145e3c425ea"
+  },
+  "lia_fuzz": {
+    "seed": 202611052,
+    "generated_count": 1000,
+    "focused_count": 12,
+    "count": 1012,
+    "completed": 1012,
+    "counts": {
+      "pass": 1006,
+      "sat": 201,
+      "unsat": 805,
+      "wrong_answer": 0,
+      "error": 0,
+      "timeout": 1,
+      "main_resource_limit": 5,
+      "unsupported": 0,
+      "reference_disagreement": 0
+    },
+    "witness_totals": {
+      "cuts": 3520,
+      "entries": 3346,
+      "conflicts": 1323
+    },
+    "modes": [
+      "none",
+      "core",
+      "mus"
+    ]
+  },
+  "lia_fuzz_configuration": {
+    "generator": "tests/lia_export_cli.py: five original shifted/scaled integer bound/equality families, Boolean branches and ITE extras, plus 12 focused equality/disequality/div/mod/abs/quoted-name/large-integer cases",
+    "solver": "build-slurm-rel/primo --quiet --stats --export-cnf CASE.sexp --export-cnf-reduction=none|core|mus --preprocessing-mode=off|auto [--lra-propagation=false] < CASE.smt2",
+    "reference": "contrib/local/bin/z3 -in < CASE.smt2",
+    "reference_seconds": 15,
+    "export_seconds": 15,
+    "propositional_check_seconds": 60,
+    "checker": "Python integer replay and external CaDiCaL DIMACS UNSAT confirmation for every completed UNSAT certificate",
+    "artifact_directory": "results/lia-export-357089/lia-fuzz",
+    "parser_type_errors": 0,
+    "crashes": 0,
+    "invalid_certificates": 0,
+    "counts_exclude_limits_from_pass": true
+  },
+  "main_search_limits": {
+    "branch_node_default": 100000,
+    "baseline_confirmed_node_limits": [
+      {
+        "case": "0025.smt2",
+        "sha256": "8083d633ab7168770dea75f18218ee2075c5741c71cbe81a3a187af24334e984",
+        "status": "same native branch-node limit on current export run and baseline without export"
+      },
+      {
+        "case": "0051.smt2",
+        "sha256": "27c968b6d42f4b5e302f6e26ceccbcc11ae08636a0b9cf3437d97d7ddfdfded7",
+        "status": "same native branch-node limit on current export run and baseline without export"
+      },
+      {
+        "case": "0649.smt2",
+        "sha256": "958f0b0ef17d6fa6819360199b85f669fb614c477d4055e948a5ffb59b5e0803",
+        "status": "same native branch-node limit on current export run and baseline without export"
+      },
+      {
+        "case": "0675.smt2",
+        "sha256": "d6e969dabba60362ccfada1a5a0a12dcdb16ec07272d4ed9f8c27cfddf10de90",
+        "status": "same native branch-node limit on current export run and baseline without export"
+      },
+      {
+        "case": "0701.smt2",
+        "sha256": "5df93ce29840b1ad47c51bd006fe40b8763c4da39910f3d09b877df2786dbeb1",
+        "status": "same native branch-node limit on current export run and baseline without export"
+      }
+    ],
+    "timeout_triage": {
+      "job_id": "357092",
+      "source_sha256": "f7022737bd2307bf765ab7a9faad7b158b32357e800d741912cdaf43084e1abd",
+      "source_case": "results/lia-export-357089/lia-fuzz/0584.smt2",
+      "timeout_seconds": 15,
+      "rows": [
+        {
+          "label": "main-current",
+          "command": [
+            "/home/janotmik/primo-lia-export-20261105/build-slurm-rel/primo",
+            "--quiet",
+            "--stats",
+            "--preprocessing-mode=off"
+          ],
+          "timeout": true,
+          "seconds": 15.018556940980488,
+          "answer": "",
+          "diagnostic": ""
+        },
+        {
+          "label": "main-baseline",
+          "command": [
+            "/home/janotmik/primo-lra-export-20261105/build-slurm-rel/primo",
+            "--quiet",
+            "--stats",
+            "--preprocessing-mode=off"
+          ],
+          "timeout": true,
+          "seconds": 15.019189100014046,
+          "answer": "",
+          "diagnostic": ""
+        }
+      ]
+    },
+    "timeout_input": "(set-logic QF_LIA)(declare-fun x () Int)(declare-fun y () Int)(declare-fun z () Int)(declare-fun flag () Bool)(assert (and (= (* 8 (- x (- 4))) 1)))(assert (or (= x y) (not (= x y))))(assert (= z (ite flag (+ x y) (- y x))))(check-sat)",
+    "interpretation": "Five node limits and one external 15-second timeout are native-search limitations. The five replayed as unknown on the qualified baseline; the timeout also occurs in ordinary solving without export on both binaries. These are excluded from passes and are not reconstruction/checker failures."
+  },
+  "lra_fuzz": {
+    "seed": 202611050,
+    "generated_count": 1000,
+    "focused_count": 8,
+    "count": 1008,
+    "completed": 1008,
+    "counts": {
+      "pass": 1008,
+      "sat": 201,
+      "unsat": 807,
+      "wrong_answer": 0,
+      "error": 0,
+      "timeout": 0
+    },
+    "witness_entries": 3226,
+    "modes": [
+      "none",
+      "core",
+      "mus"
+    ]
+  },
+  "uf_fuzz": {
+    "seed": 202611051,
+    "requested": 1000,
+    "reduction_modes": "round-robin none/core/mus",
+    "solver_paths": "alternating off/auto preprocessing; four propagation modes; both EUF engines; ite on every seventh case",
+    "sort_erasure": "enabled on odd indices; multi-sort input on every fifth index",
+    "pass": 1000,
+    "wrong_answer": 0,
+    "crash": 0,
+    "parser_type_error": 0,
+    "timeout": 0,
+    "unsupported": 0,
+    "reference_disagreement": 0,
+    "invalid_artifact": 0
+  },
+  "real_inputs": {
+    "job_id": "357088",
+    "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+    "selection": "recorded native UNSAT<=1s;2048..131072bytes;max2/family;largest first;single-query lexical command screen",
+    "limits_seconds": {
+      "reference": 30,
+      "export": 120,
+      "propositional_check": 60
+    },
+    "counts": {
+      "verified": 8
+    },
+    "expected": 8,
+    "completed": 8,
+    "rows": [
+      {
+        "case": {
+          "file": "20220307-SMPT/BART-PT-005/RF-15.smt2",
+          "expected": "unsat",
+          "family": "20220307-SMPT",
+          "sha256": "6082237ba11d81bd5ec33f3aa496e1582e908506ddcc9d3dfb6467cc55d54b07",
+          "historical_seconds": 0.079623,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-44/answers.csv",
+          "bytes": 130979
+        },
+        "status": "verified",
+        "command": [
+          "/home/janotmik/primo-lia-export-20261105/build-slurm-rel/primo",
+          "--quiet",
+          "--stats",
+          "--export-cnf",
+          "results/lia-export-real-357088/replay/00/input.sexp",
+          "--export-cnf-reduction=core",
+          "/home/janotmik/primo-evaluation-20261005/downloads/qf-lia-extracted/non-incremental/QF_LIA/20220307-SMPT/BART-PT-005/RF-15.smt2"
+        ],
+        "certificate_bytes": 170452,
+        "certificate_sha256": "08afe76a73ad951c73da7384dfa69c0492e7496ee78bf6c685ae47379dc7ae72",
+        "check": {
+          "conflicts": 1,
+          "entries": 138,
+          "cuts": 1,
+          "variables": 1928,
+          "propositional_unsat": true
+        },
+        "seconds": 0.34373430599225685
+      },
+      {
+        "case": {
+          "file": "20220307-SMPT/BART-PT-005/RF-01.smt2",
+          "expected": "unsat",
+          "family": "20220307-SMPT",
+          "sha256": "850b2042c2f931bb6efede7557a325e8dbad0cc2b96c05eec8f464938c904dec",
+          "historical_seconds": 0.075496,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-30/answers.csv",
+          "bytes": 130657
+        },
+        "status": "verified",
+        "command": [
+          "/home/janotmik/primo-lia-export-20261105/build-slurm-rel/primo",
+          "--quiet",
+          "--stats",
+          "--export-cnf",
+          "results/lia-export-real-357088/replay/01/input.sexp",
+          "--export-cnf-reduction=core",
+          "/home/janotmik/primo-evaluation-20261005/downloads/qf-lia-extracted/non-incremental/QF_LIA/20220307-SMPT/BART-PT-005/RF-01.smt2"
+        ],
+        "certificate_bytes": 171236,
+        "certificate_sha256": "7f8ae33a02437b7d7e735cce68623b000965dc4e81239637e1017f58b49b85ca",
+        "check": {
+          "conflicts": 1,
+          "entries": 156,
+          "cuts": 1,
+          "variables": 1924,
+          "propositional_unsat": true
+        },
+        "seconds": 0.3327138540043961
+      },
+      {
+        "case": {
+          "file": "mathsat/FISCHER10-3-fair.smt2",
+          "expected": "unsat",
+          "family": "mathsat",
+          "sha256": "234f693ff44c34bf0d6555f134eb18ab1165fe25de934c9d1f1d6220c5c01314",
+          "historical_seconds": 0.354772,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-94/answers.csv",
+          "bytes": 127863
+        },
+        "status": "verified",
+        "command": [
+          "/home/janotmik/primo-lia-export-20261105/build-slurm-rel/primo",
+          "--quiet",
+          "--stats",
+          "--export-cnf",
+          "results/lia-export-real-357088/replay/02/input.sexp",
+          "--export-cnf-reduction=core",
+          "/home/janotmik/primo-evaluation-20261005/downloads/qf-lia-extracted/non-incremental/QF_LIA/mathsat/FISCHER10-3-fair.smt2"
+        ],
+        "certificate_bytes": 182364,
+        "certificate_sha256": "ef124c7b0658c6e9b800997a9c644cc3e3bb0d9fc003634104916bfa9b0b5742",
+        "check": {
+          "conflicts": 1,
+          "entries": 3,
+          "cuts": 1,
+          "variables": 741,
+          "propositional_unsat": true
+        },
+        "seconds": 0.5351679230225272
+      },
+      {
+        "case": {
+          "file": "mathsat/FISCHER4-8-fair.smt2",
+          "expected": "unsat",
+          "family": "mathsat",
+          "sha256": "da2d19882bc6bb67479ccd271b531aca4c657c63e9ab0d2e4826e187e9812a1a",
+          "historical_seconds": 0.394198,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-11/answers.csv",
+          "bytes": 127519
+        },
+        "status": "verified",
+        "command": [
+          "/home/janotmik/primo-lia-export-20261105/build-slurm-rel/primo",
+          "--quiet",
+          "--stats",
+          "--export-cnf",
+          "results/lia-export-real-357088/replay/03/input.sexp",
+          "--export-cnf-reduction=core",
+          "/home/janotmik/primo-evaluation-20261005/downloads/qf-lia-extracted/non-incremental/QF_LIA/mathsat/FISCHER4-8-fair.smt2"
+        ],
+        "certificate_bytes": 194113,
+        "certificate_sha256": "df33f0713bee81dc7b2e0c343a5bc4a3cdf0f9b748d0b564579e4cf2c730bada",
+        "check": {
+          "conflicts": 30,
+          "entries": 123,
+          "cuts": 30,
+          "variables": 779,
+          "propositional_unsat": true
+        },
+        "seconds": 0.6494154800020624
+      },
+      {
+        "case": {
+          "file": "20210219-Dartagnan/ReachSafety-Loops/count_up_down-1-O0.smt2",
+          "expected": "unsat",
+          "family": "20210219-Dartagnan",
+          "sha256": "8dea5c8594806e3ce54d1d0b343efd382018454afcf9de69bf2a11ffaf2cc5cc",
+          "historical_seconds": 0.707795,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-2/answers.csv",
+          "bytes": 111125
+        },
+        "status": "verified",
+        "command": [
+          "/home/janotmik/primo-lia-export-20261105/build-slurm-rel/primo",
+          "--quiet",
+          "--stats",
+          "--export-cnf",
+          "results/lia-export-real-357088/replay/04/input.sexp",
+          "--export-cnf-reduction=core",
+          "/home/janotmik/primo-evaluation-20261005/downloads/qf-lia-extracted/non-incremental/QF_LIA/20210219-Dartagnan/ReachSafety-Loops/count_up_down-1-O0.smt2"
+        ],
+        "certificate_bytes": 3043138,
+        "certificate_sha256": "21c9380bdc2e1ffd5ec1fee55ac166a97de6e930e3ae03252762fdc2ef0911d5",
+        "check": {
+          "conflicts": 25,
+          "entries": 140,
+          "cuts": 25,
+          "variables": 29832,
+          "propositional_unsat": true
+        },
+        "seconds": 2.7878840310149826
+      },
+      {
+        "case": {
+          "file": "bofill-scheduling/SMT_random_LIA/ex10000_2600_100.smt2",
+          "expected": "unsat",
+          "family": "bofill-scheduling",
+          "sha256": "e47e3101c949be185d4152beed8469f474b272c578e4ba21c4a06d07eb022473",
+          "historical_seconds": 0.133431,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-12/answers.csv",
+          "bytes": 82950
+        },
+        "status": "verified",
+        "command": [
+          "/home/janotmik/primo-lia-export-20261105/build-slurm-rel/primo",
+          "--quiet",
+          "--stats",
+          "--export-cnf",
+          "results/lia-export-real-357088/replay/05/input.sexp",
+          "--export-cnf-reduction=core",
+          "/home/janotmik/primo-evaluation-20261005/downloads/qf-lia-extracted/non-incremental/QF_LIA/bofill-scheduling/SMT_random_LIA/ex10000_2600_100.smt2"
+        ],
+        "certificate_bytes": 455017,
+        "certificate_sha256": "776efa8036d6dffa2b879f66886278fb77069513dd549224d9be975f038df461",
+        "check": {
+          "conflicts": 1,
+          "entries": 115,
+          "cuts": 1,
+          "variables": 4562,
+          "propositional_unsat": true
+        },
+        "seconds": 0.8440334240149241
+      },
+      {
+        "case": {
+          "file": "bofill-scheduling/SMT_random_LIA/ex10100_2600_100.smt2",
+          "expected": "unsat",
+          "family": "bofill-scheduling",
+          "sha256": "311c98f008d7f0a6fe9b6ca85593f4376def973f8e51a410b84562617e3fe56e",
+          "historical_seconds": 0.121121,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-13/answers.csv",
+          "bytes": 82950
+        },
+        "status": "verified",
+        "command": [
+          "/home/janotmik/primo-lia-export-20261105/build-slurm-rel/primo",
+          "--quiet",
+          "--stats",
+          "--export-cnf",
+          "results/lia-export-real-357088/replay/06/input.sexp",
+          "--export-cnf-reduction=core",
+          "/home/janotmik/primo-evaluation-20261005/downloads/qf-lia-extracted/non-incremental/QF_LIA/bofill-scheduling/SMT_random_LIA/ex10100_2600_100.smt2"
+        ],
+        "certificate_bytes": 455017,
+        "certificate_sha256": "2197e0fe9f2efbfe1eff8620fb45dd287832783272f2fd48784e74b2aad26d8f",
+        "check": {
+          "conflicts": 1,
+          "entries": 115,
+          "cuts": 1,
+          "variables": 4562,
+          "propositional_unsat": true
+        },
+        "seconds": 0.8359941779926885
+      },
+      {
+        "case": {
+          "file": "convert/convert-jpg2gif-query-1243.smt2",
+          "expected": "unsat",
+          "family": "convert",
+          "sha256": "c86ed348c80642433ea4689136fd53303b15e222589e722ccf7fbf64884ae21f",
+          "historical_seconds": 0.133421,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-25/answers.csv",
+          "bytes": 78390
+        },
+        "status": "verified",
+        "command": [
+          "/home/janotmik/primo-lia-export-20261105/build-slurm-rel/primo",
+          "--quiet",
+          "--stats",
+          "--export-cnf",
+          "results/lia-export-real-357088/replay/07/input.sexp",
+          "--export-cnf-reduction=core",
+          "/home/janotmik/primo-evaluation-20261005/downloads/qf-lia-extracted/non-incremental/QF_LIA/convert/convert-jpg2gif-query-1243.smt2"
+        ],
+        "certificate_bytes": 145101,
+        "certificate_sha256": "e0e04363f0c56e66407cb95d91d8ef46c2b5281bd85a95e21dbffd4a721f7d43",
+        "check": {
+          "conflicts": 0,
+          "entries": 0,
+          "cuts": 0,
+          "variables": 1661,
+          "propositional_unsat": true
+        },
+        "seconds": 0.2838999959931243
+      }
+    ]
+  },
+  "native_example": "docs/examples/qf-lia-certificate-native.json",
+  "static_analysis": {
+    "tidy": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 144,
+      "analyzed_translation_units": 144,
+      "tool_exit_code": 0,
+      "unique_diagnostics": 855,
+      "counts": {
+        "portability-avoid-pragma-once": 108,
+        "performance-enum-size": 87,
+        "bugprone-unchecked-optional-access": 103,
+        "clang-analyzer-optin.performance.Padding": 1,
+        "misc-include-cleaner": 405,
+        "bugprone-easily-swappable-parameters": 41,
+        "bugprone-exception-escape": 12,
+        "bugprone-implicit-widening-of-multiplication-result": 4,
+        "performance-unnecessary-value-param": 14,
+        "performance-inefficient-vector-operation": 7,
+        "bugprone-branch-clone": 5,
+        "bugprone-use-after-move": 1,
+        "performance-move-const-arg": 23,
+        "performance-unnecessary-copy-initialization": 5,
+        "clang-analyzer-optin.core.EnumCastOutOfRange": 17,
+        "performance-inefficient-string-concatenation": 8,
+        "bugprone-assert-side-effect": 7,
+        "clang-analyzer-cplusplus.NewDeleteLeaks": 1,
+        "performance-no-automatic-move": 1,
+        "bugprone-optional-value-conversion": 2,
+        "performance-faster-string-find": 3
+      },
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      }
+    },
+    "includes": {
+      "analyzed": 144,
+      "advisories": 405,
+      "blocking_unused": 0
+    },
+    "review": "Self-review found no blocking change issue. New-source advisories are pragma-once, enum storage size, and assert-side-effect in a test that explicitly undefines NDEBUG. Baseline diagnostic inventory is not a warning-free claim.",
+    "artifact_directories": [
+      "results/lia-export-static-recheck",
+      "results/lia-export-includes",
+      "results/lia-export-review"
+    ]
+  },
+  "documentation_review": {
+    "reviewer": "/root/review_lia_export_docs",
+    "required_source_link_finding": "resolved",
+    "heading_suggestion": "resolved",
+    "final_evidence_recheck": "accepted; R1 source links and S1 heading resolved; S2 human-readable metadata spacing repaired",
+    "reviewed_scope": [
+      "docs/reference/qf-lia-certificates.md",
+      "docs/leads/lia-conflict-certificates.md",
+      "docs/examples/qf-lia-certificate-native.sexp",
+      "docs/examples/qf-lia-certificate-native.json",
+      "docs/coverage/lia-certificate-export.json",
+      "first new entry in docs/run-log.json",
+      "added paragraph in docs/implementation/lia.md",
+      "changed intro in docs/reference/qf-uf-conflicts.md"
+    ],
+    "unchecked": "Reviewer inspected recorded evidence and native example; did not rerun solver suites or replay every certificate."
+  },
+  "limitations": [
+    "incomplete real-shadow/GCD cut reconstruction; no dark shadows, splinters or scoped branch replay",
+    "single-query Bool/Int affine fragment after existing lowering; no mixed logics, quantifiers, functions or incremental queries",
+    "source-to-CNF conversion unproved",
+    "Python diagnostic checker retains full artifacts and trusts external SAT UNSAT rather than a proof kernel",
+    "no Micromath/version3 translation or end-to-end proof-kernel qualification"
+  ],
+  "artifacts": {
+    "local": "results/lia-export-qualification",
+    "native_lia": "results/lia-export-357089",
+    "regressions_asan": "results/lia-export-357091",
+    "real": "results/lia-export-real-357088",
+    "example": "results/lia-export-example-357090",
+    "timeout": "results/lia-export-timeout-357092"
+  },
+  "workflow_sha256_regression_job": {
+    "scripts/slurm_lia_export_gate.sbatch": "d17a1757e04597d856a9f893081523aec776ef6c37017f0c2cd972e7dba84d6a",
+    "tests/lia_export_cli.py": "4b75e527aa2301a788bdd955fc90d7bc0af6801c141e372ad51c2e4c3eac4e19",
+    "scripts/check_lia_certificate.py": "ff6eedb8e63cf673a754098400a28f83cf8b573392ef69f8d0ea5e2f16de3a83",
+    "tests/lra_export_cli.py": "21bdc28050d3c0f6236645af1af0ca1c05af61fdebc3bf829f4eb1f38fbcc785",
+    "scripts/check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+  },
+  "verification_commands": [
+    "make lint",
+    "make docs-check-links",
+    "make check BUILD_DIR=build-slurm-rel (reused dependency stamps and pinned Ruff Python; see gate script)",
+    "make asan-test ASAN_BUILD_DIR=build-slurm-lia-asan (prepared compiler headers and ASan runtime; see gate script)",
+    "python3 tests/lia_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --sat-solver \"$SAT\" --baseline \"$BASELINE\" --count 1000 --seed 202611052 --out results/lia-export-357089/lia-fuzz",
+    "python3 tests/lra_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --sat-solver \"$SAT\" --count 1000 --seed 202611050 --out results/lia-export-357091/lra-fuzz",
+    "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 202611051 --out results/lia-export-357091/uf-fuzz",
+    "make tidy CLANG_TIDY=clang-tidy STATIC_CXX=clang++ (LLVM21;144 tracked translation units)",
+    "make include-cleaner CLANG_TIDY=clang-tidy STATIC_CXX=clang++ (LLVM21;144 tracked translation units)"
+  ]
+}

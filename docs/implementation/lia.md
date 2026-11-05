@@ -572,7 +572,11 @@ only after integer infeasibility, never after a model or a resource limit.
 The explanation can contain reasons from cuts or closed branches unnecessary
 to the final proof. Such extra disjuncts weaken a valid clause; they do not
 invalidate it. This is conservative explanation collection, not minimal-core
-extraction or a replayable external proof certificate.
+extraction or a replayable external proof certificate. The separate
+[experimental version-3 exporter](../reference/qf-lia-certificates.md) reconstructs
+a checked integer cut derivation from each retained clause after CORE/MUS selection.
+It does not record this branch history and can fail to reconstruct a proof even
+when native integer search establishes UNSAT.
 
 {source}`generalized_lia_lemma
 <src/smt/solver_engines.cpp#L8334-L8360>` checks that the explanation is

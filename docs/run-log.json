@@ -3,6 +3,168 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-05-qf-lia-integer-certificate-export",
+      "date": "2026-11-05",
+      "kind": "bounded-experimental-single-query-LIA-certificate-qualification",
+      "commit": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "evidence_status": "Native, Python, ASan, UF/LRA export regressions and eight real inputs selected from recorded fast runs passed. Fresh LIA completed 1,012 cases: 1,006 passes, five baseline-confirmed native node limits, one baseline-reproduced native timeout. No full-corpus or default-performance claim.",
+      "manifest": "docs/coverage/lia-certificate-export.json",
+      "workflow_provenance": "Native C++ and unit sources are unchanged from implementation_git. The final adjacent qualification commit adds the baseline-resource-limit classification, selective regression phase and this report. Exact executed workflow hashes are recorded separately for each job.",
+      "jobs": {
+        "initial_build_compile_failure": "357079",
+        "qualified_release_build": "357081",
+        "initial_native_lia_gate": "357087",
+        "native_lia_gate": "357089",
+        "uf_lra_asan_regressions": "357091",
+        "real_inputs": "357088",
+        "native_example": "357090",
+        "timeout_triage": "357092"
+      },
+      "commands": [
+        "make lint",
+        "make docs-check-links",
+        "make check BUILD_DIR=build-slurm-rel (reused dependency stamps and pinned Ruff Python; see gate script)",
+        "make asan-test ASAN_BUILD_DIR=build-slurm-lia-asan (prepared compiler headers and ASan runtime; see gate script)",
+        "python3 tests/lia_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --sat-solver \"$SAT\" --baseline \"$BASELINE\" --count 1000 --seed 202611052 --out results/lia-export-357089/lia-fuzz",
+        "python3 tests/lra_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --sat-solver \"$SAT\" --count 1000 --seed 202611050 --out results/lia-export-357091/lra-fuzz",
+        "python3 tests/cnf_export_cli.py --solver build-slurm-rel/primo --reference contrib/local/bin/z3 --fuzz-count 1000 --seed 202611051 --out results/lia-export-357091/uf-fuzz",
+        "make tidy CLANG_TIDY=clang-tidy STATIC_CXX=clang++ (LLVM21;144 tracked translation units)",
+        "make include-cleaner CLANG_TIDY=clang-tidy STATIC_CXX=clang++ (LLVM21;144 tracked translation units)"
+      ],
+      "limits": {
+        "gate_cpus": 4,
+        "gate_memory_gib": 24,
+        "gate_wall_minutes": 120,
+        "fuzz_reference_seconds": 15,
+        "fuzz_export_seconds": 15,
+        "checker_sat_seconds": 60,
+        "real_export_seconds": 120
+      },
+      "machine": {
+        "node": "node-02",
+        "cpu": "Intel Xeon E5-2690 v4 @2.60GHz",
+        "node_logical_cpus": 56,
+        "gate_cpus": 4,
+        "gate_memory_gib": 24,
+        "gate_wall_minutes": 120,
+        "real_cpus": 1,
+        "real_memory_gib": 8,
+        "real_wall_minutes": 45
+      },
+      "binaries": {
+        "release_sha256": "71288893c36bb8a068fe3a5b97e660f33a7bdef4dd94aaa1506b3cfb18d090b5",
+        "baseline_git": "e910cfdec073e0d3ba937fe9d95e6669e0eb7359",
+        "baseline_sha256": "5f6e8e2cb12ad3c2324d71e8310d38aa6807f92f4da242b237ab663f014abb74",
+        "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+        "z3_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+        "backend": "cadical-3.0.0-7b99c07"
+      },
+      "native": {
+        "command": "make check BUILD_DIR=build-slurm-rel with reused dependency stamps and pinned Ruff Python",
+        "ctest_passed": 50,
+        "ctest_seconds": 6.52,
+        "python_tests_run": 323,
+        "python_passed": 321,
+        "python_skipped": 2,
+        "focused_passed": 4
+      },
+      "asan": {
+        "status": "passed",
+        "ctest_passed": 50,
+        "ctest_seconds": 53.87,
+        "command": "make asan-test ASAN_BUILD_DIR=build-slurm-lia-asan; ASAN_OPTIONS=detect_leaks=1:strict_init_order=1",
+        "version": "Debug, sanitizers: address; git a5123159",
+        "binary_sha256": "7cf3644abb6c4c3e4da9ac4aefd535e141b13263e93cf848a135c145e3c425ea"
+      },
+      "fuzz": {
+        "generator": "tests/lia_export_cli.py",
+        "seed": 202611052,
+        "generated": 1000,
+        "focused": 12,
+        "reference": "contrib/local/bin/z3 -in",
+        "counts": {
+          "pass": 1006,
+          "sat": 201,
+          "unsat": 805,
+          "wrong_answer": 0,
+          "error": 0,
+          "timeout": 1,
+          "main_resource_limit": 5,
+          "unsupported": 0,
+          "reference_disagreement": 0
+        },
+        "wrong_answer": 0,
+        "crash": 0,
+        "parser_type_error": 0,
+        "unsupported": 0,
+        "reference_disagreement": 0,
+        "invalid_certificates": 0,
+        "artifact_directory": "results/lia-export-357089/lia-fuzz",
+        "note": "Native limits excluded from passes; five node-limit cases replayed against baseline; timeout also reproduced with export disabled on both binaries."
+      },
+      "regressions": {
+        "LRA": {
+          "pass": 1008,
+          "sat": 201,
+          "unsat": 807,
+          "wrong_answer": 0,
+          "error": 0,
+          "timeout": 0
+        },
+        "UF": {
+          "seed": 202611051,
+          "requested": 1000,
+          "reduction_modes": "round-robin none/core/mus",
+          "solver_paths": "alternating off/auto preprocessing; four propagation modes; both EUF engines; ite on every seventh case",
+          "sort_erasure": "enabled on odd indices; multi-sort input on every fifth index",
+          "pass": 1000,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_error": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "invalid_artifact": 0
+        }
+      },
+      "real_inputs": {
+        "selection": "Recorded native UNSAT <= 1 second, 2,048..131,072 bytes, at most two per family, eight inputs",
+        "verified": 8,
+        "nonempty_arithmetic_outputs": 7,
+        "conflict_records": 60,
+        "premise_entries": 790,
+        "artifact_directory": "results/lia-export-real-357088"
+      },
+      "native_example": "docs/examples/qf-lia-certificate-native.json",
+      "static_analysis": {
+        "tracked_translation_units": 144,
+        "clang_tidy_diagnostics": 855,
+        "include_advisories": 405,
+        "blocking_unused_includes": 0,
+        "review": "self-review found no blocking change issue; advisory inventory retained"
+      },
+      "initial_failures": {
+        "357079": "test-only equality comparison did not compile; fixed before accepted release build",
+        "357087": "first native node limit initially treated as an export failure; triaged against baseline",
+        "357089": "Strict wrapper exited nonzero after an external timeout; all 1,012 inputs completed; remaining regressions and ASan ran separately in job 357091."
+      },
+      "limitations": [
+        "incomplete real-shadow/GCD cut reconstruction; no dark shadows, splinters or scoped branch replay",
+        "single-query Bool/Int affine fragment after existing lowering; no mixed logics, quantifiers, functions or incremental queries",
+        "source-to-CNF conversion unproved",
+        "Python diagnostic checker retains full artifacts and trusts external SAT UNSAT rather than a proof kernel",
+        "no Micromath/version3 translation or end-to-end proof-kernel qualification"
+      ],
+      "artifacts": {
+        "local": "results/lia-export-qualification",
+        "native_lia": "results/lia-export-357089",
+        "regressions_asan": "results/lia-export-357091",
+        "real": "results/lia-export-real-357088",
+        "example": "results/lia-export-example-357090",
+        "timeout": "results/lia-export-timeout-357092"
+      }
+    },
+    {
       "id": "2026-11-04-lra-checker-starter-examples",
       "date": "2026-11-04",
       "kind": "small-original-certificate-examples-for-checker-author",

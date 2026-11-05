@@ -1,6 +1,6 @@
 # Experimental integer-only LIA conflict derivations
 
-**Status: experimental bounded implementation; SLURM qualification pending.** The existing UF/version-1 and
+**Status: experimental bounded implementation; bounded SLURM checks completed with native-search limits reported below.** The existing UF/version-1 and
 [LRA/version-2 formats](../reference/qf-lra-certificates.md) remain unchanged.
 Version 3 adds `QF_LIA`, `Int` constants and `conflict-lia` records.
 The exported CNF remains the starting problem; this format supplies no proof
@@ -152,9 +152,15 @@ Pugh's expanded *Omega Test*, §2.1 {cite:p}`pugh1992omega`. Our `cut` syntax
 combines those operations into one explicit, checked inference; this is not an
 implementation of the Omega algorithm. Names, record layout and the example
 are our format design. A native serializer, bounded reconstructor and separate
-Python checker are now implemented; qualification is pending.
+Python checker are implemented. The [qualification record](../reference/qf-lia-certificates.md#independent-checks-and-qualification) reports the bounded checks and native-search limits.
 
 ## Implementation checklist: bounded reconstruction
+
+The implemented owners are the
+{liaexportsource}`arithmetic proof types and entry points <src/theory/arithmetic/lia_certificate.hpp>`,
+{liaexportsource}`SMT collector <src/smt/cnf_export.hpp>`,
+{liaexportsource}`component capture <src/smt/component_solver.cpp#L71>` and
+{liaexportsource}`independent serialized-proof checker <scripts/check_lia_certificate.py#L97>`.
 
 Implementation work uses Pugh §2.1 (integer coefficient GCD and bound
 tightening) and §2.3.1 (pairwise Fourier–Motzkin real-shadow elimination), with the

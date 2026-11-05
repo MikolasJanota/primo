@@ -8,7 +8,9 @@ UNSAT. Primo bundles no UF checker; the external Micromath route below covers a
 restricted subset of this format.
 
 The [QF_LRA extension](qf-lra-certificates.md) adds weighted arithmetic conflicts
-in version 2, with bounded experimental qualification. This page continues to specify the
+in version 2, with bounded experimental qualification. The
+[QF_LIA extension](qf-lia-certificates.md) adds named integer cut derivations in
+version 3. This page continues to specify the
 unchanged QF_UF/version-1 artifact. The [arithmetic design note](../leads/lra-conflict-certificates.md)
 records the coefficient-reconstruction argument.
 

@@ -118,6 +118,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for flag in ("solver", "reference", "sat-solver"):
         parser.add_argument(f"--{flag}", required=True)
+    parser.add_argument(
+        "--baseline", help="qualified native binary for main-search limit triage"
+    )
     parser.add_argument("--count", type=int, default=1000)
     parser.add_argument("--seed", type=int, default=202611052)
     parser.add_argument("--out", type=Path, required=True)
@@ -134,6 +137,7 @@ def main():
             "wrong_answer",
             "error",
             "timeout",
+            "main_resource_limit",
             "unsupported",
             "reference_disagreement",
         ),
@@ -174,20 +178,54 @@ def main():
                 for s in result.stdout.splitlines()
                 if s in ("sat", "unsat", "unknown")
             ]
-            if result.returncode or answers != [expected]:
-                if any(s in ("sat", "unsat") and s != expected for s in answers):
-                    counts["wrong_answer"] += 1
-                if "unsupported" in result.stderr.lower():
-                    counts["unsupported"] += 1
-                raise ValueError(f"solver/export failed: {result}")
-            if expected == "unsat":
-                checked = check_file(path, args.sat_solver)
-                for key in totals:
-                    totals[key] += checked[key]
-            elif path.exists():
-                raise ValueError("SAT export created an artifact")
-            counts["pass"] += 1
-            counts[expected] += 1
+            limited = (
+                result.returncode == 0
+                and answers == ["unknown"]
+                and ":export.main-unsat 0" in result.stderr.splitlines()
+                and result.stderr.splitlines()[-1]
+                == "integer branch-and-bound node limit"
+            )
+            if limited:
+                if path.exists() or not args.baseline:
+                    raise ValueError(
+                        "main search limit requires no artifact and a baseline replay"
+                    )
+                controls = [
+                    arg
+                    for arg in command[1:]
+                    if arg.startswith(("--preprocessing-mode=", "--lra-propagation="))
+                ]
+                baseline = invoke(
+                    [args.baseline, "--quiet", "--stats", *controls], source
+                )
+                (args.out / f"{index:04d}.baseline.out").write_text(baseline.stdout)
+                (args.out / f"{index:04d}.baseline.err").write_text(baseline.stderr)
+                if (
+                    baseline.returncode
+                    or baseline.stdout.strip() != "unknown"
+                    or baseline.stderr.splitlines()[-1]
+                    != "integer branch-and-bound node limit"
+                ):
+                    raise ValueError(
+                        f"main search limit differs from baseline: {baseline}"
+                    )
+                counts["main_resource_limit"] += 1
+            else:
+                if result.returncode or answers != [expected]:
+                    if any(s in ("sat", "unsat") and s != expected for s in answers):
+                        counts["wrong_answer"] += 1
+                    diagnostic = result.stderr.splitlines()[-1] if result.stderr else ""
+                    if "unsupported" in diagnostic.lower():
+                        counts["unsupported"] += 1
+                    raise ValueError(f"solver/export failed: {result}")
+                if expected == "unsat":
+                    checked = check_file(path, args.sat_solver)
+                    for key in totals:
+                        totals[key] += checked[key]
+                elif path.exists():
+                    raise ValueError("SAT export created an artifact")
+                counts["pass"] += 1
+                counts[expected] += 1
         except subprocess.TimeoutExpired as error:
             counts["timeout"] += 1
             (args.out / f"{index:04d}.failure").write_text(repr(error))

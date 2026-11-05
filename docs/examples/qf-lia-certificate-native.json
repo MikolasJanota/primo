@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "kind": "native QF_LIA/version3 example",
+  "source_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "slurm_job": "357090",
+  "command": "build-slurm-rel/primo --quiet --stats --preprocessing-mode=off --export-cnf input.sexp --export-cnf-reduction=core docs/examples/qf-lia-certificate-proposal.smt2",
+  "source_to_cnf_proved": false,
+  "check": {
+    "conflicts": 1,
+    "cuts": 2,
+    "entries": 3,
+    "propositional_unsat": true,
+    "variables": 3
+  },
+  "files": {
+    "qf-lia-certificate-proposal.smt2": "4a7110287022c20e19bc1309c91e1615a22d53e9fa664cafd04993785b8172d4",
+    "qf-lia-certificate-native.sexp": "e9f672193dbd38db34563a90f9f5491649cef65f8b814c83e1927f2ab848b6d8"
+  }
+}

@@ -14,6 +14,7 @@ cd "${PRIMO_WORKDIR:-$PWD}"
 : "${PRIMO_CMAKE:?prepared cmake executable}"
 : "${PRIMO_CXX_HEADER_MANIFEST:?matching compiler include roots}"
 : "${PRIMO_SAT_SOLVER:?independent DIMACS SAT executable}"
+: "${PRIMO_BASELINE_SOLVER:?qualified native binary for search-limit triage}"
 : "${PRIMO_RUFF_PYTHON:?Python with the pinned Ruff dependency}"
 export PATH="$(dirname "$PRIMO_CMAKE"):$PWD/contrib/local/clang-tools-env/bin:$PWD/contrib/local/bin:$PATH"
 export CMAKE_BUILD_PARALLEL_LEVEL="${SLURM_CPUS_PER_TASK:-4}"
@@ -25,22 +26,28 @@ while IFS= read -r root; do
   cxx_header_flags="$cxx_header_flags -isystem $root"
 done < "$PRIMO_CXX_HEADER_MANIFEST"
 export CXXFLAGS="${CXXFLAGS:-}$cxx_header_flags"
+phase="${PRIMO_EXPORT_GATE_PHASE:-all}"
+case "$phase" in all|regressions) ;; *) echo "unknown gate phase: $phase" >&2; exit 2 ;; esac
 artifacts="results/lia-export-$SLURM_JOB_ID"
 mkdir -p "$artifacts"
 build-slurm-rel/primo --version > "$artifacts/version.txt"
 grep -Fx "git: $PRIMO_EXPECTED_GIT" "$artifacts/version.txt"
-sha256sum build-slurm-rel/primo "$PRIMO_SAT_SOLVER" contrib/local/bin/z3 > "$artifacts/binaries.sha256"
-sha256sum tests/lia_export_cli.py scripts/check_lia_certificate.py tests/lra_export_cli.py scripts/check_lra_certificate.py > "$artifacts/workflow.sha256"
+"$PRIMO_BASELINE_SOLVER" --version > "$artifacts/baseline-version.txt"
+sha256sum build-slurm-rel/primo "$PRIMO_BASELINE_SOLVER" "$PRIMO_SAT_SOLVER" contrib/local/bin/z3 > "$artifacts/binaries.sha256"
+sha256sum scripts/slurm_lia_export_gate.sbatch tests/lia_export_cli.py scripts/check_lia_certificate.py tests/lra_export_cli.py scripts/check_lra_certificate.py > "$artifacts/workflow.sha256"
 lscpu > "$artifacts/cpu.txt"
-ctest --test-dir build-slurm-rel -R '^primo_(lia_certificate|lra_certificate|component_combination|term_printer)_tests$' --timeout 120 --output-on-failure \
-  > "$artifacts/focused-native.log" 2>&1
+printf "%s\n" "$phase" > "$artifacts/phase.txt"
 reuse_native=(-o contrib/local/.cli11.stamp -o contrib/local/.cadical.stamp -o contrib/local/.gmp.stamp)
-make "${reuse_native[@]}" check BUILD_DIR=build-slurm-rel \
-  RUFF="$PRIMO_RUFF_PYTHON -m ruff" > "$artifacts/check.log" 2>&1
-python3 tests/lia_export_cli.py --solver build-slurm-rel/primo \
-  --reference contrib/local/bin/z3 --sat-solver "$PRIMO_SAT_SOLVER" \
-  --count 1000 --seed 202611052 --out "$artifacts/lia-fuzz" \
-  > "$artifacts/lia-fuzz.log" 2>&1
+if [[ $phase == all ]]; then
+  ctest --test-dir build-slurm-rel -R '^primo_(lia_certificate|lra_certificate|component_combination|term_printer)_tests$' --timeout 120 --output-on-failure \
+    > "$artifacts/focused-native.log" 2>&1
+  make "${reuse_native[@]}" check BUILD_DIR=build-slurm-rel \
+    RUFF="$PRIMO_RUFF_PYTHON -m ruff" > "$artifacts/check.log" 2>&1
+  python3 tests/lia_export_cli.py --solver build-slurm-rel/primo \
+    --reference contrib/local/bin/z3 --sat-solver "$PRIMO_SAT_SOLVER" \
+    --baseline "$PRIMO_BASELINE_SOLVER" --count 1000 --seed 202611052 --out "$artifacts/lia-fuzz" \
+    > "$artifacts/lia-fuzz.log" 2>&1
+fi
 python3 tests/lra_export_cli.py --solver build-slurm-rel/primo \
   --reference contrib/local/bin/z3 --sat-solver "$PRIMO_SAT_SOLVER" \
   --count 1000 --seed 202611050 --out "$artifacts/lra-fuzz" \
@@ -59,4 +66,4 @@ fi
 "$PRIMO_CMAKE" -S . -B "$asan_dir" "${asan_flags[@]}" > "$artifacts/asan-config.log" 2>&1
 make "${reuse_native[@]}" asan-test ASAN_BUILD_DIR="$asan_dir" \
   > "$artifacts/asan-test.log" 2>&1
-printf '%s\n' 'native, Python, LIA/LRA/UF fresh export gates and ASan passed' > "$artifacts/PASSED"
+printf 'selected phase %s passed; regressions phase excludes native check and LIA fuzz\n' "$phase" > "$artifacts/PASSED"

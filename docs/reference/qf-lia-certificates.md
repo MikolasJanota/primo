@@ -1,6 +1,6 @@
 # QF_LIA integer cut certificates, version 3
 
-**Status: experimental bounded implementation; SLURM qualification pending.**
+**Status: experimental bounded implementation; bounded SLURM checks completed with native-search limits reported below.**
 `--export-cnf FILE` accepts a single QF_LIA query with the same command/session
 restrictions as [UF export](qf-uf-conflicts.md). Existing UF/version-1 and
 [LRA/version-2](qf-lra-certificates.md) records are unchanged. Version 3 lists
@@ -18,7 +18,10 @@ The {download}`input <../examples/qf-lia-certificate-proposal.smt2>` is the
 two-variable example in the [design note](../leads/lia-conflict-certificates.md).
 Its {download}`hand-written certificate <../examples/qf-lia-certificate-proposal.sexp>`
 is a valid example of the schema, not a byte-for-byte expected producer output.
-Native output uses `pN`/`sN` names and may derive a different proof. The normal
+The {download}`native certificate <../examples/qf-lia-certificate-native.sexp>`
+uses `pN`/`sN` names and derives the same contradiction in two cuts; its
+{download}`provenance <../examples/qf-lia-certificate-native.json>` records the
+command, source and independent check. The normal
 preparation path lowers equalities and extended integer terms; disabling
 optional preprocessing makes the example's arithmetic conflicts observable.
 
@@ -62,8 +65,10 @@ clause. Each conflict is checked independently of other CNF clauses or records.
 
 ## Reconstruction, ownership and limits
 
-The SMT collector observes the real clausifier-to-SAT boundary and complete
-component reason/external-clause streams, including the integer completion
+The {liaexportsource}`SMT collector <src/smt/cnf_export.hpp>` observes the real
+clausifier-to-SAT boundary through
+{liaexportsource}`solve_component_recipe <src/smt/component_solver.cpp#L71>` and
+complete {liaexportsource}`component reason/external-clause streams <src/smt/component_dispatcher.cpp#L244>`, including the integer completion
 conflicts learned after full-model checks. The single unguided LIA recipe
 accepts the optional collector; other component recipes retain their default
 behavior. The dispatcher observer receives only SAT clauses and is empty in
@@ -71,14 +76,15 @@ ordinary solving. No coefficients or integer proof trace are stored in main
 search. Atom bindings seal after initial preparation; a later clausifier
 emission fails export rather than silently using an incomplete mapping.
 
-As for LRA, raw numeric theory clauses are spooled and CORE/MUS selects complete
-clauses before reconstruction. `none` uses sequential numeric records with no
+As for LRA, {liaexportsource}`raw numeric theory clauses <src/smt/numeric_clause_spool.hpp>`
+are spooled and CORE/MUS selects complete clauses before
+{liaexportsource}`SMT reconstruction <src/smt/cnf_export.cpp#L326>`. `none` uses sequential numeric records with no
 offset index. Proof text is staged on disk; the final output opens only after
 all retained conflicts have completed. A cancelled or incomplete reconstruction
 leaves an existing output unchanged. Final-publication I/O failure may still
 leave a partial file, as in the other formats.
 
-The {download}`arithmetic API <../../src/theory/arithmetic/lia_certificate.hpp>`
+The {liaexportsource}`arithmetic API <src/theory/arithmetic/lia_certificate.hpp>`
 owns sparse integer-valued premises, cuts and result counters. It uses
 integer-valued `util::Rational` objects internally to reuse arbitrary-precision
 arithmetic and overflow handling; no rational numeral is serialized. Variable
@@ -86,7 +92,7 @@ IDs are opaque to this layer. Per-lemma projection rows and proof state are
 released before the next retained lemma; the collector still borrows the
 query term manager and retains the CNFs needed by subset reduction.
 
-The {download}`reconstructor <../../src/theory/arithmetic/lia_certificate.cpp>`
+The {liaexportsource}`reconstructor <src/theory/arithmetic/lia_certificate.cpp#L91>`
 first tightens each premise by its coefficient GCD. It tries the existing
 private LRA witness reconstruction on those tightened rows, clearing all
 weight denominators to obtain an integer sum. This handles rational
@@ -127,7 +133,7 @@ CORE/MUS selection alone does not establish proof validity.
 
 ## Independent checks and qualification
 
-The {download}`Python checker <../../scripts/check_lia_certificate.py>` uses
+The {liaexportsource}`Python checker <scripts/check_lia_certificate.py#L97>` uses
 Python integer arithmetic, parses the serialized polynomials independently,
 checks local reference scope and replays each cut including exact divisibility
 and negative floor. It shares tokenization with the LRA checker, but no producer
@@ -143,8 +149,22 @@ fast path, an example needing the exact-projection preference, proof pruning,
 invalid cuts, duplicate coefficients, limit/cancellation paths and an incomplete
 integer refutation preserving the output sentinel. Python mutation tests cover
 divisibility, sign, type, scope, zero weights and false contradictions.
-Native suites, ASan, fresh export fuzzing and recorded-fast real inputs remain
-pending SLURM qualification.
+SLURM jobs `357089`/`357091` passed all 50 native tests, 321 Python tests
+(with two skips), 50 ASan tests, 1,008 LRA export cases and 1,000 UF export cases.
+The fresh LIA run completed 1,012 inputs: 1,006 passes (201 SAT and 805
+independently checked UNSAT certificates), five native branch-node limits
+confirmed on the previous qualified binary, and one 15-second timeout also
+reproduced without export on both binaries. The strict LIA wrapper therefore
+exited nonzero on that timeout; remaining regressions and ASan ran separately.
+Limits are excluded from passes, with zero wrong answers or invalid certificates.
+
+Job `357088` independently checked all eight selected real inputs, drawn from
+recorded native UNSAT runs of at most one second. Seven outputs contain
+arithmetic conflicts; together the outputs have 60 conflict records and 790
+premise entries. This is a bounded sample, not full QF_LIA coverage. The
+{download}`qualification ledger <../coverage/lia-certificate-export.json>` records
+seeds, exact workflows, binary hashes, historical input hashes, job outcomes,
+resource limits, timeout reproduction and artifact paths.
 
 ## Sources and implementation status
 
