@@ -31,6 +31,7 @@
 #include "sat/ipasir_up.hpp"
 #include "sat/lit.hpp"
 #include "sat/trail.hpp"
+#include "smt/arithmetic_phase_simulation.hpp"
 #include "smt/assignment_coordinator.hpp"
 #include "smt/boolean_solver.hpp"
 #include "smt/check_sat.hpp"
@@ -53,6 +54,7 @@
 #include "smt/typed_model_builder.hpp"
 #include "theory/arithmetic/lia_completion.hpp"
 #include "theory/arithmetic/lia_explanation.hpp"
+#include "theory/arithmetic/lia_integer_values.hpp"
 #include "theory/arithmetic/lia_patching.hpp"
 #include "theory/arithmetic/linear_polynomial.hpp"
 #include "theory/arithmetic/lra_atom.hpp"
@@ -8820,7 +8822,8 @@ class ComponentLraExecution final {
         model_phase_backtrack_may_change_beta_(model_phase_backtrack_may_change_beta),
         row_propagation_limits_(row_propagation_limits),
         publish_phase_(std::move(publish_phase)),
-        statistics_(statistics) {
+        statistics_(statistics),
+        phase_simulation_(ArithmeticPhaseSimulation::environment()) {
     int max_theory_var = 0;
     for (const BooleanClausifier::TheoryAtom& atom : theory_atoms_) {
       max_theory_var =
@@ -8836,6 +8839,7 @@ class ComponentLraExecution final {
       observed_vars_[static_cast<std::size_t>(var)] = 1;
       atom_index_by_var_[static_cast<std::size_t>(var)] = i;
     }
+    phase_region_refresh_.assign(tableau_.variable_count(), 0);
     refresh_model_phases();
   }
 
@@ -8878,7 +8882,7 @@ class ComponentLraExecution final {
     pending_interface_equalities_.clear();
     reason_stream_active_lit_ = 0;
     reason_stream_index_ = 0;
-    if (model_phase_backtrack_may_change_beta_) {
+    if (model_phase_backtrack_may_change_beta_ || phase_simulation_) {
       mark_all_model_phases_dirty();
     }
   }
@@ -9187,6 +9191,7 @@ class ComponentLraExecution final {
     // current assignment) is completely unaffected by deferring this.
     // See run_deferred_check_if_needed(), called from both
     // cb_has_external_clause() overloads.
+    if (phase_simulation_) mark_model_phase_bound_var_dirty(prepared_atom.bound_var);
     needs_check_ = true;
   }
 
@@ -9267,6 +9272,10 @@ class ComponentLraExecution final {
     if (!model_phase_enabled_) {
       return;
     }
+    if (phase_simulation_) {
+      phase_simulation_->begin_refresh();
+      ++phase_region_generation_;
+    }
     statistics_.increment(kStatLraModelPhaseRefreshes);
     if (model_phase_all_dirty_) {
       for (std::size_t atom_index = 0; atom_index < theory_atoms_.size(); ++atom_index) {
@@ -9287,9 +9296,40 @@ class ComponentLraExecution final {
   }
 
   void refresh_model_phase_atom(std::size_t atom_index) {
-    const std::optional<sat::Lit> phase_lit = model_phase_literal(atom_index);
+    std::optional<sat::Lit> phase_lit = model_phase_literal(atom_index);
     if (!phase_lit.has_value()) {
       return;
+    }
+    if (phase_simulation_) {
+      const auto& prepared_atom = prepared_.atoms[atom_index];
+      const auto bound_var = prepared_atom.bound_var;
+      const bool integer = prepared_atom.integer_rounding != IntegerBoundRounding::None;
+      if (phase_region_refresh_[bound_var] != phase_region_generation_) {
+        ArithmeticPhaseSimulation::Domain domain;
+        if (integer) {
+          if (const auto lower = tableau_.lower_bound(bound_var))
+            domain.lower = theory::arithmetic::delta_ceil(lower->value);
+          if (const auto upper = tableau_.upper_bound(bound_var))
+            domain.upper = theory::arithmetic::delta_floor(upper->value);
+        }
+        phase_simulation_->domain(bound_var, std::move(domain));
+        phase_region_refresh_[bound_var] = phase_region_generation_;
+      }
+      const auto yes = bound_assertion(prepared_atom.relation, prepared_atom.rhs,
+                                       prepared_atom.asserts_lower_when_true, true,
+                                       prepared_atom.integer_rounding);
+      const auto no = bound_assertion(prepared_atom.relation, prepared_atom.rhs,
+                                      prepared_atom.asserts_lower_when_true, false,
+                                      prepared_atom.integer_rounding);
+      const auto endpoint = [](const BoundAssertion& bound) {
+        return bound.is_upper ? theory::arithmetic::delta_floor(bound.value)
+                              : theory::arithmetic::delta_ceil(bound.value);
+      };
+      const int true_lit = theory_atoms_[atom_index].lit.value;
+      phase_lit =
+          sat::Lit{phase_simulation_->choose(atom_index, bound_var, true_lit, phase_lit->value,
+                                             !is_assigned_var(true_lit > 0 ? true_lit : -true_lit),
+                                             integer, yes.is_upper, endpoint(yes), endpoint(no))};
     }
     const int var = phase_lit->value > 0 ? phase_lit->value : -phase_lit->value;
     if (model_phase_by_var_[static_cast<std::size_t>(var)] == phase_lit->value) {
@@ -9587,6 +9627,9 @@ class ComponentLraExecution final {
   LraRowPropagationLimits row_propagation_limits_;
   std::function<void(sat::Lit)> publish_phase_;
   util::Statistics& statistics_;
+  std::unique_ptr<ArithmeticPhaseSimulation> phase_simulation_;
+  std::vector<std::size_t> phase_region_refresh_;
+  std::size_t phase_region_generation_ = 0;
   std::vector<char> observed_vars_;
   std::vector<int> model_phase_by_var_;
   std::vector<char> model_phase_dirty_bound_vars_;

@@ -85,6 +85,7 @@ parts:
       - file: leads/model-based-combination
       - file: leads/search-diversification
       - file: leads/adaptive-phase-probe
+      - file: leads/phase-region-simulation
       - file: leads/portfolio
       - file: leads/quantifier-instantiation
       - file: leads/quantifier-nnf
