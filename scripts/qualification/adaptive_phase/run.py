@@ -30,6 +30,11 @@ def profile(name: str) -> tuple[list[str], dict[str, str]]:
         return flags + NATIVE + ["--arithmetic-model-phase=off"], env
     if name == "m124":
         return flags + M124 + ["--arithmetic-model-phase=off"], env
+    if name in {"force-positive", "force-negative"}:
+        value = "1" if name == "force-positive" else "0"
+        return flags + M124 + ["--arithmetic-model-phase=off",
+                               "--cadical-option=forcephase=1",
+                               f"--cadical-option=phase={value}"], env
     flags += M124 + ["--arithmetic-model-phase=on"]
     if name == "beta-uninstrumented":
         return flags, env
