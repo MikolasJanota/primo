@@ -9326,10 +9326,10 @@ class ComponentLraExecution final {
                               : theory::arithmetic::delta_ceil(bound.value);
       };
       const int true_lit = theory_atoms_[atom_index].lit.value;
-      phase_lit =
-          sat::Lit{phase_simulation_->choose(atom_index, bound_var, true_lit, phase_lit->value,
-                                             !is_assigned_var(true_lit > 0 ? true_lit : -true_lit),
-                                             integer, yes.is_upper, endpoint(yes), endpoint(no))};
+      phase_lit = sat::Lit{phase_simulation_->choose(
+          atom_index, bound_var, true_lit, phase_lit->value,
+          !assignment_view().attached() || !is_assigned_var(true_lit > 0 ? true_lit : -true_lit),
+          integer, yes.is_upper, endpoint(yes), endpoint(no))};
     }
     const int var = phase_lit->value > 0 ? phase_lit->value : -phase_lit->value;
     if (model_phase_by_var_[static_cast<std::size_t>(var)] == phase_lit->value) {
