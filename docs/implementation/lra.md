@@ -1262,6 +1262,18 @@ Primo exposes no matching `unphase` operation. The
 records the resulting search risks and separates arithmetic work from refresh
 overhead. It does not establish stale phases as the cause of those losses.
 
+The existing option implements the core existing-assignment idea of the
+zero-extra-pivot variant in Goldwasser, Strichman and Fine, Sections III-C/III-D
+{cite:p}`goldwasser2008theorydecision`: evaluate an arithmetic atom at the
+simplex assignment and use the result as a preferred Boolean sign, leaving
+variable selection to SAT. Phase selection performs no additional pivots;
+ordinary feasibility repair can still pivot and update the assignment.
+Primo publishes cached preferences through CaDiCaL rather than consulting the
+theory at each decision, so this is not a claim of identical decision timing
+or a complete implementation of the paper's variants. The
+[phase-control note](../papers/arithmetic-phase-control.md) records that mapping
+and the limits of the paper's performance evidence.
+
 SPASS-SATT §3 and footnote 3 describe arithmetic decision recommendations
 {cite:p}`bromberger2019spass`. Primo tests whether the assignment satisfies each
 atom and updates its phase, rather than using the paper's immediate `GetPhase`

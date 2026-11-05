@@ -54,6 +54,10 @@ arithmetic atoms. Both control truth values, while SAT keeps variable
 selection. Neither option introduces numeric assumptions or a target-value
 search policy. The rename preserves defaults and route behavior.
 
+The arithmetic option already uses the current assignment without additional
+pivots for phase selection. Its [implementation and paper basis](../implementation/lra.md#model-phase-hints)
+describe this existing mechanism and its delivery differences from the literature.
+
 The old `--theory-phase` spelling is an alias of
 `--initial-theory-phase`. Legacy `--lra-model-phase` (including
 `--lra-model-phase=false`) and `--no-lra-model-phase` remain accepted in the

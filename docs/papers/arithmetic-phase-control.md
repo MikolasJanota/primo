@@ -11,7 +11,8 @@ restart schedule. The CLI rename changes neither this mechanism nor defaults.
 
 Dan Goldwasser, Ofer Strichman and Shai Fine,
 [*A Theory-Based Decision Heuristic for DPLL(T)*](https://www.cs.purdue.edu/homes/dgoldwas/downloads/papers/GSF_fmcad_2008.pdf),
-FMCAD 2008, Sections I, II-A, III-C/III-D and IV, is directly relevant to
+FMCAD 2008 {cite:p}`goldwasser2008theorydecision`, Sections I, II-A, III-C/III-D
+and IV, is directly relevant to
 phase-only control. The full author-hosted paper was read for this note.
 It leaves Boolean variable selection with the SAT solver and uses arithmetic
 information to select the variable's truth value.
@@ -33,7 +34,12 @@ the preferred intermediate assignment. Predicate evaluation has a finite
 cost proportional to the representation inspected, including arithmetic
 operand sizes. The paper gives no performance guarantee for a new Primo
 phase policy. Primo already has prepared bounds and a `DeltaRational`
-assignment; its current phase mechanism reads those without extra pivots.
+assignment; `--arithmetic-model-phase=on` already implements this core
+existing-assignment, zero-extra-pivot idea on routes that produce phase hints.
+"Zero extra pivots" means no pivots performed for the phase recommendation;
+ordinary feasibility checks can still pivot. Primo's cached preference delivery
+differs from consulting the theory at the decision point, as described below
+and in the [implementation documentation](../implementation/lra.md#model-phase-hints).
 The pivoted variant is not implemented or selected for this investigation.
 
 ### SPASS-SATT (CADE 2019), accessible footnote 3
