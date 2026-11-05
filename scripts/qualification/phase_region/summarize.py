@@ -94,7 +94,10 @@ def main() -> None:
             raise ValueError(f"model count mismatch: {task}")
     if set(rows) != expected or set(input_hashes) != files or len(identities) != 1:
         raise ValueError("incomplete timing matrix or inconsistent provenance")
-    sat = {key for key, row in rows.items() if solved(row, 15) and row["answer"] == "sat"}
+    # Replay follows process success, even if wall time rounded just beyond the
+    # reporting cutoff. The solved/PAR2 predicate below still enforces 15 seconds.
+    sat = {key for key, row in rows.items() if row["status"] == "ok"
+           and row["answer"] == "sat" and row["exit_code"] == 0}
     if validated != sat:
         raise ValueError("SAT timing rows and validated rows differ")
     solver_hash, version, runner_hash, manifest_hash = identities.pop()

@@ -1,6 +1,6 @@
 # Phase-region simulation protocol
 
-**Status: isolated diagnostic; timing is queued after correctness qualification. No default proposal.**
+**Status: isolated diagnostic; qualification passed; timing is running. No default proposal.**
 This follows the [CSP reading](../papers/csp-restarts-phase-control.md) and
 the [earlier phase diagnostic](adaptive-phase-probe.md). It is an original
 bounded adaptation, not an implementation of finite-domain impact-based search.
@@ -110,9 +110,16 @@ parser/type rejection, unsupported result or reference disagreement. The
 four further 20-case streams, with no reported sanitizer failures. Both gates
 stress random sampling at denominator 1; timing uses 4 and 16.
 
-Static review is job 357084. The 12-task timing array is 357085, followed by
+Static job 357084 completed its scan of 131 source/test translation units and
+four documentation examples: 2,201 warning occurrences, 761 unique diagnostics,
+zero errors. Baseline advisories remain. The controller adds parameter-swap and
+guarded-optional-access advisories; its tests add exception/include advisories.
+These are recorded in the ledger and are not described as a warning-free gate.
+The 12-task timing array is 357085, followed by
 SAT-model replay array 357086. All arms retain the SAT observer; `beta-plain`
-omits only the region controller. Timing uses seeds 2026110531, 2026110532 and
+omits the region controller and its extra dirty-bound/backtrack refresh work.
+Thus it is a reference for that instrumentation and refresh scheduling, not a
+measurement with identical callback work. Timing uses seeds 2026110531, 2026110532 and
 2026110533 for every arm, including deterministic controls, for a planned
 1,452 attempts. All 44 selected files are measured together; the four earlier
 development files are a pre-existing marked subset, not a new parameter sweep.

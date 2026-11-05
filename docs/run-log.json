@@ -9,7 +9,7 @@
       "qualified_solver_commit": "ade90f98d568bb8946a4490600f04a61b1e5de63",
       "branch": "lia-integrality",
       "kind": "phase-region-policy-simulation",
-      "evidence_status": "correctness_checks_passed_static_timing_pending",
+      "evidence_status": "qualification_passed_timing_running",
       "artifacts": "results/phase-region-20261105",
       "artifact_storage": "Local raw evidence plus preserved isolated SLURM workspace; connection settings external to tracked files.",
       "source_status": "Isolated experiment; disposition pending measurement.",
@@ -171,7 +171,15 @@
         },
         "static": {
           "job": "357084",
-          "status": "RUNNING"
+          "status": "COMPLETED 0:0",
+          "translation_units_src_tests": 131,
+          "documentation_examples": 4,
+          "raw_warnings": 2201,
+          "unique_warnings": 761,
+          "errors": 0,
+          "log_sha256": "b7ce9a2b5e50f5550c47b02fa86a94fbdcbad749dbcefd6081c753e0ede6620c",
+          "checks": "clang-analyzer-*,misc-include-cleaner plus configured checks",
+          "disposition": "Baseline advisories remain, including the same tactic.cpp:69 and CLI.hpp:7598 potential-leak reports as old static job354176. New controller/test advisories: convertible choose parameters; optional endpoint access guarded by finite-range checks; test main exception escape; unused optional include; missing direct DeltaRational include. Prototype is isolated and will be retired after measurement; no warning-free-tree claim."
         }
       },
       "prior_attempts": [
