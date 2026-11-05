@@ -68,7 +68,8 @@ def main() -> None:
               if i % args.shards == args.shard]
     args.out.mkdir(parents=True)
     solver = args.solver.resolve()
-    identity = {"solver": str(solver), "solver_sha256": hashlib.sha256(solver.read_bytes()).hexdigest(),
+    identity = {"runner_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                "solver": str(solver), "solver_sha256": hashlib.sha256(solver.read_bytes()).hexdigest(),
                 "version": subprocess.check_output([str(solver), "--version"], text=True),
                 "manifest_sha256": hashlib.sha256(args.manifest.read_bytes()).hexdigest(),
                 "timeout": args.timeout, "profiles": args.profiles, "rounds": args.rounds,
@@ -110,6 +111,10 @@ def main() -> None:
                     print(json.dumps({k: row[k] for k in ("file", "profile", "status", "answer", "seconds")}), flush=True)
                     if wrong or result["status"] in {"error", "unsupported"}:
                         raise SystemExit("blocking solver outcome; remaining arms not run")
+    after = {str(p.relative_to(args.root)): hashlib.sha256(p.read_bytes()).hexdigest()
+             for _, p in inputs}
+    if after != identity["inputs"]:
+        raise SystemExit("input changed during diagnostic")
 
 
 if __name__ == "__main__":
