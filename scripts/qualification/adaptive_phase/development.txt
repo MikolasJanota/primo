@@ -1,0 +1,4 @@
+wisas/xs_24_44.smt2
+wisas/xs_28_48.smt2
+wisas/xs_33_53.smt2
+wisas/xs_40_60.smt2

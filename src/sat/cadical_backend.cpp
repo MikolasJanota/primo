@@ -11,6 +11,8 @@
 #include <utility>
 #include <vector>
 
+#include "sat/phase_probe.hpp"
+
 #if PRIMO_HAVE_IPASIR
 #include <cadical.hpp>
 #endif
@@ -34,26 +36,34 @@ std::size_t nonnegative_statistic(CaDiCaL::Solver* solver, const char* name) {
 #if PRIMO_HAVE_IPASIR
 class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::ExternalPropagator {
  public:
-  explicit ExternalPropagatorAdapter(::primo::sat::ExternalPropagator& propagator)
-      : propagator_(propagator) {
+  ExternalPropagatorAdapter(::primo::sat::ExternalPropagator& propagator, CadicalBackend& owner)
+      : propagator_(propagator), owner_(owner) {
     scalar_assignment_buffer_.reserve(1);
   }
 
 #if PRIMO_CADICAL_EXTERNAL_NOTIFY_VECTOR
   void notify_assignment(const std::vector<int>& lits) override {
+    for (const int literal : lits) owner_.probe_assignment(literal);
     propagator_.notify_assignment(lits);
   }
 #else
   void notify_assignment(int lit, bool /*is_fixed*/) override {
+    owner_.probe_assignment(lit);
     scalar_assignment_buffer_.clear();
     scalar_assignment_buffer_.push_back(lit);
     propagator_.notify_assignment(scalar_assignment_buffer_);
   }
 #endif
 
-  void notify_new_decision_level() override { propagator_.notify_new_decision_level(); }
+  void notify_new_decision_level() override {
+    if (owner_.phase_probe_) owner_.phase_probe_->new_level();
+    propagator_.notify_new_decision_level();
+  }
 
-  void notify_backtrack(size_t new_level) override { propagator_.notify_backtrack(new_level); }
+  void notify_backtrack(size_t new_level) override {
+    owner_.probe_backtrack(new_level);
+    propagator_.notify_backtrack(new_level);
+  }
 
   bool cb_check_found_model(const std::vector<int>& model) override {
     return propagator_.cb_check_found_model(model);
@@ -79,6 +89,7 @@ class CadicalBackend::ExternalPropagatorAdapter final : public CaDiCaL::External
 
  private:
   ::primo::sat::ExternalPropagator& propagator_;
+  CadicalBackend& owner_;
   std::vector<int> scalar_assignment_buffer_;
 };
 
@@ -127,6 +138,8 @@ CadicalBackend::CadicalBackend(const std::vector<std::pair<std::string, int>>& o
     if (!solver->configure("plain") || !solver->set("inprocessing", 0))
       throw std::runtime_error("CaDiCaL lacks the incremental-safe configuration");
   }
+  if (const auto config = PhaseProbe::environment())
+    phase_probe_ = std::make_unique<PhaseProbe>(*config);
   solver_ = solver.release();
 #else
   (void)options;
@@ -215,6 +228,7 @@ void CadicalBackend::assume(Lit lit) {
   if (lit.value == 0) {
     throw std::invalid_argument("assumption literal must be non-zero");
   }
+  if (phase_probe_) phase_probe_->assume(lit.value);
   solver_->assume(lit.value);
 #else
   (void)lit;
@@ -223,7 +237,15 @@ void CadicalBackend::assume(Lit lit) {
 
 SatResult CadicalBackend::solve() {
 #if PRIMO_HAVE_IPASIR
+  if (phase_probe_) {
+    for (const auto action : phase_probe_->begin_solve())
+      probe_phase(action.literal, action.release);
+  }
   const int result = solver_->solve();
+  if (phase_probe_) {
+    for (const auto action : phase_probe_->finish_solve())
+      probe_phase(action.literal, action.release);
+  }
   if (result == 10) {
     last_result_ = SatResult::Sat;
   } else if (result == 20) {
@@ -304,10 +326,42 @@ void CadicalBackend::phase(Lit lit) {
   if (lit.value == 0) {
     throw std::invalid_argument("phase literal must be non-zero");
   }
-  solver_->phase(lit.value);
+  if (phase_probe_) {
+    const auto action = phase_probe_->hint(lit.value);
+    probe_phase(action.literal, action.release);
+  } else
+    solver_->phase(lit.value);
 #else
   (void)lit;
 #endif
+}
+
+void CadicalBackend::probe_phase(int literal, bool release) {
+#if PRIMO_HAVE_IPASIR
+  if (release)
+    solver_->unphase(literal);
+  else
+    solver_->phase(literal);
+#else
+  (void)literal;
+  (void)release;
+#endif
+}
+
+void CadicalBackend::probe_assignment(int literal) {
+#if PRIMO_HAVE_IPASIR
+  if (!phase_probe_) return;
+  for (const auto action : phase_probe_->assignment(literal, solver_->is_decision(literal)))
+    probe_phase(action.literal, action.release);
+#else
+  (void)literal;
+#endif
+}
+
+void CadicalBackend::probe_backtrack(std::size_t level) {
+  if (!phase_probe_) return;
+  for (const auto action : phase_probe_->backtrack(level))
+    probe_phase(action.literal, action.release);
 }
 
 void CadicalBackend::connect_external_propagator(ExternalPropagator* propagator) {
@@ -317,7 +371,8 @@ void CadicalBackend::connect_external_propagator(ExternalPropagator* propagator)
     external_adapter_.reset();
     return;
   }
-  external_adapter_ = std::make_unique<ExternalPropagatorAdapter>(*propagator);
+  if (phase_probe_) phase_probe_->connect();
+  external_adapter_ = std::make_unique<ExternalPropagatorAdapter>(*propagator, *this);
   solver_->connect_external_propagator(external_adapter_.get());
 #else
   (void)propagator;
