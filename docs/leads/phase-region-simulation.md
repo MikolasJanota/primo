@@ -9,7 +9,9 @@ not provide the geometric gate below or predict a Primo improvement.
 
 ## State, invariants and operations
 
-`ArithmeticPhaseSimulation`, owned by `ComponentLraExecution`, keeps phase
+The {regionsource}`ArithmeticPhaseSimulation controller
+<src/smt/arithmetic_phase_simulation.hpp>`, owned by
+{regionsource}`ComponentLraExecution <src/smt/solver_engines.cpp>`, keeps phase
 choices and integer-bound snapshots within that execution's lifetime. A
 tableau variable keeps its prepared semantic meaning through pivots; all
 history is discarded when the execution/preparation is rebuilt. β denotes
@@ -24,7 +26,9 @@ refreshes in the same range do not. History is capped at 4096 FIFO entries.
 An atom's sampled preference remains fixed until its bound-range generation
 or β sign changes, or the atom is observed assigned at a refresh. Assigned
 atoms receive β and lose their cached choice, so a later unassigned refresh
-can resample even with the same bounds and β. The policy cannot reverse a
+can resample even with the same bounds and β. Before the initial assignment
+view is attached, only pending preferences are sampled; these are not observed
+decisions. The policy cannot reverse a
 propagated literal or a forced assumption. Initial preferences may be installed
 before a future assumption is known, but assumptions retain their forced sign.
 
@@ -32,15 +36,17 @@ For a currently unassigned inequality on a known integer-valued expression,
 intersect the parent range with each polarity's prepared bound. Require both
 children to have positive finite candidate counts. A narrow child has at most
 four candidates and the other has at least four times as many. The gate requires
-at least two recorded entries into that narrow child's exact range.
+at least two recorded entries into that narrow child's exact range for the
+history-gated random policy. The two deterministic geometry controls omit
+that history condition, separating geometry from repeated-entry detection.
 
 The policies are:
 
 - observe: measure contexts without changing β;
 - random: flip β with probability 1/d at a new hint context;
 - gated: the same random flip only when β selects the revisited narrow child;
-- least: under the geometric gate, prefer the child with more candidates;
-- most: under the same gate, prefer the child with fewer candidates.
+- least: whenever the narrow/ratio test holds, prefer the child with more candidates;
+- most: under that same geometry test, prefer the child with fewer candidates.
 
 The sparse denominators are 16 and 4. Random sampling uses C++'s standard
 `mt19937` and uniform integer distribution, with explicit recorded seeds.
@@ -67,7 +73,9 @@ decision changed. Both streams are retained and reported with that limitation.
 Build the clean snapshot through `slurm_prepare_benchmark_workspace.py
 --build-via-slurm`. Run deterministic controller tests for strict/negative bounds,
 finite/unbounded ranges, both semantic atom signs, history re-entry, FIFO limits,
-stable sampling, assigned-literal exclusion and least/most/gated distinctions.
+stable sampling, assigned-literal exclusion and least/most/gated distinctions
+in the {regionsource}`controller regressions
+<tests/unit/arithmetic_phase_simulation_tests.cpp>`.
 Run solver checks, ASan, a fresh mixed QF_UFLIA reference gate and whole-tree
 static review on SLURM before accepting timing claims. Keep failures blocking.
 
