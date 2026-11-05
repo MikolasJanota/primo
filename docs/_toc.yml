@@ -56,6 +56,7 @@ parts:
       - file: papers/lia-primal-heuristics
       - file: papers/mip-presolve-integrality
       - file: papers/yices
+      - file: papers/arithmetic-phase-control
       - file: papers/clause-forgetting
       - file: papers/conflict-explanation-minimization
       - file: papers/polarity-aware-cnf

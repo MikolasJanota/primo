@@ -20,6 +20,11 @@ chapter states the actual subset, deviations, invariants and tests.
 
 ## Arithmetic papers and theses
 
+[Arithmetic-guided phase control](papers/arithmetic-phase-control.md) reviews
+polarity-only recommendations, their mapping to Primo, and the termination
+obligations for the current investigation. Numeric trial assumptions and
+model-value branching are outside its scope.
+
 | Source | Current role and retained reading note |
 | --- | --- |
 | Arithmetic symmetry | [Open lead and reading scope](leads/arithmetic-symmetry.md): SyMT detection results, CVC4-SymBreak, and related LP/ILP work. These motivate investigation beyond the current finite-choice pass; they do not establish a QF_LIA/QF_LRA speedup for Primo. |

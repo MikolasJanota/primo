@@ -3,6 +3,102 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-05-phase-option-cli-rename-8357ff8b",
+      "date": "2026-11-05",
+      "commit": "8357ff8b2ec6b8f896cca1ee6223da697a389e0e",
+      "branch": "lia-integrality; qualification candidate staged on isolated phase-cli-rename branch",
+      "kind": "cli-compatibility-and-correctness-qualification",
+      "evidence_status": "checks/fuzz complete; static review and final docs acceptance pending",
+      "scope": "Rename only: initial-theory-phase with theory-phase alias; arithmetic-model-phase=on|off|auto with legacy Boolean flags retained. Preserve solver policies, defaults, route coverage and internal names. No numeric assumptions or new search heuristic.",
+      "environment": {
+        "location": "SLURM compute partition; qualification 4 CPUs, 12 GiB, 30-minute wall",
+        "binary": "Release 8357ff8b; CaDiCaL cadical-3.0.0-7b99c07; exact binary/reference/validator SHA-256 in artifacts",
+        "dependencies": "Reuse existing preserved dependency installation read-only in a separate workspace; CMake venv and staged GCC header manifest from the existing cluster tool setup.",
+        "build_failures": "First setup found a missing CMake venv (a dangling link), repaired to existing CMake installation; the second build lacked cluster C++ headers, repaired with helper --cxx-header-manifest. These were environment failures before successful compile; no local/login-host solver build fallback."
+      },
+      "jobs": {
+        "checks_fuzz": "349463; COMPLETED 0:0",
+        "static": "349464; pending final classification"
+      },
+      "verification": {
+        "build": "scripts/slurm_prepare_benchmark_workspace.py --reuse-dependencies --build-via-slurm --jobs 4 --no-sync --cxx-header-manifest <preserved-header-manifest>; clean candidate snapshot, preflight before each batch job",
+        "checks": "make -o contrib-required check BUILD_DIR=build-slurm-rel with staged tools; 45/45 CTest targets and 311 Python tests pass; CLI tests cover canonical/legacy values, effective policies, invalid values and mixed-form rejection.",
+        "documentation_examples": "12/12 captured help/example checks pass; snapshot generated from the qualified binary.",
+        "fuzz": {
+          "auto": {
+            "count": 334,
+            "seed": 2026110501,
+            "args": [
+              "--quiet",
+              "--arithmetic-model-phase=auto",
+              "--initial-theory-phase=negative"
+            ],
+            "outcomes": {
+              "PASS": 334
+            },
+            "direct_Dolmen_pass": 334,
+            "timeouts": 0,
+            "wrong_answer": 0,
+            "crash": 0,
+            "parser_type_error": 0,
+            "unsupported": 0,
+            "reference_disagreement": 0,
+            "summary_sha256": "63a344f8ca17e21fda9d0c4de39fe95cd8184311756240f1a6eeebfd974ba735"
+          },
+          "on": {
+            "count": 333,
+            "seed": 2026110502,
+            "args": [
+              "--quiet",
+              "--arithmetic-model-phase=on",
+              "--initial-theory-phase=negative"
+            ],
+            "outcomes": {
+              "PASS": 333
+            },
+            "direct_Dolmen_pass": 333,
+            "timeouts": 0,
+            "wrong_answer": 0,
+            "crash": 0,
+            "parser_type_error": 0,
+            "unsupported": 0,
+            "reference_disagreement": 0,
+            "summary_sha256": "c65ee167184ec4b4ad98628766383c3ad16fed2aa83ff7eb5e280f449d9b8ab5"
+          },
+          "off": {
+            "count": 333,
+            "seed": 2026110503,
+            "args": [
+              "--quiet",
+              "--arithmetic-model-phase=off",
+              "--initial-theory-phase=negative"
+            ],
+            "outcomes": {
+              "PASS": 333
+            },
+            "direct_Dolmen_pass": 333,
+            "timeouts": 0,
+            "wrong_answer": 0,
+            "crash": 0,
+            "parser_type_error": 0,
+            "unsupported": 0,
+            "reference_disagreement": 0,
+            "summary_sha256": "6e4e626f4cdfaa0e8b50749042d422a670f48f18c7812b1c53e78fe582aebdf1"
+          }
+        },
+        "fuzz_scope": "1000 generated QF_LRA Boolean/arithmetic SAT cases against recorded Z3 command, all direct Dolmen passes; no fresh UNSAT-fuzz coverage claimed. No benchmark or default promotion.",
+        "metadata_commit": "Generator metadata says unknown because remote source is an archive. The surrounding runner verifies binary revision 8357ff8b and saves binary/reference/validator SHA-256; source snapshot comes from the clean named commit."
+      },
+      "artifacts": {
+        "local": "results/phase-cli-rename-20261105",
+        "remote": "<phase-cli-workspace>/results/phase-cli-rename-20261105 and results/phase-cli-static-20261105; cases/models retained remotely",
+        "runner": "scripts/qualification/phase_cli/check.sbatch; submitted SHA-256 96a71183749f358442fefefff72afe7c4ae7a4fff7c37944226c0b8d33685180",
+        "static_runner": "scripts/qualification/phase_cli/static.sbatch",
+        "identity_record": "5ad25ab16c29076de7297a110a6af31e2220c089e83a239c4510a2c48e5d931f  build-slurm-rel/primo\n54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0  contrib/local/bin/z3\n08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e  contrib/local/bin/dolmen\n"
+      },
+      "literature": "Goldwasser, Strichman, Fine (FMCAD2008), full author PDF read; SPASS-SATT2019 publisher footnote3 read, full chapter access limited. New phase-control note restricts recommendations to existing SAT atoms and records bounded-computation/progress obligations, without implementing a new heuristic."
+    },
+    {
       "id": "2026-11-05-qf-uflia-search-alternative-source-review",
       "date": "2026-11-05",
       "commit": "b0215bcc",

@@ -291,13 +291,6 @@ QF_LRA theory options:
           --lra-equality-propagation [default: off]
                               Enable experimental pure QF_LRA model-unit equality discovery and
                               propagation of existing difference comparisons (IPASIR-UP only)
-          --lra-model-phase [default: auto]
-                              Enable model-based SAT phase hints (automatic for QF_LRA rebuild
-                              queries with auto preprocessing): keep CaDiCaL's variable choice,
-                              but refresh arithmetic atom polarity from the current tableau
-                              assignment at quiescence points
-          --no-lra-model-phase [default: off]
-                              Disable model-based SAT phase hints
           --lra-pivoting-rule TEXT:{bland,dantzig,soi,sparse} [sparse]
                               QF_LRA Check/Pivot variable-selection rule: sparse (prices what a
                               pivot costs: among the entering candidates that all repair the
@@ -401,6 +394,34 @@ QF_LRA theory options:
                               disjunction with one Real equality child directly to two guarded
                               inequalities, avoiding one Tseitin layer on some QF_LRA encodings
 
+SAT and DPLL(T) options:
+          --arithmetic-model-phase TEXT:{on,off,auto} [auto]  Excludes: --lra-model-phase --no-lra-model-phase
+                              Refresh arithmetic SAT phase preferences from the current
+                              tableau: on, off, or auto (QF_LRA rebuild with automatic
+                              preprocessing). Keeps SAT variable selection; requires an
+                              arithmetic phase-output path
+          --qf-uflra-online-euf [default: off]
+                              Enable experimental incremental EUF callbacks and live
+                              final-model closure reuse in mixed QF_UFLRA solving
+          --top-level-or-tseitin [default: off]
+                              Always encode top-level disjunctions with Tseitin support clauses
+          --no-top-level-or-tseitin [default: off]
+                              Never encode them: keep each top-level disjunction as one clause,
+                              and turn the automatic rule off too
+          --no-auto-top-level-or-tseitin [default: off]
+                              Disable the automatic rule, which encodes Tseitin-style only on
+                              finite-domain problems having 1000-2500 top-level OR nodes and at
+                              most 700 negations
+          --pure-theory-filter TEXT:{auto,on,off} [auto]
+                              T-pure theory literal filtering mode
+          --initial-theory-phase, --theory-phase TEXT:{negative,positive,none,polarity,auto} [negative]
+                              Initial SAT truth-value preference for theory atoms on routes
+                              that install it; --theory-phase is a compatibility alias
+          --max-theory-conflicts UINT:INT in [1 - 1000000000] [unlimited]
+                              Return unknown after at least this many learned theory conflicts
+          --cadical-option TEXT
+                              Set a CaDiCaL integer option as name=value; may be repeated
+
 QF_LIA theory options:
           --qf-uflia-model-combination, --experimental-qf-uflia-model-combination [default: on]
                               Guide non-convex QF_UFLIA arrangement search with component
@@ -460,24 +481,8 @@ QF_LIA theory options:
                               actually proved it. The coarse form excludes one Boolean
                               assignment per round
 
-SAT and DPLL(T) options:
-          --qf-uflra-online-euf [default: off]
-                              Enable experimental incremental EUF callbacks and live
-                              final-model closure reuse in mixed QF_UFLRA solving
-          --top-level-or-tseitin [default: off]
-                              Always encode top-level disjunctions with Tseitin support clauses
-          --no-top-level-or-tseitin [default: off]
-                              Never encode them: keep each top-level disjunction as one clause,
-                              and turn the automatic rule off too
-          --no-auto-top-level-or-tseitin [default: off]
-                              Disable the automatic rule, which encodes Tseitin-style only on
-                              finite-domain problems having 1000-2500 top-level OR nodes and at
-                              most 700 negations
-          --pure-theory-filter TEXT:{auto,on,off} [auto]
-                              T-pure theory literal filtering mode
-          --theory-phase TEXT:{negative,positive,none,polarity,auto} [negative]
-                              Initial SAT phase for theory atoms
-          --max-theory-conflicts UINT:INT in [1 - 1000000000] [unlimited]
-                              Return unknown after at least this many learned theory conflicts
-          --cadical-option TEXT
-                              Set a CaDiCaL integer option as name=value; may be repeated
+Compatibility aliases:
+          --lra-model-phase [compatibility alias]
+                              Compatibility flag; use --arithmetic-model-phase=on
+          --no-lra-model-phase [compatibility alias]
+                              Compatibility flag; use --arithmetic-model-phase=off

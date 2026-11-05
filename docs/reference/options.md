@@ -61,7 +61,10 @@ help's compatibility section. If both legacy flags are supplied, the negative
 form retains precedence. Do not mix the new arithmetic policy with either
 legacy flag: this is a command-line error, even when their values agree.
 Use `--arithmetic-model-phase=auto` explicitly to request automatic selection.
-C++ policy fields and existing statistic keys keep their names.
+C++ policy fields and existing statistic keys keep their names. The
+{phaseclisource}`CLI implementation <src/main.cpp>` performs the rename
+and compatibility resolution; [phase-control literature](../papers/arithmetic-phase-control.md)
+explains the separate heuristic investigation.
 
 ## Preprocessing diagnostic
 

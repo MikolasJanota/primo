@@ -7,6 +7,13 @@ The current CLI names are `--initial-theory-phase` and
 investigations below remain compatibility aliases; see
 [phase option names](../reference/options.md#phase-option-names-and-compatibility).
 
+The current phase-control investigation is restricted to preferences on
+existing SAT atoms. It introduces no temporary numeric assumptions,
+model-value branching, new atoms or new restart schedule. The
+[phase-control literature note](../papers/arithmetic-phase-control.md)
+records the paper evidence and termination obligations. Broader alternatives
+below remain separate, unselected leads.
+
 ## The problem
 
 On some inputs the run time depends on which part of the search space the

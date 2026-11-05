@@ -104,6 +104,9 @@ sphinx:
       integralityreviewsource:
         - "https://github.com/primo-solver/primo/blob/dbedbfd1/%s"
         - "%s"
+      phaseclisource:
+        - "https://github.com/primo-solver/primo/blob/8357ff8b/%s"
+        - "%s"
       settingssource:
         - "https://github.com/primo-solver/primo/blob/5dec036329b8b8cc6d929835fa1c6dfa644b8fb3/%s"
         - "%s"

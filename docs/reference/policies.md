@@ -40,30 +40,39 @@ attempts, inspected candidates, deliveries, and cutoffs.
 
 ## Initial phase hints
 
-`--initial-theory-phase` defaults to `negative`. `positive` prefers equalities, `none`
-leaves backend phases unchanged, and `polarity` sets a hint only for atoms with
-one syntactic polarity. These are hints before SAT search, not theory-selected
-decision variables.
+`--initial-theory-phase` defaults to `negative`. `positive` prefers the
+positive literal of each theory atom, `none` leaves backend phases unchanged,
+and `polarity` sets a preference only for atoms with one syntactic polarity.
+This installs preferred truth values; it does not select decision variables.
+The old `--theory-phase` spelling remains an alias.
 
-The explicit `auto` heuristic chooses polarity only when finite-domain or UF
-symmetry structure exists, there are **1–25** pure-negative atoms, and at least
-100 pure-positive atoms. Otherwise it chooses negative. The nonzero lower bound
-matters; zero pure-negative atoms do not select polarity. See
-{source}`resolve_theory_phase_mode <src/smt/solver_engines.cpp#L555-L587>`.
+Current route coverage is explicit:
 
-Separately, automatic basic preprocessing can select polarity hints for its
-multi-assertion profile or its narrower single-assertion predicate profile.
-An explicitly supplied `--initial-theory-phase` disables these overrides;
+| Route | Initial-policy installation |
+|---|---|
+| QF_UF rebuild and supported QF_UF assumptions sessions | Installs the selected policy. Explicit `auto` uses the structural rule below. |
+| Dedicated QF_UFLRA rebuild route | Installs the selected policy; `auto` is handled directly as `negative`, without the UF structural selector. |
+| Pure QF_LRA rebuild/assumptions, and shared-driver QF_LIA/QF_UFLIA queries | Does not currently install this policy. The rename preserves that coverage. |
+
+On the UF routes, explicit `auto` chooses polarity only when finite-domain or
+UF symmetry structure exists, there are **1–25** pure-negative atoms, and at
+least 100 pure-positive atoms. Otherwise it chooses negative. Zero
+pure-negative atoms do not select polarity. See
+{settingssource}`resolve_theory_phase_mode and route consumers <src/smt/solver_engines.cpp>`.
+
+Separately, automatic basic preprocessing on QF_UF rebuild queries can select
+polarity hints for its multi-assertion profile or its narrower
+single-assertion predicate profile. An explicitly supplied
+`--initial-theory-phase` disables these overrides;
 `--no-auto-basic-multi-polarity` also disables the multi-assertion override.
 The `:sat.phase.auto-*` counters report which policy actually ran.
 
-The nonincremental QF_LIA/QF_UFLIA shared component driver does not currently
-install this initial policy. Renaming the option does not change that route
-coverage. Arithmetic model preferences are separate: on QF_UFLIA their output
-requires online components and incremental EUF, the default combination path.
-They can update preferences previously installed by an initial policy on
-routes that support both. Legacy spellings are listed in
-[option compatibility](options.md#phase-option-names-and-compatibility).
+Arithmetic model preferences are separate. On QF_UFLIA their output requires
+online components and incremental EUF, the default combination path.
+On routes supporting both mechanisms, model preferences can update values
+previously installed by an initial policy. Disabling model preferences does
+not disable the initial policy. Legacy spellings and arithmetic policy
+resolution are listed in [option compatibility](options.md#phase-option-names-and-compatibility).
 
 ## Structural preprocessing selection
 
