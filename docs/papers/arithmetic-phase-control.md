@@ -90,6 +90,21 @@ proposed low-slack phase preference. It does not establish an absence from
 the wider literature. Neither source supplies a complexity or performance
 guarantee for that proposed adaptation.
 
+### Follow-up: combining phase criteria
+
+Arijit Shaw and Kuldeep S. Meel,
+[*Designing New Phase Selection Heuristics*](https://www.cs.toronto.edu/~meel/Papers/sat20-sm.pdf),
+SAT 2020, Sections 4–5, were read for this follow-up. Decaying Polarity Score
+(DPS) maintains one decaying signed polarity-history score per variable.
+Literal State Independent Decaying Sum (LSIDS) instead maintains
+activity for each literal, combining learned-clause and canceled-assignment
+bumps with decay/rescaling. They found no aggregate DPS improvement; LSIDS
+helped when used after chronological backtracking, while using it after both
+backtracking types hurt. This is evidence for context-dependent selection,
+not a tested blend with arithmetic advice. Neither score is implemented here.
+An adaptation needs access to its update events and score storage; it cannot
+be inferred from aggregate conflict counts alone.
+
 ## Mapping to Primo
 
 | Operation or state | Current owner and status |
@@ -192,6 +207,53 @@ Neither alternative can move $t$ from 17 to 12 while the current trail forces
 17. For the phase candidate, an effect requires an unforced threshold choice
 before that commitment, or a later choice after normal backtracking releases
 it. The papers above do not establish a QF_UFLIA speedup for either proposal.
+
+### Adaptive overrides of the current-assignment preference
+
+When enabled on a route producing arithmetic hints, the current policy
+evaluates each supported inequality at the current tableau assignment $\beta$
+whenever it refreshes its
+preference. Having a value for every tableau variable supplies a sign; it
+does not establish that this sign leads to an inexpensive integer/EUF branch.
+Equality atoms are skipped, and forced literals are not phase choices.
+There is currently no competing arithmetic score in this policy.
+
+A proposed blend for an atom $a$ could use
+
+$$S_k(a)=w_k b_\beta(a)+(1-w_k)h_k(a),\qquad 0\le w_k\le1,$$
+
+where $b_\beta(a)\in\{-1,+1\}$ is the current-assignment preference and
+$h_k(a)\in[-1,1]$ is a separately defined, normalized alternative score.
+Here $k$ indexes a bounded policy refresh; positive scores prefer true and
+negative scores prefer false, with ties falling back to $b_\beta$. A history
+score or the semantic low-threshold preference above could be considered,
+but these alternatives measure different things and are not interchangeable.
+Raw arithmetic values or distances from thresholds are not calibrated
+confidence scores and depend on expression scaling.
+
+If both inputs are only signs and $w$ is fixed, every disagreement is won by
+the same criterion: $w>1/2$ selects $\beta$, $w<1/2$ selects the alternative,
+and $w=1/2$ is a tie. Adaptation therefore needs changing weights, graded
+scores, or an explicit mixture that chooses which policy to consult. A
+discrete gate is another candidate. Repeated visits to the same threshold
+pattern could trigger a bounded alternative-policy window, but choosing the
+trigger, duration and recovery rule remains design work. One conflict does
+not show that the selected phase was bad; learning can represent progress.
+Neither the blend nor a gate is implemented or validated.
+
+The {settingssource}`current phase-output path <src/smt/solver_engines.cpp#L9242-L9301>`
+publishes persistent signs rather than receiving the selected SAT variable
+at every decision. Adaptive-state changes must trigger refreshes even if
+$\beta$ has not changed, and delivery must be measured at actual decisions.
+The {settingssource}`backend interface <src/sat/ipasir_up.hpp>` exposes phase
+installation but no phase withdrawal, saved/target-phase query or complete
+learned-clause event stream. Simply ceasing updates does not withdraw an
+already installed preference. Returning control to native SAT phasing needs
+an explicit release operation and backend-contract checks; publishing an
+opposite sign is an override, not a release. The installed CaDiCaL header
+provides `unphase`, but Primo does not yet expose it through its adapter.
+All proposed variants retain existing atoms, SAT variable selection and
+proof rules, and introduce no numeric assumptions or integer-value loop.
 
 Regression coverage for the rename checks `on`, `off`, explicit and implicit
 `auto`, preprocessing-dependent resolution, legacy aliases and precedence,
