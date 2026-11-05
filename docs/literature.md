@@ -22,7 +22,9 @@ chapter states the actual subset, deviations, invariants and tests.
 
 [Arithmetic-guided phase control](papers/arithmetic-phase-control.md) reviews
 polarity-only recommendations, their mapping to Primo, and the termination
-obligations for the current investigation. Numeric trial assumptions and
+obligations for the current investigation. Its follow-up distinguishes Boolean
+target phases and small-value local search from an unimplemented preference
+for the lower-valued side of existing slack thresholds. Numeric trial assumptions and
 model-value branching are outside its scope.
 
 | Source | Current role and retained reading note |

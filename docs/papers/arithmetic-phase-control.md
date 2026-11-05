@@ -61,6 +61,35 @@ existing assignment. It does not require introducing a numeric assumption.
 The footnote does not establish a heuristic that minimizes integer values,
 prefers a bound, or escapes the particular `wisas` region.
 
+### Follow-up: Boolean targets and small arithmetic values
+
+Armin Biere and Mathias Fleury,
+[*Chasing Target Phases*](https://fmv.jku.at/papers/BiereFleury-POS20.pdf),
+POS 2020, Sections 2, 3.1 and 4, were read for this follow-up. Their targets
+are partial **Boolean assignments**, retained to guide later decision signs.
+Rephasing changes preferred signs without changing CDCL's logical rules.
+The required state includes saved signs and a partial target-sign array;
+their target update criterion uses trail length. This supplies a precedent
+for sign preferences, not a numeric slack objective. Primo already delegates
+SAT search to CaDiCaL; this note adds neither the paper's target machinery nor
+a rephasing/restart schedule. Its policies must not be inferred from the
+paper's 2020 defaults for our current backend version.
+
+Bohan Li and Shaowei Cai,
+[*Local Search For SMT On Linear and Multi-linear Real Arithmetic*](https://repositum.tuwien.at/bitstream/20.500.12708/188824/1/Li-2023-Local%20Search%20For%20SMT%20On%20Linear%20and%20Multilinear%20Real%20Arithmetic-vor.pdf),
+FMCAD 2023, Sections III–V, were also read. They choose numeric moves by
+clause score, then break ties by smaller denominator and smaller absolute
+value. Their state includes a complete candidate assignment, clause weights
+and sampled interval moves; candidates can falsify clauses. This is local
+search, not a phase rule over a maintained simplex model. It is adjacent
+evidence for a small-value preference, not validation of a QF_UFLIA slack
+heuristic. That architecture and its move scoring are not adopted here.
+
+This focused reading found no directly matching published rule for Primo's
+proposed low-slack phase preference. It does not establish an absence from
+the wider literature. Neither source supplies a complexity or performance
+guarantee for that proposed adaptation.
+
 ## Mapping to Primo
 
 | Operation or state | Current owner and status |
@@ -126,13 +155,43 @@ On `xs_28_48`, that investigation found that following the current model can
 reinforce the difficult region;
 retesting that alone is not a new heuristic.
 
-A different rule favoring small-magnitude values or values near a bound
-remains an original proposal requiring a design and evaluation. The papers
-above do not establish that rule for QF_UFLIA. In particular, a phase-only
-heuristic cannot force `t = 12` while the current trail fixes `t = 17`; it can
-only influence subsequent choices, including choices reached after normal
-backtracking. No temporary numeric-assumption experiment is part of the
-current plan.
+### What a preference for smaller slack values would mean
+
+The simplest phase-only candidate needs no numeric target and no change to
+the tableau assignment. Suppose existing atoms include $t\le13$ and $t\ge16$.
+When SAT selects either atom for a decision, recommending true for the former
+and false for the latter favors the smaller-value side of those thresholds.
+Only if SAT uses the recommendation does the chosen literal enter the trail,
+through ordinary DPLL(T) decision handling. No equality $t=12$ is installed,
+and the preferences need not describe a jointly feasible model. Forced
+literals override preferences, and normal conflict analysis and backtracking
+can explore the opposite side.
+
+This is a proposed sign rule, not the implemented current-assignment rule of
+`model_phase_literal`. A later implementation would need the prepared
+predicate's semantic direction and its mapping to the SAT literal; choosing
+the same SAT sign for every atom would confuse upper and lower bounds.
+A scan over a finite set of prepared predicates would take bounded work
+proportional to the predicates inspected, with arithmetic normalization costs
+accounted for separately. It would retain SAT's variable choice and add no
+atoms, assumptions or numeric retry loop. It is not implemented or qualified.
+
+"Smaller" also differs from "smaller absolute value": preferring $t<0$ can
+reduce $t$ while increasing its magnitude. A raw slack's sign and scale depend
+on preparation, so the semantic expression and intended direction must be
+identified before testing a policy. Existing thresholds only distinguish
+regions; phase preferences cannot enumerate or select arbitrary integers
+inside a region without additional branching structure.
+
+Changing the simplex starting assignment is a separate proposal. A basic
+slack is determined by its row and cannot be independently overwritten;
+{settingssource}`changing nonbasic values <src/theory/arithmetic/lra_tableau.cpp#L1463-L1468>`
+requires {settingssource}`updating dependent basic values <src/theory/arithmetic/lra_tableau.cpp#L97-L143>`,
+and may require feasibility repair. Direct threshold preferences avoid that operation.
+Neither alternative can move $t$ from 17 to 12 while the current trail forces
+17. For the phase candidate, an effect requires an unforced threshold choice
+before that commitment, or a later choice after normal backtracking releases
+it. The papers above do not establish a QF_UFLIA speedup for either proposal.
 
 Regression coverage for the rename checks `on`, `off`, explicit and implicit
 `auto`, preprocessing-dependent resolution, legacy aliases and precedence,
