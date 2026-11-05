@@ -18,6 +18,7 @@ parts:
       - file: reference/backend
       - file: reference/qf-uf-conflicts
       - file: reference/qf-lra-certificates
+      - file: reference/qf-lia-certificates
   - caption: Contributing
     chapters:
       - file: development/correctness

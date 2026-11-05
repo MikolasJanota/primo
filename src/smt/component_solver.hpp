@@ -15,6 +15,7 @@
 #include "util/statistics.hpp"
 
 namespace primo::smt {
+class CnfConflictCollector;
 
 struct CombinationRecipe {
   // Factory order is the model reconciliation priority; online_order is an
@@ -44,6 +45,7 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
                                        std::span<const core::TermId> assertions,
                                        const ModelConversionChain& conversions,
                                        const CheckSatOptions& options, util::Statistics& statistics,
-                                       const CombinationRecipe& recipe);
+                                       const CombinationRecipe& recipe,
+                                       CnfConflictCollector* collector = nullptr);
 
 }  // namespace primo::smt

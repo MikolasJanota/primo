@@ -171,7 +171,9 @@ class ConflictSpool::Implementation {
     }
     output << (format == ConflictFormat::QfUfV1
                    ? "(primo-conflicts\n  (version 1)\n  (logic QF_UF)\n  (signature"
-                   : "(primo-conflicts\n  (version 2)\n  (logic QF_LRA)\n  (signature");
+               : format == ConflictFormat::QfLraV2
+                   ? "(primo-conflicts\n  (version 2)\n  (logic QF_LRA)\n  (signature"
+                   : "(primo-conflicts\n  (version 3)\n  (logic QF_LIA)\n  (signature");
     signature.copy(output, 0, signature.bytes());
     output << ")\n  (cnf";
     clauses.copy(output, 0, clauses.bytes());
@@ -212,7 +214,9 @@ void ConflictSpool::conflict(const std::function<void(std::ostream&)>& facts) {
   state.append([&] {
     const auto start = state.conflicts.bytes();
     auto& output = state.conflicts.output();
-    output << (state.format == ConflictFormat::QfUfV1 ? "\n    (conflict" : "\n    (conflict-lra");
+    output << (state.format == ConflictFormat::QfUfV1    ? "\n    (conflict"
+               : state.format == ConflictFormat::QfLraV2 ? "\n    (conflict-lra"
+                                                         : "\n    (conflict-lia");
     facts(output);
     output << ')';
     if (state.indexed) state.records.push_back({start, state.conflicts.bytes() - start});

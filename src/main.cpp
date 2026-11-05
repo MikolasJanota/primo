@@ -319,8 +319,9 @@ int run_main(int argc, char** argv) {
   std::size_t max_theory_conflicts = 0;
   std::vector<std::string> cadical_options;
   CLI::App app{"Primo SMT solver scaffold"};
-  app.add_option("--export-cnf", solver_options.export_cnf,
-                 "Write CNF and theory certificates for one UNSAT QF_UF or QF_LRA query to FILE")
+  app.add_option(
+         "--export-cnf", solver_options.export_cnf,
+         "Write CNF and theory certificates for one UNSAT QF_UF, QF_LRA or QF_LIA query to FILE")
       ->type_name("FILE");
   add_enum_option(app, "--export-cnf-reduction", solver_options.export_cnf_reduction,
                   primo::cli::kExportCnfReductionNames,

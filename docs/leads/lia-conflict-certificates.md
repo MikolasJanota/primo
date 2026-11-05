@@ -1,10 +1,9 @@
-# Proposed integer-only LIA conflict derivations
+# Experimental integer-only LIA conflict derivations
 
-**Status: format proposal with a hand-written example; no LIA certificate
-exporter or checker is implemented.** The existing UF/version-1 and
+**Status: experimental bounded implementation; SLURM qualification pending.** The existing UF/version-1 and
 [LRA/version-2 formats](../reference/qf-lra-certificates.md) remain unchanged.
-The proposed version 3 adds `QF_LIA`, `Int` constants and `conflict-lia` records.
-The exported CNF remains the starting problem; this proposal supplies no proof
+Version 3 adds `QF_LIA`, `Int` constants and `conflict-lia` records.
+The exported CNF remains the starting problem; this format supplies no proof
 of source-to-CNF conversion.
 
 ## Why local names help
@@ -19,7 +18,7 @@ An integer derivation may instead combine premises, round a resulting bound,
 then combine that derived inequality with another premise. Local names let a
 later step reference or reuse an earlier result without repeating its formula.
 
-| Property | Current LRA record | Proposed LIA record |
+| Property | Current LRA record | Experimental LIA record |
 | --- | --- | --- |
 | Conflict meaning | Listed signed literals are conjunctively inconsistent | Same |
 | Premise representation | Literal/weight pairs | Named signed literals under `premises` |
@@ -125,21 +124,22 @@ abbreviate their original signed literals. They are not new Boolean variables.
 In this example the CNF asserts each fact as a unit clause, so adding that
 theory lemma closes the propositional refutation.
 
-## Scope and integration direction
+## Scope and integration
 
-This is an initial cut-derivation format, not a claim that current native LIA
-conflicts can already be replayed. The current
+The [version-3 implementation](../reference/qf-lia-certificates.md) reconstructs
+bounded cut derivations after theory-clause selection. Some integer conflicts
+remain beyond this baseline. The main solver's
 {ref}`integer explanation <lia-explanations>` is represented by
 {lraexportsource}`LiaExplanation <src/theory/arithmetic/lia_explanation.hpp>`, which stores
 antecedent literals from cuts, GCD checks and exhausted branches, without an
-external derivation. Supporting that solver boundary needs proof production or
-proof reconstruction. Direct branch-and-bound replay additionally needs a
+external derivation. Reconstruction uses the selected original premises rather
+than retaining main-search history. Direct branch-and-bound replay needs a
 scoped integer split rule and verification of both closed branches; it is not
 defined by this initial syntax.
 
 Keep the existing post-CORE/MUS objective: select complete theory clauses first,
-then generate the derivation only for retained clauses. This is a planned LIA
-extension, not something achieved by merely rescaling the existing LRA weights.
+then generate the derivation only for retained clauses. The implementation
+requires integer tightening/elimination in addition to rescaling LRA witnesses.
 The old starter archive contains actual version-2 outputs and remains unchanged;
 the files linked here are explicitly hand-written version-3 proposals.
 
@@ -151,5 +151,49 @@ Integer coefficient normalization and bound tightening are described in
 Pugh's expanded *Omega Test*, §2.1 {cite:p}`pugh1992omega`. Our `cut` syntax
 combines those operations into one explicit, checked inference; this is not an
 implementation of the Omega algorithm. Names, record layout and the example
-are our design proposal. No version-3 parser, serializer, derivation generator
-or checker has been added.
+are our format design. A native serializer, bounded reconstructor and separate
+Python checker are now implemented; qualification is pending.
+
+## Implementation checklist: bounded reconstruction
+
+Implementation work uses Pugh §2.1 (integer coefficient GCD and bound
+tightening) and §2.3.1 (pairwise Fourier–Motzkin real-shadow elimination), with the
+exact-projection preference of §2.3.2.
+This is a bounded refutation baseline, not the complete Omega algorithm:
+dark shadows, splinters and scoped branch replay are excluded. Failure to
+derive a contradiction is inconclusive, never evidence of satisfiability.
+
+- `theory::arithmetic::LiaCertificatePremise` owns sparse integer coefficients
+  and an integer bound, with opaque numeric variable identities. The SMT
+  collector supplies signed, strict-normalized original `Int` premises.
+- `LiaCertificateCut` owns a positive divisor and nonnegative integer weights
+  on backward references. Premise positions and derived step positions share
+  a private numeric sequence; serialization assigns local `pN`/`sN` names.
+  No solver term, SAT object or parser AST is retained by arithmetic proof state.
+- Normalize each active row by its nonzero coefficient GCD, flooring the bound;
+  record the operation as a cut when it changes the row. A constant negative
+  bound is a contradiction. Combine opposite-sign bounds to eliminate one
+  variable, record their positive integer multipliers and GCD tightening, and
+  carry rows not containing that variable to the next projection.
+- First try the private LRA witness reconstruction on tightened rows, clearing
+  weight denominators before recording an integer sum. Otherwise prefer an
+  exact projection (unit coefficients on one whole side), then a small
+  positive/negative pair count. Remove
+  duplicate left-hand sides while retaining the strongest bound. This is a
+  basic sparse-map implementation; it does not implement Pugh's optimized
+  constraint-key machinery. Intermediate rows/cuts have explicit count and
+  integer-digit limits; cancellation and the export phase budget are polled.
+  Pair generation can be quadratic per projection and exponential overall;
+  exact integer costs also depend on operand bit lengths.
+- A separate arithmetic replay verifies every divisor, type/integer condition,
+  nonnegative weight, backward reference and computed conclusion before export.
+  Only ancestors of the final contradiction need serialization; preserve all
+  selected original premises in the record even if some are unused.
+- Capture actual clausifier clauses and delivered component reasons/conflicts
+  at the SAT boundary. Apply CORE/MUS before reconstruction; spool raw numeric
+  lemmas and stage proof text on disk. Main solving has no proof provenance.
+- Validate negative floor, GCD tightening, combination before tightening,
+  repeated references, zero weights, rationally inconsistent cases, true integer
+  conflicts, incomplete projection, resource limits and interruption. Mutate
+  serialized proofs and check them independently using Python integers.
+  Record generated steps, pairs, projections, pruned steps and completion.

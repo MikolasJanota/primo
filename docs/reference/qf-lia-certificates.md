@@ -1,0 +1,159 @@
+# QF_LIA integer cut certificates, version 3
+
+**Status: experimental bounded implementation; SLURM qualification pending.**
+`--export-cnf FILE` accepts a single QF_LIA query with the same command/session
+restrictions as [UF export](qf-uf-conflicts.md). Existing UF/version-1 and
+[LRA/version-2](qf-lra-certificates.md) records are unchanged. Version 3 lists
+named signed premises and a checked integer cut derivation in each
+`conflict-lia` record. The exported CNF is the starting problem; source-to-CNF
+conversion remains unproved.
+
+```bash
+./build/primo --quiet --preprocessing-mode=off --export-cnf result.sexp \
+  --export-cnf-reduction=core docs/examples/qf-lia-certificate-proposal.smt2
+python3 scripts/check_lia_certificate.py result.sexp --sat-solver /path/to/cadical
+```
+
+The {download}`input <../examples/qf-lia-certificate-proposal.smt2>` is the
+two-variable example in the [design note](../leads/lia-conflict-certificates.md).
+Its {download}`hand-written certificate <../examples/qf-lia-certificate-proposal.sexp>`
+is a valid example of the schema, not a byte-for-byte expected producer output.
+Native output uses `pN`/`sN` names and may derive a different proof. The normal
+preparation path lowers equalities and extended integer terms; disabling
+optional preprocessing makes the example's arithmetic conflicts observable.
+
+## Integer rule and supported fragment
+
+Declarations are `Int` or Boolean constants. Arithmetic premises are signed
+affine comparisons over integer coefficients/constants. Negation and strictness
+are normalized internally: $P<b$ becomes $P\le b-1$, whereas
+$\neg(P\le b)$ becomes $-P\le-b-1$. The original signed literal is printed
+unchanged in the premise list. Integer-specific `div`/`mod`/`abs` and `ite`
+must pass the existing native lowering before collection. Non-affine surviving
+terms, Real variables, uninterpreted functions/sorts, mixed logics, quantifiers,
+sort erasure and incremental queries are outside the initial export fragment.
+
+```lisp
+(conflict-lia
+  (premises
+    (a (<= (+ (* 3 x) (* 2 y)) 4))
+    (b (<= 1 y))
+    (c (<= 1 (* 2 x))))
+  (proof
+    (cut upper 3 (a 1) (b 2))
+    (cut lower 2 (c 1))
+    (cut impossible 1 (upper 1) (lower 1))
+    (contradiction impossible)))
+```
+
+Labels are unique within one record, with references to premises or earlier
+steps only. They never name SAT variables or source terms. A cut forms a
+nonnegative integer weighted sum $A\cdot x\le B$. Its positive integer
+divisor $d$ must divide every variable coefficient in $A$; the checker computes
+$ (A/d)\cdot x\le\lfloor B/d\rfloor $. Divisor 1 gives ordinary summation.
+Negative bounds use mathematical floor, not truncation. All numbers in the
+serialized arithmetic are integers. `contradiction` must be the final
+instruction and reference a zero left-hand side with a negative bound.
+
+Successful checking justifies the clause of complements of **all** original
+premise literals. Unused premises, zero weights and repeated references are
+allowed. Derived cuts are not additional assumptions and do not enter the SAT
+clause. Each conflict is checked independently of other CNF clauses or records.
+
+## Reconstruction, ownership and limits
+
+The SMT collector observes the real clausifier-to-SAT boundary and complete
+component reason/external-clause streams, including the integer completion
+conflicts learned after full-model checks. The single unguided LIA recipe
+accepts the optional collector; other component recipes retain their default
+behavior. The dispatcher observer receives only SAT clauses and is empty in
+ordinary solving. No coefficients or integer proof trace are stored in main
+search. Atom bindings seal after initial preparation; a later clausifier
+emission fails export rather than silently using an incomplete mapping.
+
+As for LRA, raw numeric theory clauses are spooled and CORE/MUS selects complete
+clauses before reconstruction. `none` uses sequential numeric records with no
+offset index. Proof text is staged on disk; the final output opens only after
+all retained conflicts have completed. A cancelled or incomplete reconstruction
+leaves an existing output unchanged. Final-publication I/O failure may still
+leave a partial file, as in the other formats.
+
+The {download}`arithmetic API <../../src/theory/arithmetic/lia_certificate.hpp>`
+owns sparse integer-valued premises, cuts and result counters. It uses
+integer-valued `util::Rational` objects internally to reuse arbitrary-precision
+arithmetic and overflow handling; no rational numeral is serialized. Variable
+IDs are opaque to this layer. Per-lemma projection rows and proof state are
+released before the next retained lemma; the collector still borrows the
+query term manager and retains the CNFs needed by subset reduction.
+
+The {download}`reconstructor <../../src/theory/arithmetic/lia_certificate.cpp>`
+first tightens each premise by its coefficient GCD. It tries the existing
+private LRA witness reconstruction on those tightened rows, clearing all
+weight denominators to obtain an integer sum. This handles rational
+contradictions without projecting variables. Otherwise it tries bounded
+Fourier–Motzkin real-shadow projections, preferring a variable with unit
+coefficients on one whole side (an exact projection), then a small pair count.
+Each opposite-sign pair is combined with positive integer weights and GCD
+tightened. Duplicate left-hand sides retain the strongest active bound.
+Only ancestors of the final contradiction are serialized; all selected original
+premises remain. Arithmetic replay checks the final derivation before printing.
+
+This is a bounded refutation baseline, **not** the complete Omega algorithm.
+Dark shadows, splinters and scoped branch replay are absent. A real shadow can
+have integer points even when the original system has none, so no contradiction
+found means **inconclusive**, never satisfiable. Pugh's §2.3.3 example is an
+explicit regression for this limitation. No full QF_LIA coverage is claimed.
+
+Default per-lemma limits are 8,192 generated cuts, 4,096 active rows, 65,536
+generated bound pairs and 1,024 decimal digits per integer. Original premises
+also count against the row limit. A separate 60-second cooperative budget
+covers the whole reconstruction phase. Polls occur during setup, projection,
+replay and between private LP pivots; individual large exact-number operations
+and formatting are not hard real-time bounded. External process limits remain
+necessary. Pair generation can grow quadratically per projection and
+exponentially overall; this baseline makes no performance claim.
+
+Unavailable proofs return export `unknown`, preserve `:export.main-unsat=1`
+when main solving finished UNSAT, and publish no artifact. Explicit limits
+use the resource-limit reason; interruption uses cancellation/the phase limit.
+Malformed/non-integer premises or an invalid reconstructed proof are export
+errors, not legitimate refutations.
+
+Counters include selected/attempted/finished lemmas, completion and phase time,
+numeric/text spool bytes, generated/pruned cuts, projections/exact projections,
+bound pairs, and private linear checks/pivots. For LIA,
+`:export.reconstruction.entries` counts listed premise positions. A completed
+CORE/MUS selection alone does not establish proof validity.
+
+## Independent checks and qualification
+
+The {download}`Python checker <../../scripts/check_lia_certificate.py>` uses
+Python integer arithmetic, parses the serialized polynomials independently,
+checks local reference scope and replays each cut including exact divisibility
+and negative floor. It shares tokenization with the LRA checker, but no producer
+matrix, tableau or reconstruction result. It rejects fractional proof numbers
+and Real declarations. Optional external CaDiCaL checking confirms propositional
+UNSAT; this trusts that SAT solver and is not a propositional proof-kernel check.
+Without `--sat-solver`, only syntax and arithmetic are checked. The diagnostic
+checker reads the whole artifact in RAM, unlike the producer's text spools.
+Micromath version-3 translation is not implemented.
+
+Native unit coverage includes GCD/negative-bound tightening, the linear-witness
+fast path, an example needing the exact-projection preference, proof pruning,
+invalid cuts, duplicate coefficients, limit/cancellation paths and an incomplete
+integer refutation preserving the output sentinel. Python mutation tests cover
+divisibility, sign, type, scope, zero weights and false contradictions.
+Native suites, ASan, fresh export fuzzing and recorded-fast real inputs remain
+pending SLURM qualification.
+
+## Sources and implementation status
+
+Pugh, expanded *Omega Test*, §§2.1, 2.3.1 and the exact-projection criterion in
+§2.3.2 {cite:p}`pugh1992omega`, grounds the implemented integer tightening,
+real-shadow elimination and variable preference. The
+[design note](../leads/lia-conflict-certificates.md) maps the implemented subset
+and proof obligations. The ordinary map implementation does not implement
+Pugh's optimized constraint-key machinery or complete integer procedure.
+The private linear-witness fast path reuses the implemented
+[LRA construction](qf-lra-certificates.md). Source-to-CNF proof, complete integer
+proof reconstruction and proof-language translation remain outside this work.

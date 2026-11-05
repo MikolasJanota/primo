@@ -8553,18 +8553,20 @@ CheckSatOutcome solve_qf_lia_impl(core::TermManager& terms,
                                   const std::vector<core::TermId>& assertions,
                                   const std::vector<core::TermId>& model_terms,
                                   const CheckSatOptions& options, util::Statistics& statistics,
-                                  const ModelConversionChain& conversions);
+                                  const ModelConversionChain& conversions,
+                                  CnfConflictCollector* collector);
 
 CheckSatOutcome solve_qf_lia_engine_impl(core::TermManager& terms,
                                          const std::vector<core::TermId>& assertions,
                                          const std::vector<core::TermId>& model_terms,
                                          const CheckSatOptions& options,
                                          util::Statistics& statistics,
-                                         const ModelConversionChain& conversions) {
+                                         const ModelConversionChain& conversions,
+                                         CnfConflictCollector* collector) {
   const std::uint64_t promotions_before = util::Rational::promotion_count();
   const std::uint64_t big_operations_before = util::Rational::big_operation_count();
-  CheckSatOutcome outcome =
-      solve_qf_lia_impl(terms, assertions, model_terms, options, statistics, conversions);
+  CheckSatOutcome outcome = solve_qf_lia_impl(terms, assertions, model_terms, options, statistics,
+                                              conversions, collector);
   const std::uint64_t promotions = util::Rational::promotion_count() - promotions_before;
   const std::uint64_t big_operations =
       util::Rational::big_operation_count() - big_operations_before;
@@ -10198,7 +10200,8 @@ CheckSatOutcome solve_qf_lia_impl(core::TermManager& terms,
                                   const std::vector<core::TermId>& assertions,
                                   const std::vector<core::TermId>& model_terms,
                                   const CheckSatOptions& options, util::Statistics& statistics,
-                                  const ModelConversionChain& conversions) {
+                                  const ModelConversionChain& conversions,
+                                  CnfConflictCollector* collector) {
   static_cast<void>(model_terms);
   // Retain the historical arithmetic-route statistic key.
   statistics.increment(kStatSolverQfLra);
@@ -10220,8 +10223,10 @@ CheckSatOutcome solve_qf_lia_impl(core::TermManager& terms,
     return std::make_unique<LiaTheoryComponent>(terms, options, statistics, true, false,
                                                 LiaComponentTiming{}, true);
   }};
-  return solve_component_recipe(terms, assertions, conversions, options, statistics, recipe);
+  return solve_component_recipe(terms, assertions, conversions, options, statistics, recipe,
+                                collector);
 #else
+  static_cast<void>(collector);
   static_cast<void>(terms);
   static_cast<void>(assertions);
   static_cast<void>(conversions);
@@ -12542,9 +12547,11 @@ CheckSatOutcome solve_qf_lia_engine(core::TermManager& terms,
                                     const std::vector<core::TermId>& assertions,
                                     const std::vector<core::TermId>& model_terms,
                                     const CheckSatOptions& options, util::Statistics& statistics,
-                                    const ModelConversionChain& conversions) {
+                                    const ModelConversionChain& conversions,
+                                    CnfConflictCollector* collector) {
   return enforce_theory_conflict_limit(
-      solve_qf_lia_engine_impl(terms, assertions, model_terms, options, statistics, conversions),
+      solve_qf_lia_engine_impl(terms, assertions, model_terms, options, statistics, conversions,
+                               collector),
       options, statistics);
 }
 

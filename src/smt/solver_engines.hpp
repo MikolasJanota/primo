@@ -42,7 +42,8 @@ CheckSatOutcome solve_qf_lia_engine(core::TermManager& terms,
                                     const std::vector<core::TermId>& assertions,
                                     const std::vector<core::TermId>& model_terms,
                                     const CheckSatOptions& options, util::Statistics& statistics,
-                                    const ModelConversionChain& conversions);
+                                    const ModelConversionChain& conversions,
+                                    CnfConflictCollector* collector = nullptr);
 CheckSatOutcome solve_qf_uflra_engine(core::TermManager& terms,
                                       const std::vector<core::TermId>& assertions,
                                       const std::vector<core::TermId>& model_terms,

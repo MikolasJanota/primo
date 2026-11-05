@@ -13,6 +13,7 @@
 #include "core/term.hpp"
 #include "sat/cadical_backend.hpp"
 #include "smt/assignment_coordinator.hpp"
+#include "smt/cnf_export.hpp"
 #include "smt/component_dispatcher.hpp"
 #include "smt/component_model_assembler.hpp"
 #include "smt/component_model_coordinator.hpp"
@@ -71,11 +72,22 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
                                        std::span<const core::TermId> assertions,
                                        const ModelConversionChain& conversions,
                                        const CheckSatOptions& options, util::Statistics& statistics,
-                                       const CombinationRecipe& recipe) try {
+                                       const CombinationRecipe& recipe,
+                                       CnfConflictCollector* collector) try {
+  if (collector != nullptr && (recipe.model_guided || recipe.factories.size() != 1))
+    throw UnsupportedCombination("certificate capture requires one unguided theory component");
   sat::CadicalBackend backend(options.cadical_options);
   SolveTerminator terminator(options.cancelled, statistics, options.max_theory_conflicts);
   const ScopedTerminatorConnection terminator_connection(backend, terminator);
-  BooleanClausifier clausifier(backend, terms, options.top_level_or_tseitin);
+  BooleanClausifier::ClauseObserver observe_clause;
+  BooleanClausifier::ClauseObserver observe_theory_clause;
+  if (collector != nullptr)
+    observe_clause = [collector](const sat::Clause& clause) {
+      collector->record_input_clause(clause);
+    };
+  if (collector != nullptr)
+    observe_theory_clause = [collector](const sat::Clause& clause) { collector->record(clause); };
+  BooleanClausifier clausifier(backend, terms, options.top_level_or_tseitin, observe_clause);
   for (const auto assertion : assertions) clausifier.assert_formula(assertion);
   if (recipe.prepare_boolean) recipe.prepare_boolean(clausifier);
 
@@ -268,7 +280,7 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
             record_theory_conflict(statistics);
             return terminator.conflict_limit_reached();
           },
-          recipe.forgettable_clauses);
+          recipe.forgettable_clauses, observe_theory_clause);
       for (std::size_t index = 0; index < online_order.size(); ++index) {
         dispatcher->register_atoms(index, atoms_by_component[online_order[index]]);
         for (const auto phase : online_components[index]->phase_literals()) backend.phase(phase);
@@ -302,6 +314,7 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
     statistics.set(util::StatKey::TheoryAtoms, all.size());
   };
   install_atoms();
+  if (collector != nullptr) collector->bind(clausifier);
   statistics.set(":combination.online-components.enabled", recipe.online ? 1 : 0);
   std::vector<sat::Lit> active_choices;
   std::size_t decision_batches = 0;
@@ -449,6 +462,7 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
               return value && *value != (literal.value > 0);
             }))
           record_theory_conflict(statistics);
+        if (collector != nullptr) collector->record(combined.clause);
         backend.add_clause(combined.clause);
         continue;
       case ModelBasedCombinationStatus::DecideEquality:

@@ -531,7 +531,9 @@ void incremental_routing_backtracking_and_explanation_lifetime() {
   for (std::size_t index = 0; index < 4; ++index) {
     f.add({{{x, y}, partitions(2)}});
   }
-  smt::ComponentDispatcher dispatcher(f.components);
+  std::vector<sat::Clause> observed_clauses;
+  smt::ComponentDispatcher dispatcher(
+      f.components, {}, {}, true, [&](const auto& clause) { observed_clauses.push_back(clause); });
   for (std::size_t index = 0; index < f.atoms.size(); ++index) {
     dispatcher.register_atoms(index, std::span(&f.atoms[index], 1));
   }
@@ -562,6 +564,7 @@ void incremental_routing_backtracking_and_explanation_lifetime() {
   consequence.reasons = {sat::Lit{1}};
   f.owned[1]->pending_propagation = consequence;
   assert(dispatcher.cb_propagate() == 2);
+  assert(observed_clauses.empty());
   owner.notify_assignment({2});
   owner.notify_new_decision_level();
   owner.notify_assignment({-4});
@@ -572,7 +575,10 @@ void incremental_routing_backtracking_and_explanation_lifetime() {
   // The root propagation's explanation survives unrelated non-root undo.
   assert(dispatcher.cb_add_reason_clause_lit(2) == 2);
   assert(dispatcher.cb_add_reason_clause_lit(2) == -1);
+  assert(observed_clauses.empty());
   assert(dispatcher.cb_add_reason_clause_lit(2) == 0);
+  assert(observed_clauses.size() == 1 && observed_clauses[0].size() == 2);
+  assert(observed_clauses[0][0].value == 2 && observed_clauses[0][1].value == -1);
   owner.notify_new_decision_level();
   owner.notify_assignment({4});
   assert(f.owned[3]->assignments().size() == 1);
@@ -595,7 +601,10 @@ void external_clause_retention_follows_recipe_policy() {
     const auto x = f.variable("x", f.symbols.int_sort());
     const auto y = f.variable("y", f.symbols.int_sort());
     f.add({{{x, y}, partitions(2)}});
-    smt::ComponentDispatcher dispatcher(f.components, {}, {}, forgettable);
+    std::vector<sat::Clause> observed_clauses;
+    smt::ComponentDispatcher dispatcher(f.components, {}, {}, forgettable, [&](const auto& clause) {
+      observed_clauses.push_back(clause);
+    });
     dispatcher.register_atoms(0, std::span(&f.atoms[0], 1));
     smt::AssignmentCoordinator owner(dispatcher);
     owner.notify_assignment({1});
@@ -606,8 +615,12 @@ void external_clause_retention_follows_recipe_policy() {
     bool observed = !forgettable;
     assert(dispatcher.cb_has_external_clause(observed));
     assert(observed == forgettable);
+    assert(observed_clauses.empty());
     assert(dispatcher.cb_add_external_clause_lit() == -1);
+    assert(observed_clauses.empty());
     assert(dispatcher.cb_add_external_clause_lit() == 0);
+    assert(observed_clauses.size() == 1 && observed_clauses[0].size() == 1);
+    assert(observed_clauses[0][0].value == -1);
   }
 }
 

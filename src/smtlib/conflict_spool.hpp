@@ -10,9 +10,9 @@
 
 namespace primo::smtlib {
 
-enum class ConflictFormat { QfUfV1, QfLraV2 };
+enum class ConflictFormat { QfUfV1, QfLraV2, QfLiaV3 };
 
-// Version-1/2 section spools, independent of solver objects and IDs. Callbacks
+// Version-1/2/3 section spools, independent of solver objects and IDs. Callbacks
 // borrow a stream only for the call; they must not retain it or reenter this
 // object. Temporary files are anonymous and closed on destruction. See
 // docs/leads/cnf-export-spooling.md for states and failure guarantees.

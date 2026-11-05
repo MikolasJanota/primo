@@ -1,4 +1,4 @@
-; HAND-WRITTEN PROPOSAL, not an output accepted by the current exporter/checker.
+; HAND-WRITTEN version-3 example; native output may choose different labels/steps.
 (primo-conflicts
   (version 3)
   (logic QF_LIA)

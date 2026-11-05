@@ -7,9 +7,9 @@ its version-1 format; QF_LRA writes version 2. This certifies the prepared CNF
 as a starting problem, without a proof connecting it to the original SMT script.
 The [design note](../leads/lra-conflict-certificates.md) gives the mathematical
 contract, reconstruction argument and implementation checklist.
-The separate [integer-only LIA proposal](../leads/lia-conflict-certificates.md)
-compares this weighted-list format with named, multi-step cut derivations and
-provides a small hand-written example. It adds no current exporter support.
+The separate [integer-only LIA format](qf-lia-certificates.md) adds bounded
+experimental export with named, multi-step cut derivations. Its
+[design note](../leads/lia-conflict-certificates.md) compares the representations.
 
 ```bash
 ./build/primo --quiet --export-cnf result.sexp --export-cnf-reduction=core docs/examples/qf-lra-export.smt2

@@ -28,13 +28,15 @@ sat::Clause implication_clause(const theory::TheoryCheckResult& result) {
 ComponentDispatcher::ComponentDispatcher(std::span<theory::TheoryComponent* const> components,
                                          std::function<void(sat::Lit)> publish_phase,
                                          std::function<bool()> report_conflict,
-                                         bool forgettable_clauses)
+                                         bool forgettable_clauses,
+                                         std::function<void(const sat::Clause&)> observe_clause)
     : components_(components.begin(), components.end()),
       deltas_(components.size()),
       dirty_(components.size(), false),
       publish_phase_(std::move(publish_phase)),
       report_conflict_(std::move(report_conflict)),
-      forgettable_clauses_(forgettable_clauses) {
+      forgettable_clauses_(forgettable_clauses),
+      observe_clause_(std::move(observe_clause)) {
   touched_.reserve(components.size());
   for (auto* component : components_) {
     if (component == nullptr || !component->descriptor().capabilities.incremental) {
@@ -249,6 +251,7 @@ int ComponentDispatcher::cb_add_reason_clause_lit(int propagated_lit) {
     reason_cursor_ = 0;
   }
   if (reason_cursor_ == found->second.clause.size()) {
+    if (observe_clause_) observe_clause_(found->second.clause);
     reason_literal_ = 0;
     reason_cursor_ = 0;
     return 0;
@@ -271,6 +274,7 @@ int ComponentDispatcher::cb_add_external_clause_lit() {
     throw std::logic_error("no pending component clause");
   }
   if (clause_cursor_ == external_clause_->clause.size()) {
+    if (observe_clause_) observe_clause_(external_clause_->clause);
     external_clause_.reset();
     clause_cursor_ = 0;
     return 0;

@@ -27,10 +27,10 @@ namespace primo::smt {
 class BooleanClausifier;
 class NumericClauseSpool;
 
-enum class ExportCnfTheory { Uf, Lra };
+enum class ExportCnfTheory { Uf, Lra, Lia };
 
 // Borrows the query term manager and text spool through publication. Copies SAT
-// clauses for reduction; LRA additionally spools numeric clauses for selected-only
+// clauses for reduction; arithmetic spools numeric clauses for selected-only
 // witness reconstruction. Retains no clausifier, term-node or stream borrows.
 class CnfConflictCollector {
  public:
@@ -43,7 +43,8 @@ class CnfConflictCollector {
   void bind(const BooleanClausifier& clausifier);
   void record(const sat::Clause& clause);
   sat::ClauseSubsetResult reduce(sat::Terminator* terminator) const;
-  // Returns false only on interruption; invalid premises/witnesses throw.
+  // Returns false on interruption; invalid or unavailable witnesses throw and
+  // are classified at the single-query export boundary.
   bool reconstruct(std::optional<std::span<const std::size_t>> selected,
                    const std::function<bool()>& cancelled, util::Statistics& statistics);
   std::size_t collected_count() const;
@@ -51,6 +52,8 @@ class CnfConflictCollector {
   std::uint64_t conflict_format_microseconds() const { return conflict_format_microseconds_; }
 
  private:
+  bool reconstruct_lia(std::optional<std::span<const std::size_t>> selected,
+                       const std::function<bool()>& cancelled, util::Statistics& statistics);
   core::TermManager& terms_;
   smtlib::ConflictSpool& document_;
   sat::Cnf input_clauses_;
