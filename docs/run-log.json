@@ -8,7 +8,7 @@
       "commit": "8357ff8b2ec6b8f896cca1ee6223da697a389e0e",
       "branch": "lia-integrality; qualification candidate staged on isolated phase-cli-rename branch",
       "kind": "cli-compatibility-and-correctness-qualification",
-      "evidence_status": "checks/fuzz complete; static review and final docs acceptance pending",
+      "evidence_status": "qualification complete; static baseline advisories recorded, no new search heuristic or performance claim",
       "scope": "Rename only: initial-theory-phase with theory-phase alias; arithmetic-model-phase=on|off|auto with legacy Boolean flags retained. Preserve solver policies, defaults, route coverage and internal names. No numeric assumptions or new search heuristic.",
       "environment": {
         "location": "SLURM compute partition; qualification 4 CPUs, 12 GiB, 30-minute wall",
@@ -18,7 +18,7 @@
       },
       "jobs": {
         "checks_fuzz": "349463; COMPLETED 0:0",
-        "static": "349464; pending final classification"
+        "static": "349464; COMPLETED 0:0; 16m39s"
       },
       "verification": {
         "build": "scripts/slurm_prepare_benchmark_workspace.py --reuse-dependencies --build-via-slurm --jobs 4 --no-sync --cxx-header-manifest <preserved-header-manifest>; clean candidate snapshot, preflight before each batch job",
@@ -87,14 +87,29 @@
           }
         },
         "fuzz_scope": "1000 generated QF_LRA Boolean/arithmetic SAT cases against recorded Z3 command, all direct Dolmen passes; no fresh UNSAT-fuzz coverage claimed. No benchmark or default promotion.",
-        "metadata_commit": "Generator metadata says unknown because remote source is an archive. The surrounding runner verifies binary revision 8357ff8b and saves binary/reference/validator SHA-256; source snapshot comes from the clean named commit."
+        "metadata_commit": "Generator metadata says unknown because remote source is an archive. The surrounding runner verifies binary revision 8357ff8b and saves binary/reference/validator SHA-256; source snapshot comes from the clean named commit.",
+        "static": {
+          "command": "scripts/qualification/phase_cli/static.sbatch; clang-tidy -p build-slurm-rel -checks='clang-analyzer-*,misc-include-cleaner' plus repository .clang-tidy configuration",
+          "scope": "All 129 src/tests C++ translation units plus four docs/examples C++ files; complete job exit 0:0. No compiler diagnostics at error severity.",
+          "diagnostics": {
+            "raw_warning_lines": 2185,
+            "unique_warning_lines": 753,
+            "classification": "Whole-tree baseline advisories remain; this is not a zero-warning static acceptance."
+          },
+          "changed_source": "Only src/main.cpp changed among owned C++ files. Its two diagnostics concern unchanged enum-choice vector growth and option-group std::move statements. Source comparison, not a separate baseline static run, establishes those statements predate the rename.",
+          "include_cleaner": "Inspected advisory output. The 20 unique unused-header reports are paired implementation/header self-includes and were retained. Missing-direct-include advisories in unchanged files remain baseline work.",
+          "analyzer_triage": "Leak advisories concern external CLI11 code reached through the unchanged enum-registration helper, and unchanged Goal construction through nested make_shared ownership in smt/tactic.cpp. These are recorded as unresolved baseline advisories, not claimed fixed or proven false. Enum-range warnings exercise the unchanged declaration-probing tests. Remaining padding, enum-size, optional-access, parameter, move and other advisories concern unchanged code; no cleanup expansion was made in this CLI rename.",
+          "log_sha256": "24a084adc30709c186ffea1e7ab89874dab98cb0d52e5b04be95f7d0708d8e9d"
+        },
+        "documentation": "make docs; assemble_docs.py with preserved root history book; check_doc_links.py: 273 pages, 35981 local links and 1157 Git links, zero failures. 442 external URLs deferred. Changed rendered sections inspected; independent source/paper review recorded in documentation milestone commit."
       },
       "artifacts": {
         "local": "results/phase-cli-rename-20261105",
         "remote": "<phase-cli-workspace>/results/phase-cli-rename-20261105 and results/phase-cli-static-20261105; cases/models retained remotely",
         "runner": "scripts/qualification/phase_cli/check.sbatch; submitted SHA-256 96a71183749f358442fefefff72afe7c4ae7a4fff7c37944226c0b8d33685180",
         "static_runner": "scripts/qualification/phase_cli/static.sbatch",
-        "identity_record": "5ad25ab16c29076de7297a110a6af31e2220c089e83a239c4510a2c48e5d931f  build-slurm-rel/primo\n54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0  contrib/local/bin/z3\n08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e  contrib/local/bin/dolmen\n"
+        "identity_record": "5ad25ab16c29076de7297a110a6af31e2220c089e83a239c4510a2c48e5d931f  build-slurm-rel/primo\n54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0  contrib/local/bin/z3\n08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e  contrib/local/bin/dolmen\n",
+        "static_complete": "results/phase-cli-rename-20261105/static-complete.tar.gz and static-complete/results/phase-cli-static-20261105; scheduler accounting-complete.txt"
       },
       "literature": "Goldwasser, Strichman, Fine (FMCAD2008), full author PDF read; SPASS-SATT2019 publisher footnote3 read, full chapter access limited. New phase-control note restricts recommendations to existing SAT atoms and records bounded-computation/progress obligations, without implementing a new heuristic."
     },
