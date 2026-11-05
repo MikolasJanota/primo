@@ -267,3 +267,140 @@ evaluation before changing defaults.
 
 The [adaptive phase diagnostic](../leads/adaptive-phase-probe.md) records the
 counter-based simulation, independent correctness checks, results and limits.
+
+(narrow-region-phase-candidate)=
+### Preserve β except at repeatedly visited narrow regions
+
+**Status: original design candidate, not implemented or evaluated.** The
+15/30 recovery under uniform native phases does not establish a reason to
+withdraw useful β advice generally. The user's narrower proposal is to keep
+β as the usual preference and identify particular choices that repeatedly
+enter an arithmetic region with few remaining options.
+
+For a toy integer expression t with active closed bounds 0 ≤ t ≤ 17, an
+existing unforced atom t ≥ 16 separates [16,17] from [0,15]. If β(t)=17,
+β prefers the two-value side. Narrowness alone is not a reason to disagree:
+that side may contain an easy model. A candidate gate would additionally
+require a bounded history of repeated visits to that region with substantial
+conflict work, then temporarily prefer the other side when this atom is
+again an unforced choice. It chooses a Boolean sign, not a target value of t.
+The thresholds, work measure, history key and duration still need experiments.
+Conflicts and repeated bounds are only stagnation proxies; learned clauses
+can make useful progress without changing the arithmetic bounds.
+
+The cheapest first detector can intersect an existing prepared bound and its
+negation with the variable's current lower/upper bounds. For closed bounds
+[L,U] on an integer-valued expression, the interval contains
+max(0, floor(U) − ceil(L) + 1) integer values. This counts interval candidates,
+not feasible combined EUF/LIA models. Strict bounds require the existing
+infinitesimal-aware integer rounding; unknown or unbounded endpoints cannot
+be treated as a small finite range. Compare a normalized semantic expression
+across visits: raw tableau variable IDs, coefficient scale and basis changes
+must not silently change the meaning of a region.
+
+{settingssource}`LraTableau <src/theory/arithmetic/lra_tableau.hpp>` already
+exposes `lower_bound`, `upper_bound` and `freedom_interval`.
+Starting from a rationally feasible tableau, the last operation describes a
+nonbasic variable's feasible motion while other nonbasic values are held fixed
+and dependent basic values follow their rows. The query does not establish
+that starting feasibility or repair unrelated violated rows in a deferred
+assignment. It is a local rational-feasibility interval, not the projection of the
+entire feasible set, a count of integer completions, or a global width
+measurement. Several coordinated moves can remain possible even when all
+individual intervals collapse. Basic slacks cannot be passed directly to
+this API. Its current implementation walks the incidence column and searches
+affected rows for the coefficient; a detector must account for that work
+rather than assume all freedom intervals are already maintained for free.
+
+An intended implementation would keep semantic atom/region history in the
+SMT arithmetic integration (`ComponentLraExecution` and prepared atom mapping),
+where bound directions and integer rounding are known. The SAT adapter would
+only receive the resulting preferred literal. Bound snapshots and rollback
+must describe the current trail; historical visit evidence would be separately
+bounded and would survive only explicitly specified backtracking events.
+No such state or detector is added by this note. It must first be traced on
+lost and successful cases, checking how often β's preferred side becomes
+narrow, how often the same region recurs, and whether another unforced sign
+is still available. Equalities skipped by the current hint producer require
+separate coverage decisions.
+
+Detection after commitment has a hard limit. If current bounds or an active
+model-combination assumption already force the strip, phase advice cannot
+leave it. A record may influence a later unforced choice after ordinary
+backtracking; it cannot cancel assumptions or synthesize an earlier decision.
+A detector of impending entry may instead score the two sides of the current
+unforced atom before either is selected. Primo currently publishes cached
+preferences, so refreshing this score when relevant bounds change, even if
+β stays unchanged, is part of the design obligation.
+
+**Literature boundary.** Gennady Shmonin's
+[*Parameterised Integer Programming, Integer Cones, and Related Problems*](https://www.epfl.ch/labs/disopt/wp-content/uploads/2018/09/Shmonin2007.pdf),
+2007 dissertation, §3.1, pp. 23–27 {cite:p}`shmonin2007parameterised`, defines
+width along an integral direction and explains its role in fixed-dimensional
+integer programming. This section was read for the follow-up. It does not
+supply this adaptive phase gate. Its full-width/flatness reasoning concerns
+the arithmetic feasible set and does not predict which narrow combined
+EUF/LIA branch will be expensive. Computing thin directions, adding integer
+hyperplane branches, or invoking a flatness-based solver is not proposed
+here. The interval/visit gate above is our unvalidated heuristic; the existing
+Goldwasser–Strichman–Fine β rule remains the default advice within that design.
+
+### CSP connections and the finite-domain limitation
+
+A constraint satisfaction problem (CSP) in the papers below assigns a value
+from a finite domain to each variable, subject to constraints on those choices.
+
+The closest value-ordering principle is **least-constraining value**: leave
+options open for subsequent choices. This is distinct from fail-first/minimum
+remaining values, which selects a constrained variable early. Haralick and
+Elliott's [IJCAI 1979 paper, §4.2](https://ijcai.org/proceedings/1979/78)
+studies the smallest-domain variable rule; the publisher-hosted extracted text
+was read. In Primo, SAT retains variable selection, so a phase-only adaptation
+concerns which side of the selected atom is preferred. It must not be described
+as implementing the CSP variable-ordering rule.
+
+Philippe Refalo, *Impact-Based Search Strategies for Constraint Programming*,
+CP 2004, pp. 557–571 {cite:p}`refalo2004impact`, is the closer adaptive
+connection. Sections 2 and 4.1 define impact using reduction in the product
+of finite domain cardinalities, retain observed averages, and distinguish
+high-impact variable selection from low-impact value selection. The latter
+aims to preserve future choices. Reading was limited to indexed text from the
+original paper (§2, §4.1 and part of §4.2); direct PDF retrieval failed, so the
+complete initialization, scheduling and implementation were not reviewed.
+No implementation of Refalo's algorithm is proposed or claimed here.
+
+Gilles Pesant, Claude-Guy Quimper and Alessandro Zanarini,
+[*Counting-Based Search: Branching Heuristics for Constraint Satisfaction Problems*](https://cquimper.github.io/publications/counting.pdf),
+JAIR 43, 2012, pp. 173–210 {cite:p}`pesant2012counting`, §§1–2 and 6, define
+solution density using finite-domain counts of tuples satisfying a constraint.
+This measures support for a choice, unlike interval width. Their evaluation
+in §§7.9 and 7.13 shows that extracting value selection while retaining a
+different variable rule can lose the advantage; phase-only transfer therefore
+requires its own evidence. Those sections were read; the specialized counting
+algorithms in §§3–5 were not reviewed or adopted.
+
+**Proposed adaptation, not a paper result.** An Int sort is infinite, but the
+active bounds of a particular expression can already delimit a finite range.
+For those expressions only, interval candidate counts can supply a local
+contraction score and a narrow-region history. β remains the fallback where
+the required bounds are missing. A first diagnostic could compare remaining
+integer candidates on the two sides of an existing bound, and later learn
+how much propagation those decisions actually cause. The pre-decision
+intersection is only a prediction; observed post-propagation contraction
+also needs attribution to the decision and current context.
+
+This does not extend finite-domain cardinality ratios to infinity/infinity.
+An arbitrary numeric cap would invent a sampling measure and could change
+the preference. Finite cells induced by existing threshold atoms offer a
+different possible abstraction, even for unbounded numeric ranges, but cell
+counts are representation-dependent and are not counts of integer models.
+Neither alternative supports a general probability or solution-density claim.
+No global arithmetic volume, CSP domain store, trial-assumption probing,
+restart policy or new numeric branching is introduced by this design.
+
+The [repair schedule](../implementation/lia.md#repair-schedule-and-phase-advice)
+is relevant to either detector: β advice reads the live rational tableau,
+while integer completion works on a separate tableau after a full Boolean
+candidate. A measurement of β's available freedom must not silently substitute
+the assignment produced by later integer patching, or query freedom intervals
+before the live tableau has been repaired to rational feasibility.

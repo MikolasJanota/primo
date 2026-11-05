@@ -76,6 +76,64 @@ one component, there are no shared scopes, interface arrangements, equality
 bridges, or combination fallback. QF_UFLIA selects the same LIA component
 alongside EUF.
 
+### Repair schedule and phase advice
+
+"Repair" refers to two operations with different schedules. The following
+table describes the **online arithmetic execution** route:
+
+| Event | Rational feasibility | Integer patching/completion |
+| --- | --- | --- |
+| SAT assigns an arithmetic literal | Apply its bound immediately; reject direct bound contradictions. Full simplex repair may remain pending. | Does not run. |
+| Online theory consistency callback during Boolean search | Batch pending work and run `LraTableau::check()` to restore rational feasibility or report a conflict. | Does not run. |
+| SAT returns a complete Boolean candidate and the driver requests `FullModel` checking | Reuse a checked online tableau when the route permits, or rebuild the relaxation and check it. | Run patching, GCD checks, cuts and branch-and-bound on the separate completion tableau. |
+| A cut or internal integer split is added during completion | Recheck rational feasibility within that private tableau. | Continue the completion pipeline; do not restart the patcher after every cut or split. |
+
+QF_UFLIA can instead run without online arithmetic execution, depending on its
+online-component option and EUF engine. Assignments then record literals
+without immediately asserting their bounds into a live tableau. The full-model
+check rebuilds the candidate relaxation, applies those bounds, checks rational
+feasibility and then runs integer completion. Integer patching remains late.
+
+The {settingssource}`online arithmetic execution <src/smt/solver_engines.cpp>`
+records assigned bounds and marks deferred work.
+{settingssource}`ComponentDispatcher <src/smt/component_dispatcher.cpp>` requests
+partial checks through the external-clause callback; `LiaTheoryComponent`'s
+partial-effort branch performs rational checks only. The model-approval callback
+inside SAT also requests partial effort, not integer completion. After
+`backend.solve()` returns SAT, the
+{settingssource}`shared driver <src/smt/component_solver.cpp>` calls
+{settingssource}`ComponentModelCoordinator::reconcile <src/smt/component_model_coordinator.cpp>`,
+which requests `TheoryCheckEffort::FullModel` from the LIA component. That is
+the integer-completion boundary. Online batching is an intermediate schedule
+for **rational** repair, not eager integer patching.
+
+A full Boolean candidate selects the currently asserted arithmetic literals;
+it is not yet an accepted model of the original formula. Integer feasibility
+and, on QF_UFLIA, component-model agreement can still fail. A learned conflict
+or another combination choice can lead to another SAT call and another integer
+completion within the same `check-sat`. Thus "late" does not mean once after
+the entire SMT query has already been solved.
+
+The table also distinguishes the model used by phase advice. When enabled,
+`ComponentLraExecution::model_phase_literal` reads the live rational assignment
+β. `LiaComponentAdapter` keeps the successful completion model separately;
+integer patching does not write its assignment back into that live tableau.
+Standalone QF_LIA, and an online LIA component not producing a shared model
+projection, start completion from a copy of the checked online tableau. The
+model-guided QF_UFLIA route instead requests a projection and rebuilds a
+rational tableau from the prepared base and full candidate literals before
+completion. That rebuilt assignment may already differ from live β before
+integer patching starts. See the
+{ref}`phase-control investigation <narrow-region-phase-candidate>`.
+
+Eager integer repair after every assigned bound, or bounded intermediate
+integer-repair checkpoints on feasible partial assignments, are possible
+alternative schedules; neither is implemented as a scheduling option here.
+An integral assignment to a partial arithmetic trail does not establish SAT
+for the whole formula. A limited unsuccessful attempt is not an explained
+integer conflict. Comparing schedules would require separate correctness and
+performance evidence, including the additional repair work.
+
 The {retentionsource}`driver observes otherwise unowned Boolean constants <src/smt/component_solver.cpp#L276-L291>` through SAT's
 assignment interface, in the original atom registry order. Their assignments
 remain propositional: the dispatcher does not route them into the LIA component.

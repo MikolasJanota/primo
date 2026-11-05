@@ -25,8 +25,14 @@ polarity-only recommendations, their mapping to Primo, and the termination
 obligations for the current investigation. Its follow-up distinguishes Boolean
 target phases and small-value local search from an unimplemented preference
 for the lower-valued side of existing slack thresholds, and reviews polarity
-scores as context for adaptive overrides of arithmetic advice. Numeric trial assumptions and
-model-value branching are outside its scope.
+scores as context for adaptive overrides of arithmetic advice. The
+{ref}`narrow-region candidate <narrow-region-phase-candidate>`
+preserves β generally and proposes measuring repeated entry into small integer
+ranges before selecting local overrides. It is not implemented or evaluated.
+Numeric trial assumptions and model-value branching are outside its scope.
+Its [CSP follow-up](papers/arithmetic-phase-control.md#csp-connections-and-the-finite-domain-limitation)
+distinguishes least-constraining values, Refalo's impact-based search and
+counting-based solution density, including the finite-domain limits on transfer.
 
 | Source | Current role and retained reading note |
 | --- | --- |
