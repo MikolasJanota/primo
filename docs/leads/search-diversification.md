@@ -41,6 +41,143 @@ the arithmetic theory and the model-based combination keep re-proposing,
 which SAT-level phase heuristics may not reach. Both points are hypotheses to
 check in a trace; neither is established.
 
+## Alternatives to restarting: source audit on 2026-11-05
+
+The unlucky search explanation does not determine the remedy. There are two
+questions: can we avoid the difficult integral commitment, and can we make
+reasoning within it less expensive? The following are hypotheses to test,
+not implemented improvements or evidence of a speedup. The audit used
+`b0215bcc`; solver source is unchanged from the measured `5dec036` binary.
+
+### Steer arithmetic decisions before the value is pinned
+
+The historical traces settle near the smallest feasible integer with options
+off and near the largest with M2 (primitive integer rows). A candidate
+heuristic is to prefer existing
+bound literals compatible with a small-magnitude feasible integer target,
+then let normal backtracking explore alternatives. This changes decisions,
+not the asserted problem: neither `t = 12` nor `t <= 13` may be installed as
+a permanent restriction without a proof. The timeouts under `t >= 14` do
+not prove that region unsatisfiable.
+
+The intervention has to occur before SAT's threshold choices fix the slack.
+A model mutation that preserves the current assigned literals cannot change
+`t = 17` to `t = 12` while those literals still force 17. Merely changing
+the initial tableau assignment may also be overwritten by the same bound
+choices. This direction therefore needs the decisions and their arithmetic
+meaning traced together, rather than just a different simplex starting point.
+
+There is a concrete option-coverage gap to address before interpreting a
+phase comparison. `--theory-phase` writes `CheckSatOptions::theory_phase`,
+but the nonincremental QF_UFLIA recipe and
+{settingssource}`shared driver <src/smt/component_solver.cpp>` do not consume
+that field. Their `prepare_boolean` hook registers EUF Boolean arguments;
+it does not install the initial theory phases used by other routes. With
+the default online components and incremental EUF, however,
+`LiaTheoryComponent::reset` forwards `--lra-model-phase` to
+`ComponentLraExecution`, whose phase output reaches the SAT backend
+({settingssource}`recipe and arithmetic component <src/smt/solver_engines.cpp>`).
+This is a source finding, not a measured phase result. The two controls
+must not be treated as interchangeable. On that same online path, the existing theory-decision hook supplies
+arithmetic atoms in rotating order with their true polarity;
+it is not the proposed numeric-target heuristic.
+
+### Reconsider the equality choices made from a model
+
+Both production EUF/LIA component descriptors have `model_mutation = false`.
+The QF_UFLIA recipe puts LIA first as the model reconciliation priority;
+`online_order = {1, 0}` independently schedules EUF before LIA callbacks.
+The {settingssource}`coordinator <src/smt/component_model_coordinator.cpp>`
+considers component-suggested pairs first and picks the lexicographically
+first model disagreement. If none is found, it checks edges connecting
+members of each model's equal-value classes. Ordinary choices try equality
+first. Consequently the
+selected pair reflects model disagreement, while its preferred polarity is
+not chosen by a comparison of the estimated costs of the two branches.
+
+Potential experiments are choosing another relevant disagreement, trying its
+opposite polarity first, and constructing a compatible arithmetic model with
+fewer accidental shared equalities before choosing an equality. These affect
+search order or model choice. A failed mutation attempt is not a proof of
+equality, and a model coincidence must remain reversible. Integer model
+mutation must preserve integral inputs, all asserted bounds and mandatory
+interface relations; the Real route's freedom-interval sweep cannot simply
+be reused with rational moves. Also, the current mutation scheduler asks
+non-leading components to adapt toward the leading component. Setting only
+the LIA mutation capability would not schedule an independent diversification
+of the leading arithmetic model.
+
+The [existing model-based combination lead](model-based-combination.md)
+records the larger protocol work. For `wisas`, first determine which
+relevant shared values can actually move under the current trail. If the
+bad slack is fixed, the earlier bound-decision direction is required to move
+that slack; other model freedoms may still remove unrelated coincidences.
+
+The model-choice count limit is not a budget for work inside one SAT call.
+{settingssource}`solve_component_recipe <src/smt/component_solver.cpp>`
+checks the limit before entering `backend.solve()`. In the recorded
+`xs_28_48` M124 timeout there are 17 model decisions and no complete fallback;
+the default limit is 512. The fast options-off run has 96 model decisions.
+These termination snapshots do not identify which assumption causes the
+long call, but show why fewer outer choices need not mean cheaper search.
+A trial that runs out of a work budget must not generate a blocking clause
+as if its assumptions had been proved inconsistent.
+
+### Learn consequences that survive changes of counter-chain pattern
+
+The historical 55–56-literal conflicts motivate checking which congruence
+steps recur across different patterns. Clause length alone does not prove
+that antecedents are redundant. A stronger alternative to repeatedly
+explaining whole patterns is to expose selected functional-consistency
+clauses to SAT. For unary `f`, the theory-valid clause is
+
+```text
+x != y OR f(x) = f(y)
+```
+
+It can propagate argument disequality from result disequality on a later
+branch, before a complete congruence conflict is rebuilt. For a function of
+several arguments the argument disequalities form a disjunction; they must
+not be inferred individually from unequal results.
+
+Dutertre and de Moura's [*The Yices SMT Solver*](https://yices.csl.sri.com/papers/tool-paper.pdf),
+2006, Section 2, p. 3, selects a clause when its congruence step participates
+in a conflict. Primo has an optional propagation subset over available atoms,
+but not the full conflict-explanation selector, as documented in the
+[Yices survey](../papers/yices.md) and
+[theory-lemma lead](theory-lemmas.md). The earlier rejection of repeated
+candidate scanning does not evaluate this selector. The connection to the
+`wisas` conflicts is a hypothesis; the old traces did not measure clause
+reuse or establish that these clauses summarize the necessary counting
+argument.
+
+A first diagnostic should identify repeated application pairs in conflict
+explanations, the equality atoms that are missing, and whether the resulting
+clauses become unit or conflicting on other patterns. Keep the existing
+EUF checker complete. Original implementation would require a design note
+mapping explanation pairs to SMT-owned atom creation, deduplication and
+budgets, with SAT owning clause propagation. Measure candidates inspected,
+clauses emitted, useful propagation, reuse and memory. This is separate from
+shortening the final EUF explanation or asserting a guessed aggregate bound.
+
+### Order of investigation
+
+1. Verify the effective decision/phase controls on this route and trace the
+   threshold decisions that first pin the four already studied slacks.
+2. Test numeric-target decisions and equality-choice polarity/order
+   independently under a bounded diagnostic, then compare on the full lost
+   set and family controls. Retain the existing correctness and model gates
+   before accepting a behavior change.
+3. Audit recurring congruence steps and the missing-atom cost for
+   conflict-driven Ackermannization. Promote it to an implementation proposal
+   only if the trace shows reusable propagation opportunities.
+
+Care-guided combination offers another structural reduction of arrangement
+search. Its full correctness contract and model construction remain open in
+the [care-guided lead](care-guided-combination.md). Changing that acceptance
+condition is a larger project than testing decision order while retaining
+the current complete partition checks.
+
 ## Literature
 
 - **Heavy tails and restarts.** Gomes, Selman, Crato and Kautz,

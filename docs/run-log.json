@@ -3,6 +3,43 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-05-qf-uflia-search-alternative-source-review",
+      "date": "2026-11-05",
+      "commit": "b0215bcc",
+      "binary_commit": "5dec036329b8b8cc6d929835fa1c6dfa644b8fb3",
+      "kind": "source-and-recorded-counter-review",
+      "evidence_status": "source-grounded hypotheses; no fresh solver run or performance claim",
+      "parent": "2026-11-04-qf-uflia-m124-full-paired60-5dec036",
+      "scope": "Alternatives to restarts: early numeric-target decisions, model/equality choice, conflict-driven congruence clauses, and effective option coverage on the nonincremental QF_UFLIA component route. No source/default changes.",
+      "source_findings": {
+        "phase_coverage": "CheckSatOptions::theory_phase is not consumed by the nonincremental QF_UFLIA recipe/shared driver. lra_model_phase is separately forwarded to ComponentLraExecution and SAT phase output when online QF_UFLIA components and incremental EUF are enabled (the default path). The arithmetic theory-decision hook has the same execution gate. Source audit only.",
+        "model_choices": "LIA then EUF recipe priority, independent EUF then LIA online order; both production adapters disable model_mutation. Coordinator picks first care disagreement or spanning disagreement and selects positive equality. Mutation scheduler adapts non-leading participants; enabling the leading LIA capability alone would not trigger its independent diversification.",
+        "budget": "Outer model-choice batch limit checked before backend.solve; default 512. It does not budget the work within a SAT call.",
+        "congruence_clauses": "Current watched available-atom subset is distinct from the open conflict-explanation-driven Ackermann selector documented in docs/papers/yices.md. Potential wisas benefit unmeasured."
+      },
+      "recorded_case": {
+        "file": "wisas/xs_28_48.smt2",
+        "off": {
+          "combination_model_decisions": 96,
+          "combination_rounds": 99,
+          "sat_solve_calls": 99,
+          "model_mutations": 0,
+          "complete_fallbacks": 0
+        },
+        "m124": {
+          "combination_model_decisions": 17,
+          "combination_rounds": 17,
+          "sat_solve_calls": 21,
+          "model_mutations": 0,
+          "complete_fallbacks": 0
+        },
+        "artifact": "results/uflia-integrality-review-20261104/full60/{off,m124}/shard-*/answers.csv; fields :combination.model.decisions, :combination.rounds, :sat.solve-calls, :combination.model.mutations, :combination.model.complete-fallbacks",
+        "limit": "M124 counts are timeout termination snapshots. They do not identify the responsible assumption or establish an unsatisfiable numeric region."
+      },
+      "primary_reading": "Dutertre and de Moura, The Yices SMT Solver (2006), Section 2, p.3, https://yices.csl.sri.com/papers/tool-paper.pdf; conflict-driven congruence clause selection. Jovanovic and Barrett, Being Careful about Theory Combination, Definitions 6-8 and Arrange description; larger acceptance-contract project remains separate.",
+      "documentation": "docs/leads/search-diversification.md, Alternatives to restarting; all candidates unimplemented/untested, no new benchmark qualification."
+    },
+    {
       "id": "2026-11-04-qf-uflia-m124-full-paired60-5dec036",
       "date": "2026-11-04",
       "commit": "5dec036329b8b8cc6d929835fa1c6dfa644b8fb3",
