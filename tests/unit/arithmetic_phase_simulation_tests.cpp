@@ -33,17 +33,19 @@ int choose(Probe& probe, int beta = 7, bool unassigned = true, bool integer = tr
 void geometric_policies() {
   Probe least({.mode = Probe::Mode::Least});
   least.domain(0, range(0, 17));
-  assert(choose(least) == 7);
+  assert(choose(least) == -7);  // immediate geometry control, without a revisit gate
   revisit(least);
   assert(choose(least) == -7);
   assert(least.counts().repeated == 1);
-  assert(least.counts().flips == 1);
+  assert(least.counts().flips == 2);
   assert(choose(least) == -7);
-  assert(least.counts().flips == 1);
+  assert(least.counts().flips == 2);
   assert(choose(least, 7, false) == 7);
   assert(choose(least, 7, true, false) == 7);
 
   Probe most({.mode = Probe::Mode::Most});
+  most.domain(0, range(0, 17));
+  assert(choose(most, -7) == 7);
   revisit(most);
   assert(choose(most, -7) == 7);
 

@@ -130,6 +130,7 @@ class ArithmeticPhaseSimulation {
     ++counts_.contexts;
     state = AtomState{region.generation, beta_literal, beta_literal, true};
     const bool beta_true = beta_literal == true_literal;
+    bool narrow_split = false;
     bool geometric_gate = false;
     bool narrow_true = false;
     if (integer) {
@@ -143,6 +144,7 @@ class ArithmeticPhaseSimulation {
         const auto& small = narrow_true ? *yes_size : *no_size;
         const auto& large = narrow_true ? *no_size : *yes_size;
         if (small <= util::Rational(4) && large >= small * util::Rational(4)) {
+          narrow_split = true;
           ++counts_.narrow;
           const Domain& child = narrow_true ? yes : no;
           const auto found = history_.find(key(variable, child));
@@ -155,9 +157,9 @@ class ArithmeticPhaseSimulation {
         (config_.mode == Mode::Gated && geometric_gate && beta_true == narrow_true)) {
       if (std::uniform_int_distribution<unsigned>(0, config_.denominator - 1)(random_) == 0)
         state.chosen = -beta_literal;
-    } else if (geometric_gate && config_.mode == Mode::Least) {
+    } else if (narrow_split && config_.mode == Mode::Least) {
       state.chosen = narrow_true ? -true_literal : true_literal;
-    } else if (geometric_gate && config_.mode == Mode::Most) {
+    } else if (narrow_split && config_.mode == Mode::Most) {
       state.chosen = narrow_true ? true_literal : -true_literal;
     }
     if (state.chosen != beta_literal) ++counts_.flips;
