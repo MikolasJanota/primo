@@ -7,9 +7,10 @@ observable mechanism, and result that would reject the proposal.
 
 The dedicated lead pages in the navigation cover library lifetime, compact
 storage, statistics, theory lemmas, arithmetic, combination, and quantifiers.
-The [weighted LRA certificate proposal](lra-conflict-certificates.md) specifies
-the next arithmetic export boundary, its exact checking rule and remaining
-implementation obligations.
+The [weighted LRA certificate note](lra-conflict-certificates.md) records the
+experimental implemented export boundary and exact checking rule. The separate
+[integer-only LIA proposal](lia-conflict-certificates.md) adds named cut
+derivations and a small hand-written example; it is not implemented.
 The [arithmetic-symmetry lead](arithmetic-symmetry.md) connects existing finite
 integer choices with broader SMT and integer-programming symmetry research.
 This register also accounts for the remaining numbered entries in the
