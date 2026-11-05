@@ -57,6 +57,7 @@ parts:
       - file: papers/mip-presolve-integrality
       - file: papers/yices
       - file: papers/arithmetic-phase-control
+      - file: papers/csp-restarts-phase-control
       - file: papers/clause-forgetting
       - file: papers/conflict-explanation-minimization
       - file: papers/polarity-aware-cnf

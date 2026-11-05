@@ -404,3 +404,9 @@ while integer completion works on a separate tableau after a full Boolean
 candidate. A measurement of β's available freedom must not silently substitute
 the assignment produced by later integer patching, or query freedom intervals
 before the live tableau has been repaired to rational feasibility.
+
+The supplied [CSP restart thesis](csp-restarts-phase-control.md) records a
+related branch-orientation experiment. Its successful randomized orientation
+and unsuccessful split-point heuristics motivate separating those controls;
+they do not establish an adaptive trigger for Primo or imply that every narrow
+region should be avoided.

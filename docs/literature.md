@@ -33,6 +33,9 @@ Numeric trial assumptions and model-value branching are outside its scope.
 Its [CSP follow-up](papers/arithmetic-phase-control.md#csp-connections-and-the-finite-domain-limitation)
 distinguishes least-constraining values, Refalo's impact-based search and
 counting-based solution density, including the finite-domain limits on transfer.
+The supplied [Baptista thesis overview](papers/csp-restarts-phase-control.md)
+adds finite-domain context, negative split-point results and randomized branch
+orientation as related work, with no policy adoption.
 
 | Source | Current role and retained reading note |
 | --- | --- |
