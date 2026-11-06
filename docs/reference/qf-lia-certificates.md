@@ -170,6 +170,11 @@ resource limits, timeout reproduction and artifact paths.
 
 ## Micromath integer proofs and envelope compatibility
 
+The stress workflow defaults to [exported-CNF verification](qf-lra-certificates.md#exported-cnf-verification).
+The original-source procedure below remains an explicit diagnostic mode. Both
+use the envelope compatibility described here; native integer artifacts remain
+version 3.
+
 Micromath revision `8f9cff132140462b141183ddb9cb88a9beb80a4f` provides
 [`build-lia-challenge` and `prove-lia`](https://git.olsak.net/mirek/Micromath/src/commit/8f9cff132140462b141183ddb9cb88a9beb80a4f/smt/LIA.md).
 It implements named integer cuts, including exact coefficient division and

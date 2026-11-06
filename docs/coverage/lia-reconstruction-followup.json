@@ -1,0 +1,145 @@
+{
+  "date": "2026-11-06",
+  "decision": "Both native candidates rejected for the target; native C++ and active C++ unit tests restored to bf7638de baseline.",
+  "baseline_workflow_git": "bf7638de",
+  "baseline_native_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "target": "QF_LIA/dillig/25-22.smt2",
+  "source_sha256": "d75a65f784ecea78f8346c2d942868b9bbad6ac71e84a2a346b40d9380413009",
+  "basis": {
+    "paper": "Pugh, expanded Omega Test (1992), sections2.1,2.3,2.4",
+    "primary_url": "https://www.cs.umd.edu/~pugh/papers/omega.pdf",
+    "read_before_implementation": true,
+    "implemented_subset": "Rejected ordered-map opposing-bound baseline, then locally designed retry scheduling of existing exact linear witnesses after integer-floor strengthening. No optimized constraint keys, dark shadows, splinters or branch replay."
+  },
+  "patches": {
+    "linear-rechecks.patch": {
+      "sha256": "35abb60acf275e154f82472723a78d1949982405d0a3e98f52c542a500e0c57c",
+      "bytes": 3930
+    },
+    "opposing-bounds.patch": {
+      "sha256": "5022953bf222b72cfce4bc23c39aabbc08d1de1e4e54050a2ab574fd0171be95",
+      "bytes": 6952
+    }
+  },
+  "probes": {
+    "362740": {
+      "candidate_git": "b6fa115cf964a687df92a6ce76fe46e6afb12af6",
+      "version": "primo 0.2.0\ngit: b6fa115c\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07\n",
+      "binary_sha256": "5aed8f78641fbd49369117291350037572c73ff7546e3341a0965f4b79128f41",
+      "focused_unit": "passed, including the candidate pair-budget regression",
+      "native_result": "unknown",
+      "certificate_created": false,
+      "statistics": {
+        ":export.solve-and-collect.us": 276859,
+        ":export.main-unsat": 1,
+        ":export.format-input.us": 180,
+        ":export.format-conflicts.us": 4,
+        ":export.spool.signature-bytes": 715,
+        ":export.spool.cnf-bytes": 3894,
+        ":export.spool.conflict-bytes": 0,
+        ":export.theory.conflicts-collected": 1,
+        ":export.reduction.us": 97,
+        ":export.reduction.sat-calls": 1,
+        ":export.reduction.core-removed": 0,
+        ":export.reduction.block-queries": 0,
+        ":export.reduction.binary-queries": 0,
+        ":export.reduction.max-block-size": 0,
+        ":export.reduction.completed": 1,
+        ":export.theory.conflicts-removed": 0,
+        ":export.cnf.clauses": 40,
+        ":export.theory.conflicts": 1,
+        ":export.spool.numeric-lemma-bytes": 156,
+        ":export.reconstruction.selected": 1,
+        ":export.reconstruction.completed": 0,
+        ":export.reconstruction.lemmas": 0,
+        ":export.reconstruction.attempted": 1,
+        ":export.reconstruction.lia-generated-cuts": 5224,
+        ":export.reconstruction.lia-pairs": 5186,
+        ":export.reconstruction.lia-projections": 5,
+        ":export.reconstruction.lia-exact-projections": 4,
+        ":export.reconstruction.lia-opposing-checks": 5513,
+        ":export.reconstruction.lia-opposing-conflicts": 0,
+        ":export.reconstruction.lia-linear-checks": 1,
+        ":export.reconstruction.lia-linear-pivots": 166,
+        ":export.reconstruction.lia-pruned-cuts": 0,
+        ":export.reconstruction.us": 116510
+      },
+      "diagnostic": "LIA cut reconstruction limit reached; no artifact written"
+    },
+    "362742": {
+      "candidate_git": "e90bf22e790a2b3d6bc36180527068cfb8a36300",
+      "version": "primo 0.2.0\ngit: e90bf22e\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07\n",
+      "binary_sha256": "2619b710bd66c9ce01f2b47941f38bb2304d6f3847fb7b4558dd6e21f5b76314",
+      "focused_unit": "passed, including the candidate pair-budget regression",
+      "native_result": "unknown",
+      "certificate_created": false,
+      "statistics": {
+        ":export.solve-and-collect.us": 276461,
+        ":export.main-unsat": 1,
+        ":export.format-input.us": 179,
+        ":export.format-conflicts.us": 4,
+        ":export.spool.signature-bytes": 715,
+        ":export.spool.cnf-bytes": 3894,
+        ":export.spool.conflict-bytes": 0,
+        ":export.theory.conflicts-collected": 1,
+        ":export.reduction.us": 92,
+        ":export.reduction.sat-calls": 1,
+        ":export.reduction.core-removed": 0,
+        ":export.reduction.block-queries": 0,
+        ":export.reduction.binary-queries": 0,
+        ":export.reduction.max-block-size": 0,
+        ":export.reduction.completed": 1,
+        ":export.theory.conflicts-removed": 0,
+        ":export.cnf.clauses": 40,
+        ":export.theory.conflicts": 1,
+        ":export.spool.numeric-lemma-bytes": 156,
+        ":export.reconstruction.selected": 1,
+        ":export.reconstruction.completed": 0,
+        ":export.reconstruction.lemmas": 0,
+        ":export.reconstruction.attempted": 1,
+        ":export.reconstruction.lia-generated-cuts": 5224,
+        ":export.reconstruction.lia-pairs": 5186,
+        ":export.reconstruction.lia-projections": 5,
+        ":export.reconstruction.lia-exact-projections": 4,
+        ":export.reconstruction.lia-opposing-checks": 5513,
+        ":export.reconstruction.lia-opposing-conflicts": 0,
+        ":export.reconstruction.lia-linear-checks": 1,
+        ":export.reconstruction.lia-linear-pivots": 166,
+        ":export.reconstruction.lia-pruned-cuts": 0,
+        ":export.reconstruction.us": 115486
+      },
+      "diagnostic": "LIA cut reconstruction limit reached; no artifact written"
+    }
+  },
+  "jobs": {
+    "362738": "COMPLETED0:0,216s, first canonical Release/all-target build, MaxRSS1210892KiB",
+    "362739": "FAILED127:0,1s: ctest missing from PATH before unit/solver run; corrected to absolute provisioned ctest path",
+    "362740": "COMPLETED0:0,2s: candidate-one focused unit passed, real export unknown",
+    "362741": "COMPLETED0:0,214s, second canonical Release/all-target build, MaxRSS1178252KiB",
+    "362742": "COMPLETED0:0,1s: candidate-two focused unit passed, real export unknown"
+  },
+  "limits": {
+    "steps": 8192,
+    "active_rows": 4096,
+    "pairs": 65536,
+    "integer_digits": 1024,
+    "reconstruction_seconds": 60,
+    "probe_cpus": 2,
+    "probe_memory_gib": 8,
+    "probe_wall_minutes": 5,
+    "unit_timeout_seconds": 120
+  },
+  "commands": {
+    "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --extra-target all --cxx-header-manifest HEADERS (isolated clean candidate worktree/workspace)",
+    "probe": "ctest --test-dir build-slurm-rel -R ^primo_lia_certificate_tests$ --timeout 120 --output-on-failure; primo --quiet --stats --export-cnf candidate.sexp --export-cnf-reduction=core TARGET (SLURM2CPU/8GiB/5min)"
+  },
+  "artifacts": {
+    "local": "results/lia-reconstruction-candidates",
+    "remote": "$CANDIDATE_WORKSPACE/results/opposing-probe-{362739,362740,362742}",
+    "guide": "docs/experiments/lia-reconstruction-20261106/README.md",
+    "patches": "docs/experiments/lia-reconstruction-20261106/*.patch",
+    "local_build_logs": "/tmp/primo-lia-opposing-{build,build2}.log"
+  },
+  "verification_status": "Focused native tests only for rejected candidates. Full native/ASan/fuzz/static gates were not run; no native change is accepted or claimed qualified. Final retained implementation is Python workflow plus examples/tests/docs, whose native binary remains unchanged and previously qualified.",
+  "conclusion": "Opposing lookup did not find a contradiction; genuine-rounding retry did not run after a completed projection on the target. Neither reduces the observed ceiling. Measurements do not choose between a stronger reconstruction procedure and numeric proof provenance; the producer limitation remains open."
+}

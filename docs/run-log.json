@@ -3,6 +3,156 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-06-lia-reconstruction-candidates",
+      "date": "2026-11-06",
+      "kind": "bounded-producer-reconstruction-follow-up",
+      "evidence_status": "Both native candidates rejected for the target; native C++ and active C++ unit tests restored to bf7638de baseline.",
+      "baseline_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "candidates": {
+        "b6fa115c": "Ordered-map opposing-bound lookup, same reconstruction limits.",
+        "e90bf22e": "Also retries existing exact linear witnesses after genuine integer-floor strengthening; no changed inference rule."
+      },
+      "jobs": {
+        "362738": "COMPLETED0:0,216s, first canonical Release/all-target build, MaxRSS1210892KiB",
+        "362739": "FAILED127:0,1s: ctest missing from PATH before unit/solver run; corrected to absolute provisioned ctest path",
+        "362740": "COMPLETED0:0,2s: candidate-one focused unit passed, real export unknown",
+        "362741": "COMPLETED0:0,214s, second canonical Release/all-target build, MaxRSS1178252KiB",
+        "362742": "COMPLETED0:0,1s: candidate-two focused unit passed, real export unknown"
+      },
+      "limits": "Unchanged defaults:8192 cuts,4096 active rows,65536 projection pairs,1024 integer digits; solver export reconstruction budget60s.",
+      "commands": {
+        "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --extra-target all --cxx-header-manifest HEADERS (isolated clean candidate worktree/workspace)",
+        "probe": "ctest --test-dir build-slurm-rel -R ^primo_lia_certificate_tests$ --timeout 120 --output-on-failure; primo --quiet --stats --export-cnf candidate.sexp --export-cnf-reduction=core TARGET (SLURM2CPU/8GiB/5min)"
+      },
+      "artifacts": {
+        "local": "results/lia-reconstruction-candidates",
+        "remote": "$CANDIDATE_WORKSPACE/results/opposing-probe-{362739,362740,362742}",
+        "guide": "docs/experiments/lia-reconstruction-20261106/README.md",
+        "patches": "docs/experiments/lia-reconstruction-20261106/*.patch",
+        "local_build_logs": "/tmp/primo-lia-opposing-{build,build2}.log"
+      },
+      "scope": "Focused native tests only for rejected candidates. Full native/ASan/fuzz/static gates were not run; no native change is accepted or claimed qualified. Final retained implementation is Python workflow plus examples/tests/docs, whose native binary remains unchanged and previously qualified.",
+      "manifest": "docs/coverage/lia-reconstruction-followup.json",
+      "probes": {
+        "362740": {
+          "candidate_git": "b6fa115cf964a687df92a6ce76fe46e6afb12af6",
+          "binary_sha256": "5aed8f78641fbd49369117291350037572c73ff7546e3341a0965f4b79128f41",
+          "native_result": "unknown",
+          "focused_unit": "passed, including the candidate pair-budget regression"
+        },
+        "362742": {
+          "candidate_git": "e90bf22e790a2b3d6bc36180527068cfb8a36300",
+          "binary_sha256": "2619b710bd66c9ce01f2b47941f38bb2304d6f3847fb7b4558dd6e21f5b76314",
+          "native_result": "unknown",
+          "focused_unit": "passed, including the candidate pair-budget regression"
+        }
+      }
+    },
+    {
+      "id": "2026-11-06-arithmetic-exported-CNF-boundary",
+      "date": "2026-11-06",
+      "kind": "exported-CNF-kernel-certificate-pilot",
+      "workflow_git": "bf7638de",
+      "producer_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "evidence_status": "Exported-CNF workflow qualified; real pilot completed, remaining failures preserved separately from original-source coverage.",
+      "manifest": "docs/coverage/arithmetic-exported-cnf.json",
+      "jobs": {
+        "362732": "Initial14-case adapter qualification; unary or caused11 challenge errors,2 verified and1 native reconstruction limit. Superseded by362734.",
+        "362734": "Corrected qualification:12 verified of14, including both fresh shared/nested ITE controls;1 closed-Boolean producer error and1 native reconstruction limit.",
+        "362736": "Same48 real inputs/hashes as362720:24/24 LRA and17/24 LIA exported-CNF proofs; distinct theorem boundary from original-source pilot."
+      },
+      "accounting": {
+        "362732_0": "COMPLETED0:0,3s,23908KiB",
+        "362732_1": "COMPLETED0:0,13s,25404KiB",
+        "362734_0": "COMPLETED0:0,20s,1348KiB",
+        "362734_1": "COMPLETED0:0,22s,54760KiB",
+        "362736_0": "COMPLETED0:0,240s,699112KiB",
+        "362736_1": "COMPLETED0:0,295s,2997656KiB"
+      },
+      "counts": {
+        "362732": {
+          "QF_LRA": {
+            "verified": 2,
+            "challenge_error": 4
+          },
+          "QF_LIA": {
+            "challenge_error": 7,
+            "reconstruction_incomplete": 1
+          }
+        },
+        "362734": {
+          "QF_LRA": {
+            "verified": 6
+          },
+          "QF_LIA": {
+            "verified": 6,
+            "proof_error": 1,
+            "reconstruction_incomplete": 1
+          }
+        },
+        "362736": {
+          "QF_LRA": {
+            "verified": 24
+          },
+          "QF_LIA": {
+            "verified": 17,
+            "reconstruction_incomplete": 1,
+            "reference_timeout": 1,
+            "challenge_timeout": 1,
+            "proof_error": 2,
+            "proof_timeout": 2
+          }
+        }
+      },
+      "commands": {
+        "adapter": "python3 scripts/certificate_cnf_statement.py native.sexp exported-cnf.smt2 --logic QF_LRA|QF_LIA",
+        "runner": "python3 scripts/arithmetic_certificate_stress.py [existing required corpus/history/binary/checker arguments] --statement-source=exported-cnf [--selection selection.json]",
+        "slurm": "scripts/slurm_arithmetic_certificate_stress.sbatch with ARITHMETIC_STATEMENT_SOURCE=exported-cnf; qualification sets ARITHMETIC_SELECTION_ROOT to explicit6/8-case lists; real pilot uses original history-based24-per-logic selection. Canonical workspace preflight run before each submission.",
+        "proof": "build-{lra,lia}-challenge axioms.umd exported-cnf.smt2 challenge.umd; prove-{lra,lia} challenge.umd CERT - --raw --cadical CADICAL | check-solution challenge.umd -; explicit one-byte LIA header copy."
+      },
+      "allocation_per_task": {
+        "cpus": 2,
+        "memory_gib": 12,
+        "wall_minutes": 90
+      },
+      "limits": {
+        "reference": 15,
+        "export": 30,
+        "challenge": 30,
+        "proof_and_kernel": 60,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "artifacts": {
+        "local": "results/arithmetic-proof-stress-{362732,362734,362736}",
+        "remote": "$PRIMO_WORKDIR/results/arithmetic-proof-stress-JOB",
+        "retention": "Native certificates, generated statements and logs retained remotely; successful challenges hashed then deleted.362736 local mirror omits large payloads; summaries and diagnostic logs are mirrored. Raw proof was piped and never saved."
+      },
+      "scope": "Same48 original inputs/hashes as362720, changed verification boundary.41 real exported-CNF proofs,29 with theory conflicts, plus2 distinct authored ITE regression proofs in qualification. Original-source preprocessing is not verified. Later native reconstruction changes require separate qualification.",
+      "transport_semantic_gate": {
+        "workflow_git": "bf7638de",
+        "test_file": "tests/python/test_certificate_cnf_statement.py",
+        "test_sha256": "716e05a888a844d7a48edbcccfb9cbf4ac41f788d5590c5455f6d61ee1f93262",
+        "command": "python3 -m unittest discover -s tests/python -p 'test_certificate_cnf_statement.py'",
+        "reference": "Exhaustive Boolean truth-table oracle, no external/native solver execution",
+        "generator": "Python random.Random;0..8 clauses,0..4 literals,3 Bool variables including a multiline quoted identifier, signs and true/false literals",
+        "seed": 20261106,
+        "generated_cases": 100,
+        "assignments": 800,
+        "host": "mikolas-ThinkPad-T14s-Gen-5",
+        "counts": {
+          "pass": 100,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_or_type_error": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0
+        },
+        "artifacts": "Deterministic seed and unittest subtest(case,assignment) reproduce failures; no failing cases generated. This is a transport unit gate, not a native solver fuzz campaign."
+      }
+    },
+    {
       "id": "2026-11-06-arithmetic-real-source-CORE-stress-pilot",
       "date": "2026-11-06",
       "kind": "recorded-fast-real-source-arithmetic-CORE-pilot",

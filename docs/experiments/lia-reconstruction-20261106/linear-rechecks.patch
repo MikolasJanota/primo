@@ -1,0 +1,75 @@
+diff --git a/src/theory/arithmetic/lia_certificate.cpp b/src/theory/arithmetic/lia_certificate.cpp
+index 04b407f5..ac0742f9 100644
+--- a/src/theory/arithmetic/lia_certificate.cpp
++++ b/src/theory/arithmetic/lia_certificate.cpp
+@@ -130,6 +130,7 @@ LiaCertificateResult reconstruct_lia_certificate(std::span<const LiaCertificateP
+       rows.push_back(std::move(row));
+       return rows.size() - 1;
+     };
++    bool strengthened = false;
+     const auto tighten = [&](std::size_t reference) {
+       poll();
+       const auto& row = rows[reference];
+@@ -141,6 +142,7 @@ LiaCertificateResult reconstruct_lia_certificate(std::span<const LiaCertificateP
+       }
+       const auto divisor = Rational::gcd(coefficients);
+       if (divisor == Rational(1)) return reference;
++      strengthened = strengthened || !(row.rhs / divisor).is_integer();
+       LiaCertificateCut cut{divisor, {{reference, Rational(1)}}};
+       auto tightened = apply(rows, cut, poll);
+       return append(std::move(cut), std::move(tightened));
+@@ -220,7 +222,9 @@ LiaCertificateResult reconstruct_lia_certificate(std::span<const LiaCertificateP
+       insert(active, tighten(i));
+       if (contradiction) break;
+     }
+-    if (!contradiction && !active.empty()) {
++    const auto try_linear = [&] {
++      if (contradiction || active.empty()) return;
++      strengthened = false;
+       // Reuse the isolated Farkas reconstruction fast path after integer
+       // tightening. Clear all weight denominators before adding the cut.
+       std::vector<LraCertificatePremise> linear;
+@@ -250,7 +254,8 @@ LiaCertificateResult reconstruct_lia_certificate(std::span<const LiaCertificateP
+           throw std::logic_error("integer-scaled linear witness is not a contradiction");
+         contradiction = reference;
+       }
+-    }
++    };
++    try_linear();
+     while (!contradiction && !active.empty()) {
+       poll();
+       struct Counts {
+@@ -320,6 +325,9 @@ LiaCertificateResult reconstruct_lia_certificate(std::span<const LiaCertificateP
+         if (contradiction) break;
+       }
+       active = std::move(projected);
++      // Pugh §2.1: new integer rounding may make the relaxation infeasible.
++      // Reuse the existing witness path before generating another projection.
++      if (strengthened) try_linear();
+     }
+     if (contradiction) finish(*contradiction);
+   } catch (const Stopped& stopped) {
+diff --git a/tests/unit/lia_certificate_tests.cpp b/tests/unit/lia_certificate_tests.cpp
+index c55df498..36c1c5cb 100644
+--- a/tests/unit/lia_certificate_tests.cpp
++++ b/tests/unit/lia_certificate_tests.cpp
+@@ -46,6 +46,19 @@ void arithmetic() {
+   assert(proof.projections == 1 && proof.pairs == 2);
+   assert(proof.opposing_checks > 0 && proof.opposing_conflicts == 1);
+   assert(check_lia_certificate(projection, proof));
++  // Eliminating y exposes x <= 0, z <= 0, -x-z <= -1. No two rows
++  // oppose; the second linear check must refute their strengthened relaxation
++  // before another projection could exceed the pair budget (Pugh §2.1).
++  const std::vector<LiaCertificatePremise> strengthened{{{{0, 2}, {2, 1}}, 1},
++                                                        {{{1, 2}, {2, 1}}, 1},
++                                                        {{{0, -2}, {1, -2}, {2, 1}}, -1},
++                                                        {{{2, -1}}, 0}};
++  LiaCertificateLimits linear_limits;
++  linear_limits.pairs = 3;
++  proof = reconstruct_lia_certificate(strengthened, {}, linear_limits);
++  assert(proof.status == LiaCertificateStatus::Verified);
++  assert(proof.projections == 1 && proof.pairs == 3 && proof.linear_checks == 2);
++  assert(proof.opposing_conflicts == 0 && check_lia_certificate(strengthened, proof));
+   // The second cut must floor -1/2 to -1, never truncate it to zero.
+   const std::vector<LiaCertificatePremise> half{{{{0, 2}}, 1}, {{{0, -2}}, -1}};
+   proof = reconstruct_lia_certificate(half);

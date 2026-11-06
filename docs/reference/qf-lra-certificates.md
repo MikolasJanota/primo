@@ -4,9 +4,11 @@
 `--export-cnf FILE` now accepts one QF_LRA query using the same single-query
 command/session restrictions as [QF_UF export](qf-uf-conflicts.md). QF_UF keeps
 its version-1 format; QF_LRA writes version 2. The artifact alone takes the prepared CNF
-as its starting problem. The [Micromath route below](#micromath-verification-from-the-original-source)
-instead constructs its statement from the original SMT-LIB and proves its own
-Boolean conversion, using the retained arithmetic conflicts.
+as its starting problem. The [default Micromath stress route](#exported-cnf-verification) constructs its
+statement from that exported CNF. The separate
+[original-source route](#micromath-verification-from-the-original-source)
+constructs its statement from the original SMT-LIB and proves its own Boolean
+conversion, using the retained arithmetic conflicts.
 The [design note](../leads/lra-conflict-certificates.md) gives the mathematical
 contract, reconstruction argument and implementation checklist.
 The separate [integer-only LIA format](qf-lia-certificates.md) adds bounded
@@ -199,6 +201,135 @@ of the external SAT run, and proof-language translation remain outside this
 implementation.
 
 
+## Exported-CNF verification
+
+The {arithmeticcnfsource}`arithmetic stress runner <scripts/arithmetic_certificate_stress.py>`
+now defaults to `--statement-source=exported-cnf`.
+The checker proves UNSAT of the certificate's CNF together with its independently
+checked theory lemmas. Primo's transformation from the original SMT-LIB to that
+CNF remains trusted. This matches the certificate format's starting-problem
+contract; it does not establish an original-source preprocessing proof.
+
+The {arithmeticcnfsource}`streaming adapter <scripts/certificate_cnf_statement.py>`
+reads a native version-2 LRA or version-3 LIA artifact. It writes its declarations
+and one SMT-LIB assertion per exported clause, followed by `check-sat`. Empty
+clauses become `assert false`; an empty CNF produces no assertions. Nonempty
+clauses include a harmless `false` disjunct, so unit clauses have a binary `or`
+as required by SMT-LIB. The adapter consumes but never asserts any conflict or
+cut. Thus a theory lemma cannot become an unchecked source assumption.
+
+The adapter retains only its current lexical token and nesting counters while
+streaming the file. It preserves quoted identifiers, including newlines, and
+rejects unsupported envelopes or malformed section structure. It is a transport
+adapter for native output, not a general SMT-LIB parser or an arithmetic checker.
+It refuses to overwrite an existing statement and removes partial output on
+handled errors; an externally killed conversion may leave a partial file.
+The runner requires successful conversion before invoking the challenge builder.
+Original sources, native certificates, statement hashes and selected statement
+mode remain recorded. Raw proofs still stream directly to the kernel.
+
+For example, use the generated statement wherever the original-source example
+below supplies its SMT-LIB input:
+
+```bash
+set -o pipefail
+python3 scripts/certificate_cnf_statement.py result.sexp prepared.smt2 --logic QF_LRA
+./smt/build-lra-challenge axioms.umd prepared.smt2 challenge.umd
+./smt/prove-lra challenge.umd result.sexp - --raw --cadical /path/to/cadical | \
+  ./check-solution challenge.umd -
+```
+
+Run the first command from Primo and the remaining commands from Micromath, with
+appropriate absolute paths. The LIA route uses `--logic QF_LIA`, its LIA tools,
+and the existing explicit version-2 envelope copy for the prover; the adapter
+reads the unchanged native version-3 file.
+
+For the {arithmeticcnfsource}`SLURM wrapper <scripts/slurm_arithmetic_certificate_stress.sbatch>`,
+`ARITHMETIC_STATEMENT_SOURCE=exported-cnf` selects this default.
+`ARITHMETIC_STATEMENT_SOURCE=original` selects the stronger diagnostic route.
+An optional `ARITHMETIC_SELECTION_ROOT` supplies one hash-pinned selection JSON
+per logic, avoiding changes to the benchmark set during a paired comparison.
+Both modes check the original input with Z3 and perform native CORE export
+before building the selected challenge. They record verification counts
+separately. A successful exported-CNF proof is never counted as an
+original-source proof.
+
+### Qualification and remaining producer work
+
+Array `362734` verified six LRA and six LIA cases in a focused 14-case set,
+including both new shared/nested ITE regressions. A Boolean-evaluation failure
+and the known LIA reconstruction limit remained. An earlier attempt, `362732`,
+exposed an adapter bug: unit clauses used unary `or`. It is superseded by the
+corrected qualification, which uses the false disjunct described above.
+
+Array `362736` then repeated the same 48 real input hashes as `362720`, using
+native binary `a5123159` and the same pinned Micromath builds:
+
+| Exported-CNF outcome | LRA | LIA |
+| --- | ---: | ---: |
+| Kernel proof verified | 24 | 17 |
+| Native reconstruction incomplete | 0 | 1 |
+| Reference timeout; export skipped | 0 | 1 |
+| Challenge timeout, 30 seconds | 0 | 1 |
+| Proof/kernel timeout, 60 seconds | 0 | 2 |
+| Closed-Boolean evaluation error | 0 | 2 |
+
+Sixteen LRA successes and thirteen LIA successes used retained theory
+conflicts. These counts establish 41 real exported-CNF proofs; they are not
+an increase in original-source proof coverage. The two authored ITE regressions
+are additional distinct inputs from qualification, not part of the 48-case set.
+The {download}`exported-CNF evidence ledger <../coverage/arithmetic-exported-cnf.json>`
+records input and statement hashes, exact workflow/binary hashes, family/stage
+outcomes, resource limits and retained artifact locations.
+
+The remaining producer limitation is `dillig/25-22.smt2`: CORE retained one
+lemma, but integer proof reconstruction reached a resource limit after 5,224
+generated cuts and 5,186 projection pairs. The source-based ITE diagnostics,
+sort mismatches, source parsing errors and missing-refutation diagnostics did
+not recur in this exported-CNF pilot. The remaining checker errors and limits
+are preserved for external feedback; no checker implementation was changed.
+The [opposing-bound follow-up](../leads/lia-conflict-certificates.md#opposing-bound-reconstruction-follow-up)
+records two rejected producer-side attempts. This producer limitation remains
+open; no native algorithm change was accepted.
+
+### Why lowering was already sufficient for the CNF boundary
+
+The existing {liaexportsource}`lowering pass <src/smt/preprocessing.cpp#L4493>`
+replaces a non-Boolean `(ite c t e)` with a fresh `u` and assertions
+`c => u=t` and `not c => u=e`. These enter the ordinary preparation/clausification
+path. The {liaexportsource}`collector <src/smt/cnf_export.cpp#L125>` captures
+initial SAT clauses, including the surviving lowered constraints. It has not
+lost those clauses at serialization. Later preprocessing may rewrite or remove
+definitions while preserving the prepared goal; this route does not verify
+those transformations.
+
+Array `362720` instead tested original-source verification. Micromath's pinned
+arithmetic route ignores the producer CNF and expects conflict variables to be
+source variables. Its 12 unknown-variable LRA failures and all three LIA sort
+mismatches pointed at `$primo_ite_0` in the exported signature. The declared
+sorts were Real and Int respectively; this is not evidence that an original
+source variable changed sort. Those results measure a boundary mismatch, not
+failure to lower the ITE into the exported CNF.
+
+The previously checked `11-ite` starter had no fresh ITE variables in its
+certificate: its source equality was distributed to guarded equalities using
+an existing source variable. New
+{download}`LRA <../examples/qf-lra-shared-ite.smt2>` and
+{download}`LIA <../examples/qf-lia-shared-ite.smt2>` regressions share a nested
+arithmetic ITE between two inconsistent comparisons. Qualification requires
+at least two generated ITE declarations and a retained conflict using an
+auxiliary; a simplified Boolean-only refutation cannot satisfy that check.
+
+Inspection of `CAV_2009_benchmarks/smt/15-vars/problem__016.smt2` also found all
+30 source inequalities mathematically preserved in its 30 CNF units and all
+16 conflict premises equal to source inequalities after affine normalization.
+None matched the let-expanded source syntactically, because Primo removed
+zero products and simplified multiplication by one. This narrows that case to
+an expression-connection problem in the stronger route; it does not diagnose
+all 14 missing-refutation cases. Original-source verification needs justified
+normalization bridges and auxiliary definitions. Adding more unrelated theory
+lemmas or repeating ITE lowering does not supply those connections.
+
 ## Micromath verification from the original source
 
 Micromath revision `5f22700410c0e37044c03557dbd21e009303b7ba` provides
@@ -307,7 +438,9 @@ where produced, explicitly labelled LIA header copies, logs, hashes and commands
 These are small examples within their categories, not delta-minimized instances.
 The checker implementation was neither inspected nor modified for this pilot.
 
-To repeat the pilot, use the
+To repeat this historical original-source pilot, use the frozen workflow
+`d99bc152` below. The [current default workflow](#exported-cnf-verification)
+checks the exported CNF instead. Use the historical
 {arithmeticstresssource}`SLURM wrapper <scripts/slurm_arithmetic_certificate_stress.sbatch>`
 with an already qualified native workspace and pinned external builds. Set the
 workspace, historical timing root, both corpus roots, both checker directories

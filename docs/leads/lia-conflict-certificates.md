@@ -215,3 +215,101 @@ container header must be version 2: compatibility copies change that byte only,
 while native output stays version 3. This does not change the arithmetic rule,
 erase integer sorts, or validate Primo's preprocessing. The recorded checks are
 small examples and controls, not complete QF_LIA coverage.
+
+
+## Opposing-bound reconstruction follow-up
+
+The producer limit in `dillig/25-22.smt2` (array `362736`, the same case as
+`362720`) motivated two narrow candidates, both rejected after targeted
+measurement. The baseline native implementation remains `a5123159`. Pugh's expanded Omega Test,
+§2.3, checks directly contradictory opposing inequalities before projecting;
+§2.4 describes optimized opposing constraint keys. Primo's current baseline
+already keeps an ordered `Active` map keyed by sparse coefficient maps, but
+only merges bounds with identical left-hand sides. That accepted baseline
+does not perform the opposing-bound check during insertion.
+
+The following checklist was written before implementing the first candidate:
+
+- Keep each active row primitive after coefficient-GCD tightening, and retain
+  the strongest bound for each coefficient key. For `a*x <= b`, look up the
+  key `-a` in the same map. If the stored bound is `-a*x <= c` and `b+c < 0`,
+  emit a divisor-one cut with weights one on the two row references.
+- Store only numeric references in proof steps. Snapshot both references and
+  form the derived row before appending can invalidate references into the
+  growing row vector. The existing proof pruner and independent replay must
+  validate the resulting contradiction.
+- Check while inserting initial tightened rows, carried rows and new projected
+  rows. Stop projection immediately once a contradiction is available.
+  Preserve all resource/cancellation gates and inconclusive outcomes.
+- Count opposing lookups and successful contradictions. Add a regression in
+  which projection exposes opposing tightened bounds under a pair budget too
+  small for another elimination, plus satisfiable opposing bounds.
+- This is an ordinary ordered-map baseline of the §2.3 check. It does not
+  implement §2.4's expected-constant-time constraint-key machinery. Constructing
+  an opposite key is linear in its nonzeros; ordered-map lookup adds map/key
+  comparison cost. Worst-case projection remains exponential.
+
+Candidate `b6fa115c` implemented the checklist in an isolated worktree and
+passed the pair-budget unit regression in SLURM probe `362740`. The real target
+still returned `unknown` with 5,224 generated cuts and 5,186 pairs; its 5,513
+opposing lookups found no contradiction. The candidate was not accepted.
+
+
+### Recheck the linear relaxation after new rounding
+
+The first opposing-bound candidate passed its pair-budget regression but did
+not reconstruct the real `dillig` case. Pugh §2.1 explicitly observes that
+integer floor tightening can remove all rational solutions. The second candidate
+therefore composed the existing exact LRA witness reconstructor with each
+completed projection that introduced a genuinely stronger rounded bound.
+This scheduling rule is Primo's design, not an implementation claim about
+Pugh's optimized algorithm.
+
+- A local Boolean flag records a nonintegral `rhs / gcd` in `tighten`.
+  An exact division does not set it. Reset it after trying the linear
+  relaxation; only a subsequent genuine floor reduction enables another try.
+- The existing `Active` map supplies primitive rows and their numeric proof
+  references. A successful linear witness is scaled to integer coefficients
+  and appended as the existing divisor-one cut. Independent replay still
+  checks the full ancestor proof against original premises.
+- Call once initially, then after a completed projection only if new rounding
+  occurred and no opposing/constant contradiction already terminated it.
+  Cancellation and all existing row, step, pair and digit caps remain.
+- Add a three-variable parity example whose first projection produces three
+  collectively inconsistent bounds without any opposing pair. With its pair
+  budget exhausted, success must use the second linear check, not another
+  projection. Existing `lia-linear-checks` and pivot counters expose this path.
+- The additional LP checks have their existing reconstruction cost and can
+  occur at most once per completed variable elimination. This is still bounded
+  incomplete reconstruction; no dark shadows, splinters or branch replay are
+  added. These were candidate proof obligations, not accepted capabilities.
+
+
+### Measured decision and next producer work
+
+Candidate `e90bf22e` passed its new three-variable, three-pair unit regression
+in SLURM `362742`. The target again stopped at exactly 5,224 cuts and 5,186
+pairs, with one linear check and no opposing contradiction. The extra linear
+checks did not trigger after a completed projection on this target. Neither
+candidate resolved the producer failure; both source changes and their active
+unit-test additions were removed from the working branch. No resource cap was
+raised, and no checker implementation was inspected or changed.
+
+The {download}`candidate ledger <../coverage/lia-reconstruction-followup.json>`
+records builds, focused probes, limits and binary hashes. The
+{download}`experiment guide <../experiments/lia-reconstruction-20261106/README.md>`
+and the {download}`opposing-bound patch <../experiments/lia-reconstruction-20261106/opposing-bounds.patch>`
+and {download}`linear-recheck patch <../experiments/lia-reconstruction-20261106/linear-rechecks.patch>`
+preserve the rejected mechanisms and their focused tests.
+Full native, sanitizer, static-analysis and fuzz gates were not repeated for
+these rejected candidates. They are not qualified replacements for the
+accepted producer. The unchanged native binary's prior qualification remains
+separate from the successful exported-CNF workflow qualification.
+
+The remaining producer work is a reconstruction strategy that can recover
+this selected integer conflict without that projection blow-up, or numeric
+proof provenance from the main integer reasoning. The present measurements do
+not decide which approach will work. They do show that adding the two local
+checks above is insufficient for this instance. Merely increasing the cap was
+not tested as a remedy. The checker-specific Boolean evaluation errors and
+stage timeouts remain feedback items, outside these producer experiments.

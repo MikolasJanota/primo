@@ -1,0 +1,127 @@
+diff --git a/src/smt/cnf_export.cpp b/src/smt/cnf_export.cpp
+index 42ba5a77..129983c9 100644
+--- a/src/smt/cnf_export.cpp
++++ b/src/smt/cnf_export.cpp
+@@ -338,6 +338,8 @@ bool CnfConflictCollector::reconstruct_lia(std::optional<std::span<const std::si
+   std::size_t pairs = 0;
+   std::size_t projections = 0;
+   std::size_t exact_projections = 0;
++  std::size_t opposing_checks = 0;
++  std::size_t opposing_conflicts = 0;
+   std::size_t linear_checks = 0;
+   std::size_t linear_pivots = 0;
+   std::size_t pruned = 0;
+@@ -391,6 +393,8 @@ bool CnfConflictCollector::reconstruct_lia(std::optional<std::span<const std::si
+     pairs += proof.pairs;
+     projections += proof.projections;
+     exact_projections += proof.exact_projections;
++    opposing_checks += proof.opposing_checks;
++    opposing_conflicts += proof.opposing_conflicts;
+     linear_checks += proof.linear_checks;
+     linear_pivots += proof.linear_pivots;
+     pruned += proof.pruned_steps;
+@@ -398,6 +402,8 @@ bool CnfConflictCollector::reconstruct_lia(std::optional<std::span<const std::si
+     statistics.set(":export.reconstruction.lia-pairs", pairs);
+     statistics.set(":export.reconstruction.lia-projections", projections);
+     statistics.set(":export.reconstruction.lia-exact-projections", exact_projections);
++    statistics.set(":export.reconstruction.lia-opposing-checks", opposing_checks);
++    statistics.set(":export.reconstruction.lia-opposing-conflicts", opposing_conflicts);
+     statistics.set(":export.reconstruction.lia-linear-checks", linear_checks);
+     statistics.set(":export.reconstruction.lia-linear-pivots", linear_pivots);
+     statistics.set(":export.reconstruction.lia-pruned-cuts", pruned);
+diff --git a/src/theory/arithmetic/lia_certificate.cpp b/src/theory/arithmetic/lia_certificate.cpp
+index 7236f198..04b407f5 100644
+--- a/src/theory/arithmetic/lia_certificate.cpp
++++ b/src/theory/arithmetic/lia_certificate.cpp
+@@ -193,10 +193,33 @@ LiaCertificateResult reconstruct_lia_certificate(std::span<const LiaCertificateP
+       }
+       const auto [found, added] = active.emplace(row.coefficients, reference);
+       if (!added && row.rhs < rows[found->second].rhs) found->second = reference;
+-      if (active.size() > limits.active_rows) throw Stopped{LiaCertificateStatus::ResourceLimit};
++      // Pugh, expanded Omega Test §2.3: directly contradictory opposing
++      // bounds need no further projection. Ordered-map baseline, not §2.4's
++      // optimized constraint-key implementation. Snapshot before append().
++      const auto strongest = found->second;
++      Coefficients opposite;
++      for (const auto& [variable, coefficient] : row.coefficients) {
++        poll();
++        opposite.emplace(variable, -coefficient);
++      }
++      ++proof.opposing_checks;
++      const auto opposing = active.find(opposite);
++      if (opposing != active.end() &&
++          (rows[strongest].rhs + rows[opposing->second].rhs).sign() < 0) {
++        const auto other = opposing->second;
++        LiaCertificateCut cut{Rational(1), {{strongest, Rational(1)}, {other, Rational(1)}}};
++        auto sum = apply(rows, cut, poll);
++        contradiction = append(std::move(cut), std::move(sum));
++        ++proof.opposing_conflicts;
++      }
++      if (!contradiction && active.size() > limits.active_rows)
++        throw Stopped{LiaCertificateStatus::ResourceLimit};
+     };
+     Active active;
+-    for (std::size_t i = 0; i < premises.size(); ++i) insert(active, tighten(i));
++    for (std::size_t i = 0; i < premises.size(); ++i) {
++      insert(active, tighten(i));
++      if (contradiction) break;
++    }
+     if (!contradiction && !active.empty()) {
+       // Reuse the isolated Farkas reconstruction fast path after integer
+       // tightening. Clear all weight denominators before adding the cut.
+diff --git a/src/theory/arithmetic/lia_certificate.hpp b/src/theory/arithmetic/lia_certificate.hpp
+index daa0b4e3..b698ab92 100644
+--- a/src/theory/arithmetic/lia_certificate.hpp
++++ b/src/theory/arithmetic/lia_certificate.hpp
+@@ -41,6 +41,8 @@ struct LiaCertificateResult {
+   std::size_t pairs = 0;
+   std::size_t projections = 0;
+   std::size_t exact_projections = 0;
++  std::size_t opposing_checks = 0;
++  std::size_t opposing_conflicts = 0;
+   std::size_t linear_checks = 0;
+   std::size_t linear_pivots = 0;
+ };
+diff --git a/tests/unit/lia_certificate_tests.cpp b/tests/unit/lia_certificate_tests.cpp
+index 91326225..c55df498 100644
+--- a/tests/unit/lia_certificate_tests.cpp
++++ b/tests/unit/lia_certificate_tests.cpp
+@@ -36,6 +36,16 @@ void arithmetic() {
+   assert(proof.status == LiaCertificateStatus::Verified &&
+          check_lia_certificate(projection, proof));
+   assert(proof.pairs > 0 && proof.exact_projections > 0);
++  // After eliminating unit-coefficient y, tightening exposes x <= 0 and
++  // -x <= -1. Detect their opposing keys before another projection can
++  // consume the exhausted pair budget (Pugh §2.3, ordered-map baseline).
++  LiaCertificateLimits opposing_limits;
++  opposing_limits.pairs = 2;
++  proof = reconstruct_lia_certificate(projection, {}, opposing_limits);
++  assert(proof.status == LiaCertificateStatus::Verified);
++  assert(proof.projections == 1 && proof.pairs == 2);
++  assert(proof.opposing_checks > 0 && proof.opposing_conflicts == 1);
++  assert(check_lia_certificate(projection, proof));
+   // The second cut must floor -1/2 to -1, never truncate it to zero.
+   const std::vector<LiaCertificatePremise> half{{{{0, 2}}, 1}, {{{0, -2}}, -1}};
+   proof = reconstruct_lia_certificate(half);
+@@ -53,16 +63,18 @@ void arithmetic() {
+   invalid.cuts.front().divisor = Rational(0);
+   assert(!check_lia_certificate(half, invalid));
+   const std::vector<LiaCertificatePremise> sat{{{{0, 1}}, 1}, {{{0, -1}}, 0}};
+-  assert(reconstruct_lia_certificate(sat).status == LiaCertificateStatus::NotFound);
++  proof = reconstruct_lia_certificate(sat);
++  assert(proof.status == LiaCertificateStatus::NotFound && proof.opposing_checks > 0 &&
++         proof.opposing_conflicts == 0);
+   const std::vector<LiaCertificatePremise> duplicates{{{{0, 1}, {0, 1}}, 1}, {{{0, -2}}, -1}};
+   proof = reconstruct_lia_certificate(duplicates);
+   assert(proof.status == LiaCertificateStatus::Verified &&
+          check_lia_certificate(duplicates, proof));
+-  // Original premises remain; unused intermediate normalization steps are pruned.
++  // A direct constant contradiction stops before irrelevant premises are tightened.
+   const std::vector<LiaCertificatePremise> constant{{{}, -1}, {{{3, 4}}, 100}};
+   proof = reconstruct_lia_certificate(constant);
+   assert(proof.status == LiaCertificateStatus::Verified && proof.cuts.empty());
+-  assert(proof.pruned_steps == 1 && proof.contradiction == 0);
++  assert(proof.pruned_steps == 0 && proof.contradiction == 0);
+   assert(check_lia_certificate(constant, proof));
+   proof.cuts.push_back({Rational(1), {{0, Rational(1)}, {1, Rational(0)}}});
+   proof.contradiction = 2;

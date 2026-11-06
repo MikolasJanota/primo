@@ -1,6 +1,8 @@
 """The checker statement must contain precisely the exported CNF, never lemmas."""
 
 import io
+import itertools
+import random
 import sys
 import tempfile
 import unittest
@@ -69,6 +71,58 @@ class CnfStatementTests(unittest.TestCase):
         write_cnf_statement(
             BoundedInput(self.statement("(clause false)")), output, "QF_LRA"
         )
+
+    def test_generated_boolean_transport_equivalence(self):
+        # A truth-table oracle checks the transport independently of its syntax.
+        rng = random.Random(20261106)
+        names = ("a", "b", "|quoted ; ( )\nname|")
+
+        def literal_value(literal, values):
+            if isinstance(literal, list):
+                return not literal_value(literal[1], values)
+            return {"true": True, "false": False}.get(literal, values.get(literal))
+
+        def formula_value(formula, values):
+            if isinstance(formula, list) and formula[0] == "or":
+                return any(formula_value(arg, values) for arg in formula[1:])
+            return literal_value(formula, values)
+
+        def literal_text(literal):
+            return "(not " + literal[1] + ")" if isinstance(literal, list) else literal
+
+        for case in range(100):
+            clauses = []
+            for _ in range(rng.randrange(9)):
+                clause = []
+                for _ in range(rng.randrange(5)):
+                    literal = rng.choice((*names, "true", "false"))
+                    clause.append(["not", literal] if rng.randrange(2) else literal)
+                clauses.append(clause)
+            body = "".join(
+                "(clause " + " ".join(map(literal_text, clause)) + ")"
+                for clause in clauses
+            )
+            signature = "".join(f"(declare-fun {name} () Bool)" for name in names)
+            output = io.StringIO()
+            write_cnf_statement(
+                io.StringIO(self.statement(body, signature)), output, "QF_LRA"
+            )
+            assertions = [
+                command[1]
+                for command in parse("(" + output.getvalue() + ")")
+                if command[0] == "assert"
+            ]
+            for bits in itertools.product((False, True), repeat=len(names)):
+                values = dict(zip(names, bits))
+                expected = all(
+                    any(literal_value(lit, values) for lit in clause)
+                    for clause in clauses
+                )
+                actual = all(
+                    formula_value(assertion, values) for assertion in assertions
+                )
+                with self.subTest(case=case, assignment=bits):
+                    self.assertEqual(actual, expected)
 
     def test_invalid_input_does_not_publish_statement(self):
         valid = self.statement("(clause false)")
