@@ -235,6 +235,9 @@ a satisfiable replacement source were rejected. In total, 15 runs reached
 `challenge proven` and three controls were rejected, with no timeout. Every
 proof producer and kernel process had a 3 GiB address-space limit; each stage
 had a 60-second deadline. The
+{micromathlrasource}`replay script <scripts/replay_micromath_lra.py>` and
+{micromathlrasource}`SLURM wrapper <scripts/slurm_micromath_lra_check.sbatch>`
+implement this bounded workflow. The
 {download}`qualification ledger <../coverage/micromath-lra.json>` records exact
 hashes, commands, initial infrastructure failures and artifacts.
 
