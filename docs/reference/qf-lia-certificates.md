@@ -230,6 +230,10 @@ decimal literals, quantifiers, functions and incremental queries are outside
 the documented Micromath LIA fragment. Existing Primo lowering of such terms
 does not extend the checker's original-source parser.
 
+The [real-source arithmetic stress pilot](qf-lra-certificates.md#real-source-arithmetic-stress-pilot)
+adds 24 real LIA sources: three kernel proofs, including one using an integer
+cut, with the remaining outcomes and small replay files recorded separately.
+
 ## Sources and implementation status
 
 Pugh, expanded *Omega Test*, §§2.1, 2.3.1 and the exact-projection criterion in

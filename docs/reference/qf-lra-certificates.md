@@ -246,3 +246,81 @@ arbitrary preprocessing output. Conflict variables must be original source
 Real variables; surviving exporter auxiliaries or unsupported source syntax
 can prevent a refutation. The [integer cut route](qf-lia-certificates.md#micromath-integer-proofs-and-envelope-compatibility)
 has its own tools, envelope requirement and separate qualification.
+
+
+## Real-source arithmetic stress pilot
+
+SLURM array `362720` tested 24 real LRA and 24 real LIA sources on 6 November
+2026, using the native binary `a5123159` and the pinned Micromath revisions
+above and in the [LIA compatibility section](qf-lia-certificates.md#micromath-integer-proofs-and-envelope-compatibility).
+Each source had a hash-matched historical native UNSAT run of at most one second
+at `5efbd022`. Both historical runs and this pilot used default preprocessing;
+this pilot added CORE export. Inputs were unchanged single-query files selected
+from 4 to 512 KiB, with at most three per family. The target was eight per size
+band (4–32, 32–128, 128–512 KiB); family availability left LRA at 14/9/1 and LIA
+at 8/8/8. This is a bounded pilot, not full arithmetic coverage.
+
+| Outcome | LRA | LIA |
+| --- | ---: | ---: |
+| Original-source kernel proof verified | 3 | 3 |
+| Supplied conflicts do not refute the checker abstraction | 6 | 8 |
+| Proof producer error | 12 | 5 |
+| Source challenge builder error | 3 | 6 |
+| Native proof reconstruction incomplete | 0 | 1 |
+| Reference timeout; export skipped | 0 | 1 |
+
+One verified case per logic needed arithmetic: `sal/tgc/tgc_io-safe-9.smt2`
+used 36 LRA conflicts; `20220307-SMPT/Eratosthenes-PT-500/RC-02.smt2` used one
+LIA conflict and one cut. The other four verified sources were propositionally
+refuted with zero theory conflicts. Acceptance required both producer and
+kernel exits zero, `challenge proven`, and no inconsistency marker.
+
+CORE removed 1,981 of 4,350 collected LRA lemmas and 666 of 1,154 LIA lemmas
+across native export attempts. These counts include the LIA attempt whose
+subsequent reconstruction failed. CORE is an UNSAT-core reduction, not a
+minimality guarantee. Raw proofs were piped directly into the kernel. No
+checker timeout, memory kill or file-size cap was observed. Each task finished
+in about 80 seconds; this is certificate-workflow evidence, not a solver-speed
+comparison.
+
+All 12 LRA producer errors reported unknown source Real variable
+`$primo_ite_0`. Three LIA errors reported source/certificate sort mismatches;
+two reported evaluation needing a closed Boolean term. Source builders rejected
+five files at `define-fun` and four at nesting depth 512. Fourteen further cases
+reported `s SATISFIABLE` for the checker's Boolean abstraction with the supplied
+conflicts. That diagnostic does not assert that the original arithmetic problem
+is satisfiable. The exact missing source-level refutation has not been diagnosed.
+For `dillig/25-22.smt2`, Primo's main solver proved UNSAT but bounded integer
+witness reconstruction reached its limit, returned `unknown` and wrote no
+certificate. The remaining reference timeout was `pidgeons/pigeon-hole-19.smt2`.
+
+The {download}`evidence ledger <../coverage/arithmetic-proof-stress.json>` records
+all 48 input hashes, family results, exact binary/workflow hashes, stage outcomes,
+limits and timings. Full artifacts are mirrored locally at
+`results/arithmetic-proof-stress-362720` and retained in the prepared remote
+workspace under the same results directory. Successful challenge dumps were
+hashed then removed; failed challenges, certificates and logs were retained.
+No raw proof file was created. A
+{download}`201 KiB replay archive <../../benchmarks/checker-regressions/arithmetic-stress-20261106/arithmetic-stress.tar.gz>`
+contains seven representative failures, original sources, native certificates
+where produced, explicitly labelled LIA header copies, logs, hashes and commands.
+These are small examples within their categories, not delta-minimized instances.
+The checker implementation was neither inspected nor modified for this pilot.
+
+To repeat the pilot, use the
+{arithmeticstresssource}`SLURM wrapper <scripts/slurm_arithmetic_certificate_stress.sbatch>`
+with an already qualified native workspace and pinned external builds. Set the
+workspace, historical timing root, both corpus roots, both checker directories
+and revisions, LRAT-capable CaDiCaL path, and frozen workflow directory through
+the environment variables listed at the top of that wrapper. Run the canonical
+workspace preflight immediately before submission. Each array task requests
+two CPUs, 12 GiB and 90 minutes; per-process address space is 3 GiB and maximum
+file size is 256 MiB. Deadlines are 15 seconds for Z3, 30 for challenge/export,
+and 60 for the proof/kernel pipeline. The
+{arithmeticstresssource}`runner <scripts/arithmetic_certificate_stress.py>`
+checks Z3 first, builds the challenge from the original source, exports CORE,
+and streams the proof. For LIA, only byte 28 of a separate certificate copy
+changes from version 3 to version 2. A task's successful exit or `FINISHED` file
+means orchestration finished; proof coverage is the `verified` count in its
+`run/summary.json`. No preprocessing-disabled retry was made. Further expansion
+should resolve these interface gaps before increasing the workload.

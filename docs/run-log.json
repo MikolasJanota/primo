@@ -3,6 +3,164 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-06-arithmetic-real-source-CORE-stress-pilot",
+      "date": "2026-11-06",
+      "kind": "recorded-fast-real-source-arithmetic-CORE-pilot",
+      "baseline_commit": "1de90f9d",
+      "producer_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "historical_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "workflow_provenance": "New Python orchestration frozen by hashes in report; native C++ unchanged from a5123159. Reused qualified SLURM builds and pinned checker checkouts without fetching upstream.",
+      "evidence_status": "Completed 48-case pilot: 6 original-source kernel proofs, including 2 with arithmetic conflicts; remaining cases classified as interface/reconstruction gaps or reference timeout.",
+      "manifest": "docs/coverage/arithmetic-proof-stress.json",
+      "jobs": {
+        "362720_0": "COMPLETED 0:0, 79 s, MaxRSS 218944 KiB",
+        "362720_1": "COMPLETED 0:0, 77 s, MaxRSS 239788 KiB"
+      },
+      "allocation_per_task": {
+        "cpus": 2,
+        "memory_gib": 12,
+        "wall_minutes": 90
+      },
+      "counts": {
+        "QF_LRA": {
+          "verified": 3,
+          "source_refutation_missing": 6,
+          "proof_error": 12,
+          "challenge_error": 3
+        },
+        "QF_LIA": {
+          "verified": 3,
+          "source_refutation_missing": 8,
+          "proof_error": 5,
+          "reconstruction_incomplete": 1,
+          "challenge_error": 6,
+          "reference_timeout": 1
+        }
+      },
+      "family_counts": {
+        "QF_LRA": {
+          "2017-Heizmann-UltimateInvariantSynthesis": {
+            "source_refutation_missing": 1
+          },
+          "2019-ezsmt": {
+            "challenge_error": 3
+          },
+          "clock_synchro": {
+            "source_refutation_missing": 3
+          },
+          "miplib": {
+            "source_refutation_missing": 2
+          },
+          "sal": {
+            "verified": 3
+          },
+          "sc": {
+            "proof_error": 3
+          },
+          "spider_benchmarks": {
+            "proof_error": 3
+          },
+          "tta_startup": {
+            "proof_error": 3
+          },
+          "uart": {
+            "proof_error": 3
+          }
+        },
+        "QF_LIA": {
+          "20180326-Bromberger": {
+            "source_refutation_missing": 1
+          },
+          "2019-ezsmt": {
+            "challenge_error": 2
+          },
+          "20210219-Dartagnan": {
+            "source_refutation_missing": 2
+          },
+          "20220307-SMPT": {
+            "verified": 2,
+            "source_refutation_missing": 1
+          },
+          "Averest": {
+            "proof_error": 2
+          },
+          "CAV_2009_benchmarks": {
+            "source_refutation_missing": 1
+          },
+          "CIRC": {
+            "source_refutation_missing": 1
+          },
+          "bofill-scheduling": {
+            "source_refutation_missing": 1
+          },
+          "calypto": {
+            "proof_error": 1
+          },
+          "convert": {
+            "verified": 1,
+            "challenge_error": 1
+          },
+          "dillig": {
+            "reconstruction_incomplete": 1
+          },
+          "fft": {
+            "proof_error": 1
+          },
+          "mathsat": {
+            "challenge_error": 2
+          },
+          "nec-smt": {
+            "proof_error": 1,
+            "challenge_error": 1
+          },
+          "pb2010": {
+            "source_refutation_missing": 1
+          },
+          "pidgeons": {
+            "reference_timeout": 1
+          }
+        }
+      },
+      "limits": {
+        "reference": 15,
+        "export": 30,
+        "challenge": 30,
+        "proof_and_kernel": 60,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "selection": "24 per logic; unchanged recorded native UNSAT <=1s; source4..512KiB; <=3 per family; target8 per source-size tier. Actual LRA14/9/1, LIA8/8/8. Conservative single-query/no-positive-arity declaration screen. No source rewriting.",
+      "commands": {
+        "preflight": "python3 scripts/slurm_prepare_benchmark_workspace.py --local-dir FROZEN_NATIVE_SOURCE --ssh-config SSH_CONFIG --remote REMOTE --remote-dir PRIMO_WORKDIR --cmake CMAKE --check-only --require-tool contrib/local/bin/z3",
+        "submit": "Set PRIMO_WORKDIR, PRIMO_EXPECTED_GIT=a5123159, ARITHMETIC_WORKFLOW_DIR, ARITHMETIC_HISTORY_ROOT, LRA_CORPUS, LIA_CORPUS, MICROMATH_LRA_DIR, MICROMATH_LIA_DIR, MICROMATH_LRA_GIT=5f22700410c0e37044c03557dbd21e009303b7ba, MICROMATH_LIA_GIT=8f9cff132140462b141183ddb9cb88a9beb80a4f, PRIMO_SAT_SOLVER; sbatch scripts/slurm_arithmetic_certificate_stress.sbatch (full native git value a5123159 as recorded by binary --version).",
+        "export": "primo --quiet --stats --export-cnf native.sexp --export-cnf-reduction=core input.smt2",
+        "reference": "z3 input.smt2",
+        "source_challenge": "build-axioms --fragment finitary axioms.umd; smt/build-{lra,lia}-challenge axioms.umd input.smt2 challenge.umd",
+        "proof": "smt/prove-{lra,lia} challenge.umd certificate.sexp - --raw --cadical CADICAL | check-solution challenge.umd -; require both exits0 and challenge proven. LIA uses explicit one-byte header copy."
+      },
+      "artifacts": {
+        "local": "results/arithmetic-proof-stress-362720",
+        "remote": "$PRIMO_WORKDIR/results/arithmetic-proof-stress-362720",
+        "replay_archive": "benchmarks/checker-regressions/arithmetic-stress-20261106/arithmetic-stress.tar.gz",
+        "archive_bytes": 205735,
+        "archive_sha256": "7d2236832b54d3ad2694fa6c9ccc8befe1f9a7edad43ac29e2c9bd861dc0a361"
+      },
+      "verification": {
+        "fresh": [
+          "3 pure workflow boundary unit tests",
+          "make lint",
+          "Python compilation",
+          "sbatch validator and bash -n",
+          "SLURM array362720",
+          "archive byte/hash audit",
+          "make docs and local/Git link check"
+        ],
+        "not_repeated": "No C++ or solver behavior change: native suite, ASan, fuzz, clang-tidy and include-cleaner reuse prior a5123159 qualification; this is workflow evidence only."
+      },
+      "scope": "Bounded UNSAT certificate pilot, no solver-speed/PAR2 or default-profile claim; no SAT model stage applies. Checker statement translation remains trusted. Failures are retained for author replay, not diagnosed by editing checker. Workflow exit0 is not proof success.",
+      "workflow_git": "d99bc152d61eb35c3ab1b8ba2aafaff7fcff836d"
+    },
+    {
       "id": "2026-11-06-micromath-lia-cut-proofs-envelope-compatibility",
       "date": "2026-11-06",
       "kind": "bounded-external-source-LIA-kernel-proof-compatibility",
