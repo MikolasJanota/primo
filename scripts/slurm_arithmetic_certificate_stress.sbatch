@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+#SBATCH --job-name=primo-arithmetic-proof-stress
+#SBATCH --array=0-1%2
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=12G
+#SBATCH --time=01:30:00
+#SBATCH --output=logs/%x-%A-%a.out
+#SBATCH --error=logs/%x-%A-%a.err
+
+set -euo pipefail
+: "${PRIMO_WORKDIR:?prepared native workspace}"
+: "${PRIMO_EXPECTED_GIT:?native binary revision}"
+: "${ARITHMETIC_WORKFLOW_DIR:?frozen stress workflow}"
+: "${ARITHMETIC_HISTORY_ROOT:?completed native timing records}"
+: "${LRA_CORPUS:?existing QF_LRA source corpus}"
+: "${LIA_CORPUS:?existing QF_LIA source corpus}"
+: "${MICROMATH_LRA_DIR:?pinned LRA checkout/build}"
+: "${MICROMATH_LIA_DIR:?pinned LIA checkout/build}"
+: "${MICROMATH_LRA_GIT:?LRA revision}"
+: "${MICROMATH_LIA_GIT:?LIA revision}"
+: "${PRIMO_SAT_SOLVER:?CaDiCaL with textual LRAT support}"
+cd "$PRIMO_WORKDIR"
+if [[ $SLURM_ARRAY_TASK_ID == 0 ]]; then
+  logic=QF_LRA
+  arithmetic=LRA
+  corpus=$LRA_CORPUS
+  checker=$MICROMATH_LRA_DIR
+  checker_git=$MICROMATH_LRA_GIT
+else
+  logic=QF_LIA
+  arithmetic=LIA
+  corpus=$LIA_CORPUS
+  checker=$MICROMATH_LIA_DIR
+  checker_git=$MICROMATH_LIA_GIT
+fi
+artifacts="$PWD/results/arithmetic-proof-stress-$SLURM_ARRAY_JOB_ID/$logic"
+mkdir -p "$artifacts"
+build-slurm-rel/primo --version > "$artifacts/native-version.txt"
+grep -Fx "git: $PRIMO_EXPECTED_GIT" "$artifacts/native-version.txt"
+git -C "$checker" rev-parse HEAD > "$artifacts/micromath-git.txt"
+grep -Fx "$checker_git" "$artifacts/micromath-git.txt"
+test -z "$(git -C "$checker" status --porcelain --untracked-files=no)"
+sha256sum "$checker/smt/$arithmetic.md" > "$artifacts/upstream-doc.sha256"
+sha256sum "$ARITHMETIC_WORKFLOW_DIR/"{arithmetic_certificate_stress.py,slurm_arithmetic_certificate_stress.sbatch,micromath_stress.py,replay_micromath_lra.py,select_micromath_fast_cases.py,check_lra_certificate.py} > "$artifacts/workflow.sha256"
+lscpu > "$artifacts/cpu.txt"
+python3 --version > "$artifacts/python.txt"
+python3 "$ARITHMETIC_WORKFLOW_DIR/arithmetic_certificate_stress.py" \
+  --logic "$logic" --history "$ARITHMETIC_HISTORY_ROOT/$logic/primo" \
+  --historical-git 5efbd02293e15a53fbaad748ceda78bc7d27bbac --corpus "$corpus" \
+  --solver "$PWD/build-slurm-rel/primo" --reference "$PWD/contrib/local/bin/z3" \
+  --cadical "$PRIMO_SAT_SOLVER" --micromath "$checker" --micromath-git "$checker_git" \
+  --count "${ARITHMETIC_STRESS_COUNT:-24}" --max-per-family 3 \
+  --reference-seconds 15 --export-seconds 30 --challenge-seconds 30 --proof-seconds 60 \
+  --out "$artifacts/run" > "$artifacts/run.log" 2>&1
+printf '%s\n' 'pilot finished; inspect summary counts, not this process status, for proof success' > "$artifacts/FINISHED"
