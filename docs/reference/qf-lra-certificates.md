@@ -3,8 +3,10 @@
 **Status: experimental implementation with bounded SLURM qualification.**
 `--export-cnf FILE` now accepts one QF_LRA query using the same single-query
 command/session restrictions as [QF_UF export](qf-uf-conflicts.md). QF_UF keeps
-its version-1 format; QF_LRA writes version 2. This certifies the prepared CNF
-as a starting problem, without a proof connecting it to the original SMT script.
+its version-1 format; QF_LRA writes version 2. The artifact alone takes the prepared CNF
+as its starting problem. The [Micromath route below](#micromath-verification-from-the-original-source)
+instead constructs its statement from the original SMT-LIB and proves its own
+Boolean conversion, using the retained arithmetic conflicts.
 The [design note](../leads/lra-conflict-certificates.md) gives the mathematical
 contract, reconstruction argument and implementation checklist.
 The separate [integer-only LIA format](qf-lia-certificates.md) adds bounded
@@ -38,8 +40,9 @@ Three separately labelled authored controls exercise acceptance of zero weights
 and rejection of broken cancellation or missing strictness.
 
 The archive includes a standalone guide, file hashes and a standard-library
-Python verifier. It is intended for developing Micromath's arithmetic support;
-current Micromath compatibility is not claimed. The
+Python verifier. The immutable archive retains its original guide from before Micromath's LRA
+support; the [current compatibility results below](#micromath-verification-from-the-original-source)
+qualify these exact saved files. The
 {download}`guide <../../benchmarks/checker-regressions/lra-starter-20261104/README.md>`
 explains the polarity convention and works through the rational-weight example.
 Native generation and independent source/witness/propositional checks ran in
@@ -149,7 +152,8 @@ syntax, coefficient signs, cancellation and strictness. Its optional
 `--sat-solver` invocation checks propositional UNSAT of CNF plus complemented
 theory conflicts using an external DIMACS solver. That invocation trusts the
 SAT solver; it is not a kernel verification of a propositional proof.
-Micromath/Ethos LRA translation is not implemented.
+The external Micromath route below produces kernel-checked proofs for the
+listed source/certificate pairs. An Ethos translation is not implemented.
 
 This initial standalone checker parses the entire artifact in memory. It is a
 qualification/diagnostic tool, not a bounded-memory streaming proof checker.
@@ -193,3 +197,49 @@ are reused, with no external solver source copied. Source-to-CNF proof, native
 equality premises, coefficient/literal minimization, LIA, proof-kernel validation
 of the external SAT run, and proof-language translation remain outside this
 implementation.
+
+
+## Micromath verification from the original source
+
+Micromath revision `5f22700410c0e37044c03557dbd21e009303b7ba` provides
+[`build-lra-challenge` and `prove-lra`](https://git.olsak.net/mirek/Micromath/src/commit/5f22700410c0e37044c03557dbd21e009303b7ba/smt/LRA.md).
+The builder reads the original SMT-LIB. The prover uses our version-2 weighted
+conflicts and independently derives its Boolean clauses; it ignores the producer's
+CNF. Its proof is checked by a separate `check-solution` process. The statement
+translation into Micromath remains trusted, with rational values representing
+this finite rational-coefficient linear-real fragment. This does not verify
+Primo's preprocessing transformation itself.
+
+After building the upstream tools as documented there, run from Micromath's root:
+
+```bash
+set -o pipefail
+bundle=/path/to/primo/benchmarks/checker-regressions/lra-starter-20261104
+mkdir -p build/primo-lra
+./build-axioms --fragment finitary build/primo-lra/axioms.umd
+./smt/build-lra-challenge build/primo-lra/axioms.umd \
+  "$bundle/inputs/05-rational-weight.smt2" build/primo-lra/challenge.umd
+./smt/prove-lra build/primo-lra/challenge.umd \
+  "$bundle/certificates/05-rational-weight.sexp" - --raw --cadical /path/to/cadical | \
+  ./check-solution build/primo-lra/challenge.umd -
+```
+
+Both processes must succeed and the checker must print `challenge proven`.
+`--raw` streams executed proof steps. A saved proof file is unnecessary for
+this pipeline.
+
+SLURM job `357143` checked all 12 original starter problems and their unedited
+certificates. Three further positive runs checked zero weights, removal of the
+producer CNF, and saved-theory reuse. Broken cancellation, lost strictness and
+a satisfiable replacement source were rejected. In total, 15 runs reached
+`challenge proven` and three controls were rejected, with no timeout. Every
+proof producer and kernel process had a 3 GiB address-space limit; each stage
+had a 60-second deadline. The
+{download}`qualification ledger <../coverage/micromath-lra.json>` records exact
+hashes, commands, initial infrastructure failures and artifacts.
+
+This qualifies the small version-2 LRA set, not the real benchmark corpus or
+arbitrary preprocessing output. Conflict variables must be original source
+Real variables; surviving exporter auxiliaries or unsupported source syntax
+can prevent a refutation. The [version-3 integer format](qf-lia-certificates.md)
+is outside this workflow and qualification.

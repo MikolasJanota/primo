@@ -1,0 +1,322 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-06",
+  "status": "Small-source LRA Micromath qualification passed: 12 native saved certificates plus three positive controls verified, three negative controls rejected.",
+  "scope": "Version-2 LRA starter inputs and authored controls only; no real-corpus, version-3 LIA, whole-checker correctness or performance claim.",
+  "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+  "micromath_repository": "https://git.olsak.net/mirek/Micromath.git",
+  "primary_documentation": "https://git.olsak.net/mirek/Micromath/src/commit/5f22700410c0e37044c03557dbd21e009303b7ba/smt/LRA.md",
+  "upstream_LRA_md_sha256": "3e2acaf22b657a70c85dab5e1bca30fd068dab11d73f13150d9a049fd60a6c0e",
+  "primo_workflow_parent_git": "442f6796",
+  "saved_certificate_producer_git": "e910cfdec073e0d3ba937fe9d95e6669e0eb7359",
+  "prepared_native_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "native_code_changed": false,
+  "bundle_manifest": "benchmarks/checker-regressions/lra-starter-20261104/manifest.json",
+  "bundle_manifest_sha256": "e67e9f6f7dc0fe1f78056f6d3f857341522dd59bb9b983fc61d9cfb88caa9702",
+  "archive_policy": "Original bundle files and archive remain unchanged; new controls are derived into the result directory by the committed workflow.",
+  "jobs": {
+    "initial_missing_C_headers": "357141",
+    "qualified_external_build_and_initial_harness_error": "357142",
+    "successful_replay": "357143"
+  },
+  "job_states": {
+    "357141": "FAILED,2:0,1s: compute node lacked standard C headers; fixed with provisioned C include roots",
+    "357142": "FAILED,1:0,24s: external build completed; first producer/kernel pipeline could not start because optional /usr/bin/time was missing. Removed timer dependency.",
+    "357143": "COMPLETED,0:0,8s, node-02"
+  },
+  "allocation": {
+    "cpus": 2,
+    "memory_gib": 8,
+    "wall_minutes": 30
+  },
+  "limits": {
+    "stage_seconds": 60,
+    "process_address_bytes": 3221225472,
+    "process_file_bytes": 268435456
+  },
+  "proof_transport": "prove-lra stdout --raw into independent check-solution stdin; no raw proof files",
+  "commands": {
+    "build": "make -C \"$MICROMATH_DIR\" -j2 CPPFLAGS=\"-I. -Isat -I$PRIMO_WORKDIR/contrib/local/include\" LDFLAGS=\"-L$PRIMO_WORKDIR/contrib/local/lib\" build-axioms smt/build-lra-challenge smt/prove-lra print-dump check-solution; C_INCLUDE_PATH derived from matching provisioned header manifest",
+    "replay": "python3 scripts/replay_micromath_lra.py --micromath \"$MICROMATH_DIR\" --micromath-git 5f22700410c0e37044c03557dbd21e009303b7ba --bundle \"$BUNDLE\" --cadical \"$CADICAL\" --stage-seconds 60 --out \"$FRESH_OUTPUT\"",
+    "challenge": "build-lra-challenge AXIOMS ORIGINAL_SMT2 CHALLENGE",
+    "proof": "prove-lra CHALLENGE CERTIFICATE - --raw --cadical CADICAL [--save THEORY] | check-solution CHALLENGE -",
+    "success_rule": "both producer/kernel exit zero; exact challenge proven line; no Inconsistency proven! line; timeout/error overrides output"
+  },
+  "counts": {
+    "verified": 15,
+    "expected_rejection": 3,
+    "native_cases": 12,
+    "positive_controls": 3,
+    "negative_controls": 3,
+    "timeout": 0,
+    "unexpected_error": 0,
+    "crash": 0,
+    "invalid_accepted": 0
+  },
+  "workflow_sha256": {
+    "replay_micromath_lra.py": "3ac99e5b8715305c39b001b0614ebe6e7037508be03c2b485e769f479315d5fb",
+    "slurm_micromath_lra_check.sbatch": "2dac3c4d0fcf5096e5180efe32c7c143bd95ba1b139d56746ee6825a0ee12e0e",
+    "micromath_stress.py": "69d5b794a134084a1ae5eb2db3fb667233746b3f1496188e7b0a0e0cff4887e0",
+    "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+  },
+  "binary_sha256": {
+    "build-axioms": "c53a0c2b9652ca083de003a9e716f68adeb00f2d87c35e386d1553d2a185e7cb",
+    "smt/build-lra-challenge": "b153b370082947e007f05f426bb3b31fe952b3222051de211b75a5e2638ed7ab",
+    "smt/prove-lra": "66d813e34919c351b268451aa33bc149d0874257936be09f56c84add477a204a",
+    "check-solution": "6daf342d16c1455fa6f3023e3ca1c3f7929fba95b070fd3afdd37b15ac26a3ad"
+  },
+  "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+  "rows": [
+    {
+      "name": "00-boolean",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "6de438f4bf2d8e6f8da47ae531f024a4465b92b0fd97f74c2858455c2ad58cd9",
+      "certificate_sha256": "2b6c1984d4bde2401bddf44b7e8e68fb8a84b22d5af4862c0c8e3acc1abd6290",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "01-weak-gap",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "73ce2d1119ea600a8fd9971dfdf5d644467a3387cee9b90f69bea55551db5787",
+      "certificate_sha256": "4e458a1b78a03d3420682db427977d845c395cfe64baa02204aac217d9f7f11a",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "02-strict-boundary",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "979fef18d0431aba6de45031549d8a194533091aed2de7b02d1e71dabb77714e",
+      "certificate_sha256": "c3f5c57e9ff841624bfd4298e5a449ba58c379f70c5145ddbb2b81521c05f7c3",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "03-three-premises",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "985b739b38a1c76bc25d2a97fe2233e501f6a804e6cb723c95120a51c5ec5a67",
+      "certificate_sha256": "db2960b954228028f140a102e791209a3806dd01ca1712a589af13c33dce99be",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "04-scaling",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "96b96b431e11e84e0c77466a1161b0e907c02b7ea212663d86bfe87dcff4dfa3",
+      "certificate_sha256": "ab88d65ee0d862691c74f364d83b23f6eeecffac869a2a18219fe9057f5870b5",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "05-rational-weight",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "7ce04e2d183daa379a2c5b2b98fa304a1595d9fc6c548a09bb0ecbf181c46616",
+      "certificate_sha256": "5a036c86fc803692bc30af48483520e8e0523c4f11a46d5e5f8939162edf1063",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "06-rational-input",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "d6868142f2faf041da2bbb6e3b0827e36c59f3f0a273d80bbbf93bc2a2209e17",
+      "certificate_sha256": "337abcdeac4e50ab4a2df5fab931d93c7578afa520845a9ba67560bd8bc3d411",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "07-negated-premise",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "120b6b1be8a0a8e10e0006a044426299ad71dd50d9c4d8a838f55903b603de3d",
+      "certificate_sha256": "880463673138ae976c1cd47fbe64b4003b615a03c0f5ae79c81ec107c7eab63a",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "08-boolean-branches",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "d957f35e9152b8302ea7bd572c660ee92df3662255064be2cb3ae8f5b55d8793",
+      "certificate_sha256": "e7194d8540563d1c5c8dbd63165f41dd0eefb69f71bbeda89f2c85db116c87e2",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "09-equality",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "7a6d3e7d1a350912ded73b103bb34e9614762caa0a60fc73f3d1bd6fae266e93",
+      "certificate_sha256": "1745640b2ded540b6b8e562f6ea8838c23ee49e1c1e0ff2a9449077c6c1e8756",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "10-disequality",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "100fa2f5274dd166619cbe3180f1c1fe541a5f1dd50b8da79162816660f7984c",
+      "certificate_sha256": "6f2ada280aace56bc9a2ec6251a963b5fe25188324102634fd300bd7b937b65e",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "11-ite",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "fd2e06b4cd47d5e872d3de361544ba977ccc5bf37a9599288b75925f3528a6b2",
+      "certificate_sha256": "1361835f5c695c7e838ba218e5dc576e5bc4f3c197320121b7dc9d544f60dcf7",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "accept-zero-weight",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "b376d899334ef7c89b9758588e8b10292137626883ea5978919e71c609d93f56",
+      "certificate_sha256": "b82da2c9f4cb3acc93beb2fa8aa8346ebe625ef8a367883f11a075438ba5c1ee",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "reject-zeroed-weight",
+      "expected": "reject",
+      "status": "expected_rejection",
+      "source_sha256": "73ce2d1119ea600a8fd9971dfdf5d644467a3387cee9b90f69bea55551db5787",
+      "certificate_sha256": "38e82ac7abc87b7cc6a526e2de2a81f15f3f1cc6db357d69340b7447f6e2271d",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "kernel_result": "invalid solution",
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/benchmarks/checker-regressions/lra-starter-20261104/controls/reject-zeroed-weight.sexp:6: weighted variables do not cancel\n"
+    },
+    {
+      "name": "reject-lost-strictness",
+      "expected": "reject",
+      "status": "expected_rejection",
+      "source_sha256": "979fef18d0431aba6de45031549d8a194533091aed2de7b02d1e71dabb77714e",
+      "certificate_sha256": "bec42702437e5f6b60d6de71a06c9667523da541d425cb5e607235a7df46ab05",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "kernel_result": "invalid solution",
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/benchmarks/checker-regressions/lra-starter-20261104/controls/reject-lost-strictness.sexp:6: weighted sum is not a contradiction (strictness requires positive weight)\n"
+    },
+    {
+      "name": "accept-empty-producer-cnf",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "73ce2d1119ea600a8fd9971dfdf5d644467a3387cee9b90f69bea55551db5787",
+      "certificate_sha256": "792d03824cda1459d1641d47b82a8943e59311e6666b180d1d8533a37f6adb9f",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    },
+    {
+      "name": "reject-satisfiable-source",
+      "expected": "reject",
+      "status": "expected_rejection",
+      "source_sha256": "b6a7ae90cca75e381eeeb5ea58f3385c0f3705063689f2d93a710b20240bc833",
+      "certificate_sha256": "4e458a1b78a03d3420682db427977d845c395cfe64baa02204aac217d9f7f11a",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "kernel_result": "invalid solution",
+      "producer_diagnostic": "s SATISFIABLE\nLRA proof failed: the supplied conflicts do not yield a propositional refutation, or CaDiCaL failed.\n"
+    },
+    {
+      "name": "reuse-saved-theory",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "7ce04e2d183daa379a2c5b2b98fa304a1595d9fc6c548a09bb0ecbf181c46616",
+      "certificate_sha256": "5a036c86fc803692bc30af48483520e8e0523c4f11a46d5e5f8939162edf1063",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven",
+      "producer_diagnostic": null
+    }
+  ],
+  "trust_and_limits": [
+    "Input SMT-LIB-to-Micromath statement translation remains trusted; rational encoding of this finite linear-real fragment is justified mathematically, not a formal real-number construction.",
+    "Micromath proves its own source/Boolean conversion; this does not verify Primo preprocessing or establish equivalence to the producer CNF.",
+    "No new arithmetic conflicts are searched for by this proving route; source syntax, variables or preprocessing mismatches can prevent a refutation.",
+    "Producer and kernel stream through a pipe; raw proof files are not retained. Challenges, logs, exit codes and input hashes are retained.",
+    "Upstream source was not patched or reviewed as part of this compatibility check."
+  ],
+  "artifacts": {
+    "local": "results/micromath-lra-qualification",
+    "remote_relative": "results/micromath-lra-357143",
+    "exact_stage_commands": "replay/summary.json",
+    "compiled_build": "results/micromath-lra-357142/build.log",
+    "initial_failures": [
+      "results/micromath-lra-357141",
+      "results/micromath-lra-357142"
+    ]
+  }
+}

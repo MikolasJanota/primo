@@ -3,8 +3,9 @@
 **Status: experimental implementation with bounded SLURM qualification.**
 The [version-2 reference](../reference/qf-lra-certificates.md) describes the
 implemented producer and independent arithmetic validator. This page retains
-the design argument and acceptance criteria; source-to-CNF proof and external
-proof-language translation remain unimplemented.
+the design argument and acceptance criteria. Primo emits no source-to-CNF
+conversion proof; the separate [Micromath source-based route](../reference/qf-lra-certificates.md#micromath-verification-from-the-original-source)
+now supplies externally kernel-checked proofs for the qualified small LRA set.
 Extend the [single-query CNF/conflict format](../reference/qf-uf-conflicts.md)
 with arithmetic conflicts carrying exact rational multipliers. The objective
 is an independently checkable artifact with a small arithmetic inference rule,
@@ -331,8 +332,11 @@ main UNSAT. Direct weight capture in the main solver remains a later option
 if measurements show that reconstruction dominates.
 
 An external checker should compute the weighted combination directly. A future
-translator may elaborate it into CPC scaling, summation and normalization steps,
-but no such translator or CPC/Micromath LRA compatibility is claimed here.
+CPC translator may elaborate it into scaling, summation and normalization steps;
+no CPC translator is implemented. The separate
+[Micromath route](../reference/qf-lra-certificates.md#micromath-verification-from-the-original-source)
+now checks a bounded version-2 LRA set against statements built from the original
+SMT-LIB, independently of the producer CNF.
 Pin the inference semantics/version independently of any checker binary.
 
 ## Implementation checklist and acceptance criteria
@@ -367,8 +371,8 @@ Before describing an LRA exporter as implemented:
    native, sanitizer and fresh fuzz gates on the implemented revision, followed
    by bounded SLURM certificate replays on known-solved real LRA benchmarks.
 
-The certified starting point remains the exported CNF. This extension does not
-prove the original SMT script's preprocessing or clausification, solve LIA,
+The producer artifact alone starts from the exported CNF. It does not
+prove Primo's preprocessing or clausification, solve LIA,
 verify an entire checker, or introduce incremental certification.
 
 Implement in reviewable milestones: first the independent version-2 arithmetic
@@ -392,6 +396,7 @@ above are our proposal, not CPC
 syntax or a claim that CPC's whole arithmetic calculus is implemented.
 The existing QF_UF/version-1 export retains its format. The version-2 producer,
 arithmetic validator and selected witness export are implemented with bounded
-qualification; optional proof-language translation is unimplemented. Motzkin's theorem is a
+qualification. Primo has no proof-language emitter; the external Micromath
+workflow and its bounded coverage are documented separately. Motzkin's theorem is a
 mathematical basis for witness reconstruction, not a claim to implement
 Leike–Heizmann's synthesis procedure or an optimized LP algorithm from that paper.

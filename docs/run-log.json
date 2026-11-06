@@ -3,6 +3,79 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-06-micromath-lra-source-kernel-check",
+      "date": "2026-11-06",
+      "kind": "bounded-external-source-LRA-proof-compatibility",
+      "commit": "442f6796",
+      "workflow_provenance": "Qualification commit adds only Python/sbatch orchestration and documentation; Primo C++ remains unchanged. Saved producer bytes come from e910cfde. Executed workflow hashes are in manifest.",
+      "evidence_status": "Small-source LRA Micromath qualification passed: 12 native saved certificates plus three positive controls verified, three negative controls rejected.",
+      "manifest": "docs/coverage/micromath-lra.json",
+      "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+      "producer_git": "e910cfdec073e0d3ba937fe9d95e6669e0eb7359",
+      "jobs": {
+        "initial_missing_C_headers": "357141",
+        "qualified_external_build_and_initial_harness_error": "357142",
+        "successful_replay": "357143"
+      },
+      "job_states": {
+        "357141": "FAILED,2:0,1s: compute node lacked standard C headers; fixed with provisioned C include roots",
+        "357142": "FAILED,1:0,24s: external build completed; first producer/kernel pipeline could not start because optional /usr/bin/time was missing. Removed timer dependency.",
+        "357143": "COMPLETED,0:0,8s, node-02"
+      },
+      "commands": {
+        "build": "make -C \"$MICROMATH_DIR\" -j2 CPPFLAGS=\"-I. -Isat -I$PRIMO_WORKDIR/contrib/local/include\" LDFLAGS=\"-L$PRIMO_WORKDIR/contrib/local/lib\" build-axioms smt/build-lra-challenge smt/prove-lra print-dump check-solution; C_INCLUDE_PATH derived from matching provisioned header manifest",
+        "replay": "python3 scripts/replay_micromath_lra.py --micromath \"$MICROMATH_DIR\" --micromath-git 5f22700410c0e37044c03557dbd21e009303b7ba --bundle \"$BUNDLE\" --cadical \"$CADICAL\" --stage-seconds 60 --out \"$FRESH_OUTPUT\"",
+        "challenge": "build-lra-challenge AXIOMS ORIGINAL_SMT2 CHALLENGE",
+        "proof": "prove-lra CHALLENGE CERTIFICATE - --raw --cadical CADICAL [--save THEORY] | check-solution CHALLENGE -",
+        "success_rule": "both producer/kernel exit zero; exact challenge proven line; no Inconsistency proven! line; timeout/error overrides output"
+      },
+      "allocation": {
+        "cpus": 2,
+        "memory_gib": 8,
+        "wall_minutes": 30
+      },
+      "limits": {
+        "stage_seconds": 60,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "counts": {
+        "verified": 15,
+        "expected_rejection": 3,
+        "native_cases": 12,
+        "positive_controls": 3,
+        "negative_controls": 3,
+        "timeout": 0,
+        "unexpected_error": 0,
+        "crash": 0,
+        "invalid_accepted": 0
+      },
+      "workflow_sha256": {
+        "replay_micromath_lra.py": "3ac99e5b8715305c39b001b0614ebe6e7037508be03c2b485e769f479315d5fb",
+        "slurm_micromath_lra_check.sbatch": "2dac3c4d0fcf5096e5180efe32c7c143bd95ba1b139d56746ee6825a0ee12e0e",
+        "micromath_stress.py": "69d5b794a134084a1ae5eb2db3fb667233746b3f1496188e7b0a0e0cff4887e0",
+        "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+      },
+      "binary_sha256": {
+        "build-axioms": "c53a0c2b9652ca083de003a9e716f68adeb00f2d87c35e386d1553d2a185e7cb",
+        "smt/build-lra-challenge": "b153b370082947e007f05f426bb3b31fe952b3222051de211b75a5e2638ed7ab",
+        "smt/prove-lra": "66d813e34919c351b268451aa33bc149d0874257936be09f56c84add477a204a",
+        "check-solution": "6daf342d16c1455fa6f3023e3ca1c3f7929fba95b070fd3afdd37b15ac26a3ad"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "scope": "Version-2 LRA starter inputs and authored controls only; no real-corpus, version-3 LIA, whole-checker correctness or performance claim.",
+      "artifacts": {
+        "local": "results/micromath-lra-qualification",
+        "remote_relative": "results/micromath-lra-357143",
+        "exact_stage_commands": "replay/summary.json",
+        "compiled_build": "results/micromath-lra-357142/build.log",
+        "initial_failures": [
+          "results/micromath-lra-357141",
+          "results/micromath-lra-357142"
+        ]
+      }
+    },
+    {
       "id": "2026-11-05-qf-lia-integer-certificate-export",
       "date": "2026-11-05",
       "kind": "bounded-experimental-single-query-LIA-certificate-qualification",
