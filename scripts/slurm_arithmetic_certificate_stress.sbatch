@@ -41,15 +41,20 @@ git -C "$checker" rev-parse HEAD > "$artifacts/micromath-git.txt"
 grep -Fx "$checker_git" "$artifacts/micromath-git.txt"
 test -z "$(git -C "$checker" status --porcelain --untracked-files=no)"
 sha256sum "$checker/smt/$arithmetic.md" > "$artifacts/upstream-doc.sha256"
-sha256sum "$ARITHMETIC_WORKFLOW_DIR/"{arithmetic_certificate_stress.py,slurm_arithmetic_certificate_stress.sbatch,micromath_stress.py,replay_micromath_lra.py,select_micromath_fast_cases.py,check_lra_certificate.py} > "$artifacts/workflow.sha256"
+sha256sum "$ARITHMETIC_WORKFLOW_DIR/"{arithmetic_certificate_stress.py,certificate_cnf_statement.py,slurm_arithmetic_certificate_stress.sbatch,micromath_stress.py,replay_micromath_lra.py,select_micromath_fast_cases.py,check_lra_certificate.py} > "$artifacts/workflow.sha256"
 lscpu > "$artifacts/cpu.txt"
 python3 --version > "$artifacts/python.txt"
+selection=()
+if [[ -n ${ARITHMETIC_SELECTION_ROOT:-} ]]; then
+  selection=(--selection "$ARITHMETIC_SELECTION_ROOT/$logic.json")
+fi
 python3 "$ARITHMETIC_WORKFLOW_DIR/arithmetic_certificate_stress.py" \
   --logic "$logic" --history "$ARITHMETIC_HISTORY_ROOT/$logic/primo" \
   --historical-git 5efbd02293e15a53fbaad748ceda78bc7d27bbac --corpus "$corpus" \
   --solver "$PWD/build-slurm-rel/primo" --reference "$PWD/contrib/local/bin/z3" \
   --cadical "$PRIMO_SAT_SOLVER" --micromath "$checker" --micromath-git "$checker_git" \
   --count "${ARITHMETIC_STRESS_COUNT:-24}" --max-per-family 3 \
+  --statement-source "${ARITHMETIC_STATEMENT_SOURCE:-exported-cnf}" "${selection[@]}" \
   --reference-seconds 15 --export-seconds 30 --challenge-seconds 30 --proof-seconds 60 \
   --out "$artifacts/run" > "$artifacts/run.log" 2>&1
 printf '%s\n' 'pilot finished; inspect summary counts, not this process status, for proof success' > "$artifacts/FINISHED"

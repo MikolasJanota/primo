@@ -1,0 +1,10 @@
+(set-logic QF_LIA)
+(declare-fun p () Bool)
+(declare-fun q () Bool)
+(declare-fun x () Int)
+(declare-fun y () Int)
+(declare-fun z () Int)
+; Shared nested arithmetic ITEs must survive as fresh lowering variables.
+(assert (<= (ite p (ite q (+ x 1) y) z) 0))
+(assert (> (ite p (ite q (+ x 1) y) z) 1))
+(check-sat)

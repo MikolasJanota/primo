@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""Bounded CORE/source/kernel stress pilot on recorded-fast arithmetic UNSAT inputs."""
+"""Bounded CORE/kernel stress pilot on recorded-fast arithmetic UNSAT inputs."""
 
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import platform
 import re
 import shutil
+import sys
 import time
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -17,6 +19,10 @@ from replay_micromath_lra import PIPE
 from select_micromath_fast_cases import DECLARATION, read_history
 
 TIERS = ((4096, 32768), (32768, 131072), (131072, 524289))
+
+
+class StageFailure(RuntimeError):
+    """An anticipated external stage failure that must not skip checkpointing."""
 
 
 def excerpt(path):
@@ -138,6 +144,14 @@ def main():
         "out",
     ):
         parser.add_argument(f"--{flag}", type=Path, required=True)
+    parser.add_argument(
+        "--selection", type=Path, help="reuse an explicit, hash-pinned selection JSON"
+    )
+    parser.add_argument(
+        "--statement-source",
+        choices=("exported-cnf", "original"),
+        default="exported-cnf",
+    )
     parser.add_argument("--historical-git", required=True)
     parser.add_argument("--micromath-git", required=True)
     parser.add_argument("--count", type=int, default=24)
@@ -160,12 +174,20 @@ def main():
     ):
         setattr(args, key, getattr(args, key).resolve())
     args.out.mkdir(parents=True, exist_ok=False)
-    selection = select_cases(
-        read_history(args.history, args.historical_git, 1),
-        args.corpus,
-        args.count,
-        args.max_per_family,
+    selection = (
+        json.loads(args.selection.read_text())
+        if args.selection
+        else select_cases(
+            read_history(args.history, args.historical_git, 1),
+            args.corpus,
+            args.count,
+            args.max_per_family,
+        )
     )
+    for case in selection["cases"]:
+        relative = Path(case["file"])
+        if relative.is_absolute() or ".." in relative.parts:
+            parser.error("unsafe selection path")
     write_json(args.out / "selection.json", selection)
     arithmetic = "lia" if args.logic == "QF_LIA" else "lra"
     rows = []
@@ -174,7 +196,9 @@ def main():
         "host": platform.node(),
         "logic": args.logic,
         "micromath_git": args.micromath_git,
-        "requested": args.count,
+        "requested": len(selection["cases"]),
+        "statement_source": args.statement_source,
+        "source_to_cnf_verified": False,
         "limits": {
             "reference": args.reference_seconds,
             "export": args.export_seconds,
@@ -184,7 +208,7 @@ def main():
             "process_file_bytes": 268435456,
         },
         "native_profile": "recorded default preprocessing plus CORE export",
-        "proof_transport": "--raw stdout pipe; original source statement; no raw proof files",
+        "proof_transport": "--raw stdout pipe; no raw proof files",
         "rows": rows,
         "workflow_sha256": digest(Path(__file__)),
         "binary_sha256": {
@@ -266,71 +290,114 @@ def main():
             elif answer != ["unsat"]:
                 row["status"] = "reference_disagreement"
             else:
-                challenge = directory / "challenge.umd"
-                build = bounded(
+                certificate = directory / "native.sexp"
+                export = bounded(
                     [
-                        args.micromath / f"smt/build-{arithmetic}-challenge",
-                        axioms,
+                        args.solver,
+                        "--quiet",
+                        "--stats",
+                        "--export-cnf",
+                        certificate,
+                        "--export-cnf-reduction=core",
                         source,
-                        challenge,
                     ],
-                    directory / "challenge",
-                    args.challenge_seconds,
-                    args.micromath,
+                    directory / "export",
+                    args.export_seconds,
                 )
-                row["stages"]["challenge"] = build
-                if build["state"] != "ok":
-                    row["status"] = "challenge_" + build["state"]
-                else:
-                    certificate = directory / "native.sexp"
-                    export = bounded(
-                        [
-                            args.solver,
-                            "--quiet",
-                            "--stats",
-                            "--export-cnf",
-                            certificate,
-                            "--export-cnf-reduction=core",
-                            source,
-                        ],
-                        directory / "export",
-                        args.export_seconds,
+                row["stages"]["export"] = export
+                output = excerpt(export["stdout"])
+                native_answers = [
+                    line
+                    for line in output.splitlines()
+                    if line in ("sat", "unsat", "unknown")
+                ]
+                stats = excerpt(export["stderr"])
+                row["export_statistics"] = {
+                    key: int(value)
+                    for key, value in re.findall(
+                        r"(?m)^(:export\.[\w.-]+) (\d+)$", stats
                     )
-                    row["stages"]["export"] = export
-                    output = excerpt(export["stdout"])
-                    native_answers = [
-                        line
-                        for line in output.splitlines()
-                        if line in ("sat", "unsat", "unknown")
-                    ]
-                    stats = excerpt(export["stderr"])
-                    row["export_statistics"] = {
-                        key: int(value)
-                        for key, value in re.findall(
-                            r"(?m)^(:export\.[\w.-]+) (\d+)$", stats
-                        )
-                    }
-                    if export["state"] != "ok":
-                        row["status"] = "export_" + export["state"]
-                    elif native_answers == ["sat"]:
-                        row["status"] = "wrong_answer"
-                    elif native_answers != ["unsat"]:
-                        row["status"] = (
-                            "reconstruction_incomplete"
-                            if row["export_statistics"].get(":export.main-unsat") == 1
-                            else "main_inconclusive"
-                        )
-                    elif not certificate.is_file():
-                        row["status"] = "missing_certificate"
-                    else:
-                        row["native_certificate_bytes"] = certificate.stat().st_size
-                        row["native_certificate_sha256"] = digest(certificate)
-                        proof_input = certificate
-                        if arithmetic == "lia":
-                            proof_input = directory / "micromath-v2.sexp"
-                            row["header_copy"] = lia_header_copy(
-                                certificate, proof_input
+                }
+                if export["state"] != "ok":
+                    row["status"] = "export_" + export["state"]
+                elif native_answers == ["sat"]:
+                    row["status"] = "wrong_answer"
+                elif native_answers != ["unsat"]:
+                    row["status"] = (
+                        "reconstruction_incomplete"
+                        if row["export_statistics"].get(":export.main-unsat") == 1
+                        else "main_inconclusive"
+                    )
+                elif not certificate.is_file():
+                    row["status"] = "missing_certificate"
+                else:
+                    row["native_certificate_bytes"] = certificate.stat().st_size
+                    row["native_certificate_sha256"] = digest(certificate)
+                    if case.get("require_ite_conflict"):
+                        declarations = 0
+                        in_conflicts = False
+                        uses_ite = False
+                        with certificate.open() as stream:
+                            for line in stream:
+                                declarations += "(declare-fun $primo_ite_" in line
+                                in_conflicts = in_conflicts or "  (conflicts" in line
+                                uses_ite = (
+                                    uses_ite or in_conflicts and "$primo_ite_" in line
+                                )
+                        row["ite_regression"] = {
+                            "declarations": declarations,
+                            "conflict_uses_auxiliary": uses_ite,
+                        }
+                        if declarations < 2 or not uses_ite:
+                            raise ValueError(
+                                "nested/shared ITE regression did not retain auxiliary conflicts"
                             )
+                    proof_input = certificate
+                    if arithmetic == "lia":
+                        proof_input = directory / "micromath-v2.sexp"
+                        row["header_copy"] = lia_header_copy(certificate, proof_input)
+                    statement = source
+                    if args.statement_source == "exported-cnf":
+                        statement = directory / "exported-cnf.smt2"
+                        conversion = bounded(
+                            [
+                                sys.executable,
+                                Path(__file__).with_name(
+                                    "certificate_cnf_statement.py"
+                                ),
+                                certificate,
+                                statement,
+                                "--logic",
+                                args.logic,
+                            ],
+                            directory / "statement",
+                            args.challenge_seconds,
+                        )
+                        row["stages"]["statement"] = conversion
+                        if conversion["state"] != "ok":
+                            raise StageFailure("statement_" + conversion["state"])
+                    row["statement"] = {
+                        "source": args.statement_source,
+                        "file": statement.name,
+                        "sha256": digest(statement),
+                        "bytes": statement.stat().st_size,
+                    }
+                    challenge = directory / "challenge.umd"
+                    build = bounded(
+                        [
+                            args.micromath / f"smt/build-{arithmetic}-challenge",
+                            axioms,
+                            statement,
+                            challenge,
+                        ],
+                        directory / "challenge",
+                        args.challenge_seconds,
+                        args.micromath,
+                    )
+                    row["stages"]["challenge"] = build
+                    if build["state"] != "ok":
+                        row["status"] = "challenge_" + build["state"]
+                    else:
                         pipe = directory / "pipe"
                         pipe.mkdir()
                         proof = invoke(
@@ -379,13 +446,19 @@ def main():
                             and all(code in (0, 1, 2) for code in codes)
                             and "s SATISFIABLE" in producer.splitlines()
                         ):
-                            row["status"] = "source_refutation_missing"
+                            row["status"] = (
+                                "source_refutation_missing"
+                                if args.statement_source == "original"
+                                else "exported_cnf_refutation_missing"
+                            )
                         elif any(code == 153 for code in codes):
                             row["status"] = "proof_file_limit"
                         elif any(code == 137 for code in codes):
                             row["status"] = "proof_killed"
                         else:
                             row["status"] = "proof_error"
+        except StageFailure as error:
+            row["status"] = str(error)
         except (OSError, ValueError) as error:
             row["status"] = "workflow_error"
             row["error"] = str(error)
