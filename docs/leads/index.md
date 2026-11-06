@@ -12,6 +12,9 @@ integer choices with broader SMT and integer-programming symmetry research.
 The [search-diversification lead](search-diversification.md) covers restarts
 and phase resets inside the DPLL(T) loop; the [portfolio lead](portfolio.md)
 is the separate project of time-slicing whole configurations.
+The [active arithmetic-equality lead](arithmetic-equality-exploitation.md)
+separates the two-bound encoding from equation-specific reasoning and delivery
+of equalities to EUF; its effect on QF_UFLIA remains unmeasured.
 This register also accounts for the remaining numbered entries in the
 {source}`original register <docs/open-leads.md>`. Their full dated reasoning,
 negative results and evidence remain preserved; current dispositions follow.

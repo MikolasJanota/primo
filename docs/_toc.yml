@@ -75,6 +75,7 @@ parts:
       - file: leads/arithmetic-symmetry
       - file: leads/lra-floating-point
       - file: leads/lra-equality-basis
+      - file: leads/arithmetic-equality-exploitation
       - file: leads/lra-column-coefficients
       - file: leads/lia-extended-gcd
       - file: leads/lia-patching
