@@ -44,6 +44,106 @@ def text(path):
     return path.read_text(errors="replace") if path.exists() else ""
 
 
+def bounded(args, command, log):
+    return invoke(
+        ["prlimit", "--as=3221225472", "--fsize=268435456", "--", *command],
+        args.micromath,
+        log,
+        args.stage_seconds,
+    )
+
+
+def replay_case(
+    args,
+    axioms,
+    rows,
+    checkpoint,
+    name,
+    source,
+    certificate,
+    expected="accept",
+    theory=None,
+    save=None,
+    arithmetic="lra",
+):
+    directory = args.out / name
+    directory.mkdir()
+    challenge = directory / "challenge.umd"
+    row = {
+        "name": name,
+        "expected": expected,
+        "status": "not_started",
+        "source": str(source),
+        "source_sha256": digest(source),
+        "certificate": str(certificate),
+        "certificate_sha256": digest(certificate),
+    }
+    row["challenge"] = bounded(
+        args,
+        [
+            str(args.micromath / f"smt/build-{arithmetic}-challenge"),
+            str(theory or axioms),
+            str(source),
+            str(challenge),
+        ],
+        directory / "challenge-build",
+    )
+    if row["challenge"]["state"] != "ok":
+        row["status"] = "challenge_" + row["challenge"]["state"]
+    else:
+        pipe_dir = directory / "pipe"
+        pipe_dir.mkdir()
+        row["proof"] = invoke(
+            [
+                "bash",
+                "-c",
+                PIPE,
+                f"micromath-{arithmetic}-pipe",
+                str(args.micromath / f"smt/prove-{arithmetic}"),
+                str(challenge),
+                str(certificate),
+                str(args.cadical),
+                str(args.micromath / "check-solution"),
+                str(pipe_dir),
+                str(save) if save else "",
+            ],
+            args.micromath,
+            directory / "pipeline",
+            args.stage_seconds,
+        )
+        codes = [int(x) for x in text(pipe_dir / "exit-status.txt").split()]
+        row["pipeline_exit_codes"] = codes
+        proven = "challenge proven" in text(pipe_dir / "kernel.out").splitlines()
+        inconsistent = (
+            "Inconsistency proven!" in text(pipe_dir / "kernel.out").splitlines()
+        )
+        if row["proof"]["state"] == "timeout":
+            row["status"] = "timeout"
+        elif expected == "accept":
+            row["status"] = (
+                "verified"
+                if row["proof"]["state"] == "ok"
+                and codes == [0, 0]
+                and proven
+                and not inconsistent
+                else "error"
+            )
+        elif proven or inconsistent:
+            row["status"] = "invalid_accepted"
+        else:
+            # A crash, resource kill, or missing executable is not a valid rejection.
+            rejected = (
+                len(codes) == 2
+                and all(code in (0, 1, 2) for code in codes)
+                and (codes[0] in (1, 2) or codes[0] == 0 and codes[1] in (1, 2))
+            )
+            row["status"] = "expected_rejection" if rejected else "error"
+    rows.append(row)
+    checkpoint()
+    if row["status"] not in ("verified", "expected_rejection"):
+        raise SystemExit(1)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for flag in ("micromath", "bundle", "cadical", "out"):
@@ -88,16 +188,9 @@ def main():
         report["counts"] = dict(Counter(row["status"] for row in rows))
         write_json(args.out / "summary.json", report)
 
-    def bounded(command, log):
-        return invoke(
-            ["prlimit", "--as=3221225472", "--fsize=268435456", "--", *command],
-            args.micromath,
-            log,
-            args.stage_seconds,
-        )
-
     axioms = args.out / "axioms.umd"
     report["axioms"] = bounded(
+        args,
         [str(args.micromath / "build-axioms"), "--fragment", "finitary", str(axioms)],
         args.out / "axioms",
     )
@@ -106,79 +199,18 @@ def main():
         raise SystemExit(1)
 
     def replay(name, source, certificate, expected="accept", theory=None, save=None):
-        directory = args.out / name
-        directory.mkdir()
-        challenge = directory / "challenge.umd"
-        row = {
-            "name": name,
-            "expected": expected,
-            "status": "not_started",
-            "source": str(source),
-            "source_sha256": digest(source),
-            "certificate": str(certificate),
-            "certificate_sha256": digest(certificate),
-        }
-        row["challenge"] = bounded(
-            [
-                str(args.micromath / "smt/build-lra-challenge"),
-                str(theory or axioms),
-                str(source),
-                str(challenge),
-            ],
-            directory / "challenge-build",
+        replay_case(
+            args,
+            axioms,
+            rows,
+            checkpoint,
+            name,
+            source,
+            certificate,
+            expected,
+            theory,
+            save,
         )
-        if row["challenge"]["state"] != "ok":
-            row["status"] = "challenge_" + row["challenge"]["state"]
-        else:
-            pipe_dir = directory / "pipe"
-            pipe_dir.mkdir()
-            row["proof"] = invoke(
-                [
-                    "bash",
-                    "-c",
-                    PIPE,
-                    "micromath-lra-pipe",
-                    str(args.micromath / "smt/prove-lra"),
-                    str(challenge),
-                    str(certificate),
-                    str(args.cadical),
-                    str(args.micromath / "check-solution"),
-                    str(pipe_dir),
-                    str(save) if save else "",
-                ],
-                args.micromath,
-                directory / "pipeline",
-                args.stage_seconds,
-            )
-            codes = [int(x) for x in text(pipe_dir / "exit-status.txt").split()]
-            row["pipeline_exit_codes"] = codes
-            proven = "challenge proven" in text(pipe_dir / "kernel.out").splitlines()
-            inconsistent = (
-                "Inconsistency proven!" in text(pipe_dir / "kernel.out").splitlines()
-            )
-            if row["proof"]["state"] == "timeout":
-                row["status"] = "timeout"
-            elif expected == "accept":
-                row["status"] = (
-                    "verified"
-                    if row["proof"]["state"] == "ok"
-                    and codes == [0, 0]
-                    and proven
-                    and not inconsistent
-                    else "error"
-                )
-            elif proven or inconsistent:
-                row["status"] = "invalid_accepted"
-            else:
-                # A crash, resource kill, or missing executable is not a valid rejection.
-                rejected = len(codes) == 2 and (
-                    codes[0] in (1, 2) or codes[0] == 0 and codes[1] in (1, 2)
-                )
-                row["status"] = "expected_rejection" if rejected else "error"
-        rows.append(row)
-        checkpoint()
-        if row["status"] not in ("verified", "expected_rejection"):
-            raise SystemExit(1)
 
     saved = args.out / "saved-theory.umd"
     for case in manifest["cases"]:
