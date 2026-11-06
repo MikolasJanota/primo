@@ -142,7 +142,9 @@ and Real declarations. Optional external CaDiCaL checking confirms propositional
 UNSAT; this trusts that SAT solver and is not a propositional proof-kernel check.
 Without `--sat-solver`, only syntax and arithmetic are checked. The diagnostic
 checker reads the whole artifact in RAM, unlike the producer's text spools.
-Micromath version-3 translation is not implemented.
+Micromath now implements the integer cut rule; the
+[external route below](#micromath-integer-proofs-and-envelope-compatibility)
+documents its current envelope compatibility requirement.
 
 Native unit coverage includes GCD/negative-bound tightening, the linear-witness
 fast path, an example needing the exact-projection preference, proof pruning,
@@ -165,6 +167,68 @@ premise entries. This is a bounded sample, not full QF_LIA coverage. The
 {download}`qualification ledger <../coverage/lia-certificate-export.json>` records
 seeds, exact workflows, binary hashes, historical input hashes, job outcomes,
 resource limits, timeout reproduction and artifact paths.
+
+## Micromath integer proofs and envelope compatibility
+
+Micromath revision `8f9cff132140462b141183ddb9cb88a9beb80a4f` provides
+[`build-lia-challenge` and `prove-lia`](https://git.olsak.net/mirek/Micromath/src/commit/8f9cff132140462b141183ddb9cb88a9beb80a4f/smt/LIA.md).
+It implements named integer cuts, including exact coefficient division and
+negative floor rounding, and checks the generated proof with its ordinary kernel.
+The statement is built from the original SMT-LIB; the producer CNF is ignored.
+SMT-LIB-to-Micromath statement translation remains trusted.
+
+At this revision the envelope must say `(version 2)`. Our native `(version 3)`
+file is rejected at that header, before arithmetic checking. A compatibility
+copy changes only that single byte: `QF_LIA`, `Int` sorts, premises, coefficients,
+divisors and proof steps remain unchanged. The native artifact remains version 3.
+Bare `conflict-lia` records are also accepted. Micromath requires a nonzero
+weight in each cut; the native producer already meets that condition. Zero
+references in an otherwise nonzero sum are accepted. This is an envelope
+compatibility issue, not a missing integer-cut rule.
+
+From Micromath's root, after building its documented LIA targets:
+
+```bash
+set -o pipefail
+examples=/path/to/primo/docs/examples
+mkdir -p build/primo-lia
+./build-axioms --fragment finitary build/primo-lia/axioms.umd
+./smt/build-lia-challenge build/primo-lia/axioms.umd \
+  "$examples/qf-lia-certificate-proposal.smt2" build/primo-lia/challenge.umd
+# Native printer output puts its version header on line 2.
+sed '2s/(version 3)/(version 2)/' "$examples/qf-lia-certificate-native.sexp" \
+  > build/primo-lia/micromath-v2.sexp
+./smt/prove-lia build/primo-lia/challenge.umd build/primo-lia/micromath-v2.sexp \
+  - --raw --cadical /path/to/cadical | \
+  ./check-solution build/primo-lia/challenge.umd -
+```
+
+Both processes must exit zero and the kernel must print `challenge proven`.
+The byte-for-byte {download}`native artifact <../examples/qf-lia-certificate-native.sexp>`
+needs the explicit header copy shown above; it is not directly accepted by this
+Micromath revision. `--raw` streams executed steps, so a saved proof file is
+unnecessary for the pipeline.
+
+SLURM job `357147` verified six runs of the same original integer problem:
+the native and hand-written proofs with version-2 envelopes, an empty producer
+CNF, a zero-weight reference, a bare conflict, and saved-theory reuse. Five
+negative controls were rejected: an inexact divisor, forward reference, negative
+weight, invalid contradiction reference, and satisfiable replacement source.
+The native version-3 envelope rejection was checked separately. No producer
+payload or native solver code was changed. Job `357148` also repeated all 18
+LRA checks successfully after sharing the replay helper.
+
+The {micromathliasource}`LIA replay workflow <scripts/replay_micromath_lia.py>`
+uses the {micromathliasource}`shared replay helper <scripts/replay_micromath_lra.py#L56>`
+and a {micromathliasource}`SLURM wrapper <scripts/slurm_micromath_lia_check.sbatch>`.
+These are small compatibility checks, not real-corpus coverage. The
+{download}`small replay archive <../../benchmarks/checker-regressions/lia-envelope-20261106/lia-envelope.tar.gz>`
+contains the original source, native and adapted certificates, a guide and
+hashes. The {download}`qualification ledger <../coverage/micromath-lia.json>` records the
+one-byte copies, hashes, commands, limits and logs. Source `div`, `mod`, `/`,
+decimal literals, quantifiers, functions and incremental queries are outside
+the documented Micromath LIA fragment. Existing Primo lowering of such terms
+does not extend the checker's original-source parser.
 
 ## Sources and implementation status
 

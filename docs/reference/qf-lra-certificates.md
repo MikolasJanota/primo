@@ -244,5 +244,5 @@ hashes, commands, initial infrastructure failures and artifacts.
 This qualifies the small version-2 LRA set, not the real benchmark corpus or
 arbitrary preprocessing output. Conflict variables must be original source
 Real variables; surviving exporter auxiliaries or unsupported source syntax
-can prevent a refutation. The [version-3 integer format](qf-lia-certificates.md)
-is outside this workflow and qualification.
+can prevent a refutation. The [integer cut route](qf-lia-certificates.md#micromath-integer-proofs-and-envelope-compatibility)
+has its own tools, envelope requirement and separate qualification.

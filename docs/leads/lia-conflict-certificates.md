@@ -203,3 +203,15 @@ derive a contradiction is inconclusive, never evidence of satisfiability.
   conflicts, incomplete projection, resource limits and interruption. Mutate
   serialized proofs and check them independently using Python integers.
   Record generated steps, pairs, projections, pruned steps and completion.
+
+
+## External kernel replay
+
+Micromath now implements this integer cut rule. Its
+[separate LIA route](../reference/qf-lia-certificates.md#micromath-integer-proofs-and-envelope-compatibility)
+proved the original integer example using both the two-cut native derivation
+and the three-cut hand-written derivation. At the qualified revision, the
+container header must be version 2: compatibility copies change that byte only,
+while native output stays version 3. This does not change the arithmetic rule,
+erase integer sorts, or validate Primo's preprocessing. The recorded checks are
+small examples and controls, not complete QF_LIA coverage.

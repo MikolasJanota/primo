@@ -3,6 +3,111 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-06-micromath-lia-cut-proofs-envelope-compatibility",
+      "date": "2026-11-06",
+      "kind": "bounded-external-source-LIA-kernel-proof-compatibility",
+      "commit": "5987620b",
+      "workflow_provenance": "Qualification commit adds replay orchestration and docs; native C++ and version-3 output are unchanged. Explicit compatibility copies change one header byte only.",
+      "evidence_status": "LIA integer-cut proofs verified with explicitly adapted version-2 envelopes; native version-3 envelope is rejected by the pinned checker.",
+      "manifest": "docs/coverage/micromath-lia.json",
+      "micromath_git": "8f9cff132140462b141183ddb9cb88a9beb80a4f",
+      "producer_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "jobs": {
+        "direct_unmodified_v3": "357144",
+        "compatible_header_and_controls": "357147",
+        "shared_helper_LRA_regression": "357148",
+        "initial_header_compatibility": "357146",
+        "initial_shared_helper_LRA": "357145"
+      },
+      "job_states": {
+        "357144": "FAILED,1:0,20s,node-02: external build completed; first native version-3 certificate rejected at line 2 before arithmetic proof generation.",
+        "357145": "COMPLETED,0:0,8s,node-02: old pinned LRA checker with shared Python helper, 15 proofs and 3 expected rejections.",
+        "357146": "COMPLETED,0:0,4s,node-02: 6 LIA proofs, 5 malformed/source rejections, 1 separate envelope rejection.",
+        "357147": "COMPLETED,0:0,3s,node-02: 6 LIA proofs, 5 malformed/source rejections, 1 separate envelope rejection with hardened guard.",
+        "357148": "COMPLETED,0:0,7s,node-02: LRA regression with hardened guard, 15 proofs and 3 expected rejections."
+      },
+      "scope": "One original integer problem, its native two-cut proof, authored three-cut proof and controls. No real-corpus, complete-v3 grammar, checker soundness audit or solver performance claim.",
+      "allocation": {
+        "cpus": 2,
+        "memory_gib": 8,
+        "wall_minutes": 30
+      },
+      "limits": {
+        "stage_seconds": 60,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "counts": {
+        "expected_envelope_rejection": 1,
+        "verified": 6,
+        "expected_rejection": 5,
+        "original_source_problems": 1,
+        "positive_runs": 6,
+        "invalid_cut_or_source_controls": 5,
+        "envelope_controls": 1,
+        "timeout": 0,
+        "unexpected_error": 0,
+        "crash": 0,
+        "invalid_accepted": 0
+      },
+      "commands": {
+        "build": "make build-axioms smt/build-lia-challenge smt/prove-lia print-dump check-solution (GMP/header flags in batch wrapper)",
+        "replay": "python3 scripts/replay_micromath_lia.py --micromath \"$MICROMATH_DIR\" --micromath-git 8f9cff132140462b141183ddb9cb88a9beb80a4f --examples \"$EXAMPLES\" --cadical \"$CADICAL\" --stage-seconds 60 --out \"$FRESH_OUTPUT\" --micromath-v2-envelope",
+        "single_proof": "prove-lia ORIGINAL_SOURCE_CHALLENGE EXPLICIT_HEADER_COPY - --raw --cadical CADICAL | check-solution ORIGINAL_SOURCE_CHALLENGE -",
+        "original_native": "Same command with original version-3 certificate is rejected at pinned revision; do not count it as proof success."
+      },
+      "workflow_sha256": {
+        "replay_micromath_lia.py": "54796a1ba665cec8d187c8fac282e0bf458370ffa11d54652626c3706c55908c",
+        "replay_micromath_lra.py": "ed5f08cacb655f42b4ee940c82796ab369cdd40660e18c20cee5c1e6653e2c04",
+        "slurm_micromath_lia_check.sbatch": "6a5b52f31117fc3a2bffdc2ece3437add235dc624c152fe3ec6388e48909c5c7",
+        "micromath_stress.py": "69d5b794a134084a1ae5eb2db3fb667233746b3f1496188e7b0a0e0cff4887e0",
+        "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+      },
+      "binary_sha256": {
+        "build-axioms": "004417db1ad1f886bbba034ff0c7f70bdaa885359a482bef52f17a6e4c2d9124",
+        "smt/build-lia-challenge": "9a5cf0dcc1f1932f34ecf471b2fc3c2f5b10b90c0bd0ffc100a7564f568f697c",
+        "smt/prove-lia": "0dd6aab02917bd442a3352a35fd2198b83c1ee65624c4ad9b76fbd2659679bdb",
+        "check-solution": "d8965d248e187551ee0021b301514aeecf012ca31517bb6dcd948baf638052cf"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "LRA_regression": {
+        "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+        "job_id": "357148",
+        "counts": {
+          "verified": 15,
+          "expected_rejection": 3
+        },
+        "unchanged_binaries_from_prior_qualification": true,
+        "workflow_sha256": "ed5f08cacb655f42b4ee940c82796ab369cdd40660e18c20cee5c1e6653e2c04"
+      },
+      "feedback_archive": {
+        "path": "benchmarks/checker-regressions/lia-envelope-20261106/lia-envelope.tar.gz",
+        "bytes": 1906,
+        "sha256": "f88b621174b688a3fed4c00ada86d72ee304149e402579c0f85f8f4470a91fd2",
+        "manifest": "benchmarks/checker-regressions/lia-envelope-20261106/manifest.json",
+        "native_bytes": 462,
+        "adapted_bytes": 462,
+        "changed_byte_offset_zero_based": 28,
+        "native_policy": "native-v3.sexp is original output; micromath-v2.sexp is explicitly adapted; do not conflate the two.",
+        "verified_again_job": "357147"
+      },
+      "artifacts": {
+        "local": "results/micromath-lia-qualification",
+        "successful_replay": "results/micromath-lia-357147",
+        "native_failure_and_external_build": "results/micromath-lia-357144",
+        "LRA_regression": "results/micromath-lra-357148",
+        "exact_commands": "replay/summary.json"
+      },
+      "qualified_workflow_git": "d8b2c63228ef7476efecb9cc1781063aac5fb6e5",
+      "guard_hardening": {
+        "issue": "A producer input rejection could mask a kernel crash, e.g. status pair [1,139].",
+        "fix": "Both statuses must be normal declared exit codes before counting an expected rejection. Crashes, resource kills and missing executables fail.",
+        "test_file": "tests/python/test_micromath_arithmetic_replay.py",
+        "pure_python_test_methods": 2,
+        "all_recorded_rejection_pairs": "[1,1]; historical successful proof/rejection counts are unaffected."
+      }
+    },
+    {
       "id": "2026-11-06-micromath-lra-source-kernel-check",
       "date": "2026-11-06",
       "kind": "bounded-external-source-LRA-proof-compatibility",

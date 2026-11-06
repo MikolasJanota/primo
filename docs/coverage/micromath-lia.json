@@ -1,0 +1,293 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-06",
+  "status": "LIA integer-cut proofs verified with explicitly adapted version-2 envelopes; native version-3 envelope is rejected by the pinned checker.",
+  "micromath_git": "8f9cff132140462b141183ddb9cb88a9beb80a4f",
+  "primary_documentation": "https://git.olsak.net/mirek/Micromath/src/commit/8f9cff132140462b141183ddb9cb88a9beb80a4f/smt/LIA.md",
+  "upstream_LIA_md_sha256": "76d3cfca1185d38b06bc9a957dd9ccfaede1def294a4aa83674519466ca3e6c2",
+  "primo_workflow_parent_git": "5987620b",
+  "producer_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "prepared_native_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "native_code_changed": false,
+  "native_output_changed": false,
+  "scope": "One original integer problem, its native two-cut proof, authored three-cut proof and controls. No real-corpus, complete-v3 grammar, checker soundness audit or solver performance claim.",
+  "jobs": {
+    "direct_unmodified_v3": "357144",
+    "compatible_header_and_controls": "357147",
+    "shared_helper_LRA_regression": "357148",
+    "initial_header_compatibility": "357146",
+    "initial_shared_helper_LRA": "357145"
+  },
+  "job_states": {
+    "357144": "FAILED,1:0,20s,node-02: external build completed; first native version-3 certificate rejected at line 2 before arithmetic proof generation.",
+    "357145": "COMPLETED,0:0,8s,node-02: old pinned LRA checker with shared Python helper, 15 proofs and 3 expected rejections.",
+    "357146": "COMPLETED,0:0,4s,node-02: 6 LIA proofs, 5 malformed/source rejections, 1 separate envelope rejection.",
+    "357147": "COMPLETED,0:0,3s,node-02: 6 LIA proofs, 5 malformed/source rejections, 1 separate envelope rejection with hardened guard.",
+    "357148": "COMPLETED,0:0,7s,node-02: LRA regression with hardened guard, 15 proofs and 3 expected rejections."
+  },
+  "allocation": {
+    "cpus": 2,
+    "memory_gib": 8,
+    "wall_minutes": 30
+  },
+  "limits": {
+    "stage_seconds": 60,
+    "process_address_bytes": 3221225472,
+    "process_file_bytes": 268435456
+  },
+  "proof_transport": "--raw stdout piped to independent kernel stdin; both exit codes and exact challenge proven required; no proof files retained",
+  "envelope": {
+    "native_version": 3,
+    "accepted_envelope_version": 2,
+    "problem_logic": "QF_LIA",
+    "native_rejected": true,
+    "compatibility_change": "One byte 3 -> 2 in the outer envelope only. Original native file is unmodified. Integer sorts and all proof payload bytes remain unchanged.",
+    "copies": [
+      {
+        "source": "/home/janotmik/primo-lia-export-20261105/results/micromath-lia-workflow-20261106/examples/qf-lia-certificate-native.sexp",
+        "source_sha256": "e9f672193dbd38db34563a90f9f5491649cef65f8b814c83e1927f2ab848b6d8",
+        "copy": "/home/janotmik/primo-lia-export-20261105/results/micromath-lia-357147/replay/controls/qf-lia-certificate-native-micromath-v2.sexp",
+        "copy_sha256": "94e84a793356c1fc5d2f57f722b1b48c609ec691913979e9dbd82a9c3ffbe2f5",
+        "changed_byte_offset": 28,
+        "old": "3",
+        "new": "2"
+      },
+      {
+        "source": "/home/janotmik/primo-lia-export-20261105/results/micromath-lia-workflow-20261106/examples/qf-lia-certificate-proposal.sexp",
+        "source_sha256": "29eb78b95b4d1e8deeae6ceabcdaac36a516cd1b26f0cf663624c0fc4307bdee",
+        "copy": "/home/janotmik/primo-lia-export-20261105/results/micromath-lia-357147/replay/controls/qf-lia-certificate-proposal-micromath-v2.sexp",
+        "copy_sha256": "9c0137e335f2ee9dcb682b88a181b9a37fb1c600725cfcc8b86c6873805d8383",
+        "changed_byte_offset": 111,
+        "old": "3",
+        "new": "2"
+      }
+    ]
+  },
+  "counts": {
+    "expected_envelope_rejection": 1,
+    "verified": 6,
+    "expected_rejection": 5,
+    "original_source_problems": 1,
+    "positive_runs": 6,
+    "invalid_cut_or_source_controls": 5,
+    "envelope_controls": 1,
+    "timeout": 0,
+    "unexpected_error": 0,
+    "crash": 0,
+    "invalid_accepted": 0
+  },
+  "workflow_sha256": {
+    "replay_micromath_lia.py": "54796a1ba665cec8d187c8fac282e0bf458370ffa11d54652626c3706c55908c",
+    "replay_micromath_lra.py": "ed5f08cacb655f42b4ee940c82796ab369cdd40660e18c20cee5c1e6653e2c04",
+    "slurm_micromath_lia_check.sbatch": "6a5b52f31117fc3a2bffdc2ece3437add235dc624c152fe3ec6388e48909c5c7",
+    "micromath_stress.py": "69d5b794a134084a1ae5eb2db3fb667233746b3f1496188e7b0a0e0cff4887e0",
+    "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+  },
+  "binary_sha256": {
+    "build-axioms": "004417db1ad1f886bbba034ff0c7f70bdaa885359a482bef52f17a6e4c2d9124",
+    "smt/build-lia-challenge": "9a5cf0dcc1f1932f34ecf471b2fc3c2f5b10b90c0bd0ffc100a7564f568f697c",
+    "smt/prove-lia": "0dd6aab02917bd442a3352a35fd2198b83c1ee65624c4ad9b76fbd2659679bdb",
+    "check-solution": "d8965d248e187551ee0021b301514aeecf012ca31517bb6dcd948baf638052cf"
+  },
+  "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+  "commands": {
+    "build": "make build-axioms smt/build-lia-challenge smt/prove-lia print-dump check-solution (GMP/header flags in batch wrapper)",
+    "replay": "python3 scripts/replay_micromath_lia.py --micromath \"$MICROMATH_DIR\" --micromath-git 8f9cff132140462b141183ddb9cb88a9beb80a4f --examples \"$EXAMPLES\" --cadical \"$CADICAL\" --stage-seconds 60 --out \"$FRESH_OUTPUT\" --micromath-v2-envelope",
+    "single_proof": "prove-lia ORIGINAL_SOURCE_CHALLENGE EXPLICIT_HEADER_COPY - --raw --cadical CADICAL | check-solution ORIGINAL_SOURCE_CHALLENGE -",
+    "original_native": "Same command with original version-3 certificate is rejected at pinned revision; do not count it as proof success."
+  },
+  "rows": [
+    {
+      "name": "00-native-v3-envelope",
+      "expected": "reject",
+      "status": "expected_envelope_rejection",
+      "source_sha256": "4a7110287022c20e19bc1309c91e1615a22d53e9fa664cafd04993785b8172d4",
+      "certificate_sha256": "e9f672193dbd38db34563a90f9f5491649cef65f8b814c83e1927f2ab848b6d8",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "kernel_result": "invalid solution",
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/micromath-lia-workflow-20261106/examples/qf-lia-certificate-native.sexp:2: unexpected or duplicate section"
+    },
+    {
+      "name": "01-native-proof",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "4a7110287022c20e19bc1309c91e1615a22d53e9fa664cafd04993785b8172d4",
+      "certificate_sha256": "94e84a793356c1fc5d2f57f722b1b48c609ec691913979e9dbd82a9c3ffbe2f5",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven"
+    },
+    {
+      "name": "02-handwritten-proof",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "4a7110287022c20e19bc1309c91e1615a22d53e9fa664cafd04993785b8172d4",
+      "certificate_sha256": "9c0137e335f2ee9dcb682b88a181b9a37fb1c600725cfcc8b86c6873805d8383",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven"
+    },
+    {
+      "name": "02-empty-producer-cnf",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "4a7110287022c20e19bc1309c91e1615a22d53e9fa664cafd04993785b8172d4",
+      "certificate_sha256": "a53ad06c701532162d45c0ef20b1cad059dd0374e69125dea72a1d9ad13a773e",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven"
+    },
+    {
+      "name": "03-zero-weight-reference",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "4a7110287022c20e19bc1309c91e1615a22d53e9fa664cafd04993785b8172d4",
+      "certificate_sha256": "c509c0046e5a4c7a4b3186cdfce50d01078ae94be92e51693974e8ea58465ae1",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven"
+    },
+    {
+      "name": "04-bare-conflict",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "4a7110287022c20e19bc1309c91e1615a22d53e9fa664cafd04993785b8172d4",
+      "certificate_sha256": "0911648ff9a8eeeb1fb08584737db4fee8f5cc05304d5f746f77e541f7580a80",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven"
+    },
+    {
+      "name": "reject-inexact-divisor",
+      "expected": "reject",
+      "status": "expected_rejection",
+      "source_sha256": "4a7110287022c20e19bc1309c91e1615a22d53e9fa664cafd04993785b8172d4",
+      "certificate_sha256": "2c14dea36a6f8ae8d20524c1eaa0caeedc98cdb6327ad0e43b461968e783a602",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "kernel_result": "invalid solution",
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/micromath-lia-357147/replay/controls/reject-inexact-divisor.sexp:1: divisor does not divide every variable coefficient"
+    },
+    {
+      "name": "reject-forward-reference",
+      "expected": "reject",
+      "status": "expected_rejection",
+      "source_sha256": "4a7110287022c20e19bc1309c91e1615a22d53e9fa664cafd04993785b8172d4",
+      "certificate_sha256": "2a911634b5f214060e07de85e8b9f9f06c71fbb98215334e5f0158158fed0152",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "kernel_result": "invalid solution",
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/micromath-lia-357147/replay/controls/reject-forward-reference.sexp:1: forward local reference 's0'"
+    },
+    {
+      "name": "reject-negative-weight",
+      "expected": "reject",
+      "status": "expected_rejection",
+      "source_sha256": "4a7110287022c20e19bc1309c91e1615a22d53e9fa664cafd04993785b8172d4",
+      "certificate_sha256": "f6ce0deaadc43a1a1210e5621b93810ac7d9f44ba93e41c02f50d750ab13b99a",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "kernel_result": "invalid solution",
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/micromath-lia-357147/replay/controls/reject-negative-weight.sexp:1: expected nonnegative integer literal"
+    },
+    {
+      "name": "reject-false-contradiction",
+      "expected": "reject",
+      "status": "expected_rejection",
+      "source_sha256": "4a7110287022c20e19bc1309c91e1615a22d53e9fa664cafd04993785b8172d4",
+      "certificate_sha256": "138c142771a24c5b81164a161221539d52d974f60cd2ced440e5df3819268207",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "kernel_result": "invalid solution",
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/micromath-lia-357147/replay/controls/reject-false-contradiction.sexp:1: referenced bound is not a contradiction"
+    },
+    {
+      "name": "reject-satisfiable-source",
+      "expected": "reject",
+      "status": "expected_rejection",
+      "source_sha256": "791fa5629ddbd28f6391bd9a7a3f3415304959a06d5cc488330db5a94827c47f",
+      "certificate_sha256": "94e84a793356c1fc5d2f57f722b1b48c609ec691913979e9dbd82a9c3ffbe2f5",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "kernel_result": "invalid solution",
+      "producer_diagnostic": "s SATISFIABLE\nLIA proof failed: the supplied conflicts do not yield a propositional refutation, or CaDiCaL failed."
+    },
+    {
+      "name": "06-reuse-saved-theory",
+      "expected": "accept",
+      "status": "verified",
+      "source_sha256": "4a7110287022c20e19bc1309c91e1615a22d53e9fa664cafd04993785b8172d4",
+      "certificate_sha256": "94e84a793356c1fc5d2f57f722b1b48c609ec691913979e9dbd82a9c3ffbe2f5",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "kernel_result": "challenge proven"
+    }
+  ],
+  "LRA_regression": {
+    "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+    "job_id": "357148",
+    "counts": {
+      "verified": 15,
+      "expected_rejection": 3
+    },
+    "unchanged_binaries_from_prior_qualification": true,
+    "workflow_sha256": "ed5f08cacb655f42b4ee940c82796ab369cdd40660e18c20cee5c1e6653e2c04"
+  },
+  "feedback_archive": {
+    "path": "benchmarks/checker-regressions/lia-envelope-20261106/lia-envelope.tar.gz",
+    "bytes": 1906,
+    "sha256": "f88b621174b688a3fed4c00ada86d72ee304149e402579c0f85f8f4470a91fd2",
+    "manifest": "benchmarks/checker-regressions/lia-envelope-20261106/manifest.json",
+    "native_bytes": 462,
+    "adapted_bytes": 462,
+    "changed_byte_offset_zero_based": 28,
+    "native_policy": "native-v3.sexp is original output; micromath-v2.sexp is explicitly adapted; do not conflate the two.",
+    "verified_again_job": "357147"
+  },
+  "limitations": [
+    "Original SMT-LIB-to-Micromath statement translation remains trusted. Its own Boolean conversion and arithmetic bridges are proved; Primo preprocessing itself is not verified.",
+    "Only the named-cut payload and supported source subset were qualified. The unmodified version-3 envelope was not accepted.",
+    "Source div,mod,/ and decimals are unsupported by the documented LIA route even if Primo lowers them before export.",
+    "External checker implementation was neither patched nor audited. No proof-kernel soundness or full-corpus claim."
+  ],
+  "artifacts": {
+    "local": "results/micromath-lia-qualification",
+    "successful_replay": "results/micromath-lia-357147",
+    "native_failure_and_external_build": "results/micromath-lia-357144",
+    "LRA_regression": "results/micromath-lra-357148",
+    "exact_commands": "replay/summary.json"
+  },
+  "qualified_workflow_git": "d8b2c63228ef7476efecb9cc1781063aac5fb6e5",
+  "guard_hardening": {
+    "issue": "A producer input rejection could mask a kernel crash, e.g. status pair [1,139].",
+    "fix": "Both statuses must be normal declared exit codes before counting an expected rejection. Crashes, resource kills and missing executables fail.",
+    "test_file": "tests/python/test_micromath_arithmetic_replay.py",
+    "pure_python_test_methods": 2,
+    "all_recorded_rejection_pairs": "[1,1]; historical successful proof/rejection counts are unaffected."
+  }
+}
