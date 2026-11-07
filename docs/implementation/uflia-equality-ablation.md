@@ -24,11 +24,11 @@ The following policy filters and their tests are an original design.
 Keep one CLI switch, `--qf-uflia-tableau-equalities`, accepting an optional
 explicit mode. Absence remains off; the existing bare flag remains all.
 The C++ Boolean enable field remains compatible. A separate owned enum in
-{ufliaeqsource}`CheckSatOptions <src/smt/check_sat.hpp>` selects one of four
+{ufliaablationsource}`CheckSatOptions <src/smt/check_sat.hpp>` selects one of four
 enabled policies; no second CLI flag is
-introduced. {ufliaeqsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>` copies that
-policy for a query's lifetime. These enum and delivery controls are new; the
-linked baseline sources establish the existing owners and enable field.
+introduced. {ufliaablationsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>` copies that
+policy for a query's lifetime. The source links pin the ablation implementation at `4a0c6bee`;
+qualification remains a separate stage, tracked in the {download}`run ledger <../run-log.json>`.
 
 | Mode | Discovery | New equality names/bridges | Guarded proof clauses |
 | --- | --- | --- | --- |
@@ -38,13 +38,13 @@ linked baseline sources establish the existing owners and enable field.
 | fixed | All four scanned; retain only `FixedEq` output | As required | Retained proofs |
 | all | Existing behavior | As required | All emitted proofs |
 
-The existing {ufliaeqsource}`adapter scan <src/smt/solver_engines.cpp>` is the
+The existing {ufliaablationsource}`adapter scan <src/smt/solver_engines.cpp>` is the
 starting point. `scan` performs its owning proof translation and validation but returns
 no batch. The tableau query is const and must not change assignments, bounds,
 basis, SAT atoms, assumptions or clauses. Non-time search counters should agree
 with off, apart from new diagnostic counters.
 
-The existing {ufliaeqsource}`driver registration and complete enumeration
+The existing {ufliaablationsource}`driver registration and complete enumeration
 <src/smt/component_solver.cpp>` remain the semantic boundary. `names` retains
 full bridge semantics: the equality atom denotes exactly the
 conjunction of its two arithmetic comparisons. The generic driver receives a
@@ -100,10 +100,38 @@ not a matched-state or instruction-for-instruction causal decomposition.
   generated SAT models separately and record all counts in the run ledger.
 - First compare on/off/scan/names/fixed at identical limits on recorded native
   gains/losses and controls, including the four previously profiled inputs.
-  Preserve initial-batch identity and downstream pivot/atom/decision counters.
+  Record downstream pivot/atom/decision counters. Aggregate counters do not establish identical delivered batches.
 - Then evaluate the informative policies on all 659 available inputs against
   the frozen best-off baseline and unchanged all policy. Replay every
   successful SAT row with direct Dolmen outside timing. No default promotion
   follows from a selected sample or a winning solved count alone.
 
 The CLI accepts policy values with `=MODE`; the bare flag maps to `all` and never consumes the following input filename. Qualification caught an optional-value parser consuming that positional filename; the zero-positional-value flag parser avoids this ambiguity.
+
+
+## Reproducible experiment methods
+
+The {ufliaablationmethods}`selected manifest <benchmarks/qf-uflia-equality-ablation-selected-20261107.txt>` contains 61 inputs: every native solved gain/loss from
+qualified `8d84fdca`, the ten largest enabled/off runtime ratios among common
+solves, two fastest common-solved controls per family, and all four previously
+profiled cases. Deduplication can reduce overlap; {ufliaablationmethods}`selection metadata <benchmarks/qf-uflia-equality-ablation-selected-20261107.json>` gives the
+reason and input SHA for each case. This diagnostic selection is deliberately
+biased toward explaining differences, and cannot establish a corpus-wide win.
+
+{ufliaablationmethods}`select_cases.py <scripts/qualification/uflia_equality_ablation/select_cases.py>` regenerates the
+manifest from the prior full analysis and timing rows. {ufliaablationmethods}`run.py <scripts/qualification/uflia_equality_ablation/run.py>` rotates serial
+arms per input, pins binary versions and SHA values, retains command lines and
+stdout/stderr, and flushes each completed row. It uses the native arithmetic
+settings and `--arithmetic-model-phase=off`. `old-off`/`old-all` run the frozen
+qualified binary; other arms run the ablation binary. {ufliaablationmethods}`analyze.py <scripts/qualification/uflia_equality_ablation/analyze.py>` audits
+completeness, answer agreement, off/scan and old/current counter controls,
+per-family results and direct Dolmen coverage. Prior Z3 answers are reused only
+for SHA-identical inputs. They are reference evidence from the prior run, not
+fresh reference timings for this experiment.
+
+The SLURM source snapshot stays frozen at `4a0c6bee`. Later runner scripts and
+selection metadata are staged as experiment artifacts under an isolated
+`tmp/ablation-methods` directory by `slurm_stage_manifest_files.py`, without
+replacing solver sources or the qualified binary. The exact runner SHA is
+recorded per shard. Preflight uses a clean checkout of the binary's revision;
+all solver execution and correctness gates run on compute nodes.

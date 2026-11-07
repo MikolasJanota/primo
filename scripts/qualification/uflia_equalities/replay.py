@@ -20,7 +20,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('parent', 'root', 'out'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--timeout', type=float, default=60)
+    parser.add_argument('--dolmen-timeout', type=float, default=30)
     args = parser.parse_args()
+    if args.timeout <= 0 or args.dolmen_timeout <= 0:
+        parser.error('positive replay budgets required')
     if args.out.exists() or not (args.parent / 'complete').is_file():
         parser.error('fresh output and completed parent required')
     args.out.mkdir(parents=True)
@@ -50,7 +54,7 @@ def main() -> None:
         out = args.out / profile
         command = [sys.executable, 'scripts/validate_model.py', '--solver', str(solver),
                    *['--solver-arg=' + flag for flag in flags], '--require-dolmen-pass', '--expect-sat',
-                   '--timeout', '60', '--dolmen-timeout', '30', '--dolmen-arg=--strict=false',
+                   '--timeout', str(args.timeout), '--dolmen-timeout', str(args.dolmen_timeout), '--dolmen-arg=--strict=false',
                    '--manifest', str(manifest), '--out', str(out)]
         process = subprocess.run(command, check=False)
         with (out / 'summary.csv').open(newline='') as stream:

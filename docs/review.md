@@ -82,3 +82,19 @@ site. Record the reader's acceptance explicitly after that review.
 requirements. [Evidence work](work/evidence.md) retains unresolved historical
 mappings and quantifier-checking limits. No full-corpus performance claim follows
 from the documentation build or the publication qualification sample.
+
+## Equality-delivery ablation documentation, 7 November
+
+The independent read-only review accepted the implemented design and the
+methods/options/help unit against solver source `4a0c6bee` and methods
+`16ad8c01`. Required findings D1/D2 repaired source navigation and distinguished
+enabled scan modes from off; D3 replaced a premature qualification reference
+with a link to the separate run ledger. The accepted ablation-page blob is
+`3ab3e65c77648e0feb0ce741ea92ea682eca6315`; configuration, options and help blobs
+are `22d9b9306afb9b48a19835ff827f227e5a7b4097`,
+`226f2d612c8895bd0aba93bc5eaeef609aeb7b81`, and
+`861184aeae04e5877d369b9636d65b2429081358`. No required findings remain in
+that unit. This acceptance does not cover qualification outcomes or timing
+results. Both books and the assembled site's local/Git links passed; the changed
+design/table was inspected in rendered HTML. Native gates and experiments are
+tracked in `run-log.json`, independently of documentation acceptance.
