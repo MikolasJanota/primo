@@ -20,6 +20,18 @@ from scripts.qualification.uflia_equalities.summarize import (  # noqa: E402
     solved,
 )
 
+POLICY_COUNTERS = [':lia.equality.scan-only-proofs', ':lia.equality.filtered-rule',
+                   ':lia.equality.already-named', ':combination.equality.named-without-proof',
+                   ':combination.equality.clauses', ':combination.model.fallback-resource-limit',
+                   ':sat.vars']
+
+
+def diagnostic_work(row: dict) -> dict:
+    result = work(row)
+    result['counters'].update({key: int(row['stats'][key]) if key in row['stats'] else None
+                               for key in POLICY_COUNTERS})
+    return result
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -75,6 +87,7 @@ def main() -> None:
             row['exit_code'] = int(row['exit_code'])
             assert row['wrong'] == 'false' and row['status'] not in {'error', 'unsupported'}
             references[name] = row
+    assert set(inputs) <= references.keys(), "reference CSVs do not cover these inputs"
     checked = Counter()
     reference_unavailable = defaultdict(list)
     for name in inputs:
@@ -114,7 +127,7 @@ def main() -> None:
               'vs_off': {p: paired(profiles['off'], rows, timeout) for p, rows in profiles.items() if p != 'off'},
               'controls': controls,
               'models': {'status': 'complete' if args.models else 'pending', **dict(model_counts)},
-              'cases': {name: {p: work(rows[name]) for p, rows in profiles.items()} for name in sorted(inputs)}}
+              'cases': {name: {p: diagnostic_work(rows[name]) for p, rows in profiles.items()} for name in sorted(inputs)}}
     args.out.write_text(json.dumps(output, indent=2) + '\n')
     print(json.dumps({k: output[k] for k in ('inputs', 'profiles', 'controls', 'models')}, indent=2))
 
