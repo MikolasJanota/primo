@@ -37,11 +37,8 @@ for source in Path('benchmarks').rglob('*.smt2'):
     if '(set-logic QF_UFLIA)' in source.read_text():
         shutil.copyfile(source, out / 'regressions' / source.name)
 by_family = {}
-manifest = Path('benchmarks/qf_uflia-smtlib-representative-20.txt')
-for line in manifest.read_text().splitlines():
-    name = line.split('#', 1)[0].strip()
-    if name:
-        by_family.setdefault(Path(name).parts[0], []).append(root / name)
+for source in root.rglob('*.smt2'):
+    by_family.setdefault(source.relative_to(root).parts[0], []).append(source)
 selected = [min(paths, key=lambda p: (p.stat().st_size, str(p))) for paths in by_family.values()]
 remaining = sorted((p for paths in by_family.values() for p in paths if p not in selected),
                    key=lambda p: (p.stat().st_size, str(p)))
