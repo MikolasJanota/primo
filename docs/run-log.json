@@ -7,7 +7,7 @@
       "date": "2026-11-07",
       "commit": "6fef08c189df793a381fc215e969277a66a4e003",
       "kind": "implementation-qualification",
-      "evidence_status": "failed_test_fixture_repair_pending",
+      "evidence_status": "stage_test_repair_pending",
       "artifacts": "results/uflia-equality-20261107",
       "environment": {
         "execution": "SLURM compute only; local editing, lint and docs",
@@ -20,16 +20,22 @@
       ],
       "jobs": {
         "candidate_build": "362780",
-        "focused_unit": "362782"
+        "focused_unit": "362782",
+        "baseline_build": "362781",
+        "fixture_rebuild": "362783",
+        "focused_unit_2": "362784",
+        "stage_diagnostic": "362785"
       },
       "summary": {
         "build": "passed with warnings as errors",
         "unit": "failed in new PartitionComponent fixture: interface_variables asserted marker although fixture owned input equalities; no production solver path reached",
         "fuzz": "not run",
         "models": "not run",
-        "performance": "not run"
-      },
-      "next": "Return equality endpoints from the test fixture; rebuild and rerun focused tests before broad qualification."
+        "performance": "not run",
+        "unit_2": "Generic explained-batch suite passed. QF_UFLIA stage test failed expecting rebuild UNSAT despite zero integer-search budget; the batch was emitted but next-round LIA completion precedes EUF. This is a test expectation error, not a wrong solver answer.",
+        "stage_diagnostic": "All four rules fired and returned UNSAT in online/rebuild CLI diagnostics with branch-limit1, patch/cut0. Online: one scan and no integer completion; rebuild: two scans followed by integer stage. Raw input/output retained.",
+        "next": "Test zero-budget rebuild Unknown/ResourceLimit plus positive batch counters, zero-budget online UNSAT, and normal-budget UNSAT for both routes; rerun qualification."
+      }
     },
     {
       "id": "2026-11-05-phase-region-simulations-ade90f98",

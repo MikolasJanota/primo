@@ -75,6 +75,10 @@ The batch uses owning storage proportional to the emitted pairs and reasons.
 This is a full-candidate boundary, not a new scan after every asserted bound.
 The standalone integer route has no shared interface and skips the scan.
 Nonconvex model-guided/complete-arrangement fallbacks remain required.
+In rebuild mode, the next round checks LIA completion before EUF. With a zero
+integer-search budget it can therefore return `unknown` after emitting a valid
+equality batch; online EUF can refute the equality conflict before completion.
+The integration does not change that component scheduling policy.
 
 ## Verification checklist
 

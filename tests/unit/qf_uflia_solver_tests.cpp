@@ -618,22 +618,30 @@ void explained_tableau_equalities_precede_integer_completion() {
         "(assert (<= (- y (+ z w)) 1))(assert (<= 1 (- y (+ z w))))",
         ":lia.equality.eq-rows"}}};
   for (const bool online : {false, true}) {
-    for (const auto& [bounds, counter] : rules) {
-      CheckSatOptions options;
-      options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
-      options.qf_uflia_online_components = online;
-      options.lia.patch_limit = 0;
-      options.lia.gomory_cut_limit = 0;
-      options.lia.branch_limit = 0;
-      options.lia.round_integer_bounds = false;
-      const auto result = check_sat_smtlib(declarations + bounds +
-                                               "(assert (<= 1 (* 2 t)))(assert (<= t 1))"
-                                               "(assert (p x))(assert (not (p y)))(check-sat)",
-                                           options);
-      assert(result.result == CheckSatResult::Unsat);
-      assert(result.statistics.get(counter) > 0);
-      assert(result.statistics.get(":combination.equality.fresh-pairs") > 0);
-      assert(result.statistics.get(":combination.equality.clauses") > 0);
+    for (const bool no_integer_search : {false, true}) {
+      for (const auto& [bounds, counter] : rules) {
+        CheckSatOptions options;
+        options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+        options.qf_uflia_online_components = online;
+        if (no_integer_search) {
+          options.lia.patch_limit = 0;
+          options.lia.gomory_cut_limit = 0;
+          options.lia.branch_limit = 0;
+        }
+        options.lia.round_integer_bounds = false;
+        const auto result = check_sat_smtlib(declarations + bounds +
+                                                 "(assert (<= 1 (* 2 t)))(assert (<= t 1))"
+                                                 "(assert (p x))(assert (not (p y)))(check-sat)",
+                                             options);
+        // Rebuild mode checks LIA completion before EUF on the next round.
+        // Even when that hits the zero budget, the proved batch came first.
+        const bool limited = no_integer_search && !online;
+        assert(result.result == (limited ? CheckSatResult::Unknown : CheckSatResult::Unsat));
+        if (limited) assert(result.reason == primo::smt::InconclusiveReason::ResourceLimit);
+        assert(result.statistics.get(counter) > 0);
+        assert(result.statistics.get(":combination.equality.fresh-pairs") > 0);
+        assert(result.statistics.get(":combination.equality.clauses") > 0);
+      }
     }
   }
 }
