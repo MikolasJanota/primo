@@ -9,15 +9,15 @@ new equality-discovery algorithm or integer equation solver.
 
 ## State and ownership
 
-`LiaComponentAdapter` owns prepared arithmetic state and receives the current
+The {ufliaeqsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>` owns prepared arithmetic state and receives the current
 assignment and shared arrangement. Its rational check builds or receives a
 feasible tableau whose bounds have SAT antecedents. Before calling integer
 completion, it queries `LraTableau::entailed_equalities` for the registered
 shared Int variables. The input-to-tableau map translates variable IDs back
-to owning `TermId` values. No tableau or term-storage reference crosses a
+to copied `TermId` values; terms remain owned by the term manager. No tableau or term-storage reference crosses a
 term-creation boundary.
 
-`TheoryCheckResult::equalities` owns a batch of explained interface equalities. Each
+{ufliaeqsource}`TheoryCheckResult::equalities <src/theory/theory_solver.hpp>` owns a batch of explained interface equalities. Each
 entry owns an `InterfacePair` and true SAT antecedent literals. Tableau
 explanations instead contain blocking literals; the adapter negates them once
 and verifies that each resulting antecedent occurs true in its current
@@ -25,7 +25,8 @@ assignment. Zero reasons are rejected, not dropped. Already-true arrangement
 pairs are omitted; an already-false equality remains a propagation conflict.
 
 `TheoryCheckStatus::EntailedEqualities` and
-`ModelBasedCombinationStatus::PropagateEqualities` distinguish these batches
+{ufliaeqsource}`ModelBasedCombinationStatus::PropagateEqualities
+<src/smt/model_based_combination.hpp>` distinguish these batches
 from SAT-literal propagation and model decisions. The result carries no model token. It returns before patching, cuts or private
 branch bounds exist. The completed integer model remains a separate result,
 and coincident values in that model do not justify this propagation.
@@ -39,10 +40,10 @@ and coincident values in that model do not justify this propagation.
    candidate. Map only in-scope, same-sort shared endpoints.
 3. If new consequences exist, return their batch without integer completion.
    Otherwise continue through the unchanged completion pipeline.
-4. `ComponentModelCoordinator` validates the producer capability, pair scopes,
-   nonzero explanations, uniqueness and progress. It returns a typed equality
+4. {ufliaeqsource}`ComponentModelCoordinator <src/smt/component_model_coordinator.cpp>` validates the producer capability, pair scopes,
+   nonzero antecedent literals, uniqueness and progress. It returns a typed equality
    batch to the SMT driver rather than a model-based decision request.
-5. `solve_component_recipe` snapshots conflict classification before any atom
+5. {ufliaeqsource}`solve_component_recipe <src/smt/component_solver.cpp>` snapshots conflict classification before any atom
    growth, materializes all required equality literals through its existing
    shared-pair registration boundary, and adds one clause
    `not r1 or ... or not rk or equality` for each explanation. SAT is solved

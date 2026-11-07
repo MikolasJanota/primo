@@ -3,6 +3,35 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-uflia-equality-initial-qualification",
+      "date": "2026-11-07",
+      "commit": "6fef08c189df793a381fc215e969277a66a4e003",
+      "kind": "implementation-qualification",
+      "evidence_status": "failed_test_fixture_repair_pending",
+      "artifacts": "results/uflia-equality-20261107",
+      "environment": {
+        "execution": "SLURM compute only; local editing, lint and docs",
+        "build": "4 CPUs, 8 GiB, 30 minutes; Release GNU C++11.4.1, CaDiCaL3.0.0",
+        "unit": "2 CPUs, 8 GiB, 10 minutes"
+      },
+      "commands": [
+        "scripts/slurm_prepare_benchmark_workspace.py --reuse-dependencies --build-via-slurm --jobs 4 --extra-target primo_qf_uflia_solver_tests --extra-target primo_component_combination_tests (private SSH/workspace/header arguments external)",
+        "scripts/qualification/uflia_equalities/unit.sbatch (method commit7cb667aa)"
+      ],
+      "jobs": {
+        "candidate_build": "362780",
+        "focused_unit": "362782"
+      },
+      "summary": {
+        "build": "passed with warnings as errors",
+        "unit": "failed in new PartitionComponent fixture: interface_variables asserted marker although fixture owned input equalities; no production solver path reached",
+        "fuzz": "not run",
+        "models": "not run",
+        "performance": "not run"
+      },
+      "next": "Return equality endpoints from the test fixture; rebuild and rerun focused tests before broad qualification."
+    },
+    {
       "id": "2026-11-05-phase-region-simulations-ade90f98",
       "date": "2026-11-05",
       "commit": "ade90f98d568bb8946a4490600f04a61b1e5de63",

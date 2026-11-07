@@ -85,14 +85,17 @@ table describes the **online arithmetic execution** route:
 | --- | --- | --- |
 | SAT assigns an arithmetic literal | Apply its bound immediately; reject direct bound contradictions. Full simplex repair may remain pending. | Does not run. |
 | Online theory consistency callback during Boolean search | Batch pending work and run `LraTableau::check()` to restore rational feasibility or report a conflict. | Does not run. |
-| SAT returns a complete Boolean candidate and the driver requests `FullModel` checking | Reuse a checked online tableau when the route permits, or rebuild the relaxation and check it. | Run patching, GCD checks, cuts and branch-and-bound on the separate completion tableau. |
+| SAT returns a complete Boolean candidate and the driver requests `FullModel` checking | Reuse a checked online tableau when the route permits, or rebuild the relaxation and check it. | QF_UFLIA first checks explained shared equalities; if no delivery is needed, run patching, GCD checks, cuts and branch-and-bound on the separate completion tableau. |
 | A cut or internal integer split is added during completion | Recheck rational feasibility within that private tableau. | Continue the completion pipeline; do not restart the patcher after every cut or split. |
 
 QF_UFLIA can instead run without online arithmetic execution, depending on its
 online-component option and EUF engine. Assignments then record literals
 without immediately asserting their bounds into a live tableau. The full-model
 check rebuilds the candidate relaxation, applies those bounds, checks rational
-feasibility and then runs integer completion. Integer patching remains late.
+feasibility and then runs integer completion. Integer patching remains late. The
+[shared-equality scan](uflia-equality-propagation.md) can return a guarded
+consequence after rational repair and before that completion work. It runs at
+the full-candidate boundary, not after every online bound assertion.
 
 The {settingssource}`online arithmetic execution <src/smt/solver_engines.cpp>`
 records assigned bounds and marks deferred work.

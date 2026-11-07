@@ -98,7 +98,11 @@ class PartitionComponent final : public theory::TheoryComponent {
            (owns_equalities && terms_.get(atom).kind == core::TermKind::Equality);
   }
   std::vector<core::TermId> interface_variables(core::TermId atom) const override {
-    assert(atom == marker_);
+    if (atom != marker_) {
+      assert(owns_equalities && terms_.get(atom).kind == core::TermKind::Equality);
+      const auto& children = terms_.get(atom).children;
+      return {children[0], children[1]};
+    }
     std::vector<core::TermId> result;
     for (const auto& restriction : restrictions_) {
       result.insert(result.end(), restriction.terms.begin(), restriction.terms.end());
