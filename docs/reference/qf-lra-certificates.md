@@ -672,6 +672,108 @@ old checker's metadata snapshots. No native solver or certificate-format change
 was needed for the five LIA fixes or the LassoRanker reduction. This targeted
 eight-input check does not rerun the full 217-input LRA cohort.
 
+### Larger arithmetic sample with the updated checker
+
+Array `363005` evaluates 345 inputs with Micromath `cfd36f46`: the unchanged
+217-file LRA cohort above, plus 128 LIA files. The
+{download}`LIA selection <../../benchmarks/qf-lia-certificate-sweep-20261107.json>`
+reserves all 24 earlier LIA pilot controls and adds 104 inputs from the recorded
+fast UNSAT pool. It covers 20 families and source sizes of 4,097–3,439,267 bytes.
+There are 32 files in each of the four size bands: 4–32 KiB, 32–128 KiB,
+128–512 KiB and 512 KiB–8 MiB. The LRA selection retains its earlier 24 controls.
+These are source-size bands, not bounds on CNF, certificate or proof size.
+
+Selection `363004` finds 2,210 recorded-fast LIA UNSAT rows: 1,115 meet the
+configured size/admission screen, while 1,095 fall outside the size interval.
+The {arithmeticlargersource}`selector <scripts/select_arithmetic_certificate_sweep.py>`
+now accepts `--logic QF_LRA|QF_LIA`, keeping QF_LRA as its default. Its shared
+{arithmeticlargersource}`sampling routine <scripts/arithmetic_certificate_stress.py#L37>`
+still reserves hash-matched controls, visits families round-robin within bands
+and fills remaining capacity deterministically. The LIA count and family cap
+are both 128. Historical UNSAT time is at most one second at `5efbd022` with
+`--quiet`; these timings select candidates and do not measure this workflow.
+Single-query/no-positive-arity admission remains a conservative lexical screen,
+not a full check of the external checker's supported fragment.
+
+The {arithmeticlargersource}`combined wrapper <scripts/slurm_arithmetic_certificate_sweep.sbatch>`
+dispatches eight LRA shards and four LIA shards, at most four concurrent, with
+two CPUs, 12 GiB and two hours per task. Before calling the shared stress
+wrapper, each task checks its shard hash, count and logic and all six updated
+checker binaries against the qualified build report `362913`. LRA uses the
+unchanged frozen selection `362760`; LIA uses the four disjoint shards from
+`363004`. Each task writes to
+`results/arithmetic-certificate-sweep-363005/LOGIC/shard-N`.
+
+Every selected input gets a fresh Yices check; only a successful `unsat` result
+proceeds to native CORE export using the same qualified `a5123159` binary. Limits remain 15 seconds for Yices, 30 each
+for export, statement conversion and challenge construction, and one overall
+60-second proof/kernel deadline. External processes retain 3 GiB address and
+256 MiB file caps. Raw proof steps stream directly to the kernel; no raw proof
+file is written. Successful challenge dumps are hashed and removed, while
+native certificates, exported statements and failed-stage artifacts remain.
+Case counts determine coverage; a completed scheduler task does not imply
+that all its proofs verified. The source-to-CNF transformation remains trusted.
+This is an expanded sample, not full-corpus or default-profile qualification;
+there is no new solver implementation or native C++ change.
+
+The {download}`completed-sweep ledger <../coverage/arithmetic-certificate-sweep-cfd36f46.json>`
+records all 345 outcomes, per-family and size-band counts, timing distributions,
+per-case hashes, stage evidence and scheduler accounting:
+
+| Logic | Selected | Kernel verified | Producer reconstruction limit | Proof deadline |
+| --- | ---: | ---: | ---: | ---: |
+| QF_LRA | 217 | 216 | 0 | 1 |
+| QF_LIA | 128 | 124 | 4 | 0 |
+| Total | 345 | 340 | 4 | 1 |
+
+All 345 fresh Yices checks returned UNSAT. There were no reference disagreements,
+wrong answers or checker errors. Of the verified cases, 148 LRA and 90 LIA
+cases retain theory lemmas; 102 need none after preprocessing/CORE. Across the
+341 completed native exports, CORE reduces 45,918 collected lemmas to 18,054.
+All 24 LRA controls verify; 23 of the 24 LIA controls verify, with the previously
+known `dillig/25-22.smt2` reconstruction limit remaining.
+
+All 217 LRA native certificates and exported-CNF statements are byte-identical
+to the earlier `362761` sweep. Under these limits, verification rises from
+214 to 216 cases: LassoRanker and five-clock now pass, while six-clock still
+hits the deadline. Five-clock takes 59.39 seconds for the live pipeline,
+very near the 60-second cutoff; it timed out in the earlier targeted replay
+at the same updated checker revision. That borderline outcome is timing
+sensitive, not a robust speed/default-promotion claim. The six-clock payload
+is also unchanged from its successful longer staged replay; the existing
+{download}`updated clock packet <../../benchmarks/checker-regressions/lra-clock-update-20261107/updated-clock-feedback.tar.gz>`
+still reproduces that resource case. LIA control gains also include the
+previously resolved Z3-to-Yices reference gate; they must not all be attributed
+to checker changes.
+
+The four LIA cases stop in Primo, before statement conversion or checker
+invocation. Each records main-solver UNSAT, completed CORE and exactly one
+retained theory conflict. Reconstruction then reports
+`LiaCertificateStatus::ResourceLimit` and writes no certificate:
+
+| Input | Generated cuts | Pairs |
+| --- | ---: | ---: |
+| `prime-cone/prime_cone_unsat_16.smt2` | 7,269 | 4,782 |
+| `prime-cone/prime_cone_unsat_17.smt2` | 6,961 | 4,833 |
+| `dillig/25-22.smt2` | 5,224 | 5,186 |
+| `dillig/25-31.smt2` | 4,740 | 4,681 |
+
+The {arithmeticlargersource}`reconstruction limits <src/theory/arithmetic/lia_certificate.hpp#L28>`
+are 8,192 cut steps, 4,096 active rows, 65,536 pairs and 1,024 digits per integer.
+The current diagnostic does not identify which guard fired; the generic message
+does not imply that the cut-step cap was exhausted. These are bounded
+certificate-reconstruction limitations after CORE, not failures to refute the
+original formulas or invalid proofs accepted by the checker. No limit or solver
+implementation was changed during this experiment.
+
+The {download}`20,528-byte producer packet <../../benchmarks/certificate-regressions/lia-reconstruction-20261107/lia-reconstruction-limits.tar.gz>`
+preserves all four original inputs, fresh Yices/native logs, counters, hashes
+and a bounded replay command. See its
+{download}`guide <../../benchmarks/certificate-regressions/lia-reconstruction-20261107/README.md>`.
+All 25 manifest-listed payload hashes were checked. Three producer cases are new
+to this expanded sample; `dillig/25-22.smt2` reconfirms the known limitation.
+Full benchmark artifacts remain in the per-shard result directories above.
+
 ### Why lowering was already sufficient for the CNF boundary
 
 The existing {liaexportsource}`lowering pass <src/smt/preprocessing.cpp#L4493>`

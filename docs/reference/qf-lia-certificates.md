@@ -246,6 +246,10 @@ using the unchanged audited version-2 copies and original resource limits.
 This addresses those checker cases; the separate native reconstruction limit
 remains a producer limitation.
 
+The [larger updated-checker sample](qf-lra-certificates.md#larger-arithmetic-sample-with-the-updated-checker)
+extends LIA evaluation to 128 selected inputs, including those 24 pilot controls,
+and evaluates them alongside the frozen 217-case LRA cohort.
+
 The [real-source arithmetic stress pilot](qf-lra-certificates.md#real-source-arithmetic-stress-pilot)
 adds 24 real LIA sources: three kernel proofs, including one using an integer
 cut, with the remaining outcomes and small replay files recorded separately.

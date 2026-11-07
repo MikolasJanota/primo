@@ -3,6 +3,137 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-expanded-arithmetic-certificate-sweep-cfd36f46",
+      "date": "2026-11-07",
+      "kind": "recorded-fast-arithmetic-UNSAT-CORE-export-and-updated-kernel-sample",
+      "workflow_git": "c0650e7e1136c418b3eaf1b56fb1a2c2619049e7",
+      "producer_packet_git": "24deb40605e37cab6273efb88c6f666f9bc80ca4",
+      "producer_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "manifest": "docs/coverage/arithmetic-certificate-sweep-cfd36f46.json",
+      "evidence_status": "345complete:340kernel verified;4native LIA reconstruction resource limits;1LRA proof-pipeline deadline. No fresh reference disagreement, wrong answer or checker error.",
+      "jobs": {
+        "363004_0": "Completed0:0;128case LIA selection with24controls,4disjoint shards.",
+        "363005_0..11": "All completed0:0; inspect per-case counts, not task exit codes, for proof acceptance."
+      },
+      "counts": {
+        "verified": 340,
+        "proof_timeout": 1,
+        "reconstruction_incomplete": 4
+      },
+      "by_logic": {
+        "QF_LRA": {
+          "selected": 217,
+          "counts": {
+            "verified": 216,
+            "proof_timeout": 1
+          },
+          "controls": {
+            "verified": 24
+          },
+          "theory_bearing": {
+            "verified": 148,
+            "proof_timeout": 1
+          }
+        },
+        "QF_LIA": {
+          "selected": 128,
+          "counts": {
+            "verified": 124,
+            "reconstruction_incomplete": 4
+          },
+          "controls": {
+            "verified": 23,
+            "reconstruction_incomplete": 1
+          },
+          "theory_bearing": {
+            "reconstruction_incomplete": 4,
+            "verified": 90
+          }
+        }
+      },
+      "reference": "Yices2.7.0 revision4f19700f0e272f4a68250080d12a873523bc7ac3",
+      "allocation": {
+        "cpus_per_worker": 2,
+        "memory_gib_per_worker": 12,
+        "wall_minutes": 120,
+        "shards": 12,
+        "maximum_concurrent": 4
+      },
+      "limits": {
+        "reference_seconds": 15,
+        "native_export_seconds": 30,
+        "statement_seconds": 30,
+        "challenge_seconds": 30,
+        "overall_proof_kernel_seconds": 60,
+        "external_process_address_bytes": 3221225472,
+        "external_process_file_bytes": 268435456
+      },
+      "commands": {
+        "selection": "ARITHMETIC_SWEEP_STAGE=select sbatch --array=0 --time=00:15:00 scripts/slurm_arithmetic_certificate_sweep.sbatch; LIA_CORPUS and LIA_SWEEP_CONTROLS point to recorded corpus and previous24case selection.",
+        "run": "ARITHMETIC_SWEEP_STAGE=run sbatch scripts/slurm_arithmetic_certificate_sweep.sbatch; frozen8LRA+4LIAshards; both checker roots pinnedcfd36f46; CHECKER_SWEEP_BUILD_REPORT=results/micromath-update-build-362913.",
+        "staging": "scripts/slurm_stage_manifest_files.py with explicit frozen helper manifest; no native rebuild.",
+        "preflight": "scripts/slurm_prepare_benchmark_workspace.py --check-only --require-tool YICES immediately before each sbatch; authorized SSH configuration outside Git.",
+        "case_pipeline": "Yices ORIGINAL; primo --quiet --stats --export-cnf NATIVE --export-cnf-reduction=core ORIGINAL; certificate_cnf_statement.py NATIVE EXPORTED_CNF --logic LOGIC; updated build challenge; prove --raw | check-solution.",
+        "producer_replay": "README in lia-reconstruction-limits.tar.gz; bounded native command with original input; snippet syntax checked only during packaging."
+      },
+      "lra_paired_comparison": {
+        "before_manifest": "docs/coverage/qf-lra-certificate-sweep.json",
+        "before_job": "362761",
+        "before_checker_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+        "before_counts": {
+          "verified": 214,
+          "proof_timeout": 3
+        },
+        "after_counts": {
+          "verified": 216,
+          "proof_timeout": 1
+        },
+        "identical_native_and_statement_payloads": 217,
+        "transitions": {
+          "verified -> verified": 214,
+          "proof_timeout -> verified": 2,
+          "proof_timeout -> proof_timeout": 1
+        },
+        "five_clock_pipeline_seconds": 59.3922318519908,
+        "five_clock_caveat": "59.39s is near60s limit; the same input/checker was a timeout in targeted362914 and valid in longer staged362921. This is a bounded workload observation, not robust timing/default promotion evidence."
+      },
+      "lia_controls": {
+        "before_job": "362736",
+        "after": {
+          "verified": 23,
+          "reconstruction_incomplete": 1
+        },
+        "context": "Earlier24case pilot had17verified,5checker failures,1Z3reference timeout and1producer reconstruction limit. Yices qualification362756 had already resolved the reference gate before checker update. New23/24control proof count must not be attributed solely to checker changes."
+      },
+      "artifacts": {
+        "local": "results/arithmetic-certificate-sweep-363005 metadata/logs plus four native-failure source copies; results/arithmetic-certificate-selection-363004/QF_LIA",
+        "remote": "$PRIMO_WORKDIR/results/arithmetic-certificate-sweep-363005/LOGIC/shard-N/run; results/arithmetic-certificate-selection-363004/QF_LIA",
+        "retention": "Native exports/statements and failed challenge dumps retained remotely; successful challenge dumps hashed/removed; raw proofs streamed, not stored. Four producer cases packed locally.",
+        "producer_packet": {
+          "file": "benchmarks/certificate-regressions/lia-reconstruction-20261107/lia-reconstruction-limits.tar.gz",
+          "sha256": "37ebb55bad71dd81d01209efc52634e52acca728cc060f6f791351cdd1b8e9a7",
+          "bytes": 20528
+        },
+        "existing_checker_packet": "benchmarks/checker-regressions/lra-clock-update-20261107/updated-clock-feedback.tar.gz"
+      },
+      "verification": {
+        "fresh_python_methods": 4,
+        "checks": [
+          "selection tests",
+          "make lint",
+          "bash -n and slurm_validate_sbatch.py combined wrapper",
+          "manifest logic/sha/count/disjointness/24controls validated",
+          "all345freshYices UNSAT outputs and12qualified6binary build checks verified",
+          "all217pairednative/CNF hashes equal baseline",
+          "25producerpacketpayloadhashes verified; manualsnippet bash-n only",
+          "make docs; assemble_docs.py; check_doc_links.py freshsite; rendered method/results inspected"
+        ],
+        "native_gates": "Native C++/active C++tests unchanged from qualifieda5123159. No native suite/ASan/fuzz/clang-tidy rerun for workflow/selection/evidence-only changes."
+      },
+      "source_to_cnf_verified": false
+    },
+    {
       "id": "2026-11-07-Micromath-arithmetic-response-cfd36f46-replays",
       "date": "2026-11-07",
       "kind": "pinned-external-checker-update-qualification-and-residual-proof-volume-feedback",
