@@ -173,11 +173,12 @@ values” is not an entailed equality. Such choices need assumptions or an
 explained case split, not unconditional propagation.
 
 For example, if `a ∧ ¬b` implies `q`, the reason sent to SAT is
-`¬a ∨ b ∨ q`. The two APIs store this explanation differently:
+`¬a ∨ b ∨ q`. The interfaces use two explanation-storage conventions:
 
 | API | Stored literals | Conversion to the SAT reason |
 | --- | --- | --- |
 | Component API: `TheoryCheckResult::reasons` | `[a, ¬b]`, the premises that hold | {source}`implication_clause <src/smt/component_dispatcher.cpp#L18-L24>` negates the premises and adds `q`. |
+| Shared equality batch: `ExplainedEquality::reasons` | `[a, ¬b]`, the premises that hold | The [outer driver](uflia-equality-propagation.md) materializes the equality atom, negates the premises and adds its literal. |
 | Dedicated EUF/LRA propagators | `[¬a, b]`, the other literals of the reason clause | The reason callback adds `q` and returns the stored literals unchanged. |
 
 The premises must be negated exactly once. Negating the dedicated propagator's

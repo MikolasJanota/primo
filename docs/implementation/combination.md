@@ -179,11 +179,15 @@ prove `x != y`. A conflict derived under the corresponding SAT assumption can
 justify a blocking clause using the failed assumptions.
 
 The component result type makes the distinction explicit:
-{source}`TheoryCheckResult <src/theory/theory_solver.hpp#L101-L127>` separates
-`EntailedLiteral`, `LearnedClause`, and `FreshDecision`. For an entailed literal
+{ufliaeqsource}`TheoryCheckResult <src/theory/theory_solver.hpp>` separates
+`EntailedLiteral`, `EntailedEqualities`, `LearnedClause`, and `FreshDecision`. For an entailed literal
 `e`, the reasons are true antecedents `r₁, …, rₙ`; the
 {source}`coordinator constructs <src/smt/component_model_coordinator.cpp#L97-L114>`
 `not r₁ or … or not rₙ or e`. A learned clause already carries its signs.
+An `EntailedEqualities` batch carries shared pairs and true antecedents; the
+[outer driver materializes the equality atoms](uflia-equality-propagation.md)
+before adding those implication clauses. It never turns the batch into model
+choices.
 
 ## The dedicated Real route
 

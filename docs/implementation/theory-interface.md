@@ -82,7 +82,7 @@ transfer ownership or keep the manager alive.
 | {source}`ComponentAtom <src/theory/theory_component.hpp#L55-L66>` | A registered Boolean term, its naming SAT literal, and occurrence/relevance information. |
 | {source}`AssignedTheoryLiteral <src/theory/theory_solver.hpp#L38-L46>` | An atom, its naming literal `lit`, and an assigned Boolean `value`. The true signed fact is `lit` when `value` is true and `-lit` otherwise. |
 | {source}`InterfaceRelation <src/theory/theory_solver.hpp#L48-L62>` | Equality or disequality between shared terms of the same sort, with its SAT naming literal when one has been introduced. A collection of such choices is an arrangement. |
-| {source}`TheoryCheckResult <src/theory/theory_solver.hpp#L101-L127>` | A tagged result containing the applicable clause, explanation, decision request, model projection, or diagnostic. |
+| {ufliaeqsource}`TheoryCheckResult <src/theory/theory_solver.hpp>` | A tagged result containing the applicable clause, explanation, shared-equality batch, decision request, model projection, or diagnostic. |
 
 The SAT backend sees literals and clauses, not these term-bearing records.
 The theory interface receives no backend handle or SMT-LIB syntax tree.
@@ -203,6 +203,7 @@ witness, and enumeration caches across SAT searches within one solve.
 | `Consistent` | No conflict at the requested effort. At `FullModel`, provide the model token and any projection required by the combination policy. |
 | `LearnedClause` | Return a theory clause with its final signs. It can express a conflict or a non-convex disjunction, without asserting that one disjunct is entailed. |
 | `EntailedLiteral` | Return `entailed_lit` and true antecedents in `reasons`. The driver forms the implication clause. |
+| `EntailedEqualities` | At the outer full-model boundary, return `equalities`: copied shared pairs with true antecedents. The driver validates and materializes the batch, learns guarded implications and re-solves. See [QF_UFLIA integration](uflia-equality-propagation.md). This is not an online callback result. |
 | `FreshDecision` | Request a choice about a shared equality. It is supported by outer model coordination, not as a new equality introduced inside an online callback. |
 | `LemmasPending` | Closed Boolean formulas are queued for the online driver to prepare and clausify between SAT calls. They may introduce atoms. |
 | `ResourceLimit`, `Unsupported`, `Cancelled`, `Unknown` | Report an inconclusive check, with a diagnostic. These are never encoded as an empty conflict clause. |
@@ -213,6 +214,8 @@ results stop acceptance; an online `FreshDecision` currently becomes
 `unknown`. The
 {source}`outer coordinator <src/smt/component_model_coordinator.cpp#L96-L134>`
 handles fresh equality decisions but does not drain formula queues. The
+{ufliaeqsource}`current outer coordinator <src/smt/component_model_coordinator.cpp>`
+also validates proved equality batches; the SMT solve loop owns their atom growth. The
 {source}`solve loop <src/smt/component_solver.cpp#L310-L350>` requires a lemma
 preparation hook for queued formulas; without one it reports unsupported.
 
