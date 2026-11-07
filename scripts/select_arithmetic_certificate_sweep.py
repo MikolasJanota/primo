@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Freeze a larger recorded-fast QF_LRA certificate sweep and disjoint shards.
+"""Freeze a larger recorded-fast arithmetic certificate sweep and disjoint shards.
 
 Selection uses the documented pilot's deterministic size/family sampling with
 reserved previous controls. See docs/reference/qf-lra-certificates.md.
@@ -24,6 +24,7 @@ def main():
     for name in ("history", "corpus", "baseline-selection", "out"):
         parser.add_argument("--" + name, type=Path, required=True)
     parser.add_argument("--historical-git", required=True)
+    parser.add_argument("--logic", choices=("QF_LRA", "QF_LIA"), default="QF_LRA")
     parser.add_argument("--count", type=int, default=256)
     parser.add_argument("--max-per-family", type=int, default=256)
     parser.add_argument("--shards", type=int, default=8)
@@ -51,7 +52,7 @@ def main():
         raise ValueError("no new eligible cases beyond the baseline controls")
     args.out.mkdir(parents=True, exist_ok=False)
     selected.update(
-        logic="QF_LRA",
+        logic=args.logic,
         job_id=os.environ["SLURM_JOB_ID"],
         historical_git=args.historical_git,
         historical_seconds_max=1,
@@ -67,7 +68,7 @@ def main():
         write_json(
             args.out / filename,
             {
-                "logic": "QF_LRA",
+                "logic": args.logic,
                 "cases": cases,
                 "selection_sha256": digest(args.out / "selection.json"),
                 "shard_index": shard,

@@ -1,0 +1,2041 @@
+{
+  "cases": [
+    {
+      "file": "20220307-SMPT/Diffusion2D-PT-D05N350/RF-10.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "b5e312a8b1587c0789b3426cfd51fc402acce167c360914ff045f0e7f48fa0d9",
+      "historical_seconds": 0.008063,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-22/answers.csv",
+      "source_bytes": 4097,
+      "size_tier": 0,
+      "baseline_control": true
+    },
+    {
+      "file": "20220307-SMPT/MAPK-PT-05120/RF-02.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "a4379f0930c4e21245e6ac0eb0072f596767c13e3d8a13a646ca551d48e0ad99",
+      "historical_seconds": 0.007062,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-20/answers.csv",
+      "source_bytes": 4099,
+      "size_tier": 0
+    },
+    {
+      "file": "20220307-SMPT/MAPK-PT-00160/RF-00.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "d24f76f270ecf1a318c3c1483f39220393cd17bfa0bd8e03c743e3000fea7b7c",
+      "historical_seconds": 0.00896,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-118/answers.csv",
+      "source_bytes": 4100,
+      "size_tier": 0
+    },
+    {
+      "file": "20220307-SMPT/Diffusion2D-PT-D05N050/RF-00.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "8a09b2396a4a484eb1f466b5759548766e9bec495cdc576be584cd69f2cce12a",
+      "historical_seconds": 0.008641,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-87/answers.csv",
+      "source_bytes": 4112,
+      "size_tier": 0
+    },
+    {
+      "file": "prime-cone/prime_cone_unsat_16.smt2",
+      "expected": "unsat",
+      "family": "prime-cone",
+      "sha256": "e64ac51c01d2abd80cf48b09270d259407f895311d7e8b86f75072a9d92e6e9b",
+      "historical_seconds": 0.018275,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-50/answers.csv",
+      "source_bytes": 4292,
+      "size_tier": 0
+    },
+    {
+      "file": "CAV_2009_benchmarks/smt/15-vars/problem__016.smt2",
+      "expected": "unsat",
+      "family": "CAV_2009_benchmarks",
+      "sha256": "a97a4b77336d845213b0ad199bcad78fc0b3d80890378de500b423546b24b9e0",
+      "historical_seconds": 0.010786,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-49/answers.csv",
+      "source_bytes": 4311,
+      "size_tier": 0,
+      "baseline_control": true
+    },
+    {
+      "file": "CAV_2009_benchmarks/smt/15-vars/problem_2__020.smt2",
+      "expected": "unsat",
+      "family": "CAV_2009_benchmarks",
+      "sha256": "707bad42c0c2052fafce075716fbf90ec90402003d8f5a8c5983a5a88ae0db26",
+      "historical_seconds": 0.012393,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-28/answers.csv",
+      "source_bytes": 4324,
+      "size_tier": 0
+    },
+    {
+      "file": "CAV_2009_benchmarks/smt/15-vars/problem_2__019.smt2",
+      "expected": "unsat",
+      "family": "CAV_2009_benchmarks",
+      "sha256": "d4cb968a492b7a365a222f19218ba74e09d1e50bcd76c665fe3170add0e047d5",
+      "historical_seconds": 0.010415,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-27/answers.csv",
+      "source_bytes": 4328,
+      "size_tier": 0
+    },
+    {
+      "file": "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/smt/10-vars/v10_problem_2__019.smt2.slack.smt2",
+      "expected": "unsat",
+      "family": "20180326-Bromberger",
+      "sha256": "57e8166013ccdc657cfd269fc9e75b80a040ce3ed07659873bfd0f78375c8838",
+      "historical_seconds": 0.006953,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-69/answers.csv",
+      "source_bytes": 4432,
+      "size_tier": 0,
+      "baseline_control": true
+    },
+    {
+      "file": "20180326-Bromberger/more_slacked/cut_lemmas/15-vars/cut_lemma_02_005.smt2.slack.smt2",
+      "expected": "unsat",
+      "family": "20180326-Bromberger",
+      "sha256": "2740e857462019445e27bc08b5bc0556f0303828cd435661609a47ccbbc684f2",
+      "historical_seconds": 0.00806,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-101/answers.csv",
+      "source_bytes": 4453,
+      "size_tier": 0
+    },
+    {
+      "file": "20180326-Bromberger/more_slacked/cut_lemmas/15-vars/cut_lemma_03_013.smt2.slack.smt2",
+      "expected": "unsat",
+      "family": "20180326-Bromberger",
+      "sha256": "c4ccea0e2e6a3b99ef48fd3511597c3d7fa31af67bc4ba711735595e32b64720",
+      "historical_seconds": 0.009955,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-116/answers.csv",
+      "source_bytes": 4462,
+      "size_tier": 0
+    },
+    {
+      "file": "CIRC/multiplier/MULTIPLIER_3.msat.smt2",
+      "expected": "unsat",
+      "family": "CIRC",
+      "sha256": "27e1934f1787a14a81a715f87adf04a80edfdc5b3a9a12e8175eb6219a899ead",
+      "historical_seconds": 0.013631,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-103/answers.csv",
+      "source_bytes": 4477,
+      "size_tier": 0,
+      "baseline_control": true
+    },
+    {
+      "file": "rings_preprocessed/ring_2exp4_5vars_0ite_unsat.smt2",
+      "expected": "unsat",
+      "family": "rings_preprocessed",
+      "sha256": "dfc7ab082cf34ef8af1a726b919668274a9aad4fcf3d6da8432e3c767a3816c5",
+      "historical_seconds": 0.009923,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-19/answers.csv",
+      "source_bytes": 4516,
+      "size_tier": 0
+    },
+    {
+      "file": "rings_preprocessed/ring_2exp6_5vars_0ite_unsat.smt2",
+      "expected": "unsat",
+      "family": "rings_preprocessed",
+      "sha256": "4919793a4ce3996cdaa31cbb4b41809fe184b37bf217d58086047fe14d19eba8",
+      "historical_seconds": 0.010038,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-61/answers.csv",
+      "source_bytes": 4574,
+      "size_tier": 0
+    },
+    {
+      "file": "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/smt/10-vars/v10_problem__016.smt2.slack.smt2",
+      "expected": "unsat",
+      "family": "20180326-Bromberger",
+      "sha256": "264184089e80a8bcdb3f9e78047ced779dc3139c6cba55a876dabe1d4e943dba",
+      "historical_seconds": 0.007581,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-99/answers.csv",
+      "source_bytes": 4605,
+      "size_tier": 0
+    },
+    {
+      "file": "calypto/problem-004344.cvc.1.smt2",
+      "expected": "unsat",
+      "family": "calypto",
+      "sha256": "68ea2f593d4017b23d537b0e6fdfb15f691dc00b26a2c326732591b0a7253e45",
+      "historical_seconds": 0.019565,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-50/answers.csv",
+      "source_bytes": 4734,
+      "size_tier": 0,
+      "baseline_control": true
+    },
+    {
+      "file": "calypto/problem-004353.cvc.1.smt2",
+      "expected": "unsat",
+      "family": "calypto",
+      "sha256": "036ef02bcc6ff2e366128bce740b433f586f8a889769a247a7461f02eb2cbde7",
+      "historical_seconds": 0.019489,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-53/answers.csv",
+      "source_bytes": 4738,
+      "size_tier": 0
+    },
+    {
+      "file": "calypto/problem-004299.cvc.1.smt2",
+      "expected": "unsat",
+      "family": "calypto",
+      "sha256": "ca30fd7847f1b7f8992ad5e599f3cb2166b08221caea5c19c75804d5d71f8ad8",
+      "historical_seconds": 0.019588,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-40/answers.csv",
+      "source_bytes": 4745,
+      "size_tier": 0
+    },
+    {
+      "file": "prime-cone/prime_cone_unsat_17.smt2",
+      "expected": "unsat",
+      "family": "prime-cone",
+      "sha256": "c5b6e0a0f9a0999d7bd6c97c2f060a1f4cdf5719a0c730c14a20afca299a5654",
+      "historical_seconds": 0.020528,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-51/answers.csv",
+      "source_bytes": 4756,
+      "size_tier": 0
+    },
+    {
+      "file": "nec-smt/small/int_from_list/prp-2-17.smt2",
+      "expected": "unsat",
+      "family": "nec-smt",
+      "sha256": "03af1be2ed516d40e456401526399d87dfde0aa7d3f319633d43a7e86192499d",
+      "historical_seconds": 0.013626,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-35/answers.csv",
+      "source_bytes": 4993,
+      "size_tier": 0
+    },
+    {
+      "file": "pidgeons/pigeon-hole-7.smt2",
+      "expected": "unsat",
+      "family": "pidgeons",
+      "sha256": "959760b9363bcd50193233a1af2be44e7f6676023413771d8aace6d15d064c18",
+      "historical_seconds": 0.008566,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-22/answers.csv",
+      "source_bytes": 5074,
+      "size_tier": 0
+    },
+    {
+      "file": "CIRC/simplebitadder/SIMPLEBITADDER_COMPOSE_2.msat.smt2",
+      "expected": "unsat",
+      "family": "CIRC",
+      "sha256": "ace469f0d9e3cf186bef89c5b8a020bd7727cfa7f0f818f6a8448cf7f4f2d7d4",
+      "historical_seconds": 0.01112,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-8/answers.csv",
+      "source_bytes": 5543,
+      "size_tier": 0
+    },
+    {
+      "file": "CIRC/multiplier/MULTIPLIER_4.msat.smt2",
+      "expected": "unsat",
+      "family": "CIRC",
+      "sha256": "87a2b1ae3244a0369a5cfc687695675f454d5076051bb57e105bc6dc3c8413e0",
+      "historical_seconds": 0.026942,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-105/answers.csv",
+      "source_bytes": 5703,
+      "size_tier": 0
+    },
+    {
+      "file": "nec-smt/small/int_from_list/prp-3-18.smt2",
+      "expected": "unsat",
+      "family": "nec-smt",
+      "sha256": "b2afb59bd17aa1f971b3c773e4929ffbf99c157cb5aeb5b43cf285d3eae61ff6",
+      "historical_seconds": 0.01779,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-37/answers.csv",
+      "source_bytes": 5748,
+      "size_tier": 0
+    },
+    {
+      "file": "convert/convert-tiff2jpg-query-1831.smt2",
+      "expected": "unsat",
+      "family": "convert",
+      "sha256": "bfdd8b96338d6d2e9650a33e7ef3df8f3c1f8077a2431aedaaa276a3b47912ad",
+      "historical_seconds": 0.012288,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-0/answers.csv",
+      "source_bytes": 6184,
+      "size_tier": 0,
+      "baseline_control": true
+    },
+    {
+      "file": "pidgeons/pigeon-hole-8.smt2",
+      "expected": "unsat",
+      "family": "pidgeons",
+      "sha256": "75d6058f46c202dbe5f2447e9794f3fa78a03a146697133855c3485dbe87a5e9",
+      "historical_seconds": 0.009313,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-23/answers.csv",
+      "source_bytes": 6442,
+      "size_tier": 0
+    },
+    {
+      "file": "fft/Sz64_1159.smt2",
+      "expected": "unsat",
+      "family": "fft",
+      "sha256": "6dd720653f2692b7060f9240320d61cb0518e9dff23208904011c6b09eb5fe8d",
+      "historical_seconds": 0.034322,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-78/answers.csv",
+      "source_bytes": 7538,
+      "size_tier": 0,
+      "baseline_control": true
+    },
+    {
+      "file": "dillig/25-22.smt2",
+      "expected": "unsat",
+      "family": "dillig",
+      "sha256": "d75a65f784ecea78f8346c2d942868b9bbad6ac71e84a2a346b40d9380413009",
+      "historical_seconds": 0.289948,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-41/answers.csv",
+      "source_bytes": 8799,
+      "size_tier": 0,
+      "baseline_control": true
+    },
+    {
+      "file": "mathsat/FISCHER1-2-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "e411ec18bd48b0149540e7837c447882584c836b89255f7d0c4df01da9f4b966",
+      "historical_seconds": 0.013225,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-81/answers.csv",
+      "source_bytes": 9234,
+      "size_tier": 0
+    },
+    {
+      "file": "dillig/25-31.smt2",
+      "expected": "unsat",
+      "family": "dillig",
+      "sha256": "ce48a896186ce8c79621568f49f1f61210e1afa1e20d6cf97ca32b1e000309e6",
+      "historical_seconds": 0.189146,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-51/answers.csv",
+      "source_bytes": 10603,
+      "size_tier": 0
+    },
+    {
+      "file": "mathsat/FISCHER1-3-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "abbd4274094ee0205b5ad3be370f2ee2e743a1bfa180be00fef028bb8aee926e",
+      "historical_seconds": 0.015664,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-82/answers.csv",
+      "source_bytes": 13160,
+      "size_tier": 0
+    },
+    {
+      "file": "fft/Sz32_455.smt2",
+      "expected": "unsat",
+      "family": "fft",
+      "sha256": "5ecec11f662c75bbe9c8a1836d880f2a2a56c6610bb492eb047dfbb349c9c67e",
+      "historical_seconds": 0.171895,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-76/answers.csv",
+      "source_bytes": 19855,
+      "size_tier": 0
+    },
+    {
+      "file": "mathsat/FISCHER2-4-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "26b88a5d663175a98eff8ef398b28cf10a6612e75cb2de6fb630c942e90e6be5",
+      "historical_seconds": 0.048442,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-120/answers.csv",
+      "source_bytes": 33290,
+      "size_tier": 1,
+      "baseline_control": true
+    },
+    {
+      "file": "20220307-SMPT/Eratosthenes-PT-500/RC-02.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "6d1308bc12a7b9a9b5969bf997610ebd240510d098089c6cb5ff79b02b4c9133",
+      "historical_seconds": 0.016003,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-16/answers.csv",
+      "source_bytes": 33637,
+      "size_tier": 1,
+      "baseline_control": true
+    },
+    {
+      "file": "20220307-SMPT/Eratosthenes-PT-500/RC-07.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "279a31b0c83442c183a998b3dfe2835e4516c2310ef0644219ee67207be6c9b8",
+      "historical_seconds": 0.016243,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-21/answers.csv",
+      "source_bytes": 33637,
+      "size_tier": 1
+    },
+    {
+      "file": "20220307-SMPT/Eratosthenes-PT-500/RC-08.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "9a260125bda019ffa382a54605d7c2728c92e6d6c131ffa807d97afe7018f5d7",
+      "historical_seconds": 0.012538,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-22/answers.csv",
+      "source_bytes": 33637,
+      "size_tier": 1
+    },
+    {
+      "file": "20220307-SMPT/Eratosthenes-PT-500/RC-15.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "30a3689cdf6ba760bbe031b454abfe9242be32bb78e9be11944f18f53226d8b0",
+      "historical_seconds": 0.013675,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-29/answers.csv",
+      "source_bytes": 33643,
+      "size_tier": 1
+    },
+    {
+      "file": "20220307-SMPT/Eratosthenes-PT-500/RC-13.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "d83d50bc81f96b1aa3ae2a2ac5cc54b97cf8fd9f3f97e86bcec2b3f75dda3d6b",
+      "historical_seconds": 0.014976,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-27/answers.csv",
+      "source_bytes": 33646,
+      "size_tier": 1
+    },
+    {
+      "file": "20220307-SMPT/Eratosthenes-PT-500/RC-06.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "98267144ce046c3b848e76a7406591f99eeea3d9ad09884603d38d0c5510176b",
+      "historical_seconds": 0.012436,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-20/answers.csv",
+      "source_bytes": 33648,
+      "size_tier": 1
+    },
+    {
+      "file": "pidgeons/pigeon-hole-19.smt2",
+      "expected": "unsat",
+      "family": "pidgeons",
+      "sha256": "0c61809e79f8ad7c0d912f655df2086082bd8eb40ea998fed9b114169044c533",
+      "historical_seconds": 0.020699,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-15/answers.csv",
+      "source_bytes": 34296,
+      "size_tier": 1,
+      "baseline_control": true
+    },
+    {
+      "file": "mathsat/FISCHER4-2-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "ce7dbd0219b1f01544d8f129dba58247d838e65c691995c4b1eff1386699d322",
+      "historical_seconds": 0.046144,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-5/answers.csv",
+      "source_bytes": 34937,
+      "size_tier": 1
+    },
+    {
+      "file": "nec-smt/med/int_from_list/prp-28-27.smt2",
+      "expected": "unsat",
+      "family": "nec-smt",
+      "sha256": "4ad2525b84c120ef0d908962638873db261166436a6f4fee95e059e5eb8620c6",
+      "historical_seconds": 0.643295,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-86/answers.csv",
+      "source_bytes": 35576,
+      "size_tier": 1,
+      "baseline_control": true
+    },
+    {
+      "file": "nec-smt/med/int_from_list/prp-19-27.smt2",
+      "expected": "unsat",
+      "family": "nec-smt",
+      "sha256": "4e5af5257a6a6cef96d06c7db5946ee9573a812d0f620eaa8d7388630629c0f2",
+      "historical_seconds": 0.973633,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-53/answers.csv",
+      "source_bytes": 35651,
+      "size_tier": 1
+    },
+    {
+      "file": "nec-smt/med/int_from_list/prp-18-27.smt2",
+      "expected": "unsat",
+      "family": "nec-smt",
+      "sha256": "eda1f40f14284f484249816b1bd7a38e65966f455a93deb02ddbe41ee4b7308a",
+      "historical_seconds": 0.910084,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-51/answers.csv",
+      "source_bytes": 35686,
+      "size_tier": 1
+    },
+    {
+      "file": "nec-smt/med/int_from_list/prp-10-27.smt2",
+      "expected": "unsat",
+      "family": "nec-smt",
+      "sha256": "bef6b49a6e0db87a42b414a9f7dc9d53d0f8561da3ac48e207d4f23fd3f9bddd",
+      "historical_seconds": 0.850185,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-27/answers.csv",
+      "source_bytes": 35756,
+      "size_tier": 1
+    },
+    {
+      "file": "wisa/wisa2.smt2",
+      "expected": "unsat",
+      "family": "wisa",
+      "sha256": "940d404dd0aeea49666ab289cc137639fe4609d33cbc1276a9acd016a8b80755",
+      "historical_seconds": 0.075219,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-118/answers.csv",
+      "source_bytes": 37670,
+      "size_tier": 1
+    },
+    {
+      "file": "mathsat/FISCHER3-3-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "5fd9db9c66b6a590c48c8621e61f3029d81a238ef075747df5abf4c7621ff513",
+      "historical_seconds": 0.055643,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-126/answers.csv",
+      "source_bytes": 37835,
+      "size_tier": 1
+    },
+    {
+      "file": "pidgeons/pigeon-hole-20.smt2",
+      "expected": "unsat",
+      "family": "pidgeons",
+      "sha256": "ec6e843b06dd1b2ffd56a268ee68ad8b7708a05b9dfc6c78b9f116e3bbd4f110",
+      "historical_seconds": 0.022889,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-17/answers.csv",
+      "source_bytes": 37956,
+      "size_tier": 1
+    },
+    {
+      "file": "nec-smt/med/int_from_list/prp-29-28.smt2",
+      "expected": "unsat",
+      "family": "nec-smt",
+      "sha256": "b523b37ba1f495df705d51c93e42f7c370fc8216e30f6d7b365c427bb7f28d46",
+      "historical_seconds": 0.971441,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-88/answers.csv",
+      "source_bytes": 40645,
+      "size_tier": 1
+    },
+    {
+      "file": "convert/convert-jpg2gif-query-2120.smt2",
+      "expected": "unsat",
+      "family": "convert",
+      "sha256": "67d8a44122f0232a2a41d5fa6ae44eef5d26c197f96f15d0b771209be35994eb",
+      "historical_seconds": 0.054691,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-112/answers.csv",
+      "source_bytes": 40887,
+      "size_tier": 1,
+      "baseline_control": true
+    },
+    {
+      "file": "convert/convert-jpg2gif-query-2121.smt2",
+      "expected": "unsat",
+      "family": "convert",
+      "sha256": "e4d8895232b68953bec620bfedb9bbcb4b3b4766a445ca10ca446e0c403be969",
+      "historical_seconds": 0.052879,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-113/answers.csv",
+      "source_bytes": 40934,
+      "size_tier": 1
+    },
+    {
+      "file": "convert/convert-jpg2gif-query-2122.smt2",
+      "expected": "unsat",
+      "family": "convert",
+      "sha256": "9033af9e189e51dfab5ea07dfce5de479f7152d4f300ee7d09a29c1df509cc3a",
+      "historical_seconds": 0.054572,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-114/answers.csv",
+      "source_bytes": 40968,
+      "size_tier": 1
+    },
+    {
+      "file": "mathsat/FISCHER2-5-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "dde9a072edce160897d285fd57cc8c5d3525dcf4e0581c52896adada3ca27c08",
+      "historical_seconds": 0.067167,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-121/answers.csv",
+      "source_bytes": 41199,
+      "size_tier": 1
+    },
+    {
+      "file": "convert/convert-jpg2gif-query-2124.smt2",
+      "expected": "unsat",
+      "family": "convert",
+      "sha256": "8708bd3e24877b956afaab24a7df06b6115eb0f87f50c664c8f605bfe2450b02",
+      "historical_seconds": 0.053194,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-115/answers.csv",
+      "source_bytes": 41412,
+      "size_tier": 1
+    },
+    {
+      "file": "convert/convert-jpg2gif-query-2126.smt2",
+      "expected": "unsat",
+      "family": "convert",
+      "sha256": "bfe0a33a359c5adeeba8edd43b4764769d7eeb23b5c8f209e28b7824cda53bd2",
+      "historical_seconds": 0.054918,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-116/answers.csv",
+      "source_bytes": 41868,
+      "size_tier": 1
+    },
+    {
+      "file": "mathsat/FISCHER5-2-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "3402ff54ad09835a57550ce6e4dab010662de6b703febfbbc439e4308846a87e",
+      "historical_seconds": 0.065681,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-15/answers.csv",
+      "source_bytes": 43796,
+      "size_tier": 1
+    },
+    {
+      "file": "bofill-scheduling/SMT_real_LIA/ex2000_2400_100.smt2",
+      "expected": "unsat",
+      "family": "bofill-scheduling",
+      "sha256": "b3fc93eea0c9c8c0dac6e1d0da59d85c76eb93531fec7388438a3732e790336d",
+      "historical_seconds": 0.081576,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-8/answers.csv",
+      "source_bytes": 59420,
+      "size_tier": 1,
+      "baseline_control": true
+    },
+    {
+      "file": "bofill-scheduling/SMT_real_LIA/ex2020_2400_100.smt2",
+      "expected": "unsat",
+      "family": "bofill-scheduling",
+      "sha256": "f901a0600073c90be29c692e382ef6e062f3676c696ebc48943ce196da25e34d",
+      "historical_seconds": 0.081051,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-9/answers.csv",
+      "source_bytes": 59420,
+      "size_tier": 1
+    },
+    {
+      "file": "bofill-scheduling/SMT_real_LIA/ex2040_2400_100.smt2",
+      "expected": "unsat",
+      "family": "bofill-scheduling",
+      "sha256": "bbf240fd62c2713b2a3a1776d7791d4a8d73506c9ccc4efa98d541b60249d484",
+      "historical_seconds": 0.078281,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-10/answers.csv",
+      "source_bytes": 59420,
+      "size_tier": 1
+    },
+    {
+      "file": "bofill-scheduling/SMT_real_LIA/ex2060_2400_100.smt2",
+      "expected": "unsat",
+      "family": "bofill-scheduling",
+      "sha256": "f782df5caf4ce282a2b7de5ecd35572f35ab42ff647fe2dbf994179b266c08a6",
+      "historical_seconds": 0.081973,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-11/answers.csv",
+      "source_bytes": 59420,
+      "size_tier": 1
+    },
+    {
+      "file": "bofill-scheduling/SMT_real_LIA/ex2080_2400_100.smt2",
+      "expected": "unsat",
+      "family": "bofill-scheduling",
+      "sha256": "c3fd1256f502f8cb82212246c2116ceac12c74783db6bacd006d1ffefc4662b8",
+      "historical_seconds": 0.08339,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-12/answers.csv",
+      "source_bytes": 59420,
+      "size_tier": 1
+    },
+    {
+      "file": "bofill-scheduling/SMT_real_LIA/ex2100_2400_100.smt2",
+      "expected": "unsat",
+      "family": "bofill-scheduling",
+      "sha256": "c792c10088a5c66cbd0250496ad618ebba8703bc9a9bc01d7a674977057208e0",
+      "historical_seconds": 0.082656,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-13/answers.csv",
+      "source_bytes": 59420,
+      "size_tier": 1
+    },
+    {
+      "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc002.smt2",
+      "expected": "unsat",
+      "family": "Averest",
+      "sha256": "36326cd36b334793a6f4b6135f34bc05cf46a81faa97c70abdfde539afb71163",
+      "historical_seconds": 0.066069,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-2/answers.csv",
+      "source_bytes": 71626,
+      "size_tier": 1,
+      "baseline_control": true
+    },
+    {
+      "file": "20210219-Dartagnan/ReachSafety-Loops/count_up_down-1-O0.smt2",
+      "expected": "unsat",
+      "family": "20210219-Dartagnan",
+      "sha256": "8dea5c8594806e3ce54d1d0b343efd382018454afcf9de69bf2a11ffaf2cc5cc",
+      "historical_seconds": 0.707795,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-2/answers.csv",
+      "source_bytes": 111125,
+      "size_tier": 1,
+      "baseline_control": true
+    },
+    {
+      "file": "20220307-SMPT/BART-PT-005/RF-04.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "1753f0b62cff6014811b3de05ec7374af7f57c1f4472e66d9fc4cca9dc5db78e",
+      "historical_seconds": 0.080781,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-33/answers.csv",
+      "source_bytes": 131201,
+      "size_tier": 2,
+      "baseline_control": true
+    },
+    {
+      "file": "mathsat/FISCHER8-4-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "f6e0031755bcea09d98054e9f54f246f4843908da4cb134f5beb447d9ca99cd2",
+      "historical_seconds": 0.376647,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-53/answers.csv",
+      "source_bytes": 132317,
+      "size_tier": 2,
+      "baseline_control": true
+    },
+    {
+      "file": "20210219-Dartagnan/ReachSafety-Loops/deep-nested-O0.smt2",
+      "expected": "unsat",
+      "family": "20210219-Dartagnan",
+      "sha256": "d6a28a5b506012011a309200f6675388bd6e0cd206bcd2a71fb5bd50e5766852",
+      "historical_seconds": 0.957333,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-5/answers.csv",
+      "source_bytes": 137681,
+      "size_tier": 2,
+      "baseline_control": true
+    },
+    {
+      "file": "20220307-SMPT/SharedMemory-PT-000020/RC-14.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "2f34a8b4ad77a5440e163eed197480490df4420ff825445e5aed718ab6cfe19f",
+      "historical_seconds": 0.160427,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-48/answers.csv",
+      "source_bytes": 139215,
+      "size_tier": 2
+    },
+    {
+      "file": "20220307-SMPT/SharedMemory-PT-000020/RC-15.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "ef4233db02fcdb240988edb4ff8011696ac04aef6295d3755a1685b3077d2c9c",
+      "historical_seconds": 0.271283,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-49/answers.csv",
+      "source_bytes": 139226,
+      "size_tier": 2
+    },
+    {
+      "file": "20220307-SMPT/SharedMemory-PT-000020/RF-13.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "18817b1223dfc192f543c03309208e39a03e79b47e3b882dde5f73232959e461",
+      "historical_seconds": 0.165229,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-63/answers.csv",
+      "source_bytes": 139231,
+      "size_tier": 2
+    },
+    {
+      "file": "20220307-SMPT/SharedMemory-PT-000020/RC-11.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "185d0df1cd7cb23ddf57e7eca15e04166ea6aa2fb46fffc0edf1b7a8d28e1d9c",
+      "historical_seconds": 0.150181,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-45/answers.csv",
+      "source_bytes": 139288,
+      "size_tier": 2
+    },
+    {
+      "file": "20220307-SMPT/SharedMemory-PT-000020/RC-13.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "93348e3503b4d9dd4580f7d8519c0ee8dc1ec9af7abed29ad49d2a1b3bf1f4b7",
+      "historical_seconds": 0.161323,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-47/answers.csv",
+      "source_bytes": 139296,
+      "size_tier": 2
+    },
+    {
+      "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc003.smt2",
+      "expected": "unsat",
+      "family": "Averest",
+      "sha256": "b38132ed8c8ce8c2c39a17a75cc9b41f7cb286c6c7cd40a151e053695f4a53ca",
+      "historical_seconds": 0.145352,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-3/answers.csv",
+      "source_bytes": 139555,
+      "size_tier": 2,
+      "baseline_control": true
+    },
+    {
+      "file": "mathsat/FISCHER5-7-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "ec57a6247006fbe1f0fa43aa8bc8f78c878da2f11d7a0099d377f7feffbb808e",
+      "historical_seconds": 0.395254,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-20/answers.csv",
+      "source_bytes": 140001,
+      "size_tier": 2
+    },
+    {
+      "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_blmc000.smt2",
+      "expected": "unsat",
+      "family": "Averest",
+      "sha256": "300dd64faa62184851233ee86183275e8ba3fd2faabf72f942f05f569215f5f1",
+      "historical_seconds": 0.145681,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-7/answers.csv",
+      "source_bytes": 140783,
+      "size_tier": 2
+    },
+    {
+      "file": "mathsat/FISCHER11-3-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "51caf6a0829b7510234339e45f9abe143a043c729b32ab84268c704b40bdb9d1",
+      "historical_seconds": 0.392334,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-110/answers.csv",
+      "source_bytes": 141341,
+      "size_tier": 2
+    },
+    {
+      "file": "mathsat/FISCHER7-5-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "a260e68670df53ed0ca949ea88e857afdf78d55b2cde4c45d52113b7631f0844",
+      "historical_seconds": 0.400007,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-41/answers.csv",
+      "source_bytes": 142473,
+      "size_tier": 2
+    },
+    {
+      "file": "mathsat/FISCHER6-6-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "6c01df4d07f03811d601300cad82f14890d05138a5cdef10136851efdf7cf1ac",
+      "historical_seconds": 0.41001,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-30/answers.csv",
+      "source_bytes": 145000,
+      "size_tier": 2
+    },
+    {
+      "file": "mathsat/FISCHER9-4-fair.smt2",
+      "expected": "unsat",
+      "family": "mathsat",
+      "sha256": "e10759e167258e5a1fa7b7d91dfc97b886327fa53fb7ce9b9bdee98806545151",
+      "historical_seconds": 0.403038,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-67/answers.csv",
+      "source_bytes": 149268,
+      "size_tier": 2
+    },
+    {
+      "file": "nec-smt/large/handler_sigchld/prp-25-46.smt2",
+      "expected": "unsat",
+      "family": "nec-smt",
+      "sha256": "bc9d466a2e080757e8084af27954d3da6a511f916c315c94325730d43fd16781",
+      "historical_seconds": 0.406286,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-76/answers.csv",
+      "source_bytes": 153389,
+      "size_tier": 2,
+      "baseline_control": true
+    },
+    {
+      "file": "nec-smt/large/handler_sigchld/prp-24-46.smt2",
+      "expected": "unsat",
+      "family": "nec-smt",
+      "sha256": "48f5b67dbda26ce541b712a381235296c6c6b451794780456911a45236776478",
+      "historical_seconds": 0.404719,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-71/answers.csv",
+      "source_bytes": 153409,
+      "size_tier": 2
+    },
+    {
+      "file": "nec-smt/large/handler_sigchld/prp-23-46.smt2",
+      "expected": "unsat",
+      "family": "nec-smt",
+      "sha256": "8acd4dbe9d5f17d65d4c7b84d180ff9a142437b42d03ae16b7e98f177651d30d",
+      "historical_seconds": 0.41219,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-66/answers.csv",
+      "source_bytes": 153447,
+      "size_tier": 2
+    },
+    {
+      "file": "nec-smt/large/handler_sigchld/prp-20-46.smt2",
+      "expected": "unsat",
+      "family": "nec-smt",
+      "sha256": "ab2c1842652bd131c080632aedaf4c9874ecc0c1e8e59292e897c5941a97f0e5",
+      "historical_seconds": 0.313145,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-51/answers.csv",
+      "source_bytes": 153485,
+      "size_tier": 2
+    },
+    {
+      "file": "nec-smt/large/handler_sigchld/prp-21-46.smt2",
+      "expected": "unsat",
+      "family": "nec-smt",
+      "sha256": "3a98d524abcdff6820eb536e1899f27476184d039e03f64d6d36c2658156c712",
+      "historical_seconds": 0.415513,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-56/answers.csv",
+      "source_bytes": 153485,
+      "size_tier": 2
+    },
+    {
+      "file": "20210219-Dartagnan/ReachSafety-Loops/underapprox_2-2-O0.smt2",
+      "expected": "unsat",
+      "family": "20210219-Dartagnan",
+      "sha256": "fbde9396cf5e7eb6b1e4bad89d722bc9fdb4ae180745ccd32277f41d0804473e",
+      "historical_seconds": 0.746485,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-77/answers.csv",
+      "source_bytes": 162019,
+      "size_tier": 2
+    },
+    {
+      "file": "20210219-Dartagnan/ReachSafety-Loops/cggmp2005-O0.smt2",
+      "expected": "unsat",
+      "family": "20210219-Dartagnan",
+      "sha256": "34062ec83118bb0d6f7ee8284fe73505568b2a8da743a6a10498ed6d5b8cba78",
+      "historical_seconds": 0.798219,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-125/answers.csv",
+      "source_bytes": 165932,
+      "size_tier": 2
+    },
+    {
+      "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_live_bgmc003.smt2",
+      "expected": "unsat",
+      "family": "Averest",
+      "sha256": "d935c0bbcc43ffd5f87bcd81dfb40b4126abf9f36c01fb2e6d8f500751bab657",
+      "historical_seconds": 0.197566,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-127/answers.csv",
+      "source_bytes": 195417,
+      "size_tier": 2
+    },
+    {
+      "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc004.smt2",
+      "expected": "unsat",
+      "family": "Averest",
+      "sha256": "265a6f4e08299f863db0c87f130554564819ad03c48ab9d9ee9c6de9ecb5eea9",
+      "historical_seconds": 0.229556,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-4/answers.csv",
+      "source_bytes": 212163,
+      "size_tier": 2
+    },
+    {
+      "file": "2019-ezsmt/incrementalScheduling/099-incremental_scheduling-15631-0.smt2",
+      "expected": "unsat",
+      "family": "2019-ezsmt",
+      "sha256": "973c47d4001888d0f9a57f7af9b036b6ddf81cc250970c08e6b0efeabb8cc6e0",
+      "historical_seconds": 0.167469,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-83/answers.csv",
+      "source_bytes": 284833,
+      "size_tier": 2,
+      "baseline_control": true
+    },
+    {
+      "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc005.smt2",
+      "expected": "unsat",
+      "family": "Averest",
+      "sha256": "760b23f641fadb3e5c0b1b4d6ef5738a210d862afefb24ab43065d1975bf9c90",
+      "historical_seconds": 0.343687,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-5/answers.csv",
+      "source_bytes": 286573,
+      "size_tier": 2
+    },
+    {
+      "file": "2019-ezsmt/incrementalScheduling/090-incremental_scheduling-15444-0.smt2",
+      "expected": "unsat",
+      "family": "2019-ezsmt",
+      "sha256": "e8fa32f9b177639717cbf466a7df29747e2c83d59ce6ef0f6110a0a71cc591eb",
+      "historical_seconds": 0.078411,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-82/answers.csv",
+      "source_bytes": 319940,
+      "size_tier": 2,
+      "baseline_control": true
+    },
+    {
+      "file": "2019-ezsmt/incrementalScheduling/102-incremental_scheduling-18468-0.smt2",
+      "expected": "unsat",
+      "family": "2019-ezsmt",
+      "sha256": "f6780c2838ca81158804eba74603604634683d8830f3cbde202d6db6668fdb5d",
+      "historical_seconds": 0.633307,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-84/answers.csv",
+      "source_bytes": 320391,
+      "size_tier": 2
+    },
+    {
+      "file": "pb2010/normalized-j308_1-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "a9a904a3eaa34039bc44d73036f10508a6e50d13c4262be9f8413d8c124574cb",
+      "historical_seconds": 0.145475,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-95/answers.csv",
+      "source_bytes": 353694,
+      "size_tier": 2,
+      "baseline_control": true
+    },
+    {
+      "file": "2019-ezsmt/incrementalScheduling/170-incremental_scheduling-18108-0.smt2",
+      "expected": "unsat",
+      "family": "2019-ezsmt",
+      "sha256": "096920cbd1dee9323a8959a038fd0e635dce3517bb16021f8d9df11e103af5cb",
+      "historical_seconds": 0.131038,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-93/answers.csv",
+      "source_bytes": 372859,
+      "size_tier": 2
+    },
+    {
+      "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_blmc002.smt2",
+      "expected": "unsat",
+      "family": "Averest",
+      "sha256": "2371225bc622aa414b21a0a3982aae520185f7f7902359d7710c765c1f4c73f8",
+      "historical_seconds": 0.561741,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-9/answers.csv",
+      "source_bytes": 399157,
+      "size_tier": 2
+    },
+    {
+      "file": "2019-ezsmt/incrementalScheduling/241-incremental_scheduling-28320-0.smt2",
+      "expected": "unsat",
+      "family": "2019-ezsmt",
+      "sha256": "1f729bfcc96521d3dd7e9c25c03ee4c53b141446fd2133d69bb6fd719e75dde5",
+      "historical_seconds": 0.362085,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-97/answers.csv",
+      "source_bytes": 506228,
+      "size_tier": 2
+    },
+    {
+      "file": "20220307-SMPT/BART-PT-030/RC-01.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "40cfb45d4c54f74cb71e9ef387a30abf0781482512b4d4e84c12754fe43d5b48",
+      "historical_seconds": 0.630589,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-110/answers.csv",
+      "source_bytes": 685261,
+      "size_tier": 3
+    },
+    {
+      "file": "20220307-SMPT/BART-PT-030/RC-10.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "74679dad8fcf99c2678b832b6c81b7eea102f5763a2589fc488ce58c849fae99",
+      "historical_seconds": 0.720615,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-119/answers.csv",
+      "source_bytes": 685272,
+      "size_tier": 3
+    },
+    {
+      "file": "20220307-SMPT/BART-PT-030/RC-15.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "e33ca61e1e06af4ef22eda62dac8f38bce4a691d4548f7a269a8d3eefa9ffdb0",
+      "historical_seconds": 0.732989,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-124/answers.csv",
+      "source_bytes": 685277,
+      "size_tier": 3
+    },
+    {
+      "file": "20220307-SMPT/BART-PT-030/RC-05.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "3c1523f2a946d8658a4924f9f8e45194dc412a96dcec4403971958076e5b9e92",
+      "historical_seconds": 0.7373,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-114/answers.csv",
+      "source_bytes": 685371,
+      "size_tier": 3
+    },
+    {
+      "file": "20220307-SMPT/BART-PT-030/RC-00.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "f42d551b01f79b3447024c3dd0565f9aa6c308988c7886617abd228693bdab5f",
+      "historical_seconds": 0.735432,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-109/answers.csv",
+      "source_bytes": 685386,
+      "size_tier": 3
+    },
+    {
+      "file": "20220307-SMPT/BART-PT-030/RC-06.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "e1bd7270307860d72979597c3b3ebd715bad694042cb0c9c7ed8fc614ee3f0bb",
+      "historical_seconds": 0.693623,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-115/answers.csv",
+      "source_bytes": 685388,
+      "size_tier": 3
+    },
+    {
+      "file": "20220307-SMPT/BART-PT-030/RC-07.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "570f744cfc66b89a28dbf540c012f5ea24146fdbaed8ff2c8f8a9ad74d78d871",
+      "historical_seconds": 0.733185,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-116/answers.csv",
+      "source_bytes": 685397,
+      "size_tier": 3
+    },
+    {
+      "file": "20220307-SMPT/BART-PT-030/RC-13.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "656931ac9f63f8469e3b66d786293e19fd4c9813a53cc36a4123346b3fcea4ed",
+      "historical_seconds": 0.731733,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-122/answers.csv",
+      "source_bytes": 685477,
+      "size_tier": 3
+    },
+    {
+      "file": "20220307-SMPT/BART-PT-030/RF-06.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "5867beec7939b91374bad71fe144e3577ec561ffaf98c6dd61cf8c19135ccab9",
+      "historical_seconds": 0.712547,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-3/answers.csv",
+      "source_bytes": 686055,
+      "size_tier": 3
+    },
+    {
+      "file": "2019-ezsmt/incrementalScheduling/251-incremental_scheduling-40518-0.smt2",
+      "expected": "unsat",
+      "family": "2019-ezsmt",
+      "sha256": "1d63d6f883ccc4cc14bb4f5cefc3c211232b99b5e315cd8220722303def95bd9",
+      "historical_seconds": 0.093099,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-98/answers.csv",
+      "source_bytes": 740860,
+      "size_tier": 3
+    },
+    {
+      "file": "2019-ezsmt/incrementalScheduling/264-incremental_scheduling-40968-0.smt2",
+      "expected": "unsat",
+      "family": "2019-ezsmt",
+      "sha256": "508b9fd7803d38b9645b4bc007952168f4658af50063a913a0d6bda188a2a066",
+      "historical_seconds": 0.098498,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-100/answers.csv",
+      "source_bytes": 760093,
+      "size_tier": 3
+    },
+    {
+      "file": "2019-ezsmt/incrementalScheduling/298-incremental_scheduling-40824-0.smt2",
+      "expected": "unsat",
+      "family": "2019-ezsmt",
+      "sha256": "ef2e7d40e95774974bc14b3b07a5768ec4bcc4663484fddb33c56db2629aabd2",
+      "historical_seconds": 0.101576,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-103/answers.csv",
+      "source_bytes": 772164,
+      "size_tier": 3
+    },
+    {
+      "file": "2019-ezsmt/incrementalScheduling/332-incremental_scheduling-50480-0.smt2",
+      "expected": "unsat",
+      "family": "2019-ezsmt",
+      "sha256": "06eee8f48c8f079ed585886cb24b54e4ca5ccc9d2087865d03a9d96d1353514f",
+      "historical_seconds": 0.118393,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-106/answers.csv",
+      "source_bytes": 864851,
+      "size_tier": 3
+    },
+    {
+      "file": "2019-ezsmt/incrementalScheduling/329-incremental_scheduling-50260-0.smt2",
+      "expected": "unsat",
+      "family": "2019-ezsmt",
+      "sha256": "850ad18eb26fe0d0b9db7d4f98f96d665078c2a692a859d265656a4dc1708fd8",
+      "historical_seconds": 0.12582,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-105/answers.csv",
+      "source_bytes": 890463,
+      "size_tier": 3
+    },
+    {
+      "file": "20220307-SMPT/BART-PT-040/RC-14.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "c72daa5b4abfc1d8567bda58e69183cd6b2215208fd2b84719276c5c9babb55f",
+      "historical_seconds": 0.996135,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-27/answers.csv",
+      "source_bytes": 908597,
+      "size_tier": 3
+    },
+    {
+      "file": "20220307-SMPT/BART-PT-040/RC-05.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "1005739a98ea8a89138ad2e582cd617a27ca7920e8984f7b7af9e0b0b3e06c39",
+      "historical_seconds": 0.965833,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-18/answers.csv",
+      "source_bytes": 908715,
+      "size_tier": 3
+    },
+    {
+      "file": "2019-ezsmt/incrementalScheduling/305-incremental_scheduling-50100-0.smt2",
+      "expected": "unsat",
+      "family": "2019-ezsmt",
+      "sha256": "7cb11c4b4eb54f7f56ed3ffbe46ae8e500e6dcf37f35ea962b9ae99884fe7ae4",
+      "historical_seconds": 0.119349,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-104/answers.csv",
+      "source_bytes": 919853,
+      "size_tier": 3
+    },
+    {
+      "file": "pb2010/normalized-j606_1-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "5f3d34fda436d9ff35c5b56dec09a64c0c572fe95065c9fb65e27c505e91a277",
+      "historical_seconds": 0.423266,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-116/answers.csv",
+      "source_bytes": 977341,
+      "size_tier": 3
+    },
+    {
+      "file": "pb2010/normalized-j6010_2-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "d8489d9b6632defc5781563c722e6eef5dfc2bb3948e2242281de342f6a92459",
+      "historical_seconds": 0.470093,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-99/answers.csv",
+      "source_bytes": 1014949,
+      "size_tier": 3
+    },
+    {
+      "file": "20220307-SMPT/SharedMemory-PT-000050/RC-04.smt2",
+      "expected": "unsat",
+      "family": "20220307-SMPT",
+      "sha256": "7f7d73c09bb781fc316be6c2ff49d569cbeae035e1f7d68825b00c409c896c61",
+      "historical_seconds": 0.167602,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-70/answers.csv",
+      "source_bytes": 1018787,
+      "size_tier": 3
+    },
+    {
+      "file": "pb2010/normalized-j6027_4-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "465b20af5697e8fbed87a9a331defc2ae519e15226808a2347b81516c51291de",
+      "historical_seconds": 0.429439,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-104/answers.csv",
+      "source_bytes": 1032752,
+      "size_tier": 3
+    },
+    {
+      "file": "pb2010/normalized-j603_2-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "0e93d6ea91175c1190fb26dfb34da2bc58ef06af482838f8236aa46227c1e543",
+      "historical_seconds": 0.506726,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-109/answers.csv",
+      "source_bytes": 1133959,
+      "size_tier": 3
+    },
+    {
+      "file": "2019-ezsmt/incrementalScheduling/379-incremental_scheduling-78325-0.smt2",
+      "expected": "unsat",
+      "family": "2019-ezsmt",
+      "sha256": "1e505c50312ce4e4d815e7241708677396bc9e63489b079cf568b5cb428d5135",
+      "historical_seconds": 0.190073,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-109/answers.csv",
+      "source_bytes": 1425020,
+      "size_tier": 3
+    },
+    {
+      "file": "pb2010/normalized-j907_8-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "3c1b011a9e320a57f8d5d2e94114ec1f101a9f8cd5873bcfbbaf41981f638941",
+      "historical_seconds": 0.673931,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-5/answers.csv",
+      "source_bytes": 1478932,
+      "size_tier": 3
+    },
+    {
+      "file": "pb2010/normalized-j903_10-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "2e5c302030cd34b3df100bb3b82dba96f6e47861eb73f1cc1c98d3741d75dd45",
+      "historical_seconds": 0.737825,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-0/answers.csv",
+      "source_bytes": 1603728,
+      "size_tier": 3
+    },
+    {
+      "file": "pb2010/normalized-j602_7-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "40c254a121212f0eac57311e1b5fa57fcc4adfecbe7a0a58910dbe5abe4f1063",
+      "historical_seconds": 0.795364,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-105/answers.csv",
+      "source_bytes": 1628554,
+      "size_tier": 3
+    },
+    {
+      "file": "pb2010/normalized-j6030_9-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "167101b7650a3f6fb82f3ebfc934cebd30c42041df6082a9cb7a02a74db01a97",
+      "historical_seconds": 0.74106,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-106/answers.csv",
+      "source_bytes": 1720531,
+      "size_tier": 3
+    },
+    {
+      "file": "pb2010/normalized-j9012_2-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "214683e584c598dd5f1d8432512711f9731b1c6c3d6fced695ebef87a07f3365",
+      "historical_seconds": 0.828965,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-119/answers.csv",
+      "source_bytes": 1769095,
+      "size_tier": 3
+    },
+    {
+      "file": "pb2010/normalized-j6033_2-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "0f85728747dadabfdd73e6b6f5d97b8fe790c9a39893f11ed7e492bed20d5b5d",
+      "historical_seconds": 0.791516,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-107/answers.csv",
+      "source_bytes": 1833562,
+      "size_tier": 3
+    },
+    {
+      "file": "pb2010/normalized-j9015_10-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "8e1b69455cbc89aeab802dac9ad2b2ddccee897c625b11c9ce24ab2e5bf0f822",
+      "historical_seconds": 0.852691,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-122/answers.csv",
+      "source_bytes": 1943370,
+      "size_tier": 3
+    },
+    {
+      "file": "pb2010/normalized-j9028_2-unsat.smt2",
+      "expected": "unsat",
+      "family": "pb2010",
+      "sha256": "ace4e336503bc1266a157a7dfcc93b7ee772212abbe0ab073690a81c2aa271c2",
+      "historical_seconds": 0.922443,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-124/answers.csv",
+      "source_bytes": 1983915,
+      "size_tier": 3
+    },
+    {
+      "file": "2019-cmodelsdiff/wireRouting/fig9.smt2",
+      "expected": "unsat",
+      "family": "2019-cmodelsdiff",
+      "sha256": "5b1efc6f3ff0260fa13a66e9958d4497396dfbc57e144339a0de617c8f2e5a14",
+      "historical_seconds": 0.696179,
+      "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+      "historical_solver_args": [
+        "--quiet"
+      ],
+      "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+      "historical_record": "shard-49/answers.csv",
+      "source_bytes": 3439267,
+      "size_tier": 3
+    }
+  ],
+  "requested": 128,
+  "size_tiers": [
+    [
+      4096,
+      32768
+    ],
+    [
+      32768,
+      131072
+    ],
+    [
+      131072,
+      524288
+    ],
+    [
+      524288,
+      8388609
+    ]
+  ],
+  "eligible_families": {
+    "20180326-Bromberger": 87,
+    "20220307-SMPT": 483,
+    "CAV_2009_benchmarks": 38,
+    "convert": 38,
+    "rings_preprocessed": 41,
+    "pidgeons": 14,
+    "CIRC": 9,
+    "mathsat": 72,
+    "calypto": 11,
+    "nec-smt": 44,
+    "dillig": 2,
+    "prime-cone": 5,
+    "fft": 2,
+    "bofill-scheduling": 229,
+    "wisa": 1,
+    "20210219-Dartagnan": 4,
+    "Averest": 8,
+    "2019-ezsmt": 12,
+    "pb2010": 14,
+    "2019-cmodelsdiff": 1
+  },
+  "eligible_tiers": {
+    "0": 516,
+    "1": 438,
+    "2": 128,
+    "3": 33
+  },
+  "baseline_controls": 24,
+  "excluded": {
+    "source_size": 1095
+  },
+  "tier_targets": [
+    32,
+    32,
+    32,
+    32
+  ],
+  "tier_selected": {
+    "0": 32,
+    "1": 32,
+    "2": 32,
+    "3": 32
+  },
+  "families": {
+    "20220307-SMPT": 28,
+    "CAV_2009_benchmarks": 3,
+    "20180326-Bromberger": 4,
+    "CIRC": 3,
+    "calypto": 3,
+    "convert": 6,
+    "fft": 2,
+    "dillig": 2,
+    "mathsat": 13,
+    "pidgeons": 4,
+    "nec-smt": 12,
+    "bofill-scheduling": 6,
+    "Averest": 7,
+    "20210219-Dartagnan": 4,
+    "2019-ezsmt": 12,
+    "pb2010": 13,
+    "prime-cone": 2,
+    "rings_preprocessed": 2,
+    "wisa": 1,
+    "2019-cmodelsdiff": 1
+  },
+  "selection": "recorded native UNSAT<=1s; source-size strata; smallest first within tiers; round-robin families with a global family cap; baseline controls reserved; conservative single-query/no-positive-arity screen",
+  "logic": "QF_LIA",
+  "job_id": "363004",
+  "historical_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+  "historical_seconds_max": 1,
+  "baseline_selection_sha256": "eb50493fd0c7e218a5c75175bbab7465d4b40f15a541471f7b8a85e577799cfd",
+  "selector_sha256": "648ec60ccb14c477d2262ade82642b8b8a2567f834f0e99290ed02e3a01cc63d",
+  "shards": 4
+}
