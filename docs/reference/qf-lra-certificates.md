@@ -360,6 +360,112 @@ input, binary, workflow and archive hashes, actual stage results and limits.
 Our separate `dillig/25-22.smt2` reconstruction limit remains unresolved and
 is not presented as a Micromath failure.
 
+### Larger recorded-fast LRA sweep
+
+Array `362761` expands the LRA input set to 217 files from 11 families, with
+Yices 2.7.0 as the reference and the same native `a5123159` and Micromath
+`5f22700410c0e37044c03557dbd21e009303b7ba` binaries as the qualified workflow.
+It reserves all 24 previous LRA sources as controls, adding 193 distinct inputs.
+The {download}`frozen selection <../../benchmarks/qf-lra-certificate-sweep-20261107.json>`
+records every input hash, historical source/binary identity, family, size and
+baseline-control flags and shard count. All selected inputs had unchanged hashes and recorded
+native UNSAT times of at most one second at `5efbd022`, using `--quiet` and the
+default preprocessing profile. Those historical timings are selection criteria,
+not measurements of the current certificate workflow.
+
+The cohort is all 217 eligible files in the configured 4 KiB–8 MiB interval,
+from 403 recorded-fast UNSAT rows; 186 rows fall outside that size interval.
+The selector's count target was 256, with a family ceiling of 256, so it
+exhausted the eligible pool without excluding a family. Actual source sizes
+are 4,337–890,062 bytes. Size-band counts are 136 below 32 KiB, 75 from 32 to
+128 KiB, four from 128 to 512 KiB and two at least 512 KiB. The sweep increases
+input coverage substantially but does not claim balanced size coverage or
+multi-megabyte source coverage.
+
+The {lrasweepsource}`selector <scripts/select_arithmetic_certificate_sweep.py>`
+uses the {lrasweepsource}`shared sampling routine <scripts/arithmetic_certificate_stress.py>`:
+reserve hash-matched controls, visit families round-robin within size bands,
+then fill unused capacity deterministically. It retains the conservative
+single-query/no-positive-arity-declaration screen. The committed manifest is
+the authoritative set for replay; this is not the full QF_LRA corpus or the
+full historical solved set.
+
+The {lrasweepsource}`sweep wrapper <scripts/slurm_lra_certificate_sweep.sbatch>`
+has separate selection and run stages. Selection `362760` writes the full
+manifest, eight disjoint round-robin shards and their hashes. Each run task
+checks its shard hash before invoking the
+{lrasweepsource}`shared arithmetic wrapper <scripts/slurm_arithmetic_certificate_stress.sbatch>`
+with explicit `ARITHMETIC_LOGIC=QF_LRA`, a per-shard selection file and an isolated
+output directory. The original two-logic pilot interface remains supported.
+
+Run-stage allocation is two CPUs and 12 GiB per shard, at most four concurrent
+shards, with a two-hour wall limit. Per-case limits remain 15 seconds for Yices,
+30 each for native export, statement conversion and challenge construction,
+and 60 for the proof/kernel pipeline. Each external process has a 3 GiB address
+limit and 256 MiB file limit. CORE is applied before witness reconstruction;
+raw proof steps stream directly to the independent kernel. Successful challenge
+dumps are hashed then removed; native certificates, statements and failed-stage
+logs remain available. As elsewhere, only both zero exits plus exact
+`challenge proven` count as verification, and the original-to-CNF step is trusted.
+
+The first selector attempt, `362758`, failed before any instance was run because
+Python 3.9 lacks `itertools.pairwise`; the sampler now checks adjacent size bands
+without that import. Selection `362759` produced 190 cases with a draft family
+cap of 64 and was superseded before solver execution. The final selection
+`362760` includes all 217 eligible inputs. Native C++ and its active unit tests
+are unchanged; these are workflow and corpus-selection changes only.
+
+Array `362761` completed all eight tasks with zero scheduler exit codes. The
+{download}`result ledger <../coverage/qf-lra-certificate-sweep.json>` records
+per-case outcomes, retained lemma counts, payload hashes, binary identities and
+scheduler accounting:
+
+| Outcome | Cases |
+| --- | ---: |
+| Independent kernel verified | 214 |
+| Proof/kernel pipeline reached its 60-second deadline | 3 |
+| Reference, native export, statement or challenge failure | 0 |
+| Previous controls verified | 24 / 24 |
+
+Of the 214 verified cases, 146 retain arithmetic lemmas and 68 need none after
+preprocessing/CORE. Across all 217 exports, CORE removes 23,540 of 37,867
+collected theory lemmas, leaving 14,327. This is an UNSAT core, not a MUS.
+No wrong answer or reference disagreement appeared. The successful runs verify
+the exported-CNF statement; they do not establish the source-to-CNF step.
+
+The three deadline cases are:
+
+| Case | Exported-CNF bytes | Native certificate bytes | Retained lemmas |
+| --- | ---: | ---: | ---: |
+| `clock_synchro/clocksynchro_5clocks.worst_case_skew.induct.smt2` | 32,400 | 237,503 | 163 |
+| `clock_synchro/clocksynchro_6clocks.worst_case_skew.induct.smt2` | 39,742 | 392,768 | 291 |
+| `LassoRanker/SV-COMP/BradleyMannaSipma-2005ICALP-Fig1_true-termination.c_Iteration1_Lasso_5-phaseTemplate.smt2` | 4,274,470 | 3,931,219 | 222 |
+
+Input byte size alone does not explain every deadline. No attribution to a
+particular checker phase, memory limit or checker defect follows from these
+three pipeline timeouts. The checker implementation was not inspected.
+
+The {lrafeedbacksource}`feedback wrapper <scripts/slurm_lra_sweep_feedback.sbatch>`
+ran as job `362769`, using the same Yices and CaDiCaL binaries. For each saved
+case it freshly confirmed UNSAT with Yices on both the original source and the
+exported CNF, regenerated the CNF byte-for-byte, checked every arithmetic
+witness with exact rational arithmetic and confirmed propositional UNSAT.
+All three passed. No producer defect was found by those checks. The Micromath
+stages were not repeated in this audit: their observations remain the original
+bounded-workload results, not freshly reproduced correctness bugs.
+
+The {download}`474,019-byte replay archive <../../benchmarks/checker-regressions/lra-sweep-feedback-20261107/lra-sweep-feedback.tar.gz>`
+contains the three unchanged sources, exported CNFs, CORE certificates, original
+logs, audit results, payload hashes and manual replay commands. Start with the
+five-clock case for the smallest input. See the
+{download}`replay instructions <../../benchmarks/checker-regressions/lra-sweep-feedback-20261107/README.md>`.
+The cases have not been delta-minimized. Challenge dumps, raw proofs and checker
+binaries are omitted; the replay builds the challenge and pipes `--raw` proof
+steps into the kernel. All 76 manifest-listed payload hashes were verified after
+download. Full per-case artifacts remain under
+`$PRIMO_WORKDIR/results/lra-certificate-sweep-362761/shard-N/run`, and the audit
+under `results/lra-sweep-feedback-362769`.
+
 ### Why lowering was already sufficient for the CNF boundary
 
 The existing {liaexportsource}`lowering pass <src/smt/preprocessing.cpp#L4493>`

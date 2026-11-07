@@ -3,6 +3,101 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-expanded-QF_LRA-CORE-certificate-sweep",
+      "date": "2026-11-07",
+      "kind": "recorded-fast-unsat-certificate-stress-and-independent-feedback-audit",
+      "workflow_git": "5b89905ecd7b381774fe0024e5237368d06b4688",
+      "feedback_workflow_git": "fe19a173d652b5363be3a54a73e6c88c84914feb",
+      "producer_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "manifest": "docs/coverage/qf-lra-certificate-sweep.json",
+      "evidence_status": "All217completed;214kernel verified,3proof60s deadlines. All24controls passed. Three deadline payloads independently validated and archived; no producer/reconstruction/reference failures. Exported-CNF boundary only.",
+      "jobs": {
+        "362758_0": "Selector failed before solver execution: Python3.9 missing itertools.pairwise; fixed.",
+        "362759_0": "190-case draft selection, family cap64; superseded before solver execution.",
+        "362760_0": "Final217-case selection; family ceiling256.",
+        "362761_0..7": "All completed0:0;217cases,214verified and3proof timeouts.",
+        "362769": "Completed0:0;25s;22160KiB MaxRSS; three independent audits and package."
+      },
+      "counts": {
+        "verified": 214,
+        "proof_timeout": 3
+      },
+      "controls": {
+        "verified": 24
+      },
+      "theory_bearing": {
+        "verified": 146,
+        "proof_timeout": 3
+      },
+      "lemma_totals": {
+        "collected": 37867,
+        "retained": 14327,
+        "removed": 23540
+      },
+      "reference": "Yices2.7.0 revision4f19700f0e272f4a68250080d12a873523bc7ac3",
+      "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+      "allocation": {
+        "cpus_per_shard": 2,
+        "memory_gib_per_shard": 12,
+        "wall_seconds": 7200,
+        "concurrent_shards": 4
+      },
+      "limits": {
+        "reference": 15,
+        "export": 30,
+        "challenge": 30,
+        "proof_and_kernel": 60,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "commands": {
+        "preflight": "scripts/slurm_prepare_benchmark_workspace.py --check-only --require-tool YICES (qualified workspace; authorized SSH config outside Git)",
+        "selection": "LRA_SWEEP_STAGE=select sbatch --array=0 --time=00:15:00 scripts/slurm_lra_certificate_sweep.sbatch",
+        "sweep": "LRA_SWEEP_STAGE=run sbatch scripts/slurm_lra_certificate_sweep.sbatch (frozen selection directory and workflows)",
+        "feedback": "sbatch --dependency=afterok:362761 scripts/slurm_lra_sweep_feedback.sbatch",
+        "audit": "YICES input.smt2; YICES exported-cnf.smt2; certificate_cnf_statement.py native.sexp regenerated.smt2 --logic QF_LRA and byte-match; check_lra_certificate.py native.sexp --sat-solver CADICAL"
+      },
+      "artifacts": {
+        "local": "results/lra-certificate-sweep-362761",
+        "remote": "$PRIMO_WORKDIR/results/lra-certificate-sweep-362761/shard-N/run; results/lra-certificate-selection-362760; results/lra-sweep-feedback-362769",
+        "retention": "Full native certificates and statements plus failed challenge dumps remain remote; local mirror logs/metadata; committed selection, compact ledger and replay archive. Successful challenge dumps hashed then removed; raw proofs streamed."
+      },
+      "feedback": {
+        "summary": "benchmarks/checker-regressions/lra-sweep-feedback-20261107/summary.json",
+        "summary_sha256": "9765acf69b9209150df4286ccc8a304a966498fe278e3a25846cee1cd4899fef",
+        "independent_checks_passed": 3,
+        "checker_repeated": false,
+        "archive": {
+          "file": "benchmarks/checker-regressions/lra-sweep-feedback-20261107/lra-sweep-feedback.tar.gz",
+          "sha256": "f28aaddbf99325798cb0675b105d343e3573d3ea0e98c537f4a2d453c21021d4",
+          "bytes": 474019
+        },
+        "archive_payload_files_verified": 76,
+        "classification": "Original proof pipeline deadlines are workload-and-budget observations; no checker bug claim or internal diagnosis. Fresh audit found no producer defect in these saved payloads; source-to-CNF transformation remains trusted."
+      },
+      "verification": {
+        "python_methods_passed": 14,
+        "commands": [
+          "python3 -m unittest discover -s tests/python -p test_arithmetic_certificate_stress.py",
+          "python3 -m unittest discover -s tests/python -p test_certificate_cnf_statement.py",
+          "python3 -m unittest discover -s tests/python -p test_arithmetic_feedback_package.py",
+          "bash -n scripts/slurm_lra_certificate_sweep.sbatch scripts/slurm_arithmetic_certificate_stress.sbatch scripts/slurm_lra_sweep_feedback.sbatch",
+          "python3 scripts/slurm_validate_sbatch.py WRAPPERS",
+          "make lint",
+          "make docs",
+          "python3 scripts/assemble_docs.py",
+          "python3 scripts/check_doc_links.py docs/_build/site"
+        ],
+        "native_gates": "No C++ or active C++ unit changes from qualified a5123159; no new native suite, ASan, fuzz or clang-tidy run for workflow/selection/evidence-only changes."
+      },
+      "limitations": [
+        "Selected217of403 historical fast UNSAT candidates after source-size filtering,11families,193newinputs; not full corpus and no multiMiB sources.",
+        "CORE reduction is not MUS.",
+        "Source-to-CNF preprocessing/clausification remains trusted.",
+        "Checker timeouts not re-run in audit and not diagnosed as checker bugs."
+      ]
+    },
+    {
       "id": "2026-11-07-yices-reference-and-Micromath-LIA-feedback",
       "date": "2026-11-07",
       "kind": "independent-exported-CNF-input-audit-and-feedback-export",
