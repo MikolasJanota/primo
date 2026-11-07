@@ -43,7 +43,10 @@ for line in manifest.read_text().splitlines():
     if name:
         by_family.setdefault(Path(name).parts[0], []).append(root / name)
 selected = [min(paths, key=lambda p: (p.stat().st_size, str(p))) for paths in by_family.values()]
+remaining = sorted((p for paths in by_family.values() for p in paths if p not in selected),
+                   key=lambda p: (p.stat().st_size, str(p)))
 selected = sorted(selected, key=lambda p: (p.stat().st_size, str(p)))[:5]
+selected += remaining[:5 - len(selected)]
 assert len(selected) == 5
 (out / 'seeds').mkdir()
 rows = []
