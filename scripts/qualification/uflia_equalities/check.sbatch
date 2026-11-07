@@ -20,8 +20,9 @@ sha256sum build-slurm-rel/primo contrib/local/bin/z3 contrib/local/bin/dolmen > 
 cpp_files=$(python3 -c 'from pathlib import Path; print(" ".join(str(p) for r in ("src", "tests", "docs/examples") for p in Path(r).rglob("*") if p.suffix in (".cpp", ".hpp", ".h")))')
 make -o contrib-required check BUILD_DIR=build-slurm-rel RUFF="$PWD/tmp/qualification-tools/bin/python -m ruff" CPP_FORMAT_FILES="$cpp_files"
 index=0
-for profile in native-online native-rebuild m124-online m124-rebuild native-complete; do
+for profile in native-online native-rebuild m124-online m124-rebuild native-complete native-default m124-default; do
  flags=()
+ case $profile in *default) ;; *) flags+=(--solver-arg=--qf-uflia-tableau-equalities);; esac
  case $profile in *rebuild) flags+=(--solver-arg=--no-qf-uflia-online-components);; esac
  case $profile in m124-*) flags+=(--solver-arg=--lia-round-integer-bounds --solver-arg=--lia-primitive-int-rows --solver-arg=--no-lia-integer-slacks --solver-arg=--lia-patch-integral-moves);; esac
  case $profile in *complete) flags+=(--solver-arg=--no-qf-uflia-model-combination);; esac

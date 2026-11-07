@@ -554,6 +554,10 @@ int run_main(int argc, char** argv) {
       "Reuse trail-synchronized EUF and rational-arithmetic state during QF_UFLIA SAT search");
   add_flag_with_default(app, "--no-qf-uflia-online-components", no_qf_uflia_online_components,
                         "Disable trail-synchronized QF_UFLIA components");
+  add_flag_with_default(app, "--qf-uflia-tableau-equalities",
+                        solver_options.qf_uflia_tableau_equalities,
+                        "Export proved shared equalities after rational repair and before "
+                        "integer completion (experimental, default off)");
   app.add_option("--qf-uflia-model-decision-budget", qf_uflia_model_decision_budget,
                  "Maximum QF_UFLIA model-choice batches before complete arrangement fallback");
   add_flag_with_default(

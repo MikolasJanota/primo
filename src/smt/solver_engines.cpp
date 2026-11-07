@@ -9759,7 +9759,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
                     .stably_infinite = theory::StableInfiniteness::Yes,
                     .convexity = theory::Convexity::NonConvex,
                     .produces_model_projection = produce_model_projection,
-                    .propagates_equalities = true,
+                    .propagates_equalities = options.qf_uflia_tableau_equalities,
                     .supplies_care_pairs = false},
         terms_(terms),
         atoms_(std::move(atoms)),
@@ -9767,6 +9767,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
         shared_terms_(std::move(shared_terms)),
         assignment_epoch_(assignment_epoch),
         produce_model_projection_(produce_model_projection),
+        propagate_equalities_(options.qf_uflia_tableau_equalities),
         prepared_(terms_, atoms_, lra_pivoting_rule_from_options(options.lra_pivoting_rule),
                   options.lra_sparse_leaving, options.lra_fixed_elimination,
                   /*collect_model_variables=*/true, options.lra_least_violated_leaving,
@@ -9861,7 +9862,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
       const theory::arithmetic::LraTableau& tableau,
       std::span<const theory::AssignedTheoryLiteral> assignment,
       std::span<const theory::InterfaceRelation> arrangement) {
-    if (shared_terms_.empty()) return std::nullopt;
+    if (!propagate_equalities_ || shared_terms_.empty()) return std::nullopt;
     ScopedStatisticsTimer timer(statistics_, ":time.lia.equality-scan-us");
     statistics_.increment(":lia.equality.scans");
     std::vector<theory::arithmetic::LraVarId> variables;
@@ -10004,6 +10005,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
   std::vector<core::TermId> shared_terms_;
   std::uint64_t assignment_epoch_ = 0;
   bool produce_model_projection_ = false;
+  bool propagate_equalities_ = false;
   PreparedLraTheory prepared_;
   std::vector<theory::arithmetic::LraVarId> integer_input_vars_;
   std::vector<theory::arithmetic::LraVarId> integer_vars_;
@@ -10290,7 +10292,9 @@ class LiaTheoryComponent final : public ComponentAdapterSupport {
         .care_pairs = false,
         .incremental = true,
         .interface_extension = true,
-        .equality_propagation = theory::EqualityPropagationStrength::Opportunistic};
+        .equality_propagation = options.qf_uflia_tableau_equalities
+                                    ? theory::EqualityPropagationStrength::Opportunistic
+                                    : theory::EqualityPropagationStrength::None};
   }
   void bind_assignment_view(sat::TrailView view) override {
     ComponentAdapterSupport::bind_assignment_view(view);

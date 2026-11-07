@@ -15,7 +15,7 @@ out="${PRIMO_EQ_OUT:?}/shard-$slot"
 test ! -e "$out"
 mkdir -p "$out"
 exec > >(tee "$out/mutations.log") 2>&1
-flags=()
+flags=(--qf-uflia-tableau-equalities)
 if (( slot == 1 )); then
  flags+=(--lia-round-integer-bounds --lia-primitive-int-rows --no-lia-integer-slacks --lia-patch-integral-moves)
 fi

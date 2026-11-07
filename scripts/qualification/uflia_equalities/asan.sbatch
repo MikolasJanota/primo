@@ -29,9 +29,10 @@ fi
 make -o contrib-required asan-test
 build-asan/primo --version > "$out/version.txt"
 sha256sum build-asan/primo > "$out/binary.sha256"
-for mode in native m124 rebuild complete; do
+for mode in native m124 rebuild complete native-default m124-default; do
  flags=()
- case $mode in m124) flags+=(--solver-arg=--lia-round-integer-bounds --solver-arg=--lia-primitive-int-rows --solver-arg=--lia-patch-integral-moves);; rebuild) flags+=(--solver-arg=--no-qf-uflia-online-components);; complete) flags+=(--solver-arg=--no-qf-uflia-model-combination);; esac
+ case $mode in *default) ;; *) flags+=(--solver-arg=--qf-uflia-tableau-equalities);; esac
+ case $mode in m124*) flags+=(--solver-arg=--lia-round-integer-bounds --solver-arg=--lia-primitive-int-rows --solver-arg=--lia-patch-integral-moves);; rebuild) flags+=(--solver-arg=--no-qf-uflia-online-components);; complete) flags+=(--solver-arg=--no-qf-uflia-model-combination);; esac
  ASAN_OPTIONS=detect_leaks=1:strict_init_order=1 python3 scripts/qf_uflia_fuzz.py \
   --solver build-asan/primo --solver-arg=--quiet "${flags[@]}" --ref z3 --count 25 \
   --seed 2026110716 --shape mixed --depth 3 --timeout 10 --out "$out/fuzz-$mode"

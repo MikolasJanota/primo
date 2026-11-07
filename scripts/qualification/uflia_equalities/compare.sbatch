@@ -17,6 +17,7 @@ mkdir -p "$(dirname "$out")"
 case ${PRIMO_EQ_PHASE:?} in
  timing)
   selection=()
+  if [[ ${PRIMO_EQ_INCLUDE_EQUALITIES:-0} == 1 ]]; then selection+=(--include-equalities); fi
   if [[ -n ${PRIMO_EQ_MANIFEST:-} ]]; then selection+=(--manifest "$PRIMO_EQ_MANIFEST"); fi
   python3 "$methods/run.py" --baseline "${PRIMO_BASELINE_SOLVER:?}" \
    --candidate build-slurm-rel/primo --baseline-git "${PRIMO_BASELINE_GIT:?}" \

@@ -601,6 +601,28 @@ void rejects_real_symbols() {
   assert(real_argument.result == CheckSatResult::Unsupported);
 }
 
+void tableau_equality_export_is_opt_in() {
+  for (const bool online : {false, true}) {
+    CheckSatOptions options;
+    assert(!options.qf_uflia_tableau_equalities);
+    options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+    options.qf_uflia_online_components = online;
+    const auto result = check_sat_smtlib(R"(
+      (set-logic QF_UFLIA)
+      (declare-fun x () Int) (declare-fun y () Int)
+      (declare-fun p (Int) Bool)
+      (assert (<= x 0)) (assert (<= 0 x))
+      (assert (<= y 0)) (assert (<= 0 y))
+      (assert (p x)) (assert (not (p y)))
+      (check-sat)
+    )",
+                                         options);
+    assert(result.result == CheckSatResult::Unsat);
+    assert(result.statistics.get(":lia.equality.scans") == 0);
+    assert(result.statistics.get(":combination.equality.batches") == 0);
+  }
+}
+
 void explained_tableau_equalities_precede_integer_completion() {
   const std::string declarations =
       "(set-logic QF_UFLIA)\n(declare-fun x () Int)\n(declare-fun y () Int)\n"
@@ -621,6 +643,7 @@ void explained_tableau_equalities_precede_integer_completion() {
     for (const bool no_integer_search : {false, true}) {
       for (const auto& [bounds, counter] : rules) {
         CheckSatOptions options;
+        options.qf_uflia_tableau_equalities = true;
         options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
         options.qf_uflia_online_components = online;
         if (no_integer_search) {
@@ -650,6 +673,7 @@ void integer_model_coincidences_do_not_become_equality_facts() {
   for (const bool guided : {false, true}) {
     for (const bool online : {false, true}) {
       CheckSatOptions options;
+      options.qf_uflia_tableau_equalities = true;
       options.qf_uflia_model_combination = guided;
       options.qf_uflia_online_components = online;
       options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
@@ -674,6 +698,7 @@ void integer_model_coincidences_do_not_become_equality_facts() {
 }  // namespace
 
 int main() {
+  tableau_equality_export_is_opt_in();
   explained_tableau_equalities_precede_integer_completion();
   integer_model_coincidences_do_not_become_equality_facts();
 

@@ -30,6 +30,7 @@ def main() -> None:
     for name in ('baseline', 'candidate', 'root', 'out'):
         parser.add_argument('--' + name, type=Path, required=True)
     parser.add_argument('--manifest', type=Path)
+    parser.add_argument('--include-equalities', action='store_true')
     parser.add_argument('--baseline-git', required=True)
     parser.add_argument('--candidate-git', required=True)
     parser.add_argument('--shards', type=int, default=12)
@@ -59,11 +60,16 @@ def main() -> None:
     if not paths:
         raise SystemExit('empty shard')
     identities = {str(p.relative_to(args.root)): digest(p) for p in paths}
+    profiles = ['baseline-native', 'candidate-native', 'baseline-m124', 'candidate-m124']
+    if args.include_equalities:
+        profiles += ['enabled-native', 'enabled-m124']
+    profile_binaries = {name: ('candidate' if name.startswith('enabled-') else name.split('-')[0])
+                        for name in profiles}
     provenance = {'binaries': binaries, 'inputs': identities, 'timeout': args.timeout,
                   'shard': args.shard, 'shards': args.shards, 'runner_sha256': digest(Path(__file__)),
                   'manifest_sha256': digest(args.manifest) if args.manifest else None,
-                  'job': os.environ.get('SLURM_JOB_ID'), 'profiles': ['baseline-native', 'candidate-native',
-                  'baseline-m124', 'candidate-m124']}
+                  'job': os.environ.get('SLURM_JOB_ID'), 'profiles': profiles,
+                  'profile_binaries': profile_binaries}
     (args.out / 'provenance.json').write_text(json.dumps(provenance, indent=2) + '\n')
     for key in list(os.environ):
         if key.startswith(('PRIMO_PHASE_PROBE', 'PRIMO_REGION_')):
@@ -73,9 +79,12 @@ def main() -> None:
         for index, path in enumerate(paths):
             offset = (index + args.shard) % len(profiles)
             for profile in profiles[offset:] + profiles[:offset]:
-                binary, mode = profile.split('-')
+                role, mode = profile.split('-')
+                binary = profile_binaries[profile]
                 flags = ['--quiet', '--stats', '--arithmetic-model-phase=off',
                          *(M124 if mode == 'm124' else NATIVE)]
+                if role == 'enabled':
+                    flags.append('--qf-uflia-tableau-equalities')
                 command = [binaries[binary]['path'], *flags]
                 result = run_solver(command, path, args.timeout)
                 stem = f'{index:03d}-{profile}'

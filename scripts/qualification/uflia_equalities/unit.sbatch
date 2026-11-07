@@ -14,6 +14,7 @@ mkdir -p "$out"
 exec > >(tee "$out/unit.log") 2>&1
 build-slurm-rel/primo --version | tee "$out/version.txt"
 grep -Fx "git: ${PRIMO_EXPECTED_GIT:?}" "$out/version.txt"
+build-slurm-rel/primo --help > "$out/help.txt"
 sha256sum build-slurm-rel/primo > "$out/binary.sha256"
 build-slurm-rel/primo_component_combination_tests
 build-slurm-rel/primo_qf_uflia_solver_tests

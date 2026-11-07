@@ -36,7 +36,8 @@ def main() -> None:
         rows = [r for r in selected if r['profile'] == profile]
         if not rows:
             continue
-        identity = provenance['binaries'][profile.split('-')[0]]
+        binary = provenance.get('profile_binaries', {}).get(profile, profile.split('-')[0])
+        identity = provenance['binaries'][binary]
         solver = Path(identity['path'])
         if digest(solver) != identity['sha256']:
             raise SystemExit('binary changed after timing')

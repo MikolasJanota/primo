@@ -394,6 +394,9 @@ struct CheckSatOptions {
   // Integer completion remains a final, non-convex check on a private tableau
   // copy, and sparse growth retains the complete-arrangement restart.
   bool qf_uflia_online_components = true;
+  // Export explained tableau equalities before integer completion. Opt-in:
+  // the initial paired evaluation regresses native QF_UFLIA search strongly.
+  bool qf_uflia_tableau_equalities = false;
   std::size_t qf_uflia_model_decision_budget = 512;
   bool qf_uflra_online_euf = false;
   bool top_level_or_tseitin = false;

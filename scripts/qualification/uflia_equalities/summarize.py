@@ -95,7 +95,11 @@ def main() -> None:
             model_expected += expected
             model_passed += coverage['passed']
     assert len(sources) == args.inputs
-    assert set(profiles) == {'baseline-native', 'candidate-native', 'baseline-m124', 'candidate-m124'}
+    expected_profiles = {'baseline-native', 'candidate-native', 'baseline-m124', 'candidate-m124'}
+    enabled = any(name.startswith('enabled-') for name in profiles)
+    if enabled:
+        expected_profiles |= {'enabled-native', 'enabled-m124'}
+    assert set(profiles) == expected_profiles
     assert all(set(arm) == set(sources) for arm in profiles.values())
     assert timeout is not None
     result = {'inputs': len(sources), 'timeout': timeout, 'shards': 12,
@@ -106,6 +110,10 @@ def main() -> None:
                            for mode in ('native', 'm124')},
               'models': {'status': 'complete' if args.models else 'pending',
                          'expected': model_expected, 'passed': model_passed}}
+    if enabled:
+        result['enabled_profiles'] = {
+            mode: paired(profiles['candidate-' + mode], profiles['enabled-' + mode], timeout)
+            for mode in ('native', 'm124')}
     args.out.write_text(json.dumps(result, indent=2) + '\n')
     print(json.dumps({mode: {key: data[key] for key in ('baseline', 'candidate', 'gains', 'losses')}
                       for mode, data in result['profiles'].items()}, indent=2))

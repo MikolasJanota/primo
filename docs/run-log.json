@@ -3,6 +3,86 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-uflia-tableau-equality-development-f526ed8e",
+      "date": "2026-11-07",
+      "commit": "f526ed8e24cdb9296145c6bff56ad4ef4eda484a",
+      "baseline_commit": "1b2cc307",
+      "kind": "paired-performance-evaluation",
+      "evidence_status": "completed_rejected_default_enablement",
+      "artifacts": "results/uflia-equality-20261107/quick-timing and quick-models",
+      "metadata": "benchmarks/qf-uflia-tableau-equalities-20261107.json",
+      "activation": "Candidate f526ed8e exports equalities unconditionally; the later opt-in guard is absent from that snapshot.",
+      "scope": "30 historical M124 losses plus14 controls;44 inputs,15-second limit. No full-corpus extrapolation.",
+      "environment": {
+        "timing": "1CPU,8GiB,1hour per shard,12 serial rotated-arm shards",
+        "models": "1CPU,12GiB,1hour per shard,60-second solver and30-second direct Dolmen budgets; separate from timing"
+      },
+      "jobs": {
+        "timing": "362807_0-11",
+        "models": "362819_0-11"
+      },
+      "summary": {
+        "native": {
+          "baseline_solved": 44,
+          "candidate_solved": 18,
+          "losses": 26,
+          "gains": 0,
+          "baseline_par2_sum": 32.624764,
+          "candidate_par2_sum": 826.037974
+        },
+        "m124": {
+          "baseline_solved": 14,
+          "candidate_solved": 16,
+          "losses": 0,
+          "gains": 2,
+          "baseline_par2_sum": 906.590804,
+          "candidate_par2_sum": 866.803873
+        },
+        "models": {
+          "expected_sat": 68,
+          "direct_dolmen_pass": 68,
+          "invalid": 0,
+          "changed_answer": 0,
+          "timeout": 0,
+          "missing": 0
+        },
+        "solver_errors": 0,
+        "candidate_native_timeouts": 26,
+        "candidate_m124_timeouts": 28,
+        "unsupported": 0,
+        "declared_status_mismatches": 0,
+        "paired_concrete_answer_disagreements": 0,
+        "fresh_trusted_reference_comparison": "not run in this timed comparison; separate correctness gates use trusted references",
+        "declared_status_rows": 168,
+        "rows_without_declared_status": 8
+      },
+      "representative": {
+        "file": "wisas/xs_37_57.smt2",
+        "baseline_native_seconds": 1.595956,
+        "candidate_native": "timeout at15s",
+        "new_pairs": 274,
+        "batches": 10,
+        "scan_us": 11374,
+        "lra_pivots_baseline": 12704,
+        "lra_pivots_candidate_partial": 63161,
+        "sat_decisions_baseline": 24231,
+        "sat_decisions_candidate_partial": 75843
+      },
+      "commands": [
+        "scripts/qualification/uflia_equalities/compare.sbatch, PRIMO_EQ_PHASE=timing, manifest scripts/qualification/adaptive_phase/evaluation.txt",
+        "same job method PRIMO_EQ_PHASE=models after all timing shards complete",
+        "python3 scripts/qualification/uflia_equalities/summarize.py --inputs 44 --candidate-git f526ed8e --baseline-git 1b2cc307 (timing/model/output paths supplied separately)"
+      ],
+      "decision": "Reject default enablement; retain requested integration as an explicit research option after fresh guard qualification.",
+      "limitations": [
+        "Development selection is deliberately enriched with earlier losses.",
+        "Candidate timeout counters describe partial search.",
+        "Fresh arithmetic/SAT atom delivery changes search; scan time alone is not an explanation of total solve time.",
+        "All68 successful timing SAT rows validated with direct Dolmen; no performance claim for unmeasured files."
+      ],
+      "next": "Add one default-off flag, qualify both enabled and disabled paths, repeat focused paired comparison; do not run broad timing after this development regression."
+    },
+    {
       "id": "2026-11-07-uflia-equality-f526ed8e-qualification",
       "date": "2026-11-07",
       "commit": "f526ed8e24cdb9296145c6bff56ad4ef4eda484a",
