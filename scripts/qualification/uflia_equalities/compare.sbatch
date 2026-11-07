@@ -16,10 +16,12 @@ out="${PRIMO_EQ_OUT:?}/shard-$slot"
 mkdir -p "$(dirname "$out")"
 case ${PRIMO_EQ_PHASE:?} in
  timing)
+  selection=()
+  if [[ -n ${PRIMO_EQ_MANIFEST:-} ]]; then selection+=(--manifest "$PRIMO_EQ_MANIFEST"); fi
   python3 "$methods/run.py" --baseline "${PRIMO_BASELINE_SOLVER:?}" \
    --candidate build-slurm-rel/primo --baseline-git "${PRIMO_BASELINE_GIT:?}" \
    --candidate-git "${PRIMO_EXPECTED_GIT:?}" --root "${PRIMO_CORPUS_ROOT:?}" \
-   --out "$out" --shards 12 --shard "$slot" --timeout 15
+   --out "$out" --shards 12 --shard "$slot" --timeout 15 "${selection[@]}"
   hostname > "$out/hostname.txt"
   lscpu > "$out/lscpu.txt"
   ;;

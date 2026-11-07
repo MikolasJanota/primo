@@ -29,6 +29,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ('baseline', 'candidate', 'root', 'out'):
         parser.add_argument('--' + name, type=Path, required=True)
+    parser.add_argument('--manifest', type=Path)
     parser.add_argument('--baseline-git', required=True)
     parser.add_argument('--candidate-git', required=True)
     parser.add_argument('--shards', type=int, default=12)
@@ -45,12 +46,22 @@ def main() -> None:
         if f'git: {getattr(args, name + "_git")}' not in version.splitlines():
             raise SystemExit('unexpected binary revision: ' + name)
         binaries[name] = {'path': str(path), 'sha256': digest(path), 'version': version}
-    paths = sorted(args.root.rglob('*.smt2'))[args.shard::args.shards]
+    if args.manifest:
+        names = [line.split('#', 1)[0].strip() for line in args.manifest.read_text().splitlines()]
+        all_paths = [(args.root / name).resolve() for name in names if name]
+        for path in all_paths:
+            path.relative_to(args.root.resolve())
+    else:
+        all_paths = sorted(args.root.rglob('*.smt2'))
+    if len(all_paths) != len(set(all_paths)):
+        raise SystemExit('duplicate inputs')
+    paths = all_paths[args.shard::args.shards]
     if not paths:
         raise SystemExit('empty shard')
     identities = {str(p.relative_to(args.root)): digest(p) for p in paths}
     provenance = {'binaries': binaries, 'inputs': identities, 'timeout': args.timeout,
                   'shard': args.shard, 'shards': args.shards, 'runner_sha256': digest(Path(__file__)),
+                  'manifest_sha256': digest(args.manifest) if args.manifest else None,
                   'job': os.environ.get('SLURM_JOB_ID'), 'profiles': ['baseline-native', 'candidate-native',
                   'baseline-m124', 'candidate-m124']}
     (args.out / 'provenance.json').write_text(json.dumps(provenance, indent=2) + '\n')
