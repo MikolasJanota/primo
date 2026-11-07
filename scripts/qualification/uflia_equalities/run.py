@@ -10,7 +10,8 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[3]
+ROOT = next(parent for parent in Path(__file__).resolve().parents
+            if (parent / "scripts/bench_qf_uf_full.py").is_file())
 sys.path.insert(0, str(ROOT))
 from scripts.bench_qf_uf_full import parse_smtlib_status, run_solver  # noqa: E402
 
