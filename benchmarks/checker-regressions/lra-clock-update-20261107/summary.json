@@ -1,0 +1,21 @@
+{
+  "archive": {
+    "file": "benchmarks/checker-regressions/lra-clock-update-20261107/updated-clock-feedback.tar.gz",
+    "sha256": "e1df47ba31045815a299725e3bebdc2e7c79a89bb9c860a423aa47fc48d373c6",
+    "bytes": 54742
+  },
+  "payload_files": 21,
+  "micromath_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+  "cases": [
+    {
+      "name": "shard-2-case-006",
+      "live_status": "proof_timeout",
+      "staged_status": "verified"
+    },
+    {
+      "name": "shard-5-case-007",
+      "live_status": "proof_timeout",
+      "staged_status": "verified"
+    }
+  ]
+}
