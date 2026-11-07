@@ -244,12 +244,12 @@ appropriate absolute paths. The LIA route uses `--logic QF_LIA`, its LIA tools,
 and the existing explicit version-2 envelope copy for the prover; the adapter
 reads the unchanged native version-3 file.
 
-For the {arithmeticcnfsource}`SLURM wrapper <scripts/slurm_arithmetic_certificate_stress.sbatch>`,
+For the {arithmeticfeedbacksource}`SLURM wrapper <scripts/slurm_arithmetic_certificate_stress.sbatch>`,
 `ARITHMETIC_STATEMENT_SOURCE=exported-cnf` selects this default.
 `ARITHMETIC_STATEMENT_SOURCE=original` selects the stronger diagnostic route.
 An optional `ARITHMETIC_SELECTION_ROOT` supplies one hash-pinned selection JSON
 per logic, avoiding changes to the benchmark set during a paired comparison.
-Both modes check the original input with Z3 and perform native CORE export
+Both modes check the original input with the selected reference solver and perform native CORE export
 before building the selected challenge. They record verification counts
 separately. A successful exported-CNF proof is never counted as an
 original-source proof.
@@ -291,6 +291,74 @@ are preserved for external feedback; no checker implementation was changed.
 The [opposing-bound follow-up](../leads/lia-conflict-certificates.md#opposing-bound-reconstruction-follow-up)
 records two rejected producer-side attempts. This producer limitation remains
 open; no native algorithm change was accepted.
+
+### Yices reference and independently validated checker feedback
+
+The arithmetic SLURM wrapper now defaults to `contrib/local/bin/yices-smt2`.
+Provision it with `make contrib-yices`, or set `ARITHMETIC_REFERENCE` to an
+existing Yices SMT-LIB executable. The standalone runner still takes an explicit
+`--reference` path. The wrapper records its version and the runner records the
+selected binary name and hash. Historical measurements above still used Z3.
+
+SLURM `362756_1` checked Yices 2.7.0 on the previous reference-timeout source
+`pidgeons/pigeon-hole-19.smt2` and the shared/nested ITE control. Both returned
+UNSAT, exported native CORE certificates and reached `challenge proven`.
+This is a targeted two-case qualification, not a repeated 48-case sweep or a
+general reference-speed comparison.
+
+SLURM audit `362757` independently checked the five saved Micromath failures:
+Yices returned UNSAT on both each original input and its exported-CNF statement;
+Python integer-cut/type replay plus independent CaDiCaL confirmed propositional
+UNSAT; statement regeneration matched the saved bytes; and every LIA
+compatibility copy matched its native body with only byte 28 changed.
+These checks found no producer-side defect. They do not formally prove
+preprocessing or checker soundness.
+
+Both `Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc002.smt2` and
+`ParallelPrefixSum_safe_bgmc003.smt2` freshly reproduced
+`Logic failure: evaluation needs a closed Boolean term`, with producer and
+kernel exits `[1,1]`. Both certificates have zero theory conflicts, so no
+supplied integer-cut derivation is involved. The observation is specific to
+pinned Micromath `8f9cff132140462b141183ddb9cb88a9beb80a4f`; no upstream fetch or
+checker implementation inspection/modification was performed.
+
+The {download}`217 KiB smallest error replay <../../benchmarks/checker-regressions/micromath-lia-feedback-20261107/micromath-lia-small-error.tar.gz>`
+contains the smaller unchanged error instance, its original input, native and
+explicitly adapted certificates, checker statement, logs, manifest and replay
+helpers. The
+{download}`6.9 MiB full feedback bundle <../../benchmarks/checker-regressions/micromath-lia-feedback-20261107/micromath-lia-feedback.tar.gz>`
+contains both reproduced errors plus all three independently validated resource
+cases. Those three retain the original `362736` challenge/proof deadlines and
+logs; their checker resource runs were not repeated during this audit. They are
+workload-and-budget feedback, not evidence of a correctness bug. Neither bundle
+contains raw proofs, checker binaries or saved challenge dumps. These are
+original cases, not delta-minimized inputs. No message or files were sent to
+the external author.
+
+After extracting the small archive, run on an allocated Linux compute node:
+
+```bash
+bash replay.sh /path/to/Micromath /path/to/cadical \
+  014-closed-boolean /fresh/log/directory
+```
+
+The {arithmeticfeedbacksource}`portable replay script <scripts/replay_micromath_lia_feedback.sh>`
+builds the challenge from `exported-cnf.smt2`, reads the explicit version-2
+certificate copy, and streams `--raw` into the kernel. Its two error replays
+were exercised during the audit. It bounds axiom/challenge construction by
+30 seconds and each proof/kernel process by 60 seconds, with 3 GiB address
+space and 256 MiB file caps per child. The original pilot used one overall
+60-second proof/kernel deadline; this script uses individual process deadlines.
+An error exit is expected for these feedback cases and is not proof acceptance.
+
+The {arithmeticfeedbacksource}`audit driver <scripts/audit_arithmetic_checker_failures.py>`
+and {arithmeticfeedbacksource}`audit SLURM wrapper <scripts/slurm_arithmetic_checker_audit.sbatch>`
+export only independently validated cases. A changed error replay is excluded
+from the archive. The
+{download}`feedback ledger <../coverage/micromath-lia-feedback.json>` records
+input, binary, workflow and archive hashes, actual stage results and limits.
+Our separate `dillig/25-22.smt2` reconstruction limit remains unresolved and
+is not presented as a Micromath failure.
 
 ### Why lowering was already sufficient for the CNF boundary
 

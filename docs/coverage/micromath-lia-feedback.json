@@ -1,0 +1,1251 @@
+{
+  "date": "2026-11-07",
+  "workflow_git": "9fbba005ea9e83b245688718cd8f0f1e2c66b69b",
+  "native_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "status": "Targeted Yices reference qualification passed; all five saved Micromath failure inputs independently validated; both closed-Boolean errors freshly reproduced on pinned checker; validated feedback archives ready.",
+  "scope": "Exported-CNF boundary only. No source-to-CNF proof, checker-internals audit, general solver performance/default-profile claim or new full-corpus sweep.",
+  "jobs": {
+    "362756_1": "COMPLETED0:0,4s,MaxRSS8044KiB; previous Z3 timeout and shared-ITE control both Yices UNSAT and kernel verified",
+    "362757": "COMPLETED0:0,69s,MaxRSS535164KiB; five independent audits, two error replays and feedback packaging"
+  },
+  "allocations": {
+    "reference_qualification": {
+      "cpus": 2,
+      "memory_gib": 12,
+      "wall_minutes": 90
+    },
+    "audit": {
+      "cpus": 2,
+      "memory_gib": 12,
+      "wall_minutes": 30
+    }
+  },
+  "reference_qualification": {
+    "job_id": "362756",
+    "host": "node-01.ciircluster",
+    "logic": "QF_LIA",
+    "micromath_git": "8f9cff132140462b141183ddb9cb88a9beb80a4f",
+    "reference_solver": "yices-smt2",
+    "requested": 2,
+    "statement_source": "exported-cnf",
+    "source_to_cnf_verified": false,
+    "limits": {
+      "reference": 15,
+      "export": 30,
+      "challenge": 30,
+      "proof_and_kernel": 60,
+      "process_address_bytes": 3221225472,
+      "process_file_bytes": 268435456
+    },
+    "native_profile": "recorded default preprocessing plus CORE export",
+    "proof_transport": "--raw stdout pipe; no raw proof files",
+    "rows": [
+      {
+        "case": {
+          "file": "pigeon.smt2",
+          "expected": "unsat",
+          "family": "pidgeons",
+          "sha256": "0c61809e79f8ad7c0d912f655df2086082bd8eb40ea998fed9b114169044c533",
+          "historical_seconds": 0.020699,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-15/answers.csv",
+          "source_bytes": 34296,
+          "size_tier": 1,
+          "original_file": "pidgeons/pigeon-hole-19.smt2"
+        },
+        "status": "verified",
+        "stages": {
+          "reference": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/input.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/reference.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/reference.err",
+            "state": "ok",
+            "seconds": 0.012299202993744984,
+            "exit_code": 0
+          },
+          "export": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-lia-export-20261105/build-slurm-rel/primo",
+              "--quiet",
+              "--stats",
+              "--export-cnf",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/native.sexp",
+              "--export-cnf-reduction=core",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/input.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/export.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/export.err",
+            "state": "ok",
+            "seconds": 0.06822285099769942,
+            "exit_code": 0
+          },
+          "statement": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/certificate_cnf_statement.py",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/native.sexp",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/exported-cnf.smt2",
+              "--logic",
+              "QF_LIA"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/statement.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/statement.err",
+            "state": "ok",
+            "seconds": 0.11856750599690713,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/micromath-lia-20261106/smt/build-lia-challenge",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/axioms.umd",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/exported-cnf.smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/challenge.umd"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/challenge.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/challenge.err",
+            "state": "ok",
+            "seconds": 0.06889295499422587,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "arithmetic-stress-pipe",
+              "/home/janotmik/micromath-lia-20261106/smt/prove-lia",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/challenge.umd",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/micromath-v2.sexp",
+              "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+              "/home/janotmik/micromath-lia-20261106/check-solution",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/pipe",
+              ""
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/pipeline.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/000/pipeline.err",
+            "state": "ok",
+            "seconds": 1.5219401399954222,
+            "exit_code": 0
+          }
+        },
+        "export_statistics": {
+          ":export.solve-and-collect.us": 10455,
+          ":export.main-unsat": 1,
+          ":export.format-input.us": 1036,
+          ":export.format-conflicts.us": 4,
+          ":export.spool.signature-bytes": 12150,
+          ":export.spool.cnf-bytes": 26736,
+          ":export.spool.conflict-bytes": 6663,
+          ":export.theory.conflicts-collected": 1,
+          ":export.reduction.us": 269,
+          ":export.reduction.sat-calls": 1,
+          ":export.reduction.core-removed": 0,
+          ":export.reduction.block-queries": 0,
+          ":export.reduction.binary-queries": 0,
+          ":export.reduction.max-block-size": 0,
+          ":export.reduction.completed": 1,
+          ":export.theory.conflicts-removed": 0,
+          ":export.cnf.clauses": 799,
+          ":export.theory.conflicts": 1,
+          ":export.spool.numeric-lemma-bytes": 164,
+          ":export.reconstruction.selected": 1,
+          ":export.reconstruction.completed": 1,
+          ":export.reconstruction.lemmas": 1,
+          ":export.reconstruction.attempted": 1,
+          ":export.reconstruction.lia-generated-cuts": 1,
+          ":export.reconstruction.lia-pairs": 0,
+          ":export.reconstruction.lia-projections": 0,
+          ":export.reconstruction.lia-exact-projections": 0,
+          ":export.reconstruction.lia-linear-checks": 1,
+          ":export.reconstruction.lia-linear-pivots": 39,
+          ":export.reconstruction.lia-pruned-cuts": 0,
+          ":export.reconstruction.entries": 39,
+          ":export.reconstruction.us": 26839,
+          ":export.final-write.us": 5115
+        },
+        "native_certificate_bytes": 45634,
+        "native_certificate_sha256": "e253241f0abbfe3aa5d1de65378d82b435fd48cfd14881cbea017118ab572145",
+        "header_copy": {
+          "source_sha256": "e253241f0abbfe3aa5d1de65378d82b435fd48cfd14881cbea017118ab572145",
+          "copy_sha256": "36458c1f8d2693da4ce50eabfd31e1efe343e8ec00eadc073683aa3bfb71aecf",
+          "changed_byte_offset": 28,
+          "old": "3",
+          "new": "2",
+          "body": "copied verbatim in bounded chunks"
+        },
+        "statement": {
+          "source": "exported-cnf",
+          "file": "exported-cnf.smt2",
+          "sha256": "3abcac51b3290ec1f66da209c9ede459b9dc1bc5265335f2a4985dea443487a4",
+          "bytes": 44666
+        },
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_result": "challenge proven\n",
+        "producer_diagnostic": "Library preparation: 590367 kernel steps\nSource conversion: 2636213 kernel steps (witness terms 1, arithmetic bridges 0, SAT input clauses 2636212)\nLIA checking: 794013 kernel steps (1 conflicts, 1 cuts)\nSAT checking: 68436 kernel steps (1599 RUP clause additions, 799 unit hints, 800 contradiction hints)\nProof: 4089029 exported / 4089029 generated steps\n",
+        "challenge_sha256": "de0af0df0998bc5af8b52fcfa809651919858ebf254372947128522c5f848c89",
+        "seconds": 1.8169727140048053
+      },
+      {
+        "case": {
+          "file": "shared-ite.smt2",
+          "original_file": "docs/examples/qf-lia-shared-ite.smt2",
+          "expected": "unsat",
+          "family": "authored-regression",
+          "sha256": "43ca950313e30e25a62f301d3bcc3d4b0f4f6b37459005b600b9c11c64ecfd8f",
+          "source_bytes": 309,
+          "require_ite_conflict": true
+        },
+        "status": "verified",
+        "stages": {
+          "reference": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/input.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/reference.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/reference.err",
+            "state": "ok",
+            "seconds": 0.007953442007419653,
+            "exit_code": 0
+          },
+          "export": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-lia-export-20261105/build-slurm-rel/primo",
+              "--quiet",
+              "--stats",
+              "--export-cnf",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/native.sexp",
+              "--export-cnf-reduction=core",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/input.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/export.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/export.err",
+            "state": "ok",
+            "seconds": 0.019787864002864808,
+            "exit_code": 0
+          },
+          "statement": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/certificate_cnf_statement.py",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/native.sexp",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/exported-cnf.smt2",
+              "--logic",
+              "QF_LIA"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/statement.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/statement.err",
+            "state": "ok",
+            "seconds": 0.11808286099403631,
+            "exit_code": 0
+          },
+          "challenge": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/micromath-lia-20261106/smt/build-lia-challenge",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/axioms.umd",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/exported-cnf.smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/challenge.umd"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/challenge.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/challenge.err",
+            "state": "ok",
+            "seconds": 0.020326525991549715,
+            "exit_code": 0
+          },
+          "proof": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "arithmetic-stress-pipe",
+              "/home/janotmik/micromath-lia-20261106/smt/prove-lia",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/challenge.umd",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/micromath-v2.sexp",
+              "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+              "/home/janotmik/micromath-lia-20261106/check-solution",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/pipe",
+              ""
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/pipeline.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/001/pipeline.err",
+            "state": "ok",
+            "seconds": 0.36855910600570496,
+            "exit_code": 0
+          }
+        },
+        "export_statistics": {
+          ":export.solve-and-collect.us": 1022,
+          ":export.main-unsat": 1,
+          ":export.format-input.us": 49,
+          ":export.format-conflicts.us": 5,
+          ":export.spool.signature-bytes": 365,
+          ":export.spool.cnf-bytes": 969,
+          ":export.spool.conflict-bytes": 175,
+          ":export.theory.conflicts-collected": 1,
+          ":export.reduction.us": 89,
+          ":export.reduction.sat-calls": 1,
+          ":export.reduction.core-removed": 0,
+          ":export.reduction.block-queries": 0,
+          ":export.reduction.binary-queries": 0,
+          ":export.reduction.max-block-size": 0,
+          ":export.reduction.completed": 1,
+          ":export.theory.conflicts-removed": 0,
+          ":export.cnf.clauses": 18,
+          ":export.theory.conflicts": 1,
+          ":export.spool.numeric-lemma-bytes": 16,
+          ":export.reconstruction.selected": 1,
+          ":export.reconstruction.completed": 1,
+          ":export.reconstruction.lemmas": 1,
+          ":export.reconstruction.attempted": 1,
+          ":export.reconstruction.lia-generated-cuts": 1,
+          ":export.reconstruction.lia-pairs": 0,
+          ":export.reconstruction.lia-projections": 0,
+          ":export.reconstruction.lia-exact-projections": 0,
+          ":export.reconstruction.lia-linear-checks": 1,
+          ":export.reconstruction.lia-linear-pivots": 2,
+          ":export.reconstruction.lia-pruned-cuts": 0,
+          ":export.reconstruction.entries": 2,
+          ":export.reconstruction.us": 82,
+          ":export.final-write.us": 3328
+        },
+        "native_certificate_bytes": 1594,
+        "native_certificate_sha256": "ebcc203f0422e61e072d88acde62cd2acdb27a676bf01ce8310b2bb5322f7b5a",
+        "ite_regression": {
+          "declarations": 2,
+          "conflict_uses_auxiliary": true
+        },
+        "header_copy": {
+          "source_sha256": "ebcc203f0422e61e072d88acde62cd2acdb27a676bf01ce8310b2bb5322f7b5a",
+          "copy_sha256": "80acf11ede58b3aa6bd85a6d71629cc8be6f84e7877e61e1f9fc748fb2c3c782",
+          "changed_byte_offset": 28,
+          "old": "3",
+          "new": "2",
+          "body": "copied verbatim in bounded chunks"
+        },
+        "statement": {
+          "source": "exported-cnf",
+          "file": "exported-cnf.smt2",
+          "sha256": "73015965f056c8e88de232a354ec24e253b65ec77aa0193ba0cbc5bf1b79cb82",
+          "bytes": 1527
+        },
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_result": "challenge proven\n",
+        "producer_diagnostic": "Library preparation: 588671 kernel steps\nSource conversion: 121830 kernel steps (witness terms 2, arithmetic bridges 0, SAT input clauses 121828)\nLIA checking: 17008 kernel steps (1 conflicts, 1 cuts)\nSAT checking: 1230 kernel steps (29 RUP clause additions, 14 unit hints, 15 contradiction hints)\nProof: 728739 exported / 728739 generated steps\n",
+        "challenge_sha256": "90f3fc50f97771db6a60a230ce9c5851c56146630fa0fe0bba89383b830d07f9",
+        "seconds": 0.5551017160032643
+      }
+    ],
+    "workflow_sha256": "d1116eb011bc8a811e3e130dd951392e287dce75897646f4f3f9d5044cb77829",
+    "binary_sha256": {
+      "primo": "71288893c36bb8a068fe3a5b97e660f33a7bdef4dd94aaa1506b3cfb18d090b5",
+      "reference": "eab7efbff2a6f0cce2fcd2c25cb4a94e0e048c902d8ef9e6fd7d7989aa54c501",
+      "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "build-axioms": "004417db1ad1f886bbba034ff0c7f70bdaa885359a482bef52f17a6e4c2d9124",
+      "smt/build-lia-challenge": "9a5cf0dcc1f1932f34ecf471b2fc3c2f5b10b90c0bd0ffc100a7564f568f697c",
+      "smt/prove-lia": "0dd6aab02917bd442a3352a35fd2198b83c1ee65624c4ad9b76fbd2659679bdb",
+      "check-solution": "d8965d248e187551ee0021b301514aeecf012ca31517bb6dcd948baf638052cf"
+    },
+    "axioms": {
+      "command": [
+        "prlimit",
+        "--as=3221225472",
+        "--fsize=268435456",
+        "--",
+        "/home/janotmik/micromath-lia-20261106/build-axioms",
+        "--fragment",
+        "finitary",
+        "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/axioms.umd"
+      ],
+      "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/axioms.out",
+      "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-proof-stress-362756/QF_LIA/run/axioms.err",
+      "state": "ok",
+      "seconds": 0.012135298005887307,
+      "exit_code": 0
+    },
+    "completed": 2,
+    "counts": {
+      "verified": 2
+    },
+    "families": {
+      "authored-regression": {
+        "verified": 1
+      },
+      "pidgeons": {
+        "verified": 1
+      }
+    },
+    "finished": true
+  },
+  "audit": {
+    "job_id": "362757",
+    "host": "node-01.ciircluster",
+    "micromath_git": "8f9cff132140462b141183ddb9cb88a9beb80a4f",
+    "binary_sha256": {
+      "build-axioms": "004417db1ad1f886bbba034ff0c7f70bdaa885359a482bef52f17a6e4c2d9124",
+      "smt/build-lia-challenge": "9a5cf0dcc1f1932f34ecf471b2fc3c2f5b10b90c0bd0ffc100a7564f568f697c",
+      "smt/prove-lia": "0dd6aab02917bd442a3352a35fd2198b83c1ee65624c4ad9b76fbd2659679bdb",
+      "check-solution": "d8965d248e187551ee0021b301514aeecf012ca31517bb6dcd948baf638052cf",
+      "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "yices": "eab7efbff2a6f0cce2fcd2c25cb4a94e0e048c902d8ef9e6fd7d7989aa54c501"
+    },
+    "previous_job": "362736",
+    "previous_summary_sha256": "41670d0707887cc42ee9929b2032c4d2207bb82800bad838281bf3b7283108e4",
+    "statement_source": "exported-cnf",
+    "source_to_cnf_verified": false,
+    "rows": [
+      {
+        "index": 11,
+        "case": {
+          "file": "nec-smt/med/int_from_list/prp-28-27.smt2",
+          "expected": "unsat",
+          "family": "nec-smt",
+          "sha256": "4ad2525b84c120ef0d908962638873db261166436a6f4fee95e059e5eb8620c6",
+          "historical_seconds": 0.643295,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-86/answers.csv",
+          "source_bytes": 35576,
+          "size_tier": 1
+        },
+        "previous_status": "challenge_timeout",
+        "status": "independent_checks_passed",
+        "files": {
+          "input.smt2": {
+            "sha256": "4ad2525b84c120ef0d908962638873db261166436a6f4fee95e059e5eb8620c6",
+            "bytes": 35576
+          },
+          "native.sexp": {
+            "sha256": "38d76623275ee6ebffb949e6bd379ab770f718e94f6a9cc44a0bc6f78119f357",
+            "bytes": 27068507
+          },
+          "micromath-v2.sexp": {
+            "sha256": "5d687b9855c49eb575849dfb386a02d50cede4bbb66a2d580abc78c54b5c8ac3",
+            "bytes": 27068507
+          },
+          "exported-cnf.smt2": {
+            "sha256": "18e6c48471ccf13325fe5c83edda58927bae391a72242d9f43f734101dc1c308",
+            "bytes": 31190838
+          }
+        },
+        "stages": {
+          "original_reference": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/input.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/original_reference.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/original_reference.err",
+            "state": "ok",
+            "seconds": 0.01227722100156825,
+            "exit_code": 0
+          },
+          "cnf_reference": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/exported-cnf.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/cnf_reference.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/cnf_reference.err",
+            "state": "ok",
+            "seconds": 0.7197798310080543,
+            "exit_code": 0
+          },
+          "regeneration": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/certificate_cnf_statement.py",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/native.sexp",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/regenerated.smt2",
+              "--logic",
+              "QF_LIA"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/regeneration.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/regeneration.err",
+            "state": "ok",
+            "seconds": 9.5857134580001,
+            "exit_code": 0
+          },
+          "independent": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/check_lia_certificate.py",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/native.sexp",
+              "--sat-solver",
+              "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/independent.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/independent.err",
+            "state": "ok",
+            "seconds": 15.350429383994197,
+            "exit_code": 0
+          }
+        },
+        "header_copy": {
+          "source_sha256": "38d76623275ee6ebffb949e6bd379ab770f718e94f6a9cc44a0bc6f78119f357",
+          "copy_sha256": "5d687b9855c49eb575849dfb386a02d50cede4bbb66a2d580abc78c54b5c8ac3",
+          "changed_byte_offset": 28,
+          "old": "3",
+          "new": "2",
+          "body": "copied verbatim in bounded chunks"
+        },
+        "original_reference_unsat": true,
+        "cnf_reference_unsat": true,
+        "statement_byte_match": true,
+        "independent_report": {
+          "conflicts": 0,
+          "cuts": 0,
+          "entries": 0,
+          "propositional_unsat": true,
+          "variables": 18084
+        }
+      },
+      {
+        "index": 14,
+        "case": {
+          "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc002.smt2",
+          "expected": "unsat",
+          "family": "Averest",
+          "sha256": "36326cd36b334793a6f4b6135f34bc05cf46a81faa97c70abdfde539afb71163",
+          "historical_seconds": 0.066069,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-2/answers.csv",
+          "source_bytes": 71626,
+          "size_tier": 1
+        },
+        "previous_status": "proof_error",
+        "status": "checker_error_reproduced",
+        "files": {
+          "input.smt2": {
+            "sha256": "36326cd36b334793a6f4b6135f34bc05cf46a81faa97c70abdfde539afb71163",
+            "bytes": 71626
+          },
+          "native.sexp": {
+            "sha256": "059b528497d76371d3f3acfc31401ab58a632ef64d7d178b10ea3b14d2c07750",
+            "bytes": 936861
+          },
+          "micromath-v2.sexp": {
+            "sha256": "97437dc165de2cab28833933d79d574aea11d2ec4f2e0d06c5b076787f3b61d8",
+            "bytes": 936861
+          },
+          "exported-cnf.smt2": {
+            "sha256": "66d0c043f401436b447b59077fc912f0aa2fd9477f78834bf70f9f746ee1b04c",
+            "bytes": 1113672
+          }
+        },
+        "stages": {
+          "original_reference": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/input.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/original_reference.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/original_reference.err",
+            "state": "ok",
+            "seconds": 0.02121628499298822,
+            "exit_code": 0
+          },
+          "cnf_reference": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/exported-cnf.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/cnf_reference.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/cnf_reference.err",
+            "state": "ok",
+            "seconds": 0.06851023799390532,
+            "exit_code": 0
+          },
+          "regeneration": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/certificate_cnf_statement.py",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/native.sexp",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/regenerated.smt2",
+              "--logic",
+              "QF_LIA"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/regeneration.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/regeneration.err",
+            "state": "ok",
+            "seconds": 0.46925934799946845,
+            "exit_code": 0
+          },
+          "independent": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/check_lia_certificate.py",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/native.sexp",
+              "--sat-solver",
+              "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/independent.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/independent.err",
+            "state": "ok",
+            "seconds": 0.7202438849926693,
+            "exit_code": 0
+          },
+          "replay": {
+            "command": [
+              "bash",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/replay_micromath_lia_feedback.sh",
+              "/home/janotmik/micromath-lia-20261106",
+              "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/replay"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/replay-script.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/replay-script.err",
+            "state": "error",
+            "seconds": 3.2257619700103533,
+            "exit_code": 1
+          }
+        },
+        "header_copy": {
+          "source_sha256": "059b528497d76371d3f3acfc31401ab58a632ef64d7d178b10ea3b14d2c07750",
+          "copy_sha256": "97437dc165de2cab28833933d79d574aea11d2ec4f2e0d06c5b076787f3b61d8",
+          "changed_byte_offset": 28,
+          "old": "3",
+          "new": "2",
+          "body": "copied verbatim in bounded chunks"
+        },
+        "original_reference_unsat": true,
+        "cnf_reference_unsat": true,
+        "statement_byte_match": true,
+        "independent_report": {
+          "conflicts": 0,
+          "cuts": 0,
+          "entries": 0,
+          "propositional_unsat": true,
+          "variables": 1541
+        },
+        "pipeline_exit_codes": [
+          1,
+          1
+        ],
+        "producer_diagnostic": "Logic failure: evaluation needs a closed Boolean term\n",
+        "error_reproduced": true
+      },
+      {
+        "index": 15,
+        "case": {
+          "file": "20210219-Dartagnan/ReachSafety-Loops/count_up_down-1-O0.smt2",
+          "expected": "unsat",
+          "family": "20210219-Dartagnan",
+          "sha256": "8dea5c8594806e3ce54d1d0b343efd382018454afcf9de69bf2a11ffaf2cc5cc",
+          "historical_seconds": 0.707795,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-2/answers.csv",
+          "source_bytes": 111125,
+          "size_tier": 1
+        },
+        "previous_status": "proof_timeout",
+        "status": "independent_checks_passed",
+        "files": {
+          "input.smt2": {
+            "sha256": "8dea5c8594806e3ce54d1d0b343efd382018454afcf9de69bf2a11ffaf2cc5cc",
+            "bytes": 111125
+          },
+          "native.sexp": {
+            "sha256": "21c9380bdc2e1ffd5ec1fee55ac166a97de6e930e3ae03252762fdc2ef0911d5",
+            "bytes": 3043138
+          },
+          "micromath-v2.sexp": {
+            "sha256": "86e5e19dd160d1a8d52e64881d6f7ab359943cacfb95d1818599bee23fb3bf8e",
+            "bytes": 3043138
+          },
+          "exported-cnf.smt2": {
+            "sha256": "ac58cc71339bbacc9c52ca1e28ee47c69dd4345f8af5d047e912ada739ec53a2",
+            "bytes": 3475339
+          }
+        },
+        "stages": {
+          "original_reference": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/input.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/original_reference.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/original_reference.err",
+            "state": "ok",
+            "seconds": 0.036439838993828744,
+            "exit_code": 0
+          },
+          "cnf_reference": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/exported-cnf.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/cnf_reference.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/cnf_reference.err",
+            "state": "ok",
+            "seconds": 0.21842229198955465,
+            "exit_code": 0
+          },
+          "regeneration": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/certificate_cnf_statement.py",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/native.sexp",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/regenerated.smt2",
+              "--logic",
+              "QF_LIA"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/regeneration.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/regeneration.err",
+            "state": "ok",
+            "seconds": 1.220492116000969,
+            "exit_code": 0
+          },
+          "independent": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/check_lia_certificate.py",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/native.sexp",
+              "--sat-solver",
+              "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/independent.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/independent.err",
+            "state": "ok",
+            "seconds": 2.222986316992319,
+            "exit_code": 0
+          }
+        },
+        "header_copy": {
+          "source_sha256": "21c9380bdc2e1ffd5ec1fee55ac166a97de6e930e3ae03252762fdc2ef0911d5",
+          "copy_sha256": "86e5e19dd160d1a8d52e64881d6f7ab359943cacfb95d1818599bee23fb3bf8e",
+          "changed_byte_offset": 28,
+          "old": "3",
+          "new": "2",
+          "body": "copied verbatim in bounded chunks"
+        },
+        "original_reference_unsat": true,
+        "cnf_reference_unsat": true,
+        "statement_byte_match": true,
+        "independent_report": {
+          "conflicts": 25,
+          "cuts": 25,
+          "entries": 140,
+          "propositional_unsat": true,
+          "variables": 29832
+        }
+      },
+      {
+        "index": 18,
+        "case": {
+          "file": "20210219-Dartagnan/ReachSafety-Loops/deep-nested-O0.smt2",
+          "expected": "unsat",
+          "family": "20210219-Dartagnan",
+          "sha256": "d6a28a5b506012011a309200f6675388bd6e0cd206bcd2a71fb5bd50e5766852",
+          "historical_seconds": 0.957333,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-5/answers.csv",
+          "source_bytes": 137681,
+          "size_tier": 2
+        },
+        "previous_status": "proof_timeout",
+        "status": "independent_checks_passed",
+        "files": {
+          "input.smt2": {
+            "sha256": "d6a28a5b506012011a309200f6675388bd6e0cd206bcd2a71fb5bd50e5766852",
+            "bytes": 137681
+          },
+          "native.sexp": {
+            "sha256": "edf770518991ab5281c71367bc55b9616cf5c13084813a5e9aed0b23cd62b915",
+            "bytes": 5026064
+          },
+          "micromath-v2.sexp": {
+            "sha256": "004a0d4c21c1cdde07a0867f588c3cecc92ae16b65712b0dc4326c2de69ae209",
+            "bytes": 5026064
+          },
+          "exported-cnf.smt2": {
+            "sha256": "1ee664a54467b0d9372cb75b9e47d2cec5454b82bf86012ecb6210b8ec409bd1",
+            "bytes": 5752062
+          }
+        },
+        "stages": {
+          "original_reference": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/input.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/original_reference.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/original_reference.err",
+            "state": "ok",
+            "seconds": 0.06942785000137519,
+            "exit_code": 0
+          },
+          "cnf_reference": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/exported-cnf.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/cnf_reference.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/cnf_reference.err",
+            "state": "ok",
+            "seconds": 0.2692803459940478,
+            "exit_code": 0
+          },
+          "regeneration": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/certificate_cnf_statement.py",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/native.sexp",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/regenerated.smt2",
+              "--logic",
+              "QF_LIA"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/regeneration.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/regeneration.err",
+            "state": "ok",
+            "seconds": 1.971976833010558,
+            "exit_code": 0
+          },
+          "independent": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/check_lia_certificate.py",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/native.sexp",
+              "--sat-solver",
+              "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/independent.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/independent.err",
+            "state": "ok",
+            "seconds": 3.475841792009305,
+            "exit_code": 0
+          }
+        },
+        "header_copy": {
+          "source_sha256": "edf770518991ab5281c71367bc55b9616cf5c13084813a5e9aed0b23cd62b915",
+          "copy_sha256": "004a0d4c21c1cdde07a0867f588c3cecc92ae16b65712b0dc4326c2de69ae209",
+          "changed_byte_offset": 28,
+          "old": "3",
+          "new": "2",
+          "body": "copied verbatim in bounded chunks"
+        },
+        "original_reference_unsat": true,
+        "cnf_reference_unsat": true,
+        "statement_byte_match": true,
+        "independent_report": {
+          "conflicts": 2,
+          "cuts": 2,
+          "entries": 6,
+          "propositional_unsat": true,
+          "variables": 49008
+        }
+      },
+      {
+        "index": 19,
+        "case": {
+          "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc003.smt2",
+          "expected": "unsat",
+          "family": "Averest",
+          "sha256": "b38132ed8c8ce8c2c39a17a75cc9b41f7cb286c6c7cd40a151e053695f4a53ca",
+          "historical_seconds": 0.145352,
+          "historical_source_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+          "historical_solver_args": [
+            "--quiet"
+          ],
+          "historical_binary_sha256": "d0f69f50540efa7561e7895d2f24acff26787756a85b9bdb9f67e7eaaed496e0",
+          "historical_record": "shard-3/answers.csv",
+          "source_bytes": 139555,
+          "size_tier": 2
+        },
+        "previous_status": "proof_error",
+        "status": "checker_error_reproduced",
+        "files": {
+          "input.smt2": {
+            "sha256": "b38132ed8c8ce8c2c39a17a75cc9b41f7cb286c6c7cd40a151e053695f4a53ca",
+            "bytes": 139555
+          },
+          "native.sexp": {
+            "sha256": "c58e6b1f9e64ca0f091d7b6887ce5befd02306f13bb0bc9d15e51416c6b798dc",
+            "bytes": 1942191
+          },
+          "micromath-v2.sexp": {
+            "sha256": "b36227793e55388ed208c26c898f7e91493f31f8898d2a97c3c748eb3aa3bfb7",
+            "bytes": 1942191
+          },
+          "exported-cnf.smt2": {
+            "sha256": "e83d222a8023e60144485599ee17127db0ae785916f60c0c409a421b6e8d8b16",
+            "bytes": 2301031
+          }
+        },
+        "stages": {
+          "original_reference": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/input.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/original_reference.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/original_reference.err",
+            "state": "ok",
+            "seconds": 0.02084322099108249,
+            "exit_code": 0
+          },
+          "cnf_reference": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/exported-cnf.smt2"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/cnf_reference.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/cnf_reference.err",
+            "state": "ok",
+            "seconds": 0.1179506040061824,
+            "exit_code": 0
+          },
+          "regeneration": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/certificate_cnf_statement.py",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/native.sexp",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/regenerated.smt2",
+              "--logic",
+              "QF_LIA"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/regeneration.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/regeneration.err",
+            "state": "ok",
+            "seconds": 0.8695453789987369,
+            "exit_code": 0
+          },
+          "independent": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/check_lia_certificate.py",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/native.sexp",
+              "--sat-solver",
+              "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/independent.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/independent.err",
+            "state": "ok",
+            "seconds": 1.3714222830021754,
+            "exit_code": 0
+          },
+          "replay": {
+            "command": [
+              "bash",
+              "/home/janotmik/primo-lia-export-20261105/results/yices-feedback-workflow-20261107/replay_micromath_lia_feedback.sh",
+              "/home/janotmik/micromath-lia-20261106",
+              "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/replay"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/replay-script.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/replay-script.err",
+            "state": "error",
+            "seconds": 6.682893612989574,
+            "exit_code": 1
+          }
+        },
+        "header_copy": {
+          "source_sha256": "c58e6b1f9e64ca0f091d7b6887ce5befd02306f13bb0bc9d15e51416c6b798dc",
+          "copy_sha256": "b36227793e55388ed208c26c898f7e91493f31f8898d2a97c3c748eb3aa3bfb7",
+          "changed_byte_offset": 28,
+          "old": "3",
+          "new": "2",
+          "body": "copied verbatim in bounded chunks"
+        },
+        "original_reference_unsat": true,
+        "cnf_reference_unsat": true,
+        "statement_byte_match": true,
+        "independent_report": {
+          "conflicts": 0,
+          "cuts": 0,
+          "entries": 0,
+          "propositional_unsat": true,
+          "variables": 3272
+        },
+        "pipeline_exit_codes": [
+          1,
+          1
+        ],
+        "producer_diagnostic": "Logic failure: evaluation needs a closed Boolean term\n",
+        "error_reproduced": true
+      }
+    ],
+    "workflow_sha256": {
+      "audit_arithmetic_checker_failures.py": "48a7761b48a5925dbc4298ef23d2d667480f1232b24a6e11d666452a9e39ccdf",
+      "arithmetic_certificate_stress.py": "d1116eb011bc8a811e3e130dd951392e287dce75897646f4f3f9d5044cb77829",
+      "certificate_cnf_statement.py": "d92d709027b2c1813b616e632b89e4d528eede68366c2ac2314468fa70c7ed9a",
+      "micromath_stress.py": "69d5b794a134084a1ae5eb2db3fb667233746b3f1496188e7b0a0e0cff4887e0",
+      "replay_micromath_lra.py": "ed5f08cacb655f42b4ee940c82796ab369cdd40660e18c20cee5c1e6653e2c04",
+      "replay_micromath_lia_feedback.sh": "dc2df1d0a5c5d831a1632057310469ec1456a7c80e6c7c2fa8c18a55fc020e85",
+      "slurm_arithmetic_checker_audit.sbatch": "fb934e00677890230fd3879c5d1fa2545b729f22b3a97a57ba262c2d480265fb",
+      "select_micromath_fast_cases.py": "6a59b48a7e57e52eecce2540e9465b9766a05b45ee110e5fc83e33dd7f901179",
+      "check_lia_certificate.py": "ff6eedb8e63cf673a754098400a28f83cf8b573392ef69f8d0ea5e2f16de3a83",
+      "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+    },
+    "limits": {
+      "validation_seconds": 60,
+      "challenge_seconds": 30,
+      "proof_seconds": 60,
+      "replay_script_seconds": 125,
+      "address_bytes": 3221225472,
+      "file_bytes": 268435456
+    },
+    "yices_version": "Yices 2.7.0\nCopyright SRI International.\nLinked with GMP 6.3.0\nCopyright Free Software Foundation, Inc.\nBuild date: 2025-07-17\nPlatform: x86_64-pc-linux-gnu (release/static)\nRevision: 4f19700f0e272f4a68250080d12a873523bc7ac3\n",
+    "completed": 5,
+    "package": {
+      "archive": "micromath-lia-feedback.tar.gz",
+      "sha256": "f96031fb387de4f0ddb32003940b7960f8ea8314d3756ce9fa69beddb42bed20",
+      "bytes": 7248143,
+      "cases": [
+        {
+          "directory": "011-challenge_timeout",
+          "original_file": "nec-smt/med/int_from_list/prp-28-27.smt2",
+          "observed": "challenge_timeout",
+          "audit": "independent_checks_passed"
+        },
+        {
+          "directory": "014-closed-boolean",
+          "original_file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc002.smt2",
+          "observed": "proof_error",
+          "audit": "checker_error_reproduced"
+        },
+        {
+          "directory": "015-proof_timeout",
+          "original_file": "20210219-Dartagnan/ReachSafety-Loops/count_up_down-1-O0.smt2",
+          "observed": "proof_timeout",
+          "audit": "independent_checks_passed"
+        },
+        {
+          "directory": "018-proof_timeout",
+          "original_file": "20210219-Dartagnan/ReachSafety-Loops/deep-nested-O0.smt2",
+          "observed": "proof_timeout",
+          "audit": "independent_checks_passed"
+        },
+        {
+          "directory": "019-closed-boolean",
+          "original_file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc003.smt2",
+          "observed": "proof_error",
+          "audit": "checker_error_reproduced"
+        }
+      ]
+    },
+    "finished": true
+  },
+  "archives": {
+    "micromath-lia-feedback.tar.gz": {
+      "file": "benchmarks/checker-regressions/micromath-lia-feedback-20261107/micromath-lia-feedback.tar.gz",
+      "sha256": "f96031fb387de4f0ddb32003940b7960f8ea8314d3756ce9fa69beddb42bed20",
+      "bytes": 7248143,
+      "cases": [
+        {
+          "directory": "011-challenge_timeout",
+          "original_file": "nec-smt/med/int_from_list/prp-28-27.smt2",
+          "observed": "challenge_timeout",
+          "audit": "independent_checks_passed"
+        },
+        {
+          "directory": "014-closed-boolean",
+          "original_file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc002.smt2",
+          "observed": "proof_error",
+          "audit": "checker_error_reproduced"
+        },
+        {
+          "directory": "015-proof_timeout",
+          "original_file": "20210219-Dartagnan/ReachSafety-Loops/count_up_down-1-O0.smt2",
+          "observed": "proof_timeout",
+          "audit": "independent_checks_passed"
+        },
+        {
+          "directory": "018-proof_timeout",
+          "original_file": "20210219-Dartagnan/ReachSafety-Loops/deep-nested-O0.smt2",
+          "observed": "proof_timeout",
+          "audit": "independent_checks_passed"
+        },
+        {
+          "directory": "019-closed-boolean",
+          "original_file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc003.smt2",
+          "observed": "proof_error",
+          "audit": "checker_error_reproduced"
+        }
+      ],
+      "manifest_payload_files": 152
+    },
+    "micromath-lia-small-error.tar.gz": {
+      "file": "benchmarks/checker-regressions/micromath-lia-feedback-20261107/micromath-lia-small-error.tar.gz",
+      "sha256": "9f35ea634f13f0a1d5f0169ab2df2a20bfe0ddece60cbf16ad4c916618eb8375",
+      "bytes": 221793,
+      "cases": [
+        {
+          "directory": "014-closed-boolean",
+          "original_file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc002.smt2",
+          "observed": "proof_error",
+          "audit": "checker_error_reproduced"
+        }
+      ],
+      "manifest_payload_files": 42
+    }
+  },
+  "verification": {
+    "python_unit_methods": 13,
+    "transport_cases": 100,
+    "transport_assignments": 800,
+    "checks": [
+      "make lint",
+      "Python compilation",
+      "bash -n portable replay and both SLURM wrappers",
+      "slurm_validate_sbatch.py both wrappers",
+      "portable replay script used for both fresh error reproductions in362757",
+      "all payload SHA256/size records checked in both final archives"
+    ],
+    "not_repeated": "No native C++ change: full native/ASan/fuzz/clang-tidy/include-cleaner gates not repeated; accepted native source remains a5123159."
+  },
+  "artifacts": {
+    "local": "results/arithmetic-checker-audit-362757; results/arithmetic-proof-stress-362756",
+    "remote": "$PRIMO_WORKDIR/results/arithmetic-checker-audit-362757 and arithmetic-proof-stress-362756",
+    "retention": "Archive/summary downloaded. Full audit statements/native files, fresh replay dumps/logs retained remotely. Raw proof streamed, not saved.",
+    "reference_binary": "Pinned available Yices2.7.0; wrapper defaultcontrib/local/bin/yices-smt2, audit/qualification use ARITHMETIC_REFERENCE override."
+  },
+  "limitations": [
+    "No detected producer-side defect in these five unchanged inputs; independent checks do not formally establish original preprocessing or checker soundness.",
+    "Two error cases reproduced now with producer/kernel codes1/1 and exact closed-Boolean diagnostic. Three resource cases retain historical362736 limits/logs; checker resource runs were not repeated by the audit.",
+    "The two errors contain zero theory conflicts, excluding an invalid supplied integer-cut derivation as their trigger.",
+    "No upstream fetch or external message; error is observed on pinned8f9cff132140462b141183ddb9cb88a9beb80a4f, not claimed against latest upstream.",
+    "Our separate dillig reconstruction limit was not changed or reclassified."
+  ]
+}

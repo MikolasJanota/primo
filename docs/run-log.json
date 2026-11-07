@@ -3,6 +3,126 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-yices-reference-and-Micromath-LIA-feedback",
+      "date": "2026-11-07",
+      "kind": "independent-exported-CNF-input-audit-and-feedback-export",
+      "workflow_git": "9fbba005ea9e83b245688718cd8f0f1e2c66b69b",
+      "producer_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "manifest": "docs/coverage/micromath-lia-feedback.json",
+      "evidence_status": "Targeted Yices reference qualification passed; all five saved Micromath failure inputs independently validated; both closed-Boolean errors freshly reproduced on pinned checker; validated feedback archives ready.",
+      "jobs": {
+        "362756_1": "COMPLETED0:0,4s,MaxRSS8044KiB; previous Z3 timeout and shared-ITE control both Yices UNSAT and kernel verified",
+        "362757": "COMPLETED0:0,69s,MaxRSS535164KiB; five independent audits, two error replays and feedback packaging"
+      },
+      "reference": "Yices2.7.0 revision4f19700f0e272f4a68250080d12a873523bc7ac3; binary SHA256 in report",
+      "micromath_git": "8f9cff132140462b141183ddb9cb88a9beb80a4f",
+      "counts": {
+        "new_reference_qualification": {
+          "verified": 2,
+          "wrong_answer": 0,
+          "error": 0,
+          "timeout": 0
+        },
+        "saved_checker_input_audit": {
+          "all_independent_checks_passed": 5,
+          "closed_boolean_error_reproduced": 2,
+          "historical_resource_cases": 3,
+          "reference_disagreement": 0
+        },
+        "archives": {
+          "smallest_error_cases": 1,
+          "full_cases": 5
+        }
+      },
+      "commands": {
+        "reference_qualification": "Canonical --check-only preflight with --require-tool YICES; scripts/slurm_arithmetic_certificate_stress.sbatch --array=1 with ARITHMETIC_REFERENCE=YICES and two-case explicit selection; defaultexported-cnf mode.",
+        "audit": "Canonical --check-only preflight; scripts/slurm_arithmetic_checker_audit.sbatch with frozen helper directory, original362736/QF_LIA/run, pinned checker and Yices/CaDiCaL executables.",
+        "validation": "Yices ORIGINAL; Yices EXPORTED_CNF; regenerate statement and hash-match; verify one-byte header copy; scripts/check_lia_certificate.py NATIVE --sat-solver CADICAL.",
+        "error_replay": "scripts/replay_micromath_lia_feedback.sh MICROMATH CADICAL CASE_DIR FRESH_OUTPUT_DIR (same script included as replay.sh in archives)."
+      },
+      "allocation": {
+        "reference_qualification": {
+          "cpus": 2,
+          "memory_gib": 12,
+          "wall_minutes": 90
+        },
+        "audit": {
+          "cpus": 2,
+          "memory_gib": 12,
+          "wall_minutes": 30
+        }
+      },
+      "limits": {
+        "validation_seconds": 60,
+        "challenge_seconds": 30,
+        "proof_seconds": 60,
+        "replay_script_seconds": 125,
+        "address_bytes": 3221225472,
+        "file_bytes": 268435456
+      },
+      "artifacts": {
+        "local": "results/arithmetic-checker-audit-362757; results/arithmetic-proof-stress-362756",
+        "remote": "$PRIMO_WORKDIR/results/arithmetic-checker-audit-362757 and arithmetic-proof-stress-362756",
+        "retention": "Archive/summary downloaded. Full audit statements/native files, fresh replay dumps/logs retained remotely. Raw proof streamed, not saved.",
+        "reference_binary": "Pinned available Yices2.7.0; wrapper defaultcontrib/local/bin/yices-smt2, audit/qualification use ARITHMETIC_REFERENCE override."
+      },
+      "archives": {
+        "micromath-lia-feedback.tar.gz": {
+          "file": "benchmarks/checker-regressions/micromath-lia-feedback-20261107/micromath-lia-feedback.tar.gz",
+          "sha256": "f96031fb387de4f0ddb32003940b7960f8ea8314d3756ce9fa69beddb42bed20",
+          "bytes": 7248143,
+          "cases": [
+            {
+              "directory": "011-challenge_timeout",
+              "original_file": "nec-smt/med/int_from_list/prp-28-27.smt2",
+              "observed": "challenge_timeout",
+              "audit": "independent_checks_passed"
+            },
+            {
+              "directory": "014-closed-boolean",
+              "original_file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc002.smt2",
+              "observed": "proof_error",
+              "audit": "checker_error_reproduced"
+            },
+            {
+              "directory": "015-proof_timeout",
+              "original_file": "20210219-Dartagnan/ReachSafety-Loops/count_up_down-1-O0.smt2",
+              "observed": "proof_timeout",
+              "audit": "independent_checks_passed"
+            },
+            {
+              "directory": "018-proof_timeout",
+              "original_file": "20210219-Dartagnan/ReachSafety-Loops/deep-nested-O0.smt2",
+              "observed": "proof_timeout",
+              "audit": "independent_checks_passed"
+            },
+            {
+              "directory": "019-closed-boolean",
+              "original_file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc003.smt2",
+              "observed": "proof_error",
+              "audit": "checker_error_reproduced"
+            }
+          ],
+          "manifest_payload_files": 152
+        },
+        "micromath-lia-small-error.tar.gz": {
+          "file": "benchmarks/checker-regressions/micromath-lia-feedback-20261107/micromath-lia-small-error.tar.gz",
+          "sha256": "9f35ea634f13f0a1d5f0169ab2df2a20bfe0ddece60cbf16ad4c916618eb8375",
+          "bytes": 221793,
+          "cases": [
+            {
+              "directory": "014-closed-boolean",
+              "original_file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc002.smt2",
+              "observed": "proof_error",
+              "audit": "checker_error_reproduced"
+            }
+          ],
+          "manifest_payload_files": 42
+        }
+      },
+      "scope": "Exported-CNF boundary only. No source-to-CNF proof, checker-internals audit, general solver performance/default-profile claim or new full-corpus sweep. Remaining producer-side reconstruction limit is open. No checker implementation inspection/modification and no external author message."
+    },
+    {
       "id": "2026-11-06-lia-reconstruction-candidates",
       "date": "2026-11-06",
       "kind": "bounded-producer-reconstruction-follow-up",

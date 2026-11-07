@@ -235,6 +235,11 @@ decimal literals, quantifiers, functions and incremental queries are outside
 the documented Micromath LIA fragment. Existing Primo lowering of such terms
 does not extend the checker's original-source parser.
 
+The [Yices reference and checker-feedback audit](qf-lra-certificates.md#yices-reference-and-independently-validated-checker-feedback)
+validated the five saved checker-failure inputs and exported a small replay
+for the freshly reproduced Boolean-evaluation error. The remaining native
+reconstruction limit is recorded separately as a producer limitation.
+
 The [real-source arithmetic stress pilot](qf-lra-certificates.md#real-source-arithmetic-stress-pilot)
 adds 24 real LIA sources: three kernel proofs, including one using an integer
 cut, with the remaining outcomes and small replay files recorded separately.

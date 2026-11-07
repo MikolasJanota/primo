@@ -1,3 +1,7 @@
+---
+orphan: true
+---
+
 # Rejected LIA reconstruction candidates, 6 November 2026
 
 These are reproducibility artifacts, not active solver changes. Both candidates
