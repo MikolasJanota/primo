@@ -1,0 +1,1459 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-07",
+  "status": "All5LIA feedback cases andLRA LassoRanker pass original30s challenge/60s live pipeline bounds. Two LRA clocks still hit60s, then complete valid gzip exports/independent kernels under300s staged bounds.",
+  "scope": "Eight saved, independently audited exported-CNF cases; no new native solve, reference run, full217case checker sweep, default promotion or checker-source audit.",
+  "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+  "previous_checker_gits": {
+    "LRA": "5f22700410c0e37044c03557dbd21e009303b7ba",
+    "LIA": "8f9cff132140462b141183ddb9cb88a9beb80a4f"
+  },
+  "native_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "source_to_cnf_verified": false,
+  "workflow_gits": {
+    "build_and_live_replay": "1b7a5ac3fd3eea4684eb42bc5813edd83e60c1b2",
+    "staged_only_replay": "078de28636d6eedcdd6d3570a424d5562e5194e6",
+    "feedback_packet": "07a2eaac87aab967b9577bbcd3766215c8b28757"
+  },
+  "author_response": {
+    "path": "external/Response.md",
+    "sha256": "d2a9036cce6e3c7d9aac8139dd204f284e87c22a04272364d201ff7bed96c268",
+    "title": "Response to the LIA feedback",
+    "claim": "Five suppliedLIA cases replay successfully; Boolean reconstruction fixes and Boolean encoding/clause dependency/arithmetic normalization/source-clause transport optimizations. Implementation mechanisms are author reports, not source-audited here.",
+    "comparison": "Pass outcomes reproduced on all5LIA inputs; timing definitions, hardware and SAT/LRAT backend can differ. No claim of identical author step counts/timings."
+  },
+  "build": {
+    "job": "362913",
+    "revision": [
+      "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "2026-11-07 16:29:54 +0100",
+      "Fix LRA/LIA proof reconstruction and reduce encoding overhead"
+    ],
+    "compiler": "gcc (GCC) 11.4.1 20231218 (Red Hat 11.4.1-3)",
+    "command": "make clean; make -j4 CPPFLAGS=\"-I. -Isat -I$PRIMO_WORKDIR/contrib/local/include\" LDFLAGS=\"-L$PRIMO_WORKDIR/contrib/local/lib\" build-axioms smt/build-lra-challenge smt/build-lia-challenge smt/prove-lra smt/prove-lia check-solution",
+    "c_include_path": "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/3:/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/5",
+    "dependency_hashes": [
+      "827dccad02b2067c4b9bc76649deb83e390d73055111e6d532df4ea45e27ca28  /home/janotmik/primo-symmetry-headers.txt",
+      "170523605c7877865865d35b6ec4e422c942f53d33bfdd37ce08022041893ef4  /home/janotmik/primo-lia-export-20261105/contrib/local/include/gmp.h",
+      "61f5c57acd989bcd4c845feca2bf5e08ea55d673e6af0e478a53e7c124f3ccf6  /home/janotmik/primo-lia-export-20261105/contrib/local/lib/libgmp.a"
+    ],
+    "binaries_sha256": {
+      "build-axioms": "5b205cb0fa92f03281f20449a7342a50d2b5fe0662fff36fda73518b71089bcf",
+      "smt/build-lra-challenge": "bc30474c6bedac2bca4e5209555249f94d72ee68386b9f18bbe7a8ac8c894e51",
+      "smt/build-lia-challenge": "21b208275b1daf2fd2cc525645445a9737185e1ad8de6e364730f2abf81e8414",
+      "smt/prove-lra": "54f17a17cd7375887a9436c8fb932aa7b56837325ea8fcc555a600ab02c13379",
+      "smt/prove-lia": "ab8fe3a9112a6d043e0e982b918e2b8dab210ee11bad78b93ac12ad0ae53a67f",
+      "check-solution": "02c269438239a39e1048301c794ea27fcaebdbbe9a11e5ed7f1759fcd36fa70f"
+    },
+    "cpu": [
+      "Architecture:                       x86_64",
+      "CPU op-mode(s):                     32-bit, 64-bit",
+      "Address sizes:                      46 bits physical, 48 bits virtual",
+      "Byte Order:                         Little Endian",
+      "CPU(s):                             56",
+      "On-line CPU(s) list:                0-55",
+      "Vendor ID:                          GenuineIntel",
+      "Model name:                         Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz",
+      "CPU family:                         6",
+      "Model:                              79",
+      "Thread(s) per core:                 2",
+      "Core(s) per socket:                 14",
+      "Socket(s):                          2",
+      "Stepping:                           1",
+      "CPU(s) scaling MHz:                 100%",
+      "CPU max MHz:                        2600.0000",
+      "CPU min MHz:                        1200.0000",
+      "BogoMIPS:                           5187.89",
+      "Flags:                              fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 pti intel_ppin tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm arat pln pts vnmi",
+      "Virtualization:                     VT-x",
+      "L1d cache:                          896 KiB (28 instances)",
+      "L1i cache:                          896 KiB (28 instances)",
+      "L2 cache:                           7 MiB (28 instances)",
+      "L3 cache:                           70 MiB (2 instances)",
+      "NUMA node(s):                       2",
+      "NUMA node0 CPU(s):                  0-13,28-41",
+      "NUMA node1 CPU(s):                  14-27,42-55",
+      "Vulnerability Gather data sampling: Not affected",
+      "Vulnerability Itlb multihit:        KVM: Mitigation: VMX disabled",
+      "Vulnerability L1tf:                 Mitigation; PTE Inversion; VMX conditional cache flushes, SMT vulnerable",
+      "Vulnerability Mds:                  Vulnerable: Clear CPU buffers attempted, no microcode; SMT vulnerable",
+      "Vulnerability Meltdown:             Mitigation; PTI",
+      "Vulnerability Mmio stale data:      Vulnerable: Clear CPU buffers attempted, no microcode; SMT vulnerable",
+      "Vulnerability Retbleed:             Not affected",
+      "Vulnerability Spec rstack overflow: Not affected",
+      "Vulnerability Spec store bypass:    Vulnerable",
+      "Vulnerability Spectre v1:           Mitigation; usercopy/swapgs barriers and __user pointer sanitization",
+      "Vulnerability Spectre v2:           Mitigation; Retpolines, STIBP disabled, RSB filling, PBRSB-eIBRS Not affected",
+      "Vulnerability Srbds:                Not affected",
+      "Vulnerability Tsx async abort:      Vulnerable: Clear CPU buffers attempted, no microcode; SMT vulnerable"
+    ],
+    "interface_docs_hashes": [
+      "adb650a80803c3e45fd87d9d18507d2eca753279cb946a3f7dcc6bd2b5600f7e  smt/LRA.md",
+      "dd83c8258eee932b9176e9e54066ab7af1141482e37b9d604e0942a8a5b519fb  smt/LIA.md",
+      "bfa31c06a8b2eba4babeafb90659a7b31de6b34cdc15db949e370b2ece208196  Makefile"
+    ]
+  },
+  "jobs": {
+    "362870": "Failed2:0,1s,missingstdio.h before tool build; provisioned C-header/GMP setup then applied.",
+    "362904_[0-1]": "Cancelled before execution after initial build failure.",
+    "362913": "Completed0:0,13s; isolated updated checker build.",
+    "362914_0": "Completed0:0,131s; LRA1verified,2proof timeouts; Lasso complete gzip export and independent kernel accepted.",
+    "362914_1": "Completed0:0,16s; all5LIA verified.",
+    "362921_0": "Completed0:0,129s;5clock complete gzip export and independent kernel accepted.",
+    "362921_1": "Completed0:0,203s;6clock complete gzip export and independent kernel accepted."
+  },
+  "submission_note": "Staged sbatch initially rejected an expired completed-build dependency without allocating a job; submitted after completed-build pin/hash checks without that dependency.",
+  "scheduler_accounting": [
+    "JobID|State|ExitCode|Elapsed|MaxRSS",
+    "362870|FAILED|2:0|00:00:01|",
+    "362870.batch|FAILED|2:0|00:00:01|3224K",
+    "362904_[0-1%2]|CANCELLED by 50383|0:0|00:00:00|",
+    "362913|COMPLETED|0:0|00:00:13|",
+    "362913.batch|COMPLETED|0:0|00:00:13|27536K",
+    "362914_0|COMPLETED|0:0|00:02:11|",
+    "362914_0.batch|COMPLETED|0:0|00:02:11|474304K",
+    "362914_1|COMPLETED|0:0|00:00:16|",
+    "362914_1.batch|COMPLETED|0:0|00:00:16|186036K",
+    "362921_0|COMPLETED|0:0|00:02:09|",
+    "362921_0.batch|COMPLETED|0:0|00:02:09|1025656K",
+    "362921_1|COMPLETED|0:0|00:03:23|",
+    "362921_1.batch|COMPLETED|0:0|00:03:23|1703456K"
+  ],
+  "counts": {
+    "original_budget": {
+      "LIA": {
+        "verified": 5
+      },
+      "LRA": {
+        "verified": 1,
+        "proof_timeout": 2
+      },
+      "all": {
+        "verified": 6,
+        "proof_timeout": 2
+      }
+    },
+    "extended_two_clock_diagnostics": {
+      "complete_exports": 2,
+      "kernel_verified": 2
+    },
+    "all_three_updated_LRA_gzip_exports": {
+      "complete": 3,
+      "separate_kernel_verified": 3
+    }
+  },
+  "allocation": {
+    "build": {
+      "cpus": 4,
+      "memory_gib": 8,
+      "wall_minutes": 20
+    },
+    "live_worker": {
+      "cpus": 2,
+      "memory_gib": 12,
+      "wall_minutes": 30,
+      "workers": 2
+    },
+    "staged_worker": {
+      "cpus": 2,
+      "memory_gib": 12,
+      "wall_minutes": 15,
+      "workers": 2
+    }
+  },
+  "limits": {
+    "challenge_seconds": 30,
+    "overall_live_pipeline_seconds": 60,
+    "process_address_bytes": 3221225472,
+    "process_file_bytes": 268435456,
+    "default_LRA_capture_seconds": 60,
+    "default_LRA_raw_bytes": 2147483648,
+    "default_LRA_gzip_bytes": 268435456,
+    "clock_capture_seconds": 300,
+    "clock_kernel_seconds": 300,
+    "clock_raw_bytes": 17179869184,
+    "clock_gzip_bytes": 4294967296
+  },
+  "commands": {
+    "fetch": "One git fetch --depth=1 origin main in existing external repo, isolated detached worktree at fetchedcfd36f46; old checkouts/binaries preserved.",
+    "stage": "scripts/slurm_stage_manifest_files.py with explicit frozen workflow manifests.",
+    "preflight": "scripts/slurm_prepare_benchmark_workspace.py --check-only --require-tool YICES immediately before each sbatch; authorized SSH config outside Git.",
+    "build": "scripts/slurm_build_micromath_update.sbatch with pinned worktree, qualified workspace GMP and provisioned compiler header manifest.",
+    "live": "scripts/slurm_replay_arithmetic_update.sbatch --dependency=afterok:362913; rebuild challenges, invoke originalPIPE once with overall60s timeout; extra separate60s LRA gzip capture/replay only after live success.",
+    "extended": "scripts/slurm_capture_arithmetic_update.sbatch selects the two clock audit names in separate workers, rebuilds challenges and uses capture-only300s/16GiBraw/4GiBgzip stages.",
+    "manual_feedback": "README in updated-clock-feedback.tar.gz; manual snippet syntax checked, not executed as another run."
+  },
+  "timing_definitions": {
+    "live_replay_seconds": "Driver row timer: challenge build, saved challenge digest and live pipe; excludes once-per-worker axioms, payload hashing and optional subsequent capture/replay.",
+    "export_seconds": "Raw export, level1gzip and output close, before final compressed-file digest; includes compression/I/O overhead.",
+    "captured_kernel_seconds": "Decompression plus independent kernel stage; includes I/O.",
+    "caveat": "Single diagnostic runs on shared SLURM hosts, not a controlled full-corpus speed comparison. Reaped-child CPU excludes Python compression and may omit unreaped descendants; child peak RSS is maximum across reaped children so far in worker."
+  },
+  "artifacts": {
+    "local": "results/micromath-update-build-362913; results/arithmetic-checker-update-362914; results/arithmetic-update-capture-362921 (metadata/logs only, gzip/challenges kept remotely)",
+    "remote": "$PRIMO_WORKDIR/results/{micromath-update-build-362913,arithmetic-checker-update-362914,arithmetic-update-capture-362921}; isolated checker worktree pinnedcfd36f46",
+    "retention": "New complete challenges and gzip proofs retained remotely; old builds/proofs unchanged. Compact two-clock packet committed; no multiGBproofs in Git.",
+    "feedback": {
+      "archive": {
+        "file": "benchmarks/checker-regressions/lra-clock-update-20261107/updated-clock-feedback.tar.gz",
+        "sha256": "e1df47ba31045815a299725e3bebdc2e7c79a89bb9c860a423aa47fc48d373c6",
+        "bytes": 54742
+      },
+      "payload_files": 21,
+      "micromath_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "cases": [
+        {
+          "name": "shard-2-case-006",
+          "live_status": "proof_timeout",
+          "staged_status": "verified"
+        },
+        {
+          "name": "shard-5-case-007",
+          "live_status": "proof_timeout",
+          "staged_status": "verified"
+        }
+      ]
+    }
+  },
+  "verification": {
+    "fresh_python_methods": 9,
+    "commands": [
+      "4strict proof acceptance tests",
+      "5synthetic gzip capture/limits/descendant cleanup tests",
+      "make lint",
+      "bash -n and slurm_validate_sbatch.py for3newwrappers",
+      "Python3.9grammar checks",
+      "make docs",
+      "assemble_docs.py; check_doc_links.py freshsite; rendered section inspection",
+      "21feedback archive payload hashes and unchanged old/new input hashes verified"
+    ],
+    "native_gates": "Native C++/active C++tests unchanged froma5123159; no native suite/ASan/fuzz/clang-tidy rerun for external checker/workflow/evidence-only changes."
+  },
+  "comparisons": [
+    {
+      "case": "LassoRanker/SV-COMP/BradleyMannaSipma-2005ICALP-Fig1_true-termination.c_Iteration1_Lasso_5-phaseTemplate.smt2",
+      "name": "shard-0-case-027",
+      "payloads": {
+        "input.smt2": {
+          "sha256": "cf2c8a1baa29e6468c21f60a12ee109e068277301d41d0a0ce1bb39204bfecfe",
+          "bytes": 890062
+        },
+        "native.sexp": {
+          "sha256": "e9edd53e61b4688d85361990fde87589daa489021bd564293773978b89ab56a8",
+          "bytes": 3931219
+        },
+        "exported-cnf.smt2": {
+          "sha256": "42cd73f6143bc8ed114006888fce9ab12a74963e6f9a840226b3d13dbc436b03",
+          "bytes": 4274470
+        }
+      },
+      "old_checker_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+      "new_checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "old_raw_bytes": 2559955782,
+      "new_raw_bytes": 85768905,
+      "old_gzip_bytes": 913758282,
+      "new_gzip_bytes": 38332372,
+      "old_export_seconds": 97.86659784300718,
+      "new_export_seconds": 4.285987198993098,
+      "old_captured_kernel_seconds": 34.21470131199749,
+      "new_captured_kernel_seconds": 1.4239499190007336,
+      "old_kernel_steps": {
+        "Library preparation": 851300,
+        "Source conversion": 175076611,
+        "LRA checking": 7144704,
+        "SAT checking": 2032637
+      },
+      "new_kernel_steps": {
+        "Library preparation": 727805,
+        "Source conversion": 56857,
+        "LRA checking": 5742815,
+        "SAT checking": 505439
+      }
+    },
+    {
+      "case": "clock_synchro/clocksynchro_5clocks.worst_case_skew.induct.smt2",
+      "name": "shard-2-case-006",
+      "payloads": {
+        "input.smt2": {
+          "sha256": "7c95b885666d45aafad1e187b91caac8488d349bf3f3b06478a89222e121f7f1",
+          "bytes": 10918
+        },
+        "native.sexp": {
+          "sha256": "b1e392b48cf6774f485e687e7e79e83ba12a809ddc04b0b7412371d0e38e6b18",
+          "bytes": 237503
+        },
+        "exported-cnf.smt2": {
+          "sha256": "477a116faeff3f11ede2f4e5f2d2bbf169a0341f272a7c0a53be44190ed3088e",
+          "bytes": 32400
+        }
+      },
+      "old_checker_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+      "new_checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "old_raw_bytes": 2207480527,
+      "new_raw_bytes": 2025631058,
+      "old_gzip_bytes": 1062258843,
+      "new_gzip_bytes": 977863612,
+      "old_export_seconds": 93.34945606099791,
+      "new_export_seconds": 88.20930823100207,
+      "old_captured_kernel_seconds": 35.51639174199954,
+      "new_captured_kernel_seconds": 32.88338298499002,
+      "old_kernel_steps": {
+        "Library preparation": 850413,
+        "Source conversion": 1826856,
+        "LRA checking": 184701495,
+        "SAT checking": 147882
+      },
+      "new_kernel_steps": {
+        "Library preparation": 729698,
+        "Source conversion": 9313,
+        "LRA checking": 171076770,
+        "SAT checking": 112008
+      }
+    },
+    {
+      "case": "clock_synchro/clocksynchro_6clocks.worst_case_skew.induct.smt2",
+      "name": "shard-5-case-007",
+      "payloads": {
+        "input.smt2": {
+          "sha256": "5618dc4f9edd091b435c9c3dd268670d6482b9d957480052454641eae7097e59",
+          "bytes": 13337
+        },
+        "native.sexp": {
+          "sha256": "9c9ad0fe2ee5d351a46d69979c7120e7c52e001a4e7a73bf74d4a90270c0b68c",
+          "bytes": 392768
+        },
+        "exported-cnf.smt2": {
+          "sha256": "0056d840902725a0768041bee063610fb72cde96878f845f73cba052923bedea",
+          "bytes": 39742
+        }
+      },
+      "old_checker_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+      "new_checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "old_raw_bytes": 3690869835,
+      "new_raw_bytes": 3233919874,
+      "old_gzip_bytes": 1777854297,
+      "new_gzip_bytes": 1562229277,
+      "old_export_seconds": 155.881542084986,
+      "new_export_seconds": 139.27899289700144,
+      "old_captured_kernel_seconds": 59.39836786099477,
+      "new_captured_kernel_seconds": 52.325202866995824,
+      "old_kernel_steps": {
+        "Library preparation": 850640,
+        "Source conversion": 2235092,
+        "LRA checking": 310207234,
+        "SAT checking": 208903
+      },
+      "new_kernel_steps": {
+        "Library preparation": 727198,
+        "Source conversion": 13426,
+        "LRA checking": 273514122,
+        "SAT checking": 178751
+      }
+    }
+  ],
+  "live_replays": {
+    "LRA": {
+      "job_id": "362915",
+      "host": "node-02.ciircluster",
+      "logic": "LRA",
+      "micromath_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "binary_sha256": {
+        "build-axioms": "5b205cb0fa92f03281f20449a7342a50d2b5fe0662fff36fda73518b71089bcf",
+        "smt/build-lra-challenge": "bc30474c6bedac2bca4e5209555249f94d72ee68386b9f18bbe7a8ac8c894e51",
+        "smt/build-lia-challenge": "21b208275b1daf2fd2cc525645445a9737185e1ad8de6e364730f2abf81e8414",
+        "smt/prove-lra": "54f17a17cd7375887a9436c8fb932aa7b56837325ea8fcc555a600ab02c13379",
+        "smt/prove-lia": "ab8fe3a9112a6d043e0e982b918e2b8dab210ee11bad78b93ac12ad0ae53a67f",
+        "check-solution": "02c269438239a39e1048301c794ea27fcaebdbbe9a11e5ed7f1759fcd36fa70f"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "audit_job": "362769",
+      "audit_summary_sha256": "9765acf69b9209150df4286ccc8a304a966498fe278e3a25846cee1cd4899fef",
+      "build_report": "/home/janotmik/primo-lia-export-20261105/results/micromath-update-build-362913",
+      "source_to_cnf_verified": false,
+      "limits": {
+        "challenge_seconds": 30,
+        "live_pipeline_seconds": 60,
+        "capture_seconds": 60,
+        "captured_kernel_seconds": 60,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "workflow_sha256": {
+        "replay_arithmetic_checker_update.py": "39b58b65b1342550b89befd69cc8070ca8dc91d9a4dfa9258d2cd4727ef1a364",
+        "capture_micromath_lra.py": "209b2bc17d5869f0ad2dd77eb46686492167cc9c9f1601f3e9f599133dddfcd3",
+        "micromath_stress.py": "69d5b794a134084a1ae5eb2db3fb667233746b3f1496188e7b0a0e0cff4887e0",
+        "replay_micromath_lra.py": "ed5f08cacb655f42b4ee940c82796ab369cdd40660e18c20cee5c1e6653e2c04",
+        "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+      },
+      "rows": [
+        {
+          "name": "shard-0-case-027",
+          "case": "LassoRanker/SV-COMP/BradleyMannaSipma-2005ICALP-Fig1_true-termination.c_Iteration1_Lasso_5-phaseTemplate.smt2",
+          "previous_status": "proof_timeout",
+          "source": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027",
+          "payloads": {
+            "input.smt2": {
+              "sha256": "cf2c8a1baa29e6468c21f60a12ee109e068277301d41d0a0ce1bb39204bfecfe",
+              "bytes": 890062
+            },
+            "native.sexp": {
+              "sha256": "e9edd53e61b4688d85361990fde87589daa489021bd564293773978b89ab56a8",
+              "bytes": 3931219
+            },
+            "exported-cnf.smt2": {
+              "sha256": "42cd73f6143bc8ed114006888fce9ab12a74963e6f9a840226b3d13dbc436b03",
+              "bytes": 4274470
+            }
+          },
+          "stages": {
+            "challenge": {
+              "command": [
+                "prlimit",
+                "--as=3221225472",
+                "--fsize=268435456",
+                "--",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/build-lra-challenge",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/axioms.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/exported-cnf.smt2",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/challenge.umd"
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/challenge.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/challenge.err",
+              "state": "ok",
+              "seconds": 0.3713047400233336,
+              "exit_code": 0
+            },
+            "live_pipeline": {
+              "command": [
+                "bash",
+                "-c",
+                "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+                "checker-update-pipe",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/prove-lra",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/challenge.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/native.sexp",
+                "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+                "/home/janotmik/micromath-arithmetic-response-20261107/check-solution",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/pipe",
+                ""
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/live-pipeline.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/live-pipeline.err",
+              "state": "ok",
+              "seconds": 3.2269362750230357,
+              "exit_code": 0
+            }
+          },
+          "status": "verified",
+          "challenge_bytes": 4205909,
+          "challenge_sha256": "33cec19994d722e95d717b29d199b8c16af368ac6f86306ab0d158856c909592",
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "producer_diagnostic": "LRAT inputs proved: 2835/19835 source clauses, 5/881 gate clauses, 216/222 theory conflicts\nLibrary preparation: 727805 kernel steps\nSource conversion: 56857 kernel steps (encoding terms 1467, witness terms 0, arithmetic bridges 0, SAT input clauses 55390)\nLRA checking: 5742815 kernel steps (216 conflicts)\nSAT checking: 505439 kernel steps (3926 RUP clause additions, 3454 unit hints, 1525 contradiction hints)\nProof: 7032916 exported / 7032916 generated steps\n",
+          "kernel_result": "challenge proven\n",
+          "kernel_steps": {
+            "Library preparation": 727805,
+            "Source conversion": 56857,
+            "LRA checking": 5742815,
+            "SAT checking": 505439
+          },
+          "live_replay_seconds": 3.635261847055517,
+          "capture": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/micromath-arithmetic-response-20261107/smt/prove-lra",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/challenge.umd",
+              "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/native.sexp",
+              "-",
+              "--raw",
+              "--cadical",
+              "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+            ],
+            "seconds_limit": 60,
+            "user_cpu_seconds": 3.7979220000000007,
+            "system_cpu_seconds": 0.187556,
+            "children_peak_rss_kib": 145112,
+            "state": "ok",
+            "exit_code": 0,
+            "seconds": 4.285987198993098,
+            "complete": true,
+            "raw_bytes": 85768905,
+            "raw_sha256": "fe400aa49579deb10fa12e4c64a1ca43612d62a4ebff77f4461ecf147d973721",
+            "newline_count": 988508,
+            "gzip_file": "proof.umd.gz",
+            "gzip_bytes": 38332372,
+            "gzip_sha256": "647c05dd638e4eec1c8ab61ab5c8682d2c1eb05462688a29ecfc0603eea36772",
+            "progress": "export-progress.jsonl"
+          },
+          "captured_kernel": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nprlimit --as=3221225472 --fsize=268435456 -- gzip -dc -- \"$1\" |\n{ time prlimit --as=3221225472 --fsize=268435456 -- \"$2\" \"$3\" - \\\n  > \"$4/kernel.out\" 2> \"$4/kernel.err\"; } 2> \"$4/kernel.resources.txt\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$4/kernel-exits.txt\"\n(( statuses[0] == 0 && statuses[1] == 0 ))\n",
+              "updated-capture-replay",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/capture/proof.umd.gz",
+              "/home/janotmik/micromath-arithmetic-response-20261107/check-solution",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/challenge.umd",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/capture"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/capture/kernel-pipeline.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-0-case-027/capture/kernel-pipeline.err",
+            "state": "ok",
+            "seconds": 1.4239499190007336,
+            "exit_code": 0
+          },
+          "captured_kernel_status": "verified",
+          "captured_kernel_exits": [
+            0,
+            0
+          ]
+        },
+        {
+          "name": "shard-2-case-006",
+          "case": "clock_synchro/clocksynchro_5clocks.worst_case_skew.induct.smt2",
+          "previous_status": "proof_timeout",
+          "source": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006",
+          "payloads": {
+            "input.smt2": {
+              "sha256": "7c95b885666d45aafad1e187b91caac8488d349bf3f3b06478a89222e121f7f1",
+              "bytes": 10918
+            },
+            "native.sexp": {
+              "sha256": "b1e392b48cf6774f485e687e7e79e83ba12a809ddc04b0b7412371d0e38e6b18",
+              "bytes": 237503
+            },
+            "exported-cnf.smt2": {
+              "sha256": "477a116faeff3f11ede2f4e5f2d2bbf169a0341f272a7c0a53be44190ed3088e",
+              "bytes": 32400
+            }
+          },
+          "stages": {
+            "challenge": {
+              "command": [
+                "prlimit",
+                "--as=3221225472",
+                "--fsize=268435456",
+                "--",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/build-lra-challenge",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/axioms.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/exported-cnf.smt2",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-2-case-006/challenge.umd"
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-2-case-006/challenge.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-2-case-006/challenge.err",
+              "state": "ok",
+              "seconds": 0.03398266399744898,
+              "exit_code": 0
+            },
+            "live_pipeline": {
+              "command": [
+                "bash",
+                "-c",
+                "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+                "checker-update-pipe",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/prove-lra",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-2-case-006/challenge.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/native.sexp",
+                "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+                "/home/janotmik/micromath-arithmetic-response-20261107/check-solution",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-2-case-006/pipe",
+                ""
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-2-case-006/live-pipeline.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-2-case-006/live-pipeline.err",
+              "state": "timeout",
+              "seconds": 60.00653794995742,
+              "exit_code": -15
+            }
+          },
+          "status": "proof_timeout",
+          "challenge_bytes": 90707,
+          "challenge_sha256": "3f1e9ed152e3fff694cd3657ace435f4c8c240f17c707ea014684d1dbbce7643",
+          "pipeline_exit_codes": [],
+          "producer_diagnostic": "",
+          "kernel_result": "",
+          "kernel_steps": {},
+          "live_replay_seconds": 60.050169994006865
+        },
+        {
+          "name": "shard-5-case-007",
+          "case": "clock_synchro/clocksynchro_6clocks.worst_case_skew.induct.smt2",
+          "previous_status": "proof_timeout",
+          "source": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007",
+          "payloads": {
+            "input.smt2": {
+              "sha256": "5618dc4f9edd091b435c9c3dd268670d6482b9d957480052454641eae7097e59",
+              "bytes": 13337
+            },
+            "native.sexp": {
+              "sha256": "9c9ad0fe2ee5d351a46d69979c7120e7c52e001a4e7a73bf74d4a90270c0b68c",
+              "bytes": 392768
+            },
+            "exported-cnf.smt2": {
+              "sha256": "0056d840902725a0768041bee063610fb72cde96878f845f73cba052923bedea",
+              "bytes": 39742
+            }
+          },
+          "stages": {
+            "challenge": {
+              "command": [
+                "prlimit",
+                "--as=3221225472",
+                "--fsize=268435456",
+                "--",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/build-lra-challenge",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/axioms.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/exported-cnf.smt2",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-5-case-007/challenge.umd"
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-5-case-007/challenge.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-5-case-007/challenge.err",
+              "state": "ok",
+              "seconds": 0.024234595999587327,
+              "exit_code": 0
+            },
+            "live_pipeline": {
+              "command": [
+                "bash",
+                "-c",
+                "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+                "checker-update-pipe",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/prove-lra",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-5-case-007/challenge.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/native.sexp",
+                "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+                "/home/janotmik/micromath-arithmetic-response-20261107/check-solution",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-5-case-007/pipe",
+                ""
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-5-case-007/live-pipeline.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/shard-5-case-007/live-pipeline.err",
+              "state": "timeout",
+              "seconds": 60.00683573499555,
+              "exit_code": -15
+            }
+          },
+          "status": "proof_timeout",
+          "challenge_bytes": 104955,
+          "challenge_sha256": "c1789b522dfa1d5a46eab54fa2d5ac6f66727a9331c43ecb45ddbc6682823da5",
+          "pipeline_exit_codes": [],
+          "producer_diagnostic": "",
+          "kernel_result": "",
+          "kernel_steps": {},
+          "live_replay_seconds": 60.04067395301536
+        }
+      ],
+      "finished": true,
+      "axioms": {
+        "command": [
+          "prlimit",
+          "--as=3221225472",
+          "--fsize=268435456",
+          "--",
+          "/home/janotmik/micromath-arithmetic-response-20261107/build-axioms",
+          "--fragment",
+          "finitary",
+          "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/axioms.umd"
+        ],
+        "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/axioms.out",
+        "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LRA/axioms.err",
+        "state": "ok",
+        "seconds": 0.013782205001916736,
+        "exit_code": 0
+      },
+      "counts": {
+        "verified": 1,
+        "proof_timeout": 2
+      }
+    },
+    "LIA": {
+      "job_id": "362914",
+      "host": "node-02.ciircluster",
+      "logic": "LIA",
+      "micromath_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "binary_sha256": {
+        "build-axioms": "5b205cb0fa92f03281f20449a7342a50d2b5fe0662fff36fda73518b71089bcf",
+        "smt/build-lra-challenge": "bc30474c6bedac2bca4e5209555249f94d72ee68386b9f18bbe7a8ac8c894e51",
+        "smt/build-lia-challenge": "21b208275b1daf2fd2cc525645445a9737185e1ad8de6e364730f2abf81e8414",
+        "smt/prove-lra": "54f17a17cd7375887a9436c8fb932aa7b56837325ea8fcc555a600ab02c13379",
+        "smt/prove-lia": "ab8fe3a9112a6d043e0e982b918e2b8dab210ee11bad78b93ac12ad0ae53a67f",
+        "check-solution": "02c269438239a39e1048301c794ea27fcaebdbbe9a11e5ed7f1759fcd36fa70f"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "audit_job": "362757",
+      "audit_summary_sha256": "8a08ec456f1c2912f3a81423da4fbe9732376b486c8d419a4331b207ad3b1ba4",
+      "build_report": "/home/janotmik/primo-lia-export-20261105/results/micromath-update-build-362913",
+      "source_to_cnf_verified": false,
+      "limits": {
+        "challenge_seconds": 30,
+        "live_pipeline_seconds": 60,
+        "capture_seconds": 60,
+        "captured_kernel_seconds": 60,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "workflow_sha256": {
+        "replay_arithmetic_checker_update.py": "39b58b65b1342550b89befd69cc8070ca8dc91d9a4dfa9258d2cd4727ef1a364",
+        "capture_micromath_lra.py": "209b2bc17d5869f0ad2dd77eb46686492167cc9c9f1601f3e9f599133dddfcd3",
+        "micromath_stress.py": "69d5b794a134084a1ae5eb2db3fb667233746b3f1496188e7b0a0e0cff4887e0",
+        "replay_micromath_lra.py": "ed5f08cacb655f42b4ee940c82796ab369cdd40660e18c20cee5c1e6653e2c04",
+        "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+      },
+      "rows": [
+        {
+          "name": "011",
+          "case": "nec-smt/med/int_from_list/prp-28-27.smt2",
+          "previous_status": "challenge_timeout",
+          "source": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011",
+          "payloads": {
+            "input.smt2": {
+              "sha256": "4ad2525b84c120ef0d908962638873db261166436a6f4fee95e059e5eb8620c6",
+              "bytes": 35576
+            },
+            "native.sexp": {
+              "sha256": "38d76623275ee6ebffb949e6bd379ab770f718e94f6a9cc44a0bc6f78119f357",
+              "bytes": 27068507
+            },
+            "micromath-v2.sexp": {
+              "sha256": "5d687b9855c49eb575849dfb386a02d50cede4bbb66a2d580abc78c54b5c8ac3",
+              "bytes": 27068507
+            },
+            "exported-cnf.smt2": {
+              "sha256": "18e6c48471ccf13325fe5c83edda58927bae391a72242d9f43f734101dc1c308",
+              "bytes": 31190838
+            }
+          },
+          "stages": {
+            "challenge": {
+              "command": [
+                "prlimit",
+                "--as=3221225472",
+                "--fsize=268435456",
+                "--",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/build-lia-challenge",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/axioms.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/exported-cnf.smt2",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/011/challenge.umd"
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/011/challenge.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/011/challenge.err",
+              "state": "ok",
+              "seconds": 2.37496781302616,
+              "exit_code": 0
+            },
+            "live_pipeline": {
+              "command": [
+                "bash",
+                "-c",
+                "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+                "checker-update-pipe",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/prove-lia",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/011/challenge.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/011/micromath-v2.sexp",
+                "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+                "/home/janotmik/micromath-arithmetic-response-20261107/check-solution",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/011/pipe",
+                ""
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/011/live-pipeline.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/011/live-pipeline.err",
+              "state": "ok",
+              "seconds": 4.929177640005946,
+              "exit_code": 0
+            }
+          },
+          "status": "verified",
+          "challenge_bytes": 42408152,
+          "challenge_sha256": "d926b054424bafe65365e279fc133dc4077fb7a53ba5c7731528482765150b50",
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "producer_diagnostic": "LRAT inputs proved: 16469/381735 source clauses, 3339/16286 gate clauses, 0/0 theory conflicts\nLibrary preparation: 4041 kernel steps\nSource conversion: 922100 kernel steps (encoding terms 26920, witness terms 0, arithmetic bridges 0, SAT input clauses 895180)\nLIA checking: 0 kernel steps (0 conflicts, 0 cuts)\nSAT checking: 2005854 kernel steps (36080 RUP clause additions, 12657 unit hints, 23423 contradiction hints)\nProof: 2931995 exported / 2931995 generated steps\n",
+          "kernel_result": "challenge proven\n",
+          "kernel_steps": {
+            "Library preparation": 4041,
+            "Source conversion": 922100,
+            "LIA checking": 0,
+            "SAT checking": 2005854
+          },
+          "live_replay_seconds": 7.59547737200046
+        },
+        {
+          "name": "014",
+          "case": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc002.smt2",
+          "previous_status": "proof_error",
+          "source": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014",
+          "payloads": {
+            "input.smt2": {
+              "sha256": "36326cd36b334793a6f4b6135f34bc05cf46a81faa97c70abdfde539afb71163",
+              "bytes": 71626
+            },
+            "native.sexp": {
+              "sha256": "059b528497d76371d3f3acfc31401ab58a632ef64d7d178b10ea3b14d2c07750",
+              "bytes": 936861
+            },
+            "micromath-v2.sexp": {
+              "sha256": "97437dc165de2cab28833933d79d574aea11d2ec4f2e0d06c5b076787f3b61d8",
+              "bytes": 936861
+            },
+            "exported-cnf.smt2": {
+              "sha256": "66d0c043f401436b447b59077fc912f0aa2fd9477f78834bf70f9f746ee1b04c",
+              "bytes": 1113672
+            }
+          },
+          "stages": {
+            "challenge": {
+              "command": [
+                "prlimit",
+                "--as=3221225472",
+                "--fsize=268435456",
+                "--",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/build-lia-challenge",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/axioms.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/exported-cnf.smt2",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/014/challenge.umd"
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/014/challenge.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/014/challenge.err",
+              "state": "ok",
+              "seconds": 0.12037989596137777,
+              "exit_code": 0
+            },
+            "live_pipeline": {
+              "command": [
+                "bash",
+                "-c",
+                "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+                "checker-update-pipe",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/prove-lia",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/014/challenge.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/014/micromath-v2.sexp",
+                "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+                "/home/janotmik/micromath-arithmetic-response-20261107/check-solution",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/014/pipe",
+                ""
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/014/live-pipeline.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/014/live-pipeline.err",
+              "state": "ok",
+              "seconds": 0.2691045370302163,
+              "exit_code": 0
+            }
+          },
+          "status": "verified",
+          "challenge_bytes": 1898032,
+          "challenge_sha256": "39b3858fc96c7ec5d986086b4e16c81186bbf85e8ebb99757dfadd74b8be2665",
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "producer_diagnostic": "LRAT inputs proved: 1222/14587 source clauses, 733/2736 gate clauses, 0/0 theory conflicts\nLibrary preparation: 4041 kernel steps\nSource conversion: 127284 kernel steps (encoding terms 4489, witness terms 0, arithmetic bridges 0, SAT input clauses 122795)\nLIA checking: 0 kernel steps (0 conflicts, 0 cuts)\nSAT checking: 124110 kernel steps (2079 RUP clause additions, 776 unit hints, 1303 contradiction hints)\nProof: 255435 exported / 255435 generated steps\n",
+          "kernel_result": "challenge proven\n",
+          "kernel_steps": {
+            "Library preparation": 4041,
+            "Source conversion": 127284,
+            "LIA checking": 0,
+            "SAT checking": 124110
+          },
+          "live_replay_seconds": 0.4023644859553315
+        },
+        {
+          "name": "015",
+          "case": "20210219-Dartagnan/ReachSafety-Loops/count_up_down-1-O0.smt2",
+          "previous_status": "proof_timeout",
+          "source": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015",
+          "payloads": {
+            "input.smt2": {
+              "sha256": "8dea5c8594806e3ce54d1d0b343efd382018454afcf9de69bf2a11ffaf2cc5cc",
+              "bytes": 111125
+            },
+            "native.sexp": {
+              "sha256": "21c9380bdc2e1ffd5ec1fee55ac166a97de6e930e3ae03252762fdc2ef0911d5",
+              "bytes": 3043138
+            },
+            "micromath-v2.sexp": {
+              "sha256": "86e5e19dd160d1a8d52e64881d6f7ab359943cacfb95d1818599bee23fb3bf8e",
+              "bytes": 3043138
+            },
+            "exported-cnf.smt2": {
+              "sha256": "ac58cc71339bbacc9c52ca1e28ee47c69dd4345f8af5d047e912ada739ec53a2",
+              "bytes": 3475339
+            }
+          },
+          "stages": {
+            "challenge": {
+              "command": [
+                "prlimit",
+                "--as=3221225472",
+                "--fsize=268435456",
+                "--",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/build-lia-challenge",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/axioms.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/exported-cnf.smt2",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/015/challenge.umd"
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/015/challenge.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/015/challenge.err",
+              "state": "ok",
+              "seconds": 0.42068411997752264,
+              "exit_code": 0
+            },
+            "live_pipeline": {
+              "command": [
+                "bash",
+                "-c",
+                "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+                "checker-update-pipe",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/prove-lia",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/015/challenge.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/015/micromath-v2.sexp",
+                "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+                "/home/janotmik/micromath-arithmetic-response-20261107/check-solution",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/015/pipe",
+                ""
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/015/live-pipeline.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/015/live-pipeline.err",
+              "state": "ok",
+              "seconds": 1.2213759990409017,
+              "exit_code": 0
+            }
+          },
+          "status": "verified",
+          "challenge_bytes": 7646830,
+          "challenge_sha256": "e516fa10242755e0028988c914e8fac16671cca13928ada5b754ae90ccb35134",
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "producer_diagnostic": "LRAT inputs proved: 11089/40226 source clauses, 16/31 gate clauses, 25/25 theory conflicts\nLibrary preparation: 493561 kernel steps\nSource conversion: 422023 kernel steps (encoding terms 50, witness terms 0, arithmetic bridges 0, SAT input clauses 421973)\nLIA checking: 112712 kernel steps (25 conflicts, 25 cuts)\nSAT checking: 313872 kernel steps (12388 RUP clause additions, 11075 unit hints, 2183 contradiction hints)\nProof: 1342168 exported / 1342168 generated steps\n",
+          "kernel_result": "challenge proven\n",
+          "kernel_steps": {
+            "Library preparation": 493561,
+            "Source conversion": 422023,
+            "LIA checking": 112712,
+            "SAT checking": 313872
+          },
+          "live_replay_seconds": 1.7023359360173345
+        },
+        {
+          "name": "018",
+          "case": "20210219-Dartagnan/ReachSafety-Loops/deep-nested-O0.smt2",
+          "previous_status": "proof_timeout",
+          "source": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018",
+          "payloads": {
+            "input.smt2": {
+              "sha256": "d6a28a5b506012011a309200f6675388bd6e0cd206bcd2a71fb5bd50e5766852",
+              "bytes": 137681
+            },
+            "native.sexp": {
+              "sha256": "edf770518991ab5281c71367bc55b9616cf5c13084813a5e9aed0b23cd62b915",
+              "bytes": 5026064
+            },
+            "micromath-v2.sexp": {
+              "sha256": "004a0d4c21c1cdde07a0867f588c3cecc92ae16b65712b0dc4326c2de69ae209",
+              "bytes": 5026064
+            },
+            "exported-cnf.smt2": {
+              "sha256": "1ee664a54467b0d9372cb75b9e47d2cec5454b82bf86012ecb6210b8ec409bd1",
+              "bytes": 5752062
+            }
+          },
+          "stages": {
+            "challenge": {
+              "command": [
+                "prlimit",
+                "--as=3221225472",
+                "--fsize=268435456",
+                "--",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/build-lia-challenge",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/axioms.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/exported-cnf.smt2",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/018/challenge.umd"
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/018/challenge.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/018/challenge.err",
+              "state": "ok",
+              "seconds": 0.7216249380144291,
+              "exit_code": 0
+            },
+            "live_pipeline": {
+              "command": [
+                "bash",
+                "-c",
+                "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+                "checker-update-pipe",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/prove-lia",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/018/challenge.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/018/micromath-v2.sexp",
+                "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+                "/home/janotmik/micromath-arithmetic-response-20261107/check-solution",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/018/pipe",
+                ""
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/018/live-pipeline.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/018/live-pipeline.err",
+              "state": "ok",
+              "seconds": 1.472026775998529,
+              "exit_code": 0
+            }
+          },
+          "status": "verified",
+          "challenge_bytes": 12471269,
+          "challenge_sha256": "c480739d127146f0d244fea9053220c43fcdc22e20d4082143a918fdf867b377",
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "producer_diagnostic": "LRAT inputs proved: 17660/65732 source clauses, 1/1 gate clauses, 2/2 theory conflicts\nLibrary preparation: 495057 kernel steps\nSource conversion: 684980 kernel steps (encoding terms 0, witness terms 2, arithmetic bridges 0, SAT input clauses 684978)\nLIA checking: 9034 kernel steps (2 conflicts, 2 cuts)\nSAT checking: 341043 kernel steps (18564 RUP clause additions, 17068 unit hints, 1496 contradiction hints)\nProof: 1530114 exported / 1530114 generated steps\n",
+          "kernel_result": "challenge proven\n",
+          "kernel_steps": {
+            "Library preparation": 495057,
+            "Source conversion": 684980,
+            "LIA checking": 9034,
+            "SAT checking": 341043
+          },
+          "live_replay_seconds": 2.289516345015727
+        },
+        {
+          "name": "019",
+          "case": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc003.smt2",
+          "previous_status": "proof_error",
+          "source": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019",
+          "payloads": {
+            "input.smt2": {
+              "sha256": "b38132ed8c8ce8c2c39a17a75cc9b41f7cb286c6c7cd40a151e053695f4a53ca",
+              "bytes": 139555
+            },
+            "native.sexp": {
+              "sha256": "c58e6b1f9e64ca0f091d7b6887ce5befd02306f13bb0bc9d15e51416c6b798dc",
+              "bytes": 1942191
+            },
+            "micromath-v2.sexp": {
+              "sha256": "b36227793e55388ed208c26c898f7e91493f31f8898d2a97c3c748eb3aa3bfb7",
+              "bytes": 1942191
+            },
+            "exported-cnf.smt2": {
+              "sha256": "e83d222a8023e60144485599ee17127db0ae785916f60c0c409a421b6e8d8b16",
+              "bytes": 2301031
+            }
+          },
+          "stages": {
+            "challenge": {
+              "command": [
+                "prlimit",
+                "--as=3221225472",
+                "--fsize=268435456",
+                "--",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/build-lia-challenge",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/axioms.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/exported-cnf.smt2",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/019/challenge.umd"
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/019/challenge.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/019/challenge.err",
+              "state": "ok",
+              "seconds": 0.22061950899660587,
+              "exit_code": 0
+            },
+            "live_pipeline": {
+              "command": [
+                "bash",
+                "-c",
+                "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+                "checker-update-pipe",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/prove-lia",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/019/challenge.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-audit-362757/019/micromath-v2.sexp",
+                "/home/janotmik/primo-micromath-20261103/cadical/build/cadical",
+                "/home/janotmik/micromath-arithmetic-response-20261107/check-solution",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/019/pipe",
+                ""
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/019/live-pipeline.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/019/live-pipeline.err",
+              "state": "ok",
+              "seconds": 0.570876904996112,
+              "exit_code": 0
+            }
+          },
+          "status": "verified",
+          "challenge_bytes": 3816558,
+          "challenge_sha256": "6f85883942586f40b5fab4b731749657b86cdf5a682d53f2edbc3615a522db6d",
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "producer_diagnostic": "LRAT inputs proved: 2367/29296 source clauses, 1342/5558 gate clauses, 0/0 theory conflicts\nLibrary preparation: 4041 kernel steps\nSource conversion: 239396 kernel steps (encoding terms 9139, witness terms 0, arithmetic bridges 0, SAT input clauses 230257)\nLIA checking: 0 kernel steps (0 conflicts, 0 cuts)\nSAT checking: 269195 kernel steps (4977 RUP clause additions, 2390 unit hints, 2587 contradiction hints)\nProof: 512632 exported / 512632 generated steps\n",
+          "kernel_result": "challenge proven\n",
+          "kernel_steps": {
+            "Library preparation": 4041,
+            "Source conversion": 239396,
+            "LIA checking": 0,
+            "SAT checking": 269195
+          },
+          "live_replay_seconds": 0.8112689729896374
+        }
+      ],
+      "finished": true,
+      "axioms": {
+        "command": [
+          "prlimit",
+          "--as=3221225472",
+          "--fsize=268435456",
+          "--",
+          "/home/janotmik/micromath-arithmetic-response-20261107/build-axioms",
+          "--fragment",
+          "finitary",
+          "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/axioms.umd"
+        ],
+        "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/axioms.out",
+        "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-checker-update-362914/LIA/axioms.err",
+        "state": "ok",
+        "seconds": 0.014869990991428494,
+        "exit_code": 0
+      },
+      "counts": {
+        "verified": 5
+      }
+    }
+  },
+  "staged_clock_replays": [
+    {
+      "job_id": "362922",
+      "host": "node-01.ciircluster",
+      "logic": "LRA",
+      "capture_only": true,
+      "selected_case_names": [
+        "shard-2-case-006"
+      ],
+      "micromath_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "binary_sha256": {
+        "build-axioms": "5b205cb0fa92f03281f20449a7342a50d2b5fe0662fff36fda73518b71089bcf",
+        "smt/build-lra-challenge": "bc30474c6bedac2bca4e5209555249f94d72ee68386b9f18bbe7a8ac8c894e51",
+        "smt/build-lia-challenge": "21b208275b1daf2fd2cc525645445a9737185e1ad8de6e364730f2abf81e8414",
+        "smt/prove-lra": "54f17a17cd7375887a9436c8fb932aa7b56837325ea8fcc555a600ab02c13379",
+        "smt/prove-lia": "ab8fe3a9112a6d043e0e982b918e2b8dab210ee11bad78b93ac12ad0ae53a67f",
+        "check-solution": "02c269438239a39e1048301c794ea27fcaebdbbe9a11e5ed7f1759fcd36fa70f"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "audit_job": "362769",
+      "audit_summary_sha256": "9765acf69b9209150df4286ccc8a304a966498fe278e3a25846cee1cd4899fef",
+      "build_report": "/home/janotmik/primo-lia-export-20261105/results/micromath-update-build-362913",
+      "source_to_cnf_verified": false,
+      "limits": {
+        "challenge_seconds": 30,
+        "live_pipeline_seconds": 60,
+        "capture_seconds": 300,
+        "captured_kernel_seconds": 300,
+        "raw_proof_bytes": 17179869184,
+        "gzip_proof_bytes": 4294967296,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "workflow_sha256": {
+        "replay_arithmetic_checker_update.py": "35d5368a57aa6bebcb6c4f2e0dfb2cbc053845d1ef315a165353c0fafe141049",
+        "capture_micromath_lra.py": "209b2bc17d5869f0ad2dd77eb46686492167cc9c9f1601f3e9f599133dddfcd3",
+        "micromath_stress.py": "69d5b794a134084a1ae5eb2db3fb667233746b3f1496188e7b0a0e0cff4887e0",
+        "replay_micromath_lra.py": "ed5f08cacb655f42b4ee940c82796ab369cdd40660e18c20cee5c1e6653e2c04",
+        "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+      },
+      "rows": [
+        {
+          "name": "shard-2-case-006",
+          "case": "clock_synchro/clocksynchro_5clocks.worst_case_skew.induct.smt2",
+          "previous_status": "proof_timeout",
+          "source": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006",
+          "payloads": {
+            "input.smt2": {
+              "sha256": "7c95b885666d45aafad1e187b91caac8488d349bf3f3b06478a89222e121f7f1",
+              "bytes": 10918
+            },
+            "native.sexp": {
+              "sha256": "b1e392b48cf6774f485e687e7e79e83ba12a809ddc04b0b7412371d0e38e6b18",
+              "bytes": 237503
+            },
+            "exported-cnf.smt2": {
+              "sha256": "477a116faeff3f11ede2f4e5f2d2bbf169a0341f272a7c0a53be44190ed3088e",
+              "bytes": 32400
+            }
+          },
+          "stages": {
+            "challenge": {
+              "command": [
+                "prlimit",
+                "--as=3221225472",
+                "--fsize=268435456",
+                "--",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/build-lra-challenge",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/axioms.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/exported-cnf.smt2",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/shard-2-case-006/challenge.umd"
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/shard-2-case-006/challenge.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/shard-2-case-006/challenge.err",
+              "state": "ok",
+              "seconds": 0.021718290998251177,
+              "exit_code": 0
+            }
+          },
+          "status": "verified",
+          "challenge_bytes": 90707,
+          "challenge_sha256": "3f1e9ed152e3fff694cd3657ace435f4c8c240f17c707ea014684d1dbbce7643",
+          "capture": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/micromath-arithmetic-response-20261107/smt/prove-lra",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/shard-2-case-006/challenge.umd",
+              "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/native.sexp",
+              "-",
+              "--raw",
+              "--cadical",
+              "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+            ],
+            "seconds_limit": 300,
+            "user_cpu_seconds": 80.865865,
+            "system_cpu_seconds": 1.738745,
+            "children_peak_rss_kib": 381032,
+            "state": "ok",
+            "exit_code": 0,
+            "seconds": 88.20930823100207,
+            "complete": true,
+            "raw_bytes": 2025631058,
+            "raw_sha256": "c6e9dcf0edd6168b58d1774258db93d9e09d27bdd9562186142415cebfcee380",
+            "newline_count": 4860321,
+            "gzip_file": "proof.umd.gz",
+            "gzip_bytes": 977863612,
+            "gzip_sha256": "b0016b80dcedb5089d9ce87637256296ea70952a62f34236f56284e10317da3f",
+            "progress": "export-progress.jsonl"
+          },
+          "captured_kernel": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nprlimit --as=3221225472 --fsize=268435456 -- gzip -dc -- \"$1\" |\n{ time prlimit --as=3221225472 --fsize=268435456 -- \"$2\" \"$3\" - \\\n  > \"$4/kernel.out\" 2> \"$4/kernel.err\"; } 2> \"$4/kernel.resources.txt\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$4/kernel-exits.txt\"\n(( statuses[0] == 0 && statuses[1] == 0 ))\n",
+              "updated-capture-replay",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/shard-2-case-006/capture/proof.umd.gz",
+              "/home/janotmik/micromath-arithmetic-response-20261107/check-solution",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/shard-2-case-006/challenge.umd",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/shard-2-case-006/capture"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/shard-2-case-006/capture/kernel-pipeline.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/shard-2-case-006/capture/kernel-pipeline.err",
+            "state": "ok",
+            "seconds": 32.88338298499002,
+            "exit_code": 0
+          },
+          "captured_kernel_status": "verified",
+          "captured_kernel_exits": [
+            0,
+            0
+          ],
+          "producer_diagnostic": "LRAT inputs proved: 193/272 source clauses, 1/1 gate clauses, 153/163 theory conflicts\nLibrary preparation: 729698 kernel steps\nSource conversion: 9313 kernel steps (encoding terms 0, witness terms 0, arithmetic bridges 0, SAT input clauses 9313)\nLRA checking: 171076770 kernel steps (153 conflicts)\nSAT checking: 112008 kernel steps (711 RUP clause additions, 1029 unit hints, 599 contradiction hints)\nProof: 171927789 exported / 171927789 generated steps\n",
+          "kernel_result": "challenge proven\n",
+          "kernel_steps": {
+            "Library preparation": 729698,
+            "Source conversion": 9313,
+            "LRA checking": 171076770,
+            "SAT checking": 112008
+          }
+        }
+      ],
+      "finished": true,
+      "axioms": {
+        "command": [
+          "prlimit",
+          "--as=3221225472",
+          "--fsize=268435456",
+          "--",
+          "/home/janotmik/micromath-arithmetic-response-20261107/build-axioms",
+          "--fragment",
+          "finitary",
+          "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/axioms.umd"
+        ],
+        "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/axioms.out",
+        "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-0/axioms.err",
+        "state": "ok",
+        "seconds": 0.014355059989611618,
+        "exit_code": 0
+      },
+      "counts": {
+        "verified": 1
+      }
+    },
+    {
+      "job_id": "362921",
+      "host": "node-01.ciircluster",
+      "logic": "LRA",
+      "capture_only": true,
+      "selected_case_names": [
+        "shard-5-case-007"
+      ],
+      "micromath_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "binary_sha256": {
+        "build-axioms": "5b205cb0fa92f03281f20449a7342a50d2b5fe0662fff36fda73518b71089bcf",
+        "smt/build-lra-challenge": "bc30474c6bedac2bca4e5209555249f94d72ee68386b9f18bbe7a8ac8c894e51",
+        "smt/build-lia-challenge": "21b208275b1daf2fd2cc525645445a9737185e1ad8de6e364730f2abf81e8414",
+        "smt/prove-lra": "54f17a17cd7375887a9436c8fb932aa7b56837325ea8fcc555a600ab02c13379",
+        "smt/prove-lia": "ab8fe3a9112a6d043e0e982b918e2b8dab210ee11bad78b93ac12ad0ae53a67f",
+        "check-solution": "02c269438239a39e1048301c794ea27fcaebdbbe9a11e5ed7f1759fcd36fa70f"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "audit_job": "362769",
+      "audit_summary_sha256": "9765acf69b9209150df4286ccc8a304a966498fe278e3a25846cee1cd4899fef",
+      "build_report": "/home/janotmik/primo-lia-export-20261105/results/micromath-update-build-362913",
+      "source_to_cnf_verified": false,
+      "limits": {
+        "challenge_seconds": 30,
+        "live_pipeline_seconds": 60,
+        "capture_seconds": 300,
+        "captured_kernel_seconds": 300,
+        "raw_proof_bytes": 17179869184,
+        "gzip_proof_bytes": 4294967296,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "workflow_sha256": {
+        "replay_arithmetic_checker_update.py": "35d5368a57aa6bebcb6c4f2e0dfb2cbc053845d1ef315a165353c0fafe141049",
+        "capture_micromath_lra.py": "209b2bc17d5869f0ad2dd77eb46686492167cc9c9f1601f3e9f599133dddfcd3",
+        "micromath_stress.py": "69d5b794a134084a1ae5eb2db3fb667233746b3f1496188e7b0a0e0cff4887e0",
+        "replay_micromath_lra.py": "ed5f08cacb655f42b4ee940c82796ab369cdd40660e18c20cee5c1e6653e2c04",
+        "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+      },
+      "rows": [
+        {
+          "name": "shard-5-case-007",
+          "case": "clock_synchro/clocksynchro_6clocks.worst_case_skew.induct.smt2",
+          "previous_status": "proof_timeout",
+          "source": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007",
+          "payloads": {
+            "input.smt2": {
+              "sha256": "5618dc4f9edd091b435c9c3dd268670d6482b9d957480052454641eae7097e59",
+              "bytes": 13337
+            },
+            "native.sexp": {
+              "sha256": "9c9ad0fe2ee5d351a46d69979c7120e7c52e001a4e7a73bf74d4a90270c0b68c",
+              "bytes": 392768
+            },
+            "exported-cnf.smt2": {
+              "sha256": "0056d840902725a0768041bee063610fb72cde96878f845f73cba052923bedea",
+              "bytes": 39742
+            }
+          },
+          "stages": {
+            "challenge": {
+              "command": [
+                "prlimit",
+                "--as=3221225472",
+                "--fsize=268435456",
+                "--",
+                "/home/janotmik/micromath-arithmetic-response-20261107/smt/build-lra-challenge",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/axioms.umd",
+                "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/exported-cnf.smt2",
+                "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/shard-5-case-007/challenge.umd"
+              ],
+              "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/shard-5-case-007/challenge.out",
+              "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/shard-5-case-007/challenge.err",
+              "state": "ok",
+              "seconds": 0.021553698999923654,
+              "exit_code": 0
+            }
+          },
+          "status": "verified",
+          "challenge_bytes": 104955,
+          "challenge_sha256": "c1789b522dfa1d5a46eab54fa2d5ac6f66727a9331c43ecb45ddbc6682823da5",
+          "capture": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/home/janotmik/micromath-arithmetic-response-20261107/smt/prove-lra",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/shard-5-case-007/challenge.umd",
+              "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/native.sexp",
+              "-",
+              "--raw",
+              "--cadical",
+              "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+            ],
+            "seconds_limit": 300,
+            "user_cpu_seconds": 130.136735,
+            "system_cpu_seconds": 2.4399170000000003,
+            "children_peak_rss_kib": 391944,
+            "state": "ok",
+            "exit_code": 0,
+            "seconds": 139.27899289700144,
+            "complete": true,
+            "raw_bytes": 3233919874,
+            "raw_sha256": "fde4ac2d03ced4e6d8c393314ce85e33744a9f7c7044afbb31bfbcfa67a9ec01",
+            "newline_count": 3344310,
+            "gzip_file": "proof.umd.gz",
+            "gzip_bytes": 1562229277,
+            "gzip_sha256": "885e5b9ade0917606daa115c92b8cd5ddf5eba49e726cfdd69451fd3828e51cb",
+            "progress": "export-progress.jsonl"
+          },
+          "captured_kernel": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nprlimit --as=3221225472 --fsize=268435456 -- gzip -dc -- \"$1\" |\n{ time prlimit --as=3221225472 --fsize=268435456 -- \"$2\" \"$3\" - \\\n  > \"$4/kernel.out\" 2> \"$4/kernel.err\"; } 2> \"$4/kernel.resources.txt\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$4/kernel-exits.txt\"\n(( statuses[0] == 0 && statuses[1] == 0 ))\n",
+              "updated-capture-replay",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/shard-5-case-007/capture/proof.umd.gz",
+              "/home/janotmik/micromath-arithmetic-response-20261107/check-solution",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/shard-5-case-007/challenge.umd",
+              "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/shard-5-case-007/capture"
+            ],
+            "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/shard-5-case-007/capture/kernel-pipeline.out",
+            "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/shard-5-case-007/capture/kernel-pipeline.err",
+            "state": "ok",
+            "seconds": 52.325202866995824,
+            "exit_code": 0
+          },
+          "captured_kernel_status": "verified",
+          "captured_kernel_exits": [
+            0,
+            0
+          ],
+          "producer_diagnostic": "LRAT inputs proved: 229/330 source clauses, 1/1 gate clauses, 257/291 theory conflicts\nLibrary preparation: 727198 kernel steps\nSource conversion: 13426 kernel steps (encoding terms 0, witness terms 0, arithmetic bridges 0, SAT input clauses 13426)\nLRA checking: 273514122 kernel steps (257 conflicts)\nSAT checking: 178751 kernel steps (895 RUP clause additions, 2024 unit hints, 746 contradiction hints)\nProof: 274433497 exported / 274433497 generated steps\n",
+          "kernel_result": "challenge proven\n",
+          "kernel_steps": {
+            "Library preparation": 727198,
+            "Source conversion": 13426,
+            "LRA checking": 273514122,
+            "SAT checking": 178751
+          }
+        }
+      ],
+      "finished": true,
+      "axioms": {
+        "command": [
+          "prlimit",
+          "--as=3221225472",
+          "--fsize=268435456",
+          "--",
+          "/home/janotmik/micromath-arithmetic-response-20261107/build-axioms",
+          "--fragment",
+          "finitary",
+          "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/axioms.umd"
+        ],
+        "stdout": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/axioms.out",
+        "stderr": "/home/janotmik/primo-lia-export-20261105/results/arithmetic-update-capture-362921/case-1/axioms.err",
+        "state": "ok",
+        "seconds": 0.015457738991244696,
+        "exit_code": 0
+      },
+      "counts": {
+        "verified": 1
+      }
+    }
+  ]
+}

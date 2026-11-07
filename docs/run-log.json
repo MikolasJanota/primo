@@ -3,6 +3,142 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-Micromath-arithmetic-response-cfd36f46-replays",
+      "date": "2026-11-07",
+      "kind": "pinned-external-checker-update-qualification-and-residual-proof-volume-feedback",
+      "workflow_gits": {
+        "build_and_live_replay": "1b7a5ac3fd3eea4684eb42bc5813edd83e60c1b2",
+        "staged_only_replay": "078de28636d6eedcdd6d3570a424d5562e5194e6",
+        "feedback_packet": "07a2eaac87aab967b9577bbcd3766215c8b28757"
+      },
+      "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "producer_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "manifest": "docs/coverage/micromath-arithmetic-update.json",
+      "evidence_status": "All5LIA feedback cases andLRA LassoRanker pass original30s challenge/60s live pipeline bounds. Two LRA clocks still hit60s, then complete valid gzip exports/independent kernels under300s staged bounds.",
+      "scope": "Eight saved, independently audited exported-CNF cases; no new native solve, reference run, full217case checker sweep, default promotion or checker-source audit.",
+      "author_response": {
+        "path": "external/Response.md",
+        "sha256": "d2a9036cce6e3c7d9aac8139dd204f284e87c22a04272364d201ff7bed96c268",
+        "title": "Response to the LIA feedback",
+        "claim": "Five suppliedLIA cases replay successfully; Boolean reconstruction fixes and Boolean encoding/clause dependency/arithmetic normalization/source-clause transport optimizations. Implementation mechanisms are author reports, not source-audited here.",
+        "comparison": "Pass outcomes reproduced on all5LIA inputs; timing definitions, hardware and SAT/LRAT backend can differ. No claim of identical author step counts/timings."
+      },
+      "jobs": {
+        "362870": "Failed2:0,1s,missingstdio.h before tool build; provisioned C-header/GMP setup then applied.",
+        "362904_[0-1]": "Cancelled before execution after initial build failure.",
+        "362913": "Completed0:0,13s; isolated updated checker build.",
+        "362914_0": "Completed0:0,131s; LRA1verified,2proof timeouts; Lasso complete gzip export and independent kernel accepted.",
+        "362914_1": "Completed0:0,16s; all5LIA verified.",
+        "362921_0": "Completed0:0,129s;5clock complete gzip export and independent kernel accepted.",
+        "362921_1": "Completed0:0,203s;6clock complete gzip export and independent kernel accepted."
+      },
+      "counts": {
+        "original_budget": {
+          "LIA": {
+            "verified": 5
+          },
+          "LRA": {
+            "verified": 1,
+            "proof_timeout": 2
+          },
+          "all": {
+            "verified": 6,
+            "proof_timeout": 2
+          }
+        },
+        "extended_two_clock_diagnostics": {
+          "complete_exports": 2,
+          "kernel_verified": 2
+        },
+        "all_three_updated_LRA_gzip_exports": {
+          "complete": 3,
+          "separate_kernel_verified": 3
+        }
+      },
+      "allocation": {
+        "build": {
+          "cpus": 4,
+          "memory_gib": 8,
+          "wall_minutes": 20
+        },
+        "live_worker": {
+          "cpus": 2,
+          "memory_gib": 12,
+          "wall_minutes": 30,
+          "workers": 2
+        },
+        "staged_worker": {
+          "cpus": 2,
+          "memory_gib": 12,
+          "wall_minutes": 15,
+          "workers": 2
+        }
+      },
+      "limits": {
+        "challenge_seconds": 30,
+        "overall_live_pipeline_seconds": 60,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456,
+        "default_LRA_capture_seconds": 60,
+        "default_LRA_raw_bytes": 2147483648,
+        "default_LRA_gzip_bytes": 268435456,
+        "clock_capture_seconds": 300,
+        "clock_kernel_seconds": 300,
+        "clock_raw_bytes": 17179869184,
+        "clock_gzip_bytes": 4294967296
+      },
+      "commands": {
+        "fetch": "One git fetch --depth=1 origin main in existing external repo, isolated detached worktree at fetchedcfd36f46; old checkouts/binaries preserved.",
+        "stage": "scripts/slurm_stage_manifest_files.py with explicit frozen workflow manifests.",
+        "preflight": "scripts/slurm_prepare_benchmark_workspace.py --check-only --require-tool YICES immediately before each sbatch; authorized SSH config outside Git.",
+        "build": "scripts/slurm_build_micromath_update.sbatch with pinned worktree, qualified workspace GMP and provisioned compiler header manifest.",
+        "live": "scripts/slurm_replay_arithmetic_update.sbatch --dependency=afterok:362913; rebuild challenges, invoke originalPIPE once with overall60s timeout; extra separate60s LRA gzip capture/replay only after live success.",
+        "extended": "scripts/slurm_capture_arithmetic_update.sbatch selects the two clock audit names in separate workers, rebuilds challenges and uses capture-only300s/16GiBraw/4GiBgzip stages.",
+        "manual_feedback": "README in updated-clock-feedback.tar.gz; manual snippet syntax checked, not executed as another run."
+      },
+      "artifacts": {
+        "local": "results/micromath-update-build-362913; results/arithmetic-checker-update-362914; results/arithmetic-update-capture-362921 (metadata/logs only, gzip/challenges kept remotely)",
+        "remote": "$PRIMO_WORKDIR/results/{micromath-update-build-362913,arithmetic-checker-update-362914,arithmetic-update-capture-362921}; isolated checker worktree pinnedcfd36f46",
+        "retention": "New complete challenges and gzip proofs retained remotely; old builds/proofs unchanged. Compact two-clock packet committed; no multiGBproofs in Git.",
+        "feedback": {
+          "archive": {
+            "file": "benchmarks/checker-regressions/lra-clock-update-20261107/updated-clock-feedback.tar.gz",
+            "sha256": "e1df47ba31045815a299725e3bebdc2e7c79a89bb9c860a423aa47fc48d373c6",
+            "bytes": 54742
+          },
+          "payload_files": 21,
+          "micromath_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+          "cases": [
+            {
+              "name": "shard-2-case-006",
+              "live_status": "proof_timeout",
+              "staged_status": "verified"
+            },
+            {
+              "name": "shard-5-case-007",
+              "live_status": "proof_timeout",
+              "staged_status": "verified"
+            }
+          ]
+        }
+      },
+      "verification": {
+        "fresh_python_methods": 9,
+        "commands": [
+          "4strict proof acceptance tests",
+          "5synthetic gzip capture/limits/descendant cleanup tests",
+          "make lint",
+          "bash -n and slurm_validate_sbatch.py for3newwrappers",
+          "Python3.9grammar checks",
+          "make docs",
+          "assemble_docs.py; check_doc_links.py freshsite; rendered section inspection",
+          "21feedback archive payload hashes and unchanged old/new input hashes verified"
+        ],
+        "native_gates": "Native C++/active C++tests unchanged froma5123159; no native suite/ASan/fuzz/clang-tidy rerun for external checker/workflow/evidence-only changes."
+      },
+      "source_to_cnf_verified": false
+    },
+    {
       "id": "2026-11-07-Micromath-LRA-gzip-export-and-separate-kernel-replay",
       "date": "2026-11-07",
       "kind": "targeted-proof-volume-and-stage-diagnostics",

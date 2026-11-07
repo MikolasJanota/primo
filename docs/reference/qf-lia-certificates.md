@@ -240,6 +240,12 @@ validated the five saved checker-failure inputs and exported a small replay
 for the freshly reproduced Boolean-evaluation error. The remaining native
 reconstruction limit is recorded separately as a producer limitation.
 
+The [checker-update replays](qf-lra-certificates.md#replaying-the-authors-checker-update)
+confirm that all five saved LIA feedback cases pass at Micromath `cfd36f46`,
+using the unchanged audited version-2 copies and original resource limits.
+This addresses those checker cases; the separate native reconstruction limit
+remains a producer limitation.
+
 The [real-source arithmetic stress pilot](qf-lra-certificates.md#real-source-arithmetic-stress-pilot)
 adds 24 real LIA sources: three kernel proofs, including one using an integer
 cut, with the remaining outcomes and small replay files recorded separately.

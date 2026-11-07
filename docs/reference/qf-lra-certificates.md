@@ -569,6 +569,109 @@ steps. No native solver code, checker implementation or upstream checkout was
 changed. The original-to-CNF trust boundary and the previous independent
 Yices/witness/SAT audit remain as described above.
 
+### Replaying the author's checker update
+
+The supplied `external/Response.md` reports successful replays of the five LIA
+feedback cases. It attributes the two closed-Boolean errors to Boolean proof
+reconstruction, and describes changes to Boolean schema reuse, encoding,
+clause dependencies, arithmetic normalization and source-clause transport.
+These are the author's implementation claims, not a source-code audit by Primo.
+The response's identity is recorded by SHA256 in the result ledger.
+
+We fetched and pinned
+[Micromath `cfd36f46e756f080295d469753c9f2989dab1fee`](https://git.olsak.net/mirek/Micromath/src/commit/cfd36f46e756f080295d469753c9f2989dab1fee)
+in a separate worktree. The old pinned builds and proof captures remain intact.
+The {checkerupdatesource}`build wrapper <scripts/slurm_build_micromath_update.sbatch>`
+compiles both arithmetic builders/provers and the independent kernel in SLURM,
+using the provisioned C-header manifest and qualified workspace's GMP.
+Build `362913` completed; `362870` had failed on missing `stdio.h` because the
+first wrapper omitted those header paths. Dependent replay `362904` was
+cancelled before it ran. Build flags, compiler, dependency hashes and binary
+hashes are retained with the evidence.
+
+The {checkerupdatesource}`replay driver <scripts/replay_arithmetic_checker_update.py>`
+and {checkerupdatesource}`SLURM wrapper <scripts/slurm_replay_arithmetic_update.sbatch>`
+replay exactly the previously audited five LIA and three LRA inputs. They check
+build/revision identities and saved payload hashes, rebuild each challenge
+with the updated builder, and pipe `--raw` output into the matching kernel.
+Primo is not run again and the input/CNF/certificate bytes are unchanged. LIA
+uses the already audited version-2 envelope copy, whose body matches the native
+version-3 certificate. Prior Yices and independent witness/SAT checks are reused
+through their recorded hashes; this is fresh checker evidence, not a new
+independent audit of the producer.
+
+Array `362914` gives each worker two CPUs, 12 GiB and 30 minutes. Challenge
+construction retains a 30-second limit; proof and kernel share one overall
+60-second live-pipeline deadline. Every external process has the previous
+3 GiB address and 256 MiB file caps. Both zero exits, exact `challenge proven`
+and no inconsistency marker are required. The worker exit code alone does not
+establish that its cases passed.
+
+All five LIA cases pass. Their elapsed challenge-plus-live-pipeline times are
+7.60, 0.40, 1.70, 2.29 and 0.81 seconds for cases 011, 014, 015, 018 and 019.
+These measurements exclude worker-level axiom construction and payload hashing;
+they are not the author's complete-script measurements or a full-corpus result.
+The LRA LassoRanker case also passes in 3.64 seconds; its source-conversion
+counter falls from 175,076,611 to 56,857 kernel steps. The five- and six-clock
+cases still reach the 60-second live-pipeline deadline. Thus the supplied LIA
+response is reproduced on these inputs, while two LRA resource cases remain
+outside that original budget. No wrong-answer inference follows from a timeout.
+
+The {checkerupdatesource}`staged SLURM wrapper <scripts/slurm_capture_arithmetic_update.sbatch>`
+selects the two remaining clock cases in separate workers. It retains two CPUs,
+12 GiB, the child resource caps and 30-second challenge limit, and allows
+300 seconds each for export and independent replay, with 16 GiB raw and 4 GiB
+compressed proof bounds. Results go to
+`results/arithmetic-update-capture-$SLURM_ARRAY_JOB_ID/case-N`.
+
+The same driver can export selected LRA cases separately from kernel replay,
+using `--capture-only`, repeated `--case-name` arguments and explicit capture
+time/raw/gzip bounds. This mode is recorded separately from the live-pipeline
+results. Complete captured proofs require their own successful decompressor and
+kernel replay; an incomplete capture cannot count as verification. Its
+reaped-child CPU counters exclude Python compression CPU, and peak child RSS
+is the maximum observed across reaped children so far in that worker, rather
+than a per-case allocation measurement.
+
+The {download}`updated-checker ledger <../coverage/micromath-arithmetic-update.json>`
+records both budget regimes and the unchanged input hashes. Follow-up array
+`362921` completes both remaining clock exports and their independent kernel
+replays under the staged bounds:
+
+| Case | Previous raw GB | Updated raw GB | Updated gzip GB | Updated export seconds | Updated kernel seconds |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| LassoRanker | 2.560 | 0.086 | 0.038 | 4.29 | 1.42 |
+| Five clocks | 2.207 | 2.026 | 0.978 | 88.21 | 32.88 |
+| Six clocks | 3.691 | 3.234 | 1.562 | 139.28 | 52.33 |
+
+The LassoRanker capture is the extra diagnostic from `362914`; the clock
+captures are from `362921`. GB means one billion bytes. All three complete gzip
+files are accepted by the updated kernel, including successful decompressor
+exits. These staged timings include compression/decompression and I/O and
+should not be read as controlled live-pipeline speed measurements.
+
+The clock costs remain dominated by arithmetic proof expansion: five-clock
+arithmetic checking changes from 184,701,495 to 171,076,770 kernel steps;
+six-clock changes from 310,207,234 to 273,514,122. Updated source conversion
+uses only 9,313 and 13,426 steps respectively. This is residual resource
+feedback for these two LRA inputs, not a contradiction of the author's five
+successful LIA replays or a correctness failure. The original 60-second
+budget still excludes these two updated-checker runs; larger staged bounds
+establish their proof acceptance.
+
+A {download}`54,742-byte updated clock packet <../../benchmarks/checker-regressions/lra-clock-update-20261107/updated-clock-feedback.tar.gz>`
+contains both unchanged input/CNF/CORE triples, fresh diagnostics and progress,
+live and staged summaries, payload hashes and
+{download}`manual replay instructions <../../benchmarks/checker-regressions/lra-clock-update-20261107/README.md>`.
+All 21 manifest-listed payload hashes were checked after packing. Full proofs
+are omitted. New challenges and gzip proofs remain under
+`$PRIMO_WORKDIR/results/arithmetic-checker-update-362914/LRA` and
+`results/arithmetic-update-capture-362921/case-N`; old builds and captures remain
+available. The packet rebuilds challenges with `cfd36f46` instead of reusing the
+old checker's metadata snapshots. No native solver or certificate-format change
+was needed for the five LIA fixes or the LassoRanker reduction. This targeted
+eight-input check does not rerun the full 217-input LRA cohort.
+
 ### Why lowering was already sufficient for the CNF boundary
 
 The existing {liaexportsource}`lowering pass <src/smt/preprocessing.cpp#L4493>`
