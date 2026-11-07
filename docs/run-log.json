@@ -8,24 +8,324 @@
       "commit": "8d84fdcab67f7ba0aaf097378062e71c6971be8c",
       "baseline_commit": "1b2cc307",
       "kind": "six-arm-full-corpus-equality-propagation-investigation",
-      "evidence_status": "running",
+      "evidence_status": "qualified full corpus and selected investigation complete; no default promotion",
       "scope": "All 659 available QF_UFLIA inputs, 60-second solver limit; old baseline, candidate disabled, candidate enabled under native and M124. No default promotion or solver changes.",
       "jobs": {
         "timing": "362871_0-47",
-        "reference_failed_attempt": "362896_0-7",
-        "reference": "362905_0-7"
+        "reference_rejected": "362896_0-7",
+        "reference": "362905_0-7",
+        "models": "362917_0-47",
+        "diagnostics": "362972_0-3",
+        "callgrind": "362983_0-3",
+        "diagnostic_models": "362990_0-3",
+        "native_stacks": "362999_0,3"
       },
       "environment": {
-        "execution": "SLURM compute partition; 48 shards, at most 24 concurrently, 1 requested CPU and 8GiB per task, 95-minute allocation; six profiles serially rotated per input"
+        "timing": "SLURM compute,1 requested CPU and8GiB per task;48 shards, throttle24 initially, raised48 after observing eight idle compute nodes; no work added. Allocations granted2 logical CPUs.",
+        "models": "Separate SLURM48 shards,throttle24,1 requested CPU12GiB;60s solver30s direct Dolmen limits; all timing tasks ended before the first model task started.",
+        "reference": "Fresh Z3,8 shards,1 requested CPU8GiB,60s limit. First attempt rejected for a harness path-serialization error; corrected retry supplies all659 rows.",
+        "timing_window_cluster_local": [
+          "2026-11-07T18:04:08",
+          "2026-11-07T18:38:28"
+        ],
+        "model_window_cluster_local": [
+          "2026-11-07T18:38:28",
+          "2026-11-07T18:46:06"
+        ],
+        "cpu_models": [
+          "Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz"
+        ],
+        "architectures": [
+          "x86_64"
+        ]
       },
       "commands": {
         "timing": "python3 scripts/qualification/uflia_equalities/run.py --baseline <baseline-primo> --candidate <candidate-primo> --baseline-git 1b2cc307 --candidate-git 8d84fdca --root <QF_UFLIA> --out <timing>/shard-$SLURM_ARRAY_TASK_ID --shards 48 --shard $SLURM_ARRAY_TASK_ID --timeout 60 --include-equalities",
-        "reference": "python3 scripts/bench_qf_uf_full.py --repo <corpus-repository> --root <QF_UFLIA> --solver <z3> --solver-arg=-smt2 --timeout 60 --shards 8 --shard-index $SLURM_ARRAY_TASK_ID --out <reference>/shard-$SLURM_ARRAY_TASK_ID.csv --summary <reference>/shard-$SLURM_ARRAY_TASK_ID-summary.csv"
+        "reference": "python3 scripts/bench_qf_uf_full.py --repo <corpus-repository> --root <QF_UFLIA> --solver <z3> --solver-arg=-smt2 --timeout 60 --shards 8 --shard-index $SLURM_ARRAY_TASK_ID --out <reference>/shard-$SLURM_ARRAY_TASK_ID.csv --summary <reference>/shard-$SLURM_ARRAY_TASK_ID-summary.csv",
+        "summary": "python3 scripts/qualification/uflia_equalities/summarize.py --timing <timing> --models <models> --inputs 659 --shards 48 --candidate-git 8d84fdca --baseline-git 1b2cc307 --out <summary>",
+        "analysis": "python3 scripts/qualification/uflia_equalities/full_analysis.py --timing <timing> --references <reference-retry> --inputs 659 --shards 48 --out <analysis> --export-csv <csv>",
+        "profiles": "python3 scripts/qualification/uflia_equalities/profile_summary.py --root <artifacts> --out <profile-summary>",
+        "diagnostic_summary": "python3 scripts/qualification/uflia_equalities/diagnostic_summary.py --root <artifacts> --out <diagnostic-summary>"
       },
       "artifacts": "results/uflia-equality-full60-20261107",
-      "correctness": "Fresh Z3 answer comparison planned; every successful timing SAT row will be separately replayed with direct Dolmen after timing finishes. Existing exact-binary qualification is recorded under guarded-repeat/opt-in gate entries.",
-      "next": "Finish broad comparison before choosing representative profiling targets. Inspect fresh-pair growth, explanation size, component growth, SAT/LRA work, and scanning cost; investigate causality without changing solver behavior.",
-      "reference_attempt_note": "First reference submission used the candidate workspace as --repo although the reused corpus is elsewhere. Path serialization raised ValueError; cancelled remaining tasks. No solver result accepted from that attempt. Retry uses the corpus-owning repository and a fresh output directory."
+      "correctness": "All3373successfulPrimo full-corpus rows match freshZ3;all2331SATtimingrows pass directDolmen, joined to2331rawCSVrows. All39concrete selected-diagnostic answers match the same fresh reference answers;all28selected SAT outputs pass separate directDolmen replay. No wrong answer,crash,unsupported,invalidmodel,missing validation or reference disagreement in accepted runs.",
+      "next": "Investigation complete. Keep default off; a future causal experiment must isolate proof delivery from redundant bridge creation/relevance and control integer-completion effects. Existing-option controls are not full-profile promotion evidence.",
+      "reference_attempt_note": "First reference submission used the candidate workspace as --repo although the reused corpus is elsewhere. Path serialization raised ValueError; cancelled remaining tasks. No solver result accepted from that attempt. Retry uses the corpus-owning repository and a fresh output directory.",
+      "metadata": "benchmarks/qf-uflia-tableau-equalities-full60-20261107.json",
+      "methods_commit": "de67a3dde50a34399dd8fe826ee6df2d547d1df3",
+      "profiling_methods_commit": "6c5b066e8a9d712a2099c8e26f86f148ab82166d",
+      "summary": {
+        "inputs": 659,
+        "timing_rows": 3954,
+        "profiles": {
+          "baseline-native": {
+            "inputs": 659,
+            "outcomes": {
+              "timeout:unknown": 84,
+              "solved": 575
+            },
+            "solved": 575,
+            "sat": 405,
+            "unsat": 170,
+            "par2_seconds": 11352.479083,
+            "solved_seconds": {
+              "sum": 1272.479083,
+              "median": 0.227784,
+              "p90_nearest_rank": 5.242032,
+              "max": 59.346049
+            },
+            "rows_with_statistics": 605
+          },
+          "candidate-native": {
+            "inputs": 659,
+            "outcomes": {
+              "timeout:unknown": 84,
+              "solved": 575
+            },
+            "solved": 575,
+            "sat": 405,
+            "unsat": 170,
+            "par2_seconds": 11362.226173,
+            "solved_seconds": {
+              "sum": 1282.226173,
+              "median": 0.226771,
+              "p90_nearest_rank": 5.169332,
+              "max": 57.937595
+            },
+            "rows_with_statistics": 606
+          },
+          "baseline-m124": {
+            "inputs": 659,
+            "outcomes": {
+              "timeout:unknown": 114,
+              "solved": 545
+            },
+            "solved": 545,
+            "sat": 375,
+            "unsat": 170,
+            "par2_seconds": 14877.495799,
+            "solved_seconds": {
+              "sum": 1197.495799,
+              "median": 0.213868,
+              "p90_nearest_rank": 5.210819,
+              "max": 59.189977
+            },
+            "rows_with_statistics": 604
+          },
+          "candidate-m124": {
+            "inputs": 659,
+            "outcomes": {
+              "timeout:unknown": 114,
+              "solved": 545
+            },
+            "solved": 545,
+            "sat": 375,
+            "unsat": 170,
+            "par2_seconds": 14882.473726,
+            "solved_seconds": {
+              "sum": 1202.473726,
+              "median": 0.211606,
+              "p90_nearest_rank": 5.232931,
+              "max": 58.840079
+            },
+            "rows_with_statistics": 606
+          },
+          "enabled-native": {
+            "inputs": 659,
+            "outcomes": {
+              "timeout:unknown": 92,
+              "solved": 567
+            },
+            "solved": 567,
+            "sat": 387,
+            "unsat": 180,
+            "par2_seconds": 13173.507605,
+            "solved_seconds": {
+              "sum": 2133.507605,
+              "median": 0.409145,
+              "p90_nearest_rank": 13.09338,
+              "max": 59.369838
+            },
+            "rows_with_statistics": 603
+          },
+          "enabled-m124": {
+            "inputs": 659,
+            "outcomes": {
+              "timeout:unknown": 93,
+              "solved": 566
+            },
+            "solved": 566,
+            "sat": 384,
+            "unsat": 182,
+            "par2_seconds": 12844.921843,
+            "solved_seconds": {
+              "sum": 1684.921843,
+              "median": 0.3290085,
+              "p90_nearest_rank": 7.427468,
+              "max": 55.060107
+            },
+            "rows_with_statistics": 608
+          }
+        },
+        "fresh_reference": {
+          "inputs": 659,
+          "outcomes": {
+            "solved": 618,
+            "timeout:error": 41
+          },
+          "solved": 618,
+          "sat": 429,
+          "unsat": 189,
+          "par2_seconds": 5429.853243,
+          "solved_seconds": {
+            "sum": 509.853243,
+            "median": 0.030122,
+            "p90_nearest_rank": 0.15203,
+            "max": 41.884377
+          }
+        },
+        "fresh_reference_matched_Primo_rows": 3373,
+        "wrong_answers": 0,
+        "errors": 0,
+        "unsupported": 0,
+        "answer_disagreements": 0,
+        "native_gains_losses": [
+          17,
+          25
+        ],
+        "m124_gains_losses": [
+          27,
+          6
+        ]
+      },
+      "models": {
+        "status": "complete",
+        "expected": 2331,
+        "passed": 2331,
+        "raw_join": {
+          "expected": 2331,
+          "raw_csv_rows": 2331,
+          "direct_dolmen_passes": 2331,
+          "shards": 48,
+          "status": "complete"
+        }
+      },
+      "profiling": {
+        "status": "complete",
+        "cases": [
+          {
+            "file": "wisas/xs_37_57.smt2",
+            "mode": "native",
+            "category": "Native regression shared with the earlier15s diagnostic; now persists at60s",
+            "expected_answer": "sat",
+            "input_sha256": "5c70a76d2c4f181502c3dd51966f39ddec4fd9eac378d543f4e52d603eca3a56",
+            "selection_parent": "2026-11-07-uflia-equality-full60-8d84fdca",
+            "off": {
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "1.619541"
+            },
+            "on": {
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.076743"
+            }
+          },
+          {
+            "file": "mathsat/EufLaArithmetic/medium/medium13.smt2",
+            "mode": "native",
+            "category": "Representative recovered MathSAT UNSAT case with a recorded budget-triggered complete-arrangement fallback when disabled",
+            "expected_answer": "unsat",
+            "input_sha256": "a7bf9b5b53f8edd829d0d5c3db912dcb67137888b6e5a90f85bbacc1fb740731",
+            "selection_parent": "2026-11-07-uflia-equality-full60-8d84fdca",
+            "off": {
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.289572"
+            },
+            "on": {
+              "status": "ok",
+              "answer": "unsat",
+              "seconds": "1.002020"
+            }
+          },
+          {
+            "file": "wisas/xs_25_35.smt2",
+            "mode": "m124",
+            "category": "M124 SAT recovery with a clear60s-to9.5s gap",
+            "expected_answer": "sat",
+            "input_sha256": "5690f67a2e02051ff2dc9551f95562aec690b35550cad1bb2b5471772a780335",
+            "selection_parent": "2026-11-07-uflia-equality-full60-8d84fdca",
+            "off": {
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.073051"
+            },
+            "on": {
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "9.491931"
+            }
+          },
+          {
+            "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+            "mode": "native",
+            "category": "Certora regression outside the original development sample; test timeout sensitivity",
+            "expected_answer": "sat",
+            "input_sha256": "c68e77db3bc6cd15daebe8fcffb9d445bca654c6b2fcc47a8b65d27c3074e182",
+            "selection_parent": "2026-11-07-uflia-equality-full60-8d84fdca",
+            "off": {
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "26.476988"
+            },
+            "on": {
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "61.067511"
+            }
+          }
+        ],
+        "callgrind": "Fourcases xoff/on,120s instrumented wall prefix each;instruction counts not CPUtime. All4tasksCOMPLETED0.",
+        "native_stacks": "Cases0/3 xoff/on;120halfsecond enabled samples each. Wisas120/120inSAT/callbacks;Certora110/120inIntegerCompletion,53withGMP. Disabled3and49observations, unequal durations; noCPUpercentageclaim.",
+        "summary": "results/uflia-equality-full60-20261107/profile-summary.json"
+      },
+      "diagnostic_methods_commit": "c474ef253ec1b195f08e41d1361abca22dcff07a",
+      "selected_diagnostics": {
+        "rows": 56,
+        "outcomes": {
+          "solved:sat": 28,
+          "timeout:unknown": 17,
+          "solved:unsat": 11
+        },
+        "models": {
+          "expected": 28,
+          "passed": 28,
+          "raw_csv_rows": 28,
+          "status": "complete"
+        },
+        "summary": "results/uflia-equality-full60-20261107/diagnostic-summary.json",
+        "native_seed_regressions": "Wisasoff1.60-1.62s versus enabled120s timeout in3/3seeds;Certoraoff25.47-27.04s versus enabled120s timeout in3/3seeds.",
+        "controls": "Phase,bound propagation,rebuild and fixed elimination interactions differ across cases; no uniform performance recovery or isolated bridge ablation."
+      },
+      "tools": {
+        "z3": {
+          "version": "Z3 version 5.1.0 - 64 bit",
+          "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+          "identity_checks": "All8reference-task pre-run identities match the post-run audit."
+        },
+        "dolmen": {
+          "version": "0.10",
+          "sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+          "args": [
+            "--strict=false"
+          ],
+          "direct_pass_required": true,
+          "identity_checks": "Post-run audit matches the recorded pre-existing8d84fdcaqualification dependency; no dependency changes during the campaign."
+        },
+        "valgrind": "valgrind-3.22.0",
+        "gdb": "GNU gdb (GDB) Rocky Linux 10.2-13.el9"
+      }
     },
     {
       "id": "2026-11-07-uflia-equality-guarded-repeat-8d84fdca",

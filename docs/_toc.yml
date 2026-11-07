@@ -109,6 +109,7 @@ parts:
       - file: evidence/long-limits
       - file: evidence/qf-lia-progress
       - file: evidence/qf-uflia-progress
+      - file: evidence/qf-uflia-equality-sharing
       - file: evidence/publication
       - file: evidence/publication-followups
       - file: evidence/static-analysis
