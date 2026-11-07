@@ -1,0 +1,58 @@
+{
+  "archive": {
+    "file": "benchmarks/certificate-regressions/lia-reconstruction-20261107/lia-reconstruction-limits.tar.gz",
+    "sha256": "37ebb55bad71dd81d01209efc52634e52acca728cc060f6f791351cdd1b8e9a7",
+    "bytes": 20528
+  },
+  "payload_files": 25,
+  "cases": [
+    {
+      "directory": "prime-cone__prime_cone_unsat_16",
+      "file": "prime-cone/prime_cone_unsat_16.smt2",
+      "sha256": "e64ac51c01d2abd80cf48b09270d259407f895311d7e8b86f75072a9d92e6e9b",
+      "source_bytes": 4292,
+      "main_unsat": 1,
+      "core_complete": 1,
+      "selected_conflicts": 1,
+      "generated_cuts": 7269,
+      "pairs": 4782,
+      "baseline_control": false
+    },
+    {
+      "directory": "dillig__25-31",
+      "file": "dillig/25-31.smt2",
+      "sha256": "ce48a896186ce8c79621568f49f1f61210e1afa1e20d6cf97ca32b1e000309e6",
+      "source_bytes": 10603,
+      "main_unsat": 1,
+      "core_complete": 1,
+      "selected_conflicts": 1,
+      "generated_cuts": 4740,
+      "pairs": 4681,
+      "baseline_control": false
+    },
+    {
+      "directory": "prime-cone__prime_cone_unsat_17",
+      "file": "prime-cone/prime_cone_unsat_17.smt2",
+      "sha256": "c5b6e0a0f9a0999d7bd6c97c2f060a1f4cdf5719a0c730c14a20afca299a5654",
+      "source_bytes": 4756,
+      "main_unsat": 1,
+      "core_complete": 1,
+      "selected_conflicts": 1,
+      "generated_cuts": 6961,
+      "pairs": 4833,
+      "baseline_control": false
+    },
+    {
+      "directory": "dillig__25-22",
+      "file": "dillig/25-22.smt2",
+      "sha256": "d75a65f784ecea78f8346c2d942868b9bbad6ac71e84a2a346b40d9380413009",
+      "source_bytes": 8799,
+      "main_unsat": 1,
+      "core_complete": 1,
+      "selected_conflicts": 1,
+      "generated_cuts": 5224,
+      "pairs": 5186,
+      "baseline_control": true
+    }
+  ]
+}
