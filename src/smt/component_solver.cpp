@@ -470,6 +470,9 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
           const PairKey key{equality.pair.sort, std::min(equality.pair.lhs, equality.pair.rhs),
                             std::max(equality.pair.lhs, equality.pair.rhs)};
           const auto known = registered.find(key);
+          if (!recipe.learn_exported_equalities && known != registered.end()) {
+            throw std::logic_error("naming-only equality batch contains an existing pair");
+          }
           const int literal = known == registered.end() ? 0 : known->second.equality_lit.value;
           const int actual = literal == 0 ? 0
                              : dispatcher ? dispatcher->assignment_view().literal(std::abs(literal))
@@ -486,6 +489,10 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
             throw std::logic_error("validated equality could not be materialized");
           }
           statistics.increment(":combination.equality.fresh-pairs", registered.size() - before);
+          if (!recipe.learn_exported_equalities) {
+            statistics.increment(":combination.equality.named-without-proof");
+            continue;
+          }
           sat::Clause clause{*literal};
           for (const auto reason : equality.reasons) clause.push_back(sat::Lit{-reason.value});
           backend.add_clause(clause);

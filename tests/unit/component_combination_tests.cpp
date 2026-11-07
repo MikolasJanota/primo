@@ -11,6 +11,7 @@
 #include <memory>
 #include <optional>
 #include <span>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -1155,52 +1156,69 @@ void explained_batches_validate_scope_reasons_and_progress() {
 void explained_batches_materialize_before_learning_without_model_queries() {
   for (const bool online : {false, true}) {
     for (const bool conflicting : {false, true}) {
-      Fixture f;
-      const auto sort = f.symbols.int_sort();
-      const auto x = f.variable("x", sort);
-      const auto y = f.variable("y", sort);
-      const auto z = f.variable("z", sort);
-      const auto first = f.variable("first", f.symbols.bool_sort());
-      const auto second = f.variable("second", f.symbols.bool_sort());
-      const auto equality = f.terms.mk_eq(x, y);
-      const std::vector<core::TermId> all{x, y, z};
-      smt::CombinationRecipe recipe;
-      recipe.online = online;
-      recipe.online_order = {0, 1};
-      recipe.model_guided = true;
-      recipe.decision_budget = 8;
-      recipe.factories = {
-          [&](bool) {
-            auto component = std::make_unique<PartitionComponent>(
-                f.terms, "producer", first, std::vector<Restriction>{{all, {Partition{0, 0, 0}}}});
-            component->properties.capabilities.equality_propagation =
-                theory::EqualityPropagationStrength::Opportunistic;
-            theory::TheoryCheckResult batch;
-            batch.status = theory::TheoryCheckStatus::EntailedEqualities;
-            // First is the first encoded SAT atom and is asserted false. This
-            // checks that negative TRUE antecedents survive both translations.
-            batch.equalities = {{{x, y, sort}, {sat::Lit{-1}}}, {{y, z, sort}, {sat::Lit{-1}}}};
-            component->pending_equalities = std::move(batch);
-            return component;
-          },
-          [&](bool) {
-            auto component = std::make_unique<PartitionComponent>(
-                f.terms, "observer", second, std::vector<Restriction>{{all, partitions(3)}});
-            component->owns_equalities = true;
-            return component;
-          }};
-      std::vector assertions{f.terms.mk_not(first), second};
-      if (conflicting) assertions.push_back(f.terms.mk_not(equality));
-      util::Statistics statistics;
-      const auto result =
-          smt::solve_component_recipe(f.terms, assertions, {}, {}, statistics, recipe);
-      assert(result.result ==
-             (conflicting ? smt::CheckSatResult::Unsat : smt::CheckSatResult::Sat));
-      assert(result.statistics.get(":combination.equality.batches") == 1);
-      assert(result.statistics.get(":combination.equality.clauses") == 2);
-      assert(result.statistics.get(":combination.equality.fresh-pairs") == (conflicting ? 1 : 2));
-      assert(result.statistics.get(":combination.equality.conflicts") == (conflicting ? 1 : 0));
-      assert(result.statistics.get(":combination.model.decisions") == 0);
+      for (const bool learn : {false, true}) {
+        Fixture f;
+        const auto sort = f.symbols.int_sort();
+        const auto x = f.variable("x", sort);
+        const auto y = f.variable("y", sort);
+        const auto z = f.variable("z", sort);
+        const auto first = f.variable("first", f.symbols.bool_sort());
+        const auto second = f.variable("second", f.symbols.bool_sort());
+        const auto equality = f.terms.mk_eq(x, y);
+        const std::vector<core::TermId> all{x, y, z};
+        smt::CombinationRecipe recipe;
+        recipe.online = online;
+        recipe.online_order = {0, 1};
+        recipe.model_guided = true;
+        recipe.learn_exported_equalities = learn;
+        recipe.decision_budget = 8;
+        recipe.factories = {
+            [&](bool) {
+              auto component = std::make_unique<PartitionComponent>(
+                  f.terms, "producer", first,
+                  std::vector<Restriction>{{all, {Partition{0, 0, 0}}}});
+              component->properties.capabilities.equality_propagation =
+                  theory::EqualityPropagationStrength::Opportunistic;
+              theory::TheoryCheckResult batch;
+              batch.status = theory::TheoryCheckStatus::EntailedEqualities;
+              // First is the first encoded SAT atom and is asserted false. This
+              // checks that negative TRUE antecedents survive both translations.
+              batch.equalities = {{{x, y, sort}, {sat::Lit{-1}}}, {{y, z, sort}, {sat::Lit{-1}}}};
+              component->pending_equalities = std::move(batch);
+              return component;
+            },
+            [&](bool) {
+              auto component = std::make_unique<PartitionComponent>(
+                  f.terms, "observer", second, std::vector<Restriction>{{all, partitions(3)}});
+              component->owns_equalities = true;
+              return component;
+            }};
+        std::vector assertions{f.terms.mk_not(first), second};
+        if (conflicting) assertions.push_back(f.terms.mk_not(equality));
+        util::Statistics statistics;
+        if (!learn && conflicting) {
+          bool rejected = false;
+          try {
+            static_cast<void>(
+                smt::solve_component_recipe(f.terms, assertions, {}, {}, statistics, recipe));
+          } catch (const std::logic_error&) {
+            rejected = true;
+          }
+          assert(rejected);  // Naming-only batches must never revisit an existing pair.
+          continue;
+        }
+        const auto result =
+            smt::solve_component_recipe(f.terms, assertions, {}, {}, statistics, recipe);
+        assert(result.result ==
+               (conflicting ? smt::CheckSatResult::Unsat : smt::CheckSatResult::Sat));
+        assert(result.statistics.get(":combination.equality.batches") == 1);
+        assert(result.statistics.get(":combination.equality.clauses") == (learn ? 2 : 0));
+        assert(result.statistics.get(":combination.equality.named-without-proof") ==
+               (learn ? 0 : 2));
+        assert(result.statistics.get(":combination.equality.fresh-pairs") == (conflicting ? 1 : 2));
+        assert(result.statistics.get(":combination.equality.conflicts") == (conflicting ? 1 : 0));
+        if (learn) assert(result.statistics.get(":combination.model.decisions") == 0);
+      }
     }
   }
 }

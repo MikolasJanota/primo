@@ -25,6 +25,10 @@ struct CombinationRecipe {
   // Preserve each recipe's SAT clause-retention policy across dispatcher rebuilds.
   bool forgettable_clauses = true;
   bool model_guided = true;
+  // Diagnostic conservative naming: install bridges for fresh proved pairs,
+  // but omit the optional proof clauses. Producers must request only fresh pairs.
+  // Original design: docs/implementation/uflia-equality-ablation.md.
+  bool learn_exported_equalities = true;
   std::size_t decision_budget = 0;
   std::string timing_prefix;
   // Idempotent registry completion before initial ownership planning and at

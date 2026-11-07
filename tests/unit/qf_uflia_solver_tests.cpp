@@ -15,6 +15,7 @@
 using primo::smt::check_sat_smtlib;
 using primo::smt::CheckSatOptions;
 using primo::smt::CheckSatResult;
+using primo::smt::QfUfliaEqualityPolicy;
 
 namespace {
 
@@ -695,12 +696,76 @@ void integer_model_coincidences_do_not_become_equality_facts() {
   }
 }
 
+// Original ablation checklist: separate discovery/definitions/proof delivery
+// while preserving SAT models, both equality polarities and finite progress.
+void equality_delivery_policies_preserve_semantics_and_progress() {
+  const std::string prefix =
+      "(set-logic QF_UFLIA)(declare-fun x () Int)(declare-fun y () Int)"
+      "(declare-fun p (Int) Bool)"
+      "(assert (<= 0 x))(assert (<= x 0))(assert (<= 0 y))(assert (<= y 0))";
+  for (const bool online : {false, true}) {
+    CheckSatOptions off;
+    off.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+    off.qf_uflia_online_components = online;
+    const std::string conflict = prefix + "(assert (p x))(assert (not (p y)))(check-sat)";
+    const auto baseline = check_sat_smtlib(conflict, off);
+    assert(baseline.result == CheckSatResult::Unsat);
+    for (const auto policy : {QfUfliaEqualityPolicy::Scan, QfUfliaEqualityPolicy::Names,
+                              QfUfliaEqualityPolicy::Fixed}) {
+      auto options = off;
+      options.qf_uflia_tableau_equalities = true;
+      options.qf_uflia_equality_policy = policy;
+      const auto checked = check_sat_smtlib(conflict, options);
+      assert(checked.result == CheckSatResult::Unsat);
+      assert(checked.statistics.get(":lia.equality.scans") > 0);
+      if (policy == QfUfliaEqualityPolicy::Scan) {
+        assert(checked.statistics.get(":lia.equality.scan-only-proofs") > 0);
+        assert(checked.statistics.get(":combination.equality.batches") == 0);
+        for (const auto* key : {":sat.decisions", ":sat.solve-calls", ":lra.pivots",
+                                ":combination.model.materialized-pairs"}) {
+          assert(checked.statistics.get(key) == baseline.statistics.get(key));
+        }
+      } else if (policy == QfUfliaEqualityPolicy::Names) {
+        assert(checked.statistics.get(":combination.equality.named-without-proof") > 0);
+        assert(checked.statistics.get(":combination.equality.clauses") == 0);
+      } else {
+        assert(checked.statistics.get(":lia.equality.fixed-eq") > 0);
+        assert(checked.statistics.get(":combination.equality.clauses") > 0);
+      }
+      options.produce_model = true;
+      options.check_model = true;
+      const auto sat = check_sat_smtlib(prefix + "(assert (or (p x) (p y)))(check-sat)", options);
+      assert(sat.result == CheckSatResult::Sat);
+      options.qf_uflia_model_combination = false;
+      const auto complete =
+          check_sat_smtlib(prefix + "(assert (or (p x) (p y)))(check-sat)", options);
+      assert(complete.result == CheckSatResult::Sat);
+      if (policy == QfUfliaEqualityPolicy::Names) {
+        assert(complete.statistics.get(":combination.equality.batches") == 0);
+        assert(complete.statistics.get(":lia.equality.already-named") > 0);
+      }
+    }
+    auto fixed = off;
+    fixed.qf_uflia_tableau_equalities = true;
+    fixed.qf_uflia_equality_policy = QfUfliaEqualityPolicy::Fixed;
+    const auto row_only = check_sat_smtlib(
+        "(set-logic QF_UFLIA)(declare-fun x () Int)(declare-fun y () Int)"
+        "(declare-fun p (Int) Bool)(assert (<= 1 x))(assert (<= x y))(assert (<= y x))"
+        "(assert (p x))(assert (not (p y)))(check-sat)",
+        fixed);
+    assert(row_only.result == CheckSatResult::Unsat);
+    assert(row_only.statistics.get(":lia.equality.filtered-rule") > 0);
+    assert(row_only.statistics.get(":combination.equality.batches") == 0);
+  }
+}
+
 }  // namespace
 
 int main() {
   tableau_equality_export_is_opt_in();
   explained_tableau_equalities_precede_integer_completion();
   integer_model_coincidences_do_not_become_equality_facts();
+  equality_delivery_policies_preserve_semantics_and_progress();
 
   evaluated_argument_tuples_share_one_interpretation();
   eliminated_integer_definitions_are_evaluated_in_the_printed_model();

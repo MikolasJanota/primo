@@ -21,6 +21,10 @@ namespace primo::smt {
 
 enum class IncrementalMode { Rebuild, Assumptions };
 
+// Experimental filters/delivery controls for the existing QF_UFLIA producer.
+// The separate enable Boolean stays off by default; see uflia-equality-ablation.md.
+enum class QfUfliaEqualityPolicy { All, Scan, Names, Fixed };
+
 enum class PreprocessingMode {
   Off,
   Basic,
@@ -397,6 +401,7 @@ struct CheckSatOptions {
   // Export explained tableau equalities before integer completion. Opt-in:
   // the initial paired evaluation regresses native QF_UFLIA search strongly.
   bool qf_uflia_tableau_equalities = false;
+  QfUfliaEqualityPolicy qf_uflia_equality_policy = QfUfliaEqualityPolicy::All;
   std::size_t qf_uflia_model_decision_budget = 512;
   bool qf_uflra_online_euf = false;
   bool top_level_or_tseitin = false;

@@ -9768,6 +9768,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
         assignment_epoch_(assignment_epoch),
         produce_model_projection_(produce_model_projection),
         propagate_equalities_(options.qf_uflia_tableau_equalities),
+        equality_policy_(options.qf_uflia_equality_policy),
         prepared_(terms_, atoms_, lra_pivoting_rule_from_options(options.lra_pivoting_rule),
                   options.lra_sparse_leaving, options.lra_fixed_elimination,
                   /*collect_model_variables=*/true, options.lra_least_violated_leaving,
@@ -9875,7 +9876,12 @@ class LiaComponentAdapter final : public theory::TheorySolver {
       term_by_variable.emplace(found->second, term);
     }
     std::set<std::pair<core::TermId, core::TermId>> known_true;
+    std::set<std::pair<core::TermId, core::TermId>> known_named;
     for (const auto& relation : arrangement) {
+      if (equality_policy_ == QfUfliaEqualityPolicy::Names) {
+        known_named.emplace(std::min(relation.lhs, relation.rhs),
+                            std::max(relation.lhs, relation.rhs));
+      }
       if (relation.value == theory::InterfaceRelationValue::Equal) {
         known_true.emplace(std::min(relation.lhs, relation.rhs),
                            std::max(relation.lhs, relation.rhs));
@@ -9888,9 +9894,18 @@ class LiaComponentAdapter final : public theory::TheorySolver {
     result.status = theory::TheoryCheckStatus::EntailedEqualities;
     for (const auto& equality : tableau.entailed_equalities(variables)) {
       statistics_.increment(":lia.equality.candidates");
+      using Rule = theory::arithmetic::LraTableau::EntailedEqualityRule;
+      if (equality_policy_ == QfUfliaEqualityPolicy::Fixed && equality.rule != Rule::FixedEq) {
+        statistics_.increment(":lia.equality.filtered-rule");
+        continue;
+      }
       const auto lhs = term_by_variable.at(equality.lhs);
       const auto rhs = term_by_variable.at(equality.rhs);
       const std::pair pair{std::min(lhs, rhs), std::max(lhs, rhs)};
+      if (equality_policy_ == QfUfliaEqualityPolicy::Names && known_named.contains(pair)) {
+        statistics_.increment(":lia.equality.already-named");
+        continue;
+      }
       if (known_true.contains(pair)) {
         statistics_.increment(":lia.equality.already-true");
         continue;
@@ -9909,7 +9924,6 @@ class LiaComponentAdapter final : public theory::TheorySolver {
                       [](sat::Lit a, sat::Lit b) { return a.value == b.value; }),
           consequence.reasons.end());
       statistics_.increment(":lia.equality.reason-lits", consequence.reasons.size());
-      using Rule = theory::arithmetic::LraTableau::EntailedEqualityRule;
       switch (equality.rule) {
         case Rule::FixedEq:
           statistics_.increment(":lia.equality.fixed-eq");
@@ -9927,6 +9941,12 @@ class LiaComponentAdapter final : public theory::TheorySolver {
       result.equalities.push_back(std::move(consequence));
     }
     if (result.equalities.empty()) return std::nullopt;
+    // Original diagnostic design: uflia-equality-ablation.md. Discovery and
+    // owning explanation translation above have no tableau/SAT side effects.
+    if (equality_policy_ == QfUfliaEqualityPolicy::Scan) {
+      statistics_.increment(":lia.equality.scan-only-proofs", result.equalities.size());
+      return std::nullopt;
+    }
     statistics_.increment(":lia.equality.proposed", result.equalities.size());
     return result;
   }
@@ -10006,6 +10026,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
   std::uint64_t assignment_epoch_ = 0;
   bool produce_model_projection_ = false;
   bool propagate_equalities_ = false;
+  QfUfliaEqualityPolicy equality_policy_ = QfUfliaEqualityPolicy::All;
   PreparedLraTheory prepared_;
   std::vector<theory::arithmetic::LraVarId> integer_input_vars_;
   std::vector<theory::arithmetic::LraVarId> integer_vars_;
@@ -10470,6 +10491,9 @@ CheckSatOutcome solve_qf_uflia_engine_impl(
   CombinationRecipe recipe;
   recipe.model_guided = options.qf_uflia_model_combination;
   recipe.decision_budget = options.qf_uflia_model_decision_budget;
+  recipe.learn_exported_equalities =
+      !options.qf_uflia_tableau_equalities ||
+      options.qf_uflia_equality_policy != QfUfliaEqualityPolicy::Names;
   recipe.online = online;
   recipe.online_order = {1, 0};
   recipe.timing_prefix = ":time.qf-uflia.";

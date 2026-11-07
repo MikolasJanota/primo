@@ -554,10 +554,23 @@ int run_main(int argc, char** argv) {
       "Reuse trail-synchronized EUF and rational-arithmetic state during QF_UFLIA SAT search");
   add_flag_with_default(app, "--no-qf-uflia-online-components", no_qf_uflia_online_components,
                         "Disable trail-synchronized QF_UFLIA components");
-  add_flag_with_default(app, "--qf-uflia-tableau-equalities",
-                        solver_options.qf_uflia_tableau_equalities,
-                        "Export proved shared equalities after rational repair and before "
-                        "integer completion (experimental, default off)");
+  app.add_option_function<std::string>(
+         "--qf-uflia-tableau-equalities",
+         [&solver_options](const std::string& mode) {
+           using Policy = primo::smt::QfUfliaEqualityPolicy;
+           solver_options.qf_uflia_tableau_equalities =
+               mode != "off" && mode != "false" && mode != "0";
+           solver_options.qf_uflia_equality_policy = mode == "scan"    ? Policy::Scan
+                                                     : mode == "names" ? Policy::Names
+                                                     : mode == "fixed" ? Policy::Fixed
+                                                                       : Policy::All;
+         },
+         "Experimental pre-integer equality policy: off, scan only, names/bridges only, "
+         "fixed-value proofs, or all proofs. Bare flag selects all; default off")
+      ->expected(0, 1)
+      ->default_str("all")
+      ->option_text("[=MODE; default: off]")
+      ->check(CLI::IsMember({"off", "scan", "names", "fixed", "all", "true", "false", "0", "1"}));
   app.add_option("--qf-uflia-model-decision-budget", qf_uflia_model_decision_budget,
                  "Maximum QF_UFLIA model-choice batches before complete arrangement fallback");
   add_flag_with_default(

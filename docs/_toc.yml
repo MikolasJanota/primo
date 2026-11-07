@@ -47,6 +47,7 @@ parts:
       - file: implementation/quantifiers
       - file: implementation/combination
       - file: implementation/uflia-equality-propagation
+      - file: implementation/uflia-equality-ablation
   - caption: Literature
     chapters:
       - file: literature

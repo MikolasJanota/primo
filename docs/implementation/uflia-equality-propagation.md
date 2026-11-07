@@ -199,3 +199,6 @@ Dolmen replay. The original development sample missed important MathSAT
 gains. Wisas still regresses, while a selected Certora regression enters a
 different, integer-completion bottleneck. The evidence page separates those
 mechanisms, profiling limits and selected controls. No default is promoted.
+
+The [delivery-cost ablation checklist](uflia-equality-ablation.md) specifies
+the next controlled experiment; those modes are under development.
