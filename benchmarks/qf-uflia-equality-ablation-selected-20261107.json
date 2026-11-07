@@ -1,0 +1,251 @@
+{
+  "source_commit": "8d84fdcab67f7ba0aaf097378062e71c6971be8c",
+  "analysis_sha256": "2ad49c6234e49d678e5ef5e9766c6f6f33abe021c62382d7244d2db3fbb3f4c0",
+  "inputs": 61,
+  "selection": {
+    "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_58_QF_UFLIA.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "47f6d84bcf95f569f885d5d8987cd849df0e9598d8e07b11c6154d6816cab6c7"
+    },
+    "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "c68e77db3bc6cd15daebe8fcffb9d445bca654c6b2fcc47a8b65d27c3074e182"
+    },
+    "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "936f197c41d37113cb50d53fa0e57f4926941c1a03d048e77d6cbcc1e0db7825"
+    },
+    "20230314-Jaroslav-Bendik-Certora/41958_45c688a4814eb926c254_60_QF_UFLIA.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "dda858a8f778c637f7d34244643b4de5f9c6d3064cc63c1db77618d656d1438b"
+    },
+    "20230314-Jaroslav-Bendik-Certora/44788_1965f0d6d94d5d8054ba_34_QF_UFLIA.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "3f4bd786b0231457d5d39c2c60309063692fd62e98ab8dbc621ef51a463692c5"
+    },
+    "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2": {
+      "reason": "two fastest off common-solved family controls",
+      "sha256": "217dc9cacd1f312bf0fa58ba1cb25bfbf1f4d89629c8ea285a77298d4ccc02af"
+    },
+    "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2": {
+      "reason": "two fastest off common-solved family controls",
+      "sha256": "96a8408ca44eb53bf21ea3adcfb740dc6122740da06cac7f87fb416125f2c304"
+    },
+    "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_8_QF_UFLIA.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "48746a0b6a27dbb481e113f0a674e9d18793b7f76cb30132732c1222625d69f1"
+    },
+    "20230314-Jaroslav-Bendik-Certora/72771_f9d228efc97cf1458e38_64_QF_UFLIA.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "fccb035a47c2138d5cc7fcfd9cfcfce94404633242328cf0014c95508d22953e"
+    },
+    "TwoSquares/smtlib.602033.smt2": {
+      "reason": "two fastest off common-solved family controls",
+      "sha256": "abe8450239127cf2813765863db8c5560683f993e981fabf7eb7d1acbc8eb5c0"
+    },
+    "TwoSquares/smtlib.686056.smt2": {
+      "reason": "two fastest off common-solved family controls",
+      "sha256": "62404837bfae84fff427ef123db0830622c5200b6042df984f3afdde67094c10"
+    },
+    "mathsat/EufLaArithmetic/hard/hard16.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "6c1ba9baa1edfc22a9dc55ea32979228633f6e188e3dd8b627031b76cfe4af27"
+    },
+    "mathsat/EufLaArithmetic/hard/hard17.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "77aa1d51b62c48d1fc70af6aa2bba15c67f7cd5c4d316101a00026b199f3e025"
+    },
+    "mathsat/EufLaArithmetic/hard/hard18.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "d56cb93eb85e7e50aaa3a3831ee4d399c2f944e500a8b32a6913504c61fc59fb"
+    },
+    "mathsat/EufLaArithmetic/hard/hard19.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "6ef7225d9c0b71b74de87049f6daca73ce7e8de5d56b4f158ecf15f3ea4e4cfb"
+    },
+    "mathsat/EufLaArithmetic/hard/hard20.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "3de508604f008a7ad084d6331b6e659b1842674dac0246364fee8c28cf49471f"
+    },
+    "mathsat/EufLaArithmetic/medium/medium13.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "a7bf9b5b53f8edd829d0d5c3db912dcb67137888b6e5a90f85bbacc1fb740731"
+    },
+    "mathsat/EufLaArithmetic/medium/medium14.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "16dc564f9da2e4f85fa34e630282f8890cbf2142ad850f208b3f9c1a00c2237d"
+    },
+    "mathsat/EufLaArithmetic/medium/medium15.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "2ebe0472f740a037d4195a6e935ba3493050147185fc300d4377a7cee3025d6a"
+    },
+    "mathsat/EufLaArithmetic/medium/medium16.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "c120db6ca94b1d0022698355f3b44a52ff1e8ac580d360422fafef5168d358fe"
+    },
+    "mathsat/EufLaArithmetic/medium/medium17.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "628698bfaa09a77477575d548d08fa4c0e6b1c70d0700f10d2c9a84e243dbe5e"
+    },
+    "mathsat/EufLaArithmetic/medium/medium18.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "637a36335763742e75ecdb371784ee8a943dcd63ee664afe7baf7d6eb1197dc6"
+    },
+    "mathsat/EufLaArithmetic/medium/medium19.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "5a6b6080745a640977461eb5915eb0ca3377dde9d0bcbc6ba220d3869756aef8"
+    },
+    "mathsat/EufLaArithmetic/medium/medium20.smt2": {
+      "reason": "native 60s solved gain",
+      "sha256": "a414fe92c62b55d971618840171d2d08c2d44f0351a61880ed2fd6a3235db2ea"
+    },
+    "mathsat/Hash/hash_uns_03_03.smt2": {
+      "reason": "two fastest off common-solved family controls",
+      "sha256": "dd2986cd3d565f1eb8abb4318a50bfc348293a0ad062c9783524343c7ac64cbc"
+    },
+    "mathsat/Hash/hash_uns_03_04.smt2": {
+      "reason": "two fastest off common-solved family controls",
+      "sha256": "a7675a2b59949bed8d633b1eec00389e249a9d0e59ab07d4350a459593cd166b"
+    },
+    "mathsat/Wisa/xs-06-07-4-5-4-2.smt2": {
+      "reason": "top 10 common-solved enabled/off runtime ratio",
+      "sha256": "d632f548d2ebdd5e3a7b3de17b6893903ac656e19901981abb577baa27e720a8"
+    },
+    "mathsat/Wisa/xs-07-14-1-1-1-1.smt2": {
+      "reason": "top 10 common-solved enabled/off runtime ratio",
+      "sha256": "13f6ca05ff5b9c129b702bf8305487bf82c0e70f5e843c58ccc3684c43bf2b92"
+    },
+    "mathsat/Wisa/xs-07-19-5-3-2-5.smt2": {
+      "reason": "top 10 common-solved enabled/off runtime ratio",
+      "sha256": "855c8f026b9891859a9e1f5b876b26feaef8bb777e03cd92ad4e97b0b128c66d"
+    },
+    "mathsat/Wisa/xs-11-10-2-5-3-2.smt2": {
+      "reason": "top 10 common-solved enabled/off runtime ratio",
+      "sha256": "8d0ee55ffb50d35696af77b12812205ddb1175fda1ed3510b2feb10b9ae9082a"
+    },
+    "mathsat/Wisa/xs-14-16-4-1-1-5.smt2": {
+      "reason": "top 10 common-solved enabled/off runtime ratio",
+      "sha256": "1e1198d7821eae01a8ecc353ee90acd99f823d3da205e4327d275600f7295887"
+    },
+    "mathsat/Wisa/xs-15-17-2-1-1-4.smt2": {
+      "reason": "top 10 common-solved enabled/off runtime ratio",
+      "sha256": "9fd685bdd97e950411d0cf3f1eebea90cd807274a187d3b3d6abfbabb3520ea9"
+    },
+    "mathsat/Wisa/xs-17-18-4-2-3-1.smt2": {
+      "reason": "top 10 common-solved enabled/off runtime ratio",
+      "sha256": "f3a85a2c135931a5718a82aeae9e842191c69045d22e073ac3bad10dcbdd9911"
+    },
+    "wisas/xs_13_13.smt2": {
+      "reason": "top 10 common-solved enabled/off runtime ratio",
+      "sha256": "79bc628201e189fea8bf3ce976b57859a2ae018600db870d4561e1c8d2cbc247"
+    },
+    "wisas/xs_19_29.smt2": {
+      "reason": "top 10 common-solved enabled/off runtime ratio",
+      "sha256": "2a40d194b1434fc475d8f6732efdef25cf16046f110316421ffdea64a8086a71"
+    },
+    "wisas/xs_21_41.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "f0a0de44d386eb4e3bbe105511f037075239a0fcca4990e2087e2bed7e6ada0f"
+    },
+    "wisas/xs_22_42.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "ece1412e05a1077fe4f3ff2cecbb1edc2650d66144f720a31aaf02851b7bb29f"
+    },
+    "wisas/xs_23_43.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "f8cc3c756811c7e0e3bd843c2f426647615674edde1db27e26d76e21f6340743"
+    },
+    "wisas/xs_25_35.smt2": {
+      "reason": "previous four-case profiling control",
+      "sha256": "5690f67a2e02051ff2dc9551f95562aec690b35550cad1bb2b5471772a780335"
+    },
+    "wisas/xs_26_46.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "ba46fd580314ed8a12a76fc14dc75ad1fba8c998f630cbd558e34b581ec65442"
+    },
+    "wisas/xs_27_47.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "3e0ad654e08a68996ea025d4d53838e9717bd08f1ecd4b0a67059df6d88202a5"
+    },
+    "wisas/xs_28_48.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "35a7d5e684256f6534c855297725eee577bd445d3fcb1fdc0fd8bd5a70472b78"
+    },
+    "wisas/xs_29_49.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "94394f43319b4ff04fb06328203beff260dfeb41b07ba44052463579342e57a1"
+    },
+    "wisas/xs_30_40.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "53430d2438157046de3ea347f76a99c4a322ffc9b7a4a2219635442f55d2f009"
+    },
+    "wisas/xs_30_50.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "6292f829252b04275bb4f54fef3f5e2324ecfbddf73d43d00ee6938813da01f3"
+    },
+    "wisas/xs_31_41.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "207e3bf7410fc140dab429a747ba66102b4b9fddc9569d3548ed21163fa56cee"
+    },
+    "wisas/xs_32_42.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "93d7d5a3313f31f30ca3beff0d192de0f421cd0f1234f5c8095f75ae45d17743"
+    },
+    "wisas/xs_32_52.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "7cb8ce693218c1bb2d691dab6289e1067d10da0b853c4099a48e465f70e46169"
+    },
+    "wisas/xs_33_43.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "2917e473aa98b3eeccb5fd00ef7db60e6f4296a0c0883c1e190beffda154333f"
+    },
+    "wisas/xs_34_44.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "5d26f38b70222d17a3b8c0a38d48f8858bd54fd0ae1dd22edca25170ddeafee1"
+    },
+    "wisas/xs_34_54.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "c416634fbb11c230ca39df2f3d4748c1c317005e2611126533dfced02efbc0c8"
+    },
+    "wisas/xs_35_45.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "141fae98d0b0600e56b22cfa88dec17ee9f3b13558d9583df1680511ea593293"
+    },
+    "wisas/xs_36_46.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "a0d10b5001f3ebb2eb1fb4e24635aee07f3b8ed59ad2450a65b190e87724ce39"
+    },
+    "wisas/xs_37_57.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "5c70a76d2c4f181502c3dd51966f39ddec4fd9eac378d543f4e52d603eca3a56"
+    },
+    "wisas/xs_38_38.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "14f230ccbca918959e04f6004ac27f06ea67127c00dc269432376ad5ed0fccc2"
+    },
+    "wisas/xs_38_48.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "245b178b4a73a7ba2a0992b2e84ffde902b15d20fe1e55036a34033ee3b33d34"
+    },
+    "wisas/xs_38_58.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "24470c72b0d806b8c7700e5f48b142b742d8dde53fac4d23971cf43dc447bb97"
+    },
+    "wisas/xs_40_50.smt2": {
+      "reason": "native 60s solved loss",
+      "sha256": "af9ecc874a0afc078e8875f73ad172f362782d387c1c69b0e59bdc2e9e9fe421"
+    },
+    "wisas/xs_5_15.smt2": {
+      "reason": "two fastest off common-solved family controls",
+      "sha256": "14687319e9e8ea2f7f04ef9c6de77927ce74095732f4b16c8119f6532dbac75c"
+    },
+    "wisas/xs_5_5.smt2": {
+      "reason": "two fastest off common-solved family controls",
+      "sha256": "0258aeb706a8355b378473c2602a2dc97e1d20afdca33d4b98cc1b17bfaa1503"
+    },
+    "wisas/xs_6_11.smt2": {
+      "reason": "top 10 common-solved enabled/off runtime ratio",
+      "sha256": "35c994342c1f6512d7924042bbc942dbb2da86cf5c7be39a5383de70adee6708"
+    }
+  }
+}
