@@ -1,11 +1,10 @@
 # Command-line options and output
 
 Run `./build/primo --help` for the complete option inventory of your binary.
-The {download}`captured help <../examples/primo-help.txt>` is the pre-option
-snapshot and does not yet contain `--qf-uflia-tableau-equalities`; it will be
-refreshed from the qualified opt-in binary. Source metadata is centralized in
-the review ledger. This page explains the common controls; the captured
-inventory below supplies historical accepted values and defaults.
+The {download}`captured help <../examples/primo-help.txt>` belongs to the
+documented implementation; its binary/source identity is recorded in the
+review ledger. This page explains common controls; the captured inventory
+below supplies accepted values and defaults.
 [Effective policies](policies.md) explains automatic selection and option dependencies.
 
 ## Everyday use

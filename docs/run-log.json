@@ -3,6 +3,68 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-uflia-equality-cli-help-8d84fdca",
+      "date": "2026-11-07",
+      "commit": "8d84fdca",
+      "api_source_commit": "6e46d0dd",
+      "kind": "cli-documentation-metadata",
+      "evidence_status": "captured_from_built_unit_checked_binary",
+      "job": "362837",
+      "artifacts": "results/uflia-equality-20261107/optin-unit",
+      "binary_sha256": "b0ef21f7504257eeb336d9eadd556389c6f906c5d7624fe620ff37c887c3dd59",
+      "command": "build-slurm-rel/primo --help",
+      "tracked_snapshot": "docs/examples/primo-help.txt",
+      "help_sha256": "32a422967c4c54ab9a37d002ea1a674764373b2e58c4b34c27a508cc6559782c",
+      "summary": "Help includes --qf-uflia-tableau-equalities with default off; generic component and QF_UFLIA unit tests pass. Full wrapper qualification remains pending.",
+      "raw_help_sha256": "5f06886f44d3ed406578bf4d0ed1b3c1383a732d25ef731faa30df5bb3146a64",
+      "normalization": "Remove trailing whitespace on each captured help line; retain text and line order."
+    },
+    {
+      "id": "2026-11-07-uflia-equality-stack-sampling-f526ed8e",
+      "date": "2026-11-07",
+      "commit": "f526ed8e24cdb9296145c6bff56ad4ef4eda484a",
+      "baseline_commit": "1b2cc307",
+      "kind": "bounded-debugger-stack-sampling",
+      "evidence_status": "completed_diagnostic",
+      "artifacts": "results/uflia-equality-20261107/profile-5",
+      "job": "362836",
+      "environment": "SLURM1 CPU,6GiB,5min; native flags and arithmetic-model-phase off; GNU GDB10.2,0.5-second scheduled interrupts,30-sample cap",
+      "input": {
+        "file": "wisas/xs_37_57.smt2",
+        "sha256": "5c70a76d2c4f181502c3dd51966f39ddec4fd9eac378d543f4e52d603eca3a56"
+      },
+      "methods": {
+        "job": "scripts/qualification/uflia_equalities/profile.sbatch",
+        "job_sha256": "aa02144ad2d6290b1d7d08ebffad07839d7abfa95bcc97900ea5e7d926046068",
+        "gdb": "scripts/qualification/uflia_equalities/sample.gdb",
+        "gdb_sha256": "4969e472f1f8e724b096798e9758282b91bec2cdb221c2303481b4f4915c712e",
+        "activation": "Unconditional f526 candidate; PRIMO_PROFILE_EQUALITIES unset. For guarded later snapshots it must be1."
+      },
+      "binary_sha256": {
+        "baseline": "959d368baa762816aad1078977a5d1c2e9c4cb87e93950838299402899f9817e",
+        "candidate": "0ffd94bb9227fe84dab12a22b1b9f1d4aaa9462cbc0c1247039356b3aef978f7"
+      },
+      "summary": {
+        "baseline_stacks": 3,
+        "candidate_stacks": 30,
+        "candidate_stacks_with_arithmetic_frames": 17,
+        "candidate_stacks_inside_sat_solve": 30,
+        "interpretation": "The SAT-phase timer includes arithmetic callbacks. Candidate samples include rational operations, tableau occurrence updates, bound propagation, SAT propagation and assignment bookkeeping. No CPU-percentage or baseline-distribution claim."
+      },
+      "limitations": [
+        "Wall-time stack samples of one representative input; baseline supplies only3 samples.",
+        "Profiler work is separate from immutable speed measurements.",
+        "Sampling does not distinguish all effects of additional bridge rows from changed SAT decisions."
+      ],
+      "failed_attempts": {
+        "362831": "timeout downloading separate debugger information; no accepted sample",
+        "362832": "unsupported set-debuginfod command in GDB10; no accepted sample",
+        "362833": "SIGINT noprint also disabled stopping; sampling incomplete, timeout",
+        "362834": "same signal-policy issue with external helper; baseline0 samples and candidate timeout"
+      },
+      "fix": "Disable debug-info URLs/user init, use a separate interrupt helper, and handle SIGINT stop print nopass. GDB own info-signals confirmed noprint had set Stop=No. Require at least20 candidate stacks before acceptance."
+    },
+    {
       "id": "2026-11-07-uflia-tableau-equality-development-f526ed8e",
       "date": "2026-11-07",
       "commit": "f526ed8e24cdb9296145c6bff56ad4ef4eda484a",

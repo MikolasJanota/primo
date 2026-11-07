@@ -101,6 +101,9 @@ def main() -> None:
         expected_profiles |= {'enabled-native', 'enabled-m124'}
     assert set(profiles) == expected_profiles
     assert all(set(arm) == set(sources) for arm in profiles.values())
+    for name in sources:
+        answers = {arm[name]['answer'] for arm in profiles.values() if solved(arm[name])}
+        assert len(answers) <= 1, ('cross-profile answer disagreement', name)
     assert timeout is not None
     result = {'inputs': len(sources), 'timeout': timeout, 'shards': 12,
               'baseline_git': args.baseline_git, 'candidate_git': args.candidate_git,

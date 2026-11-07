@@ -13,13 +13,24 @@ out=${PRIMO_EQ_OUT:?}
 test ! -e "$out"
 mkdir -p "$out"
 export PRIMO_PROFILE_CASE="${PRIMO_CORPUS_ROOT:?}/wisas/xs_37_57.smt2"
-export PRIMO_PROFILE_FLAGS='--quiet --stats --arithmetic-model-phase=off --no-lia-round-integer-bounds --no-lia-primitive-int-rows --no-lia-integer-slacks --no-lia-patch-integral-moves'
+base_flags='--quiet --stats --arithmetic-model-phase=off --no-lia-round-integer-bounds --no-lia-primitive-int-rows --no-lia-integer-slacks --no-lia-patch-integral-moves'
 sha256sum "$PRIMO_PROFILE_CASE" > "$out/input.sha256"
 gdb --version > "$out/gdb-version.txt"
 for role in baseline candidate; do
  case $role in baseline) export PRIMO_PROFILE_BINARY="${PRIMO_BASELINE_SOLVER:?}";; candidate) export PRIMO_PROFILE_BINARY="$PWD/build-slurm-rel/primo";; esac
+ export PRIMO_PROFILE_FLAGS="$base_flags"
+ if [[ $role == candidate && ${PRIMO_PROFILE_EQUALITIES:-0} == 1 ]]; then
+  PRIMO_PROFILE_FLAGS+=' --qf-uflia-tableau-equalities'
+ fi
  export PRIMO_PROFILE_JSON="$out/$role.json"
  "$PRIMO_PROFILE_BINARY" --version > "$out/$role-version.txt"
  sha256sum "$PRIMO_PROFILE_BINARY" > "$out/$role-binary.sha256"
- timeout --kill-after=5s 60s gdb -q -batch -x "${PRIMO_EQ_GDB_SCRIPT:-scripts/qualification/uflia_equalities/sample.gdb}" > "$out/$role.log" 2>&1
+ timeout --kill-after=5s 60s gdb -nx -nh -q -batch -x "${PRIMO_EQ_GDB_SCRIPT:-scripts/qualification/uflia_equalities/sample.gdb}" > "$out/$role.log" 2>&1
 done
+python3 - "$out/candidate.json" <<'PYCODE'
+import json
+import sys
+from pathlib import Path
+samples = json.loads(Path(sys.argv[1]).read_text())['samples']
+assert len(samples) >= 20, ('incomplete stack sampling', len(samples))
+PYCODE

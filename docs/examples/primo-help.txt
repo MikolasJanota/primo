@@ -1,7 +1,7 @@
 Primo SMT solver scaffold
 
 
-primo [OPTIONS] [files...]
+build-slurm-rel/primo [OPTIONS] [files...]
 
 
 POSITIONALS:
@@ -434,6 +434,9 @@ QF_LIA theory options:
                               QF_UFLIA SAT search
           --no-qf-uflia-online-components [default: off]
                               Disable trail-synchronized QF_UFLIA components
+          --qf-uflia-tableau-equalities [default: off]
+                              Export proved shared equalities after rational repair and before
+                              integer completion (experimental, default off)
           --qf-uflia-model-decision-budget UINT [512]
                               Maximum QF_UFLIA model-choice batches before complete arrangement
                               fallback

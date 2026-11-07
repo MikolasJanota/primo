@@ -1,10 +1,9 @@
-set debuginfod enabled off
 set pagination off
 set confirm off
 set startup-with-shell off
-handle SIGINT stop noprint nopass
+handle SIGINT stop print nopass
 python
-import gdb, json, os, shlex, signal, threading, time
+import gdb, json, os, shlex, subprocess, time
 binary = os.environ['PRIMO_PROFILE_BINARY']
 case = os.environ['PRIMO_PROFILE_CASE']
 flags = shlex.split(os.environ['PRIMO_PROFILE_FLAGS'])
@@ -16,19 +15,18 @@ gdb.execute('start')
 pid = gdb.selected_inferior().pid
 try:
     for index in range(30):
-        def stop():
-            try:
-                os.kill(pid, signal.SIGINT)
-            except OSError:
-                pass
-        timer = threading.Timer(0.5, stop)
-        timer.start()
+        stop_code = 'import os,signal,sys,time; time.sleep(0.5); os.kill(int(sys.argv[1]),signal.SIGINT)'
+        helper = subprocess.Popen(['python3', '-c', stop_code, str(pid)],
+                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         started = time.time()
         try:
             gdb.execute('continue')
+        except KeyboardInterrupt:
+            pass
         finally:
-            timer.cancel()
-            timer.join()
+            if helper.poll() is None:
+                helper.terminate()
+            helper.wait()
         if not gdb.selected_inferior().pid:
             break
         names = []
