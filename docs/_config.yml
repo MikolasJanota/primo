@@ -35,6 +35,9 @@ sphinx:
   config:
     bibtex_reference_style: label
     extlinks:
+      ufliaeqworkflow:
+        - "https://github.com/primo-solver/primo/blob/50673ff86f9e0d45b7c6b8e3eb40f3e4a4f75d5e/%s"
+        - "%s"
       ufliaeqsource:
         - "https://github.com/primo-solver/primo/blob/6e46d0dd1b3ff2466af23de0efb0a9009d411495/%s"
         - "%s"

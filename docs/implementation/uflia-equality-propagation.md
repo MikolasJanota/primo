@@ -187,3 +187,35 @@ is to share relevant proved equalities without eagerly adding the full
 arithmetic bridge for every fresh pair, and to examine explanation width.
 Direct guarded facts or lazy bridge activation need their own design,
 explanations, lifecycle and paper review; neither is implemented here.
+
+
+## Broader investigation in progress
+
+The 44-case development selection above is biased toward earlier M124
+regressions, and its 15-second cutoff cannot establish performance across
+QF_UFLIA. The follow-up evaluates all 659 available inputs with a 60-second
+limit. It retains all six profiles: previous binary, current binary with the
+option disabled, and current binary with it enabled, under both native and
+M124 settings. Each input's profiles run serially in rotated order. The same
+qualified binaries are preserved; solver behavior is unchanged.
+
+The reproducible jobs are
+{ufliaeqworkflow}`full_corpus.sbatch <scripts/qualification/uflia_equalities/full_corpus.sbatch>`
+and {ufliaeqworkflow}`reference.sbatch <scripts/qualification/uflia_equalities/reference.sbatch>`.
+The comparison uses 48 shards;
+{ufliaeqworkflow}`summarize.py <scripts/qualification/uflia_equalities/summarize.py>`
+accepts `--shards 48` while retaining 12 as its historical default. It records
+solved-time distributions, PAR2, gains/losses, families, and mechanism counters.
+Its paired median and geometric mean ratios are after/before on common solved
+cases where at least one arm takes 50 ms or more. Fresh Z3 answers supply an independent answer comparison; every
+successful Primo SAT timing row requires separate direct Dolmen replay after
+timing finishes. These stages are pending, not accepted results.
+
+After the broad comparison, representative cases will be selected for profiling
+and examination of equality batches, explanation size, arithmetic bridge
+atoms, component-state growth and SAT/LRA search. Added deductions are not yet
+established as the cause of the development regressions. In particular, proof
+delivery in
+{ufliaeqsource}`solve_component_recipe <src/smt/component_solver.cpp>`
+currently also materializes bridge encodings and reinstalls online theory execution, so the integration's effects must be distinguished from the
+logical information being shared.
