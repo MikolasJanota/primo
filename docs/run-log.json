@@ -3,6 +3,31 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-uflia-equality-full60-8d84fdca",
+      "date": "2026-11-07",
+      "commit": "8d84fdcab67f7ba0aaf097378062e71c6971be8c",
+      "baseline_commit": "1b2cc307",
+      "kind": "six-arm-full-corpus-equality-propagation-investigation",
+      "evidence_status": "running",
+      "scope": "All 659 available QF_UFLIA inputs, 60-second solver limit; old baseline, candidate disabled, candidate enabled under native and M124. No default promotion or solver changes.",
+      "jobs": {
+        "timing": "362871_0-47",
+        "reference_failed_attempt": "362896_0-7",
+        "reference": "362905_0-7"
+      },
+      "environment": {
+        "execution": "SLURM compute partition; 48 shards, at most 24 concurrently, 1 requested CPU and 8GiB per task, 95-minute allocation; six profiles serially rotated per input"
+      },
+      "commands": {
+        "timing": "python3 scripts/qualification/uflia_equalities/run.py --baseline <baseline-primo> --candidate <candidate-primo> --baseline-git 1b2cc307 --candidate-git 8d84fdca --root <QF_UFLIA> --out <timing>/shard-$SLURM_ARRAY_TASK_ID --shards 48 --shard $SLURM_ARRAY_TASK_ID --timeout 60 --include-equalities",
+        "reference": "python3 scripts/bench_qf_uf_full.py --repo <corpus-repository> --root <QF_UFLIA> --solver <z3> --solver-arg=-smt2 --timeout 60 --shards 8 --shard-index $SLURM_ARRAY_TASK_ID --out <reference>/shard-$SLURM_ARRAY_TASK_ID.csv --summary <reference>/shard-$SLURM_ARRAY_TASK_ID-summary.csv"
+      },
+      "artifacts": "results/uflia-equality-full60-20261107",
+      "correctness": "Fresh Z3 answer comparison planned; every successful timing SAT row will be separately replayed with direct Dolmen after timing finishes. Existing exact-binary qualification is recorded under guarded-repeat/opt-in gate entries.",
+      "next": "Finish broad comparison before choosing representative profiling targets. Inspect fresh-pair growth, explanation size, component growth, SAT/LRA work, and scanning cost; investigate causality without changing solver behavior.",
+      "reference_attempt_note": "First reference submission used the candidate workspace as --repo although the reused corpus is elsewhere. Path serialization raised ValueError; cancelled remaining tasks. No solver result accepted from that attempt. Retry uses the corpus-owning repository and a fresh output directory."
+    },
+    {
       "id": "2026-11-07-uflia-equality-guarded-repeat-8d84fdca",
       "date": "2026-11-07",
       "commit": "8d84fdcab67f7ba0aaf097378062e71c6971be8c",

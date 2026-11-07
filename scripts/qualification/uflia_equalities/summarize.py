@@ -6,6 +6,7 @@ import argparse
 import hashlib
 import json
 import math
+import statistics
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -16,10 +17,15 @@ def solved(row: dict) -> bool:
 
 def metrics(rows: list[dict], timeout: float) -> dict:
     counts = Counter('solved' if solved(row) else row['status'] + ':' + row['answer'] for row in rows)
+    times = sorted(float(row['seconds']) for row in rows if solved(row))
     return {'inputs': len(rows), 'outcomes': dict(counts),
             'solved': counts['solved'], 'sat': sum(solved(r) and r['answer'] == 'sat' for r in rows),
             'unsat': sum(solved(r) and r['answer'] == 'unsat' for r in rows),
-            'par2_seconds': sum(float(r['seconds']) if solved(r) else 2 * timeout for r in rows)}
+            'par2_seconds': sum(float(r['seconds']) if solved(r) else 2 * timeout for r in rows),
+            'solved_seconds': {'sum': sum(times),
+                               'median': statistics.median(times) if times else None,
+                               'p90_nearest_rank': times[math.ceil(.9 * len(times)) - 1] if times else None,
+                               'max': max(times) if times else None}}
 
 
 def paired(before: dict, after: dict, timeout: float) -> dict:
@@ -45,6 +51,7 @@ def paired(before: dict, after: dict, timeout: float) -> dict:
     return {'baseline': metrics(list(before.values()), timeout), 'candidate': metrics(list(after.values()), timeout),
             'gains': gains, 'losses': losses, 'common_solved': len(common),
             'geomean_candidate_over_baseline_50ms': math.exp(sum(map(math.log, ratios)) / len(ratios)) if ratios else None,
+            'median_candidate_over_baseline_50ms': statistics.median(ratios) if ratios else None,
             'geomean_inputs': len(stable), 'families': families, 'mechanism_totals': totals,
             'mechanism_active_files': active}
 
@@ -54,6 +61,7 @@ def main() -> None:
     parser.add_argument('--timing', type=Path, required=True)
     parser.add_argument('--models', type=Path)
     parser.add_argument('--inputs', type=int, required=True)
+    parser.add_argument('--shards', type=int, default=12)
     parser.add_argument('--candidate-git', required=True)
     parser.add_argument('--baseline-git', required=True)
     parser.add_argument('--out', type=Path, required=True)
@@ -63,7 +71,8 @@ def main() -> None:
     timeout = None
     sources = {}
     model_expected = model_passed = 0
-    for shard in range(12):
+    assert args.shards > 0
+    for shard in range(args.shards):
         path = args.timing / f'shard-{shard}'
         assert (path / 'complete').is_file(), path
         provenance = json.loads((path / 'provenance.json').read_text())
@@ -105,7 +114,7 @@ def main() -> None:
         answers = {arm[name]['answer'] for arm in profiles.values() if solved(arm[name])}
         assert len(answers) <= 1, ('cross-profile answer disagreement', name)
     assert timeout is not None
-    result = {'inputs': len(sources), 'timeout': timeout, 'shards': 12,
+    result = {'inputs': len(sources), 'timeout': timeout, 'shards': args.shards,
               'baseline_git': args.baseline_git, 'candidate_git': args.candidate_git,
               'binary_sha256': identities,
               'input_identity_sha256': hashlib.sha256(json.dumps(sources, sort_keys=True).encode()).hexdigest(),
