@@ -451,6 +451,53 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
           record_theory_conflict(statistics);
         backend.add_clause(combined.clause);
         continue;
+      case ModelBasedCombinationStatus::PropagateEqualities: {
+        // Snapshot every model-dependent fact before materialize() can add
+        // clauses/variables and invalidate CaDiCaL's last-model query state.
+        std::vector<bool> conflicts;
+        conflicts.reserve(combined.equalities.size());
+        for (const auto& equality : combined.equalities) {
+          for (const auto reason : equality.reasons) {
+            const int var = std::abs(reason.value);
+            const int actual = dispatcher ? dispatcher->assignment_view().literal(var)
+                                          : completed_assignment.literal(var);
+            if (actual != reason.value) {
+              return {CheckSatResult::Unknown, "equality antecedent is not currently true",
+                      statistics, "", InconclusiveReason::Unknown};
+            }
+          }
+          const PairKey key{equality.pair.sort, std::min(equality.pair.lhs, equality.pair.rhs),
+                            std::max(equality.pair.lhs, equality.pair.rhs)};
+          const auto known = registered.find(key);
+          const int literal = known == registered.end() ? 0 : known->second.equality_lit.value;
+          const int actual = literal == 0 ? 0
+                             : dispatcher ? dispatcher->assignment_view().literal(std::abs(literal))
+                                          : completed_assignment.literal(std::abs(literal));
+          conflicts.push_back(literal != 0 && actual == -literal);
+        }
+        detach_dispatcher();
+        statistics.increment(":combination.equality.batches");
+        for (std::size_t index = 0; index < combined.equalities.size(); ++index) {
+          const auto& equality = combined.equalities[index];
+          const auto before = registered.size();
+          const auto literal = materialize(equality.pair);
+          if (!literal.has_value()) {
+            throw std::logic_error("validated equality could not be materialized");
+          }
+          statistics.increment(":combination.equality.fresh-pairs", registered.size() - before);
+          sat::Clause clause{*literal};
+          for (const auto reason : equality.reasons) clause.push_back(sat::Lit{-reason.value});
+          backend.add_clause(clause);
+          statistics.increment(":combination.equality.clauses");
+          if (conflicts[index]) {
+            statistics.increment(":combination.equality.conflicts");
+            statistics.increment(util::StatKey::TheoryConflicts);
+            record_theory_conflict(statistics);
+          }
+        }
+        install_atoms();
+        continue;
+      }
       case ModelBasedCombinationStatus::DecideEquality:
         ++decision_batches;
         active_choices.insert(active_choices.end(), combined.decision_lits.begin(),

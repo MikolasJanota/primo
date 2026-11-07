@@ -469,6 +469,11 @@ pipeline is described in the {doc}`LIA chapter <lia>`. The following sections
 describe the QF_UFLIA interaction. Quantified UF uses the same driver with a
 lemma-preparation hook for newly generated instances.
 
+The QF_UFLIA LIA adapter also scans the repaired rational tableau for explained
+shared equalities before integer completion. The
+[pre-completion integration](uflia-equality-propagation.md) describes batched
+delivery, registration, explanation conventions and qualification status.
+
 ### Planning ownership and shared scopes
 
 {source}`TheoryCombinationPlan <src/smt/theory_combination_plan.cpp#L50-L181>`

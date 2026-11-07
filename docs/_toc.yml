@@ -46,6 +46,7 @@ parts:
       - file: implementation/lia
       - file: implementation/quantifiers
       - file: implementation/combination
+      - file: implementation/uflia-equality-propagation
   - caption: Literature
     chapters:
       - file: literature

@@ -132,8 +132,11 @@ class PartitionComponent final : public theory::TheoryComponent {
   std::optional<theory::TheoryCheckResult> propagate() override {
     return std::exchange(pending_propagation, std::nullopt);
   }
-  theory::TheoryCheckResult check(theory::TheoryCheckEffort, std::uint64_t epoch,
+  theory::TheoryCheckResult check(theory::TheoryCheckEffort effort, std::uint64_t epoch,
                                   std::span<const theory::InterfaceRelation> arrangement) override {
+    if (effort == theory::TheoryCheckEffort::FullModel && pending_equalities.has_value()) {
+      return std::exchange(pending_equalities, std::nullopt).value();
+    }
     ++checks;
     theory::TheoryCheckResult result;
     result.status = theory::TheoryCheckStatus::Consistent;
@@ -222,6 +225,7 @@ class PartitionComponent final : public theory::TheoryComponent {
   mutable std::size_t care_calls = 0;
   std::vector<theory::InterfacePair> suggested_pairs;
   std::optional<theory::TheoryCheckResult> pending_propagation;
+  std::optional<theory::TheoryCheckResult> pending_equalities;
 
  private:
   core::TermManager& terms_;
@@ -1095,9 +1099,114 @@ void empty_component_conflicts_respect_the_aggregate_budget() {
   }
 }
 
+void explained_batches_validate_scope_reasons_and_progress() {
+  Fixture f;
+  const auto sort = f.symbols.int_sort();
+  const auto x = f.variable("x", sort);
+  const auto y = f.variable("y", sort);
+  const auto z = f.variable("z", sort);
+  const auto foreign = f.variable("foreign", sort);
+  for (int index = 0; index < 2; ++index) f.add({{{x, y, z}, partitions(3)}});
+  f.owned[0]->properties.capabilities.equality_propagation =
+      theory::EqualityPropagationStrength::Opportunistic;
+  smt::TheoryCombinationPlan plan(f.terms, f.components, f.atoms, true);
+  for (std::size_t index = 0; index < f.components.size(); ++index)
+    f.components[index]->register_interface(plan.component_scopes(index));
+  smt::ComponentModelCoordinator coordinator;
+  const auto resolver = [](const theory::InterfacePair&) { return std::optional<sat::Lit>{}; };
+  for (const int fault : {-1, 0, 1, 2, 3, 4}) {
+    f.owned[0]->corrupt = [=](auto& checked) {
+      checked.status = theory::TheoryCheckStatus::EntailedEqualities;
+      checked.equalities = {{{x, y, sort}, {sat::Lit{1}}}, {{y, z, sort}, {sat::Lit{-2}}}};
+      if (fault == 0) checked.equalities.clear();
+      if (fault == 1) checked.equalities[0].reasons = {sat::Lit{0}};
+      if (fault == 2) checked.equalities[0].pair.rhs = foreign;
+      if (fault == 3) checked.equalities.push_back(checked.equalities.front());
+      if (fault == 4) checked.equalities[0].pair.rhs = x;
+    };
+    const auto result = coordinator.reconcile(plan, 7, f.components, {}, resolver);
+    assert(result.status == (fault == -1 ? smt::ModelBasedCombinationStatus::PropagateEqualities
+                                         : smt::ModelBasedCombinationStatus::Unknown));
+    if (fault == -1) {
+      assert(result.equalities.size() == 2);
+      assert(result.equalities[1].reasons[0].value == -2);
+      assert(coordinator.model_tokens()[0].component.empty());
+    }
+  }
+  f.owned[0]->corrupt = [=](auto& checked) {
+    checked.status = theory::TheoryCheckStatus::EntailedEqualities;
+    checked.equalities = {{{x, y, sort}, {sat::Lit{1}}}};
+  };
+  for (const bool already_true : {false, true}) {
+    const std::vector arrangement{
+        theory::InterfaceRelation{x, y, sort, sat::Lit{42},
+                                  already_true ? theory::InterfaceRelationValue::Equal
+                                               : theory::InterfaceRelationValue::Disequal}};
+    const auto result = coordinator.reconcile(plan, 7, f.components, arrangement, resolver);
+    assert(result.status == (already_true ? smt::ModelBasedCombinationStatus::Unknown
+                                          : smt::ModelBasedCombinationStatus::PropagateEqualities));
+  }
+}
+
+void explained_batches_materialize_before_learning_without_model_queries() {
+  for (const bool online : {false, true}) {
+    for (const bool conflicting : {false, true}) {
+      Fixture f;
+      const auto sort = f.symbols.int_sort();
+      const auto x = f.variable("x", sort);
+      const auto y = f.variable("y", sort);
+      const auto z = f.variable("z", sort);
+      const auto first = f.variable("first", f.symbols.bool_sort());
+      const auto second = f.variable("second", f.symbols.bool_sort());
+      const auto equality = f.terms.mk_eq(x, y);
+      const std::vector<core::TermId> all{x, y, z};
+      smt::CombinationRecipe recipe;
+      recipe.online = online;
+      recipe.online_order = {0, 1};
+      recipe.model_guided = true;
+      recipe.decision_budget = 8;
+      recipe.factories = {
+          [&](bool) {
+            auto component = std::make_unique<PartitionComponent>(
+                f.terms, "producer", first, std::vector<Restriction>{{all, {Partition{0, 0, 0}}}});
+            component->properties.capabilities.equality_propagation =
+                theory::EqualityPropagationStrength::Opportunistic;
+            theory::TheoryCheckResult batch;
+            batch.status = theory::TheoryCheckStatus::EntailedEqualities;
+            // First is the first encoded SAT atom and is asserted false. This
+            // checks that negative TRUE antecedents survive both translations.
+            batch.equalities = {{{x, y, sort}, {sat::Lit{-1}}}, {{y, z, sort}, {sat::Lit{-1}}}};
+            component->pending_equalities = std::move(batch);
+            return component;
+          },
+          [&](bool) {
+            auto component = std::make_unique<PartitionComponent>(
+                f.terms, "observer", second, std::vector<Restriction>{{all, partitions(3)}});
+            component->owns_equalities = true;
+            return component;
+          }};
+      std::vector assertions{f.terms.mk_not(first), second};
+      if (conflicting) assertions.push_back(f.terms.mk_not(equality));
+      util::Statistics statistics;
+      const auto result =
+          smt::solve_component_recipe(f.terms, assertions, {}, {}, statistics, recipe);
+      assert(result.result ==
+             (conflicting ? smt::CheckSatResult::Unsat : smt::CheckSatResult::Sat));
+      assert(result.statistics.get(":combination.equality.batches") == 1);
+      assert(result.statistics.get(":combination.equality.clauses") == 2);
+      assert(result.statistics.get(":combination.equality.fresh-pairs") == (conflicting ? 1 : 2));
+      assert(result.statistics.get(":combination.equality.conflicts") == (conflicting ? 1 : 0));
+      assert(result.statistics.get(":combination.model.decisions") == 0);
+    }
+  }
+}
+
 }  // namespace
 
 int main() {
+  explained_batches_validate_scope_reasons_and_progress();
+  explained_batches_materialize_before_learning_without_model_queries();
+
   driver_owned_booleans_are_observed_without_component_routing();
   external_clause_retention_follows_recipe_policy();
   empty_component_conflicts_respect_the_aggregate_budget();

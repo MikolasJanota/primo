@@ -257,9 +257,10 @@ ModelBasedCombinationResult ModelBasedCombinationCoordinator::reconcile(
       case theory::TheoryCheckStatus::Unknown:
         return stop_result(check.status, std::move(check.diagnostic));
       case theory::TheoryCheckStatus::LemmasPending:
+      case theory::TheoryCheckStatus::EntailedEqualities:
         // Queued lemmas are drained only by the online component driver.
         return stop_result(theory::TheoryCheckStatus::Unsupported,
-                           "queued lemmas require the online component driver");
+                           "new consequences require the shared component driver");
     }
 
     if (!component.solver->properties().produces_model_projection) {

@@ -5,6 +5,7 @@
 #include <array>
 #include <cassert>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "core/model.hpp"
@@ -600,9 +601,74 @@ void rejects_real_symbols() {
   assert(real_argument.result == CheckSatResult::Unsupported);
 }
 
+void explained_tableau_equalities_precede_integer_completion() {
+  const std::string declarations =
+      "(set-logic QF_UFLIA)\n(declare-fun x () Int)\n(declare-fun y () Int)\n"
+      "(declare-fun z () Int)\n(declare-fun w () Int)\n(declare-fun t () Int)\n"
+      "(declare-fun p (Int) Bool)\n";
+  const std::array<std::pair<std::string, std::string>, 4> rules{
+      {{"(assert (<= x 0))(assert (<= 0 x))(assert (<= y 0))(assert (<= 0 y))",
+        ":lia.equality.fixed-eq"},
+       {"(assert (<= 1 x))(assert (<= x y))(assert (<= y x))", ":lia.equality.eq-row"},
+       {"(assert (<= 0 z))(assert (<= (- x z) 1))(assert (<= 1 (- x z)))"
+        "(assert (<= (- y z) 1))(assert (<= 1 (- y z)))",
+        ":lia.equality.eq-offset-rows"},
+       {"(assert (<= 0 z))(assert (<= 0 w))"
+        "(assert (<= (- x (+ z w)) 1))(assert (<= 1 (- x (+ z w))))"
+        "(assert (<= (- y (+ z w)) 1))(assert (<= 1 (- y (+ z w))))",
+        ":lia.equality.eq-rows"}}};
+  for (const bool online : {false, true}) {
+    for (const auto& [bounds, counter] : rules) {
+      CheckSatOptions options;
+      options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+      options.qf_uflia_online_components = online;
+      options.lia.patch_limit = 0;
+      options.lia.gomory_cut_limit = 0;
+      options.lia.branch_limit = 0;
+      options.lia.round_integer_bounds = false;
+      const auto result = check_sat_smtlib(declarations + bounds +
+                                               "(assert (<= 1 (* 2 t)))(assert (<= t 1))"
+                                               "(assert (p x))(assert (not (p y)))(check-sat)",
+                                           options);
+      assert(result.result == CheckSatResult::Unsat);
+      assert(result.statistics.get(counter) > 0);
+      assert(result.statistics.get(":combination.equality.fresh-pairs") > 0);
+      assert(result.statistics.get(":combination.equality.clauses") > 0);
+    }
+  }
+}
+
+void integer_model_coincidences_do_not_become_equality_facts() {
+  for (const bool guided : {false, true}) {
+    for (const bool online : {false, true}) {
+      CheckSatOptions options;
+      options.qf_uflia_model_combination = guided;
+      options.qf_uflia_online_components = online;
+      options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+      options.produce_model = true;
+      options.check_model = true;
+      const auto result = check_sat_smtlib(R"(
+        (set-logic QF_UFLIA)
+        (declare-fun x () Int) (declare-fun y () Int)
+        (declare-fun p (Int) Bool)
+        (assert (<= 0 x)) (assert (<= x 1))
+        (assert (<= 0 y)) (assert (<= y 1))
+        (assert (p x)) (assert (not (p y)))
+        (check-sat)
+      )",
+                                           options);
+      assert(result.result == CheckSatResult::Sat);
+      assert(result.statistics.get(":lia.equality.proposed") == 0);
+    }
+  }
+}
+
 }  // namespace
 
 int main() {
+  explained_tableau_equalities_precede_integer_completion();
+  integer_model_coincidences_do_not_become_equality_facts();
+
   evaluated_argument_tuples_share_one_interpretation();
   eliminated_integer_definitions_are_evaluated_in_the_printed_model();
   eliminated_integer_definition_chains_have_no_round_limit();

@@ -27,6 +27,7 @@ struct SharedInterfaceTerms {
 enum class ModelBasedCombinationStatus {
   Accept,
   LearnClause,
+  PropagateEqualities,
   DecideEquality,
   FreshDecision,
   ResourceLimit,
@@ -42,6 +43,9 @@ struct ModelBasedCombinationResult {
   std::vector<sat::Lit> decision_lits;
   theory::TheoryDecisionRequest decision;
   std::string diagnostic;
+  // Only for PropagateEqualities. These are proved consequences whose SAT
+  // atoms may not exist yet; they must never become assumed model decisions.
+  std::vector<theory::ExplainedEquality> equalities = {};
 };
 
 struct ModelBasedCombinationStatistics {

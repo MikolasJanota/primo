@@ -8730,12 +8730,10 @@ LiaComponentCheck complete_lia_integer_model(
           .model = std::nullopt};
 }
 
-LiaComponentCheck check_lia_component_assignment(
+LraTheoryCheckResult check_lia_component_relaxation(
     const PreparedLraTheory& prepared,
-    std::span<const theory::AssignedTheoryLiteral> assigned_atoms,
-    const std::vector<theory::arithmetic::LraVarId>& integer_vars, const LiaSettings& settings,
-    util::Statistics& statistics, const LiaComponentTiming& timing) {
-  ScopedStatisticsTimer total_timer(statistics, timing.check);
+    std::span<const theory::AssignedTheoryLiteral> assigned_atoms, util::Statistics& statistics,
+    const LiaComponentTiming& timing) {
   theory::arithmetic::LraTableau tableau = prepared.base_tableau;
   {
     ScopedStatisticsTimer rational_timer(statistics, timing.rational);
@@ -8750,19 +8748,14 @@ LiaComponentCheck check_lia_component_assignment(
           prepared_atom.asserts_lower_when_true,
           sat::Lit{atom.value ? -atom.lit.value : atom.lit.value}, prepared_atom.integer_rounding);
       if (conflict.has_value()) {
-        return LiaComponentCheck{.status = LiaComponentCheck::Status::Unsat,
-                                 .conflict = conflict.value(),
-                                 .model = std::nullopt};
+        return {conflict, std::move(tableau)};
       }
     }
     if (const std::optional<sat::Clause> conflict = tableau.check(); conflict.has_value()) {
-      return LiaComponentCheck{.status = LiaComponentCheck::Status::Unsat,
-                               .conflict = conflict.value(),
-                               .model = std::nullopt};
+      return {conflict, std::move(tableau)};
     }
   }
-  return complete_lia_integer_model(std::move(tableau), prepared, assigned_atoms, integer_vars,
-                                    settings, statistics, timing);
+  return {std::nullopt, std::move(tableau)};
 }
 
 // See project_lra_shared_model: the revision must advance across a mutation,
@@ -9766,7 +9759,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
                     .stably_infinite = theory::StableInfiniteness::Yes,
                     .convexity = theory::Convexity::NonConvex,
                     .produces_model_projection = produce_model_projection,
-                    .propagates_equalities = false,
+                    .propagates_equalities = true,
                     .supplies_care_pairs = false},
         terms_(terms),
         atoms_(std::move(atoms)),
@@ -9822,13 +9815,21 @@ class LiaComponentAdapter final : public theory::TheorySolver {
 
   theory::TheoryCheckResult check(std::span<const theory::AssignedTheoryLiteral> assignment,
                                   std::span<const theory::InterfaceRelation> arrangement) override {
-    static_cast<void>(arrangement);
+    ScopedStatisticsTimer timer(statistics_, timing_.check);
+    last_model_.reset();
     if (assignment.size() != atoms_.size()) {
       throw std::logic_error("LIA component assignment size mismatch");
     }
-    LiaComponentCheck result = check_lia_component_assignment(prepared_, assignment, integer_vars_,
-                                                              settings_, statistics_, timing_);
-    return translate(std::move(result));
+    auto rational = check_lia_component_relaxation(prepared_, assignment, statistics_, timing_);
+    if (rational.conflict.has_value()) {
+      return translate(
+          {LiaComponentCheck::Status::Unsat, std::move(*rational.conflict), std::nullopt});
+    }
+    if (auto propagated = explained_equalities(rational.tableau, assignment, arrangement)) {
+      return std::move(*propagated);
+    }
+    return translate(complete_lia_integer_model(std::move(rational.tableau), prepared_, assignment,
+                                                integer_vars_, settings_, statistics_, timing_));
   }
 
   const PreparedLraTheory& prepared() const { return prepared_; }
@@ -9836,17 +9837,99 @@ class LiaComponentAdapter final : public theory::TheorySolver {
 
   theory::TheoryCheckResult complete_integer_model(
       std::span<const theory::AssignedTheoryLiteral> assignment,
-      const theory::arithmetic::LraTableau& rational_model) {
+      const theory::arithmetic::LraTableau& rational_model,
+      std::span<const theory::InterfaceRelation> arrangement) {
     ScopedStatisticsTimer timer(statistics_, timing_.check);
+    last_model_.reset();
     if (assignment.size() != atoms_.size()) {
       throw std::logic_error("LIA component assignment size mismatch");
     }
+    if (auto propagated = explained_equalities(rational_model, assignment, arrangement)) {
+      return std::move(*propagated);
+    }
+    statistics_.increment(":combination.online-components.integer-completions");
     LiaComponentCheck result = complete_lia_integer_model(
         rational_model, prepared_, assignment, integer_vars_, settings_, statistics_, timing_);
     return translate(std::move(result));
   }
 
  private:
+  // Original integration design: docs/implementation/uflia-equality-propagation.md.
+  // Only called on the rationally feasible tableau BEFORE completion can add
+  // cut/split bounds with synthetic reasons. Reuse our existing explained rules.
+  std::optional<theory::TheoryCheckResult> explained_equalities(
+      const theory::arithmetic::LraTableau& tableau,
+      std::span<const theory::AssignedTheoryLiteral> assignment,
+      std::span<const theory::InterfaceRelation> arrangement) {
+    if (shared_terms_.empty()) return std::nullopt;
+    ScopedStatisticsTimer timer(statistics_, ":time.lia.equality-scan-us");
+    statistics_.increment(":lia.equality.scans");
+    std::vector<theory::arithmetic::LraVarId> variables;
+    std::unordered_map<theory::arithmetic::LraVarId, core::TermId> term_by_variable;
+    for (const auto term : shared_terms_) {
+      const auto found = prepared_.variables_by_term.find(term);
+      if (found == prepared_.variables_by_term.end())
+        throw std::logic_error("shared Int term missing from LIA preparation");
+      variables.push_back(found->second);
+      term_by_variable.emplace(found->second, term);
+    }
+    std::set<std::pair<core::TermId, core::TermId>> known_true;
+    for (const auto& relation : arrangement) {
+      if (relation.value == theory::InterfaceRelationValue::Equal) {
+        known_true.emplace(std::min(relation.lhs, relation.rhs),
+                           std::max(relation.lhs, relation.rhs));
+      }
+    }
+    std::unordered_set<int> active;
+    for (const auto& atom : assignment)
+      active.insert(atom.value ? atom.lit.value : -atom.lit.value);
+    theory::TheoryCheckResult result;
+    result.status = theory::TheoryCheckStatus::EntailedEqualities;
+    for (const auto& equality : tableau.entailed_equalities(variables)) {
+      statistics_.increment(":lia.equality.candidates");
+      const auto lhs = term_by_variable.at(equality.lhs);
+      const auto rhs = term_by_variable.at(equality.rhs);
+      const std::pair pair{std::min(lhs, rhs), std::max(lhs, rhs)};
+      if (known_true.contains(pair)) {
+        statistics_.increment(":lia.equality.already-true");
+        continue;
+      }
+      theory::ExplainedEquality consequence;
+      consequence.pair = {pair.first, pair.second, shared_sort_};
+      for (const auto blocking : equality.reasons) {
+        if (blocking.value == 0 || !active.contains(-blocking.value))
+          throw std::logic_error("LIA equality has a derived or inactive bound reason");
+        consequence.reasons.push_back(sat::Lit{-blocking.value});
+      }
+      std::sort(consequence.reasons.begin(), consequence.reasons.end(),
+                [](sat::Lit a, sat::Lit b) { return a.value < b.value; });
+      consequence.reasons.erase(
+          std::unique(consequence.reasons.begin(), consequence.reasons.end(),
+                      [](sat::Lit a, sat::Lit b) { return a.value == b.value; }),
+          consequence.reasons.end());
+      statistics_.increment(":lia.equality.reason-lits", consequence.reasons.size());
+      using Rule = theory::arithmetic::LraTableau::EntailedEqualityRule;
+      switch (equality.rule) {
+        case Rule::FixedEq:
+          statistics_.increment(":lia.equality.fixed-eq");
+          break;
+        case Rule::EqRow:
+          statistics_.increment(":lia.equality.eq-row");
+          break;
+        case Rule::EqOffsetRows:
+          statistics_.increment(":lia.equality.eq-offset-rows");
+          break;
+        case Rule::EqRows:
+          statistics_.increment(":lia.equality.eq-rows");
+          break;
+      }
+      result.equalities.push_back(std::move(consequence));
+    }
+    if (result.equalities.empty()) return std::nullopt;
+    statistics_.increment(":lia.equality.proposed", result.equalities.size());
+    return result;
+  }
+
   // The integer obligations handed to completion. With integer_slacks set
   // the slacks the preparation proved integer come first, so branch-and-bound
   // (which splits the first fractional variable) can split a constraint
@@ -10200,13 +10283,14 @@ class LiaTheoryComponent final : public ComponentAdapterSupport {
     descriptor_.shared_sorts = {
         {terms.symbols().int_sort(), theory::StableInfiniteness::Yes, true}};
     descriptor_.convexity = theory::Convexity::NonConvex;
-    descriptor_.capabilities = {.model_projection = true,
-                                .model_export = true,
-                                .model_mutation = false,
-                                .care_pairs = false,
-                                .incremental = true,
-                                .interface_extension = true,
-                                .equality_propagation = theory::EqualityPropagationStrength::None};
+    descriptor_.capabilities = {
+        .model_projection = true,
+        .model_export = true,
+        .model_mutation = false,
+        .care_pairs = false,
+        .incremental = true,
+        .interface_extension = true,
+        .equality_propagation = theory::EqualityPropagationStrength::Opportunistic};
   }
   void bind_assignment_view(sat::TrailView view) override {
     ComponentAdapterSupport::bind_assignment_view(view);
@@ -10292,12 +10376,13 @@ class LiaTheoryComponent final : public ComponentAdapterSupport {
       result.status = theory::TheoryCheckStatus::Consistent;
       return result;
     }
+    token_.reset();
     if (publish_arithmetic_statistics_) statistics_.increment(kStatLraTheoryChecks);
     full_->set_assignment_epoch(epoch);
     theory::TheoryCheckResult result;
     if (execution_ && !produce_model_projection_) {
-      statistics_.increment(":combination.online-components.integer-completions");
-      result = full_->complete_integer_model(assignment_.full_assignment(), execution_->tableau());
+      result = full_->complete_integer_model(assignment_.full_assignment(), execution_->tableau(),
+                                             arrangement);
     } else {
       result = full_->check(assignment_.full_assignment(), arrangement);
     }
@@ -11961,6 +12046,8 @@ CheckSatOutcome solve_qf_uflra_engine_impl(core::TermManager& terms,
                 case ModelBasedCombinationStatus::Unknown:
                   return CheckSatOutcome{CheckSatResult::Unknown, generic_result.diagnostic,
                                          statistics, "", InconclusiveReason::Unknown};
+                case ModelBasedCombinationStatus::PropagateEqualities:
+                  throw std::logic_error("legacy QF_UFLRA coordinator returned a fresh equality");
                 case ModelBasedCombinationStatus::FreshDecision:
                   throw std::logic_error("convex QF_UFLRA component requested a fresh split");
               }
