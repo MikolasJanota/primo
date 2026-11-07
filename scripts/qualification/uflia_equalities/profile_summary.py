@@ -11,7 +11,7 @@ from pathlib import Path
 
 def annotated(path: Path) -> tuple[int, list[dict]]:
     text = path.read_text()
-    total = re.search(r'^\s*([\d,]+)\s+\(100\.0%\)\s+PROGRAM TOTALS', text, re.M)
+    total = re.search(r'^\s*([\d,]+)\s+\(100\.0%\)\s+PROGRAM TOTALS', text, re.MULTILINE)
     assert total, path
     functions = []
     for line in text.splitlines():
