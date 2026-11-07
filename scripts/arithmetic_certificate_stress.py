@@ -34,8 +34,16 @@ def excerpt(path):
     return first.decode(errors="replace")
 
 
-def select_cases(records, corpus, count, per_family):
-    pools = [defaultdict(list) for _ in TIERS]
+def select_cases(
+    records, corpus, count, per_family, tiers=TIERS, seeds=(), allow_shortfall=False
+):
+    if count < 1 or per_family < 1 or not tiers:
+        raise ValueError("positive selection limits and nonempty size tiers required")
+    if any(lo < 0 or lo >= hi for lo, hi in tiers) or any(
+        tiers[index][1] > tiers[index + 1][0] for index in range(len(tiers) - 1)
+    ):
+        raise ValueError("size tiers must be ordered and disjoint")
+    pools = [defaultdict(list) for _ in tiers]
     excluded = Counter()
     seen = set()
     for record in records:
@@ -47,7 +55,7 @@ def select_cases(records, corpus, count, per_family):
             excluded["missing"] += 1
             continue
         size = path.stat().st_size
-        tier = next((i for i, (lo, hi) in enumerate(TIERS) if lo <= size < hi), None)
+        tier = next((i for i, (lo, hi) in enumerate(tiers) if lo <= size < hi), None)
         if tier is None:
             excluded["source_size"] += 1
             continue
@@ -73,9 +81,39 @@ def select_cases(records, corpus, count, per_family):
     for pool in pools:
         for cases in pool.values():
             cases.sort(key=lambda row: (row["source_bytes"], row["file"]))
+    eligible_families = Counter()
+    eligible_tiers = Counter()
+    for tier, pool in enumerate(pools):
+        for family, cases in pool.items():
+            eligible_families[family] += len(cases)
+            eligible_tiers[tier] += len(cases)
     selected = []
     families = Counter()
-    targets = [count // 3 + (i < count % 3) for i in range(3)]
+    seeded_hashes = set()
+    for seed in seeds:
+        if seed["sha256"] in seeded_hashes:
+            raise ValueError("duplicate baseline-control hash")
+        found = None
+        for pool in pools:
+            for cases in pool.values():
+                for index, case in enumerate(cases):
+                    if (case["file"], case["sha256"]) == (seed["file"], seed["sha256"]):
+                        found = cases.pop(index)
+                        break
+                if found is not None:
+                    break
+            if found is not None:
+                break
+        if found is None:
+            raise ValueError(f"baseline control no longer eligible: {seed['file']}")
+        selected.append({**found, "baseline_control": True})
+        seeded_hashes.add(found["sha256"])
+        families[found["family"]] += 1
+    if len(selected) > count or any(n > per_family for n in families.values()):
+        raise ValueError("baseline controls exceed selection limits")
+    targets = [
+        count // len(tiers) + (i < count % len(tiers)) for i in range(len(tiers))
+    ]
 
     def take(tier, limit):
         taken = 0
@@ -94,19 +132,24 @@ def select_cases(records, corpus, count, per_family):
                 break
 
     for tier, target in enumerate(targets):
-        take(tier, target)
-    for tier in range(3):
+        take(tier, max(0, target - sum(row["size_tier"] == tier for row in selected)))
+    for tier in range(len(tiers)):
         take(tier, count - len(selected))
     selected.sort(key=lambda row: (row["size_tier"], row["source_bytes"], row["file"]))
-    if len(selected) != count:
+    if len(selected) != count and not allow_shortfall:
         raise ValueError(f"only {len(selected)} eligible inputs for requested {count}")
     return {
         "cases": selected,
+        "requested": count,
+        "size_tiers": tiers,
+        "eligible_families": dict(eligible_families),
+        "eligible_tiers": dict(eligible_tiers),
+        "baseline_controls": len(seeded_hashes),
         "excluded": dict(excluded),
         "tier_targets": targets,
         "tier_selected": dict(Counter(row["size_tier"] for row in selected)),
         "families": dict(families),
-        "selection": "recorded native UNSAT<=1s; stratified4..32/32..128/128..512KiB; smallest first within tiers; max cases/family; conservative single-query/no-positive-arity screen",
+        "selection": "recorded native UNSAT<=1s; source-size strata; smallest first within tiers; round-robin families with a global family cap; baseline controls reserved; conservative single-query/no-positive-arity screen",
     }
 
 

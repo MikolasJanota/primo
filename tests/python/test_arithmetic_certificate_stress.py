@@ -79,6 +79,50 @@ class StressBoundaryTests(unittest.TestCase):
                 sorted(row["size_tier"] for row in selection["cases"]),
             )
 
+    def test_expanded_tiers_reserve_controls_and_report_shortfall(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            records = []
+            for family in range(3):
+                for item in range(3):
+                    relative = f"f{family}/case{item}.smt2"
+                    path = root / relative
+                    path.parent.mkdir(exist_ok=True)
+                    path.write_text(
+                        f";{relative}\n(set-logic QF_LRA)(declare-fun x () Real)(assert false)(check-sat)\n"
+                    )
+                    records.append(
+                        {
+                            "file": relative,
+                            "family": f"f{family}",
+                            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+                        }
+                    )
+            tiers = ((1, 80), (80, 4096))
+            seed = records[-1]
+            result = select_cases(
+                records, root, 20, 2, tiers=tiers, seeds=[seed], allow_shortfall=True
+            )
+            self.assertEqual(len(result["cases"]), 6)
+            self.assertEqual(result["requested"], 20)
+            self.assertEqual(result["baseline_controls"], 1)
+            controls = [row for row in result["cases"] if row.get("baseline_control")]
+            self.assertEqual([row["file"] for row in controls], [seed["file"]])
+            self.assertTrue(all(count <= 2 for count in result["families"].values()))
+            self.assertEqual(sum(result["eligible_tiers"].values()), 9)
+            with self.assertRaises(ValueError):
+                select_cases(
+                    records,
+                    root,
+                    20,
+                    2,
+                    tiers=tiers,
+                    seeds=[seed, seed],
+                    allow_shortfall=True,
+                )
+            with self.assertRaises(ValueError):
+                select_cases(records, root, 20, 2, tiers=((1, 100), (90, 200)))
+
 
 if __name__ == "__main__":
     unittest.main()

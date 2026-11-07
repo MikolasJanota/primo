@@ -12,30 +12,36 @@ set -euo pipefail
 : "${PRIMO_EXPECTED_GIT:?native binary revision}"
 : "${ARITHMETIC_WORKFLOW_DIR:?frozen stress workflow}"
 : "${ARITHMETIC_HISTORY_ROOT:?completed native timing records}"
-: "${LRA_CORPUS:?existing QF_LRA source corpus}"
-: "${LIA_CORPUS:?existing QF_LIA source corpus}"
-: "${MICROMATH_LRA_DIR:?pinned LRA checkout/build}"
-: "${MICROMATH_LIA_DIR:?pinned LIA checkout/build}"
-: "${MICROMATH_LRA_GIT:?LRA revision}"
-: "${MICROMATH_LIA_GIT:?LIA revision}"
 : "${PRIMO_SAT_SOLVER:?CaDiCaL with textual LRAT support}"
 cd "$PRIMO_WORKDIR"
 reference=${ARITHMETIC_REFERENCE:-$PWD/contrib/local/bin/yices-smt2}
 test -x "$reference"
-if [[ $SLURM_ARRAY_TASK_ID == 0 ]]; then
-  logic=QF_LRA
-  arithmetic=LRA
-  corpus=$LRA_CORPUS
-  checker=$MICROMATH_LRA_DIR
-  checker_git=$MICROMATH_LRA_GIT
-else
-  logic=QF_LIA
-  arithmetic=LIA
-  corpus=$LIA_CORPUS
-  checker=$MICROMATH_LIA_DIR
-  checker_git=$MICROMATH_LIA_GIT
+logic=${ARITHMETIC_LOGIC:-}
+if [[ -z $logic ]]; then
+  if [[ $SLURM_ARRAY_TASK_ID == 0 ]]; then logic=QF_LRA; else logic=QF_LIA; fi
 fi
-artifacts="$PWD/results/arithmetic-proof-stress-$SLURM_ARRAY_JOB_ID/$logic"
+case "$logic" in
+  QF_LRA)
+    : "${LRA_CORPUS:?existing QF_LRA source corpus}"
+    : "${MICROMATH_LRA_DIR:?pinned LRA checkout/build}"
+    : "${MICROMATH_LRA_GIT:?LRA revision}"
+    arithmetic=LRA
+    corpus=$LRA_CORPUS
+    checker=$MICROMATH_LRA_DIR
+    checker_git=$MICROMATH_LRA_GIT
+    ;;
+  QF_LIA)
+    : "${LIA_CORPUS:?existing QF_LIA source corpus}"
+    : "${MICROMATH_LIA_DIR:?pinned LIA checkout/build}"
+    : "${MICROMATH_LIA_GIT:?LIA revision}"
+    arithmetic=LIA
+    corpus=$LIA_CORPUS
+    checker=$MICROMATH_LIA_DIR
+    checker_git=$MICROMATH_LIA_GIT
+    ;;
+  *) echo "unsupported arithmetic logic: $logic" >&2; exit 2 ;;
+esac
+artifacts=${ARITHMETIC_OUTPUT_DIR:-$PWD/results/arithmetic-proof-stress-$SLURM_ARRAY_JOB_ID/$logic}
 mkdir -p "$artifacts"
 build-slurm-rel/primo --version > "$artifacts/native-version.txt"
 grep -Fx "git: $PRIMO_EXPECTED_GIT" "$artifacts/native-version.txt"
@@ -48,7 +54,9 @@ lscpu > "$artifacts/cpu.txt"
 python3 --version > "$artifacts/python.txt"
 "$reference" --version > "$artifacts/reference-version.txt"
 selection=()
-if [[ -n ${ARITHMETIC_SELECTION_ROOT:-} ]]; then
+if [[ -n ${ARITHMETIC_SELECTION_FILE:-} ]]; then
+  selection=(--selection "$ARITHMETIC_SELECTION_FILE")
+elif [[ -n ${ARITHMETIC_SELECTION_ROOT:-} ]]; then
   selection=(--selection "$ARITHMETIC_SELECTION_ROOT/$logic.json")
 fi
 python3 "$ARITHMETIC_WORKFLOW_DIR/arithmetic_certificate_stress.py" \
