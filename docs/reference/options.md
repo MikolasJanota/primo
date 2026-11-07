@@ -1,9 +1,11 @@
 # Command-line options and output
 
 Run `./build/primo --help` for the complete option inventory of your binary.
-The {download}`captured help <../examples/primo-help.txt>` belongs to the
-documented implementation; source metadata is centralized in the review ledger. This page explains the
-common controls; the complete captured inventory below supplies accepted values and defaults.
+The {download}`captured help <../examples/primo-help.txt>` is the pre-option
+snapshot and does not yet contain `--qf-uflia-tableau-equalities`; it will be
+refreshed from the qualified opt-in binary. Source metadata is centralized in
+the review ledger. This page explains the common controls; the captured
+inventory below supplies historical accepted values and defaults.
 [Effective policies](policies.md) explains automatic selection and option dependencies.
 
 ## Everyday use
@@ -21,6 +23,7 @@ common controls; the complete captured inventory below supplies accepted values 
 | `--arithmetic-model-phase=MODE` | `auto` | Refresh arithmetic truth-value preferences from the tableau: `on`, `off`, or `auto`; see {ref}`automatic-lra-heuristics`. |
 | `--monotone-elimination`, `--no-monotone-elimination` | `auto` | Enable or disable one-sided Real elimination under the same policy; assumptions sessions reject explicit enabling. |
 | `--max-theory-conflicts=N` | Unlimited | Positive budget, up to 1,000,000,000. Counts aggregate SMT-reported conflicts across supported routes; see [conflict-limit accounting](statistics.md#uniform-conflict-budget-implementation-contract). Exhaustion returns `unknown` with `ResourceLimit`. |
+| `--qf-uflia-tableau-equalities` | Off | Experimentally export proved shared arithmetic equalities after rational repair and before integer completion. Default enablement was rejected on the development comparison; see [implementation and results](../implementation/uflia-equality-propagation.md). |
 | `--lia-branch-limit=N` | `100000` | Bound integer branch-and-bound nodes; reaching the bound can return `unknown`. See [](../implementation/lia.md). |
 | `--cancel-grace-seconds=N` | `1` | Cooperative cancellation grace period after SIGINT/SIGTERM, from 1 to 3600 seconds. This is not a solve-time limit. |
 

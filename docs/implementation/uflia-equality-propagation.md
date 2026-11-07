@@ -1,16 +1,24 @@
 # QF_UFLIA equality propagation before integer completion
 
-**Implemented candidate; SLURM qualification pending.**
+**Implemented experiment; default off. Opt-in-wrapper qualification pending.**
 
 This implements the integration proposed by the
 [active-equality investigation](../leads/arithmetic-equality-exploitation.md).
 It reuses Primo's four existing explained tableau rules, rather than adding a
 new equality-discovery algorithm or integer equation solver.
 
+Enable it with `--qf-uflia-tableau-equalities`. The initial unconditional
+candidate passed correctness gates but substantially regressed native search
+on the 44-case development comparison below. The flag controls arithmetic
+proof export; existing model-guided arrangement search remains separate.
+
 ## State and ownership
 
 The {ufliaeqsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>` owns prepared arithmetic state and receives the current
-assignment and shared arrangement. Its rational check builds or receives a
+assignment and shared arrangement. It copies the option into
+`propagate_equalities_` for its lifetime; a disabled scan returns immediately.
+The LIA component advertises opportunistic equality propagation only while
+this option is enabled. Its rational check builds or receives a
 feasible tableau whose bounds have SAT antecedents. Before calling integer
 completion, it queries `LraTableau::entailed_equalities` for the registered
 shared Int variables. The input-to-tableau map translates variable IDs back
@@ -122,6 +130,38 @@ measures scanning and translation. The SMT driver records
 An existing-false equality counts as a theory conflict; adding a fresh
 consequence does not manufacture a conflict count.
 
-No performance or correctness qualification result is claimed yet. This
-integration adds no CLI option and does not replace the model-guided or
-complete-arrangement correctness boundaries.
+The unconditional `f526ed8e` snapshot passed the full C++/Python tests,
+ASan, generated reference comparisons, real-seed mutations and separate SAT
+model validation. The later opt-in wrapper requires a fresh gate before use.
+The integration does not replace model-guided or complete-arrangement
+correctness boundaries.
+
+## Initial paired evaluation
+
+The {download}`recorded comparison <../../benchmarks/qf-uflia-tableau-equalities-20261107.json>`
+uses 30 historical M124 losses and 14 controls, with a 15-second timeout.
+Both binaries use arithmetic model phase `off`; M124 means bound rounding,
+primitive integer rows and integral patch moves, with integer slacks off.
+
+| Profile | Unchanged baseline solved | Equality candidate solved | Baseline PAR2 sum (s) | Candidate PAR2 sum (s) |
+| --- | ---: | ---: | ---: | ---: |
+| Native | 44/44 | 18/44 | 32.62 | 826.04 |
+| M124 | 14/44 | 16/44 | 906.59 | 866.80 |
+
+Native loses 26 cases, including two controls; M124 recovers
+`wisas/xs_25_35.smt2` and `wisas/xs_26_36.smt2` and loses none.
+All 68 successful SAT timing rows passed separate direct Dolmen replay.
+These are development-set results, not a full-corpus evaluation.
+
+The mechanism is active: it adds 11,483 fresh pairs in native and 15,091
+in M124. On `wisas/xs_37_57.smt2`, native grows 274 fresh pairs in ten
+batches. Equality scanning costs about 11 ms, while solve time exceeds
+15 seconds, versus 1.60 seconds in the baseline. Before the timeout, LRA
+pivots grow from 12,704 to 63,161 and SAT decisions from 24,231 to 75,843.
+Thus the evidence does not support default enablement. The option preserves
+the integration for research; M124 also remains unpromoted.
+
+A follow-up lead is to deliver explained equalities without eagerly adding
+the full arithmetic bridge for every fresh pair. Direct guarded facts or
+lazy bridge activation need their own design, explanations, lifecycle and
+paper review; neither is implemented here.

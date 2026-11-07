@@ -186,8 +186,9 @@ The component result type makes the distinction explicit:
 `not r₁ or … or not rₙ or e`. A learned clause already carries its signs.
 An `EntailedEqualities` batch carries shared pairs and true antecedents; the
 [outer driver materializes the equality atoms](uflia-equality-propagation.md)
-before adding those implication clauses. It never turns the batch into model
-choices.
+before adding those implication clauses. The QF_UFLIA producer is enabled
+with `--qf-uflia-tableau-equalities` (default off). It never turns the batch
+into model choices.
 
 ## The dedicated Real route
 
@@ -473,8 +474,9 @@ pipeline is described in the {doc}`LIA chapter <lia>`. The following sections
 describe the QF_UFLIA interaction. Quantified UF uses the same driver with a
 lemma-preparation hook for newly generated instances.
 
-The QF_UFLIA LIA adapter also scans the repaired rational tableau for explained
-shared equalities before integer completion. The
+With `--qf-uflia-tableau-equalities` (default off), the QF_UFLIA LIA adapter
+scans the repaired rational tableau for explained shared equalities before
+integer completion. The
 [pre-completion integration](uflia-equality-propagation.md) describes batched
 delivery, registration, explanation conventions and qualification status.
 
