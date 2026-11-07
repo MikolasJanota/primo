@@ -1,0 +1,314 @@
+{
+  "job_id": "362769",
+  "rows": [
+    {
+      "name": "shard-0-case-027",
+      "file": "LassoRanker/SV-COMP/BradleyMannaSipma-2005ICALP-Fig1_true-termination.c_Iteration1_Lasso_5-phaseTemplate.smt2",
+      "previous_status": "proof_timeout",
+      "status": "independent_checks_passed",
+      "stages": {
+        "original_yices": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/input.smt2"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/original_yices.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/original_yices.err",
+          "state": "ok",
+          "seconds": 3.1228298469941365,
+          "exit_code": 0
+        },
+        "cnf_yices": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/exported-cnf.smt2"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/cnf_yices.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/cnf_yices.err",
+          "state": "ok",
+          "seconds": 0.4190447889995994,
+          "exit_code": 0
+        },
+        "regeneration": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/usr/bin/python3",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-workflow-20261107/certificate_cnf_statement.py",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/native.sexp",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/regenerated.smt2",
+            "--logic",
+            "QF_LRA"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/regeneration.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/regeneration.err",
+          "state": "ok",
+          "seconds": 1.6700053730019135,
+          "exit_code": 0
+        },
+        "independent": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/usr/bin/python3",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-workflow-20261107/check_lra_certificate.py",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/native.sexp",
+            "--sat-solver",
+            "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/independent.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-0-case-027/independent.err",
+          "state": "ok",
+          "seconds": 6.478341606998583,
+          "exit_code": 0
+        }
+      },
+      "files": {
+        "input.smt2": {
+          "sha256": "cf2c8a1baa29e6468c21f60a12ee109e068277301d41d0a0ce1bb39204bfecfe",
+          "bytes": 890062
+        },
+        "native.sexp": {
+          "sha256": "e9edd53e61b4688d85361990fde87589daa489021bd564293773978b89ab56a8",
+          "bytes": 3931219
+        },
+        "exported-cnf.smt2": {
+          "sha256": "42cd73f6143bc8ed114006888fce9ab12a74963e6f9a840226b3d13dbc436b03",
+          "bytes": 4274470
+        }
+      },
+      "statement_byte_match": true,
+      "independent_report": {
+        "conflicts": 222,
+        "entries": 2829,
+        "propositional_unsat": true,
+        "variables": 14163
+      }
+    },
+    {
+      "name": "shard-2-case-006",
+      "file": "clock_synchro/clocksynchro_5clocks.worst_case_skew.induct.smt2",
+      "previous_status": "proof_timeout",
+      "status": "independent_checks_passed",
+      "stages": {
+        "original_yices": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/input.smt2"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/original_yices.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/original_yices.err",
+          "state": "ok",
+          "seconds": 0.8194062370021129,
+          "exit_code": 0
+        },
+        "cnf_yices": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/exported-cnf.smt2"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/cnf_yices.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/cnf_yices.err",
+          "state": "ok",
+          "seconds": 1.0694063050032128,
+          "exit_code": 0
+        },
+        "regeneration": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/usr/bin/python3",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-workflow-20261107/certificate_cnf_statement.py",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/native.sexp",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/regenerated.smt2",
+            "--logic",
+            "QF_LRA"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/regeneration.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/regeneration.err",
+          "state": "ok",
+          "seconds": 0.16823012499662582,
+          "exit_code": 0
+        },
+        "independent": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/usr/bin/python3",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-workflow-20261107/check_lra_certificate.py",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/native.sexp",
+            "--sat-solver",
+            "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/independent.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-2-case-006/independent.err",
+          "state": "ok",
+          "seconds": 0.9189796370046679,
+          "exit_code": 0
+        }
+      },
+      "files": {
+        "input.smt2": {
+          "sha256": "7c95b885666d45aafad1e187b91caac8488d349bf3f3b06478a89222e121f7f1",
+          "bytes": 10918
+        },
+        "native.sexp": {
+          "sha256": "b1e392b48cf6774f485e687e7e79e83ba12a809ddc04b0b7412371d0e38e6b18",
+          "bytes": 237503
+        },
+        "exported-cnf.smt2": {
+          "sha256": "477a116faeff3f11ede2f4e5f2d2bbf169a0341f272a7c0a53be44190ed3088e",
+          "bytes": 32400
+        }
+      },
+      "statement_byte_match": true,
+      "independent_report": {
+        "conflicts": 163,
+        "entries": 2493,
+        "propositional_unsat": true,
+        "variables": 245
+      }
+    },
+    {
+      "name": "shard-5-case-007",
+      "file": "clock_synchro/clocksynchro_6clocks.worst_case_skew.induct.smt2",
+      "previous_status": "proof_timeout",
+      "status": "independent_checks_passed",
+      "stages": {
+        "original_yices": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/input.smt2"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/original_yices.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/original_yices.err",
+          "state": "ok",
+          "seconds": 2.7220007909927517,
+          "exit_code": 0
+        },
+        "cnf_yices": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/home/janotmik/primo-cadical-profile/contrib/local/bin/yices-smt2",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/exported-cnf.smt2"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/cnf_yices.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/cnf_yices.err",
+          "state": "ok",
+          "seconds": 2.7720368930022232,
+          "exit_code": 0
+        },
+        "regeneration": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/usr/bin/python3",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-workflow-20261107/certificate_cnf_statement.py",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/native.sexp",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/regenerated.smt2",
+            "--logic",
+            "QF_LRA"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/regeneration.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/regeneration.err",
+          "state": "ok",
+          "seconds": 0.26851101200736593,
+          "exit_code": 0
+        },
+        "independent": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/usr/bin/python3",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-workflow-20261107/check_lra_certificate.py",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/native.sexp",
+            "--sat-solver",
+            "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/independent.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-sweep-feedback-362769/shard-5-case-007/independent.err",
+          "state": "ok",
+          "seconds": 1.5199463850003667,
+          "exit_code": 0
+        }
+      },
+      "files": {
+        "input.smt2": {
+          "sha256": "5618dc4f9edd091b435c9c3dd268670d6482b9d957480052454641eae7097e59",
+          "bytes": 13337
+        },
+        "native.sexp": {
+          "sha256": "9c9ad0fe2ee5d351a46d69979c7120e7c52e001a4e7a73bf74d4a90270c0b68c",
+          "bytes": 392768
+        },
+        "exported-cnf.smt2": {
+          "sha256": "0056d840902725a0768041bee063610fb72cde96878f845f73cba052923bedea",
+          "bytes": 39742
+        }
+      },
+      "statement_byte_match": true,
+      "independent_report": {
+        "conflicts": 291,
+        "entries": 4308,
+        "propositional_unsat": true,
+        "variables": 304
+      }
+    }
+  ],
+  "reference_sha256": "eab7efbff2a6f0cce2fcd2c25cb4a94e0e048c902d8ef9e6fd7d7989aa54c501",
+  "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+  "workflow_sha256": {
+    "slurm_lra_sweep_feedback.sbatch": "21dbbdac83898f3d36fdab22cb5bc74ffb111bd521e8fcf82a72228c821b0806",
+    "micromath_stress.py": "69d5b794a134084a1ae5eb2db3fb667233746b3f1496188e7b0a0e0cff4887e0",
+    "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a",
+    "certificate_cnf_statement.py": "d92d709027b2c1813b616e632b89e4d528eede68366c2ac2314468fa70c7ed9a"
+  },
+  "source_to_cnf_verified": false,
+  "limits": {
+    "stage_seconds": 60,
+    "address_bytes": 3221225472,
+    "file_bytes": 268435456
+  },
+  "checker_cases": 3,
+  "archive": {
+    "file": "lra-sweep-feedback.tar.gz",
+    "sha256": "f28aaddbf99325798cb0675b105d343e3573d3ea0e98c537f4a2d453c21021d4",
+    "bytes": 474019
+  },
+  "finished": true
+}
