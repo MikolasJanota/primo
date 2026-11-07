@@ -466,6 +466,109 @@ download. Full per-case artifacts remain under
 `$PRIMO_WORKDIR/results/lra-certificate-sweep-362761/shard-N/run`, and the audit
 under `results/lra-sweep-feedback-362769`.
 
+### Separate proof export from kernel replay
+
+The {lracapturesource}`capture driver <scripts/capture_micromath_lra.py>` diagnoses the three larger-sweep deadlines
+without changing Micromath. Its input is the original sweep directory plus the
+independent audit summary. It verifies saved input/certificate/statement hashes
+and the producer, kernel and CaDiCaL binary identities, then reuses the retained
+challenge. Failed challenges were not hashed by the original sweep; their hashes
+are first recorded by this diagnostic run, rather than claimed as previously
+verified identities.
+
+The {lracapturesource}`capture function <scripts/capture_micromath_lra.py#L35>` owns a private producer process group, reads its `--raw`
+stdout in 64 KiB chunks and writes gzip at compression level 1. It uses bounded streaming buffers,
+a 4 KiB tail and rolling hash/counts, with one-second progress
+records on disk. Export runs without a kernel reader, so kernel backpressure
+cannot stall this stage. A successful export becomes `proof.umd.gz`; a handled producer error,
+internal deadline or size cap closes `proof.partial.umd.gz` normally, marks it
+incomplete and excludes it from full kernel replay. External job termination
+or an I/O exception may interrupt gzip finalization or summary publication; a
+partial filename alone does not establish a readable, recorded prefix. The private process group, including
+CaDiCaL descendants, is killed when capture ends.
+
+Only a complete export is decompressed through a pipe into `check-solution` in
+a second stage. Verification requires both decompressor and kernel zero exits,
+exact `challenge proven`, and no inconsistency marker. The {lracapturesource}`SLURM wrapper <scripts/slurm_capture_micromath_lra.sbatch>` assigns two CPUs and 12 GiB to each
+of three concurrent tasks, with a 15-minute allocation and separate 300-second
+export and replay limits. External processes retain the 3 GiB address and
+256 MiB file caps. Default capture bounds are 2 GiB of raw proof and near
+256 MiB compressed output, reserving space for gzip buffers/trailer. The
+`CAPTURE_RAW_BYTES` and `CAPTURE_GZIP_BYTES` overrides change these two capture
+bounds only; they do not change the external process limits. No full
+uncompressed proof is written or retained in memory. These stage timings include
+compression/decompression and extra I/O; they diagnose where work accumulates
+and are not a direct timing comparison with the original 60-second live pipe.
+
+Submit only after the canonical qualified-workspace preflight, with the
+independently audited inputs and frozen helper directory available on the
+compute nodes:
+
+```bash
+export PRIMO_WORKDIR=/path/to/qualified-workspace
+export CAPTURE_WORKFLOW=/path/to/frozen/scripts
+export LRA_SWEEP_RESULTS="$PRIMO_WORKDIR/results/lra-certificate-sweep-362761"
+export LRA_SWEEP_FEEDBACK="$PRIMO_WORKDIR/results/lra-sweep-feedback-362769"
+export MICROMATH_LRA_DIR=/path/to/pinned-micromath
+export PRIMO_SAT_SOLVER=/path/to/lrat-capable-cadical
+cd "$PRIMO_WORKDIR"
+sbatch "$CAPTURE_WORKFLOW/slurm_capture_micromath_lra.sbatch"
+```
+
+The frozen helper directory must contain `capture_micromath_lra.py`,
+`micromath_stress.py` and the wrapper from the same recorded workflow. Results
+appear in `results/lra-proof-capture-$SLURM_ARRAY_JOB_ID/case-N`. The default
+array handles all three cases; `sbatch --array=1 ...` selects only the five-clock
+case. A larger diagnostic disk budget can be supplied as, for example,
+`CAPTURE_RAW_BYTES=17179869184 CAPTURE_GZIP_BYTES=4294967296 sbatch --array=1 ...`
+(16 GiB raw, 4 GiB compressed; the stage deadline remains 300 seconds).
+
+The {download}`capture ledger <../coverage/micromath-lra-proof-capture.json>`
+records the completed diagnostics. Initial array `362773` stopped all three
+captures at the default compressed-file bound after 24–28 seconds, with
+556–683 MB raw byte prefixes. Those finalized partial files were not replayed
+or counted as proofs. Array `362776_1` then exported the five-clock case with
+16 GiB raw and 4 GiB compressed bounds; `362777_0,2` did the same for the other
+two. All three full exports completed and all three separate kernels accepted.
+
+| Case | Raw proof GB | Gzip GB | Export seconds | Kernel replay seconds |
+| --- | ---: | ---: | ---: | ---: |
+| Five clocks | 2.207 | 1.062 | 93.35 | 35.52 |
+| Six clocks | 3.691 | 1.778 | 155.88 | 59.40 |
+| LassoRanker | 2.560 | 0.914 | 97.87 | 34.21 |
+
+GB here means one billion bytes; exact counts and hashes are in the ledger.
+The five-clock exported CNF is only 32,400 bytes, its native certificate is
+237,503 bytes and it retains 163 lemmas after CORE. The large artifact is the
+expanded binary Micromath proof. Gzip reduces these proof streams substantially
+but still leaves roughly gigabyte-sized files. Export itself takes longer than
+the old 60-second live-pipeline budget in each staged run; the separate kernels
+accept all three complete proofs. These observations establish a proof-volume
+and budget issue for this pinned workflow, without identifying a faulty checker
+implementation or claiming directly comparable pipeline timings.
+
+Job `362779` fully decompresses all six saved gzip files (three complete, three
+partial), checking gzip CRC, raw byte counts and raw SHA256. The
+{lracapturepackagesource}`packaging wrapper <scripts/slurm_package_lra_capture.sbatch>`
+then writes a {download}`743,023-byte feedback archive <../../benchmarks/checker-regressions/lra-proof-capture-20261107/lra-capture-feedback.tar.gz>`
+containing the five-clock source/CNF/CORE certificate, compressed saved challenge,
+stage logs/results, progress records and only the first 1 MiB of its raw proof,
+gzipped. That proof prefix is a sample, not a complete certificate. See the
+{download}`replay instructions <../../benchmarks/checker-regressions/lra-proof-capture-20261107/README.md>`.
+Complete compressed proofs remain on SLURM under
+`$PRIMO_WORKDIR/results/lra-proof-capture-362776/case-1` and
+`results/lra-proof-capture-362777/case-{0,2}`, with hashes and byte counts recorded
+in both the ledger and archive manifest. They are not committed to Git.
+
+The first diagnostic array, `362770`, failed before producer launch because
+`/usr/bin/time` was unavailable; the workflow now uses Python `getrusage` and
+Bash's `time` builtin. Reaped-child CPU/RSS counters exclude Python compression
+CPU and may omit unreaped descendant usage; they are not total allocation
+measurements. The byte-stream newline counters are not counts of binary proof
+steps. No native solver code, checker implementation or upstream checkout was
+changed. The original-to-CNF trust boundary and the previous independent
+Yices/witness/SAT audit remain as described above.
+
 ### Why lowering was already sufficient for the CNF boundary
 
 The existing {liaexportsource}`lowering pass <src/smt/preprocessing.cpp#L4493>`

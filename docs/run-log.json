@@ -3,6 +3,91 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-Micromath-LRA-gzip-export-and-separate-kernel-replay",
+      "date": "2026-11-07",
+      "kind": "targeted-proof-volume-and-stage-diagnostics",
+      "workflow_git": "ecd52609d7d9b05132d816707473151eb91c9156",
+      "packaging_workflow_git": "0d99582fefde2a8d674e9659db5be6f4dbc56ac1",
+      "manifest": "docs/coverage/micromath-lra-proof-capture.json",
+      "evidence_status": "All three former60s proof-pipeline deadline cases exported completely and passed separate kernel replay under300s stages and larger explicit proof disk bounds. Three initial256MiB captures are validated partial gzip prefixes.",
+      "jobs": {
+        "362770_0..2": "FAILED1:0 before producer launch: missing/usr/bin/time; removed dependency.",
+        "362773_0..2": "Complete diagnostic stages: all3stop at compressed256MiB bound; no kernel replay of partial exports.",
+        "362776_1": "Five-clock case, larger explicit16GiBraw/4GiBgzip bounds: export complete and kernel verified.",
+        "362777_0,2": "Other two cases, same larger bounds: both export complete and kernel verified.",
+        "362779": "CRC/raw-byte/hash verification of all6gzip artifacts; compact feedback package."
+      },
+      "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+      "scope": "Separate export and replay of the three array362761 proof deadlines. Pinned checker and saved CORE certificates; no native solve, upstream fetch, checker-source inspection, modification or delta minimization.",
+      "results": {
+        "initial_gzip_bound_stops": 3,
+        "large_exports_complete": 3,
+        "kernel_verified": 3,
+        "kernel_timeout": 0,
+        "kernel_error": 0,
+        "wrong_answer": 0,
+        "reference_disagreement": "No new reference runs; saved hashes match independently audited inputs."
+      },
+      "allocation": {
+        "capture_cpus": 2,
+        "capture_memory_gib": 12,
+        "capture_wall_minutes": 15,
+        "small_cap_concurrency": 3,
+        "large_cap_concurrency": 2,
+        "package_cpus": 2,
+        "package_memory_gib": 2,
+        "package_wall_minutes": 15
+      },
+      "limits": {
+        "export_seconds": 300,
+        "kernel_replay_seconds": 300,
+        "external_process_address_bytes": 3221225472,
+        "external_process_file_bytes": 268435456,
+        "initial_raw_bytes": 2147483648,
+        "initial_gzip_bytes": 268435456,
+        "large_raw_bytes": 17179869184,
+        "large_gzip_bytes": 4294967296
+      },
+      "commands": {
+        "staging": "scripts/slurm_stage_manifest_files.py with explicit frozen workflow manifest; qualified native workspace reused, no C++ changes.",
+        "preflight": "scripts/slurm_prepare_benchmark_workspace.py --check-only --require-tool YICES immediately before each sbatch (authorized SSH config outside Git).",
+        "small": "scripts/slurm_capture_micromath_lra.sbatch, defaultarray0-2%3/defaultproofbounds.",
+        "large_five_clock": "CAPTURE_RAW_BYTES=17179869184 CAPTURE_GZIP_BYTES=4294967296 sbatch --array=1 WRAPPER",
+        "large_others": "Same bounds, sbatch --array=0,2%2 WRAPPER",
+        "package": "CAPTURE_RESULT_ROOTS=ROOT362773:ROOT362776:ROOT362777 sbatch --dependency=afterok:362773:362776:362777 scripts/slurm_package_lra_capture.sbatch"
+      },
+      "artifacts": {
+        "remote": "$PRIMO_WORKDIR/results/lra-proof-capture-{362773,362776,362777}/case-N; results/lra-capture-feedback-362779",
+        "local": "results/lra-proof-capture-{362770,362773,362776,362777} metadata/log mirrors only; fullgzip files retained onSLURM.",
+        "feedback_archive": {
+          "file": "benchmarks/checker-regressions/lra-proof-capture-20261107/lra-capture-feedback.tar.gz",
+          "sha256": "6b564eee0a5e1b69c782eeeb9eeb3b860ca75181d42d8d5fdd418e13dcc13e2a",
+          "bytes": 743023
+        },
+        "archive_payload_hashes_verified": 36,
+        "feedback_contents": "Five-clock original input, exported-CNF, CORE certificate, saved challengegzip, 1MiBrawproof-prefixgzip, README, full capture summaries/progress/results and manifest. Prefix is not complete proof. No fullrawproof file or fullproof in small archive."
+      },
+      "verification": {
+        "fresh_python_methods": 5,
+        "checks": [
+          "make lint",
+          "bash -n both new SLURM wrappers; slurm_validate_sbatch.py",
+          "five synthetic gzip transport tests: success/error/rawcap/gzipcap/deadline descendant cleanup",
+          "make docs; assemble_docs.py; check_doc_links.py fresh site; rendered section inspection",
+          "SLURM packaging fully decompresses all6gzip captures and verifies CRC/raw count/raw hash; downloaded archive payload hashes verified"
+        ],
+        "native_gates": "No C++ or active C++ unit changes from qualified a5123159; no new native suite, ASan, fuzz or clang-tidy run for this workflow/evidence-only work."
+      },
+      "limitations": [
+        "The isolated gzip exports took longer than the original60s live-pipeline deadline; separate kernels accepted all3fullproofs.",
+        "Compressed proof volumes are still about1GiB or more for these cases, despite small native input certificates.",
+        "Staged timings include compression/decompression and I/O and are not direct live-pipeline timing comparisons.",
+        "getrusage counters describe reaped-child usage, exclude Python compression CPU and may omit unreaped descendant usage; not whole-allocation metrics.",
+        "newline_count is a byte-stream newline counter, not a count of binary proof steps.",
+        "Original failed challenge hashes were first recorded in the diagnostic run, not verified against historical hashes."
+      ]
+    },
+    {
       "id": "2026-11-07-expanded-QF_LRA-CORE-certificate-sweep",
       "date": "2026-11-07",
       "kind": "recorded-fast-unsat-certificate-stress-and-independent-feedback-audit",

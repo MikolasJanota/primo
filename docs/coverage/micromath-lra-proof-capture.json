@@ -1,0 +1,684 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-07",
+  "workflow_git": "ecd52609d7d9b05132d816707473151eb91c9156",
+  "packaging_workflow_git": "0d99582fefde2a8d674e9659db5be6f4dbc56ac1",
+  "reference_evidence": "docs/coverage/qf-lra-certificate-sweep.json and benchmarks/checker-regressions/lra-sweep-feedback-20261107/summary.json (three saved payloads previously independently checked with Yices2.7.0 on original and exported-CNF plus exact witness/SAT audit362769)",
+  "source_to_cnf_verified": false,
+  "scope": "Separate export and replay of the three array362761 proof deadlines. Pinned checker and saved CORE certificates; no native solve, upstream fetch, checker-source inspection, modification or delta minimization.",
+  "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+  "binary_sha256": {
+    "primo": "71288893c36bb8a068fe3a5b97e660f33a7bdef4dd94aaa1506b3cfb18d090b5",
+    "reference": "eab7efbff2a6f0cce2fcd2c25cb4a94e0e048c902d8ef9e6fd7d7989aa54c501",
+    "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+    "build-axioms": "c53a0c2b9652ca083de003a9e716f68adeb00f2d87c35e386d1553d2a185e7cb",
+    "smt/build-lra-challenge": "b153b370082947e007f05f426bb3b31fe952b3222051de211b75a5e2638ed7ab",
+    "smt/prove-lra": "66d813e34919c351b268451aa33bc149d0874257936be09f56c84add477a204a",
+    "check-solution": "6daf342d16c1455fa6f3023e3ca1c3f7929fba95b070fd3afdd37b15ac26a3ad"
+  },
+  "scripts_sha256": {
+    "capture_micromath_lra.py": "209b2bc17d5869f0ad2dd77eb46686492167cc9c9f1601f3e9f599133dddfcd3",
+    "slurm_capture_micromath_lra.sbatch": "cb072090b42d55643cc85e3c1b7616e3f700570921b6ae52a4e0c1956a98b7ac",
+    "slurm_package_lra_capture.sbatch": "961d1180ef8ebf69b4d017499505cc674cfa0ec320685e7771b5a79f3a7664d6"
+  },
+  "jobs": {
+    "362770_0..2": "FAILED1:0 before producer launch: missing/usr/bin/time; removed dependency.",
+    "362773_0..2": "Complete diagnostic stages: all3stop at compressed256MiB bound; no kernel replay of partial exports.",
+    "362776_1": "Five-clock case, larger explicit16GiBraw/4GiBgzip bounds: export complete and kernel verified.",
+    "362777_0,2": "Other two cases, same larger bounds: both export complete and kernel verified.",
+    "362779": "CRC/raw-byte/hash verification of all6gzip artifacts; compact feedback package."
+  },
+  "initial_submission_attempt": "sbatch rejected missing wrapper path before allocating a job; corrected helper staging subdirectory.",
+  "allocation": {
+    "capture_cpus": 2,
+    "capture_memory_gib": 12,
+    "capture_wall_minutes": 15,
+    "small_cap_concurrency": 3,
+    "large_cap_concurrency": 2,
+    "package_cpus": 2,
+    "package_memory_gib": 2,
+    "package_wall_minutes": 15
+  },
+  "limits": {
+    "export_seconds": 300,
+    "kernel_replay_seconds": 300,
+    "external_process_address_bytes": 3221225472,
+    "external_process_file_bytes": 268435456,
+    "initial_raw_bytes": 2147483648,
+    "initial_gzip_bytes": 268435456,
+    "large_raw_bytes": 17179869184,
+    "large_gzip_bytes": 4294967296
+  },
+  "results": {
+    "initial_gzip_bound_stops": 3,
+    "large_exports_complete": 3,
+    "kernel_verified": 3,
+    "kernel_timeout": 0,
+    "kernel_error": 0,
+    "wrong_answer": 0,
+    "reference_disagreement": "No new reference runs; saved hashes match independently audited inputs."
+  },
+  "interpretation": [
+    "The isolated gzip exports took longer than the original60s live-pipeline deadline; separate kernels accepted all3fullproofs.",
+    "Compressed proof volumes are still about1GiB or more for these cases, despite small native input certificates.",
+    "Staged timings include compression/decompression and I/O and are not direct live-pipeline timing comparisons.",
+    "getrusage counters describe reaped-child usage, exclude Python compression CPU and may omit unreaped descendant usage; not whole-allocation metrics.",
+    "newline_count is a byte-stream newline counter, not a count of binary proof steps.",
+    "Original failed challenge hashes were first recorded in the diagnostic run, not verified against historical hashes."
+  ],
+  "execution_provenance": {
+    "362773": "Executed workflow hash is stored in each summary. Capture body equals f81c2b7b modulo docstrings (AST comparison); later source commit qualifies a docstring only.",
+    "362776_and_362777": "Executed capture hash equals committed ecd52609 source.",
+    "package": "Remote frozen wrapper SHA256 matched local submitted file before execution."
+  },
+  "scheduler_accounting": [
+    "JobID|State|ExitCode|Elapsed|MaxRSS",
+    "362770_0|FAILED|1:0|00:00:00|",
+    "362770_0.batch|FAILED|1:0|00:00:00|90488K",
+    "362770_1|FAILED|1:0|00:00:00|",
+    "362770_1.batch|FAILED|1:0|00:00:00|3668K",
+    "362770_2|FAILED|1:0|00:00:00|",
+    "362770_2.batch|FAILED|1:0|00:00:00|4180K",
+    "362773_0|COMPLETED|0:0|00:00:31|",
+    "362773_0.batch|COMPLETED|0:0|00:00:31|269380K",
+    "362773_1|COMPLETED|0:0|00:00:27|",
+    "362773_1.batch|COMPLETED|0:0|00:00:27|261884K",
+    "362773_2|COMPLETED|0:0|00:00:26|",
+    "362773_2.batch|COMPLETED|0:0|00:00:26|261864K",
+    "362776_1|COMPLETED|0:0|00:02:17|",
+    "362776_1.batch|COMPLETED|0:0|00:02:17|1362004K",
+    "362777_0|COMPLETED|0:0|00:02:19|",
+    "362777_0.batch|COMPLETED|0:0|00:02:19|2573712K",
+    "362777_2|COMPLETED|0:0|00:03:48|",
+    "362777_2.batch|COMPLETED|0:0|00:03:48|2081724K",
+    "362779|COMPLETED|0:0|00:02:03|",
+    "362779.batch|COMPLETED|0:0|00:02:03|13052K"
+  ],
+  "commands": {
+    "staging": "scripts/slurm_stage_manifest_files.py with explicit frozen workflow manifest; qualified native workspace reused, no C++ changes.",
+    "preflight": "scripts/slurm_prepare_benchmark_workspace.py --check-only --require-tool YICES immediately before each sbatch (authorized SSH config outside Git).",
+    "small": "scripts/slurm_capture_micromath_lra.sbatch, defaultarray0-2%3/defaultproofbounds.",
+    "large_five_clock": "CAPTURE_RAW_BYTES=17179869184 CAPTURE_GZIP_BYTES=4294967296 sbatch --array=1 WRAPPER",
+    "large_others": "Same bounds, sbatch --array=0,2%2 WRAPPER",
+    "package": "CAPTURE_RESULT_ROOTS=ROOT362773:ROOT362776:ROOT362777 sbatch --dependency=afterok:362773:362776:362777 scripts/slurm_package_lra_capture.sbatch"
+  },
+  "artifacts": {
+    "remote": "$PRIMO_WORKDIR/results/lra-proof-capture-{362773,362776,362777}/case-N; results/lra-capture-feedback-362779",
+    "local": "results/lra-proof-capture-{362770,362773,362776,362777} metadata/log mirrors only; fullgzip files retained onSLURM.",
+    "feedback_archive": {
+      "file": "benchmarks/checker-regressions/lra-proof-capture-20261107/lra-capture-feedback.tar.gz",
+      "sha256": "6b564eee0a5e1b69c782eeeb9eeb3b860ca75181d42d8d5fdd418e13dcc13e2a",
+      "bytes": 743023
+    },
+    "archive_payload_hashes_verified": 36,
+    "feedback_contents": "Five-clock original input, exported-CNF, CORE certificate, saved challengegzip, 1MiBrawproof-prefixgzip, README, full capture summaries/progress/results and manifest. Prefix is not complete proof. No fullrawproof file or fullproof in small archive."
+  },
+  "verification": {
+    "fresh_python_methods": 5,
+    "checks": [
+      "make lint",
+      "bash -n both new SLURM wrappers; slurm_validate_sbatch.py",
+      "five synthetic gzip transport tests: success/error/rawcap/gzipcap/deadline descendant cleanup",
+      "make docs; assemble_docs.py; check_doc_links.py fresh site; rendered section inspection",
+      "SLURM packaging fully decompresses all6gzip captures and verifies CRC/raw count/raw hash; downloaded archive payload hashes verified"
+    ],
+    "native_gates": "No C++ or active C++ unit changes from qualified a5123159; no new native suite, ASan, fuzz or clang-tidy run for this workflow/evidence-only work."
+  },
+  "captures": [
+    {
+      "array": "362773",
+      "summary_sha256": "ca1fc63884b60a234b26e55ea46281cc07ca36886fceadd235fb1729b6c80b59",
+      "summary": {
+        "job_id": "362774",
+        "host": "node-01.ciircluster",
+        "case": "LassoRanker/SV-COMP/BradleyMannaSipma-2005ICALP-Fig1_true-termination.c_Iteration1_Lasso_5-phaseTemplate.smt2",
+        "case_name": "shard-0-case-027",
+        "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+        "binary_sha256": {
+          "primo": "71288893c36bb8a068fe3a5b97e660f33a7bdef4dd94aaa1506b3cfb18d090b5",
+          "reference": "eab7efbff2a6f0cce2fcd2c25cb4a94e0e048c902d8ef9e6fd7d7989aa54c501",
+          "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+          "build-axioms": "c53a0c2b9652ca083de003a9e716f68adeb00f2d87c35e386d1553d2a185e7cb",
+          "smt/build-lra-challenge": "b153b370082947e007f05f426bb3b31fe952b3222051de211b75a5e2638ed7ab",
+          "smt/prove-lra": "66d813e34919c351b268451aa33bc149d0874257936be09f56c84add477a204a",
+          "check-solution": "6daf342d16c1455fa6f3023e3ca1c3f7929fba95b070fd3afdd37b15ac26a3ad"
+        },
+        "workflow_sha256": "55eee0fb66ffda8eb73b97ba128adb32d0cd14dadf49dedb02ec7e6e43e947e7",
+        "previous_array": "362761",
+        "audit_job": "362769",
+        "source": "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-0/run/027",
+        "payloads": {
+          "input.smt2": {
+            "sha256": "cf2c8a1baa29e6468c21f60a12ee109e068277301d41d0a0ce1bb39204bfecfe",
+            "bytes": 890062
+          },
+          "native.sexp": {
+            "sha256": "e9edd53e61b4688d85361990fde87589daa489021bd564293773978b89ab56a8",
+            "bytes": 3931219
+          },
+          "exported-cnf.smt2": {
+            "sha256": "42cd73f6143bc8ed114006888fce9ab12a74963e6f9a840226b3d13dbc436b03",
+            "bytes": 4274470
+          }
+        },
+        "challenge_sha256": "4f142c869c6af442f2c79d1edea815091cedc708bdb25b63f81ea18dee39c2cb",
+        "challenge_bytes": 81069361,
+        "challenge_hash_previously_recorded": false,
+        "limits": {
+          "stage_seconds": 300,
+          "process_address_bytes": 3221225472,
+          "process_file_bytes": 268435456,
+          "raw_proof_bytes": 2147483648,
+          "compressed_proof_bytes": 268435456
+        },
+        "transport": "producer --raw directly into gzip level1, then separate gzip-fed kernel; no raw file",
+        "source_to_cnf_verified": false,
+        "finished": true,
+        "export": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/home/janotmik/micromath-lra-20261106/smt/prove-lra",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-0/run/027/challenge.umd",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-0/run/027/native.sexp",
+            "-",
+            "--raw",
+            "--cadical",
+            "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+          ],
+          "seconds_limit": 300,
+          "user_cpu_seconds": 24.348552,
+          "system_cpu_seconds": 1.042658,
+          "children_peak_rss_kib": 1085476,
+          "state": "gzip_limit",
+          "exit_code": -9,
+          "seconds": 27.73801376199117,
+          "complete": false,
+          "raw_bytes": 683466752,
+          "raw_sha256": "e89db9488792637bb4afb33a7864b9a0a4bcbd744e6f01e768021d61759431c4",
+          "newline_count": 955226,
+          "gzip_file": "proof.partial.umd.gz",
+          "gzip_bytes": 267398787,
+          "gzip_sha256": "b5f81c357856b2879c91fb1211e68ce6866994264f153d682aad48b81904baed",
+          "progress": "export-progress.jsonl"
+        },
+        "status": "export_gzip_limit"
+      }
+    },
+    {
+      "array": "362773",
+      "summary_sha256": "8e3342d540ccc3a0a6300645852b45d5a1a5d87875abb23dc01ab8ed2e510b42",
+      "summary": {
+        "job_id": "362775",
+        "host": "node-01.ciircluster",
+        "case": "clock_synchro/clocksynchro_5clocks.worst_case_skew.induct.smt2",
+        "case_name": "shard-2-case-006",
+        "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+        "binary_sha256": {
+          "primo": "71288893c36bb8a068fe3a5b97e660f33a7bdef4dd94aaa1506b3cfb18d090b5",
+          "reference": "eab7efbff2a6f0cce2fcd2c25cb4a94e0e048c902d8ef9e6fd7d7989aa54c501",
+          "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+          "build-axioms": "c53a0c2b9652ca083de003a9e716f68adeb00f2d87c35e386d1553d2a185e7cb",
+          "smt/build-lra-challenge": "b153b370082947e007f05f426bb3b31fe952b3222051de211b75a5e2638ed7ab",
+          "smt/prove-lra": "66d813e34919c351b268451aa33bc149d0874257936be09f56c84add477a204a",
+          "check-solution": "6daf342d16c1455fa6f3023e3ca1c3f7929fba95b070fd3afdd37b15ac26a3ad"
+        },
+        "workflow_sha256": "55eee0fb66ffda8eb73b97ba128adb32d0cd14dadf49dedb02ec7e6e43e947e7",
+        "previous_array": "362761",
+        "audit_job": "362769",
+        "source": "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-2/run/006",
+        "payloads": {
+          "input.smt2": {
+            "sha256": "7c95b885666d45aafad1e187b91caac8488d349bf3f3b06478a89222e121f7f1",
+            "bytes": 10918
+          },
+          "native.sexp": {
+            "sha256": "b1e392b48cf6774f485e687e7e79e83ba12a809ddc04b0b7412371d0e38e6b18",
+            "bytes": 237503
+          },
+          "exported-cnf.smt2": {
+            "sha256": "477a116faeff3f11ede2f4e5f2d2bbf169a0341f272a7c0a53be44190ed3088e",
+            "bytes": 32400
+          }
+        },
+        "challenge_sha256": "bd1cdde6a097f285f48f9293a2442dfbd78f03c20d91bdbf97d6d903db4687f7",
+        "challenge_bytes": 932558,
+        "challenge_hash_previously_recorded": false,
+        "limits": {
+          "stage_seconds": 300,
+          "process_address_bytes": 3221225472,
+          "process_file_bytes": 268435456,
+          "raw_proof_bytes": 2147483648,
+          "compressed_proof_bytes": 268435456
+        },
+        "transport": "producer --raw directly into gzip level1, then separate gzip-fed kernel; no raw file",
+        "source_to_cnf_verified": false,
+        "finished": true,
+        "export": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/home/janotmik/micromath-lra-20261106/smt/prove-lra",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-2/run/006/challenge.umd",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-2/run/006/native.sexp",
+            "-",
+            "--raw",
+            "--cadical",
+            "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+          ],
+          "seconds_limit": 300,
+          "user_cpu_seconds": 21.640913,
+          "system_cpu_seconds": 0.534683,
+          "children_peak_rss_kib": 202152,
+          "state": "gzip_limit",
+          "exit_code": -9,
+          "seconds": 24.013761801004875,
+          "complete": false,
+          "raw_bytes": 556150784,
+          "raw_sha256": "1db330e3240b4811a32d0a6028405fe304206d377315dd1acf45b92bb42ba70e",
+          "newline_count": 1287419,
+          "gzip_file": "proof.partial.umd.gz",
+          "gzip_bytes": 267416431,
+          "gzip_sha256": "1b57c95be2ea282f2d9749823a917baade37c90e00888c94063250ff956a13f2",
+          "progress": "export-progress.jsonl"
+        },
+        "status": "export_gzip_limit"
+      }
+    },
+    {
+      "array": "362773",
+      "summary_sha256": "526a7fc377eea5c699f7cc812ec401e390bfd175ba11c4dc09232c3b6c47f836",
+      "summary": {
+        "job_id": "362773",
+        "host": "node-01.ciircluster",
+        "case": "clock_synchro/clocksynchro_6clocks.worst_case_skew.induct.smt2",
+        "case_name": "shard-5-case-007",
+        "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+        "binary_sha256": {
+          "primo": "71288893c36bb8a068fe3a5b97e660f33a7bdef4dd94aaa1506b3cfb18d090b5",
+          "reference": "eab7efbff2a6f0cce2fcd2c25cb4a94e0e048c902d8ef9e6fd7d7989aa54c501",
+          "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+          "build-axioms": "c53a0c2b9652ca083de003a9e716f68adeb00f2d87c35e386d1553d2a185e7cb",
+          "smt/build-lra-challenge": "b153b370082947e007f05f426bb3b31fe952b3222051de211b75a5e2638ed7ab",
+          "smt/prove-lra": "66d813e34919c351b268451aa33bc149d0874257936be09f56c84add477a204a",
+          "check-solution": "6daf342d16c1455fa6f3023e3ca1c3f7929fba95b070fd3afdd37b15ac26a3ad"
+        },
+        "workflow_sha256": "55eee0fb66ffda8eb73b97ba128adb32d0cd14dadf49dedb02ec7e6e43e947e7",
+        "previous_array": "362761",
+        "audit_job": "362769",
+        "source": "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-5/run/007",
+        "payloads": {
+          "input.smt2": {
+            "sha256": "5618dc4f9edd091b435c9c3dd268670d6482b9d957480052454641eae7097e59",
+            "bytes": 13337
+          },
+          "native.sexp": {
+            "sha256": "9c9ad0fe2ee5d351a46d69979c7120e7c52e001a4e7a73bf74d4a90270c0b68c",
+            "bytes": 392768
+          },
+          "exported-cnf.smt2": {
+            "sha256": "0056d840902725a0768041bee063610fb72cde96878f845f73cba052923bedea",
+            "bytes": 39742
+          }
+        },
+        "challenge_sha256": "97be573ff19858a069aa30e446696029b38c96e3fb5b75c5f043141af4def31f",
+        "challenge_bytes": 1132237,
+        "challenge_hash_previously_recorded": false,
+        "limits": {
+          "stage_seconds": 300,
+          "process_address_bytes": 3221225472,
+          "process_file_bytes": 268435456,
+          "raw_proof_bytes": 2147483648,
+          "compressed_proof_bytes": 268435456
+        },
+        "transport": "producer --raw directly into gzip level1, then separate gzip-fed kernel; no raw file",
+        "source_to_cnf_verified": false,
+        "finished": true,
+        "export": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/home/janotmik/micromath-lra-20261106/smt/prove-lra",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-5/run/007/challenge.umd",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-5/run/007/native.sexp",
+            "-",
+            "--raw",
+            "--cadical",
+            "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+          ],
+          "seconds_limit": 300,
+          "user_cpu_seconds": 21.851958,
+          "system_cpu_seconds": 0.495598,
+          "children_peak_rss_kib": 206060,
+          "state": "gzip_limit",
+          "exit_code": -9,
+          "seconds": 24.12869332599803,
+          "complete": false,
+          "raw_bytes": 557158400,
+          "raw_sha256": "32783fd7efd9f862dd8e75da43eeacac05ac3aa9938c2562a05ea8452040b729",
+          "newline_count": 1283773,
+          "gzip_file": "proof.partial.umd.gz",
+          "gzip_bytes": 267424221,
+          "gzip_sha256": "c39c8afe41f9d66247f2e740b972a5ca0280c1acafba2b52c9895a10ab53aa32",
+          "progress": "export-progress.jsonl"
+        },
+        "status": "export_gzip_limit"
+      }
+    },
+    {
+      "array": "362776",
+      "summary_sha256": "66468d53dc3bc00b6a29c524f5885214aa8b45c7ea3c419b88f1245fe282d28e",
+      "summary": {
+        "job_id": "362776",
+        "host": "node-01.ciircluster",
+        "case": "clock_synchro/clocksynchro_5clocks.worst_case_skew.induct.smt2",
+        "case_name": "shard-2-case-006",
+        "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+        "binary_sha256": {
+          "primo": "71288893c36bb8a068fe3a5b97e660f33a7bdef4dd94aaa1506b3cfb18d090b5",
+          "reference": "eab7efbff2a6f0cce2fcd2c25cb4a94e0e048c902d8ef9e6fd7d7989aa54c501",
+          "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+          "build-axioms": "c53a0c2b9652ca083de003a9e716f68adeb00f2d87c35e386d1553d2a185e7cb",
+          "smt/build-lra-challenge": "b153b370082947e007f05f426bb3b31fe952b3222051de211b75a5e2638ed7ab",
+          "smt/prove-lra": "66d813e34919c351b268451aa33bc149d0874257936be09f56c84add477a204a",
+          "check-solution": "6daf342d16c1455fa6f3023e3ca1c3f7929fba95b070fd3afdd37b15ac26a3ad"
+        },
+        "workflow_sha256": "209b2bc17d5869f0ad2dd77eb46686492167cc9c9f1601f3e9f599133dddfcd3",
+        "previous_array": "362761",
+        "audit_job": "362769",
+        "source": "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-2/run/006",
+        "payloads": {
+          "input.smt2": {
+            "sha256": "7c95b885666d45aafad1e187b91caac8488d349bf3f3b06478a89222e121f7f1",
+            "bytes": 10918
+          },
+          "native.sexp": {
+            "sha256": "b1e392b48cf6774f485e687e7e79e83ba12a809ddc04b0b7412371d0e38e6b18",
+            "bytes": 237503
+          },
+          "exported-cnf.smt2": {
+            "sha256": "477a116faeff3f11ede2f4e5f2d2bbf169a0341f272a7c0a53be44190ed3088e",
+            "bytes": 32400
+          }
+        },
+        "challenge_sha256": "bd1cdde6a097f285f48f9293a2442dfbd78f03c20d91bdbf97d6d903db4687f7",
+        "challenge_bytes": 932558,
+        "challenge_hash_previously_recorded": false,
+        "limits": {
+          "stage_seconds": 300,
+          "process_address_bytes": 3221225472,
+          "process_file_bytes": 268435456,
+          "raw_proof_bytes": 17179869184,
+          "compressed_proof_bytes": 4294967296
+        },
+        "transport": "producer --raw directly into gzip level1, then separate gzip-fed kernel; no raw file",
+        "source_to_cnf_verified": false,
+        "finished": true,
+        "export": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/home/janotmik/micromath-lra-20261106/smt/prove-lra",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-2/run/006/challenge.umd",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-2/run/006/native.sexp",
+            "-",
+            "--raw",
+            "--cadical",
+            "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+          ],
+          "seconds_limit": 300,
+          "user_cpu_seconds": 85.001328,
+          "system_cpu_seconds": 1.483994,
+          "children_peak_rss_kib": 403676,
+          "state": "ok",
+          "exit_code": 0,
+          "seconds": 93.34945606099791,
+          "complete": true,
+          "raw_bytes": 2207480527,
+          "raw_sha256": "4d09a414399a1549bbf75d886d569e63ff82be5dbed93e2954ee36ac6a53fe56",
+          "newline_count": 2637543,
+          "gzip_file": "proof.umd.gz",
+          "gzip_bytes": 1062258843,
+          "gzip_sha256": "75151224f00219ee2ed97aa6284cd3d4b4a80b350094fb213c4fd024379d1849",
+          "progress": "export-progress.jsonl"
+        },
+        "status": "verified",
+        "kernel": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nprlimit --as=3221225472 --fsize=268435456 -- gzip -dc -- \"$1\" |\n{ time prlimit --as=3221225472 --fsize=268435456 -- \"$2\" \"$3\" - \\\n  > \"$4/kernel.out\" 2> \"$4/kernel.err\"; } 2> \"$4/kernel.resources.txt\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$4/kernel-exits.txt\"\n(( statuses[0] == 0 && statuses[1] == 0 ))\n",
+            "gzip-kernel-replay",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-proof-capture-362776/case-1/proof.umd.gz",
+            "/home/janotmik/micromath-lra-20261106/check-solution",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-2/run/006/challenge.umd",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-proof-capture-362776/case-1"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-proof-capture-362776/case-1/kernel-pipeline.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-proof-capture-362776/case-1/kernel-pipeline.err",
+          "state": "ok",
+          "seconds": 35.51639174199954,
+          "exit_code": 0
+        },
+        "kernel_exit_codes": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "array": "362777",
+      "summary_sha256": "a6ca4face91358d54659e276df24212c865fa79cc46bf1bf7a86c80e28ac223d",
+      "summary": {
+        "job_id": "362778",
+        "host": "node-01.ciircluster",
+        "case": "LassoRanker/SV-COMP/BradleyMannaSipma-2005ICALP-Fig1_true-termination.c_Iteration1_Lasso_5-phaseTemplate.smt2",
+        "case_name": "shard-0-case-027",
+        "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+        "binary_sha256": {
+          "primo": "71288893c36bb8a068fe3a5b97e660f33a7bdef4dd94aaa1506b3cfb18d090b5",
+          "reference": "eab7efbff2a6f0cce2fcd2c25cb4a94e0e048c902d8ef9e6fd7d7989aa54c501",
+          "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+          "build-axioms": "c53a0c2b9652ca083de003a9e716f68adeb00f2d87c35e386d1553d2a185e7cb",
+          "smt/build-lra-challenge": "b153b370082947e007f05f426bb3b31fe952b3222051de211b75a5e2638ed7ab",
+          "smt/prove-lra": "66d813e34919c351b268451aa33bc149d0874257936be09f56c84add477a204a",
+          "check-solution": "6daf342d16c1455fa6f3023e3ca1c3f7929fba95b070fd3afdd37b15ac26a3ad"
+        },
+        "workflow_sha256": "209b2bc17d5869f0ad2dd77eb46686492167cc9c9f1601f3e9f599133dddfcd3",
+        "previous_array": "362761",
+        "audit_job": "362769",
+        "source": "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-0/run/027",
+        "payloads": {
+          "input.smt2": {
+            "sha256": "cf2c8a1baa29e6468c21f60a12ee109e068277301d41d0a0ce1bb39204bfecfe",
+            "bytes": 890062
+          },
+          "native.sexp": {
+            "sha256": "e9edd53e61b4688d85361990fde87589daa489021bd564293773978b89ab56a8",
+            "bytes": 3931219
+          },
+          "exported-cnf.smt2": {
+            "sha256": "42cd73f6143bc8ed114006888fce9ab12a74963e6f9a840226b3d13dbc436b03",
+            "bytes": 4274470
+          }
+        },
+        "challenge_sha256": "4f142c869c6af442f2c79d1edea815091cedc708bdb25b63f81ea18dee39c2cb",
+        "challenge_bytes": 81069361,
+        "challenge_hash_previously_recorded": false,
+        "limits": {
+          "stage_seconds": 300,
+          "process_address_bytes": 3221225472,
+          "process_file_bytes": 268435456,
+          "raw_proof_bytes": 17179869184,
+          "compressed_proof_bytes": 4294967296
+        },
+        "transport": "producer --raw directly into gzip level1, then separate gzip-fed kernel; no raw file",
+        "source_to_cnf_verified": false,
+        "finished": true,
+        "export": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/home/janotmik/micromath-lra-20261106/smt/prove-lra",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-0/run/027/challenge.umd",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-0/run/027/native.sexp",
+            "-",
+            "--raw",
+            "--cadical",
+            "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+          ],
+          "seconds_limit": 300,
+          "user_cpu_seconds": 86.436371,
+          "system_cpu_seconds": 2.563786,
+          "children_peak_rss_kib": 1904076,
+          "state": "ok",
+          "exit_code": 0,
+          "seconds": 97.86659784300718,
+          "complete": true,
+          "raw_bytes": 2559955782,
+          "raw_sha256": "4fa7237ef1d2e5400bd64612becc6aaebba89dffc91f0c572632e575d5a62aa1",
+          "newline_count": 3079290,
+          "gzip_file": "proof.umd.gz",
+          "gzip_bytes": 913758282,
+          "gzip_sha256": "4810097d751dd08725c96ab79aea3924bd8523fb8ca96299e26918d388bae28e",
+          "progress": "export-progress.jsonl"
+        },
+        "status": "verified",
+        "kernel": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nprlimit --as=3221225472 --fsize=268435456 -- gzip -dc -- \"$1\" |\n{ time prlimit --as=3221225472 --fsize=268435456 -- \"$2\" \"$3\" - \\\n  > \"$4/kernel.out\" 2> \"$4/kernel.err\"; } 2> \"$4/kernel.resources.txt\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$4/kernel-exits.txt\"\n(( statuses[0] == 0 && statuses[1] == 0 ))\n",
+            "gzip-kernel-replay",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-proof-capture-362777/case-0/proof.umd.gz",
+            "/home/janotmik/micromath-lra-20261106/check-solution",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-0/run/027/challenge.umd",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-proof-capture-362777/case-0"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-proof-capture-362777/case-0/kernel-pipeline.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-proof-capture-362777/case-0/kernel-pipeline.err",
+          "state": "ok",
+          "seconds": 34.21470131199749,
+          "exit_code": 0
+        },
+        "kernel_exit_codes": [
+          0,
+          0
+        ]
+      }
+    },
+    {
+      "array": "362777",
+      "summary_sha256": "fecd41c1cec4c2812f1b4e3f35c751936c6916cb1b1a5a7804a1fab18070392c",
+      "summary": {
+        "job_id": "362777",
+        "host": "node-01.ciircluster",
+        "case": "clock_synchro/clocksynchro_6clocks.worst_case_skew.induct.smt2",
+        "case_name": "shard-5-case-007",
+        "micromath_git": "5f22700410c0e37044c03557dbd21e009303b7ba",
+        "binary_sha256": {
+          "primo": "71288893c36bb8a068fe3a5b97e660f33a7bdef4dd94aaa1506b3cfb18d090b5",
+          "reference": "eab7efbff2a6f0cce2fcd2c25cb4a94e0e048c902d8ef9e6fd7d7989aa54c501",
+          "cadical": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+          "build-axioms": "c53a0c2b9652ca083de003a9e716f68adeb00f2d87c35e386d1553d2a185e7cb",
+          "smt/build-lra-challenge": "b153b370082947e007f05f426bb3b31fe952b3222051de211b75a5e2638ed7ab",
+          "smt/prove-lra": "66d813e34919c351b268451aa33bc149d0874257936be09f56c84add477a204a",
+          "check-solution": "6daf342d16c1455fa6f3023e3ca1c3f7929fba95b070fd3afdd37b15ac26a3ad"
+        },
+        "workflow_sha256": "209b2bc17d5869f0ad2dd77eb46686492167cc9c9f1601f3e9f599133dddfcd3",
+        "previous_array": "362761",
+        "audit_job": "362769",
+        "source": "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-5/run/007",
+        "payloads": {
+          "input.smt2": {
+            "sha256": "5618dc4f9edd091b435c9c3dd268670d6482b9d957480052454641eae7097e59",
+            "bytes": 13337
+          },
+          "native.sexp": {
+            "sha256": "9c9ad0fe2ee5d351a46d69979c7120e7c52e001a4e7a73bf74d4a90270c0b68c",
+            "bytes": 392768
+          },
+          "exported-cnf.smt2": {
+            "sha256": "0056d840902725a0768041bee063610fb72cde96878f845f73cba052923bedea",
+            "bytes": 39742
+          }
+        },
+        "challenge_sha256": "97be573ff19858a069aa30e446696029b38c96e3fb5b75c5f043141af4def31f",
+        "challenge_bytes": 1132237,
+        "challenge_hash_previously_recorded": false,
+        "limits": {
+          "stage_seconds": 300,
+          "process_address_bytes": 3221225472,
+          "process_file_bytes": 268435456,
+          "raw_proof_bytes": 17179869184,
+          "compressed_proof_bytes": 4294967296
+        },
+        "transport": "producer --raw directly into gzip level1, then separate gzip-fed kernel; no raw file",
+        "source_to_cnf_verified": false,
+        "finished": true,
+        "export": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "/home/janotmik/micromath-lra-20261106/smt/prove-lra",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-5/run/007/challenge.umd",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-5/run/007/native.sexp",
+            "-",
+            "--raw",
+            "--cadical",
+            "/home/janotmik/primo-micromath-20261103/cadical/build/cadical"
+          ],
+          "seconds_limit": 300,
+          "user_cpu_seconds": 142.468465,
+          "system_cpu_seconds": 2.58893,
+          "children_peak_rss_kib": 419136,
+          "state": "ok",
+          "exit_code": 0,
+          "seconds": 155.881542084986,
+          "complete": true,
+          "raw_bytes": 3690869835,
+          "raw_sha256": "f238c845e13a0990a353bc4c5e3ef622937edbe5af91c2622b27daa861499a4e",
+          "newline_count": 3997531,
+          "gzip_file": "proof.umd.gz",
+          "gzip_bytes": 1777854297,
+          "gzip_sha256": "cf5119dc5354ef0f246587fa6aa4808ee3c46c84d9f080a27d6206d07da8e8df",
+          "progress": "export-progress.jsonl"
+        },
+        "status": "verified",
+        "kernel": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nprlimit --as=3221225472 --fsize=268435456 -- gzip -dc -- \"$1\" |\n{ time prlimit --as=3221225472 --fsize=268435456 -- \"$2\" \"$3\" - \\\n  > \"$4/kernel.out\" 2> \"$4/kernel.err\"; } 2> \"$4/kernel.resources.txt\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$4/kernel-exits.txt\"\n(( statuses[0] == 0 && statuses[1] == 0 ))\n",
+            "gzip-kernel-replay",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-proof-capture-362777/case-2/proof.umd.gz",
+            "/home/janotmik/micromath-lra-20261106/check-solution",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-certificate-sweep-362761/shard-5/run/007/challenge.umd",
+            "/home/janotmik/primo-lia-export-20261105/results/lra-proof-capture-362777/case-2"
+          ],
+          "stdout": "/home/janotmik/primo-lia-export-20261105/results/lra-proof-capture-362777/case-2/kernel-pipeline.out",
+          "stderr": "/home/janotmik/primo-lia-export-20261105/results/lra-proof-capture-362777/case-2/kernel-pipeline.err",
+          "state": "ok",
+          "seconds": 59.39836786099477,
+          "exit_code": 0
+        },
+        "kernel_exit_codes": [
+          0,
+          0
+        ]
+      }
+    }
+  ]
+}
