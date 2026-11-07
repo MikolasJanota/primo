@@ -1,6 +1,6 @@
 # QF_UFLIA equality propagation before integer completion
 
-**Implemented experiment; default off. Opt-in-wrapper qualification pending.**
+**Implemented and correctness-qualified experiment; default off.**
 
 This implements the integration proposed by the
 [active-equality investigation](../leads/arithmetic-equality-exploitation.md).
@@ -130,38 +130,60 @@ measures scanning and translation. The SMT driver records
 An existing-false equality counts as a theory conflict; adding a fresh
 consequence does not manufacture a conflict count.
 
-The unconditional `f526ed8e` snapshot passed the full C++/Python tests,
-ASan, generated reference comparisons, real-seed mutations and separate SAT
-model validation. The later opt-in wrapper requires a fresh gate before use.
+The opt-in snapshot `8d84fdca` (API source `6e46d0dd`) passed fresh SLURM
+qualification in both enabled and disabled configurations:
+
+- 45 C++ tests and 311 Python tests, plus lint;
+- all 45 C++ tests under ASan, followed by 150 generated runs;
+- 7,000 generated reference comparisons: 6,998 pass and two `unknown`
+  results in enabled complete-arrangement mode; the latter are not passes;
+- direct Dolmen acceptance for all 3,510 successful generated SAT cases;
+- 200 real-seed mutants and 20 original-input answer checks (10 real-seed
+  checks plus 10 tracked-regression checks), with all SAT outputs in those stages independently validated;
+- clang-tidy/analyzer/include-cleaner coverage of all 133 tracked C++ files.
+  Existing baseline advisories remain; no warning-free-tree claim is made.
+
 The integration does not replace model-guided or complete-arrangement
 correctness boundaries.
 
-## Initial paired evaluation
+## Paired evaluation and default policy
 
 The {download}`recorded comparison <../../benchmarks/qf-uflia-tableau-equalities-20261107.json>`
-uses 30 historical M124 losses and 14 controls, with a 15-second timeout.
-Both binaries use arithmetic model phase `off`; M124 means bound rounding,
-primitive integer rows and integral patch moves, with integer slacks off.
+preserves the initial unconditional `f526ed8e` experiment and a six-arm
+repeat of `8d84fdca`, both against unchanged baseline `1b2cc307`.
+The fixed development selection contains 30 historical M124 losses and 14
+controls, with a 15-second timeout. Arithmetic model phase is `off` in all
+arms. M124 means bound rounding, primitive integer rows and integral patch
+moves, with integer slacks off.
 
-| Profile | Unchanged baseline solved | Equality candidate solved | Baseline PAR2 sum (s) | Candidate PAR2 sum (s) |
-| --- | ---: | ---: | ---: | ---: |
-| Native | 44/44 | 18/44 | 32.62 | 826.04 |
-| M124 | 14/44 | 16/44 | 906.59 | 866.80 |
+The final repeat gives the following solved counts and PAR2 sums in seconds:
 
-Native loses 26 cases, including two controls; M124 recovers
-`wisas/xs_25_35.smt2` and `wisas/xs_26_36.smt2` and loses none.
-All 68 successful SAT timing rows passed separate direct Dolmen replay.
-These are development-set results, not a full-corpus evaluation.
+| Profile | Old baseline | New default (off) | Option enabled |
+| --- | ---: | ---: | ---: |
+| Native | 44/44; 32.76 | 44/44; 32.38 | 18/44; 826.16 |
+| M124 | 14/44; 906.57 | 14/44; 906.58 | 16/44; 866.82 |
 
-The mechanism is active: it adds 11,483 fresh pairs in native and 15,091
-in M124. On `wisas/xs_37_57.smt2`, native grows 274 fresh pairs in ten
-batches. Equality scanning costs about 11 ms, while solve time exceeds
-15 seconds, versus 1.60 seconds in the baseline. Before the timeout, LRA
-pivots grow from 12,704 to 63,161 and SAT decisions from 24,231 to 75,843.
-Thus the evidence does not support default enablement. The option preserves
-the integration for research; M124 also remains unpromoted.
+The disabled path performs no equality scans and has no solved-count gains
+or losses. The small runtime difference is not a speedup claim. Enabling
+export loses 26 native cases, including two controls. M124 recovers
+`wisas/xs_25_35.smt2` and `wisas/xs_26_36.smt2` and loses none. All 114
+successful SAT timing rows passed separate direct Dolmen replay. The timing
+comparison checks declared sat/unsat statuses and inter-arm concrete-answer agreement;
+trusted-reference fuzzing is a separate correctness gate. This development
+selection does not supply full-corpus performance evidence.
 
-A follow-up lead is to deliver explained equalities without eagerly adding
-the full arithmetic bridge for every fresh pair. Direct guarded facts or
-lazy bridge activation need their own design, explanations, lifecycle and
-paper review; neither is implemented here.
+The enabled repeat adds 11,483 fresh pairs in native and 15,316 in M124.
+The initial `f526ed8e` diagnostic on `wisas/xs_37_57.smt2` explains why
+promotion was rejected: native grows 274 fresh pairs in ten batches. Equality
+scanning costs about 11 ms, while solve time exceeds 15 seconds, versus
+1.60 seconds in the baseline. Before timeout, LRA pivots grow from 12,704
+to 63,161 and SAT decisions from 24,231 to 75,843. A separate bounded GDB
+sample finds arithmetic work in 17 of 30 candidate stacks, all within SAT
+solving; it is wall-time stack sampling of one input, not CPU attribution.
+
+The option preserves the requested integration for research. Default
+enablement is rejected, and M124 also remains unpromoted. A follow-up lead
+is to share relevant proved equalities without eagerly adding the full
+arithmetic bridge for every fresh pair, and to examine explanation width.
+Direct guarded facts or lazy bridge activation need their own design,
+explanations, lifecycle and paper review; neither is implemented here.

@@ -3,6 +3,832 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-uflia-equality-guarded-repeat-8d84fdca",
+      "date": "2026-11-07",
+      "commit": "8d84fdcab67f7ba0aaf097378062e71c6971be8c",
+      "api_source_commit": "6e46d0dd1b3ff2466af23de0efb0a9009d411495",
+      "baseline_commit": "1b2cc307",
+      "kind": "six-arm-paired-development-evaluation",
+      "evidence_status": "completed_default_parity_optional_enablement_rejected",
+      "metadata": "benchmarks/qf-uflia-tableau-equalities-20261107.json",
+      "artifacts": "results/uflia-equality-20261107/guard-timing and guard-models",
+      "jobs": {
+        "timing": "362845_0-11",
+        "models": "362857_0-11"
+      },
+      "scope": "Same44 inputs (30 historical M124 losses and14 controls),15s timeout; no full-corpus extrapolation.",
+      "environment": {
+        "timing": "1CPU,8GiB,1hour;12 shards, six arms run serially in rotated order per input",
+        "models": "1CPU,12GiB,1hour; separate60s solver and30s direct Dolmen budgets; starts only after all timing shards finish"
+      },
+      "summary": {
+        "timing_rows": 264,
+        "declared_status_rows": 252,
+        "rows_without_declared_status": 12,
+        "declared_status_mismatches": 0,
+        "cross_profile_concrete_answer_disagreements": 0,
+        "fresh_trusted_reference_timing_run": "not run; trusted-reference fuzzing is separate",
+        "default_native": {
+          "baseline": {
+            "inputs": 44,
+            "outcomes": {
+              "solved": 44
+            },
+            "solved": 44,
+            "sat": 38,
+            "unsat": 6,
+            "par2_seconds": 32.760208
+          },
+          "candidate": {
+            "inputs": 44,
+            "outcomes": {
+              "solved": 44
+            },
+            "solved": 44,
+            "sat": 38,
+            "unsat": 6,
+            "par2_seconds": 32.383334
+          },
+          "gains": [],
+          "losses": [],
+          "common_solved": 44,
+          "geomean_candidate_over_baseline_50ms": 0.9918132842289331,
+          "geomean_inputs": 40,
+          "families": {
+            "20230314-Jaroslav-Bendik-Certora": {
+              "baseline": {
+                "inputs": 2,
+                "outcomes": {
+                  "solved": 2
+                },
+                "solved": 2,
+                "sat": 1,
+                "unsat": 1,
+                "par2_seconds": 1.2839429999999998
+              },
+              "candidate": {
+                "inputs": 2,
+                "outcomes": {
+                  "solved": 2
+                },
+                "solved": 2,
+                "sat": 1,
+                "unsat": 1,
+                "par2_seconds": 1.2825090000000001
+              }
+            },
+            "TwoSquares": {
+              "baseline": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 0,
+                "unsat": 4,
+                "par2_seconds": 0.03546
+              },
+              "candidate": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 0,
+                "unsat": 4,
+                "par2_seconds": 0.036498
+              }
+            },
+            "mathsat": {
+              "baseline": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 4,
+                "unsat": 0,
+                "par2_seconds": 3.6031169999999997
+              },
+              "candidate": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 4,
+                "unsat": 0,
+                "par2_seconds": 3.4310720000000003
+              }
+            },
+            "wisas": {
+              "baseline": {
+                "inputs": 34,
+                "outcomes": {
+                  "solved": 34
+                },
+                "solved": 34,
+                "sat": 33,
+                "unsat": 1,
+                "par2_seconds": 27.837688
+              },
+              "candidate": {
+                "inputs": 34,
+                "outcomes": {
+                  "solved": 34
+                },
+                "solved": 34,
+                "sat": 33,
+                "unsat": 1,
+                "par2_seconds": 27.633255000000002
+              }
+            }
+          },
+          "mechanism_totals": {
+            ":lia.equality.scans": 0,
+            ":lia.equality.candidates": 0,
+            ":lia.equality.proposed": 0,
+            ":lia.equality.already-true": 0,
+            ":lia.equality.reason-lits": 0,
+            ":lia.equality.fixed-eq": 0,
+            ":lia.equality.eq-row": 0,
+            ":lia.equality.eq-offset-rows": 0,
+            ":lia.equality.eq-rows": 0,
+            ":combination.equality.batches": 0,
+            ":combination.equality.fresh-pairs": 0,
+            ":combination.equality.clauses": 0,
+            ":combination.equality.conflicts": 0,
+            ":time.lia.equality-scan-us": 0
+          },
+          "mechanism_active_files": []
+        },
+        "default_m124": {
+          "baseline": {
+            "inputs": 44,
+            "outcomes": {
+              "timeout:unknown": 30,
+              "solved": 14
+            },
+            "solved": 14,
+            "sat": 8,
+            "unsat": 6,
+            "par2_seconds": 906.571784
+          },
+          "candidate": {
+            "inputs": 44,
+            "outcomes": {
+              "timeout:unknown": 30,
+              "solved": 14
+            },
+            "solved": 14,
+            "sat": 8,
+            "unsat": 6,
+            "par2_seconds": 906.575524
+          },
+          "gains": [],
+          "losses": [],
+          "common_solved": 14,
+          "geomean_candidate_over_baseline_50ms": 0.997910050157352,
+          "geomean_inputs": 10,
+          "families": {
+            "20230314-Jaroslav-Bendik-Certora": {
+              "baseline": {
+                "inputs": 2,
+                "outcomes": {
+                  "solved": 2
+                },
+                "solved": 2,
+                "sat": 1,
+                "unsat": 1,
+                "par2_seconds": 1.3171519999999999
+              },
+              "candidate": {
+                "inputs": 2,
+                "outcomes": {
+                  "solved": 2
+                },
+                "solved": 2,
+                "sat": 1,
+                "unsat": 1,
+                "par2_seconds": 1.325724
+              }
+            },
+            "TwoSquares": {
+              "baseline": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 0,
+                "unsat": 4,
+                "par2_seconds": 0.034158999999999995
+              },
+              "candidate": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 0,
+                "unsat": 4,
+                "par2_seconds": 0.03401
+              }
+            },
+            "mathsat": {
+              "baseline": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 4,
+                "unsat": 0,
+                "par2_seconds": 3.4515070000000003
+              },
+              "candidate": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 4,
+                "unsat": 0,
+                "par2_seconds": 3.457128
+              }
+            },
+            "wisas": {
+              "baseline": {
+                "inputs": 34,
+                "outcomes": {
+                  "timeout:unknown": 30,
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 3,
+                "unsat": 1,
+                "par2_seconds": 901.768966
+              },
+              "candidate": {
+                "inputs": 34,
+                "outcomes": {
+                  "timeout:unknown": 30,
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 3,
+                "unsat": 1,
+                "par2_seconds": 901.758662
+              }
+            }
+          },
+          "mechanism_totals": {
+            ":lia.equality.scans": 0,
+            ":lia.equality.candidates": 0,
+            ":lia.equality.proposed": 0,
+            ":lia.equality.already-true": 0,
+            ":lia.equality.reason-lits": 0,
+            ":lia.equality.fixed-eq": 0,
+            ":lia.equality.eq-row": 0,
+            ":lia.equality.eq-offset-rows": 0,
+            ":lia.equality.eq-rows": 0,
+            ":combination.equality.batches": 0,
+            ":combination.equality.fresh-pairs": 0,
+            ":combination.equality.clauses": 0,
+            ":combination.equality.conflicts": 0,
+            ":time.lia.equality-scan-us": 0
+          },
+          "mechanism_active_files": []
+        },
+        "enabled_native": {
+          "baseline": {
+            "inputs": 44,
+            "outcomes": {
+              "solved": 44
+            },
+            "solved": 44,
+            "sat": 38,
+            "unsat": 6,
+            "par2_seconds": 32.383334
+          },
+          "candidate": {
+            "inputs": 44,
+            "outcomes": {
+              "timeout:unknown": 26,
+              "solved": 18
+            },
+            "solved": 18,
+            "sat": 12,
+            "unsat": 6,
+            "par2_seconds": 826.160041
+          },
+          "gains": [],
+          "losses": [
+            "wisas/xs_13_13.smt2",
+            "wisas/xs_14_24.smt2",
+            "wisas/xs_24_44.smt2",
+            "wisas/xs_26_36.smt2",
+            "wisas/xs_26_46.smt2",
+            "wisas/xs_27_47.smt2",
+            "wisas/xs_28_38.smt2",
+            "wisas/xs_28_48.smt2",
+            "wisas/xs_29_49.smt2",
+            "wisas/xs_30_40.smt2",
+            "wisas/xs_30_50.smt2",
+            "wisas/xs_31_41.smt2",
+            "wisas/xs_32_42.smt2",
+            "wisas/xs_32_52.smt2",
+            "wisas/xs_33_43.smt2",
+            "wisas/xs_33_53.smt2",
+            "wisas/xs_34_44.smt2",
+            "wisas/xs_34_54.smt2",
+            "wisas/xs_35_45.smt2",
+            "wisas/xs_35_55.smt2",
+            "wisas/xs_36_46.smt2",
+            "wisas/xs_37_57.smt2",
+            "wisas/xs_38_48.smt2",
+            "wisas/xs_38_58.smt2",
+            "wisas/xs_39_59.smt2",
+            "wisas/xs_40_50.smt2"
+          ],
+          "common_solved": 18,
+          "geomean_candidate_over_baseline_50ms": 2.780890962687354,
+          "geomean_inputs": 14,
+          "families": {
+            "20230314-Jaroslav-Bendik-Certora": {
+              "baseline": {
+                "inputs": 2,
+                "outcomes": {
+                  "solved": 2
+                },
+                "solved": 2,
+                "sat": 1,
+                "unsat": 1,
+                "par2_seconds": 1.2825090000000001
+              },
+              "candidate": {
+                "inputs": 2,
+                "outcomes": {
+                  "solved": 2
+                },
+                "solved": 2,
+                "sat": 1,
+                "unsat": 1,
+                "par2_seconds": 0.639547
+              }
+            },
+            "TwoSquares": {
+              "baseline": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 0,
+                "unsat": 4,
+                "par2_seconds": 0.036498
+              },
+              "candidate": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 0,
+                "unsat": 4,
+                "par2_seconds": 0.035785000000000004
+              }
+            },
+            "mathsat": {
+              "baseline": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 4,
+                "unsat": 0,
+                "par2_seconds": 3.4310720000000003
+              },
+              "candidate": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 4,
+                "unsat": 0,
+                "par2_seconds": 4.436406
+              }
+            },
+            "wisas": {
+              "baseline": {
+                "inputs": 34,
+                "outcomes": {
+                  "solved": 34
+                },
+                "solved": 34,
+                "sat": 33,
+                "unsat": 1,
+                "par2_seconds": 27.633255000000002
+              },
+              "candidate": {
+                "inputs": 34,
+                "outcomes": {
+                  "timeout:unknown": 26,
+                  "solved": 8
+                },
+                "solved": 8,
+                "sat": 7,
+                "unsat": 1,
+                "par2_seconds": 821.048303
+              }
+            }
+          },
+          "mechanism_totals": {
+            ":lia.equality.scans": 2519,
+            ":lia.equality.candidates": 161576,
+            ":lia.equality.proposed": 11483,
+            ":lia.equality.already-true": 150093,
+            ":lia.equality.reason-lits": 129736,
+            ":lia.equality.fixed-eq": 4250,
+            ":lia.equality.eq-row": 1823,
+            ":lia.equality.eq-offset-rows": 92,
+            ":lia.equality.eq-rows": 5318,
+            ":combination.equality.batches": 1065,
+            ":combination.equality.fresh-pairs": 11483,
+            ":combination.equality.clauses": 11483,
+            ":combination.equality.conflicts": 0,
+            ":time.lia.equality-scan-us": 923814
+          },
+          "mechanism_active_files": [
+            "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+            "mathsat/Hash/hash_sat_07_15.smt2",
+            "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+            "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+            "mathsat/Wisa/xs-18-19-4-1-1-5.smt2",
+            "wisas/xs_13_13.smt2",
+            "wisas/xs_17_17.smt2",
+            "wisas/xs_24_44.smt2",
+            "wisas/xs_25_35.smt2",
+            "wisas/xs_26_36.smt2",
+            "wisas/xs_26_46.smt2",
+            "wisas/xs_27_47.smt2",
+            "wisas/xs_28_38.smt2",
+            "wisas/xs_29_39.smt2",
+            "wisas/xs_29_49.smt2",
+            "wisas/xs_30_40.smt2",
+            "wisas/xs_31_41.smt2",
+            "wisas/xs_31_51.smt2",
+            "wisas/xs_32_42.smt2",
+            "wisas/xs_33_53.smt2",
+            "wisas/xs_34_44.smt2",
+            "wisas/xs_34_54.smt2",
+            "wisas/xs_35_45.smt2",
+            "wisas/xs_35_55.smt2",
+            "wisas/xs_36_46.smt2",
+            "wisas/xs_36_56.smt2",
+            "wisas/xs_37_47.smt2",
+            "wisas/xs_37_57.smt2",
+            "wisas/xs_38_48.smt2",
+            "wisas/xs_38_58.smt2",
+            "wisas/xs_39_59.smt2",
+            "wisas/xs_40_50.smt2",
+            "wisas/xs_40_60.smt2",
+            "wisas/xs_6_11.smt2"
+          ]
+        },
+        "enabled_m124": {
+          "baseline": {
+            "inputs": 44,
+            "outcomes": {
+              "timeout:unknown": 30,
+              "solved": 14
+            },
+            "solved": 14,
+            "sat": 8,
+            "unsat": 6,
+            "par2_seconds": 906.575524
+          },
+          "candidate": {
+            "inputs": 44,
+            "outcomes": {
+              "timeout:unknown": 28,
+              "solved": 16
+            },
+            "solved": 16,
+            "sat": 10,
+            "unsat": 6,
+            "par2_seconds": 866.819939
+          },
+          "gains": [
+            "wisas/xs_25_35.smt2",
+            "wisas/xs_26_36.smt2"
+          ],
+          "losses": [],
+          "common_solved": 14,
+          "geomean_candidate_over_baseline_50ms": 1.4113474444427843,
+          "geomean_inputs": 10,
+          "families": {
+            "20230314-Jaroslav-Bendik-Certora": {
+              "baseline": {
+                "inputs": 2,
+                "outcomes": {
+                  "solved": 2
+                },
+                "solved": 2,
+                "sat": 1,
+                "unsat": 1,
+                "par2_seconds": 1.325724
+              },
+              "candidate": {
+                "inputs": 2,
+                "outcomes": {
+                  "solved": 2
+                },
+                "solved": 2,
+                "sat": 1,
+                "unsat": 1,
+                "par2_seconds": 0.654755
+              }
+            },
+            "TwoSquares": {
+              "baseline": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 0,
+                "unsat": 4,
+                "par2_seconds": 0.03401
+              },
+              "candidate": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 0,
+                "unsat": 4,
+                "par2_seconds": 0.035879
+              }
+            },
+            "mathsat": {
+              "baseline": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 4,
+                "unsat": 0,
+                "par2_seconds": 3.457128
+              },
+              "candidate": {
+                "inputs": 4,
+                "outcomes": {
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 4,
+                "unsat": 0,
+                "par2_seconds": 4.221991
+              }
+            },
+            "wisas": {
+              "baseline": {
+                "inputs": 34,
+                "outcomes": {
+                  "timeout:unknown": 30,
+                  "solved": 4
+                },
+                "solved": 4,
+                "sat": 3,
+                "unsat": 1,
+                "par2_seconds": 901.758662
+              },
+              "candidate": {
+                "inputs": 34,
+                "outcomes": {
+                  "timeout:unknown": 28,
+                  "solved": 6
+                },
+                "solved": 6,
+                "sat": 5,
+                "unsat": 1,
+                "par2_seconds": 861.907314
+              }
+            }
+          },
+          "mechanism_totals": {
+            ":lia.equality.scans": 4028,
+            ":lia.equality.candidates": 245752,
+            ":lia.equality.proposed": 15316,
+            ":lia.equality.already-true": 230436,
+            ":lia.equality.reason-lits": 152520,
+            ":lia.equality.fixed-eq": 6307,
+            ":lia.equality.eq-row": 2074,
+            ":lia.equality.eq-offset-rows": 380,
+            ":lia.equality.eq-rows": 6555,
+            ":combination.equality.batches": 1864,
+            ":combination.equality.fresh-pairs": 15316,
+            ":combination.equality.clauses": 15316,
+            ":combination.equality.conflicts": 0,
+            ":time.lia.equality-scan-us": 1489261
+          },
+          "mechanism_active_files": [
+            "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+            "mathsat/Hash/hash_sat_07_15.smt2",
+            "mathsat/Wisa/xs-14-06-4-4-1-2.smt2",
+            "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+            "mathsat/Wisa/xs-18-19-4-1-1-5.smt2",
+            "wisas/xs_13_13.smt2",
+            "wisas/xs_14_24.smt2",
+            "wisas/xs_17_17.smt2",
+            "wisas/xs_24_44.smt2",
+            "wisas/xs_25_35.smt2",
+            "wisas/xs_26_36.smt2",
+            "wisas/xs_26_46.smt2",
+            "wisas/xs_27_47.smt2",
+            "wisas/xs_28_38.smt2",
+            "wisas/xs_28_48.smt2",
+            "wisas/xs_29_39.smt2",
+            "wisas/xs_29_49.smt2",
+            "wisas/xs_30_40.smt2",
+            "wisas/xs_30_50.smt2",
+            "wisas/xs_31_41.smt2",
+            "wisas/xs_31_51.smt2",
+            "wisas/xs_32_42.smt2",
+            "wisas/xs_32_52.smt2",
+            "wisas/xs_33_43.smt2",
+            "wisas/xs_33_53.smt2",
+            "wisas/xs_34_44.smt2",
+            "wisas/xs_34_54.smt2",
+            "wisas/xs_35_45.smt2",
+            "wisas/xs_35_55.smt2",
+            "wisas/xs_36_46.smt2",
+            "wisas/xs_36_56.smt2",
+            "wisas/xs_37_47.smt2",
+            "wisas/xs_37_57.smt2",
+            "wisas/xs_38_48.smt2",
+            "wisas/xs_38_58.smt2",
+            "wisas/xs_39_59.smt2",
+            "wisas/xs_40_50.smt2",
+            "wisas/xs_40_60.smt2",
+            "wisas/xs_6_11.smt2"
+          ]
+        },
+        "models": {
+          "status": "complete",
+          "expected": 114,
+          "passed": 114
+        },
+        "solver_errors": 0,
+        "unsupported": 0,
+        "status_scope": "Declared-status rows mean checkable sat/unsat statuses; unknown or absent status is uncheckable."
+      },
+      "decision": "Disabled defaults preserve solved counts44/44 native and14/44 M124, with zero equality scans and comparable PAR2. Enabled native18/44 and M12416/44 repeat the prototype effect. Retain one explicit research option, default off; M124 remains unpromoted.",
+      "commands": [
+        "scripts/qualification/uflia_equalities/compare.sbatch with PRIMO_EQ_PHASE=timing, PRIMO_EQ_INCLUDE_EQUALITIES=1 and committed adaptive_phase/evaluation.txt manifest",
+        "same script PRIMO_EQ_PHASE=models after timing array success",
+        "python3 scripts/qualification/uflia_equalities/summarize.py --inputs 44 --candidate-git 8d84fdca --baseline-git 1b2cc307 (artifact paths supplied separately)"
+      ],
+      "submission_setup": "An initial dependency-based timing/model submission was rejected with Job dependency problem and allocated no experiments. After accounting confirmed every gate completed0, direct resubmission succeeded.",
+      "limitations": [
+        "Development selection is enriched with historical losses.",
+        "Timeout counters are partial search states.",
+        "Small default runtime differences are not speedup claims.",
+        "All114 successful timing SAT rows have direct Dolmen acceptance; this does not independently certify UNSAT."
+      ]
+    },
+    {
+      "id": "2026-11-07-uflia-equality-optin-8d84fdca-qualification",
+      "date": "2026-11-07",
+      "commit": "8d84fdcab67f7ba0aaf097378062e71c6971be8c",
+      "api_source_commit": "6e46d0dd1b3ff2466af23de0efb0a9009d411495",
+      "branch": "uflia-equality-propagation, integrated into lia-integrality after final documentation checks",
+      "kind": "solver-correctness-qualification",
+      "evidence_status": "completed_opt_in_correctness_qualified",
+      "artifacts": "results/uflia-equality-20261107/optin-{unit,check,asan,static,mutations}",
+      "artifact_storage": "Local collected evidence plus preserved isolated SLURM workspace; private connection settings remain external.",
+      "identities": {
+        "release_sha256": "b0ef21f7504257eeb336d9eadd556389c6f906c5d7624fe620ff37c887c3dd59",
+        "z3_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+        "dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+      },
+      "jobs": {
+        "build": "362835",
+        "unit": "362837",
+        "check": "362838",
+        "asan": "362839",
+        "static": "362840",
+        "mutations": [
+          "362841_0",
+          "362841_1"
+        ]
+      },
+      "environment": {
+        "execution": "SLURM compute nodes only; local editing, lint, docs and result analysis",
+        "check": "4 CPUs,16GiB,40min; seven profiles x1000 mixed depth3 cases, Z3 timeout5s; SAT solver/Dolmen replay10s",
+        "asan": "4 CPUs,24GiB,40min; full suite and six profiles x25 cases, timeout10s",
+        "static": "4 CPUs,12GiB,30min; all133 tracked C++ files, configured clang-tidy/analyzer/include-cleaner",
+        "mutations": "1CPU,6GiB,40min each; five small real seeds covering four families,20 mutations/seed; seeds2026110720/21;5s mutation,10s strict answer and30s model limits",
+        "compiler": "GNU C++11.4.1; CaDiCaL3.0.0"
+      },
+      "profiles": {
+        "enabled": [
+          "native-online",
+          "native-rebuild",
+          "m124-online",
+          "m124-rebuild",
+          "native-complete"
+        ],
+        "disabled": [
+          "native-default",
+          "m124-default"
+        ],
+        "generated_seeds": [
+          2026110711,
+          2026110712,
+          2026110713,
+          2026110714,
+          2026110715,
+          2026110716,
+          2026110717
+        ],
+        "asan_seed": 2026110716
+      },
+      "summary": {
+        "cpp_tests": 45,
+        "python_tests": 311,
+        "lint": "passed",
+        "generated": {
+          "count": 7000,
+          "pass": 6998,
+          "unknown": 2,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_errors": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreements": 0,
+          "incomplete": "Enabled native-complete cases827 and862 return unknown while Z3 returns SAT; these remain separate from passes."
+        },
+        "generated_sat_models": {
+          "expected": 3510,
+          "direct_dolmen_pass": 3510,
+          "invalid": 0,
+          "changed_answer": 0,
+          "timeout": 0,
+          "missing": 0
+        },
+        "asan": {
+          "cpp_tests": 45,
+          "generated_runs": 150,
+          "pass": 150,
+          "note": "25 seeded inputs replayed in six profiles, not150 distinct inputs."
+        },
+        "mutations": {
+          "strict_mutant_pass": 200,
+          "sat_mutant_dolmen_pass": 113,
+          "sat_original_dolmen_pass": 10,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_errors": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "saved_failures": 0,
+          "original_input_answer_pass": 20,
+          "real_seed_answer_pass": 10,
+          "tracked_regression_answer_pass": 10,
+          "note": "Checks are profile-specific executions: five real seeds and five regressions in each of two profiles."
+        },
+        "static": {
+          "tracked_cpp_files": 133,
+          "job_exit": 0,
+          "errors": 0,
+          "new_changed_region_advisories": 0,
+          "baseline_advisories": "Existing include/style/performance advisories remain, including unchanged CLI.hpp:7598 and tactic.cpp:69 potential-leak reports. No warning-free-tree claim."
+        }
+      },
+      "commands": [
+        "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --jobs 4 --extra-target primo_qf_uflia_solver_tests --extra-target primo_component_combination_tests (private route/workspace/header arguments external)",
+        "scripts/qualification/uflia_equalities/unit.sbatch",
+        "scripts/qualification/uflia_equalities/check.sbatch: make check BUILD_DIR=build-slurm-rel plus seven generated/reference/model stages",
+        "scripts/qualification/uflia_equalities/asan.sbatch: make asan-test plus six generated stages",
+        "scripts/qualification/uflia_equalities/static.sbatch",
+        "scripts/qualification/uflia_equalities/mutations.sbatch with staged cvc5 for tracked quoted syntax, Z3 for real seeds/mutants"
+      ],
+      "code_review": "No blocking issue found in the change after reviewing proof signs, stage placement, scope/progress, token lifetime, SAT snapshot before atom growth, guarded clauses, default gate and borrow/mutation/use. Whole-tree automated hygiene and configured static scans completed; baseline advisories remain.",
+      "limitations": [
+        "Qualified runtime source is8d84fdca; subsequent changes are documentation and independently checked qualification workflows, with C++/headers/build configuration byte-identical.",
+        "Two explicit incomplete generated complete-arrangement outcomes remain unknown.",
+        "No default enablement or full-corpus performance promotion."
+      ]
+    },
+    {
       "id": "2026-11-07-uflia-equality-cli-help-8d84fdca",
       "date": "2026-11-07",
       "commit": "8d84fdca",
@@ -15,7 +841,7 @@
       "command": "build-slurm-rel/primo --help",
       "tracked_snapshot": "docs/examples/primo-help.txt",
       "help_sha256": "32a422967c4c54ab9a37d002ea1a674764373b2e58c4b34c27a508cc6559782c",
-      "summary": "Help includes --qf-uflia-tableau-equalities with default off; generic component and QF_UFLIA unit tests pass. Full wrapper qualification remains pending.",
+      "summary": "Help includes --qf-uflia-tableau-equalities, default off; unit tests and subsequent full wrapper qualification pass. See the8d84fdca qualification receipt.",
       "raw_help_sha256": "5f06886f44d3ed406578bf4d0ed1b3c1383a732d25ef731faa30df5bb3146a64",
       "normalization": "Remove trailing whitespace on each captured help line; retain text and line order."
     },
@@ -149,7 +975,7 @@
       "date": "2026-11-07",
       "commit": "f526ed8e24cdb9296145c6bff56ad4ef4eda484a",
       "kind": "solver-correctness-qualification",
-      "evidence_status": "correctness_qualified_performance_evaluation_pending",
+      "evidence_status": "completed_correctness_qualified_default_enablement_rejected",
       "artifacts": "results/uflia-equality-20261107",
       "artifact_storage": "Local collected evidence and preserved isolated SLURM workspace; private routes and absolute cluster paths remain external.",
       "environment": {
@@ -237,7 +1063,7 @@
           "saved_failures": 0
         },
         "static": "Whole-tree133 tracked C++ files (129 src/tests +4 docs examples) completed at67be0557 in362790. Only two CPP direct-includes differ atf526ed8e; all headers, CMake and analyzer configuration unchanged. Fresh362804 rechecks those2 CPP plus4 examples; the two new include advisories are gone. Both jobs exit0; baseline advisory warnings remain. No warning-free-tree claim.",
-        "performance": "44-case paired development comparison submitted after correctness gates; results pending, no promotion claim."
+        "performance": "44-case comparison completed; default enablement rejected. See development-f526ed8e entry and benchmark metadata."
       },
       "commands": [
         "scripts/qualification/uflia_equalities/check.sbatch",
@@ -247,10 +1073,10 @@
         "scripts/qualification/uflia_equalities/static.sbatch with two-file manifest (method2fb2447b); remaining whole-tree files are byte-identical to qualified source67be0557"
       ],
       "limitations": [
-        "Two generated native complete-arrangement cases remain unknown and are not passes; all successful SAT rows receive direct Dolmen acceptance.",
-        "Static analysis is completed per file across byte-identical coverage and the include-fix recheck; existing baseline advisories remain.",
-        "No speedup/default-promotion claim pending paired evaluation.",
-        "Model validation checks SAT witnesses; UNSAT relies on reference/declared-answer comparisons."
+        "Two generated complete-arrangement cases remain unknown and are not passes.",
+        "Existing static baseline advisories remain.",
+        "Default enablement rejected after paired development evaluation; no full-corpus speedup claim.",
+        "SAT witness validation is separate from UNSAT reference/declared-answer comparisons."
       ],
       "references": "Tracked quoted-name regression uses staged cvc5 after successful Z3 grammar-error triage362798; real seeds/mutants use Z3. See67be0557 receipt for failed preparation attempts; none counted as qualification."
     },
