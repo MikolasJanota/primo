@@ -3,6 +3,116 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-uflia-equality-f526ed8e-qualification",
+      "date": "2026-11-07",
+      "commit": "f526ed8e24cdb9296145c6bff56ad4ef4eda484a",
+      "kind": "solver-correctness-qualification",
+      "evidence_status": "correctness_qualified_performance_evaluation_pending",
+      "artifacts": "results/uflia-equality-20261107",
+      "artifact_storage": "Local collected evidence and preserved isolated SLURM workspace; private routes and absolute cluster paths remain external.",
+      "environment": {
+        "execution": "SLURM compute only",
+        "checks": "4 CPUs,16 GiB,40min; five profiles x1000 mixed depth3 cases, Z3 timeout5s, direct Dolmen solver/validator timeout10s",
+        "asan": "4 CPUs,24 GiB,40min; full address-sanitized suite then four profiles x25 generated cases, timeout10s",
+        "mutations": "one CPU,6 GiB,40min per profile; five real seeds including all four top-level families,20 operator mutations/seed; Z3 timeout5s then strict answer replay10s; all SAT rows direct Dolmen30s",
+        "compiler": "GNU C++11.4.1; CaDiCaL3.0.0"
+      },
+      "identities": {
+        "release_sha256": "0ffd94bb9227fe84dab12a22b1b9f1d4aaa9462cbc0c1247039356b3aef978f7",
+        "z3_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+        "dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+      },
+      "jobs": {
+        "build": "362800",
+        "focused": "362801",
+        "check": "362802",
+        "asan": "362803",
+        "static_include_fix": "362804",
+        "mutations_native": "362805_0",
+        "mutations_m124": "362805_1"
+      },
+      "summary": {
+        "focused": "passed both component-batch and QF_UFLIA suites",
+        "check": "45 C++ tests and311 Python tests passed, lint passed",
+        "generated": {
+          "cases": 5000,
+          "pass": 4998,
+          "unknown": 2,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_error": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "profiles": [
+            "native-online",
+            "native-rebuild",
+            "m124-online",
+            "m124-rebuild",
+            "native-complete"
+          ],
+          "seed_base": 2026110711,
+          "seeds": [
+            2026110711,
+            2026110712,
+            2026110713,
+            2026110714,
+            2026110715
+          ],
+          "incomplete": "Native complete-arrangement mode returned unknown on cases827 and862; reference answered SAT. These are not counted as passes."
+        },
+        "generated_models": {
+          "expected_sat": 2488,
+          "direct_dolmen_pass": 2488,
+          "invalid": 0,
+          "changed_answer": 0,
+          "timeout": 0,
+          "missing": 0
+        },
+        "asan": "45 tests passed;100/100 generated runs passed (25 inputs replayed in four profiles, seed2026110716)",
+        "mutations": {
+          "profiles": [
+            "native",
+            "m124"
+          ],
+          "seeds": [
+            2026110720,
+            2026110721
+          ],
+          "generated": 200,
+          "strict_answers_pass": 200,
+          "original_regression_rows": 10,
+          "original_real_seed_rows": 10,
+          "all_original_answers_pass": 20,
+          "direct_dolmen_mutant_sat_pass": 113,
+          "direct_dolmen_original_sat_pass": 10,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_error": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "saved_failures": 0
+        },
+        "static": "Whole-tree133 tracked C++ files (129 src/tests +4 docs examples) completed at67be0557 in362790. Only two CPP direct-includes differ atf526ed8e; all headers, CMake and analyzer configuration unchanged. Fresh362804 rechecks those2 CPP plus4 examples; the two new include advisories are gone. Both jobs exit0; baseline advisory warnings remain. No warning-free-tree claim.",
+        "performance": "44-case paired development comparison submitted after correctness gates; results pending, no promotion claim."
+      },
+      "commands": [
+        "scripts/qualification/uflia_equalities/check.sbatch",
+        "scripts/qualification/uflia_equalities/asan.sbatch",
+        "scripts/qualification/uflia_equalities/static.sbatch",
+        "scripts/qualification/uflia_equalities/mutations.sbatch (method09dd08b1; PRIMO_REGRESSION_REF supplies staged cvc5 for tracked syntax regressions; real seeds/mutants still use Z3)",
+        "scripts/qualification/uflia_equalities/static.sbatch with two-file manifest (method2fb2447b); remaining whole-tree files are byte-identical to qualified source67be0557"
+      ],
+      "limitations": [
+        "Two generated native complete-arrangement cases remain unknown and are not passes; all successful SAT rows receive direct Dolmen acceptance.",
+        "Static analysis is completed per file across byte-identical coverage and the include-fix recheck; existing baseline advisories remain.",
+        "No speedup/default-promotion claim pending paired evaluation.",
+        "Model validation checks SAT witnesses; UNSAT relies on reference/declared-answer comparisons."
+      ],
+      "references": "Tracked quoted-name regression uses staged cvc5 after successful Z3 grammar-error triage362798; real seeds/mutants use Z3. See67be0557 receipt for failed preparation attempts; none counted as qualification."
+    },
+    {
       "id": "2026-11-07-uflia-equality-67be0557-qualification",
       "date": "2026-11-07",
       "commit": "67be0557ecfdf91cf4cd26ea08db6105cfbc7955",
@@ -95,7 +205,7 @@
           "reference_disagreement": 0,
           "saved_failures": 0
         },
-        "static": "Whole-tree scan still running when this receipt was written. Two new direct-include advisories repaired in f526ed8e; final source will be qualified afresh. Known baseline advisories include CLI.hpp:7598 and tactic.cpp:69 potential-leak reports.",
+        "static": "Whole-tree scan completed exit0 in362790 (16m53s). Two new direct-include advisories repaired in f526ed8e; that source is qualified separately. Known baseline advisories include CLI.hpp:7598 and tactic.cpp:69 potential-leak reports.",
         "performance": "not run for this snapshot"
       },
       "commands": [
