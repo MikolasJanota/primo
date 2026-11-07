@@ -38,9 +38,12 @@ def main() -> None:
     for name in ('timing', 'out', 'reference_analysis', 'references'):
         parser.add_argument('--' + name.replace('_', '-'), type=Path, required=True)
     parser.add_argument('--models', type=Path)
+    parser.add_argument('--export-csv', type=Path)
     parser.add_argument('--inputs', type=int, required=True)
     parser.add_argument('--shards', type=int, required=True)
     args = parser.parse_args()
+    if args.export_csv and args.export_csv.exists():
+        parser.error('fresh CSV export directory required')
     old = json.loads(args.reference_analysis.read_text())
     profiles = defaultdict(dict)
     inputs = {}
@@ -129,6 +132,15 @@ def main() -> None:
               'models': {'status': 'complete' if args.models else 'pending', **dict(model_counts)},
               'cases': {name: {p: diagnostic_work(rows[name]) for p, rows in profiles.items()} for name in sorted(inputs)}}
     args.out.write_text(json.dumps(output, indent=2) + '\n')
+    if args.export_csv:
+        for profile, rows in {**profiles, 'z3': {n: references[n] for n in inputs}}.items():
+            target = args.export_csv / profile / 'shard-0.csv'
+            target.parent.mkdir(parents=True)
+            with target.open('w', newline='') as stream:
+                writer = csv.DictWriter(stream, fieldnames=['file', 'status', 'answer', 'seconds', 'wrong', 'exit_code'])
+                writer.writeheader()
+                for name, row in rows.items():
+                    writer.writerow({k: (name if k == 'file' else 'false' if k == 'wrong' else row[k]) for k in writer.fieldnames})
     print(json.dumps({k: output[k] for k in ('inputs', 'profiles', 'controls', 'models')}, indent=2))
 
 
