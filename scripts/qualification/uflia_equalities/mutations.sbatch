@@ -56,8 +56,14 @@ PY
 solver_flags=()
 for flag in "${flags[@]}"; do solver_flags+=(--solver-arg="$flag"); done
 for stage in regressions seeds; do
+ reference=(--ref contrib/local/bin/z3)
+ if [[ $stage == regressions && -n ${PRIMO_REGRESSION_REF:-} ]]; then
+  reference=(--ref "$PRIMO_REGRESSION_REF" --ref-arg=--lang=smt2)
+  sha256sum "$PRIMO_REGRESSION_REF" > "$out/regression-reference.sha256"
+  "$PRIMO_REGRESSION_REF" --version > "$out/regression-reference-version.txt"
+ fi
  python3 scripts/check_solver_seed_corpus.py --seeds "$out/$stage" --solver build-slurm-rel/primo \
-  --solver-arg=--quiet "${solver_flags[@]}" --ref contrib/local/bin/z3 --timeout 30 --out "$out/$stage-answers.csv"
+  --solver-arg=--quiet "${solver_flags[@]}" "${reference[@]}" --timeout 30 --out "$out/$stage-answers.csv"
 done
 scripts/yinyang_fuzz.sh --seeds "$out/seeds" --typefuzz "$PWD/scripts/seeded_opfuzz.py" \
  --config scripts/fuzz_configs/model_linear_ops.txt \
