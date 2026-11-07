@@ -19,4 +19,6 @@ python3 "$CAPTURE_WORKFLOW/capture_micromath_lra.py" \
   --results "$LRA_SWEEP_RESULTS" --feedback "$LRA_SWEEP_FEEDBACK" \
   --micromath "$MICROMATH_LRA_DIR" --cadical "$PRIMO_SAT_SOLVER" \
   --case-index "$SLURM_ARRAY_TASK_ID" --stage-seconds 300 \
+  --raw-proof-bytes "${CAPTURE_RAW_BYTES:-2147483648}" \
+  --gzip-proof-bytes "${CAPTURE_GZIP_BYTES:-268435456}" \
   --out "$PWD/results/lra-proof-capture-$SLURM_ARRAY_JOB_ID/case-$SLURM_ARRAY_TASK_ID"

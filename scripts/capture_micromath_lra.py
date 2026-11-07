@@ -154,11 +154,13 @@ def main():
         parser.add_argument(f"--{name}", type=Path, required=True)
     parser.add_argument("--case-index", type=int, choices=range(3), required=True)
     parser.add_argument("--stage-seconds", type=int, default=300)
+    parser.add_argument("--raw-proof-bytes", type=int, default=RAW_BYTES)
+    parser.add_argument("--gzip-proof-bytes", type=int, default=FILE_BYTES)
     args = parser.parse_args()
     if not os.environ.get("SLURM_JOB_ID"):
         parser.error("proof diagnostics belong in SLURM")
-    if args.stage_seconds <= 0:
-        parser.error("stage-seconds must be positive")
+    if min(args.stage_seconds, args.raw_proof_bytes, args.gzip_proof_bytes) <= 0:
+        parser.error("time and proof byte limits must be positive")
     for name in ("results", "feedback", "micromath", "cadical", "out"):
         setattr(args, name, getattr(args, name).resolve())
     audit = json.loads((args.feedback / "summary.json").read_text())
@@ -208,8 +210,8 @@ def main():
             "stage_seconds": args.stage_seconds,
             "process_address_bytes": ADDRESS_BYTES,
             "process_file_bytes": FILE_BYTES,
-            "raw_proof_bytes": RAW_BYTES,
-            "compressed_proof_bytes": FILE_BYTES,
+            "raw_proof_bytes": args.raw_proof_bytes,
+            "compressed_proof_bytes": args.gzip_proof_bytes,
         },
         "transport": "producer --raw directly into gzip level1, then separate gzip-fed kernel; no raw file",
         "source_to_cnf_verified": False,
@@ -229,7 +231,14 @@ def main():
         "--cadical",
         str(args.cadical),
     ]
-    report["export"] = capture(command, args.micromath, args.out, args.stage_seconds)
+    report["export"] = capture(
+        command,
+        args.micromath,
+        args.out,
+        args.stage_seconds,
+        raw_limit=args.raw_proof_bytes,
+        gzip_limit=args.gzip_proof_bytes,
+    )
     report["status"] = "export_" + report["export"]["state"]
     write_json(args.out / "summary.json", report)
     if report["export"]["complete"]:
