@@ -1,0 +1,284 @@
+{
+  "id": "qf-uflia-equality-ablation-qualification-20261107",
+  "solver_commit": "4a0c6bee586c0d7c1d21ade156cff8cdb71892d5",
+  "binary_sha256": "0ed25529154807ecd9570c0c91c5b44558b3335b30c65230722cf5a69a91d719",
+  "baseline_commit": "8d84fdcab67f7ba0aaf097378062e71c6971be8c",
+  "baseline_binary_sha256": "b0ef21f7504257eeb336d9eadd556389c6f906c5d7624fe620ff37c887c3dd59",
+  "dependencies": {
+    "cadical": "cadical-3.0.0-7b99c07",
+    "z3": {
+      "version": "5.1.0",
+      "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0"
+    },
+    "dolmen": {
+      "version": "0.10",
+      "sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+    },
+    "cvc5_regression_reference": {
+      "version": "1.4.2 git282d5e0",
+      "sha256": "cd890c206c0bb4a604345c2e84de5ed576959a20f6bd96bda94608dd6521f3e3"
+    },
+    "yinyang": "0.3.0",
+    "z3_solver_python": "5.0.0.0"
+  },
+  "jobs": {
+    "build": "363019",
+    "unit_cli": "363020",
+    "fuzz": "363021_0-4",
+    "check": "363026",
+    "asan": "363027",
+    "static": "363028",
+    "mutations": "363029_0-3",
+    "mutation_finish": "363033_0,3",
+    "unknowns": "363083",
+    "fixed_campaign": "363169_0-1"
+  },
+  "artifact_directory": "results/uflia-equality-ablation-20261107",
+  "gate_outcomes": {
+    "generated": {
+      "all": {
+        "counts": {
+          "PASS": 1000
+        },
+        "dolmen_sat_passes": 517
+      },
+      "fixed": {
+        "counts": {
+          "PASS": 1000
+        },
+        "dolmen_sat_passes": 510
+      },
+      "names": {
+        "counts": {
+          "PASS": 1000
+        },
+        "dolmen_sat_passes": 500
+      },
+      "off": {
+        "counts": {
+          "PASS": 998,
+          "UNKNOWN_INVOLVED": 2
+        },
+        "dolmen_sat_passes": 503
+      },
+      "scan": {
+        "counts": {
+          "PASS": 1000
+        },
+        "dolmen_sat_passes": 512
+      }
+    },
+    "mutations": {
+      "shard-0": {
+        "regressions": {
+          "PASS": 5
+        },
+        "seeds": {
+          "PASS": 5
+        },
+        "mutant": {
+          "PASS": 99,
+          "INCOMPLETE": 1
+        },
+        "models": {}
+      },
+      "shard-1": {
+        "regressions": {
+          "PASS": 5
+        },
+        "seeds": {
+          "PASS": 5
+        },
+        "mutant": {
+          "PASS": 100
+        },
+        "models": {
+          "regressions-models": 4,
+          "mutant-models": 49,
+          "seeds-models": 1
+        }
+      },
+      "shard-2": {
+        "regressions": {
+          "PASS": 5
+        },
+        "seeds": {
+          "PASS": 5
+        },
+        "mutant": {
+          "PASS": 100
+        },
+        "models": {
+          "regressions-models": 4,
+          "mutant-models": 49,
+          "seeds-models": 1
+        }
+      },
+      "shard-3": {
+        "regressions": {
+          "PASS": 5
+        },
+        "seeds": {
+          "PASS": 5
+        },
+        "mutant": {
+          "PASS": 99,
+          "INCOMPLETE": 1
+        },
+        "models": {}
+      }
+    },
+    "mutation_finish": {
+      "shard-0": {
+        "regressions-models": 4,
+        "mutant-models": 52,
+        "seeds-models": 1,
+        "retry-models": 1,
+        "retry": [
+          {
+            "file": "results/ablation-mutation-finish/shard-0/retry-seed/seed-003-WPkBU-5kdNC.smt2",
+            "expected": "",
+            "ours": "sat",
+            "ours_exit": "0",
+            "reference": "sat",
+            "reference_exit": "0",
+            "outcome": "PASS"
+          }
+        ]
+      },
+      "shard-3": {
+        "regressions-models": 4,
+        "mutant-models": 50,
+        "seeds-models": 1,
+        "retry-models": 1,
+        "retry": [
+          {
+            "file": "results/ablation-mutation-finish/shard-3/retry-seed/seed-003-RiL5p-W0okx.smt2",
+            "expected": "",
+            "ours": "sat",
+            "ours_exit": "0",
+            "reference": "sat",
+            "reference_exit": "0",
+            "outcome": "PASS"
+          }
+        ]
+      }
+    },
+    "asan": {
+      "fuzz-rebuild": {
+        "PASS": 25
+      },
+      "fuzz-native-default": {
+        "PASS": 25
+      },
+      "fuzz-m124": {
+        "PASS": 25
+      },
+      "fuzz-native": {
+        "PASS": 25
+      },
+      "fuzz-complete": {
+        "PASS": 25
+      },
+      "fuzz-m124-default": {
+        "PASS": 25
+      }
+    },
+    "fixed_campaign": {
+      "fixed-0": {
+        "counts": {
+          "PASS": 1000
+        },
+        "dolmen_sat_passes": 503
+      },
+      "fixed-1": {
+        "counts": {
+          "PASS": 1000
+        },
+        "dolmen_sat_passes": 503
+      }
+    }
+  },
+  "hard_failures": {
+    "wrong_answer": 0,
+    "crash": 0,
+    "parser_type_error": 0,
+    "unsupported": 0,
+    "reference_disagreement": 0,
+    "invalid_model": 0
+  },
+  "generated_summary": {
+    "differential_pass": 6998,
+    "unknown_integer_node_limit_off": 2,
+    "total": 7000,
+    "direct_dolmen_sat_passes": 3548,
+    "seeds": {
+      "off": 2026110780,
+      "scan": 2026110781,
+      "names": 2026110782,
+      "fixed": [
+        2026110783,
+        2026110800,
+        2026110801
+      ],
+      "all": 2026110784
+    },
+    "shape": "mixed",
+    "depth": 3,
+    "timeout_seconds": 5,
+    "model_timeout_seconds": 15,
+    "reference": "z3",
+    "limitations": "Distinct per-mode seeds; correctness campaigns, not matched-input performance comparisons. Two off-mode unknowns reproduce on frozen baseline with integer branch-and-bound node limit."
+  },
+  "mutation_summary": {
+    "original_regression_checks": 20,
+    "original_real_seed_checks": 20,
+    "mutants": 400,
+    "pass_at_10s": 398,
+    "primo_timeout_reference_sat_at_10s": 2,
+    "timeout_retry_sat_pass_at_60s": 2,
+    "direct_dolmen_sat_passes": 222,
+    "seeds": [
+      2026110790,
+      2026110791,
+      2026110792,
+      2026110793
+    ],
+    "iterations_per_seed": 20,
+    "corpus_seeds_per_mode": 5,
+    "generation_timeout_seconds": 5,
+    "reference": "Z3; cvc5 for original tracked regressions because of prior quoted-symbol compatibility",
+    "model_timeout_seconds": "30 for original successful gates;120 solver/30 Dolmen in timeout follow-up",
+    "unclassified_saved_bugs": 0
+  },
+  "verification": {
+    "make_check": {
+      "native_ctest": 45,
+      "python_tests": 311,
+      "lint": "pass"
+    },
+    "make_asan_test": {
+      "native_ctest": 45,
+      "additional_generated_cases": 150,
+      "all_pass": true
+    },
+    "focused": "component/QF_UFLIA suites; eleven CLI forms plus invalid-value rejection",
+    "static": {
+      "baseline_unique": 308,
+      "current_unique": 308,
+      "new_messages": [
+        "Excessive padding in 'struct primo::smt::CheckSatOptions' (58 padding bytes, where 2 is optimal). Optimal fields order: experimental_split_bools, extended_simplification_rounds, qf_uflia_model_decision_budget, euf_propagation_interval, euf_propagation_assign_threshold, euf_diseq_ackermann_max_width, euf_diseq_ackermann_queue_budget, euf_diseq_ackermann_per_symbol, nelson_oppen_model_equality_branch_budget, boolean_flatten_threshold, boolean_flatten_post_threshold, preprocessing_passes, preprocessing_adaptive_extra_passes, preprocessing_adaptive_shrink_percent, finite_domain_eqdefs_auto_domain_limit, finite_domain_eqdefs_auto_clause_limit, finite_domain_eqdefs_auto_term_limit, quantifier_instances_per_round, quantifier_stall_tuples, quantifier_max_instances, quantifier_deepening_increment, quantifier_random_seed, qf_uf_portfolio_conflicts, euf_propagation_budget, euf_propagation_delivery, nelson_oppen_arrangement_probe_limit, max_theory_conflicts, cadical_options, lra_row_propagation_limits, lra_tuning, quantifier_export_pools, cancelled, auto_preprocess_tuning, lia, incremental_mode, preprocessing_mode, euf_engine, euf_propagation, pure_theory_filter, theory_phase, euf_explain_search, nelson_oppen_model_equality_mutation_scope, nelson_oppen_model_equality_branch_policy, nelson_oppen_propagation, lra_pivoting_rule, mixed_dispatch, qf_uflra_lra_equality_producer, qf_uflia_equality_policy, auto_preprocess_selector, boolean_implies_rewrite, qf_uf_portfolio, quantifier_tuple_order, euf_proof_forest_diagnostics, euf_diseq_propagation_diagnostics, euf_ackermann_diagnostics, nelson_oppen_diagnostics, nelson_oppen_model_equality_branching, nelson_oppen_model_equality_mutation, euf_dynamic_ackermann_shadow, euf_diseq_ackermann, lra_propagation, lra_equality_propagation, lra_row_propagation, lra_bidirectional_row_propagation, lra_theory_decisions, lra_sparse_leaving, lra_least_violated_leaving, lra_fixed_elimination, qf_uflra_fixed_elimination, uf_symmetry_breaking, finite_domain_value_precedence, finite_domain_equality_definitions, finite_domain_post_amo, auto_finite_domain_equality_definitions, eq_bridge, ground_congruence, ground_unit_substitution, guarded_ground_unit_substitution, guarded_real_equality_lowering, arithmetic_atom_canonicalization, extended_simplification, ite_equality_distribution, cite_simplification, solved_constant_substitution, gaussian_elimination, qf_uflra_candidate_final_scan, qf_uflra_model_reconciliation, experimental_generic_model_combination, qf_uflia_model_combination, qf_uflia_online_components, qf_uflia_tableau_equalities, qf_uflra_online_euf, top_level_or_tseitin, auto_top_level_or_tseitin, auto_basic_single_preprocessing, auto_basic_single_predicate_polarity, auto_basic_multi_preprocessing, auto_basic_multi_polarity, preprocess_only, quantifier_instance_simplification, produce_model, check_model, lra_model_phase, monotone_elimination, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]",
+        "enum 'QfUfliaEqualityPolicy' uses a larger base type ('int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size [performance-enum-size]"
+      ],
+      "removed_messages": [
+        "Excessive padding in 'struct primo::smt::CheckSatOptions' (62 padding bytes, where 6 is optimal). Optimal fields order: experimental_split_bools, extended_simplification_rounds, qf_uflia_model_decision_budget, euf_propagation_interval, euf_propagation_assign_threshold, euf_diseq_ackermann_max_width, euf_diseq_ackermann_queue_budget, euf_diseq_ackermann_per_symbol, nelson_oppen_model_equality_branch_budget, boolean_flatten_threshold, boolean_flatten_post_threshold, preprocessing_passes, preprocessing_adaptive_extra_passes, preprocessing_adaptive_shrink_percent, finite_domain_eqdefs_auto_domain_limit, finite_domain_eqdefs_auto_clause_limit, finite_domain_eqdefs_auto_term_limit, quantifier_instances_per_round, quantifier_stall_tuples, quantifier_max_instances, quantifier_deepening_increment, quantifier_random_seed, qf_uf_portfolio_conflicts, euf_propagation_budget, euf_propagation_delivery, nelson_oppen_arrangement_probe_limit, max_theory_conflicts, cadical_options, lra_row_propagation_limits, lra_tuning, quantifier_export_pools, cancelled, auto_preprocess_tuning, lia, incremental_mode, preprocessing_mode, euf_engine, euf_propagation, pure_theory_filter, theory_phase, euf_explain_search, nelson_oppen_model_equality_mutation_scope, nelson_oppen_model_equality_branch_policy, nelson_oppen_propagation, lra_pivoting_rule, mixed_dispatch, qf_uflra_lra_equality_producer, auto_preprocess_selector, boolean_implies_rewrite, qf_uf_portfolio, quantifier_tuple_order, euf_proof_forest_diagnostics, euf_diseq_propagation_diagnostics, euf_ackermann_diagnostics, nelson_oppen_diagnostics, nelson_oppen_model_equality_branching, nelson_oppen_model_equality_mutation, euf_dynamic_ackermann_shadow, euf_diseq_ackermann, lra_propagation, lra_equality_propagation, lra_row_propagation, lra_bidirectional_row_propagation, lra_theory_decisions, lra_sparse_leaving, lra_least_violated_leaving, lra_fixed_elimination, qf_uflra_fixed_elimination, uf_symmetry_breaking, finite_domain_value_precedence, finite_domain_equality_definitions, finite_domain_post_amo, auto_finite_domain_equality_definitions, eq_bridge, ground_congruence, ground_unit_substitution, guarded_ground_unit_substitution, guarded_real_equality_lowering, arithmetic_atom_canonicalization, extended_simplification, ite_equality_distribution, cite_simplification, solved_constant_substitution, gaussian_elimination, qf_uflra_candidate_final_scan, qf_uflra_model_reconciliation, experimental_generic_model_combination, qf_uflia_model_combination, qf_uflia_online_components, qf_uflia_tableau_equalities, qf_uflra_online_euf, top_level_or_tseitin, auto_top_level_or_tseitin, auto_basic_single_preprocessing, auto_basic_single_predicate_polarity, auto_basic_multi_preprocessing, auto_basic_multi_polarity, preprocess_only, quantifier_instance_simplification, produce_model, check_model, lra_model_phase, monotone_elimination, consider reordering the fields or adding explicit padding members [clang-analyzer-optin.performance.Padding]",
+        "no header providing \"std::logic_error\" is directly included [misc-include-cleaner]"
+      ],
+      "scope": "129 src/tests +4 docs CPP translation units; clang-tidy/analyzer/include-cleaner; compare unique diagnostic message/check, ignoring paths/line numbers and repetitions; not a warning-free qualification",
+      "current_warning_occurrences": 2215,
+      "baseline_warning_occurrences": 2184,
+      "additional_per_file_diagnostics_excluding_policy_enum_and_padding": 0
+    }
+  },
+  "source_scope": "No src/ or tests/ change after qualified4a0c6bee; later commits add workflow, documentation and metadata only. Default off retained; no promotion."
+}

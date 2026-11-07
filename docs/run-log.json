@@ -23,7 +23,10 @@
         "selected_rejected": "363035_0-23",
         "selected": "363059_0-23",
         "selected_models": "363084_0-23",
-        "generated_unknowns": "363083"
+        "generated_unknowns": "363083",
+        "full": "363108_0-47",
+        "full_models": "363156_0-47",
+        "fixed_campaign": "363169_0-1"
       },
       "results": {
         "initial_build": "passed SLURM Release build",
@@ -34,15 +37,19 @@
         "mutations": "40/40 original regression/real-seed checks PASS;398/400 mutations PASS at10s,2 Primo timeout/reference SAT. Both timeout files PASS SAT at60s; all222 successful SAT rows (including retries) direct Dolmen PASS. No saved unclassified bugs.",
         "check": "make check PASS:45 native CTest suites and311 Python tests plus lint",
         "asan": "make asan-test PASS:45 native CTest suites,150/150 additional generated cases PASS",
-        "selected_rejected": "All24 tasks failed importing subprocess before any solver execution; adjacent select.py shadowed stdlib select. Renamed select_cases.py; all three entry-point --help checks then PASS. No accepted timing rows from363035."
+        "selected_rejected": "All24 tasks failed importing subprocess before any solver execution; adjacent select.py shadowed stdlib select. Renamed select_cases.py; all three entry-point --help checks then PASS. No accepted timing rows from363035.",
+        "static": "PASS process status on133 tracked C++ translation units (129 src/tests,4 docs),clang-tidy/analyzer/include-cleaner;2215 warnings,308 distinct diagnostic messages vs baseline2184/308. Only added diagnostic kinds are enum-size advisory for new policy and changed existing options-padding advisory. Prior external CLI11/shared-pointer leak warnings retained; no new memory, include or dead-code diagnostic. Not warning-free. Per-file diagnostic comparison excluding new enum/changed padding gives zero additional occurrences.",
+        "selected": "427 rows complete: old-off44,old-all36,off44,scan44,names43,fixed55,all36 solved out61 at60s. All302 successful answers agree with prior fresh Z3 for identical inputs; all168 SAT rows direct Dolmen PASS. Off/scan search counters identical on44 common solves; old/current off44 andall36 common-solved controls identical. Deliberately biased selection, not corpus-wide evidence.",
+        "fixed_campaign": "2000/2000 additional generated cases PASS,1006/1006 direct Dolmen SAT models PASS. Combined Fixed qualification:3000 generated PASS,1516 SAT model PASS plus100 real-seed mutations/10 originals with54 SAT model PASS. Across all policies:7000 generated,6998 PASS,2 baseline integer-node-limit unknowns;3548 generated SAT models direct Dolmen PASS."
       },
       "artifacts": "results/uflia-equality-ablation-20261107",
       "environment": "SLURM compute; build 4 CPUs/8GiB/30min; unit and CLI 2 CPUs/8GiB/10min. No local batch solver execution.",
-      "remaining": "Whole-tree static advisory classification, selected timings/model coverage/analysis, informative full-corpus comparison with separate SAT replay, documentation review and final commits.",
+      "remaining": "Full timings/model coverage/analysis, document causal conclusions, independent evidence review, verification and final commits.",
       "correctness_plan": {
         "generated": "1000 mixed depth3 per off/scan/names/fixed/all; seeds 2026110780..84,5s process limit,Z3 reference; separate direct Dolmen every successful SAT,15s solver and validator limits",
         "mutations": "scan/names/fixed/all; five deterministic smallest family-balanced corpus seeds plus tracked QF_UFLIA regressions; seeds2026110790..93,20mutants/seed,5s mutation process limit; original/replay30/10s,strict deterministic checks;Z3 and cvc5 for tracked regression compatibility; separate Dolmen SAT replay",
-        "suite": "make check; make asan-test plus150 generated cases; whole-tree clang-tidy/analyzer/include-cleaner"
+        "suite": "make check; make asan-test plus150 generated cases; whole-tree clang-tidy/analyzer/include-cleaner",
+        "fixed_campaign": "Two additional1000-case mixed depth3 runs at seeds2026110800/0801,5s,explicit native overrides and model phaseoff,Fixed policy; separate successful SAT Dolmen replay15s. Combined with initial fixed1000 gives3000 generated cases plus real-seed mutation campaign; outcomes pending collection."
       },
       "method_commit": "16ad8c01",
       "qualified_source_commit": "4a0c6bee586c0d7c1d21ade156cff8cdb71892d5",
@@ -65,7 +72,28 @@
         "timing_wall_minutes": 30,
         "placement": "timings exclude qualification/model node; model replay pinned to that node,aftercorr dependency per corresponding timing shard",
         "models": "separate replay,120s solver/30s Dolmen,24shards throttle8,12GiB each; exclude model time from speed results"
-      }
+      },
+      "full_plan": {
+        "inputs": 659,
+        "profiles": [
+          "off",
+          "scan",
+          "names",
+          "fixed",
+          "all"
+        ],
+        "solver_limit_seconds": 60,
+        "shards": 48,
+        "throttle": 48,
+        "requested_cpu": 1,
+        "memory_gib": 8,
+        "wall_minutes": 85,
+        "placement": "full timing excludes selected/model/qualification nodes; observed7 idle compute nodes before submission",
+        "models": "48 corresponding shards,throttle16,12GiB,35min,120s solver/30s Dolmen; aftercorr full and afterok selected; placement excludes every full-timing node",
+        "reference": "Reuse prior fresh Z3 run362905 answers from reference-retry,only SHA-identical inputs; no new reference speed claims."
+      },
+      "analysis_commit": "f5829ec1",
+      "qualification_metadata": "benchmarks/qf-uflia-equality-ablation-qualification-20261107.json"
     },
     {
       "id": "2026-11-07-uflia-equality-full60-8d84fdca",
