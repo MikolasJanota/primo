@@ -1,0 +1,18 @@
+{
+  "job_id": "362779",
+  "captures_checked": 6,
+  "archive": {
+    "file": "lra-capture-feedback.tar.gz",
+    "sha256": "6b564eee0a5e1b69c782eeeb9eeb3b860ca75181d42d8d5fdd418e13dcc13e2a",
+    "bytes": 743023
+  },
+  "statuses": [
+    "export_gzip_limit",
+    "export_gzip_limit",
+    "export_gzip_limit",
+    "verified",
+    "verified",
+    "verified"
+  ],
+  "finished": true
+}
