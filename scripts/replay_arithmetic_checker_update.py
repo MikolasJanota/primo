@@ -55,7 +55,16 @@ def main():
     for name in ("audit", "micromath", "cadical", "out", "build-report"):
         parser.add_argument(f"--{name}", type=Path, required=True)
     parser.add_argument("--micromath-git", required=True)
+    parser.add_argument("--capture-only", action="store_true")
+    parser.add_argument("--case-name", action="append", default=[])
+    parser.add_argument("--capture-seconds", type=int, default=60)
+    parser.add_argument("--raw-proof-bytes", type=int, default=2 * 1024**3)
+    parser.add_argument("--gzip-proof-bytes", type=int, default=256 * 1024**2)
     args = parser.parse_args()
+    if min(args.capture_seconds, args.raw_proof_bytes, args.gzip_proof_bytes) <= 0:
+        parser.error("capture time and byte bounds must be positive")
+    if args.capture_only and args.logic != "LRA":
+        parser.error("capture-only currently handles the LRA feedback set")
     if not os.environ.get("SLURM_JOB_ID"):
         parser.error("checker update qualification belongs in SLURM")
     for name in ("audit", "micromath", "cadical", "out", "build_report"):
@@ -93,6 +102,14 @@ def main():
         c["status"] not in trusted for c in cases
     ):
         raise ValueError("expected complete independently validated feedback set")
+    if args.case_name:
+
+        def case_name(case):
+            return case["name"] if args.logic == "LRA" else f"{case['index']:03}"
+
+        if set(args.case_name) - {case_name(c) for c in cases}:
+            raise ValueError("requested case is not in the audited feedback set")
+        cases = [c for c in cases if case_name(c) in args.case_name]
     expected_cadical = (
         audit["cadical_sha256"]
         if args.logic == "LRA"
@@ -105,6 +122,8 @@ def main():
         "job_id": os.environ["SLURM_JOB_ID"],
         "host": platform.node(),
         "logic": args.logic,
+        "capture_only": args.capture_only,
+        "selected_case_names": args.case_name,
         "micromath_git": actual,
         "binary_sha256": expected,
         "cadical_sha256": digest(args.cadical),
@@ -115,8 +134,10 @@ def main():
         "limits": {
             "challenge_seconds": 30,
             "live_pipeline_seconds": 60,
-            "capture_seconds": 60,
-            "captured_kernel_seconds": 60,
+            "capture_seconds": args.capture_seconds,
+            "captured_kernel_seconds": args.capture_seconds,
+            "raw_proof_bytes": args.raw_proof_bytes,
+            "gzip_proof_bytes": args.gzip_proof_bytes,
             "process_address_bytes": 3221225472,
             "process_file_bytes": 268435456,
         },
@@ -189,42 +210,45 @@ def main():
         else:
             row["challenge_bytes"] = challenge.stat().st_size
             row["challenge_sha256"] = digest(challenge)
-            pipe = directory / "pipe"
-            pipe.mkdir()
-            stage = invoke(
-                [
-                    "bash",
-                    "-c",
-                    PIPE,
-                    "checker-update-pipe",
-                    str(args.micromath / f"smt/prove-{args.logic.lower()}"),
-                    str(challenge),
-                    str(certificate),
-                    str(args.cadical),
-                    str(args.micromath / "check-solution"),
-                    str(pipe),
-                    "",
-                ],
-                args.micromath,
-                directory / "live-pipeline",
-                60,
-            )
-            row["stages"]["live_pipeline"] = stage
-            row["status"], row["pipeline_exit_codes"] = pipeline_result(
-                stage, pipe, "exit-status.txt"
-            )
-            row["producer_diagnostic"] = tail(pipe / "producer.err")
-            row["kernel_result"] = tail(pipe / "kernel.out")
-            row["kernel_steps"] = {
-                m[1]: int(m[2])
-                for m in re.finditer(
-                    r"^(.+): (\d+) kernel steps",
-                    row["producer_diagnostic"],
-                    re.MULTILINE,
+            if not args.capture_only:
+                pipe = directory / "pipe"
+                pipe.mkdir()
+                stage = invoke(
+                    [
+                        "bash",
+                        "-c",
+                        PIPE,
+                        "checker-update-pipe",
+                        str(args.micromath / f"smt/prove-{args.logic.lower()}"),
+                        str(challenge),
+                        str(certificate),
+                        str(args.cadical),
+                        str(args.micromath / "check-solution"),
+                        str(pipe),
+                        "",
+                    ],
+                    args.micromath,
+                    directory / "live-pipeline",
+                    60,
                 )
-            }
-            row["live_replay_seconds"] = time.monotonic() - started
-            if args.logic == "LRA" and row["status"] == "verified":
+                row["stages"]["live_pipeline"] = stage
+                row["status"], row["pipeline_exit_codes"] = pipeline_result(
+                    stage, pipe, "exit-status.txt"
+                )
+                row["producer_diagnostic"] = tail(pipe / "producer.err")
+                row["kernel_result"] = tail(pipe / "kernel.out")
+                row["kernel_steps"] = {
+                    m[1]: int(m[2])
+                    for m in re.finditer(
+                        r"^(.+): (\d+) kernel steps",
+                        row["producer_diagnostic"],
+                        re.MULTILINE,
+                    )
+                }
+                row["live_replay_seconds"] = time.monotonic() - started
+            if args.logic == "LRA" and (
+                args.capture_only or row["status"] == "verified"
+            ):
                 saved = directory / "capture"
                 saved.mkdir()
                 command = [
@@ -240,7 +264,14 @@ def main():
                     "--cadical",
                     str(args.cadical),
                 ]
-                row["capture"] = capture(command, args.micromath, saved, 60)
+                row["capture"] = capture(
+                    command,
+                    args.micromath,
+                    saved,
+                    args.capture_seconds,
+                    raw_limit=args.raw_proof_bytes,
+                    gzip_limit=args.gzip_proof_bytes,
+                )
                 if row["capture"]["complete"]:
                     replay = invoke(
                         [
@@ -255,12 +286,26 @@ def main():
                         ],
                         args.micromath,
                         saved / "kernel-pipeline",
-                        60,
+                        args.capture_seconds,
                     )
                     row["captured_kernel"] = replay
                     row["captured_kernel_status"], row["captured_kernel_exits"] = (
                         pipeline_result(replay, saved, "kernel-exits.txt")
                     )
+                if args.capture_only:
+                    row["status"] = row.get(
+                        "captured_kernel_status", "export_" + row["capture"]["state"]
+                    )
+                    row["producer_diagnostic"] = tail(saved / "producer.err")
+                    row["kernel_result"] = tail(saved / "kernel.out")
+                    row["kernel_steps"] = {
+                        m[1]: int(m[2])
+                        for m in re.finditer(
+                            r"^(.+): (\d+) kernel steps",
+                            row["producer_diagnostic"],
+                            re.MULTILINE,
+                        )
+                    }
         report["rows"].append(row)
         checkpoint()
     report["finished"] = True
