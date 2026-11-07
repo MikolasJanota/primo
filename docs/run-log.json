@@ -3,11 +3,132 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-uflia-equality-67be0557-qualification",
+      "date": "2026-11-07",
+      "commit": "67be0557ecfdf91cf4cd26ea08db6105cfbc7955",
+      "kind": "solver-correctness-qualification",
+      "evidence_status": "correctness_gates_passed_source_superseded_by_include_cleanup",
+      "artifacts": "results/uflia-equality-20261107",
+      "artifact_storage": "Local collected evidence and preserved isolated SLURM workspace; private routes and absolute cluster paths remain external.",
+      "environment": {
+        "execution": "SLURM compute only",
+        "checks": "4 CPUs,16 GiB,40min; five profiles x1000 mixed depth3 cases, Z3 timeout5s, direct Dolmen solver/validator timeout10s",
+        "asan": "4 CPUs,24 GiB,40min; full address-sanitized suite then four profiles x25 generated cases, timeout10s",
+        "mutations": "one CPU,6 GiB,40min per profile; five real seeds including all four top-level families,20 operator mutations/seed; Z3 timeout5s then strict answer replay10s; all SAT rows direct Dolmen30s",
+        "compiler": "GNU C++11.4.1; CaDiCaL3.0.0"
+      },
+      "identities": {
+        "release_sha256": "b977c1b6d599663bd85eac5e75cd056d913792a79e9d4d5e21f3952f2c3bd22d",
+        "z3_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+        "dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+      },
+      "jobs": {
+        "build": "362786",
+        "focused": "362787",
+        "check": "362788",
+        "asan": "362789",
+        "whole_tree_static": "362790",
+        "mutations_native": "362797_0",
+        "mutations_m124": "362797_1",
+        "reference_triage": "362798"
+      },
+      "summary": {
+        "focused": "passed both component-batch and QF_UFLIA suites",
+        "check": "45 C++ tests and311 Python tests passed, lint passed",
+        "generated": {
+          "cases": 5000,
+          "pass": 4998,
+          "unknown": 2,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_error": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "profiles": [
+            "native-online",
+            "native-rebuild",
+            "m124-online",
+            "m124-rebuild",
+            "native-complete"
+          ],
+          "seed_base": 2026110711,
+          "seeds": [
+            2026110711,
+            2026110712,
+            2026110713,
+            2026110714,
+            2026110715
+          ],
+          "incomplete": "Native complete-arrangement mode returned unknown on cases827 and862; reference answered SAT. These are not counted as passes."
+        },
+        "generated_models": {
+          "expected_sat": 2488,
+          "direct_dolmen_pass": 2488,
+          "invalid": 0,
+          "changed_answer": 0,
+          "timeout": 0,
+          "missing": 0
+        },
+        "asan": "45 tests passed;100/100 generated runs passed (25 inputs replayed in four profiles, seed2026110716)",
+        "mutations": {
+          "profiles": [
+            "native",
+            "m124"
+          ],
+          "seeds": [
+            2026110720,
+            2026110721
+          ],
+          "generated": 200,
+          "strict_answers_pass": 200,
+          "original_regression_rows": 10,
+          "original_real_seed_rows": 10,
+          "all_original_answers_pass": 20,
+          "direct_dolmen_mutant_sat_pass": 113,
+          "direct_dolmen_original_sat_pass": 10,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_error": 0,
+          "timeout": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "saved_failures": 0
+        },
+        "static": "Whole-tree scan still running when this receipt was written. Two new direct-include advisories repaired in f526ed8e; final source will be qualified afresh. Known baseline advisories include CLI.hpp:7598 and tactic.cpp:69 potential-leak reports.",
+        "performance": "not run for this snapshot"
+      },
+      "commands": [
+        "scripts/qualification/uflia_equalities/check.sbatch",
+        "scripts/qualification/uflia_equalities/asan.sbatch",
+        "scripts/qualification/uflia_equalities/static.sbatch",
+        "scripts/qualification/uflia_equalities/mutations.sbatch (method09dd08b1; PRIMO_REGRESSION_REF supplies staged cvc5 for tracked syntax regressions; real seeds/mutants still use Z3)"
+      ],
+      "triage": {
+        "cancelled_before_execution": [
+          "362791: repair five-seed selection with four families",
+          "362792: choose small seeds from full corpus instead of stress sample"
+        ],
+        "reference_attempts": [
+          "362793_0/1 stopped before mutation: four regression rows pass; quoted_names_model reference exits1. Z3 rejects invocation of quoted |let| and continues on a partial input, so its SAT response is unusable.",
+          "362795 setup failure: missing cvc5; original Z3 stdout/stderr retained. Submission followed a failed dependency preflight; no cvc5 result was accepted.",
+          "362796: cvc5 passes all five originals; Dolmen stage fails on missing PATH entry.",
+          "362798: cvc5 passes5/5 originals; explicit Dolmen binary validates quoted_names_model SAT model. Dependency of362797 updated to this successful triage job."
+        ],
+        "reference_install": "Repository contrib/install_cvc5.py installed official static cvc5-1.4.2 into a task-private prefix; version and binary identity retained with mutation artifacts."
+      },
+      "limitations": [
+        "ASan/fuzz/model evidence applies to67be0557, not the unqualified final include-cleanup snapshot f526ed8e.",
+        "No performance or default-promotion claim.",
+        "Model validation establishes successful SAT rows only; UNSAT evidence comes from reference/declared-answer comparisons."
+      ]
+    },
+    {
       "id": "2026-11-07-uflia-equality-initial-qualification",
       "date": "2026-11-07",
       "commit": "6fef08c189df793a381fc215e969277a66a4e003",
       "kind": "implementation-qualification",
-      "evidence_status": "stage_test_repair_pending",
+      "evidence_status": "superseded_test_repairs_qualified_at_67be0557",
       "artifacts": "results/uflia-equality-20261107",
       "environment": {
         "execution": "SLURM compute only; local editing, lint and docs",
@@ -33,8 +154,7 @@
         "models": "not run",
         "performance": "not run",
         "unit_2": "Generic explained-batch suite passed. QF_UFLIA stage test failed expecting rebuild UNSAT despite zero integer-search budget; the batch was emitted but next-round LIA completion precedes EUF. This is a test expectation error, not a wrong solver answer.",
-        "stage_diagnostic": "All four rules fired and returned UNSAT in online/rebuild CLI diagnostics with branch-limit1, patch/cut0. Online: one scan and no integer completion; rebuild: two scans followed by integer stage. Raw input/output retained.",
-        "next": "Test zero-budget rebuild Unknown/ResourceLimit plus positive batch counters, zero-budget online UNSAT, and normal-budget UNSAT for both routes; rerun qualification."
+        "stage_diagnostic": "All four rules fired and returned UNSAT in online/rebuild CLI diagnostics with branch-limit1, patch/cut0. Online: one scan and no integer completion; rebuild: two scans followed by integer stage. Raw input/output retained."
       }
     },
     {
