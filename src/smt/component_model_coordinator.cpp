@@ -11,6 +11,8 @@
 #include <utility>
 #include <vector>
 
+#include "theory/theory_component.hpp"
+
 namespace primo::smt {
 namespace {
 

@@ -9,6 +9,7 @@
 #include <stdexcept>
 #include <tuple>
 #include <utility>
+#include <vector>
 
 #include "core/term.hpp"
 #include "sat/cadical_backend.hpp"
