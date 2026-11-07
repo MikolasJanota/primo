@@ -59,6 +59,20 @@ Fresh SAT atoms invalidate model-query assumptions in the backend. Consequently,
 the driver must not query the old SAT model after the first materialization or
 clause insertion. Theory components never receive a SAT backend handle.
 
+## Example: a conflict before integer search
+
+Suppose SAT asserts the four bounds `0 <= x`, `x <= 0`, `0 <= y`, `y <= 0`,
+together with `p(x)` and `not p(y)`. An unrelated integer `t` has
+`1 <= 2*t` and `t <= 1`; its rational assignment may be fractional.
+
+After rational feasibility repair, `FixedEq` proves `x = y` from the four
+bounds, regardless of the value of `t`. The adapter returns that proof before
+trying to make `t` integral. The driver names the shared equality and learns
+its implication from those four bound literals. On the next SAT solve,
+online EUF can use congruence to refute `p(x)` and `not p(y)`. Rebuild mode
+also refutes the formula with a normal integer budget; its zero-budget
+limitation is described below.
+
 ## Algorithmic basis and limitations
 
 The mathematical discovery rules remain `FixedEq`, `EqRow`, `EqOffsetRows` and
