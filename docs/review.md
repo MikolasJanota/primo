@@ -98,3 +98,25 @@ that unit. This acceptance does not cover qualification outcomes or timing
 results. Both books and the assembled site's local/Git links passed; the changed
 design/table was inspected in rendered HTML. Native gates and experiments are
 tracked in `run-log.json`, independently of documentation acceptance.
+
+## Completed equality-delivery evidence review, 7 November
+
+A separate read-only reviewer accepted the full/selected ablation evidence,
+metadata, CSVs, SVG and changed implementation/lead sections against native
+source `4a0c6bee` and analysis methods `cb65253d`. It independently checked
+3,295 full timing rows, family/PAR2/paired results, 1,983 direct Dolmen passes,
+reference coverage including the fresh cvc5 gap check, frozen-source counter
+controls, CSV hashes, input identities and pinned qualification workflows.
+Required findings E1–E4 corrected aggregate-counter/trace wording, timer scope,
+missing command provenance and stale planned-status text; S1 refreshed the
+canonical ledger. No required findings remain.
+
+Accepted blobs are evidence page `07d2d88c4db2bbb0fe68e3dd96fe4dec9f7bbcc7`,
+propagation page `5ddd726c7835e69d853bd5533e4e7250bb476e78`, full metadata
+`02539786dbc967aef57d31557697484f61748548`, and qualification metadata
+`fbee45d0c8478ba760703408f11bf0fb048a3cf8`. Other reviewed page/CSV/SVG blobs
+were unchanged during the final recheck. The writer checked strict books,
+assembled local/Git links, the rendered introduction/selected table, full
+result/family tables in the browser's print rendering, and the cactus SVG.
+Live scheduler/process checks belong to the writer, not the independent review.
+Reader acceptance and default promotion are separate; default off remains.

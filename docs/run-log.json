@@ -7,7 +7,7 @@
       "date": "2026-11-07",
       "kind": "controlled-equality-delivery-ablation",
       "commit": "4a0c6bee586c0d7c1d21ade156cff8cdb71892d5",
-      "evidence_status": "qualification in progress; no performance result or default promotion",
+      "evidence_status": "qualified complete diagnostic comparison; experimental policies retained, default off unchanged",
       "scope": "Separate off, scan-only, names-and-bridges-only, FixedEq-only and all-proof modes with one opt-in CLI switch. Native arithmetic model phase off.",
       "jobs": {
         "initial_build": "363017",
@@ -26,7 +26,8 @@
         "generated_unknowns": "363083",
         "full": "363108_0-47",
         "full_models": "363156_0-47",
-        "fixed_campaign": "363169_0-1"
+        "fixed_campaign": "363169_0-1",
+        "reference_gap": "363207"
       },
       "results": {
         "initial_build": "passed SLURM Release build",
@@ -40,16 +41,55 @@
         "selected_rejected": "All24 tasks failed importing subprocess before any solver execution; adjacent select.py shadowed stdlib select. Renamed select_cases.py; all three entry-point --help checks then PASS. No accepted timing rows from363035.",
         "static": "PASS process status on133 tracked C++ translation units (129 src/tests,4 docs),clang-tidy/analyzer/include-cleaner;2215 warnings,308 distinct diagnostic messages vs baseline2184/308. Only added diagnostic kinds are enum-size advisory for new policy and changed existing options-padding advisory. Prior external CLI11/shared-pointer leak warnings retained; no new memory, include or dead-code diagnostic. Not warning-free. Per-file diagnostic comparison excluding new enum/changed padding gives zero additional occurrences.",
         "selected": "427 rows complete: old-off44,old-all36,off44,scan44,names43,fixed55,all36 solved out61 at60s. All302 successful answers agree with prior fresh Z3 for identical inputs; all168 SAT rows direct Dolmen PASS. Off/scan search counters identical on44 common solves; old/current off44 andall36 common-solved controls identical. Deliberately biased selection, not corpus-wide evidence.",
-        "fixed_campaign": "2000/2000 additional generated cases PASS,1006/1006 direct Dolmen SAT models PASS. Combined Fixed qualification:3000 generated PASS,1516 SAT model PASS plus100 real-seed mutations/10 originals with54 SAT model PASS. Across all policies:7000 generated,6998 PASS,2 baseline integer-node-limit unknowns;3548 generated SAT models direct Dolmen PASS."
+        "fixed_campaign": "2000/2000 additional generated cases PASS,1006/1006 direct Dolmen SAT models PASS. Combined Fixed qualification:3000 generated PASS,1516 SAT model PASS plus100 real-seed mutations/10 originals with54 SAT model PASS. Across all policies:7000 generated,6998 PASS,2 baseline integer-node-limit unknowns;3548 generated SAT models direct Dolmen PASS.",
+        "full": {
+          "rows": 3295,
+          "inputs": 659,
+          "limit_seconds": 60,
+          "profiles": {
+            "off": {
+              "solved": 575,
+              "par2_seconds": 11368.816235
+            },
+            "scan": {
+              "solved": 575,
+              "par2_seconds": 11388.818573
+            },
+            "names": {
+              "solved": 568,
+              "par2_seconds": 13334.037535
+            },
+            "fixed": {
+              "solved": 580,
+              "par2_seconds": 10861.727657
+            },
+            "all": {
+              "solved": 567,
+              "par2_seconds": 13184.319719
+            }
+          },
+          "fixed_vs_off": "15 gains/10 losses;4.46% lower PAR2;1.242 geometric runtime ratio on461 common solves>=50ms in either arm;not uniformly better",
+          "controls": "off/scan575 common solves have identical non-time search counters; prior8d84fdca off575 andall566 common solves also identical; all has two near60s boundary swaps, not a stable ranking claim",
+          "models": "1983/1983 successful SAT timing rows pass separate direct Dolmen replay,120s solver/30s validator;zero invalid/changed/error/timeout/unsupported/missing",
+          "reference": "2863 successful rows match prior fresh Z3 on SHA-identical inputs;fresh cvc5SAT in2.864669s for one prior-reference-timeout input covers remaining2 SATrows. All2865 successful answers independently matched. Prior Z3 curve unchanged.",
+          "observed_resource_fallbacks": {
+            "off": 14,
+            "scan": 14,
+            "names": 78,
+            "fixed": 5,
+            "all": 72
+          },
+          "fallback_caveat": "reported lower bounds; fallback flag increments after retry returns, so timeouts inside retry can remain zero or absent"
+        }
       },
       "artifacts": "results/uflia-equality-ablation-20261107",
       "environment": "SLURM compute; build 4 CPUs/8GiB/30min; unit and CLI 2 CPUs/8GiB/10min. No local batch solver execution.",
-      "remaining": "Full timings/model coverage/analysis, document causal conclusions, independent evidence review, verification and final commits.",
+      "remaining": "none in experimental scope; final source/docs/metadata commit and branch integration recorded in Git history",
       "correctness_plan": {
         "generated": "1000 mixed depth3 per off/scan/names/fixed/all; seeds 2026110780..84,5s process limit,Z3 reference; separate direct Dolmen every successful SAT,15s solver and validator limits",
         "mutations": "scan/names/fixed/all; five deterministic smallest family-balanced corpus seeds plus tracked QF_UFLIA regressions; seeds2026110790..93,20mutants/seed,5s mutation process limit; original/replay30/10s,strict deterministic checks;Z3 and cvc5 for tracked regression compatibility; separate Dolmen SAT replay",
         "suite": "make check; make asan-test plus150 generated cases; whole-tree clang-tidy/analyzer/include-cleaner",
-        "fixed_campaign": "Two additional1000-case mixed depth3 runs at seeds2026110800/0801,5s,explicit native overrides and model phaseoff,Fixed policy; separate successful SAT Dolmen replay15s. Combined with initial fixed1000 gives3000 generated cases plus real-seed mutation campaign; outcomes pending collection."
+        "fixed_campaign": "Two additional1000-case mixed depth3 runs at seeds2026110800/0801,5s,explicit native overrides and model phaseoff,Fixed policy; separate successful SAT Dolmen replay15s. Combined with initial fixed1000 gives3000 generated cases plus real-seed mutation campaign; both extra shards pass1000 cases and503 SAT models each; qualification metadata records the completed outcomes."
       },
       "method_commit": "16ad8c01",
       "qualified_source_commit": "4a0c6bee586c0d7c1d21ade156cff8cdb71892d5",
@@ -92,8 +132,21 @@
         "models": "48 corresponding shards,throttle16,12GiB,35min,120s solver/30s Dolmen; aftercorr full and afterok selected; placement excludes every full-timing node",
         "reference": "Reuse prior fresh Z3 run362905 answers from reference-retry,only SHA-identical inputs; no new reference speed claims."
       },
-      "analysis_commit": "f5829ec1",
-      "qualification_metadata": "benchmarks/qf-uflia-equality-ablation-qualification-20261107.json"
+      "analysis_commit": "cb65253dd4a04b823241313a5031503562085fc7",
+      "qualification_metadata": "benchmarks/qf-uflia-equality-ablation-qualification-20261107.json",
+      "metadata": "benchmarks/qf-uflia-equality-ablation-20261107.json",
+      "evidence_page": "docs/evidence/qf-uflia-equality-ablation.md",
+      "csv_root": "benchmarks/qf-uflia-equality-ablation-20261107",
+      "plot": "docs/_static/qf-uflia-equality-ablation-full60-20261107.svg",
+      "decision": "Accept scan/names as nondefault diagnostic controls, Fixed as a qualified but mixed opt-in alternative, and retain existing all-mode behavior. Reject default promotion:10 losses,common-solve cost,SAT397vs405 off,and one full SAT seed. No solver changes after4a0c6bee;all experiments terminal.",
+      "review": {
+        "code": "whole-tree lint/static plus soundness/ownership/layering/model/termination self-review;no new blocking issue;baseline analyzer advisories retained",
+        "documentation": "independent read-only final review accepted E1-E4/S1 repairs; raw full/selected/reference/models/CSV/SVG checked against4a0c6bee/cb65253d",
+        "accepted_evidence_blob": "07d2d88c4db2bbb0fe68e3dd96fe4dec9f7bbcc7",
+        "accepted_full_metadata_blob": "02539786dbc967aef57d31557697484f61748548",
+        "accepted_qualification_blob": "fbee45d0c8478ba760703408f11bf0fb048a3cf8",
+        "writer_checks": "make docs through docs-site; assembled local/Git link checker; rendered intro/selected table, printed full/family tables and SVG; make lint; JSON/diff/CSV hashes; process/job audit"
+      }
     },
     {
       "id": "2026-11-07-uflia-equality-full60-8d84fdca",

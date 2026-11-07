@@ -38,6 +38,9 @@ sphinx:
       ufliaeqworkflow:
         - "https://github.com/primo-solver/primo/blob/c474ef253ec1b195f08e41d1361abca22dcff07a/%s"
         - "%s"
+      ufliaablationanalysis:
+        - "https://github.com/primo-solver/primo/blob/cb65253dd4a04b823241313a5031503562085fc7/%s"
+        - "%s"
       ufliaablationmethods:
         - "https://github.com/primo-solver/primo/blob/16ad8c01cce429a1fa7aa316bc838e264c4863f7/%s"
         - "%s"

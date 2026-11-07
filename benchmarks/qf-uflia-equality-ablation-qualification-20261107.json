@@ -280,5 +280,62 @@
       "additional_per_file_diagnostics_excluding_policy_enum_and_padding": 0
     }
   },
-  "source_scope": "No src/ or tests/ change after qualified4a0c6bee; later commits add workflow, documentation and metadata only. Default off retained; no promotion."
+  "source_scope": "No src/ or tests/ change after qualified4a0c6bee; later commits add workflow, documentation and metadata only. Default off retained; no promotion.",
+  "workflow_invocations": {
+    "unit_cli": {
+      "source_commit": "4a0c6bee586c0d7c1d21ade156cff8cdb71892d5",
+      "path": "scripts/qualification/uflia_equality_ablation/unit.sbatch",
+      "source_url": "https://github.com/primo-solver/primo/blob/4a0c6bee586c0d7c1d21ade156cff8cdb71892d5/scripts/qualification/uflia_equality_ablation/unit.sbatch",
+      "invocation": "sbatch --export=ALL,PRIMO_WORKDIR=$WORKSPACE,PRIMO_EQ_OUT=$FRESH_OUTPUT,PRIMO_EXPECTED_GIT=4a0c6bee scripts/qualification/uflia_equality_ablation/unit.sbatch"
+    },
+    "generated": {
+      "source_commit": "4a0c6bee586c0d7c1d21ade156cff8cdb71892d5",
+      "path": "scripts/qualification/uflia_equality_ablation/fuzz.sbatch",
+      "source_url": "https://github.com/primo-solver/primo/blob/4a0c6bee586c0d7c1d21ade156cff8cdb71892d5/scripts/qualification/uflia_equality_ablation/fuzz.sbatch",
+      "invocation": "sbatch --export=ALL,PRIMO_WORKDIR=$WORKSPACE,PRIMO_EQ_OUT=$FRESH_OUTPUT,PRIMO_EXPECTED_GIT=4a0c6bee scripts/qualification/uflia_equality_ablation/fuzz.sbatch"
+    },
+    "check": {
+      "source_commit": "4a0c6bee586c0d7c1d21ade156cff8cdb71892d5",
+      "path": "scripts/qualification/uflia_equality_ablation/check.sbatch",
+      "source_url": "https://github.com/primo-solver/primo/blob/4a0c6bee586c0d7c1d21ade156cff8cdb71892d5/scripts/qualification/uflia_equality_ablation/check.sbatch",
+      "invocation": "sbatch --export=ALL,PRIMO_WORKDIR=$WORKSPACE,PRIMO_EQ_OUT=$FRESH_OUTPUT,PRIMO_EXPECTED_GIT=4a0c6bee scripts/qualification/uflia_equality_ablation/check.sbatch"
+    },
+    "asan": {
+      "source_commit": "4a0c6bee586c0d7c1d21ade156cff8cdb71892d5",
+      "path": "scripts/qualification/uflia_equalities/asan.sbatch",
+      "source_url": "https://github.com/primo-solver/primo/blob/4a0c6bee586c0d7c1d21ade156cff8cdb71892d5/scripts/qualification/uflia_equalities/asan.sbatch",
+      "invocation": "sbatch --export=ALL,PRIMO_WORKDIR=$WORKSPACE,PRIMO_EQ_OUT=$FRESH_OUTPUT,PRIMO_EXPECTED_GIT=4a0c6bee,PRIMO_CXX_HEADER_MANIFEST=$CXX_HEADER_MANIFEST,PRIMO_ASAN_RUNTIME_LIBDIR=$ASAN_RUNTIME_LIBDIR scripts/qualification/uflia_equalities/asan.sbatch"
+    },
+    "static": {
+      "source_commit": "4a0c6bee586c0d7c1d21ade156cff8cdb71892d5",
+      "path": "scripts/qualification/uflia_equalities/static.sbatch",
+      "source_url": "https://github.com/primo-solver/primo/blob/4a0c6bee586c0d7c1d21ade156cff8cdb71892d5/scripts/qualification/uflia_equalities/static.sbatch",
+      "invocation": "sbatch --export=ALL,PRIMO_WORKDIR=$WORKSPACE,PRIMO_EQ_OUT=$FRESH_OUTPUT,PRIMO_EXPECTED_GIT=4a0c6bee,PRIMO_CXX_HEADER_MANIFEST=$CXX_HEADER_MANIFEST scripts/qualification/uflia_equalities/static.sbatch"
+    },
+    "mutations": {
+      "source_commit": "4a0c6bee586c0d7c1d21ade156cff8cdb71892d5",
+      "path": "scripts/qualification/uflia_equality_ablation/mutations.sbatch",
+      "source_url": "https://github.com/primo-solver/primo/blob/4a0c6bee586c0d7c1d21ade156cff8cdb71892d5/scripts/qualification/uflia_equality_ablation/mutations.sbatch",
+      "invocation": "sbatch --export=ALL,PRIMO_WORKDIR=$WORKSPACE,PRIMO_EQ_OUT=$FRESH_OUTPUT,PRIMO_EXPECTED_GIT=4a0c6bee,PRIMO_YINYANG_BIN=$YINYANG_BIN,PRIMO_CORPUS_ROOT=$CORPUS_ROOT,PRIMO_REGRESSION_REF=$CVC5 scripts/qualification/uflia_equality_ablation/mutations.sbatch"
+    },
+    "mutation_finish": {
+      "source_commit": "16ad8c01cce429a1fa7aa316bc838e264c4863f7",
+      "path": "scripts/qualification/uflia_equality_ablation/mutation_finish.sbatch",
+      "source_url": "https://github.com/primo-solver/primo/blob/16ad8c01cce429a1fa7aa316bc838e264c4863f7/scripts/qualification/uflia_equality_ablation/mutation_finish.sbatch",
+      "invocation": "sbatch --export=ALL,PRIMO_WORKDIR=$WORKSPACE,PRIMO_EQ_OUT=$FRESH_OUTPUT,PRIMO_EXPECTED_GIT=4a0c6bee,PRIMO_EQ_PARENT=$MUTATION_OUTPUT scripts/qualification/uflia_equality_ablation/mutation_finish.sbatch"
+    },
+    "unknowns": {
+      "source_commit": "6bb739261a2820521ddc9de04e0a622f32d990bc",
+      "path": "scripts/qualification/uflia_equality_ablation/unknowns.sbatch",
+      "source_url": "https://github.com/primo-solver/primo/blob/6bb739261a2820521ddc9de04e0a622f32d990bc/scripts/qualification/uflia_equality_ablation/unknowns.sbatch",
+      "invocation": "sbatch --export=ALL,PRIMO_WORKDIR=$WORKSPACE,PRIMO_EQ_OUT=$FRESH_OUTPUT,PRIMO_EXPECTED_GIT=4a0c6bee,PRIMO_BASELINE_SOLVER=$FROZEN_BASELINE scripts/qualification/uflia_equality_ablation/unknowns.sbatch"
+    },
+    "fixed_campaign": {
+      "source_commit": "6e8b078e31c5d9b191389ef04177016dad469cb1",
+      "path": "scripts/qualification/uflia_equality_ablation/fixed_campaign.sbatch",
+      "source_url": "https://github.com/primo-solver/primo/blob/6e8b078e31c5d9b191389ef04177016dad469cb1/scripts/qualification/uflia_equality_ablation/fixed_campaign.sbatch",
+      "invocation": "sbatch --export=ALL,PRIMO_WORKDIR=$WORKSPACE,PRIMO_EQ_OUT=$FRESH_OUTPUT,PRIMO_EXPECTED_GIT=4a0c6bee scripts/qualification/uflia_equality_ablation/fixed_campaign.sbatch"
+    }
+  },
+  "reproduction_boundary": "Replace symbolic workspace/dependency/output variables with provisioned paths; stage pinned workflows as experiment artifacts when absent from frozen4a0c6bee. Use mandatory slurm_prepare_benchmark_workspace.py --build-via-slurm and --check-only before submission. No login-host/local solver batches. Workflow scripts define generator/reference/model commands, seeds, limits and array slots exactly."
 }

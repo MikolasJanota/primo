@@ -123,7 +123,7 @@ manifest from the prior full analysis and timing rows. {ufliaablationmethods}`ru
 arms per input, pins binary versions and SHA values, retains command lines and
 stdout/stderr, and flushes each completed row. It uses the native arithmetic
 settings and `--arithmetic-model-phase=off`. `old-off`/`old-all` run the frozen
-qualified binary; other arms run the ablation binary. {ufliaablationmethods}`analyze.py <scripts/qualification/uflia_equality_ablation/analyze.py>` audits
+qualified binary; other arms run the ablation binary. {ufliaablationanalysis}`analyze.py <scripts/qualification/uflia_equality_ablation/analyze.py>` audits
 completeness, answer agreement, off/scan and old/current counter controls,
 per-family results and direct Dolmen coverage. Prior Z3 answers are reused only
 for SHA-identical inputs. They are reference evidence from the prior run, not
@@ -135,3 +135,14 @@ selection metadata are staged as experiment artifacts under an isolated
 replacing solver sources or the qualified binary. The exact runner SHA is
 recorded per shard. Preflight uses a clean checkout of the binary's revision;
 all solver execution and correctness gates run on compute nodes.
+
+
+## Completed evaluation
+
+The [controlled full-corpus comparison](../evidence/qf-uflia-equality-ablation.md)
+completes the checklist on solver source `4a0c6bee`: all 659 inputs under each
+policy, separate replay of every successful SAT row, fresh per-policy reference
+gates and a 3,000-case fixed-only campaign. Measured counter controls agree;
+this is not a claim of identical traces. Fixed-only is a useful but mixed
+experimental alternative. Default off is retained; no proof, scan or naming
+mode is promoted automatically.

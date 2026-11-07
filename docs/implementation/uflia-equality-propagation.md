@@ -200,5 +200,14 @@ gains. Wisas still regresses, while a selected Certora regression enters a
 different, integer-completion bottleneck. The evidence page separates those
 mechanisms, profiling limits and selected controls. No default is promoted.
 
-The [delivery-cost ablation checklist](uflia-equality-ablation.md) specifies
-the next controlled experiment; those modes are under development.
+The [delivery-cost ablation checklist](uflia-equality-ablation.md) documents
+the implemented controls and their completed evaluation.
+
+
+## Delivery ablation follow-up
+
+The [five-policy investigation](../evidence/qf-uflia-equality-ablation.md) separates
+scanning, naming/bridges and proof delivery on all 659 available inputs. It finds
+a narrower fixed-value-only policy worth retaining experimentally, while broad
+naming still causes regressions and integer-limit fallbacks. The original
+all-rule integration and all delivery controls remain default off.
