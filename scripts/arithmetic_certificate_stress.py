@@ -196,6 +196,7 @@ def main():
         "host": platform.node(),
         "logic": args.logic,
         "micromath_git": args.micromath_git,
+        "reference_solver": args.reference.name,
         "requested": len(selection["cases"]),
         "statement_source": args.statement_source,
         "source_to_cnf_verified": False,

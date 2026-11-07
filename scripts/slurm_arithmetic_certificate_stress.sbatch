@@ -20,6 +20,8 @@ set -euo pipefail
 : "${MICROMATH_LIA_GIT:?LIA revision}"
 : "${PRIMO_SAT_SOLVER:?CaDiCaL with textual LRAT support}"
 cd "$PRIMO_WORKDIR"
+reference=${ARITHMETIC_REFERENCE:-$PWD/contrib/local/bin/yices-smt2}
+test -x "$reference"
 if [[ $SLURM_ARRAY_TASK_ID == 0 ]]; then
   logic=QF_LRA
   arithmetic=LRA
@@ -44,6 +46,7 @@ sha256sum "$checker/smt/$arithmetic.md" > "$artifacts/upstream-doc.sha256"
 sha256sum "$ARITHMETIC_WORKFLOW_DIR/"{arithmetic_certificate_stress.py,certificate_cnf_statement.py,slurm_arithmetic_certificate_stress.sbatch,micromath_stress.py,replay_micromath_lra.py,select_micromath_fast_cases.py,check_lra_certificate.py} > "$artifacts/workflow.sha256"
 lscpu > "$artifacts/cpu.txt"
 python3 --version > "$artifacts/python.txt"
+"$reference" --version > "$artifacts/reference-version.txt"
 selection=()
 if [[ -n ${ARITHMETIC_SELECTION_ROOT:-} ]]; then
   selection=(--selection "$ARITHMETIC_SELECTION_ROOT/$logic.json")
@@ -51,7 +54,7 @@ fi
 python3 "$ARITHMETIC_WORKFLOW_DIR/arithmetic_certificate_stress.py" \
   --logic "$logic" --history "$ARITHMETIC_HISTORY_ROOT/$logic/primo" \
   --historical-git 5efbd02293e15a53fbaad748ceda78bc7d27bbac --corpus "$corpus" \
-  --solver "$PWD/build-slurm-rel/primo" --reference "$PWD/contrib/local/bin/z3" \
+  --solver "$PWD/build-slurm-rel/primo" --reference "$reference" \
   --cadical "$PRIMO_SAT_SOLVER" --micromath "$checker" --micromath-git "$checker_git" \
   --count "${ARITHMETIC_STRESS_COUNT:-24}" --max-per-family 3 \
   --statement-source "${ARITHMETIC_STATEMENT_SOURCE:-exported-cnf}" "${selection[@]}" \
