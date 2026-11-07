@@ -105,3 +105,5 @@ not a matched-state or instruction-for-instruction causal decomposition.
   the frozen best-off baseline and unchanged all policy. Replay every
   successful SAT row with direct Dolmen outside timing. No default promotion
   follows from a selected sample or a winning solved count alone.
+
+The CLI accepts policy values with `=MODE`; the bare flag maps to `all` and never consumes the following input filename. Qualification caught an optional-value parser consuming that positional filename; the zero-positional-value flag parser avoids this ambiguity.

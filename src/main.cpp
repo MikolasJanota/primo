@@ -567,8 +567,8 @@ int run_main(int argc, char** argv) {
          },
          "Experimental pre-integer equality policy: off, scan only, names/bridges only, "
          "fixed-value proofs, or all proofs. Bare flag selects all; default off")
-      ->expected(0, 1)
-      ->default_str("all")
+      ->expected(0)
+      ->multi_option_policy(CLI::MultiOptionPolicy::TakeLast)
       ->option_text("[=MODE; default: off]")
       ->check(CLI::IsMember({"off", "scan", "names", "fixed", "all", "true", "false", "0", "1"}));
   app.add_option("--qf-uflia-model-decision-budget", qf_uflia_model_decision_budget,

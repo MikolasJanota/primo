@@ -3,6 +3,25 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-07-uflia-equality-causal-ablation",
+      "date": "2026-11-07",
+      "kind": "controlled-equality-delivery-ablation",
+      "commit": "afbf710aaf0cc1b204940f4c572b9fa201131fab",
+      "evidence_status": "qualification in progress; no performance result or default promotion",
+      "scope": "Separate off, scan-only, names-and-bridges-only, FixedEq-only and all-proof modes with one opt-in CLI switch. Native arithmetic model phase off.",
+      "jobs": {
+        "initial_build": "363017",
+        "initial_unit_cli": "363018"
+      },
+      "results": {
+        "initial_build": "passed SLURM Release build",
+        "initial_unit_cli": "component and QF_UFLIA units passed; CLI bare-flag probe failed because an optional positional value consumed the input filename. Rejected qualification; zero-positional-value parser fix pending rebuilt qualification."
+      },
+      "artifacts": "results/uflia-equality-ablation-20261107",
+      "environment": "SLURM compute; build 4 CPUs/8GiB/30min; unit and CLI 2 CPUs/8GiB/10min. No local batch solver execution.",
+      "remaining": "Rebuild CLI fix, focused and whole-suite checks, ASan, whole-tree static review, per-mode 1000 generated differential cases and SAT-model replay, real-seed checks and mutation, controlled timings, separate SAT-model validation, analysis and documentation."
+    },
+    {
       "id": "2026-11-07-uflia-equality-full60-8d84fdca",
       "date": "2026-11-07",
       "commit": "8d84fdcab67f7ba0aaf097378062e71c6971be8c",
