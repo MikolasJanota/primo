@@ -11,6 +11,7 @@
 set -euo pipefail
 cd "${PRIMO_WORKDIR:?}"
 python3 - <<'PY'
+import csv
 import hashlib
 import json
 import os
@@ -33,7 +34,11 @@ profiles = config['profiles']
 order = profiles[task % len(profiles):] + profiles[:task % len(profiles)]
 provenance = {'job': os.environ.get('SLURM_ARRAY_JOB_ID'), 'task': task,
               'node': os.uname().nodename, 'profiles': order, 'inputs': selected,
+              'cpu_model': next(line.split(':', 1)[1].strip() for line in Path('/proc/cpuinfo').read_text().splitlines() if line.startswith('model name')),
+              'cpus_requested': os.environ.get('SLURM_CPUS_PER_TASK'),
+              'memory_requested_mb': os.environ.get('SLURM_MEM_PER_NODE'),
               'config_sha256': hashlib.sha256(Path(os.environ['PRIMO_COMPARE_CONFIG']).read_bytes()).hexdigest()}
+known_answers = {}
 for profile in order:
     command = profile['command']
     identity = hashlib.sha256(Path(command[0]).read_bytes()).hexdigest()
@@ -44,5 +49,17 @@ for profile in order:
                     '--solver', command[0], '--run-id', config['run_id'],
                     '--timeout', str(config['timeout']),
                     *['--solver-arg=' + arg for arg in command[1:]]], check=True)
+    answers = out / profile['name'] / f'shard-{task}' / 'answers.csv'
+    with answers.open() as stream:
+        for row in csv.DictReader(stream):
+            if (row['wrong'] == 'true' or row['status'] not in {'ok', 'timeout'}
+                    or int(row.get(':lia.cube-rejected') or 0)):
+                raise SystemExit('correctness failure: ' + profile['name'] + ' ' + row['file'])
+            if row['status'] == 'ok' and row['answer'] in {'sat', 'unsat'}:
+                if row['exit_code'] != '0':
+                    raise SystemExit('post-answer process failure')
+                previous = known_answers.setdefault(row['file'], row['answer'])
+                if previous != row['answer']:
+                    raise SystemExit('cross-profile/reference disagreement: ' + row['file'])
 (shard / 'provenance.json').write_text(json.dumps(provenance, indent=2) + '\n')
 PY

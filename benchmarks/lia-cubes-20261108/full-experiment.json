@@ -1,0 +1,101 @@
+{
+  "status": "planned; qualified development result justifies full evaluation",
+  "source_commit": "84654ade",
+  "baseline_commit": "84654ade",
+  "run_id": "2026-11-08-lia-cube-full60",
+  "inputs": "benchmarks/lia-cubes-20261108/inventory.tsv",
+  "selection": "full frozen path/hash inventory",
+  "inventory_sha256": "a7423b6c1f643568d4151e3afa822639ef1f577251ced0a3f63b3c98d7ab811b",
+  "files": 13306,
+  "timeout": 60,
+  "cpus_per_task": 1,
+  "memory_per_task": "12G requested; actual peak reported separately",
+  "execution": "SLURM; each manifest shard runs all nine profiles on one node, rotating profile order by shard",
+  "profiles": [
+    {
+      "name": "off-m124",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--no-lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=off",
+        "--lia-cube-steps=1000"
+      ]
+    },
+    {
+      "name": "uniform-m124",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--no-lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=uniform",
+        "--lia-cube-steps=1000"
+      ]
+    },
+    {
+      "name": "difference-m124",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--no-lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=difference",
+        "--lia-cube-steps=1000"
+      ]
+    },
+    {
+      "name": "z3",
+      "binary": "z3",
+      "arguments": []
+    }
+  ],
+  "correctness": "Separate direct Dolmen replay of every successful Primo SAT row; model time excluded from timings. Reference disagreements and invalid models block performance acceptance.",
+  "implementation_commit": "65b6f48a",
+  "source_change": "84654ade adds direct includes and improves test hygiene; solver statements unchanged",
+  "binaries": {
+    "candidate": {
+      "sha256": "0102030d508c15a51ee3d2f35a5ff19aa5d0183b396f65aa8d7796cfcda8d495",
+      "version": "primo 0.2.0\ngit: 84654ade\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07"
+    },
+    "z3": {
+      "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+      "version": "Z3 version 5.1.0 - 64 bit"
+    },
+    "dolmen": {
+      "sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+      "version": "0.10"
+    }
+  },
+  "shards": 1000,
+  "implicit_completion_defaults": {
+    "patch_moves": 100,
+    "gomory_rounds": 100,
+    "branch_nodes": 100000,
+    "conflict_generalization": true
+  },
+  "comparison_method_sha256": "23fdfe4194fb877a9d075ae8b439f5eb22cf593d2d5c61da6fe3f2e701cef851",
+  "model_method_sha256": "583b77add9daf9d64c1beea6abf7c1aca26c3c2e83a9f772b200122a756a3504",
+  "historical_control_commit": "aeaf2823",
+  "development_parent": "benchmarks/lia-cubes-20261108/experiment.json",
+  "scope": "M124 with off/uniform/difference on one current binary, plus fresh Z3. Previous-build preservation and default-setting controls were qualified on the selected 200-input development subset of this same corpus.",
+  "concurrency": 160,
+  "timing_job_wall_limit": "01:15:00",
+  "model_job_wall_limit": "02:00:00",
+  "models": {
+    "solver_timeout_seconds": 90,
+    "dolmen_timeout_seconds": 30,
+    "dolmen_size": "8G",
+    "selection": "every successful native SAT row"
+  }
+}

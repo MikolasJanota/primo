@@ -154,5 +154,11 @@ fixed and rechecked; no required findings remain. The subsequent optional
 wording fix says extra tableaux may be allocated, since patching can finish first.
 The acceptance covers source/prose agreement only; runtime qualification is
 pending. The configured cube source links are pinned to implementation commit
-`65b6f48a` in this adjacent documentation record. Writer checks: strict books,
+`65b6f48a`, with include/test hygiene cleanup `84654ade`; the source links
+now name that cleaned source commit. Writer checks: strict books,
 lint and diff whitespace pass; source-link resolution is checked after that commit pin.
+
+Captured help was refreshed from source `84654ade`, binary SHA-256
+`0102030d508c15a51ee3d2f35a5ff19aa5d0183b396f65aa8d7796cfcda8d495`.
+The invocation name is normalized to `build-slurm-rel/primo` and trailing
+whitespace is stripped; accepted values/defaults come from that binary.

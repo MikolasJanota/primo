@@ -1,0 +1,661 @@
+{
+  "source_commit": "84654ade537df8473d4ada833a6da5e3e729ca4a",
+  "implementation_commit": "65b6f48a",
+  "status": "correctness gates complete; timing/model-replay result pending",
+  "binaries": {
+    "baseline": {
+      "sha256": "1c09588a7322b402783c414d33a8c3edb6f25440461d5245c06f384a298dd2e7",
+      "version": "primo 0.2.0\ngit: aeaf2823\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07"
+    },
+    "candidate": {
+      "sha256": "0102030d508c15a51ee3d2f35a5ff19aa5d0183b396f65aa8d7796cfcda8d495",
+      "version": "primo 0.2.0\ngit: 84654ade\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07"
+    },
+    "z3": {
+      "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+      "version": "Z3 version 5.1.0 - 64 bit"
+    },
+    "dolmen": {
+      "sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+      "version": "0.10"
+    }
+  },
+  "jobs": {
+    "build": "363316",
+    "check": "363317",
+    "fuzz": "363318",
+    "asan": "363330",
+    "static": "363331",
+    "mutations": "363332"
+  },
+  "check": {
+    "ctest_pass": 47,
+    "python_pass": 311,
+    "command": "make check BUILD_DIR=build-slurm-rel with staged compiler and lint tools"
+  },
+  "asan": {
+    "ctest_pass": 47,
+    "generated": {
+      "uniform": {
+        "PASS": 98,
+        "TIMEOUT": 2
+      },
+      "difference": {
+        "PASS": 98,
+        "TIMEOUT": 2
+      }
+    },
+    "count_per_mode": 100,
+    "seed": 202611081,
+    "timeout_seconds": 10,
+    "binary_sha256": "832c7f55f9956cdcac5b4ebbe46df24254c2125f16aa228cd48783e0ccbde732"
+  },
+  "generated": {
+    "difference": {
+      "answers": {
+        "PASS": 2961,
+        "TIMEOUT": 39
+      },
+      "expected_primary_sat_models": {
+        "pass": 2637
+      },
+      "all_model_outcomes": {
+        "pass": 2645,
+        "not-sat": 324,
+        "solver-timeout": 31
+      }
+    },
+    "m124-difference": {
+      "answers": {
+        "PASS": 2959,
+        "TIMEOUT": 41
+      },
+      "expected_primary_sat_models": {
+        "pass": 2635
+      },
+      "all_model_outcomes": {
+        "pass": 2645,
+        "not-sat": 324,
+        "solver-timeout": 31
+      }
+    },
+    "m124-uniform": {
+      "answers": {
+        "PASS": 2959,
+        "TIMEOUT": 41
+      },
+      "expected_primary_sat_models": {
+        "pass": 2635
+      },
+      "all_model_outcomes": {
+        "pass": 2645,
+        "not-sat": 324,
+        "solver-timeout": 31
+      }
+    },
+    "uniform": {
+      "answers": {
+        "PASS": 2961,
+        "TIMEOUT": 39
+      },
+      "expected_primary_sat_models": {
+        "pass": 2637
+      },
+      "all_model_outcomes": {
+        "pass": 2645,
+        "not-sat": 324,
+        "solver-timeout": 31
+      }
+    }
+  },
+  "generated_settings": {
+    "generator": "FuzzSMT",
+    "jar_sha256": "89f887283d409842ebb19af6fce7a33a1b4a6c006746801b98ca8d716a3b0552",
+    "seeds": [
+      202611080,
+      202611081,
+      202611082
+    ],
+    "count_per_seed_per_profile": 1000,
+    "timeout_seconds": 5,
+    "arguments": "-ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4",
+    "reference": "Z3 5.1.0; native binary identity above",
+    "models": "direct Dolmen 0.10, original successful SAT rows joined by input path; all covered"
+  },
+  "mutations": {
+    "uniform": {
+      "stages": {
+        "regressions": {
+          "answers": {
+            "PASS": 4
+          },
+          "count": 4,
+          "models": {
+            "pass": 3
+          }
+        },
+        "seeds": {
+          "answers": {
+            "PASS": 10
+          },
+          "count": 10,
+          "models": {
+            "pass": 9
+          }
+        },
+        "mutant": {
+          "answers": {
+            "PASS": 200
+          },
+          "count": 200,
+          "models": {
+            "pass": 142
+          }
+        }
+      },
+      "real_seeds": [
+        {
+          "file": "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__001.smt2.slack.smt2",
+          "sha256": "5e7bbd1b311fd0cc8235a7527fef07e273a31291e93eef8e3e758d8f4eaa1875",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "20220307-SMPT/2PhLockVParam/RC-00.smt2",
+          "sha256": "1f751f8b7773c11495b1998d32df0908d81cead0ff8da3ebeb53dec2cee644f2",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "20230321-UltimateAutomizerSvcomp2023/jain_5-2.c_1.smt2",
+          "sha256": "cea09d2215d5fb306f950350cdd13637789aa20f3226bc009a9994081309e190",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "20231117-c_inference/30_30_86_7_sat.smt2",
+          "sha256": "c99d640ed6d5e712095bb2d9d7d6cf10146c2f8a818543f58de7c9db5afa8dc5",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_live_bgmc000.smt2",
+          "sha256": "6213aee6ef744f290f7da387e100f2859ac61d49aabde19d802f533a68f09132",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "CAV_2009_benchmarks/coef-size/smt/size-10/problem__001.smt2",
+          "sha256": "0b7ceffad2e4d5fbd9bd5dfde863479fbe47e192a21b420ada44b7f8bb48fdf8",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "CIRC/multiplier/MULTIPLIER_2.msat.smt2",
+          "sha256": "4be4da89c96cd588f29539e1a6c99c1f6e9907d13e3f96badc68089247c4bc91",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "unsat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "unsat"
+        },
+        {
+          "file": "RTCL/b04_tf_15/ckt_PROP0_tf_15.smt2",
+          "sha256": "3d92278439fecbb3faac2e1325a07a9f4b40dab2e7e3e748388d79096b852bf4",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "RWS/Example_6.txt.smt2",
+          "sha256": "2fd075ed0ab25751455e4ac4e85804a29722ad21e78c055f0e205a6fd5d4fb20",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "calypto/problem-004282.cvc.1.smt2",
+          "sha256": "58321f08f866e70d9b0a6d496a65b990ea7d79439e0821ab52ffe8f745e7ea9c",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        }
+      ]
+    },
+    "difference": {
+      "stages": {
+        "regressions": {
+          "answers": {
+            "PASS": 4
+          },
+          "count": 4,
+          "models": {
+            "pass": 3
+          }
+        },
+        "seeds": {
+          "answers": {
+            "PASS": 10
+          },
+          "count": 10,
+          "models": {
+            "pass": 9
+          }
+        },
+        "mutant": {
+          "answers": {
+            "PASS": 200
+          },
+          "count": 200,
+          "models": {
+            "pass": 150
+          }
+        }
+      },
+      "real_seeds": [
+        {
+          "file": "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__001.smt2.slack.smt2",
+          "sha256": "5e7bbd1b311fd0cc8235a7527fef07e273a31291e93eef8e3e758d8f4eaa1875",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "20220307-SMPT/2PhLockVParam/RC-00.smt2",
+          "sha256": "1f751f8b7773c11495b1998d32df0908d81cead0ff8da3ebeb53dec2cee644f2",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "20230321-UltimateAutomizerSvcomp2023/jain_5-2.c_1.smt2",
+          "sha256": "cea09d2215d5fb306f950350cdd13637789aa20f3226bc009a9994081309e190",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "20231117-c_inference/30_30_86_7_sat.smt2",
+          "sha256": "c99d640ed6d5e712095bb2d9d7d6cf10146c2f8a818543f58de7c9db5afa8dc5",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_live_bgmc000.smt2",
+          "sha256": "6213aee6ef744f290f7da387e100f2859ac61d49aabde19d802f533a68f09132",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "CAV_2009_benchmarks/coef-size/smt/size-10/problem__001.smt2",
+          "sha256": "0b7ceffad2e4d5fbd9bd5dfde863479fbe47e192a21b420ada44b7f8bb48fdf8",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "CIRC/multiplier/MULTIPLIER_2.msat.smt2",
+          "sha256": "4be4da89c96cd588f29539e1a6c99c1f6e9907d13e3f96badc68089247c4bc91",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "unsat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "unsat"
+        },
+        {
+          "file": "RTCL/b04_tf_15/ckt_PROP0_tf_15.smt2",
+          "sha256": "3d92278439fecbb3faac2e1325a07a9f4b40dab2e7e3e748388d79096b852bf4",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "RWS/Example_6.txt.smt2",
+          "sha256": "2fd075ed0ab25751455e4ac4e85804a29722ad21e78c055f0e205a6fd5d4fb20",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "calypto/problem-004282.cvc.1.smt2",
+          "sha256": "58321f08f866e70d9b0a6d496a65b990ea7d79439e0821ab52ffe8f745e7ea9c",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        }
+      ]
+    },
+    "m124-uniform": {
+      "stages": {
+        "regressions": {
+          "answers": {
+            "PASS": 4
+          },
+          "count": 4,
+          "models": {
+            "pass": 3
+          }
+        },
+        "seeds": {
+          "answers": {
+            "PASS": 10
+          },
+          "count": 10,
+          "models": {
+            "pass": 9
+          }
+        },
+        "mutant": {
+          "answers": {
+            "PASS": 200
+          },
+          "count": 200,
+          "models": {
+            "pass": 159
+          }
+        }
+      },
+      "real_seeds": [
+        {
+          "file": "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__001.smt2.slack.smt2",
+          "sha256": "5e7bbd1b311fd0cc8235a7527fef07e273a31291e93eef8e3e758d8f4eaa1875",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "20220307-SMPT/2PhLockVParam/RC-00.smt2",
+          "sha256": "1f751f8b7773c11495b1998d32df0908d81cead0ff8da3ebeb53dec2cee644f2",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "20230321-UltimateAutomizerSvcomp2023/jain_5-2.c_1.smt2",
+          "sha256": "cea09d2215d5fb306f950350cdd13637789aa20f3226bc009a9994081309e190",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "20231117-c_inference/30_30_86_7_sat.smt2",
+          "sha256": "c99d640ed6d5e712095bb2d9d7d6cf10146c2f8a818543f58de7c9db5afa8dc5",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_live_bgmc000.smt2",
+          "sha256": "6213aee6ef744f290f7da387e100f2859ac61d49aabde19d802f533a68f09132",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "CAV_2009_benchmarks/coef-size/smt/size-10/problem__001.smt2",
+          "sha256": "0b7ceffad2e4d5fbd9bd5dfde863479fbe47e192a21b420ada44b7f8bb48fdf8",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "CIRC/multiplier/MULTIPLIER_2.msat.smt2",
+          "sha256": "4be4da89c96cd588f29539e1a6c99c1f6e9907d13e3f96badc68089247c4bc91",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "unsat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "unsat"
+        },
+        {
+          "file": "RTCL/b04_tf_15/ckt_PROP0_tf_15.smt2",
+          "sha256": "3d92278439fecbb3faac2e1325a07a9f4b40dab2e7e3e748388d79096b852bf4",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "RWS/Example_6.txt.smt2",
+          "sha256": "2fd075ed0ab25751455e4ac4e85804a29722ad21e78c055f0e205a6fd5d4fb20",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "calypto/problem-004282.cvc.1.smt2",
+          "sha256": "58321f08f866e70d9b0a6d496a65b990ea7d79439e0821ab52ffe8f745e7ea9c",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        }
+      ]
+    },
+    "m124-difference": {
+      "stages": {
+        "regressions": {
+          "answers": {
+            "PASS": 4
+          },
+          "count": 4,
+          "models": {
+            "pass": 3
+          }
+        },
+        "seeds": {
+          "answers": {
+            "PASS": 10
+          },
+          "count": 10,
+          "models": {
+            "pass": 9
+          }
+        },
+        "mutant": {
+          "answers": {
+            "PASS": 200
+          },
+          "count": 200,
+          "models": {
+            "pass": 167
+          }
+        }
+      },
+      "real_seeds": [
+        {
+          "file": "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__001.smt2.slack.smt2",
+          "sha256": "5e7bbd1b311fd0cc8235a7527fef07e273a31291e93eef8e3e758d8f4eaa1875",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "20220307-SMPT/2PhLockVParam/RC-00.smt2",
+          "sha256": "1f751f8b7773c11495b1998d32df0908d81cead0ff8da3ebeb53dec2cee644f2",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "20230321-UltimateAutomizerSvcomp2023/jain_5-2.c_1.smt2",
+          "sha256": "cea09d2215d5fb306f950350cdd13637789aa20f3226bc009a9994081309e190",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "20231117-c_inference/30_30_86_7_sat.smt2",
+          "sha256": "c99d640ed6d5e712095bb2d9d7d6cf10146c2f8a818543f58de7c9db5afa8dc5",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_live_bgmc000.smt2",
+          "sha256": "6213aee6ef744f290f7da387e100f2859ac61d49aabde19d802f533a68f09132",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "CAV_2009_benchmarks/coef-size/smt/size-10/problem__001.smt2",
+          "sha256": "0b7ceffad2e4d5fbd9bd5dfde863479fbe47e192a21b420ada44b7f8bb48fdf8",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "CIRC/multiplier/MULTIPLIER_2.msat.smt2",
+          "sha256": "4be4da89c96cd588f29539e1a6c99c1f6e9907d13e3f96badc68089247c4bc91",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "unsat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "unsat"
+        },
+        {
+          "file": "RTCL/b04_tf_15/ckt_PROP0_tf_15.smt2",
+          "sha256": "3d92278439fecbb3faac2e1325a07a9f4b40dab2e7e3e748388d79096b852bf4",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "RWS/Example_6.txt.smt2",
+          "sha256": "2fd075ed0ab25751455e4ac4e85804a29722ad21e78c055f0e205a6fd5d4fb20",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        },
+        {
+          "file": "calypto/problem-004282.cvc.1.smt2",
+          "sha256": "58321f08f866e70d9b0a6d496a65b990ea7d79439e0821ab52ffe8f745e7ea9c",
+          "bucket": "easy-controls",
+          "refill": false,
+          "reference_answer": "sat",
+          "historical_native_status": "ok",
+          "historical_native_answer": "sat"
+        }
+      ]
+    }
+  },
+  "mutation_settings": {
+    "generator": "YinYang 0.3.0 seeded OpFuzz",
+    "z3_python_binding": "5.0.0.0 used by mutator, separate from native reference",
+    "seeds": {
+      "uniform": 2026110890,
+      "difference": 2026110891,
+      "m124-uniform": 2026110892,
+      "m124-difference": 2026110893
+    },
+    "iterations_per_real_seed": 20,
+    "answer_timeout_seconds": 10,
+    "initial_seed_timeout_seconds": 30,
+    "model_timeout_seconds": 30,
+    "reference": "Z3 5.1.0 native; direct Dolmen checks on every selected SAT row"
+  },
+  "static_review": {
+    "baseline_warnings": 2215,
+    "current_warnings": 2289,
+    "baseline_unique": 308,
+    "current_unique": 310,
+    "new_unique_diagnostics": [
+      "enum 'BoundedCheckStatus' uses a larger base type ('int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size [performance-enum-size]",
+      "enum 'LiaCubeMode' uses a larger base type ('int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size [performance-enum-size]"
+    ],
+    "scope": "135 tracked non-generated CPP units: src/tests plus four documentation examples; analyzer and include-cleaner; existing baseline is not warning-free"
+  },
+  "static_triage": "New unique diagnostics are enum-width advisories. Direct includes fixed in 84654ade. Existing warning categories at cube-test optional reads refer to bounds installed by preceding assertions and a valid numeric literal; exceptions intentionally fail tests. No new algorithmic/analyzer issue.",
+  "artifacts": "Ignored raw artifacts in results/lia-cubes-20261108/clean-gates; retained remote inputs, outputs and failures. Saved generated failures are classified timeouts only.",
+  "source_fingerprint": {
+    "src/theory/arithmetic/lia_cube.cpp": "fad08c3c9f9c8eca9b9423b85166684d58e90b0adb27f923a27d1223ba0e0177",
+    "src/theory/arithmetic/lia_cube.hpp": "042fc7d4a208b88ef4ec77fb7c28060d5aacf0b7fb8c258a069ea498ce32fd4c",
+    "src/theory/arithmetic/lra_tableau.cpp": "733abbe8be106c27d8dcaf7b3a66fea68be13b0a59cb64281fc7e81e6ed83dc5",
+    "src/theory/arithmetic/lia_completion.cpp": "9459e344f3afe67a151be709f5dc0385a98c13a1ba96055101bb6e3a1c50d368",
+    "src/smt/solver_engines.cpp": "ba9569e197d90475e3391d1ef7c7b8fa0a0410ccf251b6a4269da301c592d4af"
+  },
+  "commands": {
+    "fuzz": "scripts/qualification/lia_cubes/fuzz.sbatch",
+    "mutations": "scripts/qualification/lia_cubes/mutations.sbatch",
+    "asan": "scripts/qualification/lia_cubes/asan.sbatch",
+    "static": "scripts/qualification/uflia_equalities/static.sbatch",
+    "check": "scripts/qualification/uflia_equality_ablation/check.sbatch"
+  }
+}

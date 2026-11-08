@@ -1,0 +1,4727 @@
+{
+  "timeout": 60.0,
+  "files": 200,
+  "profiles": {
+    "baseline-default": {
+      "total": 200,
+      "solved": 92,
+      "answers": {
+        "sat": 46,
+        "unsat": 46
+      },
+      "statuses": {
+        "ok": 154,
+        "timeout": 46
+      },
+      "clean_unknown": 62,
+      "over_limit_success": 0,
+      "par2": 13448.442357,
+      "families": {
+        "20180326-Bromberger": {
+          "total": 17,
+          "solved": 3,
+          "answers": {
+            "sat": 2,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 10,
+            "timeout": 7
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 1680.050417
+        },
+        "2019-cmodelsdiff": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.161806
+        },
+        "2019-ezsmt": {
+          "total": 7,
+          "solved": 7,
+          "answers": {
+            "sat": 5,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 7
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 34.857262
+        },
+        "20210219-Dartagnan": {
+          "total": 8,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "timeout": 5,
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 623.2435
+        },
+        "20220307-SMPT": {
+          "total": 10,
+          "solved": 8,
+          "answers": {
+            "sat": 4,
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 273.944713
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018883
+        },
+        "20231117-c_inference": {
+          "total": 8,
+          "solved": 6,
+          "answers": {
+            "sat": 3,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 396.290946
+        },
+        "Averest": {
+          "total": 8,
+          "solved": 8,
+          "answers": {
+            "sat": 5,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 17.327522000000002
+        },
+        "CAV_2009_benchmarks": {
+          "total": 13,
+          "solved": 2,
+          "answers": {
+            "sat": 1,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 5
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 1320.020856
+        },
+        "CIRC": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.024336
+        },
+        "RTCL": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.067394
+        },
+        "RWS": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.086943
+        },
+        "bofill-scheduling": {
+          "total": 4,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 4
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 25.877215
+        },
+        "calypto": {
+          "total": 4,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "timeout": 2,
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.042658
+        },
+        "check": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.01869
+        },
+        "convert": {
+          "total": 12,
+          "solved": 5,
+          "answers": {
+            "sat": 2,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 11,
+            "timeout": 1
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 847.332285
+        },
+        "cut_lemmas": {
+          "total": 11,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10,
+            "timeout": 1
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 852.330733
+        },
+        "dillig": {
+          "total": 11,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 9,
+            "timeout": 2
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 1080.018679
+        },
+        "fft": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.055435
+        },
+        "mathsat": {
+          "total": 3,
+          "solved": 3,
+          "answers": {
+            "sat": 2,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 3.137836
+        },
+        "miplib2003": {
+          "total": 2,
+          "solved": 0,
+          "answers": {},
+          "statuses": {
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.0
+        },
+        "nec-smt": {
+          "total": 9,
+          "solved": 6,
+          "answers": {
+            "sat": 4,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 482.522641
+        },
+        "pb2010": {
+          "total": 6,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "timeout": 5,
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 600.009047
+        },
+        "pidgeons": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.0171
+        },
+        "prime-cone": {
+          "total": 11,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 10,
+            "timeout": 1
+          },
+          "clean_unknown": 8,
+          "over_limit_success": 0,
+          "par2": 1080.019779
+        },
+        "rings": {
+          "total": 11,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 3
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 984.202731
+        },
+        "rings_preprocessed": {
+          "total": 11,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 3
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 978.541662
+        },
+        "slacks": {
+          "total": 9,
+          "solved": 3,
+          "answers": {
+            "sat": 3
+          },
+          "statuses": {
+            "timeout": 2,
+            "ok": 7
+          },
+          "clean_unknown": 4,
+          "over_limit_success": 0,
+          "par2": 728.111901
+        },
+        "tightrhombus": {
+          "total": 10,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 8,
+          "over_limit_success": 0,
+          "par2": 960.028845
+        },
+        "wisa": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.080542
+        }
+      },
+      "buckets": {
+        "clean-unknown-node-limit-candidates": {
+          "total": 50,
+          "solved": 0,
+          "answers": {},
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 50,
+          "over_limit_success": 0,
+          "par2": 6000.0
+        },
+        "easy-controls": {
+          "total": 50,
+          "solved": 50,
+          "answers": {
+            "sat": 27,
+            "unsat": 23
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.288978
+        },
+        "reference-fast-native-slow-sat": {
+          "total": 50,
+          "solved": 19,
+          "answers": {
+            "sat": 19
+          },
+          "statuses": {
+            "ok": 24,
+            "timeout": 26
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 3957.180591
+        },
+        "reference-fast-native-slow-unsat": {
+          "total": 50,
+          "solved": 23,
+          "answers": {
+            "unsat": 23
+          },
+          "statuses": {
+            "timeout": 20,
+            "ok": 30
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 3489.972788
+        }
+      },
+      "counters_lower_bounds": {
+        ":lia.branch-nodes": 0,
+        ":lia.cube-calls": 0,
+        ":lia.cube-centers": 0,
+        ":lia.cube-constraints": 0,
+        ":lia.cube-difference-exemptions": 0,
+        ":lia.cube-fixed-coordinates": 0,
+        ":lia.cube-infeasible": 0,
+        ":lia.cube-limits": 0,
+        ":lia.cube-microseconds": 0,
+        ":lia.cube-models": 0,
+        ":lia.cube-pivots": 0,
+        ":lia.cube-skipped": 0
+      },
+      "inputs_with_cube_models": 0,
+      "note": "counters are lower bounds: unfinished completions/timeouts can omit work"
+    },
+    "off-default": {
+      "total": 200,
+      "solved": 92,
+      "answers": {
+        "sat": 46,
+        "unsat": 46
+      },
+      "statuses": {
+        "ok": 154,
+        "timeout": 46
+      },
+      "clean_unknown": 62,
+      "over_limit_success": 0,
+      "par2": 13449.364683,
+      "families": {
+        "20180326-Bromberger": {
+          "total": 17,
+          "solved": 3,
+          "answers": {
+            "sat": 2,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 10,
+            "timeout": 7
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 1680.052412
+        },
+        "2019-cmodelsdiff": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.16283
+        },
+        "2019-ezsmt": {
+          "total": 7,
+          "solved": 7,
+          "answers": {
+            "sat": 5,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 7
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 35.128554
+        },
+        "20210219-Dartagnan": {
+          "total": 8,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "timeout": 5,
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 623.17104
+        },
+        "20220307-SMPT": {
+          "total": 10,
+          "solved": 8,
+          "answers": {
+            "sat": 4,
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 274.332712
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018141
+        },
+        "20231117-c_inference": {
+          "total": 8,
+          "solved": 6,
+          "answers": {
+            "sat": 3,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 397.38777
+        },
+        "Averest": {
+          "total": 8,
+          "solved": 8,
+          "answers": {
+            "sat": 5,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 17.525165
+        },
+        "CAV_2009_benchmarks": {
+          "total": 13,
+          "solved": 2,
+          "answers": {
+            "sat": 1,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 5
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 1320.020486
+        },
+        "CIRC": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.024553
+        },
+        "RTCL": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.068032
+        },
+        "RWS": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.088162
+        },
+        "bofill-scheduling": {
+          "total": 4,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 4
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 25.895896
+        },
+        "calypto": {
+          "total": 4,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "timeout": 2,
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.042938
+        },
+        "check": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.019216999999999998
+        },
+        "convert": {
+          "total": 12,
+          "solved": 5,
+          "answers": {
+            "sat": 2,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 11,
+            "timeout": 1
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 847.306906
+        },
+        "cut_lemmas": {
+          "total": 11,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10,
+            "timeout": 1
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 852.343104
+        },
+        "dillig": {
+          "total": 11,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 9,
+            "timeout": 2
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 1080.018253
+        },
+        "fft": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.055501999999999996
+        },
+        "mathsat": {
+          "total": 3,
+          "solved": 3,
+          "answers": {
+            "sat": 2,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 3.126564
+        },
+        "miplib2003": {
+          "total": 2,
+          "solved": 0,
+          "answers": {},
+          "statuses": {
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.0
+        },
+        "nec-smt": {
+          "total": 9,
+          "solved": 6,
+          "answers": {
+            "sat": 4,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 481.36821
+        },
+        "pb2010": {
+          "total": 6,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "timeout": 5,
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 600.009222
+        },
+        "pidgeons": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.017152
+        },
+        "prime-cone": {
+          "total": 11,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 10,
+            "timeout": 1
+          },
+          "clean_unknown": 8,
+          "over_limit_success": 0,
+          "par2": 1080.020349
+        },
+        "rings": {
+          "total": 11,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 3
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 984.182222
+        },
+        "rings_preprocessed": {
+          "total": 11,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 3
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 978.766454
+        },
+        "slacks": {
+          "total": 9,
+          "solved": 3,
+          "answers": {
+            "sat": 3
+          },
+          "statuses": {
+            "timeout": 2,
+            "ok": 7
+          },
+          "clean_unknown": 4,
+          "over_limit_success": 0,
+          "par2": 728.103889
+        },
+        "tightrhombus": {
+          "total": 10,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 8,
+          "over_limit_success": 0,
+          "par2": 960.028965
+        },
+        "wisa": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.079983
+        }
+      },
+      "buckets": {
+        "clean-unknown-node-limit-candidates": {
+          "total": 50,
+          "solved": 0,
+          "answers": {},
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 50,
+          "over_limit_success": 0,
+          "par2": 6000.0
+        },
+        "easy-controls": {
+          "total": 50,
+          "solved": 50,
+          "answers": {
+            "sat": 27,
+            "unsat": 23
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.301532
+        },
+        "reference-fast-native-slow-sat": {
+          "total": 50,
+          "solved": 19,
+          "answers": {
+            "sat": 19
+          },
+          "statuses": {
+            "ok": 24,
+            "timeout": 26
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 3957.475081
+        },
+        "reference-fast-native-slow-unsat": {
+          "total": 50,
+          "solved": 23,
+          "answers": {
+            "unsat": 23
+          },
+          "statuses": {
+            "timeout": 20,
+            "ok": 30
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 3490.58807
+        }
+      },
+      "counters_lower_bounds": {
+        ":lia.branch-nodes": 6612804,
+        ":lia.cube-calls": 0,
+        ":lia.cube-centers": 0,
+        ":lia.cube-constraints": 0,
+        ":lia.cube-difference-exemptions": 0,
+        ":lia.cube-fixed-coordinates": 0,
+        ":lia.cube-infeasible": 0,
+        ":lia.cube-limits": 0,
+        ":lia.cube-microseconds": 0,
+        ":lia.cube-models": 0,
+        ":lia.cube-pivots": 0,
+        ":lia.cube-skipped": 0
+      },
+      "inputs_with_cube_models": 0,
+      "note": "counters are lower bounds: unfinished completions/timeouts can omit work"
+    },
+    "uniform-default": {
+      "total": 200,
+      "solved": 126,
+      "answers": {
+        "sat": 80,
+        "unsat": 46
+      },
+      "statuses": {
+        "ok": 164,
+        "timeout": 36
+      },
+      "clean_unknown": 38,
+      "over_limit_success": 0,
+      "par2": 9365.634389,
+      "families": {
+        "20180326-Bromberger": {
+          "total": 17,
+          "solved": 13,
+          "answers": {
+            "sat": 12,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 13,
+            "timeout": 4
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 480.727831
+        },
+        "2019-cmodelsdiff": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.160402
+        },
+        "2019-ezsmt": {
+          "total": 7,
+          "solved": 7,
+          "answers": {
+            "sat": 5,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 7
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 35.085862
+        },
+        "20210219-Dartagnan": {
+          "total": 8,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "timeout": 5,
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 623.509063
+        },
+        "20220307-SMPT": {
+          "total": 10,
+          "solved": 8,
+          "answers": {
+            "sat": 4,
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 274.33718700000003
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.019070999999999998
+        },
+        "20231117-c_inference": {
+          "total": 8,
+          "solved": 6,
+          "answers": {
+            "sat": 3,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 396.979712
+        },
+        "Averest": {
+          "total": 8,
+          "solved": 8,
+          "answers": {
+            "sat": 5,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 17.54464
+        },
+        "CAV_2009_benchmarks": {
+          "total": 13,
+          "solved": 11,
+          "answers": {
+            "sat": 10,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 11,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.589113
+        },
+        "CIRC": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.025789
+        },
+        "RTCL": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.069956
+        },
+        "RWS": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.088213
+        },
+        "bofill-scheduling": {
+          "total": 4,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 4
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 25.94053
+        },
+        "calypto": {
+          "total": 4,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "timeout": 2,
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.043832
+        },
+        "check": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018838
+        },
+        "convert": {
+          "total": 12,
+          "solved": 5,
+          "answers": {
+            "sat": 2,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 11,
+            "timeout": 1
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 847.34366
+        },
+        "cut_lemmas": {
+          "total": 11,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10,
+            "timeout": 1
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 852.358795
+        },
+        "dillig": {
+          "total": 11,
+          "solved": 11,
+          "answers": {
+            "sat": 11
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.78752
+        },
+        "fft": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.054561
+        },
+        "mathsat": {
+          "total": 3,
+          "solved": 3,
+          "answers": {
+            "sat": 2,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 3.120451
+        },
+        "miplib2003": {
+          "total": 2,
+          "solved": 0,
+          "answers": {},
+          "statuses": {
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.0
+        },
+        "nec-smt": {
+          "total": 9,
+          "solved": 6,
+          "answers": {
+            "sat": 4,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 482.451817
+        },
+        "pb2010": {
+          "total": 6,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "timeout": 5,
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 600.009282
+        },
+        "pidgeons": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.017058999999999998
+        },
+        "prime-cone": {
+          "total": 11,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 10,
+            "timeout": 1
+          },
+          "clean_unknown": 8,
+          "over_limit_success": 0,
+          "par2": 1080.020122
+        },
+        "rings": {
+          "total": 11,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 3
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 984.086492
+        },
+        "rings_preprocessed": {
+          "total": 11,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 3
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 978.492888
+        },
+        "slacks": {
+          "total": 9,
+          "solved": 9,
+          "answers": {
+            "sat": 9
+          },
+          "statuses": {
+            "ok": 9
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.64269
+        },
+        "tightrhombus": {
+          "total": 10,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 8,
+          "over_limit_success": 0,
+          "par2": 960.028821
+        },
+        "wisa": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.080192
+        }
+      },
+      "buckets": {
+        "clean-unknown-node-limit-candidates": {
+          "total": 50,
+          "solved": 20,
+          "answers": {
+            "sat": 20
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 30,
+          "over_limit_success": 0,
+          "par2": 3602.456221
+        },
+        "easy-controls": {
+          "total": 50,
+          "solved": 50,
+          "answers": {
+            "sat": 27,
+            "unsat": 23
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.297768
+        },
+        "reference-fast-native-slow-sat": {
+          "total": 50,
+          "solved": 33,
+          "answers": {
+            "sat": 33
+          },
+          "statuses": {
+            "ok": 34,
+            "timeout": 16
+          },
+          "clean_unknown": 1,
+          "over_limit_success": 0,
+          "par2": 2271.473395
+        },
+        "reference-fast-native-slow-unsat": {
+          "total": 50,
+          "solved": 23,
+          "answers": {
+            "unsat": 23
+          },
+          "statuses": {
+            "timeout": 20,
+            "ok": 30
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 3490.407005
+        }
+      },
+      "counters_lower_bounds": {
+        ":lia.branch-nodes": 4212585,
+        ":lia.cube-calls": 258,
+        ":lia.cube-centers": 35,
+        ":lia.cube-constraints": 44671,
+        ":lia.cube-difference-exemptions": 0,
+        ":lia.cube-fixed-coordinates": 1424,
+        ":lia.cube-infeasible": 211,
+        ":lia.cube-limits": 0,
+        ":lia.cube-microseconds": 465758,
+        ":lia.cube-models": 35,
+        ":lia.cube-pivots": 6121,
+        ":lia.cube-skipped": 12
+      },
+      "inputs_with_cube_models": 35,
+      "note": "counters are lower bounds: unfinished completions/timeouts can omit work"
+    },
+    "difference-default": {
+      "total": 200,
+      "solved": 126,
+      "answers": {
+        "sat": 80,
+        "unsat": 46
+      },
+      "statuses": {
+        "ok": 164,
+        "timeout": 36
+      },
+      "clean_unknown": 38,
+      "over_limit_success": 0,
+      "par2": 9366.991671,
+      "families": {
+        "20180326-Bromberger": {
+          "total": 17,
+          "solved": 13,
+          "answers": {
+            "sat": 12,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 13,
+            "timeout": 4
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 480.72435
+        },
+        "2019-cmodelsdiff": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.159615
+        },
+        "2019-ezsmt": {
+          "total": 7,
+          "solved": 7,
+          "answers": {
+            "sat": 5,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 7
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 35.163424
+        },
+        "20210219-Dartagnan": {
+          "total": 8,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "timeout": 5,
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 623.149144
+        },
+        "20220307-SMPT": {
+          "total": 10,
+          "solved": 8,
+          "answers": {
+            "sat": 4,
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 274.34653000000003
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018002999999999998
+        },
+        "20231117-c_inference": {
+          "total": 8,
+          "solved": 6,
+          "answers": {
+            "sat": 3,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 398.15054200000003
+        },
+        "Averest": {
+          "total": 8,
+          "solved": 8,
+          "answers": {
+            "sat": 5,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 17.504457
+        },
+        "CAV_2009_benchmarks": {
+          "total": 13,
+          "solved": 11,
+          "answers": {
+            "sat": 10,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 11,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.590505
+        },
+        "CIRC": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.025407
+        },
+        "RTCL": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.06759
+        },
+        "RWS": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.087804
+        },
+        "bofill-scheduling": {
+          "total": 4,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 4
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 26.201894
+        },
+        "calypto": {
+          "total": 4,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "timeout": 2,
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.043016
+        },
+        "check": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018663
+        },
+        "convert": {
+          "total": 12,
+          "solved": 5,
+          "answers": {
+            "sat": 2,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 11,
+            "timeout": 1
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 847.338609
+        },
+        "cut_lemmas": {
+          "total": 11,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10,
+            "timeout": 1
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 852.370039
+        },
+        "dillig": {
+          "total": 11,
+          "solved": 11,
+          "answers": {
+            "sat": 11
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.788463
+        },
+        "fft": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.054385
+        },
+        "mathsat": {
+          "total": 3,
+          "solved": 3,
+          "answers": {
+            "sat": 2,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 3.145096
+        },
+        "miplib2003": {
+          "total": 2,
+          "solved": 0,
+          "answers": {},
+          "statuses": {
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.0
+        },
+        "nec-smt": {
+          "total": 9,
+          "solved": 6,
+          "answers": {
+            "sat": 4,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 482.524053
+        },
+        "pb2010": {
+          "total": 6,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "timeout": 5,
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 600.009183
+        },
+        "pidgeons": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018236
+        },
+        "prime-cone": {
+          "total": 11,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 10,
+            "timeout": 1
+          },
+          "clean_unknown": 8,
+          "over_limit_success": 0,
+          "par2": 1080.020124
+        },
+        "rings": {
+          "total": 11,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 3
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 984.150431
+        },
+        "rings_preprocessed": {
+          "total": 11,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8,
+            "timeout": 3
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 978.572031
+        },
+        "slacks": {
+          "total": 9,
+          "solved": 9,
+          "answers": {
+            "sat": 9
+          },
+          "statuses": {
+            "ok": 9
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.640923
+        },
+        "tightrhombus": {
+          "total": 10,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 8,
+          "over_limit_success": 0,
+          "par2": 960.028927
+        },
+        "wisa": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.080227
+        }
+      },
+      "buckets": {
+        "clean-unknown-node-limit-candidates": {
+          "total": 50,
+          "solved": 20,
+          "answers": {
+            "sat": 20
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 30,
+          "over_limit_success": 0,
+          "par2": 3602.454904
+        },
+        "easy-controls": {
+          "total": 50,
+          "solved": 50,
+          "answers": {
+            "sat": 27,
+            "unsat": 23
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.290922
+        },
+        "reference-fast-native-slow-sat": {
+          "total": 50,
+          "solved": 33,
+          "answers": {
+            "sat": 33
+          },
+          "statuses": {
+            "ok": 34,
+            "timeout": 16
+          },
+          "clean_unknown": 1,
+          "over_limit_success": 0,
+          "par2": 2272.985561
+        },
+        "reference-fast-native-slow-unsat": {
+          "total": 50,
+          "solved": 23,
+          "answers": {
+            "unsat": 23
+          },
+          "statuses": {
+            "timeout": 20,
+            "ok": 30
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 3490.260284
+        }
+      },
+      "counters_lower_bounds": {
+        ":lia.branch-nodes": 4212585,
+        ":lia.cube-calls": 258,
+        ":lia.cube-centers": 35,
+        ":lia.cube-constraints": 44671,
+        ":lia.cube-difference-exemptions": 669,
+        ":lia.cube-fixed-coordinates": 1424,
+        ":lia.cube-infeasible": 211,
+        ":lia.cube-limits": 0,
+        ":lia.cube-microseconds": 465918,
+        ":lia.cube-models": 35,
+        ":lia.cube-pivots": 6148,
+        ":lia.cube-skipped": 12
+      },
+      "inputs_with_cube_models": 35,
+      "note": "counters are lower bounds: unfinished completions/timeouts can omit work"
+    },
+    "baseline-m124": {
+      "total": 200,
+      "solved": 126,
+      "answers": {
+        "sat": 61,
+        "unsat": 65
+      },
+      "statuses": {
+        "ok": 159,
+        "timeout": 41
+      },
+      "clean_unknown": 33,
+      "over_limit_success": 0,
+      "par2": 9423.596528,
+      "families": {
+        "20180326-Bromberger": {
+          "total": 17,
+          "solved": 5,
+          "answers": {
+            "sat": 4,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 12,
+            "timeout": 5
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 1440.109029
+        },
+        "2019-cmodelsdiff": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.15845700000000001
+        },
+        "2019-ezsmt": {
+          "total": 7,
+          "solved": 7,
+          "answers": {
+            "sat": 5,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 7
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 34.825659
+        },
+        "20210219-Dartagnan": {
+          "total": 8,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "timeout": 5,
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 623.103365
+        },
+        "20220307-SMPT": {
+          "total": 10,
+          "solved": 10,
+          "answers": {
+            "sat": 6,
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 61.409911
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018478
+        },
+        "20231117-c_inference": {
+          "total": 8,
+          "solved": 6,
+          "answers": {
+            "sat": 3,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 397.039523
+        },
+        "Averest": {
+          "total": 8,
+          "solved": 8,
+          "answers": {
+            "sat": 5,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 17.404293
+        },
+        "CAV_2009_benchmarks": {
+          "total": 13,
+          "solved": 6,
+          "answers": {
+            "sat": 3,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 13
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 840.426179
+        },
+        "CIRC": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.025478
+        },
+        "RTCL": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.064927
+        },
+        "RWS": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.086756
+        },
+        "bofill-scheduling": {
+          "total": 4,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 4
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 25.911728999999998
+        },
+        "calypto": {
+          "total": 4,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "timeout": 2,
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.043453
+        },
+        "check": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018702999999999997
+        },
+        "convert": {
+          "total": 12,
+          "solved": 5,
+          "answers": {
+            "sat": 2,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 11,
+            "timeout": 1
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 846.752566
+        },
+        "cut_lemmas": {
+          "total": 11,
+          "solved": 9,
+          "answers": {
+            "unsat": 9
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 2,
+          "over_limit_success": 0,
+          "par2": 273.110025
+        },
+        "dillig": {
+          "total": 11,
+          "solved": 6,
+          "answers": {
+            "sat": 6
+          },
+          "statuses": {
+            "ok": 9,
+            "timeout": 2
+          },
+          "clean_unknown": 3,
+          "over_limit_success": 0,
+          "par2": 600.744723
+        },
+        "fft": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.054216999999999994
+        },
+        "mathsat": {
+          "total": 3,
+          "solved": 3,
+          "answers": {
+            "sat": 2,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 3.139798
+        },
+        "miplib2003": {
+          "total": 2,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "timeout": 1,
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 120.626533
+        },
+        "nec-smt": {
+          "total": 9,
+          "solved": 6,
+          "answers": {
+            "sat": 4,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 482.278558
+        },
+        "pb2010": {
+          "total": 6,
+          "solved": 3,
+          "answers": {
+            "sat": 3
+          },
+          "statuses": {
+            "ok": 3,
+            "timeout": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 406.041765
+        },
+        "pidgeons": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.017006
+        },
+        "prime-cone": {
+          "total": 11,
+          "solved": 11,
+          "answers": {
+            "unsat": 9,
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.172163
+        },
+        "rings": {
+          "total": 11,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "timeout": 6,
+            "ok": 5
+          },
+          "clean_unknown": 1,
+          "over_limit_success": 0,
+          "par2": 849.360823
+        },
+        "rings_preprocessed": {
+          "total": 11,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "timeout": 8,
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 960.060783
+        },
+        "slacks": {
+          "total": 9,
+          "solved": 5,
+          "answers": {
+            "sat": 5
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 3
+          },
+          "clean_unknown": 1,
+          "over_limit_success": 0,
+          "par2": 480.404932
+        },
+        "tightrhombus": {
+          "total": 10,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 720.103822
+        },
+        "wisa": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.082874
+        }
+      },
+      "buckets": {
+        "clean-unknown-node-limit-candidates": {
+          "total": 50,
+          "solved": 15,
+          "answers": {
+            "unsat": 8,
+            "sat": 7
+          },
+          "statuses": {
+            "timeout": 15,
+            "ok": 35
+          },
+          "clean_unknown": 20,
+          "over_limit_success": 0,
+          "par2": 4232.414655
+        },
+        "easy-controls": {
+          "total": 50,
+          "solved": 49,
+          "answers": {
+            "sat": 26,
+            "unsat": 23
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 1,
+          "over_limit_success": 0,
+          "par2": 121.242393
+        },
+        "reference-fast-native-slow-sat": {
+          "total": 50,
+          "solved": 28,
+          "answers": {
+            "sat": 28
+          },
+          "statuses": {
+            "ok": 35,
+            "timeout": 15
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 2943.89306
+        },
+        "reference-fast-native-slow-unsat": {
+          "total": 50,
+          "solved": 34,
+          "answers": {
+            "unsat": 34
+          },
+          "statuses": {
+            "ok": 39,
+            "timeout": 11
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 2126.04642
+        }
+      },
+      "counters_lower_bounds": {
+        ":lia.branch-nodes": 0,
+        ":lia.cube-calls": 0,
+        ":lia.cube-centers": 0,
+        ":lia.cube-constraints": 0,
+        ":lia.cube-difference-exemptions": 0,
+        ":lia.cube-fixed-coordinates": 0,
+        ":lia.cube-infeasible": 0,
+        ":lia.cube-limits": 0,
+        ":lia.cube-microseconds": 0,
+        ":lia.cube-models": 0,
+        ":lia.cube-pivots": 0,
+        ":lia.cube-skipped": 0
+      },
+      "inputs_with_cube_models": 0,
+      "note": "counters are lower bounds: unfinished completions/timeouts can omit work"
+    },
+    "off-m124": {
+      "total": 200,
+      "solved": 126,
+      "answers": {
+        "sat": 61,
+        "unsat": 65
+      },
+      "statuses": {
+        "ok": 159,
+        "timeout": 41
+      },
+      "clean_unknown": 33,
+      "over_limit_success": 0,
+      "par2": 9426.265081,
+      "families": {
+        "20180326-Bromberger": {
+          "total": 17,
+          "solved": 5,
+          "answers": {
+            "sat": 4,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 12,
+            "timeout": 5
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 1440.11097
+        },
+        "2019-cmodelsdiff": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.15876400000000002
+        },
+        "2019-ezsmt": {
+          "total": 7,
+          "solved": 7,
+          "answers": {
+            "sat": 5,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 7
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 34.966522
+        },
+        "20210219-Dartagnan": {
+          "total": 8,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "timeout": 5,
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 623.166843
+        },
+        "20220307-SMPT": {
+          "total": 10,
+          "solved": 10,
+          "answers": {
+            "sat": 6,
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 62.116669
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018379
+        },
+        "20231117-c_inference": {
+          "total": 8,
+          "solved": 6,
+          "answers": {
+            "sat": 3,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 397.960266
+        },
+        "Averest": {
+          "total": 8,
+          "solved": 8,
+          "answers": {
+            "sat": 5,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 17.327214
+        },
+        "CAV_2009_benchmarks": {
+          "total": 13,
+          "solved": 6,
+          "answers": {
+            "sat": 3,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 13
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 840.425157
+        },
+        "CIRC": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.024603
+        },
+        "RTCL": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.067869
+        },
+        "RWS": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.087889
+        },
+        "bofill-scheduling": {
+          "total": 4,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 4
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 25.939033
+        },
+        "calypto": {
+          "total": 4,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "timeout": 2,
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.042539
+        },
+        "check": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018643
+        },
+        "convert": {
+          "total": 12,
+          "solved": 5,
+          "answers": {
+            "sat": 2,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 11,
+            "timeout": 1
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 846.771666
+        },
+        "cut_lemmas": {
+          "total": 11,
+          "solved": 9,
+          "answers": {
+            "unsat": 9
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 2,
+          "over_limit_success": 0,
+          "par2": 273.203063
+        },
+        "dillig": {
+          "total": 11,
+          "solved": 6,
+          "answers": {
+            "sat": 6
+          },
+          "statuses": {
+            "ok": 9,
+            "timeout": 2
+          },
+          "clean_unknown": 3,
+          "over_limit_success": 0,
+          "par2": 600.747876
+        },
+        "fft": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.053860000000000005
+        },
+        "mathsat": {
+          "total": 3,
+          "solved": 3,
+          "answers": {
+            "sat": 2,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 3.125374
+        },
+        "miplib2003": {
+          "total": 2,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "timeout": 1,
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 120.633556
+        },
+        "nec-smt": {
+          "total": 9,
+          "solved": 6,
+          "answers": {
+            "sat": 4,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 482.754845
+        },
+        "pb2010": {
+          "total": 6,
+          "solved": 3,
+          "answers": {
+            "sat": 3
+          },
+          "statuses": {
+            "ok": 3,
+            "timeout": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 406.414012
+        },
+        "pidgeons": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.017325
+        },
+        "prime-cone": {
+          "total": 11,
+          "solved": 11,
+          "answers": {
+            "unsat": 9,
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.17534
+        },
+        "rings": {
+          "total": 11,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "timeout": 6,
+            "ok": 5
+          },
+          "clean_unknown": 1,
+          "over_limit_success": 0,
+          "par2": 849.281997
+        },
+        "rings_preprocessed": {
+          "total": 11,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "timeout": 8,
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 960.060733
+        },
+        "slacks": {
+          "total": 9,
+          "solved": 5,
+          "answers": {
+            "sat": 5
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 3
+          },
+          "clean_unknown": 1,
+          "over_limit_success": 0,
+          "par2": 480.408358
+        },
+        "tightrhombus": {
+          "total": 10,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 720.104988
+        },
+        "wisa": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.080728
+        }
+      },
+      "buckets": {
+        "clean-unknown-node-limit-candidates": {
+          "total": 50,
+          "solved": 15,
+          "answers": {
+            "unsat": 8,
+            "sat": 7
+          },
+          "statuses": {
+            "timeout": 15,
+            "ok": 35
+          },
+          "clean_unknown": 20,
+          "over_limit_success": 0,
+          "par2": 4232.516095
+        },
+        "easy-controls": {
+          "total": 50,
+          "solved": 49,
+          "answers": {
+            "sat": 26,
+            "unsat": 23
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 1,
+          "over_limit_success": 0,
+          "par2": 121.247048
+        },
+        "reference-fast-native-slow-sat": {
+          "total": 50,
+          "solved": 28,
+          "answers": {
+            "sat": 28
+          },
+          "statuses": {
+            "ok": 35,
+            "timeout": 15
+          },
+          "clean_unknown": 7,
+          "over_limit_success": 0,
+          "par2": 2946.159422
+        },
+        "reference-fast-native-slow-unsat": {
+          "total": 50,
+          "solved": 34,
+          "answers": {
+            "unsat": 34
+          },
+          "statuses": {
+            "ok": 39,
+            "timeout": 11
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 2126.342516
+        }
+      },
+      "counters_lower_bounds": {
+        ":lia.branch-nodes": 3697164,
+        ":lia.cube-calls": 0,
+        ":lia.cube-centers": 0,
+        ":lia.cube-constraints": 0,
+        ":lia.cube-difference-exemptions": 0,
+        ":lia.cube-fixed-coordinates": 0,
+        ":lia.cube-infeasible": 0,
+        ":lia.cube-limits": 0,
+        ":lia.cube-microseconds": 0,
+        ":lia.cube-models": 0,
+        ":lia.cube-pivots": 0,
+        ":lia.cube-skipped": 0
+      },
+      "inputs_with_cube_models": 0,
+      "note": "counters are lower bounds: unfinished completions/timeouts can omit work"
+    },
+    "uniform-m124": {
+      "total": 200,
+      "solved": 150,
+      "answers": {
+        "sat": 85,
+        "unsat": 65
+      },
+      "statuses": {
+        "ok": 169,
+        "timeout": 31
+      },
+      "clean_unknown": 19,
+      "over_limit_success": 0,
+      "par2": 6546.839864,
+      "families": {
+        "20180326-Bromberger": {
+          "total": 17,
+          "solved": 13,
+          "answers": {
+            "sat": 12,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 17
+          },
+          "clean_unknown": 4,
+          "over_limit_success": 0,
+          "par2": 480.447474
+        },
+        "2019-cmodelsdiff": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.16292600000000002
+        },
+        "2019-ezsmt": {
+          "total": 7,
+          "solved": 7,
+          "answers": {
+            "sat": 5,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 7
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 35.043385
+        },
+        "20210219-Dartagnan": {
+          "total": 8,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "timeout": 5,
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 623.206316
+        },
+        "20220307-SMPT": {
+          "total": 10,
+          "solved": 10,
+          "answers": {
+            "sat": 6,
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 62.021778000000005
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018265
+        },
+        "20231117-c_inference": {
+          "total": 8,
+          "solved": 6,
+          "answers": {
+            "sat": 3,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 396.977989
+        },
+        "Averest": {
+          "total": 8,
+          "solved": 8,
+          "answers": {
+            "sat": 5,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 17.209478
+        },
+        "CAV_2009_benchmarks": {
+          "total": 13,
+          "solved": 13,
+          "answers": {
+            "sat": 10,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 13
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.508339
+        },
+        "CIRC": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.025398999999999998
+        },
+        "RTCL": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.067016
+        },
+        "RWS": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.087914
+        },
+        "bofill-scheduling": {
+          "total": 4,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 4
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 25.946627
+        },
+        "calypto": {
+          "total": 4,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "timeout": 2,
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.042046
+        },
+        "check": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.017728
+        },
+        "convert": {
+          "total": 12,
+          "solved": 5,
+          "answers": {
+            "sat": 2,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 11,
+            "timeout": 1
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 846.823128
+        },
+        "cut_lemmas": {
+          "total": 11,
+          "solved": 9,
+          "answers": {
+            "unsat": 9
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 2,
+          "over_limit_success": 0,
+          "par2": 273.20129000000003
+        },
+        "dillig": {
+          "total": 11,
+          "solved": 11,
+          "answers": {
+            "sat": 11
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.611348
+        },
+        "fft": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.053783
+        },
+        "mathsat": {
+          "total": 3,
+          "solved": 3,
+          "answers": {
+            "sat": 2,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 3.107936
+        },
+        "miplib2003": {
+          "total": 2,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "timeout": 1,
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 120.647944
+        },
+        "nec-smt": {
+          "total": 9,
+          "solved": 6,
+          "answers": {
+            "sat": 4,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 483.650785
+        },
+        "pb2010": {
+          "total": 6,
+          "solved": 3,
+          "answers": {
+            "sat": 3
+          },
+          "statuses": {
+            "ok": 3,
+            "timeout": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 406.25372
+        },
+        "pidgeons": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.017502999999999998
+        },
+        "prime-cone": {
+          "total": 11,
+          "solved": 11,
+          "answers": {
+            "unsat": 9,
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.183804
+        },
+        "rings": {
+          "total": 11,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "timeout": 6,
+            "ok": 5
+          },
+          "clean_unknown": 1,
+          "over_limit_success": 0,
+          "par2": 849.342658
+        },
+        "rings_preprocessed": {
+          "total": 11,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "timeout": 8,
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 960.066397
+        },
+        "slacks": {
+          "total": 9,
+          "solved": 9,
+          "answers": {
+            "sat": 9
+          },
+          "statuses": {
+            "ok": 9
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.911205
+        },
+        "tightrhombus": {
+          "total": 10,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 720.10504
+        },
+        "wisa": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.080643
+        }
+      },
+      "buckets": {
+        "clean-unknown-node-limit-candidates": {
+          "total": 50,
+          "solved": 28,
+          "answers": {
+            "sat": 20,
+            "unsat": 8
+          },
+          "statuses": {
+            "ok": 41,
+            "timeout": 9
+          },
+          "clean_unknown": 13,
+          "over_limit_success": 0,
+          "par2": 2673.406192
+        },
+        "easy-controls": {
+          "total": 50,
+          "solved": 50,
+          "answers": {
+            "sat": 27,
+            "unsat": 23
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.277091
+        },
+        "reference-fast-native-slow-sat": {
+          "total": 50,
+          "solved": 38,
+          "answers": {
+            "sat": 38
+          },
+          "statuses": {
+            "ok": 39,
+            "timeout": 11
+          },
+          "clean_unknown": 1,
+          "over_limit_success": 0,
+          "par2": 1744.778087
+        },
+        "reference-fast-native-slow-unsat": {
+          "total": 50,
+          "solved": 34,
+          "answers": {
+            "unsat": 34
+          },
+          "statuses": {
+            "ok": 39,
+            "timeout": 11
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 2127.378494
+        }
+      },
+      "counters_lower_bounds": {
+        ":lia.branch-nodes": 2294478,
+        ":lia.cube-calls": 344,
+        ":lia.cube-centers": 36,
+        ":lia.cube-constraints": 94033,
+        ":lia.cube-difference-exemptions": 0,
+        ":lia.cube-fixed-coordinates": 2015,
+        ":lia.cube-infeasible": 294,
+        ":lia.cube-limits": 3,
+        ":lia.cube-microseconds": 609716,
+        ":lia.cube-models": 36,
+        ":lia.cube-pivots": 10503,
+        ":lia.cube-skipped": 11
+      },
+      "inputs_with_cube_models": 36,
+      "note": "counters are lower bounds: unfinished completions/timeouts can omit work"
+    },
+    "difference-m124": {
+      "total": 200,
+      "solved": 150,
+      "answers": {
+        "sat": 85,
+        "unsat": 65
+      },
+      "statuses": {
+        "ok": 169,
+        "timeout": 31
+      },
+      "clean_unknown": 19,
+      "over_limit_success": 0,
+      "par2": 6546.051614,
+      "families": {
+        "20180326-Bromberger": {
+          "total": 17,
+          "solved": 13,
+          "answers": {
+            "sat": 12,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 17
+          },
+          "clean_unknown": 4,
+          "over_limit_success": 0,
+          "par2": 480.448146
+        },
+        "2019-cmodelsdiff": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.161861
+        },
+        "2019-ezsmt": {
+          "total": 7,
+          "solved": 7,
+          "answers": {
+            "sat": 5,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 7
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 34.885583
+        },
+        "20210219-Dartagnan": {
+          "total": 8,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "timeout": 5,
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 623.445513
+        },
+        "20220307-SMPT": {
+          "total": 10,
+          "solved": 10,
+          "answers": {
+            "sat": 6,
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 61.973913
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018453999999999998
+        },
+        "20231117-c_inference": {
+          "total": 8,
+          "solved": 6,
+          "answers": {
+            "sat": 3,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 397.622754
+        },
+        "Averest": {
+          "total": 8,
+          "solved": 8,
+          "answers": {
+            "sat": 5,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 17.173455
+        },
+        "CAV_2009_benchmarks": {
+          "total": 13,
+          "solved": 13,
+          "answers": {
+            "sat": 10,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 13
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.508499
+        },
+        "CIRC": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.02532
+        },
+        "RTCL": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.066616
+        },
+        "RWS": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.088032
+        },
+        "bofill-scheduling": {
+          "total": 4,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 4
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 25.961554
+        },
+        "calypto": {
+          "total": 4,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "timeout": 2,
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 240.042011
+        },
+        "check": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.017965000000000002
+        },
+        "convert": {
+          "total": 12,
+          "solved": 5,
+          "answers": {
+            "sat": 2,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 11,
+            "timeout": 1
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 846.796084
+        },
+        "cut_lemmas": {
+          "total": 11,
+          "solved": 9,
+          "answers": {
+            "unsat": 9
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 2,
+          "over_limit_success": 0,
+          "par2": 273.213469
+        },
+        "dillig": {
+          "total": 11,
+          "solved": 11,
+          "answers": {
+            "sat": 11
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.610345
+        },
+        "fft": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.053778
+        },
+        "mathsat": {
+          "total": 3,
+          "solved": 3,
+          "answers": {
+            "sat": 2,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 3.111195
+        },
+        "miplib2003": {
+          "total": 2,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "timeout": 1,
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 120.662013
+        },
+        "nec-smt": {
+          "total": 9,
+          "solved": 6,
+          "answers": {
+            "sat": 4,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 6,
+            "timeout": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 482.069855
+        },
+        "pb2010": {
+          "total": 6,
+          "solved": 3,
+          "answers": {
+            "sat": 3
+          },
+          "statuses": {
+            "ok": 3,
+            "timeout": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 406.433281
+        },
+        "pidgeons": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.018112
+        },
+        "prime-cone": {
+          "total": 11,
+          "solved": 11,
+          "answers": {
+            "unsat": 9,
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.185358
+        },
+        "rings": {
+          "total": 11,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "timeout": 6,
+            "ok": 5
+          },
+          "clean_unknown": 1,
+          "over_limit_success": 0,
+          "par2": 849.293326
+        },
+        "rings_preprocessed": {
+          "total": 11,
+          "solved": 3,
+          "answers": {
+            "unsat": 3
+          },
+          "statuses": {
+            "timeout": 8,
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 960.065782
+        },
+        "slacks": {
+          "total": 9,
+          "solved": 9,
+          "answers": {
+            "sat": 9
+          },
+          "statuses": {
+            "ok": 9
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.913388
+        },
+        "tightrhombus": {
+          "total": 10,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 6,
+          "over_limit_success": 0,
+          "par2": 720.105243
+        },
+        "wisa": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.080709
+        }
+      },
+      "buckets": {
+        "clean-unknown-node-limit-candidates": {
+          "total": 50,
+          "solved": 28,
+          "answers": {
+            "sat": 20,
+            "unsat": 8
+          },
+          "statuses": {
+            "ok": 41,
+            "timeout": 9
+          },
+          "clean_unknown": 13,
+          "over_limit_success": 0,
+          "par2": 2673.418955
+        },
+        "easy-controls": {
+          "total": 50,
+          "solved": 50,
+          "answers": {
+            "sat": 27,
+            "unsat": 23
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.281447
+        },
+        "reference-fast-native-slow-sat": {
+          "total": 50,
+          "solved": 38,
+          "answers": {
+            "sat": 38
+          },
+          "statuses": {
+            "ok": 39,
+            "timeout": 11
+          },
+          "clean_unknown": 1,
+          "over_limit_success": 0,
+          "par2": 1744.079874
+        },
+        "reference-fast-native-slow-unsat": {
+          "total": 50,
+          "solved": 34,
+          "answers": {
+            "unsat": 34
+          },
+          "statuses": {
+            "ok": 39,
+            "timeout": 11
+          },
+          "clean_unknown": 5,
+          "over_limit_success": 0,
+          "par2": 2127.271338
+        }
+      },
+      "counters_lower_bounds": {
+        ":lia.branch-nodes": 2294478,
+        ":lia.cube-calls": 344,
+        ":lia.cube-centers": 36,
+        ":lia.cube-constraints": 94033,
+        ":lia.cube-difference-exemptions": 16454,
+        ":lia.cube-fixed-coordinates": 2015,
+        ":lia.cube-infeasible": 294,
+        ":lia.cube-limits": 3,
+        ":lia.cube-microseconds": 604084,
+        ":lia.cube-models": 36,
+        ":lia.cube-pivots": 10530,
+        ":lia.cube-skipped": 11
+      },
+      "inputs_with_cube_models": 36,
+      "note": "counters are lower bounds: unfinished completions/timeouts can omit work"
+    },
+    "z3": {
+      "total": 200,
+      "solved": 199,
+      "answers": {
+        "sat": 102,
+        "unsat": 97
+      },
+      "statuses": {
+        "ok": 199,
+        "timeout": 1
+      },
+      "clean_unknown": 0,
+      "over_limit_success": 0,
+      "par2": 212.552952,
+      "families": {
+        "20180326-Bromberger": {
+          "total": 17,
+          "solved": 17,
+          "answers": {
+            "sat": 12,
+            "unsat": 5
+          },
+          "statuses": {
+            "ok": 17
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 30.740787
+        },
+        "2019-cmodelsdiff": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.17853200000000002
+        },
+        "2019-ezsmt": {
+          "total": 7,
+          "solved": 7,
+          "answers": {
+            "sat": 5,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 7
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 2.124873
+        },
+        "20210219-Dartagnan": {
+          "total": 8,
+          "solved": 8,
+          "answers": {
+            "sat": 4,
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 8
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 3.7840510000000003
+        },
+        "20220307-SMPT": {
+          "total": 10,
+          "solved": 10,
+          "answers": {
+            "sat": 6,
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.690893
+        },
+        "20230321-UltimateAutomizerSvcomp2023": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.030011999999999997
+        },
+        "20231117-c_inference": {
+          "total": 8,
+          "solved": 8,
+          "answers": {
+            "sat": 5,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 3.66152
+        },
+        "Averest": {
+          "total": 8,
+          "solved": 8,
+          "answers": {
+            "sat": 5,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 8
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.125342
+        },
+        "CAV_2009_benchmarks": {
+          "total": 13,
+          "solved": 13,
+          "answers": {
+            "sat": 10,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 13
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.671752
+        },
+        "CIRC": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.045578
+        },
+        "RTCL": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.023784
+        },
+        "RWS": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.063239
+        },
+        "bofill-scheduling": {
+          "total": 4,
+          "solved": 4,
+          "answers": {
+            "unsat": 4
+          },
+          "statuses": {
+            "ok": 4
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.694275
+        },
+        "calypto": {
+          "total": 4,
+          "solved": 4,
+          "answers": {
+            "sat": 4
+          },
+          "statuses": {
+            "ok": 4
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.084736
+        },
+        "check": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.031712000000000004
+        },
+        "convert": {
+          "total": 12,
+          "solved": 12,
+          "answers": {
+            "sat": 9,
+            "unsat": 3
+          },
+          "statuses": {
+            "ok": 12
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 2.22977
+        },
+        "cut_lemmas": {
+          "total": 11,
+          "solved": 10,
+          "answers": {
+            "unsat": 10
+          },
+          "statuses": {
+            "ok": 10,
+            "timeout": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 150.009051
+        },
+        "dillig": {
+          "total": 11,
+          "solved": 11,
+          "answers": {
+            "sat": 11
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.600736
+        },
+        "fft": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 1,
+            "sat": 1
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.084926
+        },
+        "mathsat": {
+          "total": 3,
+          "solved": 3,
+          "answers": {
+            "sat": 2,
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 3
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.559776
+        },
+        "miplib2003": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.451404
+        },
+        "nec-smt": {
+          "total": 9,
+          "solved": 9,
+          "answers": {
+            "sat": 4,
+            "unsat": 5
+          },
+          "statuses": {
+            "ok": 9
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 3.649336
+        },
+        "pb2010": {
+          "total": 6,
+          "solved": 6,
+          "answers": {
+            "sat": 4,
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 6
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 3.9590069999999997
+        },
+        "pidgeons": {
+          "total": 2,
+          "solved": 2,
+          "answers": {
+            "unsat": 2
+          },
+          "statuses": {
+            "ok": 2
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.034716
+        },
+        "prime-cone": {
+          "total": 11,
+          "solved": 11,
+          "answers": {
+            "unsat": 9,
+            "sat": 2
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.188631
+        },
+        "rings": {
+          "total": 11,
+          "solved": 11,
+          "answers": {
+            "unsat": 11
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.660387
+        },
+        "rings_preprocessed": {
+          "total": 11,
+          "solved": 11,
+          "answers": {
+            "unsat": 11
+          },
+          "statuses": {
+            "ok": 11
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.878889
+        },
+        "slacks": {
+          "total": 9,
+          "solved": 9,
+          "answers": {
+            "sat": 9
+          },
+          "statuses": {
+            "ok": 9
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.714093
+        },
+        "tightrhombus": {
+          "total": 10,
+          "solved": 10,
+          "answers": {
+            "unsat": 10
+          },
+          "statuses": {
+            "ok": 10
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.535954
+        },
+        "wisa": {
+          "total": 1,
+          "solved": 1,
+          "answers": {
+            "unsat": 1
+          },
+          "statuses": {
+            "ok": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 0.04519
+        }
+      },
+      "buckets": {
+        "clean-unknown-node-limit-candidates": {
+          "total": 50,
+          "solved": 49,
+          "answers": {
+            "sat": 25,
+            "unsat": 24
+          },
+          "statuses": {
+            "ok": 49,
+            "timeout": 1
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 184.30301599999999
+        },
+        "easy-controls": {
+          "total": 50,
+          "solved": 50,
+          "answers": {
+            "sat": 27,
+            "unsat": 23
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 1.34344
+        },
+        "reference-fast-native-slow-sat": {
+          "total": 50,
+          "solved": 50,
+          "answers": {
+            "sat": 50
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 14.139808
+        },
+        "reference-fast-native-slow-unsat": {
+          "total": 50,
+          "solved": 50,
+          "answers": {
+            "unsat": 50
+          },
+          "statuses": {
+            "ok": 50
+          },
+          "clean_unknown": 0,
+          "over_limit_success": 0,
+          "par2": 12.766688
+        }
+      },
+      "counters_lower_bounds": {
+        ":lia.branch-nodes": 0,
+        ":lia.cube-calls": 0,
+        ":lia.cube-centers": 0,
+        ":lia.cube-constraints": 0,
+        ":lia.cube-difference-exemptions": 0,
+        ":lia.cube-fixed-coordinates": 0,
+        ":lia.cube-infeasible": 0,
+        ":lia.cube-limits": 0,
+        ":lia.cube-microseconds": 0,
+        ":lia.cube-models": 0,
+        ":lia.cube-pivots": 0,
+        ":lia.cube-skipped": 0
+      },
+      "inputs_with_cube_models": 0,
+      "note": "counters are lower bounds: unfinished completions/timeouts can omit work"
+    }
+  },
+  "comparisons": {
+    "off-default_vs_uniform-default": {
+      "baseline": "left",
+      "candidate": "right",
+      "common": 92,
+      "common_both_at_least_50ms": 53,
+      "geomean_candidate_over_baseline": 0.9189218156657796,
+      "median_candidate_over_baseline": 0.9997451214066841,
+      "gains": [
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__004.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__005.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-100/c100_problem__003.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-100/c100_problem__005.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-40/c40_problem__005.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-60/c60_problem__002.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-70/c70_problem__004.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/smt/10-vars/v10_problem_2__009.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/smt/10-vars/v10_problem__012.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/smt/15-vars/v15_problem_2__013.smt2.slack.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-100/problem__002.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-100/problem__003.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-100/problem__005.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-20/problem__002.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-20/problem__003.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-20/problem__006.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-40/problem__005.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-60/problem__002.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-70/problem__002.smt2",
+        "dillig/15-18.smt2",
+        "dillig/20-1.smt2",
+        "dillig/20-19.smt2",
+        "dillig/20-21.smt2",
+        "dillig/20-3.smt2",
+        "dillig/25-16.smt2",
+        "dillig/25-18.smt2",
+        "dillig/25-25.smt2",
+        "dillig/25-26.smt2",
+        "slacks/15-20.slack.smt2",
+        "slacks/15-7.slack.smt2",
+        "slacks/20-20.slack.smt2",
+        "slacks/25-7.slack.smt2",
+        "slacks/30-26.slack.smt2",
+        "slacks/40-2.slack.smt2"
+      ],
+      "losses": []
+    },
+    "off-default_vs_difference-default": {
+      "baseline": "left",
+      "candidate": "right",
+      "common": 92,
+      "common_both_at_least_50ms": 53,
+      "geomean_candidate_over_baseline": 0.9193263934913216,
+      "median_candidate_over_baseline": 1.0009164450500352,
+      "gains": [
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__004.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__005.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-100/c100_problem__003.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-100/c100_problem__005.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-40/c40_problem__005.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-60/c60_problem__002.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-70/c70_problem__004.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/smt/10-vars/v10_problem_2__009.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/smt/10-vars/v10_problem__012.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/smt/15-vars/v15_problem_2__013.smt2.slack.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-100/problem__002.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-100/problem__003.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-100/problem__005.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-20/problem__002.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-20/problem__003.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-20/problem__006.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-40/problem__005.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-60/problem__002.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-70/problem__002.smt2",
+        "dillig/15-18.smt2",
+        "dillig/20-1.smt2",
+        "dillig/20-19.smt2",
+        "dillig/20-21.smt2",
+        "dillig/20-3.smt2",
+        "dillig/25-16.smt2",
+        "dillig/25-18.smt2",
+        "dillig/25-25.smt2",
+        "dillig/25-26.smt2",
+        "slacks/15-20.slack.smt2",
+        "slacks/15-7.slack.smt2",
+        "slacks/20-20.slack.smt2",
+        "slacks/25-7.slack.smt2",
+        "slacks/30-26.slack.smt2",
+        "slacks/40-2.slack.smt2"
+      ],
+      "losses": []
+    },
+    "baseline-default_vs_off-default": {
+      "baseline": "left",
+      "candidate": "right",
+      "common": 92,
+      "common_both_at_least_50ms": 53,
+      "geomean_candidate_over_baseline": 1.0033862021068356,
+      "median_candidate_over_baseline": 1.0022595332755928,
+      "gains": [],
+      "losses": []
+    },
+    "off-m124_vs_uniform-m124": {
+      "baseline": "left",
+      "candidate": "right",
+      "common": 126,
+      "common_both_at_least_50ms": 67,
+      "geomean_candidate_over_baseline": 0.9396690820133416,
+      "median_candidate_over_baseline": 0.9990437865830349,
+      "gains": [
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__004.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__005.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__006.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-100/c100_problem__003.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-100/c100_problem__005.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-40/c40_problem__005.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-60/c60_problem__002.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-70/c70_problem__004.smt2.slack.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-100/problem__002.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-100/problem__005.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-20/problem__002.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-20/problem__003.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-20/problem__006.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-40/problem__005.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-60/problem__002.smt2",
+        "dillig/20-19.smt2",
+        "dillig/25-16.smt2",
+        "dillig/25-18.smt2",
+        "dillig/25-25.smt2",
+        "dillig/25-26.smt2",
+        "slacks/15-21.slack.smt2",
+        "slacks/15-7.slack.smt2",
+        "slacks/20-20.slack.smt2",
+        "slacks/30-26.slack.smt2"
+      ],
+      "losses": []
+    },
+    "off-m124_vs_difference-m124": {
+      "baseline": "left",
+      "candidate": "right",
+      "common": 126,
+      "common_both_at_least_50ms": 67,
+      "geomean_candidate_over_baseline": 0.9386078677995192,
+      "median_candidate_over_baseline": 0.9997646417599843,
+      "gains": [
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__004.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__005.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__006.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-100/c100_problem__003.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-100/c100_problem__005.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-40/c40_problem__005.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-60/c60_problem__002.smt2.slack.smt2",
+        "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-70/c70_problem__004.smt2.slack.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-100/problem__002.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-100/problem__005.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-20/problem__002.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-20/problem__003.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-20/problem__006.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-40/problem__005.smt2",
+        "CAV_2009_benchmarks/coef-size/smt/size-60/problem__002.smt2",
+        "dillig/20-19.smt2",
+        "dillig/25-16.smt2",
+        "dillig/25-18.smt2",
+        "dillig/25-25.smt2",
+        "dillig/25-26.smt2",
+        "slacks/15-21.slack.smt2",
+        "slacks/15-7.slack.smt2",
+        "slacks/20-20.slack.smt2",
+        "slacks/30-26.slack.smt2"
+      ],
+      "losses": []
+    },
+    "baseline-m124_vs_off-m124": {
+      "baseline": "left",
+      "candidate": "right",
+      "common": 126,
+      "common_both_at_least_50ms": 67,
+      "geomean_candidate_over_baseline": 1.0045592226289375,
+      "median_candidate_over_baseline": 1.0038017918509983,
+      "gains": [],
+      "losses": []
+    }
+  },
+  "model_replays": {
+    "statuses": {
+      "complete": 800
+    },
+    "expected_sat": 544,
+    "dolmen_pass": 544
+  },
+  "correctness": "no wrong flags, cross-profile/reference disagreement, or rejected candidate",
+  "off_preservation": {
+    "default": {
+      "completed_matching_answers": 154,
+      "counter_differences": {}
+    },
+    "m124": {
+      "completed_matching_answers": 159,
+      "counter_differences": {}
+    }
+  }
+}

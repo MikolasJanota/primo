@@ -36,7 +36,7 @@ sphinx:
     bibtex_reference_style: label
     extlinks:
       cubesource:
-        - "https://github.com/primo-solver/primo/blob/65b6f48afb4618f29378fb9ea2c965ecb58d52ed/%s"
+        - "https://github.com/primo-solver/primo/blob/84654ade537df8473d4ada833a6da5e3e729ca4a/%s"
         - "%s"
       ufliaeqworkflow:
         - "https://github.com/primo-solver/primo/blob/c474ef253ec1b195f08e41d1361abca22dcff07a/%s"

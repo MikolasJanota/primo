@@ -454,6 +454,12 @@ QF_LIA theory options:
                               QF_LIA patching budget, run before the integer refutation stages
                               on every candidate model: caps how many nonbasic moves are taken
                               to nudge Int variables onto integer values. 0 disables patching
+          --lia-cube TEXT:{off,uniform,difference} [off]
+                              Experimental QF_LIA cube model attempt: off, uniform, or
+                              difference (default off)
+          --lia-cube-steps UINT:INT in [0 - 100000000] [1000]
+                              Repair-step budget of the optional QF_LIA cube solve (default
+                              1000)
           --lia-round-integer-bounds [default: on for QF_LIA, off for QF_UFLIA]
                               Round non-strict QF_LIA/QF_UFLIA thresholds on integer-valued
                               tableau variables inward (x <= 5/3 becomes x <= 1); strict

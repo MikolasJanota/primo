@@ -6,9 +6,9 @@
       "id": "2026-11-08-lia-cube-implementation",
       "date": "2026-11-08",
       "kind": "experimental-cube-integration-and-qualification",
-      "commit": "65b6f48afb4618f29378fb9ea2c965ecb58d52ed",
+      "commit": "84654ade537df8473d4ada833a6da5e3e729ca4a",
       "baseline_commit": "aeaf282312923d0bb33c5a73a7412a48ee2619cd",
-      "evidence_status": "implementation committed; exact-commit qualification and timing pending",
+      "evidence_status": "qualified experimental implementation and complete targeted development comparison; full corpus preregistered",
       "scope": "Optional pure QF_LIA uniform and difference cube model attempts before cuts; default off; QF_UFLIA policy unchanged.",
       "jobs": {
         "baseline_failed_missing_headers": "363274",
@@ -27,13 +27,39 @@
         "qualified_static": "363298",
         "qualified_mutations": "363299",
         "qualified_fuzz_retry": "363303",
-        "qualified_asan_retry": "363315"
+        "qualified_asan_retry": "363315",
+        "clean_build": "363316",
+        "clean_check": "363317",
+        "clean_fuzz": "363318",
+        "clean_asan": "363330",
+        "clean_static": "363331",
+        "clean_mutations": "363332",
+        "timing": "363336",
+        "models": "363436"
       },
       "environment": {
         "execution": "SLURM only for all solver, test-suite and corpus work; workstation edits, lint and docs",
         "development_binary": "dirty-cube-debug; preliminary verification only; current committed binary must be rebuilt via checked-in preparation helper",
         "fuzzsmt_jar_sha256": "89f887283d409842ebb19af6fce7a33a1b4a6c006746801b98ca8d716a3b0552",
-        "mutator": "YinYang 0.3.0, seeded OpFuzz; z3-solver Python binding 5.0.0.0 is used by the mutator, separate native reference version is recorded by the gate"
+        "mutator": "YinYang 0.3.0, seeded OpFuzz; z3-solver Python binding 5.0.0.0 is used by the mutator, separate native reference version is recorded by the gate",
+        "binaries": {
+          "baseline": {
+            "sha256": "1c09588a7322b402783c414d33a8c3edb6f25440461d5245c06f384a298dd2e7",
+            "version": "primo 0.2.0\ngit: aeaf2823\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07"
+          },
+          "candidate": {
+            "sha256": "0102030d508c15a51ee3d2f35a5ff19aa5d0183b396f65aa8d7796cfcda8d495",
+            "version": "primo 0.2.0\ngit: 84654ade\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07"
+          },
+          "z3": {
+            "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+            "version": "Z3 version 5.1.0 - 64 bit"
+          },
+          "dolmen": {
+            "sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+            "version": "0.10"
+          }
+        }
       },
       "commands": {
         "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --cxx-header-manifest <staged-header-manifest>",
@@ -60,7 +86,140 @@
         "qualified_check": "47/47 CTest groups and 311/311 Python tests; make check, job 363284",
         "preliminary_asan": "47/47 CTest groups; post-test fuzz stage skipped because tool was outside PATH; not accepted as the requested full gate",
         "qualification_dependency_retry": "Generated FuzzSMT job 363285 ran zero cases: missing PATH entry, not a solver failure. Retried with existing shared FuzzSMT installation; explicit fuzzer path is now required and ASan checks tool presence.",
-        "rendered_review": "Inspected rendered cube section, formula and source navigation via headless Chrome with software rendering"
+        "rendered_review": "Inspected rendered cube section, formula and source navigation via headless Chrome with software rendering",
+        "initial_65b_generated": {
+          "total": 12000,
+          "pass": 11840,
+          "timeout": 160,
+          "wrong_answer": 0,
+          "crash": 0,
+          "primary_sat": 10544,
+          "primary_sat_direct_dolmen": 10544,
+          "additional_timed_out_inputs_replayed_sat": 36,
+          "total_dolmen_pass": 10580,
+          "primary_sat_changed_answer": 0
+        },
+        "clean_check": {
+          "source": "84654ade",
+          "job": "363317",
+          "ctest_pass": 47,
+          "python_pass": 311
+        },
+        "clean_mutations": "four profiles, 200 retained OpFuzz mutations each; completed with direct SAT model validation; aggregate artifact audit pending",
+        "source_hygiene": "84654ade adds direct includes found by include-cleaner and checked optional/exact Rational arithmetic in tests; solver statements and policy unchanged",
+        "current_pending": "full 13306-input M124 off/uniform/difference and fresh Z3 timings, separate all-SAT models, final full-corpus evidence review",
+        "current_generated": {
+          "difference": {
+            "answers": {
+              "PASS": 2961,
+              "TIMEOUT": 39
+            },
+            "expected_primary_sat_models": {
+              "pass": 2637
+            },
+            "all_model_outcomes": {
+              "pass": 2645,
+              "not-sat": 324,
+              "solver-timeout": 31
+            }
+          },
+          "m124-difference": {
+            "answers": {
+              "PASS": 2959,
+              "TIMEOUT": 41
+            },
+            "expected_primary_sat_models": {
+              "pass": 2635
+            },
+            "all_model_outcomes": {
+              "pass": 2645,
+              "not-sat": 324,
+              "solver-timeout": 31
+            }
+          },
+          "m124-uniform": {
+            "answers": {
+              "PASS": 2959,
+              "TIMEOUT": 41
+            },
+            "expected_primary_sat_models": {
+              "pass": 2635
+            },
+            "all_model_outcomes": {
+              "pass": 2645,
+              "not-sat": 324,
+              "solver-timeout": 31
+            }
+          },
+          "uniform": {
+            "answers": {
+              "PASS": 2961,
+              "TIMEOUT": 39
+            },
+            "expected_primary_sat_models": {
+              "pass": 2637
+            },
+            "all_model_outcomes": {
+              "pass": 2645,
+              "not-sat": 324,
+              "solver-timeout": 31
+            }
+          }
+        },
+        "current_static": {
+          "baseline_warnings": 2215,
+          "current_warnings": 2289,
+          "baseline_unique": 308,
+          "current_unique": 310,
+          "new_unique_diagnostics": [
+            "enum 'BoundedCheckStatus' uses a larger base type ('int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size [performance-enum-size]",
+            "enum 'LiaCubeMode' uses a larger base type ('int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size [performance-enum-size]"
+          ],
+          "scope": "135 tracked non-generated CPP units: src/tests plus four documentation examples; analyzer and include-cleaner; existing baseline is not warning-free"
+        },
+        "current_asan": {
+          "ctest_pass": 47,
+          "generated_pass": 196,
+          "generated_timeout": 4,
+          "wrong_answer": 0,
+          "crash": 0
+        },
+        "current_mutations": {
+          "mutants_pass": 800,
+          "initial_regressions_and_seeds_pass": 56,
+          "direct_dolmen_pass": 666
+        },
+        "development": {
+          "inputs": 200,
+          "families": 30,
+          "off_default_solved": 92,
+          "uniform_default_solved": 126,
+          "difference_default_solved": 126,
+          "off_m124_solved": 126,
+          "uniform_m124_solved": 150,
+          "difference_m124_solved": 150,
+          "z3_solved": 199,
+          "native_sat_replays": 544,
+          "native_sat_direct_dolmen": 544,
+          "wrong_answers": 0,
+          "errors": 0,
+          "cube_candidate_rejections": 0,
+          "m124_cube_gains": 24,
+          "m124_cube_losses": 0,
+          "default_cube_gains": 34,
+          "default_cube_losses": 0,
+          "scope": "targeted sample selected from historical slow/default/node-limit and easy buckets; not a full-corpus claim"
+        },
+        "off_preservation": {
+          "default": {
+            "completed_matching_answers": 154,
+            "counter_differences": 0
+          },
+          "m124": {
+            "completed_matching_answers": 159,
+            "counter_differences": 0
+          }
+        }
       },
       "artifacts": {
         "manifest": "benchmarks/lia-cubes-20261108/inputs.txt",
@@ -82,7 +241,13 @@
         "generated": "12,000 fresh FuzzSMT QF_LIA cases, 3,000 each for uniform/difference under default and M124; identical seeds across profiles; separate Dolmen models",
         "mutations": "four profiles, 10 historical easy-control real families per profile, 20 OpFuzz mutations per seed; original smoke/scaled-arena regression and seed answers checked before mutation; direct SAT-model validation",
         "timing": "withhold 200-input comparison until current-commit gates pass"
-      }
+      },
+      "implementation_commit": "65b6f48afb4618f29378fb9ea2c965ecb58d52ed",
+      "branch": "lia-integrality",
+      "qualification_metadata": "benchmarks/lia-cubes-20261108/qualification.json",
+      "metadata": "benchmarks/lia-cubes-20261108/experiment.json",
+      "full_plan": "benchmarks/lia-cubes-20261108/full-experiment.json",
+      "decision": "Full evaluation justified: both cube modes add24SAT answers over M124 off, none lost; cube-M124 solves a superset of the cube-default development set. Retain experimental off-by-default policy."
     },
     {
       "id": "2026-11-07-uflia-equality-causal-ablation",
