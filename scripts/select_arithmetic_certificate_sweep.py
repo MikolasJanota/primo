@@ -28,12 +28,22 @@ def main():
     parser.add_argument("--count", type=int, default=256)
     parser.add_argument("--max-per-family", type=int, default=256)
     parser.add_argument("--shards", type=int, default=8)
+    parser.add_argument("--cases-per-shard", type=int)
+    parser.add_argument(
+        "--all-known-unsat",
+        action="store_true",
+        help="remove historical timing, source-size, family and case-count caps",
+    )
     args = parser.parse_args()
     if not os.environ.get("SLURM_JOB_ID"):
         parser.error("corpus selection belongs in SLURM")
-    if args.shards < 1:
-        parser.error("positive shard count required")
-    records = read_history(args.history, args.historical_git, 1)
+    if args.shards < 1 or (
+        args.cases_per_shard is not None and args.cases_per_shard < 1
+    ):
+        parser.error("positive shard count and case bound required")
+    records = read_history(
+        args.history, args.historical_git, None if args.all_known_unsat else 1
+    )
     if any(row["historical_solver_args"] != ["--quiet"] for row in records):
         raise ValueError(
             "selection requires the recorded default preprocessing profile"
@@ -42,29 +52,45 @@ def main():
     selected = select_cases(
         records,
         args.corpus,
-        args.count,
-        args.max_per_family,
-        tiers=SWEEP_TIERS,
+        len(records) if args.all_known_unsat else args.count,
+        len(records) if args.all_known_unsat else args.max_per_family,
+        tiers=((0, 2**63),) if args.all_known_unsat else SWEEP_TIERS,
         seeds=controls,
         allow_shortfall=True,
     )
-    if len(selected["cases"]) <= len(controls):
+    if not args.all_known_unsat and len(selected["cases"]) <= len(controls):
         raise ValueError("no new eligible cases beyond the baseline controls")
+    if args.all_known_unsat:
+        selected["selection"] = (
+            "all recorded native UNSAT, no timing/source-size/family/count caps; "
+            "hash-matched controls retained; conservative single-query/"
+            "no-positive-arity admission; duplicate hashes excluded"
+        )
+    if not selected["cases"]:
+        raise ValueError("no eligible inputs for full sweep")
+    shard_count = (
+        (len(selected["cases"]) + args.cases_per_shard - 1) // args.cases_per_shard
+        if args.cases_per_shard
+        else args.shards
+    )
     args.out.mkdir(parents=True, exist_ok=False)
     selected.update(
         logic=args.logic,
         job_id=os.environ["SLURM_JOB_ID"],
         historical_git=args.historical_git,
-        historical_seconds_max=1,
+        historical_seconds_max=None if args.all_known_unsat else 1,
+        all_known_unsat=args.all_known_unsat,
+        historical_record_count=len(records),
+        cases_per_shard=args.cases_per_shard,
         baseline_selection_sha256=digest(args.baseline_selection),
         selector_sha256=digest(Path(__file__)),
-        shards=args.shards,
+        shards=shard_count,
     )
     write_json(args.out / "selection.json", selected)
     manifests = {}
-    for shard in range(args.shards):
+    for shard in range(shard_count):
         filename = f"shard-{shard}.json"
-        cases = selected["cases"][shard :: args.shards]
+        cases = selected["cases"][shard::shard_count]
         write_json(
             args.out / filename,
             {
@@ -72,7 +98,7 @@ def main():
                 "cases": cases,
                 "selection_sha256": digest(args.out / "selection.json"),
                 "shard_index": shard,
-                "shard_count": args.shards,
+                "shard_count": shard_count,
             },
         )
         manifests[filename] = {
@@ -84,11 +110,12 @@ def main():
         json.dumps(
             {
                 "selected": len(selected["cases"]),
-                "requested": args.count,
+                "requested": selected["requested"],
+                "all_known_unsat": args.all_known_unsat,
                 "families": selected["families"],
                 "tier_selected": selected["tier_selected"],
                 "baseline_controls": selected["baseline_controls"],
-                "shards": args.shards,
+                "shards": shard_count,
             }
         )
     )

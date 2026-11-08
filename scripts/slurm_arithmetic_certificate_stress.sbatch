@@ -66,6 +66,9 @@ python3 "$ARITHMETIC_WORKFLOW_DIR/arithmetic_certificate_stress.py" \
   --cadical "$PRIMO_SAT_SOLVER" --micromath "$checker" --micromath-git "$checker_git" \
   --count "${ARITHMETIC_STRESS_COUNT:-24}" --max-per-family 3 \
   --statement-source "${ARITHMETIC_STATEMENT_SOURCE:-exported-cnf}" "${selection[@]}" \
-  --reference-seconds 15 --export-seconds 30 --challenge-seconds 30 --proof-seconds 60 \
+  --reference-seconds "${ARITHMETIC_REFERENCE_SECONDS:-15}" \
+  --export-seconds "${ARITHMETIC_EXPORT_SECONDS:-30}" \
+  --challenge-seconds "${ARITHMETIC_CHALLENGE_SECONDS:-30}" \
+  --proof-seconds "${ARITHMETIC_PROOF_SECONDS:-60}" \
   --out "$artifacts/run" > "$artifacts/run.log" 2>&1
 printf '%s\n' 'pilot finished; inspect summary counts, not this process status, for proof success' > "$artifacts/FINISHED"

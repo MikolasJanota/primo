@@ -1,0 +1,74 @@
+{
+  "selection_job": "365548",
+  "logics": {
+    "QF_LRA": {
+      "historical_records": 605,
+      "selected": 605,
+      "shards": 25,
+      "controls": 217,
+      "families": {
+        "sal": 96,
+        "clock_synchro": 34,
+        "spider_benchmarks": 42,
+        "sc": 36,
+        "tta_startup": 46,
+        "2019-ezsmt": 21,
+        "uart": 37,
+        "miplib": 9,
+        "2017-Heizmann-UltimateInvariantSynthesis": 18,
+        "TM": 1,
+        "LassoRanker": 92,
+        "check": 1,
+        "keymaera": 21,
+        "latendresse": 1,
+        "meti-tarski": 150
+      },
+      "excluded": {},
+      "historical_max_seconds": 57.0313,
+      "maximum_source_bytes": 11282707,
+      "selection_sha256": "7fda592eaff34b9236567a0b2681b5371a45d4e5853c3e5227820c5636b6f420"
+    },
+    "QF_LIA": {
+      "historical_records": 3244,
+      "selected": 3244,
+      "shards": 130,
+      "controls": 128,
+      "families": {
+        "20220307-SMPT": 1554,
+        "prime-cone": 18,
+        "CAV_2009_benchmarks": 85,
+        "20180326-Bromberger": 94,
+        "CIRC": 14,
+        "rings_preprocessed": 73,
+        "calypto": 13,
+        "nec-smt": 736,
+        "pidgeons": 19,
+        "convert": 39,
+        "fft": 2,
+        "dillig": 3,
+        "mathsat": 100,
+        "wisa": 2,
+        "bofill-scheduling": 245,
+        "Averest": 10,
+        "20210219-Dartagnan": 84,
+        "2019-ezsmt": 14,
+        "pb2010": 22,
+        "2019-cmodelsdiff": 7,
+        "20231117-c_inference": 6,
+        "check": 3,
+        "cut_lemmas": 67,
+        "rings": 26,
+        "tightrhombus": 8
+      },
+      "excluded": {},
+      "historical_max_seconds": 59.918062,
+      "maximum_source_bytes": 57992842,
+      "selection_sha256": "c00c2a4d9fbe3cbf76af73f976ce0f530f2e2b1213496e9e85f2a89087502fc3"
+    }
+  },
+  "archive": {
+    "file": "benchmarks/full-arithmetic-certificates-20261108/selection.tar.gz",
+    "sha256": "e1697d279c586c98384e1014eab947c0af254a07afb623a46ae329af85a72a52",
+    "bytes": 492827
+  }
+}
