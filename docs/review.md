@@ -213,3 +213,16 @@ Accepted blobs: evidence `9cf9dbe7`, summary `26e6c81e`, compressed rows
 full-result unit and source/data agreement, not default promotion or reader
 acceptance. Writer validation covers strict books, local/Git links, lint and
 rendered full-result/table/cactus inspection.
+
+
+## Relative corpus roots in qualification, 8 November
+
+A separate read-only reviewer checked the new qualification path-handling
+section against the runner normalization and focused mocked-runner regression
+from baseline `44bb99c1`. No findings: relative/absolute roots, corpus-relative
+identities, manifest containment, duplicate rejection and the four-profile
+test characterization agree with the code. Accepted blobs: documentation
+`491fb502`, runner `6527f000`, regression `cab26689`. No reviewer solver
+execution occurred. The single mocked regression, lint, strict docs-site and
+local/Git links pass; this Python workflow fix requires no new solver binary
+and does not claim a rerun of full solver qualification.

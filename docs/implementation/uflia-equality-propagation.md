@@ -120,6 +120,20 @@ The integration does not change that component scheduling policy.
   validation in SLURM. Local editing, lint and documentation checks stay local.
 
 
+## Qualification path handling
+
+The {download}`comparison runner <../../scripts/qualification/uflia_equalities/run.py>`
+resolves its corpus root once before constructing input paths and relative
+provenance keys. Both `--root tmp/QF_UFLIA --manifest selected.txt` and an
+absolute corpus root therefore produce corpus-relative file names in the
+output. Manifest entries are resolved beneath that root; an entry escaping it
+is rejected, and duplicate resolved paths are rejected.
+
+A focused Python regression executes the actual runner with mocked solver and
+version calls, checking the selected absolute input and all four profiles'
+relative output identities. It launches no solver. This workflow repair
+does not change arithmetic solving or replace the separate solver/model gates.
+
 ## Counters and current qualification
 
 `:lia.equality.scans`, `candidates`, `already-true`, `proposed`, and `reason-lits`

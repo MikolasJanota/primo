@@ -37,6 +37,7 @@ def main() -> None:
     parser.add_argument('--shard', type=int, required=True)
     parser.add_argument('--timeout', type=float, default=15)
     args = parser.parse_args()
+    args.root = args.root.resolve()
     if args.out.exists() or args.timeout <= 0 or not 0 <= args.shard < args.shards:
         parser.error('fresh output, positive timeout and valid shard required')
     args.out.mkdir(parents=True)
@@ -51,7 +52,7 @@ def main() -> None:
         names = [line.split('#', 1)[0].strip() for line in args.manifest.read_text().splitlines()]
         all_paths = [(args.root / name).resolve() for name in names if name]
         for path in all_paths:
-            path.relative_to(args.root.resolve())
+            path.relative_to(args.root)
     else:
         all_paths = sorted(args.root.rglob('*.smt2'))
     if len(all_paths) != len(set(all_paths)):
