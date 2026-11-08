@@ -189,3 +189,27 @@ A real 200-input development replay reproduces all prior metrics unchanged;
 the additional mode/reference comparisons and direct nested-layout cactus
 smoke agree with the recorded rows. Strict docs, local/Git links and lint pass.
 Full-corpus results remain pending and outside this acceptance.
+
+
+## Full QF_LIA cube evaluation, 8 November
+
+A separate read-only reviewer audited the full-result evidence page, lead/index
+status, experiment metadata, summary/rows/cactus, first run-log entry and
+reporting-only analyzer diff against baseline `22c218bb` and qualified solver
+source `84654ade`. CUBE-FULL-01–04 repaired native-only validation scope, stale
+development/full pending text, run-ledger status, and the M124 definition at
+first use after moving full results first. All required findings were fixed
+and rechecked; no outstanding findings or terminology issues remain.
+
+The reviewer independently reproduced all 53,224 public timing rows, all
+20,942 Dolmen passes and parent artifact hashes, paired/PAR2/common-runtime
+metrics, identical 842 cube-model input sets, 581 direct model gains, family
+concentration and reference gaps. Independent accounting parsing confirms both
+1,000-task arrays completed successfully and reproduces memory peaks. The
+rendered cactus matches the data. No reviewer solver execution occurred.
+
+Accepted blobs: evidence `9cf9dbe7`, summary `26e6c81e`, compressed rows
+`ddc00ef2`, figure `f1f5757c`, analyzer `11dfb599`. Acceptance covers this
+full-result unit and source/data agreement, not default promotion or reader
+acceptance. Writer validation covers strict books, local/Git links, lint and
+rendered full-result/table/cactus inspection.

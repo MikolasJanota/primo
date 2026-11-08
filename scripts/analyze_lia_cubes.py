@@ -51,6 +51,48 @@ def paired(left: dict[str, dict[str, str]], right: dict[str, dict[str, str]],
                              and not solved(right[name], timeout))}
 
 
+def resources(root: Path, experiment: dict, accounting: Path) -> dict:
+    """Summarize paired-task provenance and separately collected Slurm accounting."""
+    metadata = [json.loads(path.read_text())
+                for path in sorted(root.glob('shard-*/provenance.json'))]
+    shards = experiment['shards']
+    if (len(metadata) != shards or {row['task'] for row in metadata} != set(range(shards))
+            or {row['job'] for row in metadata} != {experiment['jobs']['timing']}
+            or len({row['config_sha256'] for row in metadata}) != 1
+            or {int(row['cpus_requested']) for row in metadata} != {experiment['cpus_per_task']}
+            or len({row['memory_requested_mb'] for row in metadata}) != 1):
+        raise ValueError('incomplete or inconsistent paired-task resource provenance')
+    with accounting.open() as stream:
+        rows = list(csv.DictReader(stream, delimiter='|'))
+
+    def rss_kib(value: str) -> float:
+        scale = {'K': 1, 'M': 1024, 'G': 1024 ** 2, 'T': 1024 ** 3}
+        return float(value[:-1]) * scale[value[-1]] if value[-1] in scale else float(value) / 1024
+
+    result = {'scope': 'Whole batch tasks across profiles, not individual instances. '
+                       'MaxRSS is Slurm-reported peak RSS, not a per-instance or cgroup total.',
+              'paired_shards': shards,
+              'cpu_models': dict(Counter(row['cpu_model'] for row in metadata)),
+              'cpus_per_task': experiment['cpus_per_task'],
+              'memory_requested_mib': int(metadata[0]['memory_requested_mb']),
+              'private_configuration_sha256': metadata[0]['config_sha256'], 'jobs': {}}
+    for label, job in experiment['jobs'].items():
+        selected = [row for row in rows if row['JobID'].startswith(job + '_')
+                    and row['JobID'].endswith('.batch')]
+        if len(selected) != shards or any(row['State'] in {'PENDING', 'RUNNING', 'COMPLETING'}
+                                         for row in selected):
+            raise ValueError('incomplete accounting: ' + label)
+        rss = [row['MaxRSS'] for row in selected if row['MaxRSS']]
+        elapsed = [int(row['ElapsedRaw']) for row in selected]
+        result['jobs'][label] = {'job': job, 'batch_steps': len(selected),
+            'states': dict(Counter(row['State'] for row in selected)),
+            'exit_codes': dict(Counter(row['ExitCode'] for row in selected)),
+            'maximum_batch_step_MaxRSS': max(rss, key=rss_kib) if rss else None,
+            'MaxRSS_reporting_steps': len(rss), 'elapsed_seconds_median': statistics.median(elapsed),
+            'elapsed_seconds_max': max(elapsed)}
+    return result
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, required=True)
@@ -61,6 +103,8 @@ def main() -> None:
     parser.add_argument('--out', type=Path, required=True)
     parser.add_argument('--require-models', action='store_true')
     parser.add_argument('--gzip-rows', action='store_true')
+    parser.add_argument('--accounting', type=Path,
+                        help='Slurm sacct -P output: JobID,State,ExitCode,ElapsedRaw,MaxRSS')
     args = parser.parse_args()
     experiment = json.loads(args.experiment.read_text())
     if args.selection.suffix == '.tsv':
@@ -136,9 +180,23 @@ def main() -> None:
                                                     and cover['dolmen_pass'] != expected_sat):
             raise ValueError('incorrect SAT replay coverage: ' + key)
         proof = cover['provenance']
+        if (proof['dolmen']['sha256'] != experiment['binaries']['dolmen']['sha256']
+                or proof['dolmen']['version'] != experiment['binaries']['dolmen']['version']):
+            raise ValueError('unexpected validator identity: ' + key)
         if (proof['parent_answers_sha256'] != hashlib.sha256((parent / 'answers.csv').read_bytes()).hexdigest()
                 or proof['parent_provenance_sha256'] != hashlib.sha256((parent / 'provenance.json').read_bytes()).hexdigest()):
             raise ValueError('model replay linked to different timing rows: ' + key)
+    validation_configurations = []
+    for cover in model_coverage.values():
+        if cover['status'] == 'pending':
+            continue
+        proof = cover['provenance']
+        configuration = {key: proof[key] for key in (
+            'validator_script_sha256', 'dolmen_args', 'dolmen_size',
+            'solver_timeout', 'dolmen_timeout')}
+        configuration['dolmen'] = {key: proof['dolmen'][key] for key in ('sha256', 'version')}
+        if configuration not in validation_configurations:
+            validation_configurations.append(configuration)
     for left, right in itertools.combinations(profiles, 2):
         for name, row in profiles[left].items():
             other = profiles[right][name]
@@ -147,8 +205,11 @@ def main() -> None:
     result = {'timeout': timeout, 'files': len(entries), 'profiles': {}, 'comparisons': {},
               'model_replays': {'statuses': dict(Counter(row['status'] for row in model_coverage.values())),
                                 'expected_sat': sum(row.get('expected_sat', 0) for row in model_coverage.values()),
-                                'dolmen_pass': sum(row.get('dolmen_pass', 0) for row in model_coverage.values())},
+                                'dolmen_pass': sum(row.get('dolmen_pass', 0) for row in model_coverage.values()),
+                                'configurations': validation_configurations},
               'correctness': 'no wrong flags, cross-profile/reference disagreement, or rejected candidate'}
+    if args.accounting:
+        result['resources'] = resources(args.root, experiment, args.accounting)
     counter_keys = sorted({key for rows in profiles.values() for row in rows.values()
                            for key in row if key.startswith((':lia.cube-', ':lia.branch-nodes'))})
     for label, rows in profiles.items():

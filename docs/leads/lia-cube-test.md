@@ -1,7 +1,8 @@
 # A cube test for finding QF_LIA models
 
 **Status: uniform/difference variants implemented and correctness-qualified;
-200-input comparison complete; full-corpus evaluation running.**
+200-input and full 13,306-input M124 comparisons complete, including all SAT models;
+feature remains off by default.**
 See {ref}`the current evidence <lia-cube-evidence>`.
 Plan baseline: `71a784e6`; implementation baseline: `aeaf2823`. Start with pure QF_LIA; keep the feature opt-in during
 qualification. The immediate target is a cheaper integer-model attempt before
@@ -31,7 +32,8 @@ expression splits, HNF certificates or artificial finite variable bounds.
 
 The numbered steps below retain the planned acceptance requirements. The
 {ref}`implementation section <lia-cubes>` describes the
-implemented representation; benchmark qualification remains pending.
+implemented representation. The development and full M124 qualification results
+are recorded in the evidence page; the numbered steps remain the original plan.
 
 ## 1. Establish applicability before broad evaluation
 

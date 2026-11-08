@@ -8,7 +8,7 @@
       "kind": "experimental-cube-integration-and-qualification",
       "commit": "84654ade537df8473d4ada833a6da5e3e729ca4a",
       "baseline_commit": "aeaf282312923d0bb33c5a73a7412a48ee2619cd",
-      "evidence_status": "qualified implementation and development result; full M124 corpus timing active, models queued",
+      "evidence_status": "complete: qualified optional implementation; development and full M124 timings/models independently reviewed; off by default",
       "scope": "Optional pure QF_LIA uniform and difference cube model attempts before cuts; default off; QF_UFLIA policy unchanged.",
       "jobs": {
         "baseline_failed_missing_headers": "363274",
@@ -69,7 +69,10 @@
         "python": "python3 -m unittest discover -s tests/python -p test_*.py",
         "lint": "make lint",
         "docs": "PRIMO_DOCS_VENV=<docs-venv> make docs-site",
-        "inventory": "scripts/slurm_lia_cube_inventory.sbatch with PRIMO_CORPUS_ROOT, PRIMO_INVENTORY and PRIMO_AUDIT_OUT"
+        "inventory": "scripts/slurm_lia_cube_inventory.sbatch with PRIMO_CORPUS_ROOT, PRIMO_INVENTORY and PRIMO_AUDIT_OUT",
+        "full_analysis": "python3 scripts/analyze_lia_cubes.py --root results/lia-cubes-20261108/full60 --experiment benchmarks/lia-cubes-20261108/full-experiment.json --selection benchmarks/lia-cubes-20261108/inventory.tsv --out benchmarks/lia-cubes-20261108/full60 --require-models --gzip-rows --accounting results/lia-cubes-20261108/full60/accounting.psv",
+        "full_accounting": "sacct -j 363536,363697 -P --format=JobID,State,ExitCode,ElapsedRaw,MaxRSS; collect separately from timing on the cluster",
+        "full_cactus": "Exact four-profile command in docs/evidence/lia-cubes.md, Reproduction artifacts; scripts/plot_cactus.py reads nested shard answers directly."
       },
       "results": {
         "development_ctest_groups": 47,
@@ -84,7 +87,7 @@
           "all_content_hashes_match": true,
           "sha256": "a7423b6c1f643568d4151e3afa822639ef1f577251ced0a3f63b3c98d7ab811b"
         },
-        "local_git_links": "283 pages; 38802 local links; 1201 unique Git links; 0 failures; external URLs deferred",
+        "local_git_links": "283 pages; 38825 local links; 1201 unique Git links; 0 failures; external URLs deferred",
         "qualified_check": "47/47 CTest groups and 311/311 Python tests; make check, job 363284",
         "preliminary_asan": "47/47 CTest groups; post-test fuzz stage skipped because tool was outside PATH; not accepted as the requested full gate",
         "qualification_dependency_retry": "Generated FuzzSMT job 363285 ran zero cases: missing PATH entry, not a solver failure. Retried with existing shared FuzzSMT installation; explicit fuzzer path is now required and ASan checks tool presence.",
@@ -108,9 +111,9 @@
           "ctest_pass": 47,
           "python_pass": 311
         },
-        "clean_mutations": "four profiles, 200 retained OpFuzz mutations each; completed with direct SAT model validation; aggregate artifact audit pending",
+        "clean_mutations": "Four profiles, 200 retained OpFuzz mutations each; artifact audit complete: 800 mutants and 56 original seed/regression checks pass, with 666 direct SAT-model passes.",
         "source_hygiene": "84654ade adds direct includes found by include-cleaner and checked optional/exact Rational arithmetic in tests; solver statements and policy unchanged",
-        "current_pending": "full 13306-input M124 off/uniform/difference and fresh Z3 timings, separate all-SAT models, final full-corpus evidence review",
+        "current_pending": "none",
         "current_generated": {
           "difference": {
             "answers": {
@@ -226,20 +229,222 @@
           }
         },
         "input_reuse": "FuzzSMT seeds are reused across four profiles. Report 3,000 generated inputs and 12,000 profile/input answer checks. All primarySAT validation counts are profile/input rows.",
-        "analysis_reproduction": "Analyzer replay of all 200 development inputs reproduces prior metrics unchanged; new uniform/difference and native/Z3 pairings added. Cactus nested shard reader reproduces exact 200-input coverage and status/answer counts; full results still pending."
+        "analysis_reproduction": "Analyzer replay of all 200 development inputs reproduces prior metrics unchanged; uniform/difference and native/Z3 pairings and nested-layout cactus were checked on real data. Full audit now covers all 4000 timing-profile shards, 3000 completed native model-profile shards and both 1000-task accounting arrays; see full_profiles, full_models and full_resources.",
+        "full_profiles": {
+          "off-m124": {
+            "total": 13306,
+            "solved": 9888,
+            "answers": {
+              "sat": 6595,
+              "unsat": 3293
+            },
+            "statuses": {
+              "ok": 10289,
+              "timeout": 3017
+            },
+            "clean_unknown": 401,
+            "over_limit_success": 0,
+            "par2": 449341.760972,
+            "inputs_with_cube_models": 0
+          },
+          "uniform-m124": {
+            "total": 13306,
+            "solved": 10466,
+            "answers": {
+              "sat": 7174,
+              "unsat": 3292
+            },
+            "statuses": {
+              "ok": 10726,
+              "timeout": 2580
+            },
+            "clean_unknown": 260,
+            "over_limit_success": 0,
+            "par2": 379842.283355,
+            "inputs_with_cube_models": 842
+          },
+          "difference-m124": {
+            "total": 13306,
+            "solved": 10469,
+            "answers": {
+              "sat": 7173,
+              "unsat": 3296
+            },
+            "statuses": {
+              "ok": 10730,
+              "timeout": 2576
+            },
+            "clean_unknown": 261,
+            "over_limit_success": 0,
+            "par2": 379668.802109,
+            "inputs_with_cube_models": 842
+          },
+          "z3": {
+            "total": 13306,
+            "solved": 12158,
+            "answers": {
+              "sat": 7836,
+              "unsat": 4322
+            },
+            "statuses": {
+              "ok": 12158,
+              "timeout": 1148
+            },
+            "clean_unknown": 0,
+            "over_limit_success": 0,
+            "par2": 172991.401452,
+            "inputs_with_cube_models": 0
+          }
+        },
+        "full_paired": {
+          "off-m124_vs_uniform-m124": {
+            "common": 9876,
+            "common_both_at_least_50ms": 4089,
+            "geomean_candidate_over_baseline": 0.961745518601878,
+            "median_candidate_over_baseline": 0.9997494269301087,
+            "gains": 590,
+            "losses": 12
+          },
+          "off-m124_vs_difference-m124": {
+            "common": 9874,
+            "common_both_at_least_50ms": 4087,
+            "geomean_candidate_over_baseline": 0.9613029979500384,
+            "median_candidate_over_baseline": 0.9996080666999216,
+            "gains": 595,
+            "losses": 14
+          },
+          "uniform-m124_vs_difference-m124": {
+            "common": 10454,
+            "common_both_at_least_50ms": 4629,
+            "geomean_candidate_over_baseline": 0.9996197106565764,
+            "median_candidate_over_baseline": 0.9998254400923825,
+            "gains": 15,
+            "losses": 12
+          },
+          "off-m124_vs_z3": {
+            "common": 9697,
+            "common_both_at_least_50ms": 3664,
+            "geomean_candidate_over_baseline": 0.511942641091427,
+            "median_candidate_over_baseline": 0.7833289332443727,
+            "gains": 2461,
+            "losses": 191
+          },
+          "uniform-m124_vs_z3": {
+            "common": 10274,
+            "common_both_at_least_50ms": 4104,
+            "geomean_candidate_over_baseline": 0.5686826230078091,
+            "median_candidate_over_baseline": 0.8019055871582137,
+            "gains": 1884,
+            "losses": 192
+          },
+          "difference-m124_vs_z3": {
+            "common": 10274,
+            "common_both_at_least_50ms": 4110,
+            "geomean_candidate_over_baseline": 0.5715146949317716,
+            "median_candidate_over_baseline": 0.805993831387928,
+            "gains": 1884,
+            "losses": 195
+          }
+        },
+        "full_models": {
+          "statuses": {
+            "complete": 3000
+          },
+          "expected_sat": 20942,
+          "dolmen_pass": 20942,
+          "configurations": [
+            {
+              "validator_script_sha256": "a921a3210d2753581c97e18909e423d9ff61bbddf2a792f5f462c9acab0b2d41",
+              "dolmen_args": [
+                "--strict=false"
+              ],
+              "dolmen_size": "8G",
+              "solver_timeout": 90.0,
+              "dolmen_timeout": 30.0,
+              "dolmen": {
+                "sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+                "version": "0.10"
+              }
+            }
+          ],
+          "by_profile_sat_pass": {
+            "off-m124": 6595,
+            "uniform-m124": 7174,
+            "difference-m124": 7173
+          },
+          "per_family_coverage": "Every native SAT row passed; per-family validated counts are profiles[arm].families[family].answers.sat in the full summary."
+        },
+        "full_cube_mechanism": {
+          "same_cube_model_input_set": true,
+          "model_inputs_each_mode": 842,
+          "previously_unsolved_model_inputs_each_mode": 581,
+          "uniform_other_gains": 9,
+          "difference_other_gains": 14,
+          "note": "All direct model gains concentrate in 20180326-Bromberger, CAV_2009_benchmarks, slacks and dillig. Full corpus includes transformed CAV inputs, not an independent held-out set."
+        },
+        "full_resources": {
+          "scope": "Whole batch tasks across profiles, not individual instances. MaxRSS is Slurm-reported peak RSS, not a per-instance or cgroup total.",
+          "paired_shards": 1000,
+          "cpu_models": {
+            "Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz": 1000
+          },
+          "cpus_per_task": 1,
+          "memory_requested_mib": 12288,
+          "private_configuration_sha256": "2cbcd2d894b4ba43af4dc6e38529ddd289373e8cce70d3de6fd641b65ae16a56",
+          "jobs": {
+            "timing": {
+              "job": "363536",
+              "batch_steps": 1000,
+              "states": {
+                "COMPLETED": 1000
+              },
+              "exit_codes": {
+                "0:0": 1000
+              },
+              "maximum_batch_step_MaxRSS": "9717264K",
+              "MaxRSS_reporting_steps": 1000,
+              "elapsed_seconds_median": 730.0,
+              "elapsed_seconds_max": 1418
+            },
+            "models": {
+              "job": "363697",
+              "batch_steps": 1000,
+              "states": {
+                "COMPLETED": 1000
+              },
+              "exit_codes": {
+                "0:0": 1000
+              },
+              "maximum_batch_step_MaxRSS": "4861608K",
+              "MaxRSS_reporting_steps": 1000,
+              "elapsed_seconds_median": 41.0,
+              "elapsed_seconds_max": 507
+            }
+          }
+        },
+        "final_writer_checks": {
+          "lint": "make lint passes",
+          "docs": "make docs-site (including make docs) and local/Git link checker pass",
+          "rendered": "Full result table, cactus, counters, reference-gap and resource sections inspected",
+          "independent_review": "CUBE-FULL-01–04 resolved and rechecked; accepted evidence blob 9cf9dbe7, summary26e6c81e, rowsddc00ef2, figuref1f5757c, analyzer11dfb599",
+          "process_audit": "No local experiment process or descendant; task experiment queue empty; all 2000 full-run batch steps completed with exit zero",
+          "source": "No solver C++ changes after qualified source 84654ade; subsequent changes are documentation, workflows, analysis and evidence."
+        }
       },
       "artifacts": {
         "manifest": "benchmarks/lia-cubes-20261108/inputs.txt",
         "selection": "benchmarks/lia-cubes-20261108/selection.json",
         "full_inventory": "benchmarks/lia-cubes-20261108/inventory.tsv",
         "local_debug_logs": "/tmp/primo-cubes-{debug*,precommit*,baseline-build,docs,lint}.log",
-        "planned_timings": "results/lia-cubes-20261108"
+        "planned_timings": "results/lia-cubes-20261108",
+        "full_summary": "benchmarks/lia-cubes-20261108/full60/summary.json",
+        "full_rows": "benchmarks/lia-cubes-20261108/full60/rows.csv.gz",
+        "full_cactus": "docs/_static/qf-lia-cubes-full60.svg",
+        "full_metadata": "benchmarks/lia-cubes-20261108/full-experiment.json",
+        "full_raw": "results/lia-cubes-20261108/full60",
+        "evidence": "docs/evidence/lia-cubes.md"
       },
-      "remaining": [
-        "complete full 13306-input paired timing campaign",
-        "separate direct Dolmen replay of every full-corpus native SAT row",
-        "full result analysis, cactus, independent documentation review and final commits"
-      ],
+      "remaining": [],
       "correctness_plan": {
         "generated": "3000 generated FuzzSMT inputs per profile, with the same three seeds reused under uniform/difference and default/M124: 12000 profile/input answer checks, not 12,000 independent formulas; separate direct Dolmen models",
         "mutations": "four profiles, 10 historical easy-control real families per profile, 20 OpFuzz mutations per seed; original smoke/scaled-arena regression and seed answers checked before mutation; direct SAT-model validation",
@@ -250,8 +455,11 @@
       "qualification_metadata": "benchmarks/lia-cubes-20261108/qualification.json",
       "metadata": "benchmarks/lia-cubes-20261108/experiment.json",
       "full_plan": "benchmarks/lia-cubes-20261108/full-experiment.json",
-      "decision": "Full evaluation justified: both cube modes add24SAT answers over M124 off, none lost; cube-M124 solves a superset of the cube-default development set. Retain experimental off-by-default policy.",
-      "method_commit": "96355a2aa7624ce7700dc2bad80530a30462e662"
+      "decision": "Retain correctness-qualified optional QF_LIA cubes, off by default. Full M124 uniform adds 578 net solves and reduces PAR2 by 15.47%; both modes find exactly the same 842 cube-model inputs, including 581 baseline-unsolved cases. Difference mode has no additional cube-model coverage. Gains concentrate in four families/encodings; default-setting cubes have development-only performance evidence; QF_UFLIA unchanged.",
+      "method_commit": "96355a2aa7624ce7700dc2bad80530a30462e662",
+      "full_comparison_baseline": "Same current 84654ade binary with --lia-cube=off under M124. The aeaf2823 previous-build preservation control is development-only.",
+      "analysis_script_sha256": "2a40a27369cccfed2394ac1e22b23df5158846b03efeb6ca2221faf883211e6d",
+      "plot_script_sha256": "2455cb25056ee5f5f2a2920e69616c0dae78b903ff801e95ff0008deb2ba190b"
     },
     {
       "id": "2026-11-07-uflia-equality-causal-ablation",
