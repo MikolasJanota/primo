@@ -804,7 +804,9 @@ integer splits remain outside the implementation. In particular, cube tests
 attempt to establish feasibility by solving a strengthened relaxation;
 failure of that test is not an integer-infeasibility proof. The
 {ref}`cube-test explanation <bromberger-unit-cube>` derives its strengthening,
-rounding guarantee and equality limitation. The
+rounding guarantee and equality limitation. The new
+[cube-test integration plan](../leads/lia-cube-test.md) targets a bounded
+optional model-finding attempt before cuts/DFS; it is not implemented. The
 {source}`earlier thesis note <docs/papers/bromberger-linear-arithmetic-thesis.md>`
 and {source}`integer open leads <docs/open-leads.md#L1765-L1834>` retain the
 separate investigations and their prerequisites.

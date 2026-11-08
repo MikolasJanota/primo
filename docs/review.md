@@ -120,3 +120,23 @@ assembled local/Git links, the rendered introduction/selected table, full
 result/family tables in the browser's print rendering, and the cactus SVG.
 Live scheduler/process checks belong to the writer, not the independent review.
 Reader acceptance and default promotion are separate; default off remains.
+
+## QF_LIA cube-test plan, 8 November
+
+The user narrowed the next integer-arithmetic target from Dillig's general
+proof-derived splitting to the cube test described in Bjørner–Nachmanson,
+*CAV 2024*, §4.2. A separate read-only reviewer checked the plan against that
+primary section, the current arithmetic owners and the existing cube reading
+note. Required finding CUBE-R1 added the M124 definition/exact flags and
+corpus/manifest provenance. No required findings remain. Accepted plan blob:
+`10ea31bf810f38f0152dffa8ffa30c8e3ba3bd07`; source baseline `71a784e6`, whose
+C++/tests match the linked qualified `4a0c6bee` sources. Other accepted blobs:
+lead index `b58711d768e4bc44b905720563490c0f02472a85`, LIA chapter
+`9814c38849d84b66e40d839c915b71d7c4a11c15`, Dillig note
+`91509da522ffb121e37efc9cf075a50b05eee35e`, and TOC
+`6d2f433c69e7f18b83931286f543cf39d6ab4c85`.
+
+This accepts a documented design, not an implementation or performance claim.
+Strict books/local-Git links, lint and rendered-plan inspection are writer
+checks. No solver benchmarks or implementation qualification were run for
+this documentation-only change; the plan defines those future SLURM gates.

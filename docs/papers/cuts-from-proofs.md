@@ -12,7 +12,8 @@ algorithm currently implemented in Primo.
 The supplied PDF is the **2011 journal article**, *Formal Methods in System
 Design* 39, pp. 246–260, DOI
 [10.1007/s10703-011-0127-z](https://doi.org/10.1007/s10703-011-0127-z).
-The local reading copy is:
+An [author-hosted journal manuscript](https://www.cs.utexas.edu/~isil/fmsd.pdf)
+is available online. The historical local reading copy was:
 
 ```text
 external/papers/Cuts_from_proofs:_a_complete_and_practical_technique_for_solving_linear_inequalities_over_integers.pdf
@@ -239,3 +240,5 @@ require fresh SLURM correctness and performance qualification.
 
 For a different route to bounded integer search, see
 {ref}`Bromberger's transformation-based approach <bromberger-bounded-search>`.
+
+The current implementation priority is the smaller [QF_LIA cube test](../leads/lia-cube-test.md). Proof-derived splitting remains deferred; the plan does not relabel a cube feasibility test as Cuts-from-Proofs.

@@ -80,6 +80,7 @@ parts:
       - file: leads/arithmetic-equality-exploitation
       - file: leads/lra-column-coefficients
       - file: leads/lia-extended-gcd
+      - file: leads/lia-cube-test
       - file: leads/lia-patching
       - file: leads/lia-infinitesimals
       - file: leads/care-pair-generation
