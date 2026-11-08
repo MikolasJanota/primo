@@ -35,6 +35,9 @@ sphinx:
   config:
     bibtex_reference_style: label
     extlinks:
+      cubesource:
+        - "https://github.com/primo-solver/primo/blob/lia-integrality/%s"
+        - "%s"
       ufliaeqworkflow:
         - "https://github.com/primo-solver/primo/blob/c474ef253ec1b195f08e41d1361abca22dcff07a/%s"
         - "%s"

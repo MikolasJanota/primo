@@ -1,7 +1,7 @@
 # A cube test for finding QF_LIA models
 
-**Status: implementation plan; no cube test is implemented or measured.**
-Baseline: `71a784e6`. Start with pure QF_LIA; keep the feature opt-in during
+**Status: uniform and difference variants implemented experimentally; qualification pending.**
+Plan baseline: `71a784e6`; implementation baseline: `aeaf2823`. Start with pure QF_LIA; keep the feature opt-in during
 qualification. The immediate target is a cheaper integer-model attempt before
 cuts and branch-and-bound. Dillig's proof-derived splitting remains a separate,
 larger [research direction](../papers/cuts-from-proofs.md).
@@ -25,7 +25,13 @@ This is a model-finding heuristic, not a complete integer decision procedure.
 It neither requires an extreme-point LP solution nor introduces general
 expression splits, HNF certificates or artificial finite variable bounds.
 
-## 1. Establish applicability before adding a solver path
+## Original qualification checklist
+
+The numbered steps below retain the planned acceptance requirements. The
+{ref}`implementation section <lia-cubes>` describes the
+implemented representation; benchmark qualification remains pending.
+
+## 1. Establish applicability before broad evaluation
 
 Read the active normalized inequalities from arithmetic preparation, expressed
 over semantic integer variables. Count fixed columns, nontrivial equalities,
@@ -53,12 +59,14 @@ execution belong in SLURM and the run ledger.
 
 ## 2. Implement a numerical helper with owning input/output
 
-Proposed new types under `theory/arithmetic/`, not existing APIs:
+Implemented types under `theory/arithmetic/` (see the {ref}`implementation <lia-cubes>`):
 
-- `LiaCubeProblem`: owns sparse inequalities and an ordered set of semantic
-  integer columns. Coefficients, offsets and constant substitutions are exact.
-- `LiaCubeResult`: returns a checked integer candidate or a failed/skipped/
-  budget-exhausted attempt. It has no UNSAT result.
+- `LiaCubeProblem`: owns sparse affine definitions and ordered semantic
+  integer columns. The helper combines them with current active bounds;
+  coefficients, offsets and constant substitutions are exact.
+- `LiaCubeResult`: reports attempt status and statistics, including failed,
+  skipped or budget-exhausted attempts. It has no input-system UNSAT result;
+  `try_cube_model` owns validation and adoption into the supplied tableau.
 - `try_cube_model`: builds an isolated rational tableau and solves the
   strengthened inequalities. No SAT variables, clauses or SMT-LIB nodes belong
   in this helper.
@@ -123,12 +131,30 @@ This must be tested with every supported model conversion.
 
 The existing {ufliaablationsource}`tableau API
 <src/theory/arithmetic/lra_tableau.hpp>` permits `add_row()` only before its
-first `push()`. Build scratch rows before beginning bound scopes. The current
-`check()` API has no per-call pivot budget; a nonfatal local budget/cancellation
-contract is a prerequisite for the bounded optional solve. Exhausting the cube
+first `push()`. Build scratch rows before beginning bound scopes. The implementation adds `check_bounded()` with a nonfatal local repair-step
+budget. The ordinary `check()` retains its feasibility/conflict contract. Exhausting the cube
 budget resumes the original pipeline; genuine user cancellation still exits.
 Failed attempts must preserve the caller's bounds, basis, assignment and proof
 state. Never use the strengthened system's conflict as an input-theory lemma.
+
+### Initial implementation checklist (2026-11-08)
+
+The first implementation will retain an owning sparse definition of every
+original tableau variable in semantic coordinates, exported from the pristine
+prepared tableau. Bounds come from the current rationally feasible completion
+input. Fixed integral semantic coordinates are substituted before primitive
+normalization and margin computation. The optional LP uses a separate Bland
+tableau with a finite repair-step limit; its conflicts are discarded.
+
+For adoption, rebuild the pristine numerical rows with the same variable IDs,
+set the original nonbasic semantic coordinates to the rounded values before
+asserting bounds, then restore original bounds and their reasons. Validate all
+reconstructed values against those bounds and every integer obligation. This
+avoids private fixing bounds entirely. Only a validated candidate replaces the
+working tableau. Definition construction sorts $n$ coordinates in $O(n\log n)$ comparisons;
+sparse export and validation cost linear sparse work, excluding exact arithmetic; the bounded LP limits repair steps, not the
+bit cost of a single step. No additional global cancellation mechanism is
+introduced by this helper.
 
 ## 4. Tests and observability
 
@@ -147,9 +173,9 @@ Before timings, require tests for:
 - Repeated calls/backtracking and model conversions, with identical main
   tableau/proof state after a failed attempt. Check QF_UFLIA preservation.
 
-Proposed counters distinguish calls, skip reasons, LP infeasibility, local
+Implemented counters distinguish calls, skips, LP infeasibility, local
 budget exhaustion, centers found, validated models, adoption failures,
-difference exemptions, subsequent branch nodes and time. Validation/adoption
+difference exemptions, subsequent branch nodes and helper time. Validation/adoption
 failures indicate defects to triage; they must not silently become successes.
 
 ## 5. Correctness and performance decision

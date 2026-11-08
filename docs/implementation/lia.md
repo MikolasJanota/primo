@@ -12,7 +12,8 @@ to be an integer model. For example, `2*x - 2*y = 1` has the real solution
 solves the [real relaxation](lra.md), then tries to repair the assignment or
 prove that the current Boolean choice has no integer completion.
 
-This chapter describes the integer stages shared by `QF_LIA` and `QF_UFLIA`.
+This chapter describes the integer stages shared by `QF_LIA` and `QF_UFLIA`,
+plus the experimental standalone QF_LIA cube model attempt.
 Configured resource limits can stop the search with `unknown`. Removing those
 limits alone does not guarantee a terminating decision procedure for all
 quantifier-free linear integer inputs: with unbounded variables, the current
@@ -226,16 +227,79 @@ The {integersource}`patcher's fully_integral statistic
 <src/theory/arithmetic/lia_patching.hpp>` uses its maintained remaining-variable
 count, avoiding another scan. {migrationsource}`Both routes publish it <src/smt/solver_engines.cpp#L8372-L8380>` when patching is enabled.
 
-The completion boundary preserves stage order, variable order, limits, the
-winning assignment, and antecedents from cuts used by later branching. It
-adds no tableau copies, preparation, or full scans. The stage-specific sources
-and limitations below apply to both callers.
+With the cube test disabled, the completion boundary preserves the existing
+stage order, variable order, limits, winning assignment, and antecedents from
+cuts used by later branching. Enabling cubes inserts one private model attempt
+between the basic GCD screen and cuts. It adds sparse preparation, a separate
+LP and candidate validation; the other stages keep their existing contracts.
 
 This design keeps integer branch choices inside the theory procedure. SAT
 learns the resulting conflict clause, but does not see individual integer
 splits as CDCL decisions. That simplifies the boundary and the lifetime of
 temporary rows; it also means that internal branch choices and cuts are not
 reused across successive Boolean candidates.
+
+(lia-cubes)=
+## Optional cube model attempt
+
+`--lia-cube=uniform` enables the sufficient model test in Bjørner and
+Nachmanson, CAV 2024, §4.2. For each integer inequality $a z\le b$, solve
+$a z\le b-\frac12\sum_j|a_j|$ in an isolated rational tableau and round each
+semantic coordinate with $R(t)=\lfloor t+1/2\rfloor$. The rounding error in
+one row is at most half its coefficient 1-norm, so the rounded point satisfies
+the original row. `--lia-cube=difference` leaves primitive integer difference
+rows $x-y\le k$ unstrengthened. Monotonicity and $R(y+k)=R(y)+k$ preserve these
+rows even at negative ties. General octagon refinements are not implemented.
+Both modes are experimental; `off` remains the default. QF_UFLIA ignores these
+controls and retains its existing pipeline.
+
+The owning numerical snapshot {cubesource}`LiaCubeProblem
+<src/theory/arithmetic/lia_cube.hpp>` contains the ordered semantic integer
+coordinates, sparse definitions of every original variable in those coordinates,
+and the original basic-variable flags. {cubesource}`SMT preparation <src/smt/solver_engines.cpp>` exports it from the
+pristine `PreparedLraTheory::base_tableau` for a fractional completion input; it contains
+no terms or references into preparation storage. The helper obtains active
+bounds from the rationally feasible working tableau. It substitutes exactly
+fixed integral semantic coordinates, clears coefficient denominators with
+positive primitive scaling, and applies delta-aware floor to normalize strict
+or fractional thresholds over integer values. Slacks are affine expressions,
+never independent integer coordinates for computing margins. A fixed fractional
+semantic coordinate skips the attempt, leaving refutation to the existing stages.
+
+{cubesource}`try_cube_model <src/theory/arithmetic/lia_cube.cpp>` builds a
+scratch Bland tableau. {cubesource}`check_bounded
+<src/theory/arithmetic/lra_tableau.cpp>` returns
+`Feasible`, `Infeasible`, or `LimitReached`; its finite repair-step budget also
+counts SOI updates for other callers, although cubes themselves use Bland.
+`--lia-cube-steps=1000` is the initial untuned budget; zero permits only an
+already feasible center. A step cap does not bound exact-arithmetic bit costs
+or construction time. It adds no new global cancellation mechanism.
+
+A feasible center is rounded and checked against every original bound and
+all integer obligations, including enabled integer slacks. Adoption reconstructs
+the original numerical basis with the same variable IDs, sets its nonbasic
+semantic values before asserting original bounds and reasons, and checks that
+no repair is needed. There are no private fixing bounds in the adopted model.
+Only success replaces the working tableau. Failed, skipped, budgeted, or
+rejected candidates preserve its assignment, basis, bounds and proof state;
+no strengthened-system conflict enters a theory explanation. Ordinary cuts
+and DFS resume after any such failure. The call occurs once after patching
+and the basic GCD check, before any cuts, and skips an already integral model.
+
+Snapshot construction sorts $n$ coordinates in $O(n\log n)$ comparisons;
+sparse export, normalization and candidate checks then take linear sparse
+work apart from exact-arithmetic costs. Each fractional enabled completion allocates
+a snapshot and may allocate extra tableaux; no speedup is assumed. {cubesource}`Counters <src/util/statistics.cpp>` named `lia.cube-*`
+separate calls, skips, constraints, fixed coordinates, difference exemptions,
+pivots, centers, infeasible LPs, exhausted limits, rejected candidates and models.
+`lia.cube-microseconds` times the helper, excluding SMT snapshot construction.
+`lia.branch-nodes` counts subsequent private split nodes. A nonzero rejected
+candidate counter requires investigation; it is not evidence of a successful
+cube mechanism. {cubesource}`Unit tests <tests/unit/lia_cube_tests.cpp>` cover the
+paper example, thin feasible failures, negative ties, scaled difference rows,
+fixed substitution, strict bounds, large exact coefficients, budget preservation
+and rejected adoption. The QF_LIA integration test checks a false atom and
+printed-model reconstruction. Qualification results are recorded separately.
 
 (lia-input)=
 ## Input lowering and integer bounds
@@ -739,6 +803,8 @@ Each route resolves its own values, as described in {ref}`lia-settings`.
 
 | Option | Default | Meaning per integer completion |
 | --- | --- | --- |
+| `--lia-cube` | `off` | Pure QF_LIA only: `uniform` or `difference` model attempt before cuts; failure falls through. |
+| `--lia-cube-steps` | `1000` | Optional LP repair-step cap; zero allows only an already feasible center. |
 | `--lia-patch-limit` | `100` | Maximum accepted patch moves; zero disables patching. |
 | `--lia-gomory-cut-limit` | `100` | Maximum cut-and-recheck iterations; zero disables cuts. Exhaustion falls through to branching. |
 | `--lia-branch-limit` | `100000` | Maximum new split nodes. Exhaustion before finding a model or refuting the tree returns a resource-limit result. |
@@ -748,7 +814,7 @@ Each route resolves its own values, as described in {ref}`lia-settings`.
 | `--lia-integer-slacks` | On for QF_LIA, off for QF_UFLIA | Adds slacks proved integer to the front of the integer obligations of completion. |
 | `--lia-patch-integral-moves` | On for QF_LIA, off for QF_UFLIA | Keeps integer nonbasic variables integral while patching and adds lattice candidates. |
 
-The first four rows apply to both routes. The last four switches are on by
+The four patch/cut/branch/generalization controls apply to both routes. The last four switches are on by
 default for QF_LIA and off for QF_UFLIA, as {ref}`lia-settings` explains.
 Each also has a `--no-` form, for example `--no-lia-primitive-int-rows`,
 which turns it off on either route. If both forms are given, the `--no-` form
@@ -798,15 +864,14 @@ not implemented here. The {ref}`thesis reading guide <bromberger-bounded-search>
 works through this example in coordinates $u=x+y$, $v=y$ and identifies the
 remaining implementation obligations.
 
-The cube test, extended bounded-variable GCD reasoning, general Diophantine
-or Hermite-normal-form reasoning, cuts within branch nodes, and CDCL-visible
-integer splits remain outside the implementation. In particular, cube tests
-attempt to establish feasibility by solving a strengthened relaxation;
-failure of that test is not an integer-infeasibility proof. The
-{ref}`cube-test explanation <bromberger-unit-cube>` derives its strengthening,
-rounding guarantee and equality limitation. The new
-[cube-test integration plan](../leads/lia-cube-test.md) targets a bounded
-optional model-finding attempt before cuts/DFS; it is not implemented. The
+Extended bounded-variable GCD reasoning, general Diophantine or
+Hermite-normal-form reasoning, cuts within branch nodes, and CDCL-visible
+integer splits remain outside the implementation. The optional cube test is
+implemented for pure QF_LIA as described below; its failure is never an
+integer-infeasibility proof. The {ref}`cube-test explanation
+<bromberger-unit-cube>` derives its strengthening, rounding guarantee and
+equality limitation. The [cube integration note](../leads/lia-cube-test.md)
+records the paper checklist and qualification plan. The
 {source}`earlier thesis note <docs/papers/bromberger-linear-arithmetic-thesis.md>`
 and {source}`integer open leads <docs/open-leads.md#L1765-L1834>` retain the
 separate investigations and their prerequisites.
@@ -844,7 +909,8 @@ Choosing the values is a separate step. In the order the data flows:
    route, so a route default is a per-logic default.
 3. The {settingssource}`policy <src/smt/lia_settings_policy.cpp>` starts from
    `default_lia_settings(route)` and applies every override that is set. An
-   explicit value therefore always wins over the route default.
+   explicit value therefore wins over the route default, except that the
+   experimental cube controls are applied only to the QF_LIA route.
 
 The {settingssource}`policy <src/smt/lia_settings_policy.cpp#L7-L20>` gives
 QF_UFLIA the engine defaults, `LiaSettings{}`. QF_LIA additionally turns on
@@ -959,7 +1025,7 @@ specific sections and their implementation status.
 | Source | Implemented subset and boundary |
 | --- | --- |
 | *The Omega Test*, expanded CACM 1992 version of the 1991 paper, §2.1 {cite:p}`pugh1992omega`; *An Effective SMT Engine for Formal Verification*, thesis, §2.6.1, Algorithm 2.6 {cite:p}`griggio2009` | Earlier uses of the classical GCD divisibility criterion. Added for attribution; Primo's row-local check does not implement their equality-elimination procedures. The retained {source}`Griggio thesis note <docs/papers/griggio-mathsat-thesis.md>` covers the broader equation handler. |
-| Nikolaj Bjørner and Lev Nachmanson, [*Arithmetic Solving in Z3*](https://doi.org/10.1007/978-3-031-65627-9_2), CAV 2024, §§4.1, 4.3–4.4 | Freedom-interval patching, basic row GCD consistency and integer splits. Primo adds a finite target window and a strictly improving global patch score, and branches inside a private theory search. The paper's cubes, extended GCD and specialized cuts are not implemented. |
+| Nikolaj Bjørner and Lev Nachmanson, [*Arithmetic Solving in Z3*](https://doi.org/10.1007/978-3-031-65627-9_2), CAV 2024, §§4.1–4.4 | Freedom-interval patching, basic row GCD consistency and integer splits. Primo adds a finite target window and a strictly improving global patch score, and branches inside a private theory search. Uniform cubes and the difference refinement are optional in pure QF_LIA; general octagons, extended GCD and specialized cuts remain unimplemented. |
 | *Effective Algorithms for the Satisfiability of Quantifier-Free Formulas Over Linear Real and Integer Arithmetic*, thesis, §§4.3, 4.4.3, Lemma 4.1, equation (4.9) {cite:p}`king2014` | The mixed-cut derivation, represented by a fresh tableau row and bound. Nonbasic integrality is not used to strengthen the cut; no complete cutting-plane algorithm is claimed. Section 4.3 supplies integer-bound normalization for the open lead on scaled auxiliaries; Primo's current preparation has the limitations described above. |
 | Martin Bromberger, [*Decision Procedures for Linear Arithmetic*](https://publikationen.sulb.uni-saarland.de/handle/20.500.11880/28955), PhD thesis, Saarland, 2019, Chapters 4–6 and §§7.2.3–7.2.4 | Cube tests, equality/bounded-direction analysis, bounding transformations and the separation of preparation from per-node work. These supply comparisons and concrete further work; Primo does not implement that complete combination. See the [reading guide](../papers/bromberger-linear-arithmetic.md). |
 | Bruno Dutertre and Leonardo de Moura, *Integrating Simplex with DPLL(T)*, SRI-CSL-06-01, §§2–3 and 4.1 {cite:p}`dutertre2006simplexreport` | The rational tableau, bound assertions and consistency checks explained in [LRA](lra.md), plus integer splitting with delta-aware floor in §4.1. Section 3.2.4 saves a successful assignment; Primo's sparse mode retains the current assignment and basis when popping bounds. These implemented mechanisms do not establish completeness of Primo's integer procedure. |

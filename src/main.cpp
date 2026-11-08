@@ -279,6 +279,8 @@ int run_main(int argc, char** argv) {
   std::size_t lia_branch_limit = lia_defaults.branch_limit;
   std::size_t lia_gomory_cut_limit = lia_defaults.gomory_cut_limit;
   std::size_t lia_patch_limit = lia_defaults.patch_limit;
+  std::string lia_cube = "off";
+  std::size_t lia_cube_steps = lia_defaults.cube_steps;
   bool no_lia_conflict_generalization = false;
   bool lia_round_integer_bounds = false;
   bool no_lia_round_integer_bounds = false;
@@ -610,6 +612,13 @@ int run_main(int argc, char** argv) {
                  "QF_LIA patching budget, run before the integer refutation stages on every "
                  "candidate model: caps how many nonbasic moves are taken to nudge Int variables "
                  "onto integer values. 0 disables patching")
+      ->check(CLI::Range(0, 100000000));
+  app.add_option(
+         "--lia-cube", lia_cube,
+         "Experimental QF_LIA cube model attempt: off, uniform, or difference (default off)")
+      ->check(CLI::IsMember({"off", "uniform", "difference"}));
+  app.add_option("--lia-cube-steps", lia_cube_steps,
+                 "Repair-step budget of the optional QF_LIA cube solve (default 1000)")
       ->check(CLI::Range(0, 100000000));
   add_flag_with_default(app, "--lia-round-integer-bounds", lia_round_integer_bounds,
                         "Round non-strict QF_LIA/QF_UFLIA thresholds on integer-valued tableau "
@@ -1078,6 +1087,13 @@ int run_main(int argc, char** argv) {
     lia.gomory_cut_limit = lia_gomory_cut_limit;
   }
   if (app.get_option("--lia-patch-limit")->count() != 0) lia.patch_limit = lia_patch_limit;
+  if (app.get_option("--lia-cube")->count() != 0) {
+    using primo::theory::arithmetic::LiaCubeMode;
+    lia.cube_mode = lia_cube == "uniform"      ? LiaCubeMode::Uniform
+                    : lia_cube == "difference" ? LiaCubeMode::Difference
+                                               : LiaCubeMode::Off;
+  }
+  if (app.get_option("--lia-cube-steps")->count() != 0) lia.cube_steps = lia_cube_steps;
   if (no_lia_conflict_generalization) lia.conflict_generalization = false;
   // A given flag records its parsed value, so an explicit --flag=false is an
   // override too; the --no- form then forces the setting off.

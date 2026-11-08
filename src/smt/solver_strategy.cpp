@@ -22,7 +22,13 @@ std::vector<StrategyParameter> lia_strategy_parameters(std::string_view prefix,
                                                        const LiaSettings& settings) {
   const auto flag = [](bool value) { return std::string(value ? "true" : "false"); };
   const std::string key(prefix);
+  using theory::arithmetic::LiaCubeMode;
+  const std::string cube = settings.cube_mode == LiaCubeMode::Uniform      ? "uniform"
+                           : settings.cube_mode == LiaCubeMode::Difference ? "difference"
+                                                                           : "off";
   return {{key + "branch-limit", std::to_string(settings.branch_limit)},
+          {key + "cube", cube},
+          {key + "cube-steps", std::to_string(settings.cube_steps)},
           {key + "conflict-generalization", flag(settings.conflict_generalization)},
           {key + "gomory-cut-limit", std::to_string(settings.gomory_cut_limit)},
           {key + "integer-slacks", flag(settings.integer_slacks)},

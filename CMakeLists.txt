@@ -505,6 +505,18 @@ primo_enable_sanitizers(primo_lra_tableau_tests)
 target_link_libraries(primo_lra_tableau_tests PRIVATE primo_core)
 add_test(NAME primo_lra_tableau_tests COMMAND primo_lra_tableau_tests)
 
+add_test(NAME primo_lia_cube_cli
+  COMMAND ${CMAKE_COMMAND}
+    -DPRIMO_EXECUTABLE=$<TARGET_FILE:primo>
+    -DPRIMO_TEST_INPUT=${CMAKE_SOURCE_DIR}/benchmarks/smoke/qf_lia/cube_strict_scaled.smt2
+    -P ${CMAKE_SOURCE_DIR}/tests/cmake/check_lia_cube_cli.cmake)
+
+add_executable(primo_lia_cube_tests tests/unit/lia_cube_tests.cpp)
+primo_enable_warnings(primo_lia_cube_tests)
+primo_enable_sanitizers(primo_lia_cube_tests)
+target_link_libraries(primo_lia_cube_tests PRIVATE primo_core)
+add_test(NAME primo_lia_cube_tests COMMAND primo_lia_cube_tests)
+
 add_executable(primo_lia_completion_tests tests/unit/lia_completion_tests.cpp)
 primo_enable_warnings(primo_lia_completion_tests)
 primo_enable_sanitizers(primo_lia_completion_tests)

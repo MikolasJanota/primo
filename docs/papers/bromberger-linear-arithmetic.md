@@ -19,7 +19,7 @@ implementations, not measurements of Primo.
 
 | Thesis section | Connection to the manual | Implementation boundary |
 | --- | --- | --- |
-| Chapter 4, especially Corollary 4.2.2 and §§4.3.2–4.3.3 | Find an integer point by fitting a unit cube inside the feasible region. | Future work; Primo's patching does not solve the strengthened cube system. |
+| Chapter 4, especially Corollary 4.2.2 and §§4.3.2–4.3.3 | Find an integer point by fitting a unit cube inside the feasible region. | Optional uniform cube test and difference refinement now implemented for pure QF_LIA; see {ref}`lia-cubes`. General mixed cubes remain deferred. |
 | Chapter 5, especially §§5.4–5.7 | Implied equalities, theory combination and bounded directions. | The [equality-basis lead](../leads/lra-equality-basis.md) remains open; current local equality rules are not the complete basis algorithm. |
 | Chapter 6, especially Definition 6.2.1, Lemma 6.2.3 and Corollary 6.3.6 | Why bounded row expressions need not bound variables, and how transformations address divergent integer search. | Not implemented. Primo retains a finite branch budget and can return `unknown`. |
 | §§7.1.3–7.1.4 | Rollback and sparse arithmetic representation. | [LRA](../implementation/lra.md) maps the relevant choices and deviations to Primo's tableau. |
@@ -61,9 +61,10 @@ the set of integer solutions.
 Section 4.3.3 uses a flat cube for mixed arithmetic: it extends only along
 integer coordinates, so the tightening uses only their coefficients.
 Auxiliary tableau variables must not accidentally become independent rounding
-coordinates. A future Primo implementation must identify the original
-integer coordinates, interpret normalized rows in those coordinates, and
-reconstruct dependent values consistently.
+coordinates. The optional pure QF_LIA cube test now identifies the original
+integer coordinates, interprets normalized rows in those coordinates, and
+reconstructs dependent values consistently; see {ref}`lia-cubes`. Applying this
+to mixed integer/real arithmetic remains future work.
 
 (bromberger-bounded-search)=
 ## Why the integer search needs more than bounded rows

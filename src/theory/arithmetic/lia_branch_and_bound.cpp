@@ -74,11 +74,11 @@ LiaBranchAndBoundResult branch_and_bound(LraTableau& tableau,
   while (true) {
     const std::optional<LraVarId> fractional = find_fractional_variable(tableau, integer_vars);
     if (!fractional.has_value()) {
-      return LiaBranchAndBoundResult{LiaBranchAndBoundResult::Status::Sat};
+      return LiaBranchAndBoundResult{LiaBranchAndBoundResult::Status::Sat, nodes};
     }
     if (nodes >= node_limit) {
       tableau.pop(entry_checkpoint);
-      return LiaBranchAndBoundResult{LiaBranchAndBoundResult::Status::LimitReached};
+      return LiaBranchAndBoundResult{LiaBranchAndBoundResult::Status::LimitReached, nodes};
     }
     ++nodes;
 
@@ -111,7 +111,7 @@ LiaBranchAndBoundResult branch_and_bound(LraTableau& tableau,
       stack.pop_back();
     }
     if (!resumed) {
-      return LiaBranchAndBoundResult{LiaBranchAndBoundResult::Status::Unsat};
+      return LiaBranchAndBoundResult{LiaBranchAndBoundResult::Status::Unsat, nodes};
     }
   }
 }

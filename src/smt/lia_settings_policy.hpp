@@ -22,6 +22,8 @@ struct LiaSettingOverrides {
   std::optional<bool> primitive_int_rows;
   std::optional<bool> integer_slacks;
   std::optional<bool> patch_integral_moves;
+  std::optional<theory::arithmetic::LiaCubeMode> cube_mode;
+  std::optional<std::size_t> cube_steps;
 };
 
 // The settings a route runs with when nothing is overridden. This is the one

@@ -53,6 +53,7 @@
 #include "smt/typed_model_builder.hpp"
 #include "theory/arithmetic/lia_completion.hpp"
 #include "theory/arithmetic/lia_explanation.hpp"
+#include "theory/arithmetic/lia_integer_values.hpp"
 #include "theory/arithmetic/lia_patching.hpp"
 #include "theory/arithmetic/linear_polynomial.hpp"
 #include "theory/arithmetic/lra_atom.hpp"
@@ -8624,6 +8625,35 @@ sat::Clause generalized_lia_lemma(const sat::Clause& coarse,
 
 void publish_lia_completion_stats(const theory::arithmetic::LiaCompletionResult& result,
                                   const LiaSettings& settings, util::Statistics& statistics) {
+  statistics.increment(util::StatKey::LiaBranchNodes, result.branch_nodes);
+  if (result.cube_called) {
+    using CubeStatus = theory::arithmetic::LiaCubeResult::Status;
+    statistics.increment(util::StatKey::LiaCubeCalls);
+    statistics.increment(util::StatKey::LiaCubeMicroseconds, result.cube_microseconds);
+    statistics.increment(util::StatKey::LiaCubeConstraints, result.cube.constraints);
+    statistics.increment(util::StatKey::LiaCubeFixedCoordinates, result.cube.fixed_coordinates);
+    statistics.increment(util::StatKey::LiaCubeDifferenceExemptions,
+                         result.cube.difference_exemptions);
+    statistics.increment(util::StatKey::LiaCubePivots, result.cube.pivots);
+    if (result.cube.center_found) statistics.increment(util::StatKey::LiaCubeCenters);
+    switch (result.cube.status) {
+      case CubeStatus::Skipped:
+        statistics.increment(util::StatKey::LiaCubeSkipped);
+        break;
+      case CubeStatus::Infeasible:
+        statistics.increment(util::StatKey::LiaCubeInfeasible);
+        break;
+      case CubeStatus::LimitReached:
+        statistics.increment(util::StatKey::LiaCubeLimits);
+        break;
+      case CubeStatus::CandidateRejected:
+        statistics.increment(util::StatKey::LiaCubeRejected);
+        break;
+      case CubeStatus::Sat:
+        statistics.increment(util::StatKey::LiaCubeModels);
+        break;
+    }
+  }
   if (settings.patch_limit == 0) return;
   statistics.increment(util::StatKey::LiaPatchSweeps);
   statistics.increment(util::StatKey::LiaPatchedVariables, result.patched_variables);
@@ -8712,10 +8742,22 @@ LiaComponentCheck complete_lia_integer_model(
     const std::vector<theory::arithmetic::LraVarId>& integer_vars, const LiaSettings& settings,
     util::Statistics& statistics, const LiaComponentTiming& timing) {
   ScopedStatisticsTimer integer_timer(statistics, timing.integer);
+  std::optional<theory::arithmetic::LiaCubeProblem> cube_problem;
+  if (settings.cube_mode != theory::arithmetic::LiaCubeMode::Off &&
+      std::ranges::any_of(integer_vars, [&](theory::arithmetic::LraVarId variable) {
+        return !theory::arithmetic::is_integer_valued(tableau.assignment(variable));
+      })) {
+    std::vector<theory::arithmetic::LraVarId> coordinates;
+    coordinates.reserve(prepared.var_ids_.size());
+    for (const auto& [term, variable] : prepared.var_ids_) coordinates.push_back(variable);
+    cube_problem = theory::arithmetic::LiaCubeProblem::from_tableau(prepared.base_tableau,
+                                                                    std::move(coordinates));
+  }
   const auto completion = theory::arithmetic::complete_integer_assignment(
       tableau, integer_vars,
       {settings.patch_limit, settings.gomory_cut_limit, settings.branch_limit,
-       settings.patch_integral_moves});
+       settings.patch_integral_moves, settings.cube_mode, settings.cube_steps},
+      cube_problem ? &*cube_problem : nullptr);
   publish_lia_completion_stats(completion, settings, statistics);
   if (completion.status == theory::arithmetic::LiaCompletionResult::Status::Sat) {
     return {.status = LiaComponentCheck::Status::Sat, .conflict = {}, .model = std::move(tableau)};

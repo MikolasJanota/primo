@@ -9,6 +9,7 @@
 #include <utility>
 
 #include "smt/check_sat.hpp"
+#include "smt/lia_settings_policy.hpp"
 #include "util/statistics.hpp"
 
 using primo::smt::CheckSatOptions;
@@ -1050,9 +1051,48 @@ void shared_driver_preserves_typed_limits_and_cancellation() {
   assert(cancelled.reason == primo::smt::InconclusiveReason::Cancelled);
 }
 
+void cube_controls_and_model_reconstruction() {
+  using primo::theory::arithmetic::LiaCubeMode;
+  primo::smt::LiaSettingOverrides requested;
+  requested.cube_mode = LiaCubeMode::Difference;
+  assert(primo::smt::resolve_lia_settings(primo::smt::LiaRoute::QfUflia, requested).cube_mode ==
+         LiaCubeMode::Off);
+  const std::string script = R"(
+    (set-logic QF_LIA)
+    (declare-const x Int)
+    (declare-const y Int)
+    (assert (<= (+ (* 3 x) y) 9))
+    (assert (not (<= (+ (* 3 x) y) 2)))
+    (check-sat)
+  )";
+  for (const auto mode : {LiaCubeMode::Uniform, LiaCubeMode::Difference}) {
+    auto options = engine_defaults();
+    options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+    options.lia.patch_limit = 0;
+    options.lia.gomory_cut_limit = 0;
+    options.lia.cube_mode = mode;
+    options.check_model = true;
+    options.produce_model = true;
+    const auto outcome = check_sat_smtlib(script, options);
+    assert(outcome.result == CheckSatResult::Sat);
+    assert(outcome.statistics.get(primo::util::StatKey::LiaCubeModels) > 0);
+    assert(!outcome.model.empty());
+    options.lia.cube_steps = 0;
+    options.lia.branch_limit = 100;
+    const auto budgeted = check_sat_smtlib(script, options);
+    options.lia.cube_mode = LiaCubeMode::Off;
+    const auto baseline = check_sat_smtlib(script, options);
+    assert(budgeted.result == baseline.result && budgeted.reason == baseline.reason);
+    assert(budgeted.statistics.get(primo::util::StatKey::LiaBranchNodes) ==
+           baseline.statistics.get(primo::util::StatKey::LiaBranchNodes));
+    assert(budgeted.statistics.get(primo::util::StatKey::LiaCubeLimits) > 0);
+  }
+}
+
 }  // namespace
 
 int main() {
+  cube_controls_and_model_reconstruction();
   shared_driver_preserves_boolean_models_and_recipe_isolation();
   boolean_only_lia_and_solving_without_models();
   shared_driver_preserves_typed_limits_and_cancellation();

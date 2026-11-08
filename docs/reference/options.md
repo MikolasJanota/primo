@@ -23,6 +23,8 @@ below supplies accepted values and defaults.
 | `--monotone-elimination`, `--no-monotone-elimination` | `auto` | Enable or disable one-sided Real elimination under the same policy; assumptions sessions reject explicit enabling. |
 | `--max-theory-conflicts=N` | Unlimited | Positive budget, up to 1,000,000,000. Counts aggregate SMT-reported conflicts across supported routes; see [conflict-limit accounting](statistics.md#uniform-conflict-budget-implementation-contract). Exhaustion returns `unknown` with `ResourceLimit`. |
 | `--qf-uflia-tableau-equalities[=MODE]` | Off | Experimental pre-integer equality delivery: `off`, `scan`, `names`, `fixed`, or `all`. Bare flag selects `all`; use `=MODE` for explicit values. See [policy meanings and limitations](../implementation/uflia-equality-ablation.md) and [prior results](../implementation/uflia-equality-propagation.md). |
+| `--lia-cube=MODE` | `off` | Experimental pure QF_LIA model attempt: `off`, `uniform`, or `difference`. QF_UFLIA is unaffected. See {ref}`lia-cubes`. |
+| `--lia-cube-steps=N` | `1000` | Repair-step cap for the optional cube LP; exhaustion resumes existing integer search. |
 | `--lia-branch-limit=N` | `100000` | Bound integer branch-and-bound nodes; reaching the bound can return `unknown`. See [](../implementation/lia.md). |
 | `--cancel-grace-seconds=N` | `1` | Cooperative cancellation grace period after SIGINT/SIGTERM, from 1 to 3600 seconds. This is not a solve-time limit. |
 

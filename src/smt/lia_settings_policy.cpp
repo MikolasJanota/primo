@@ -32,6 +32,11 @@ LiaSettings resolve_lia_settings(LiaRoute route, const LiaSettingOverrides& over
   settings.integer_slacks = overrides.integer_slacks.value_or(settings.integer_slacks);
   settings.patch_integral_moves =
       overrides.patch_integral_moves.value_or(settings.patch_integral_moves);
+  // Cube qualification currently covers only pure QF_LIA.
+  if (route == LiaRoute::QfLia) {
+    settings.cube_mode = overrides.cube_mode.value_or(settings.cube_mode);
+    settings.cube_steps = overrides.cube_steps.value_or(settings.cube_steps);
+  }
   return settings;
 }
 

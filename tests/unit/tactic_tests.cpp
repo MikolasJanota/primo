@@ -1294,7 +1294,8 @@ void production_solver_strategy_has_stable_typed_identity() {
   // QF_LIA defaults the four integrality switches on, QF_UFLIA off.
   const auto lia = [](std::string_view integrality) {
     return "(\"branch-limit\" \"100000\") (\"conflict-generalization\" \"true\") "
-           "(\"gomory-cut-limit\" \"100\") (\"integer-slacks\" \"" +
+           "(\"cube\" \"off\") (\"cube-steps\" \"1000\") (\"gomory-cut-limit\" \"100\") "
+           "(\"integer-slacks\" \"" +
            std::string(integrality) + "\") (\"patch-integral-moves\" \"" +
            std::string(integrality) + "\") (\"patch-limit\" \"100\") (\"primitive-int-rows\" \"" +
            std::string(integrality) + "\") (\"round-integer-bounds\" \"" +

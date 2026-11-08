@@ -2,6 +2,8 @@
 
 #include <cstddef>
 
+#include "theory/arithmetic/lia_cube_mode.hpp"
+
 namespace primo::smt {
 
 // Resolved settings of the LIA engine: the integer completion waterfall
@@ -43,6 +45,10 @@ struct LiaSettings {
   // propose the integer values of a row's nonbasic variable that make its
   // basic variable integral (docs/papers/mip-presolve-integrality.md).
   bool patch_integral_moves = false;
+
+  // Experimental standalone QF_LIA cube test (CAV 2024, Sect. 4.2).
+  theory::arithmetic::LiaCubeMode cube_mode = theory::arithmetic::LiaCubeMode::Off;
+  std::size_t cube_steps = 1000;
 
   bool operator==(const LiaSettings&) const = default;
 };

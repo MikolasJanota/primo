@@ -331,6 +331,11 @@ class LraTableau {
   // its Farkas-style conflict certificate, Section 3.2).
   std::optional<std::vector<sat::Lit>> check();
 
+  enum class BoundedCheckStatus { Feasible, Infeasible, LimitReached };
+  // Optional scratch solves only: limit repair steps (including SOI updates).
+  // LimitReached is neither feasibility nor a conflict; state may have changed.
+  BoundedCheckStatus check_bounded(std::size_t max_steps);
+
   const DeltaRational& assignment(LraVarId var) const { return vars_.at(var).assignment; }
 
   // -- Nelson-Oppen equality sharing (docs/qf-lra-equality-sharing.md) --
@@ -757,6 +762,9 @@ class LraTableau {
   bool occurs_in_index_matches_full_rebuild() const;
 
  private:
+  std::optional<std::vector<sat::Lit>> check_impl(std::optional<std::size_t> max_steps,
+                                                  bool& limit_reached);
+
   struct Bound {
     DeltaRational value;
     sat::Lit reason;

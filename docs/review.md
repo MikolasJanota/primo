@@ -140,3 +140,19 @@ This accepts a documented design, not an implementation or performance claim.
 Strict books/local-Git links, lint and rendered-plan inspection are writer
 checks. No solver benchmarks or implementation qualification were run for
 this documentation-only change; the plan defines those future SLURM gates.
+
+
+## Optional QF_LIA cube implementation, 8 November
+
+A separate read-only reviewer checked the changed cube section of the LIA
+chapter, cube lead/checklist, lead index, Bromberger guide and option reference
+against the numerical helper, completion/tableau, SMT preparation/settings,
+CLI and tests at implementation baseline `aeaf2823`. CUBE-DOC-01–05 required
+source navigation, sorting complexity, aggregate-skip terminology, current pure
+integer reconstruction status and correct result/helper ownership. All were
+fixed and rechecked; no required findings remain. The subsequent optional
+wording fix says extra tableaux may be allocated, since patching can finish first.
+The acceptance covers source/prose agreement only; runtime qualification is
+pending. The configured cube source links will be pinned to the implementation
+commit in the adjacent qualification record. Writer checks: strict books,
+lint and diff whitespace pass; source-link resolution awaits that commit pin.

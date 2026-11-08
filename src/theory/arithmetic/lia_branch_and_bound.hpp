@@ -43,6 +43,7 @@ struct LiaBranchAndBoundResult {
     LimitReached,  // node_limit was hit before Sat or Unsat was decided
   };
   Status status = Status::Unsat;
+  std::size_t nodes = 0;
 };
 
 // **Contract on `tableau`'s final state**: on Sat, `tableau` is left

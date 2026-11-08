@@ -1713,6 +1713,19 @@ LraTableau::ModelMutationResult LraTableau::diversify_shared_model(
 }
 
 std::optional<std::vector<sat::Lit>> LraTableau::check() {
+  bool limit_reached = false;
+  return check_impl(std::nullopt, limit_reached);
+}
+
+LraTableau::BoundedCheckStatus LraTableau::check_bounded(std::size_t max_steps) {
+  bool limit_reached = false;
+  const auto conflict = check_impl(max_steps, limit_reached);
+  if (limit_reached) return BoundedCheckStatus::LimitReached;
+  return conflict ? BoundedCheckStatus::Infeasible : BoundedCheckStatus::Feasible;
+}
+
+std::optional<std::vector<sat::Lit>> LraTableau::check_impl(std::optional<std::size_t> max_steps,
+                                                            bool& limit_reached) {
   // Anti-cycling fallback for every non-Bland rule (see the PivotingRule class
   // comment): once more than this many pivots have happened within
   // this call, switch to Bland's-rule selection (both loops below) for
@@ -1733,6 +1746,10 @@ std::optional<std::vector<sat::Lit>> LraTableau::check() {
     // assert_lower always sync a nonbasic variable's assignment
     // immediately, so N∩E is always empty by construction; nothing to do.
     while (pivot_count <= bland_fallback_threshold) {
+      if (max_steps && pivot_count >= *max_steps && !violated_vars_.empty()) {
+        limit_reached = true;
+        return std::nullopt;
+      }
       const auto selection = soi_select();
       if (!selection.has_value()) {
         // Flex(f) empty (Section V/V-B): either satisfiable (no basic
@@ -1797,6 +1814,10 @@ std::optional<std::vector<sat::Lit>> LraTableau::check() {
   }
 
   while (true) {
+    if (max_steps && pivot_count >= *max_steps && !violated_vars_.empty()) {
+      limit_reached = true;
+      return std::nullopt;
+    }
     // Counted for every rule that can fall back, not just Dantzig. It read
     // `rule_ == PivotingRule::Dantzig` until 2026-08-06, which meant the
     // counter stayed at 0 under Sparse -- the solver's *default* rule -- even
