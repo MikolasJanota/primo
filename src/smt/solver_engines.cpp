@@ -52,6 +52,8 @@
 #include "smt/theory_combination_plan.hpp"
 #include "smt/typed_model_builder.hpp"
 #include "theory/arithmetic/lia_completion.hpp"
+#include "theory/arithmetic/lia_cube.hpp"
+#include "theory/arithmetic/lia_cube_mode.hpp"
 #include "theory/arithmetic/lia_explanation.hpp"
 #include "theory/arithmetic/lia_integer_values.hpp"
 #include "theory/arithmetic/lia_patching.hpp"

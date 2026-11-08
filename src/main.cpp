@@ -29,6 +29,7 @@
 #include "smt/lia_settings_policy.hpp"
 #include "smt/smt_session.hpp"
 #include "smtlib/parser.hpp"
+#include "theory/arithmetic/lia_cube_mode.hpp"
 #include "util/statistics.hpp"
 
 namespace {

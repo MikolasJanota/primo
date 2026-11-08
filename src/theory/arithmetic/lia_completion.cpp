@@ -1,9 +1,12 @@
 #include "theory/arithmetic/lia_completion.hpp"
 
 #include <chrono>
+#include <cstdint>
 #include <vector>
 
 #include "theory/arithmetic/lia_branch_and_bound.hpp"
+#include "theory/arithmetic/lia_cube.hpp"
+#include "theory/arithmetic/lia_cube_mode.hpp"
 #include "theory/arithmetic/lia_gcd_consistency.hpp"
 #include "theory/arithmetic/lia_gomory_cuts.hpp"
 #include "theory/arithmetic/lia_patching.hpp"

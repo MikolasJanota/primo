@@ -1,13 +1,17 @@
 #include "theory/arithmetic/lia_cube.hpp"
 
 #include <algorithm>
+#include <cstddef>
 #include <optional>
 #include <stdexcept>
 #include <utility>
 #include <vector>
 
 #include "sat/lit.hpp"
+#include "theory/arithmetic/lia_cube_mode.hpp"
 #include "theory/arithmetic/lia_integer_values.hpp"
+#include "theory/arithmetic/lra_tableau.hpp"
+#include "util/rational.hpp"
 
 namespace primo::theory::arithmetic {
 namespace {

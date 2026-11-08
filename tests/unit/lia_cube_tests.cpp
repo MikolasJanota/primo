@@ -3,10 +3,12 @@
 #endif
 
 #include <cassert>
+#include <cstddef>
 
 #include "sat/lit.hpp"
 #include "theory/arithmetic/lia_completion.hpp"
 #include "theory/arithmetic/lia_cube.hpp"
+#include "theory/arithmetic/lia_cube_mode.hpp"
 #include "theory/arithmetic/lia_integer_values.hpp"
 #include "theory/arithmetic/lra_tableau.hpp"
 #include "util/rational.hpp"
@@ -43,7 +45,7 @@ void paper_example_and_completion() {
          tableau.assignment(x).scaled(Rational(3)) + tableau.assignment(y));
   assert(tableau.assignment(s) <= rat(Rational(9)));
   assert(tableau.assignment(t) <= rat(Rational(-2)));
-  assert(tableau.upper_bound(t)->reason.value == 2);
+  assert(tableau.upper_bound(t).value().reason.value == 2);
 }
 
 void failed_attempt_and_budget_preserve_working_state() {
@@ -68,7 +70,7 @@ void failed_attempt_and_budget_preserve_working_state() {
     assert(tableau.is_basic(x) == basis_x && tableau.is_basic(y) == basis_y);
     assert(tableau.assignment(x) == x_value && tableau.assignment(y) == y_value);
     assert(tableau.pivot_count() == pivots && tableau.push() == checkpoint);
-    assert(tableau.lower_bound(sum)->reason.value == 1);
+    assert(tableau.lower_bound(sum).value().reason.value == 1);
   }
   // Cube infeasibility must not close the satisfiable thin equality.
   assert(complete_integer_assignment(tableau, {x, y}, {0, 0, 100}).status ==
@@ -84,8 +86,8 @@ void difference_equality_survives_rounding() {
     // Primitive scaling must recover the difference form.
     tableau.add_row(d, {{x, Rational(2, 3)}, {y, Rational(-2, 3)}});
     const auto problem = LiaCubeProblem::from_tableau(tableau, {x, y});
-    assert(!tableau.assert_lower(d, rat(Rational(offset * 2, 3)), Lit{1}));
-    assert(!tableau.assert_upper(d, rat(Rational(offset * 2, 3)), Lit{2}));
+    assert(!tableau.assert_lower(d, rat(Rational(offset) * Rational(2, 3)), Lit{1}));
+    assert(!tableau.assert_upper(d, rat(Rational(offset) * Rational(2, 3)), Lit{2}));
     assert(!tableau.assert_lower(y, rat(Rational(-2)), Lit{3}));
     assert(!tableau.assert_upper(y, rat(Rational(-1)), Lit{4}));
     assert(!tableau.check());
@@ -111,7 +113,7 @@ void fixed_substitution_strict_bounds_and_large_exact_coefficients() {
   const auto x = tableau.add_variable();
   const auto y = tableau.add_variable();
   const auto s = tableau.add_variable();
-  const Rational big = *Rational::parse("123456789012345678901234567890");
+  const Rational big = Rational::parse("123456789012345678901234567890").value();
   tableau.add_row(s, {{x, big}, {y, Rational(1, 3)}});
   const auto problem = LiaCubeProblem::from_tableau(tableau, {x, y});
   assert(!tableau.assert_lower(x, rat(Rational(-2)), Lit{1}));

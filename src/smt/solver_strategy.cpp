@@ -15,6 +15,7 @@
 #include "smt/lia_settings.hpp"
 #include "smt/strategy.hpp"
 #include "smt/tactic.hpp"
+#include "theory/arithmetic/lia_cube_mode.hpp"
 
 namespace primo::smt {
 

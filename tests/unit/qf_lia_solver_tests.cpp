@@ -10,6 +10,7 @@
 
 #include "smt/check_sat.hpp"
 #include "smt/lia_settings_policy.hpp"
+#include "theory/arithmetic/lia_cube_mode.hpp"
 #include "util/statistics.hpp"
 
 using primo::smt::CheckSatOptions;
