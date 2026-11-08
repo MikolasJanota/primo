@@ -41,7 +41,7 @@
       },
       "environment": {
         "execution": "SLURM only for all solver, test-suite and corpus work; workstation edits, lint and docs",
-        "development_binary": "dirty-cube-debug; preliminary verification only; current committed binary must be rebuilt via checked-in preparation helper",
+        "development_binary": "Initial dirty-cube-debug build used only for preliminary verification; all accepted current-source evidence uses clean source 84654ade, built via the preparation helper.",
         "fuzzsmt_jar_sha256": "89f887283d409842ebb19af6fce7a33a1b4a6c006746801b98ca8d716a3b0552",
         "mutator": "YinYang 0.3.0, seeded OpFuzz; z3-solver Python binding 5.0.0.0 is used by the mutator, separate native reference version is recorded by the gate",
         "binaries": {
@@ -84,7 +84,7 @@
           "all_content_hashes_match": true,
           "sha256": "a7423b6c1f643568d4151e3afa822639ef1f577251ced0a3f63b3c98d7ab811b"
         },
-        "local_git_links": "282 pages; 38591 local links; 1201 unique Git links; 0 failures; external URLs deferred",
+        "local_git_links": "283 pages; 38802 local links; 1201 unique Git links; 0 failures; external URLs deferred",
         "qualified_check": "47/47 CTest groups and 311/311 Python tests; make check, job 363284",
         "preliminary_asan": "47/47 CTest groups; post-test fuzz stage skipped because tool was outside PATH; not accepted as the requested full gate",
         "qualification_dependency_retry": "Generated FuzzSMT job 363285 ran zero cases: missing PATH entry, not a solver failure. Retried with existing shared FuzzSMT installation; explicit fuzzer path is now required and ASan checks tool presence.",
@@ -225,7 +225,8 @@
             "counter_differences": 0
           }
         },
-        "input_reuse": "FuzzSMT seeds are reused across four profiles. Report 3,000 generated inputs and 12,000 profile/input answer checks. All primarySAT validation counts are profile/input rows."
+        "input_reuse": "FuzzSMT seeds are reused across four profiles. Report 3,000 generated inputs and 12,000 profile/input answer checks. All primarySAT validation counts are profile/input rows.",
+        "analysis_reproduction": "Analyzer replay of all 200 development inputs reproduces prior metrics unchanged; new uniform/difference and native/Z3 pairings added. Cactus nested shard reader reproduces exact 200-input coverage and status/answer counts; full results still pending."
       },
       "artifacts": {
         "manifest": "benchmarks/lia-cubes-20261108/inputs.txt",
@@ -235,13 +236,9 @@
         "planned_timings": "results/lia-cubes-20261108"
       },
       "remaining": [
-        "fresh exact-commit make check and ASan",
-        "whole-tree static/include review",
-        "fresh reference-checked generated and real-seed gates",
-        "paired 200-input timings under default and M124",
-        "separate replay of all successful timing SAT rows",
-        "full corpus only if opportunity and development results justify it",
-        "evidence analysis and final commits"
+        "complete full 13306-input paired timing campaign",
+        "separate direct Dolmen replay of every full-corpus native SAT row",
+        "full result analysis, cactus, independent documentation review and final commits"
       ],
       "correctness_plan": {
         "generated": "3000 generated FuzzSMT inputs per profile, with the same three seeds reused under uniform/difference and default/M124: 12000 profile/input answer checks, not 12,000 independent formulas; separate direct Dolmen models",

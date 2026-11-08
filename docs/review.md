@@ -176,3 +176,16 @@ previous-build controls. All required findings were fixed and rechecked.
 Accepted development evidence blob: `890ce8ca`; qualification metadata:
 `b4c140f2`. Full-corpus results were explicitly pending and outside acceptance;
 they require a separate result review. No reviewer solver execution occurred.
+
+
+## Cube audit/cactus reproduction, 8 November
+
+A separate read-only reviewer checked only the added reproduction paragraphs
+and commands against the analyzer and cactus reader diff from `3209f172`.
+No required findings: argument names, nested shard input, paired direction and
+conditional execution after qualification agree with the scripts. Accepted
+blobs: documentation `5f8a1b3a`, analyzer `fac32a5a`, cactus `7c379f3b`.
+A real 200-input development replay reproduces all prior metrics unchanged;
+the additional mode/reference comparisons and direct nested-layout cactus
+smoke agree with the recorded rows. Strict docs, local/Git links and lint pass.
+Full-corpus results remain pending and outside this acceptance.

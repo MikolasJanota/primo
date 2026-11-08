@@ -74,6 +74,9 @@ def load_series(directory: pathlib.Path, solver: str) -> list[dict[str, str]]:
             for path in sorted(directory.glob("shard-*.csv"))
             if not path.stem.endswith("-summary")
         ]
+    # Model-replay campaigns retain each shard's answers beside its provenance.
+    if not paths:
+        paths = sorted(directory.glob("shard-*/answers.csv"))
 
     rows: dict[str, dict[str, str]] = {}
     for path in paths:

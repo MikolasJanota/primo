@@ -136,3 +136,30 @@ losses, families and the reference comparison remain pending.
 The canonical ledger entry is `2026-11-08-lia-cube-implementation` in
 `docs/run-log.json`. Raw timing and model artifacts remain under
 `results/lia-cubes-20261108`; the public rows omit private environment paths.
+
+After the full timing and model stages finish, audit them with:
+
+```sh
+python3 scripts/analyze_lia_cubes.py \
+  --root results/lia-cubes-20261108/full60 \
+  --experiment benchmarks/lia-cubes-20261108/full-experiment.json \
+  --selection benchmarks/lia-cubes-20261108/inventory.tsv \
+  --out benchmarks/lia-cubes-20261108/full60 --require-models --gzip-rows
+```
+
+The analyzer also compares uniform with difference mode and each native arm
+with Z3. Gains and losses are relative to the left-hand profile named in each
+comparison key; common-runtime ratios are right over left. The cactus reader
+accepts each profile's `shard-*/answers.csv` layout directly, in addition to its
+older flat CSV layouts. For example, after qualification:
+
+```sh
+python3 scripts/plot_cactus.py \
+  --series 'M124 off=results/lia-cubes-20261108/full60/off-m124' \
+  --series 'M124 uniform=results/lia-cubes-20261108/full60/uniform-m124' \
+  --series 'M124 difference=results/lia-cubes-20261108/full60/difference-m124' \
+  --series 'Z3=results/lia-cubes-20261108/full60/z3' \
+  --timeout 60 --title 'QF_LIA: optional cube tests' --sort-by-solved \
+  --highlight-series 'M124 uniform' --public \
+  --out docs/_static/qf-lia-cubes-full60.svg
+```

@@ -177,6 +177,14 @@ def main() -> None:
         if 'baseline-' + shape in profiles:
             result['comparisons']['baseline-' + shape + '_vs_' + baseline] = paired(
                 profiles['baseline-' + shape], profiles[baseline], timeout)
+        uniform, difference = 'uniform-' + shape, 'difference-' + shape
+        if uniform in profiles and difference in profiles:
+            result['comparisons'][uniform + '_vs_' + difference] = paired(
+                profiles[uniform], profiles[difference], timeout)
+    if 'z3' in profiles:
+        for label, rows in profiles.items():
+            if label != 'z3':
+                result['comparisons'][label + '_vs_z3'] = paired(rows, profiles['z3'], timeout)
     preservation = {}
     for shape in ('default', 'm124'):
         if 'baseline-' + shape not in profiles or 'off-' + shape not in profiles:
