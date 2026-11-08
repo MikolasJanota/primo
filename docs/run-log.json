@@ -8,7 +8,7 @@
       "kind": "experimental-cube-integration-and-qualification",
       "commit": "84654ade537df8473d4ada833a6da5e3e729ca4a",
       "baseline_commit": "aeaf282312923d0bb33c5a73a7412a48ee2619cd",
-      "evidence_status": "qualified experimental implementation and complete targeted development comparison; full corpus preregistered",
+      "evidence_status": "qualified implementation and development result; full M124 corpus timing active, models queued",
       "scope": "Optional pure QF_LIA uniform and difference cube model attempts before cuts; default off; QF_UFLIA policy unchanged.",
       "jobs": {
         "baseline_failed_missing_headers": "363274",
@@ -35,7 +35,9 @@
         "clean_static": "363331",
         "clean_mutations": "363332",
         "timing": "363336",
-        "models": "363436"
+        "models": "363436",
+        "full_timing": "363536",
+        "full_models": "363697"
       },
       "environment": {
         "execution": "SLURM only for all solver, test-suite and corpus work; workstation edits, lint and docs",
@@ -88,7 +90,6 @@
         "qualification_dependency_retry": "Generated FuzzSMT job 363285 ran zero cases: missing PATH entry, not a solver failure. Retried with existing shared FuzzSMT installation; explicit fuzzer path is now required and ASan checks tool presence.",
         "rendered_review": "Inspected rendered cube section, formula and source navigation via headless Chrome with software rendering",
         "initial_65b_generated": {
-          "total": 12000,
           "pass": 11840,
           "timeout": 160,
           "wrong_answer": 0,
@@ -97,7 +98,9 @@
           "primary_sat_direct_dolmen": 10544,
           "additional_timed_out_inputs_replayed_sat": 36,
           "total_dolmen_pass": 10580,
-          "primary_sat_changed_answer": 0
+          "primary_sat_changed_answer": 0,
+          "profile_input_checks": 12000,
+          "generated_inputs_per_profile": 3000
         },
         "clean_check": {
           "source": "84654ade",
@@ -208,7 +211,9 @@
           "m124_cube_losses": 0,
           "default_cube_gains": 34,
           "default_cube_losses": 0,
-          "scope": "targeted sample selected from historical slow/default/node-limit and easy buckets; not a full-corpus claim"
+          "scope": "targeted sample selected from historical slow/default/node-limit and easy buckets; not a full-corpus claim",
+          "sat_model_rows_current_build": 437,
+          "sat_model_rows_previous_build_controls": 107
         },
         "off_preservation": {
           "default": {
@@ -219,7 +224,8 @@
             "completed_matching_answers": 159,
             "counter_differences": 0
           }
-        }
+        },
+        "input_reuse": "FuzzSMT seeds are reused across four profiles. Report 3,000 generated inputs and 12,000 profile/input answer checks. All primarySAT validation counts are profile/input rows."
       },
       "artifacts": {
         "manifest": "benchmarks/lia-cubes-20261108/inputs.txt",
@@ -238,7 +244,7 @@
         "evidence analysis and final commits"
       ],
       "correctness_plan": {
-        "generated": "12,000 fresh FuzzSMT QF_LIA cases, 3,000 each for uniform/difference under default and M124; identical seeds across profiles; separate Dolmen models",
+        "generated": "3000 generated FuzzSMT inputs per profile, with the same three seeds reused under uniform/difference and default/M124: 12000 profile/input answer checks, not 12,000 independent formulas; separate direct Dolmen models",
         "mutations": "four profiles, 10 historical easy-control real families per profile, 20 OpFuzz mutations per seed; original smoke/scaled-arena regression and seed answers checked before mutation; direct SAT-model validation",
         "timing": "withhold 200-input comparison until current-commit gates pass"
       },
@@ -247,7 +253,8 @@
       "qualification_metadata": "benchmarks/lia-cubes-20261108/qualification.json",
       "metadata": "benchmarks/lia-cubes-20261108/experiment.json",
       "full_plan": "benchmarks/lia-cubes-20261108/full-experiment.json",
-      "decision": "Full evaluation justified: both cube modes add24SAT answers over M124 off, none lost; cube-M124 solves a superset of the cube-default development set. Retain experimental off-by-default policy."
+      "decision": "Full evaluation justified: both cube modes add24SAT answers over M124 off, none lost; cube-M124 solves a superset of the cube-default development set. Retain experimental off-by-default policy.",
+      "method_commit": "96355a2aa7624ce7700dc2bad80530a30462e662"
     },
     {
       "id": "2026-11-07-uflia-equality-causal-ablation",

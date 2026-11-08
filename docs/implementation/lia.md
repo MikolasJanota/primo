@@ -280,7 +280,9 @@ all integer obligations, including enabled integer slacks. Adoption reconstructs
 the original numerical basis with the same variable IDs, sets its nonbasic
 semantic values before asserting original bounds and reasons, and checks that
 no repair is needed. There are no private fixing bounds in the adopted model.
-Only success replaces the working tableau. Failed, skipped, budgeted, or
+Only success replaces the working tableau. Adoption creates a new bound trail;
+checkpoint tokens from the replaced copy must be discarded. SMT completion
+passes a private copy and reads its winning model. Failed, skipped, budgeted, or
 rejected candidates preserve its assignment, basis, bounds and proof state;
 no strengthened-system conflict enters a theory explanation. Ordinary cuts
 and DFS resume after any such failure. The call occurs once after patching
@@ -288,7 +290,9 @@ and the basic GCD check, before any cuts, and skips an already integral model.
 
 Snapshot construction sorts $n$ coordinates in $O(n\log n)$ comparisons;
 sparse export, normalization and candidate checks then take linear sparse
-work apart from exact-arithmetic costs. Each fractional enabled completion allocates
+work apart from exact-arithmetic costs. Scratch/adoption construction also
+uses the tableau API's row sorting; no total linear-time LP construction is
+claimed. Each fractional enabled completion allocates
 a snapshot and may allocate extra tableaux; no speedup is assumed. {cubesource}`Counters <src/util/statistics.cpp>` named `lia.cube-*`
 separate calls, skips, constraints, fixed coordinates, difference exemptions,
 pivots, centers, infeasible LPs, exhausted limits, rejected candidates and models.
@@ -299,7 +303,7 @@ cube mechanism. {cubesource}`Unit tests <tests/unit/lia_cube_tests.cpp>` cover t
 paper example, thin feasible failures, negative ties, scaled difference rows,
 fixed substitution, strict bounds, large exact coefficients, budget preservation
 and rejected adoption. The QF_LIA integration test checks a false atom and
-printed-model reconstruction. Qualification results are recorded separately.
+printed-model reconstruction. See {ref}`the qualification and measured comparison <lia-cube-evidence>`.
 
 (lia-input)=
 ## Input lowering and integer bounds

@@ -1,5 +1,5 @@
 {
-  "status": "planned; qualified development result justifies full evaluation",
+  "status": "full timing running; separate dependent all-SAT model replay queued",
   "source_commit": "84654ade",
   "baseline_commit": "84654ade",
   "run_id": "2026-11-08-lia-cube-full60",
@@ -10,7 +10,7 @@
   "timeout": 60,
   "cpus_per_task": 1,
   "memory_per_task": "12G requested; actual peak reported separately",
-  "execution": "SLURM; each manifest shard runs all nine profiles on one node, rotating profile order by shard",
+  "execution": "SLURM; each manifest shard runs all four profiles on one node, rotating profile order by shard",
   "profiles": [
     {
       "name": "off-m124",
@@ -97,5 +97,10 @@
     "dolmen_timeout_seconds": 30,
     "dolmen_size": "8G",
     "selection": "every successful native SAT row"
-  }
+  },
+  "jobs": {
+    "timing": "363536",
+    "models": "363697"
+  },
+  "method_commit": "96355a2aa7624ce7700dc2bad80530a30462e662"
 }

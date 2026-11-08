@@ -1,6 +1,8 @@
 # A cube test for finding QF_LIA models
 
-**Status: uniform and difference variants implemented experimentally; qualification pending.**
+**Status: uniform/difference variants implemented and correctness-qualified;
+200-input comparison complete; full-corpus evaluation running.**
+See {ref}`the current evidence <lia-cube-evidence>`.
 Plan baseline: `71a784e6`; implementation baseline: `aeaf2823`. Start with pure QF_LIA; keep the feature opt-in during
 qualification. The immediate target is a cheaper integer-model attempt before
 cuts and branch-and-bound. Dillig's proof-derived splitting remains a separate,

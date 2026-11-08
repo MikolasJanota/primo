@@ -110,6 +110,7 @@ parts:
       - file: evidence/evaluation-refresh
       - file: evidence/long-limits
       - file: evidence/qf-lia-progress
+      - file: evidence/lia-cubes
       - file: evidence/qf-uflia-progress
       - file: evidence/qf-uflia-equality-sharing
       - file: evidence/qf-uflia-equality-ablation

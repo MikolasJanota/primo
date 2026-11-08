@@ -162,3 +162,17 @@ Captured help was refreshed from source `84654ade`, binary SHA-256
 `0102030d508c15a51ee3d2f35a5ff19aa5d0183b396f65aa8d7796cfcda8d495`.
 The invocation name is normalized to `build-slurm-rel/primo` and trailing
 whitespace is stripped; accepted values/defaults come from that binary.
+
+## QF_LIA cube development evidence, 8 November
+
+A separate read-only reviewer checked the development evidence page, changed
+implementation lifetime/complexity paragraphs, cube lead, literature/coverage
+status and TOC against source `84654ade`, method/data `96355a2a`, raw timing
+rows and replay coverage. Required CUBE-EVD-01–03 repairs clarified that
+preservation excludes new instrumentation, the full matrix has four profiles,
+and 3,000 generated inputs reused across four profiles produce 12,000 answer
+checks. The evidence also separates 437 current-build SAT replays from 107
+previous-build controls. All required findings were fixed and rechecked.
+Accepted development evidence blob: `890ce8ca`; qualification metadata:
+`b4c140f2`. Full-corpus results were explicitly pending and outside acceptance;
+they require a separate result review. No reviewer solver execution occurred.

@@ -120,7 +120,10 @@
     "timeout_seconds": 5,
     "arguments": "-ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4",
     "reference": "Z3 5.1.0; native binary identity above",
-    "models": "direct Dolmen 0.10, original successful SAT rows joined by input path; all covered"
+    "models": "direct Dolmen 0.10, original successful SAT rows joined by input path; all covered",
+    "generated_inputs_per_profile": 3000,
+    "profile_input_checks": 12000,
+    "input_reuse": "The same three seeds and generator arguments are reused across all four profiles; 12000 checks do not mean 12000 independent generated formulas."
   },
   "mutations": {
     "uniform": {
