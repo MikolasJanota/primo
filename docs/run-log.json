@@ -25,11 +25,15 @@
         "qualified_fuzz": "363285",
         "qualified_asan": "363297",
         "qualified_static": "363298",
-        "qualified_mutations": "363299"
+        "qualified_mutations": "363299",
+        "qualified_fuzz_retry": "363303",
+        "qualified_asan_retry": "363315"
       },
       "environment": {
         "execution": "SLURM only for all solver, test-suite and corpus work; workstation edits, lint and docs",
-        "development_binary": "dirty-cube-debug; preliminary verification only; current committed binary must be rebuilt via checked-in preparation helper"
+        "development_binary": "dirty-cube-debug; preliminary verification only; current committed binary must be rebuilt via checked-in preparation helper",
+        "fuzzsmt_jar_sha256": "89f887283d409842ebb19af6fce7a33a1b4a6c006746801b98ca8d716a3b0552",
+        "mutator": "YinYang 0.3.0, seeded OpFuzz; z3-solver Python binding 5.0.0.0 is used by the mutator, separate native reference version is recorded by the gate"
       },
       "commands": {
         "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --cxx-header-manifest <staged-header-manifest>",
@@ -52,7 +56,11 @@
           "all_content_hashes_match": true,
           "sha256": "a7423b6c1f643568d4151e3afa822639ef1f577251ced0a3f63b3c98d7ab811b"
         },
-        "local_git_links": "282 pages; 38591 local links; 1201 unique Git links; 0 failures; external URLs deferred"
+        "local_git_links": "282 pages; 38591 local links; 1201 unique Git links; 0 failures; external URLs deferred",
+        "qualified_check": "47/47 CTest groups and 311/311 Python tests; make check, job 363284",
+        "preliminary_asan": "47/47 CTest groups; post-test fuzz stage skipped because tool was outside PATH; not accepted as the requested full gate",
+        "qualification_dependency_retry": "Generated FuzzSMT job 363285 ran zero cases: missing PATH entry, not a solver failure. Retried with existing shared FuzzSMT installation; explicit fuzzer path is now required and ASan checks tool presence.",
+        "rendered_review": "Inspected rendered cube section, formula and source navigation via headless Chrome with software rendering"
       },
       "artifacts": {
         "manifest": "benchmarks/lia-cubes-20261108/inputs.txt",

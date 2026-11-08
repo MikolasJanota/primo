@@ -1,0 +1,130 @@
+{
+  "status": "planned; timing withheld until correctness gates pass",
+  "source_commit": "65b6f48a",
+  "baseline_commit": "aeaf2823",
+  "run_id": "2026-11-08-lia-cube-development",
+  "inputs": "benchmarks/lia-cubes-20261108/inputs.txt",
+  "selection": "benchmarks/lia-cubes-20261108/selection.json",
+  "inventory_sha256": "a7423b6c1f643568d4151e3afa822639ef1f577251ced0a3f63b3c98d7ab811b",
+  "files": 200,
+  "timeout": 60,
+  "cpus_per_task": 1,
+  "memory_per_task": "12G requested; actual peak must be reported",
+  "execution": "SLURM; each manifest shard runs all nine profiles on one node, rotating profile order by shard",
+  "profiles": [
+    {
+      "name": "baseline-default",
+      "binary": "baseline",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--lia-integer-slacks",
+        "--lia-patch-integral-moves"
+      ]
+    },
+    {
+      "name": "off-default",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=off",
+        "--lia-cube-steps=1000"
+      ]
+    },
+    {
+      "name": "uniform-default",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=uniform",
+        "--lia-cube-steps=1000"
+      ]
+    },
+    {
+      "name": "difference-default",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=difference",
+        "--lia-cube-steps=1000"
+      ]
+    },
+    {
+      "name": "baseline-m124",
+      "binary": "baseline",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--no-lia-integer-slacks",
+        "--lia-patch-integral-moves"
+      ]
+    },
+    {
+      "name": "off-m124",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--no-lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=off",
+        "--lia-cube-steps=1000"
+      ]
+    },
+    {
+      "name": "uniform-m124",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--no-lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=uniform",
+        "--lia-cube-steps=1000"
+      ]
+    },
+    {
+      "name": "difference-m124",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--no-lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=difference",
+        "--lia-cube-steps=1000"
+      ]
+    },
+    {
+      "name": "z3",
+      "binary": "z3",
+      "arguments": []
+    }
+  ],
+  "correctness": "Separate direct Dolmen replay of every successful Primo SAT row; model time excluded from timings. Reference disagreements and invalid models block performance acceptance."
+}

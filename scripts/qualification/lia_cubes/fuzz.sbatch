@@ -10,6 +10,7 @@
 #SBATCH --output=logs/%x-%A_%a.out
 set -euo pipefail
 cd "${PRIMO_WORKDIR:?}"
+export PATH="${PRIMO_FUZZSMT_BIN_DIR:?}:$PATH"
 slot=${SLURM_ARRAY_TASK_ID:?}
 profiles=(uniform difference m124-uniform m124-difference)
 profile=${profiles[$((slot / 3))]}

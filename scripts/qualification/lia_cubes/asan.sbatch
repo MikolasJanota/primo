@@ -7,8 +7,11 @@
 #SBATCH --output=logs/%x-%j.out
 set -euo pipefail
 cd "${PRIMO_WORKDIR:?}"
+export PATH="${PRIMO_FUZZSMT_BIN_DIR:?}:$PATH"
 export PATH="${PRIMO_CMAKE_BIN:?}:$PWD/contrib/local/clang-tools-env/bin:$PWD/contrib/local/bin:$PATH"
 export CMAKE_BUILD_PARALLEL_LEVEL=4 CTEST_PARALLEL_LEVEL=4
+command -v fuzzsmt
+command -v z3
 out=${PRIMO_CUBE_OUT:?}
 mkdir -p "$out"
 exec > >(tee "$out/asan.log") 2>&1
