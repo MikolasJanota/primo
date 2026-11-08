@@ -10,12 +10,12 @@
       "producer_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
       "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
       "manifest": "docs/coverage/full-arithmetic-certificates-20261108.json",
-      "evidence_status": "running",
+      "evidence_status": "complete; limits and reconstruction incompleteness separated; not full proof coverage",
       "scope": "Complete recorded default-profile UNSAT inventory in the named baseline; source hashes current; no timing/source-size/family/count sampling cap; conservative single-query/no-positive-arity screen retained; not SAT/incremental/default promotion.",
       "jobs": {
         "365547": "Inventory complete; no solving.",
         "365548_0..1": "Full selections complete:605LRA+3244LIA; no exclusions;155shards,<=25cases each.",
-        "365550_0..154": "Full certificate campaign; status and completed prefix below."
+        "365550_0..154": "All155tasks completed0:0; per-case limits remain soft; all3849case outcomes accounted for."
       },
       "selection_counts": {
         "QF_LRA": {
@@ -35,8 +35,18 @@
         "cpus_per_worker": 2,
         "memory_gib_per_worker": 12,
         "wall_minutes_per_worker": 240,
-        "maximum_concurrent": 8,
-        "shards": 155
+        "maximum_concurrent": 32,
+        "initial_maximum_concurrent": 8,
+        "shards": 155,
+        "concurrency_change": {
+          "utc": "2026-11-08T19:17:32.470349+00:00",
+          "array_job": "365550",
+          "before": 8,
+          "after": 32,
+          "reason": "SLURM idle CPU nodes available; accelerate complete coverage with unchanged binaries, selections, per-worker resources and per-case caps; no speed-comparison claim.",
+          "observed_array_task_throttle": 32,
+          "command": "scontrol update JobId=365550 ArrayTaskThrottle=32"
+        }
       },
       "limits": {
         "reference_seconds": 60,
@@ -48,22 +58,38 @@
         "external_file_bytes": 268435456
       },
       "progress": {
-        "completed_cases": 512,
+        "completed_cases": 3849,
         "expected_cases": 3849,
-        "finished_shards": 15,
+        "finished_shards": 155,
         "expected_shards": 155,
         "counts": {
-          "verified": 485,
-          "proof_timeout": 10,
-          "reference_timeout": 17
+          "verified": 3200,
+          "reconstruction_incomplete": 99,
+          "proof_error": 86,
+          "export_error": 309,
+          "statement_timeout": 90,
+          "export_timeout": 9,
+          "reference_timeout": 33,
+          "challenge_timeout": 3,
+          "proof_timeout": 20
         },
         "by_logic": {
           "QF_LRA": {
-            "verified": 485,
-            "proof_timeout": 10,
-            "reference_timeout": 17
+            "verified": 561,
+            "proof_timeout": 16,
+            "reference_timeout": 28
           },
-          "QF_LIA": {}
+          "QF_LIA": {
+            "verified": 2639,
+            "reconstruction_incomplete": 99,
+            "statement_timeout": 90,
+            "export_error": 309,
+            "proof_error": 86,
+            "reference_timeout": 5,
+            "proof_timeout": 4,
+            "export_timeout": 9,
+            "challenge_timeout": 3
+          }
         }
       },
       "commands": {
@@ -71,12 +97,233 @@
         "selection": "FULL_ARITHMETIC_STAGE=select sbatch --array=0-1%2 --time=00:30:00 --mem=4G scripts/slurm_full_arithmetic_certificates.sbatch; all-known-unsat,cases-per-shard25; previous217/128controls.",
         "run": "FULL_ARITHMETIC_STAGE=run FULL_LRA_SHARDS=25 FULL_LIA_SHARDS=130 sbatch --array=0-154%8 scripts/slurm_full_arithmetic_certificates.sbatch",
         "staging": "scripts/slurm_stage_manifest_files.py with frozen helper list.",
-        "preflight": "Canonical scripts/slurm_prepare_benchmark_workspace.py --check-only --require-tool YICES immediately before every submission; authorized SSH config outside Git."
+        "preflight": "Canonical scripts/slurm_prepare_benchmark_workspace.py --check-only --require-tool YICES immediately before every submission; authorized SSH config outside Git.",
+        "concurrency": "Initial submission --array=0-154%8; scontrol update JobId=365550 ArrayTaskThrottle=32 at2026-11-08T19:17:32UTC. Frozen binaries, selection, per-worker/per-case resources unchanged."
       },
       "artifacts": {
         "local": "results/full-arithmetic-certificates-365550 metadata/JSON mirror; results/full-arithmetic-selection-365548; results/arithmetic-certificate-inventory-365547",
         "remote": "$PRIMO_WORKDIR/results/full-arithmetic-certificates-365550/LOGIC/shard-N/run; full-arithmetic-selection-365548; arithmetic-certificate-inventory-365547",
-        "retention": "Native exports/prepared statements and failed-stage artifacts retained remotely; successful challenge dumps hashed then removed; raw proof streamed, no raw proof file."
+        "retention": "Native exports/prepared statements and failed-stage artifacts retained remotely; successful challenge dumps hashed then removed; raw proof streamed, no raw proof file.",
+        "metadata_archive": {
+          "file": "benchmarks/full-arithmetic-certificates-20261108/results-metadata.tar.gz",
+          "bytes": 12725430,
+          "sha256": "e88a10cae6d52f9617138c73025c8046c9ab5413d6dabb747982e449aa30a2df",
+          "payloads": 39635,
+          "content": "raw per-worker JSON summaries, selected stage stdout/stderr logs, binary/shard receipts and scheduler accounting; no formula, native certificate or raw proof bodies"
+        },
+        "producer_feedback": {
+          "archive": "benchmarks/certificate-regressions/full-arithmetic-20261108/producer-feedback.tar.gz",
+          "sha256": "88eabc23cf4a48b2094ca0c6cff4aedca16b17f82203305a6515ed39351790d1",
+          "bytes": 79707,
+          "payloads": 25,
+          "payload_sha256": {
+            "README.txt": "5555cf83b319889e2fb650f788459f8e9d1da9cc83fa76bb3b9882ba34fd78e3",
+            "native-allocation-limit/case.json": "a6bb57d8ceb2279853ff12223f1646075957eeeac0e4ccf2e1f87af46cdaa0c4",
+            "native-allocation-limit/export.err": "5c9ae8ca796e4bb7c5019d9c7c91edb7b13a2a166e9f758625cd5f8b709f7862",
+            "native-allocation-limit/export.out": "f13674351f8231c9e60fc923652b1ce94b62357ee00fedaf23ad3af677aff656",
+            "native-allocation-limit/input.smt2": "23e6c96e0be17fdf367a4e4c102ab578275e6583f4e9dc6cc3d2f67eacb95cb5",
+            "native-allocation-limit/reference.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "native-allocation-limit/reference.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+            "native-file-limit/case.json": "0d8878298ee29af33e9262ebc882685523e85c459e6e35a709e02327da882a55",
+            "native-file-limit/export.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "native-file-limit/export.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "native-file-limit/input.smt2": "f090a17272ca7d089eb01ba6faad157c3c5013c55ed4f3fcc69ae7fc35920049",
+            "native-file-limit/reference.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "native-file-limit/reference.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+            "reconstruction-not-found/case.json": "38fbbc8e0754c3511f6debd36a00dc992a8cb5969e434badfda257a708dabef9",
+            "reconstruction-not-found/export.err": "9995bb82964244b403c152c045fd7aad3ff42330e946ca4c38745a18ce777dab",
+            "reconstruction-not-found/export.out": "7f51b4fb44dbc72708fac0a474600c2e9d8af4ce3a8b8f1680330454f6a8d68f",
+            "reconstruction-not-found/input.smt2": "a269c19228898a4e396971cc033a2dc722c0e596beb2207a3240f2a2e55b83c2",
+            "reconstruction-not-found/reference.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "reconstruction-not-found/reference.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+            "reconstruction-resource-limit/case.json": "df81d4117e0ce7be18bc1b44e0aef7e853c603070d73de970a0f14ee4ccd5d2f",
+            "reconstruction-resource-limit/export.err": "51222607338999e982b13470e83b304b822d32221a7646aa359df1ee26bfbf96",
+            "reconstruction-resource-limit/export.out": "7f51b4fb44dbc72708fac0a474600c2e9d8af4ce3a8b8f1680330454f6a8d68f",
+            "reconstruction-resource-limit/input.smt2": "cf0c68b37caa1368288be3d186afd9acd5092c98bd59fd0f09eb6165eefb4bf0",
+            "reconstruction-resource-limit/reference.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "reconstruction-resource-limit/reference.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18"
+          },
+          "cases": [
+            {
+              "name": "native-allocation-limit",
+              "file": "nec-smt/large/getoption_group/prp-44-46.smt2",
+              "source_bytes": 212952,
+              "input_sha256": "23e6c96e0be17fdf367a4e4c102ab578275e6583f4e9dc6cc3d2f67eacb95cb5",
+              "status": "export_error"
+            },
+            {
+              "name": "native-file-limit",
+              "file": "nec-smt/med/checkpass_pwd/prp-32-32.smt2",
+              "source_bytes": 122995,
+              "input_sha256": "f090a17272ca7d089eb01ba6faad157c3c5013c55ed4f3fcc69ae7fc35920049",
+              "status": "export_error"
+            },
+            {
+              "name": "reconstruction-not-found",
+              "file": "prime-cone/prime_cone_unsat_3.smt2",
+              "source_bytes": 487,
+              "input_sha256": "a269c19228898a4e396971cc033a2dc722c0e596beb2207a3240f2a2e55b83c2",
+              "status": "reconstruction_incomplete"
+            },
+            {
+              "name": "reconstruction-resource-limit",
+              "file": "prime-cone/prime_cone_unsat_7.smt2",
+              "source_bytes": 1221,
+              "input_sha256": "cf0c68b37caa1368288be3d186afd9acd5092c98bd59fd0f09eb6165eefb4bf0",
+              "status": "reconstruction_incomplete"
+            }
+          ]
+        },
+        "native_crash_feedback": {
+          "archive": "benchmarks/certificate-regressions/full-arithmetic-20261108/native-api-crashes.tar.gz",
+          "sha256": "d7377199887e2325a2830c35735d5f428dd6961ebccb0da31dbe23f19c5f21d1",
+          "bytes": 491739,
+          "payloads": 13,
+          "payload_sha256": {
+            "RC-09/input.smt2": "0f16131ef2cf42bf1695625e9295d28d6bff9cdc5029d8dec8161b47148163dd",
+            "RC-09/export.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "RC-09/export.err": "c2cc0d1bc4a6f57ed8d5ffdc425c563e0a9f9e4043046475092a4e2291e0708d",
+            "RC-09/reference.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+            "RC-09/reference.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "RC-09/case.json": "0bae2aedf0021abcae64b4c8804522ec539a9c76ed8ba0bfbe70cfdbeed95485",
+            "RC-14/input.smt2": "952a15ffeeae3d1c2ff2c5750c6802a28495d3f0381ed2e2f56e910a2a2de78e",
+            "RC-14/export.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "RC-14/export.err": "c2cc0d1bc4a6f57ed8d5ffdc425c563e0a9f9e4043046475092a4e2291e0708d",
+            "RC-14/reference.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+            "RC-14/reference.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "RC-14/case.json": "496c17fce56fcfdb135448ffb634895869e5e31c38f97253d5a188dc463a8514",
+            "README.txt": "2ab30e9def85a771311cf71a1340472bacda692286f3adfa15a773eb0d1f0476"
+          },
+          "cases": [
+            {
+              "file": "20220307-SMPT/RwMutex-PT-r0010w2000/RC-09.smt2",
+              "source_bytes": 2104559,
+              "input_sha256": "0f16131ef2cf42bf1695625e9295d28d6bff9cdc5029d8dec8161b47148163dd",
+              "exit_code": -6,
+              "export_seconds": 34.535962127003586
+            },
+            {
+              "file": "20220307-SMPT/RwMutex-PT-r0010w2000/RC-14.smt2",
+              "source_bytes": 2104520,
+              "input_sha256": "952a15ffeeae3d1c2ff2c5750c6802a28495d3f0381ed2e2f56e910a2a2de78e",
+              "exit_code": -6,
+              "export_seconds": 36.13913725502789
+            }
+          ],
+          "cause": "native API-state SIGABRT; exact root cause and contribution of resource caps untriaged",
+          "replay_validation": "instruction only; no extra solver run during packaging"
+        },
+        "checker_feedback": {
+          "archive": "benchmarks/checker-regressions/full-arithmetic-20261108/checker-feedback.tar.gz",
+          "sha256": "0ea0dcd6d4046f53d124e1df85d2683fd27d6ffcf722d0633b4c0be7cb0cdaa1",
+          "bytes": 13772057,
+          "payloads": 24,
+          "payload_sha256": {
+            "README.txt": "5e9f3578a9964bb310f22930b93520c0ee371bf060521de170851d85a3a6a8c2",
+            "lia-native-read-oom/case.json": "6ca25a747c4216d82e49469b311824e3ae3be7db4c2bfb9509122501628cc727",
+            "lia-native-read-oom/challenge.err": "622919ef5ba87750b47af7d599d7f045f4908ae4330a4f816d671e68493b2214",
+            "lia-native-read-oom/export.err": "f7b3d5f03626b7e6a30f8af412ed4055084747be913cb80bfa010bfffacf9aa8",
+            "lia-native-read-oom/exported-cnf.smt2": "ed4729a8aeea70bbb80fb0b7f134de88a68727f3897e0de37021ba195b048ca7",
+            "lia-native-read-oom/input.smt2": "77d7a6f4b2652420806a69cebb175fd058580cc18a3145a60f5b54f67ad511ce",
+            "lia-native-read-oom/micromath-v2.sexp": "5651b47954c94c80e7d4f6d83b42bc44282dd8f2ca6f530ea422d760ae585299",
+            "lia-native-read-oom/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "lia-native-read-oom/pipe/kernel.out": "755c50d57cb1d3c1b9bcb895ea012ba705ecafee1540e2f9eb063325809ed6fd",
+            "lia-native-read-oom/pipe/producer.err": "8c86c3c5c48735cdfc5c0494f8456247b56ef7217a7b86fca4af4d519cd9596a",
+            "lia-native-read-oom/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "lia-native-read-oom/statement.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "lra-clock-7/case.json": "743d7dd426810fce4bf6d3107799a178e372c3ee3c43da856d9841770a5bc2f4",
+            "lra-clock-7/challenge.err": "b44b68388092ff8d3e57f93c129d583949e3f562e794aa40088ad9bc83f6df04",
+            "lra-clock-7/export.err": "6afa5e418ace16c8afa3a12c0041dd7f537eafb9d3c0ea70b36425d66a963d91",
+            "lra-clock-7/exported-cnf.smt2": "c815a828491f9c8de51731c6cc4bdfb4aa898a8c152a563e9d6e358deb009065",
+            "lra-clock-7/input.smt2": "a1a55637f696c40a893402362623992d760b7f7c5dd46ae2cfd3899ff64476d0",
+            "lra-clock-7/native.sexp": "53403e94193bfd28a85355b4246e82dae4daaaefa955833c723c40e9ad3c96e9",
+            "lra-clock-7/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "lra-clock-7/pipe/kernel.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "lra-clock-7/pipe/producer.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "lra-clock-7/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "lra-clock-7/statement.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "replay.sh": "fef23566ec0ce772df948cb21f147454f1d7523c0a389d552a3dc14966e12ab7"
+          },
+          "cases": [
+            {
+              "name": "lra-clock-7",
+              "logic": "QF_LRA",
+              "file": "clock_synchro/clocksynchro_7clocks.worst_case_skew.induct.smt2",
+              "status": "proof_timeout",
+              "source_bytes": 15888,
+              "certificate_bytes": 626049,
+              "statement_bytes": 47428,
+              "retained_lemmas": 423
+            },
+            {
+              "name": "lia-native-read-oom",
+              "logic": "QF_LIA",
+              "file": "nec-smt/med/int_from_list/prp-38-32.smt2",
+              "status": "proof_error",
+              "source_bytes": 64199,
+              "certificate_bytes": 100876052,
+              "statement_bytes": 116007079,
+              "retained_lemmas": 0
+            }
+          ],
+          "replay_validation": "bash -n only; no additional solver/checker replay during packaging"
+        },
+        "checker_definition_allocation_feedback": {
+          "archive": "benchmarks/checker-regressions/full-arithmetic-20261108/lia-definition-allocation.tar.gz",
+          "sha256": "840eb421d18fac2f3cc2c0cc5eaedd178b2ec05ae3bb2083eef427ef4744965f",
+          "bytes": 356001,
+          "payloads": 15,
+          "payload_sha256": {
+            "wisa-definition-allocation/input.smt2": "736ba50c3d5e70578083a16c1a1ab3932997fbef479dfe9bc235a31bc00f9db7",
+            "wisa-definition-allocation/micromath-v2.sexp": "d0761947f9e204b36589c843d85098cd70f7b85797d84c095ef7c354ff07372d",
+            "wisa-definition-allocation/exported-cnf.smt2": "4e73d5b0bdd4fb27fca6dbba88ac3197a41735991a6471c21b04d4c2e1630e50",
+            "wisa-definition-allocation/export.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+            "wisa-definition-allocation/export.err": "7d82761571875c3897a693e7aea90049ab3037951a67c3225f88c1a8b31556b7",
+            "wisa-definition-allocation/statement.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "wisa-definition-allocation/challenge.err": "7ef40c8eb5222cec5f22047d7aa72dccef74f02b55244cbf9d56e7e52485d923",
+            "wisa-definition-allocation/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "wisa-definition-allocation/pipe/producer.err": "651ee92cf32fc4189e77d372ef457d26df558240c4912a355146a99d8f1b6bba",
+            "wisa-definition-allocation/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "wisa-definition-allocation/pipe/kernel.out": "755c50d57cb1d3c1b9bcb895ea012ba705ecafee1540e2f9eb063325809ed6fd",
+            "wisa-definition-allocation/pipe/exit-status.txt": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+            "wisa-definition-allocation/case.json": "3d1df3a8adc98089a11b5c67304486143e7d46675b4f8ed49c41a56a0cfad9bc",
+            "replay.sh": "834d8fce8f2360feac0cea5b349e6f76f032a1b094c026d6aecf0966033b2360",
+            "README.txt": "fd91e6600bed97116821ee1bceab2a69b06e0130459c5e38ad049836e250086f"
+          },
+          "case": {
+            "file": "wisa/wisa5.smt2",
+            "logic": "QF_LIA",
+            "status": "proof_error",
+            "producer_diagnostic": "Logic failure: definition index allocation\n",
+            "cause": "untriaged; no inference that memory or another resource bound fired",
+            "native_bytes": 18892343,
+            "statement_bytes": 270318,
+            "retained_lemmas": 10598
+          },
+          "replay_validation": "bash -n only; no extra solver/checker run during packaging"
+        },
+        "checker_challenge_deadline_feedback": {
+          "archive": "benchmarks/checker-regressions/full-arithmetic-20261108/lia-challenge-deadline.tar.gz",
+          "sha256": "5f9cd5b775ce09fb73babd200cc8ee521ec08809db3f73e577cded59e6f1e8e3",
+          "bytes": 3952910,
+          "payloads": 5,
+          "payload_sha256": {
+            "exported-cnf.smt2": "81c604f31c848ff95837f5f2050959c6cc841e6bf24f307b1346512923695e55",
+            "challenge.err": "275680f6a30c04817e4c314c25be44c3120f037a58e133fb1f18d0dea4373d4a",
+            "case.json": "0b0ba64a897b6465dfd15f69b86d049a2f426c64290526b2b17e74e36ef301bd",
+            "replay.sh": "7ab6533c0e6dcbea01699ae24f3a483c5105d41a22a6c84d32c7dfafa774fbaa",
+            "README.txt": "1c2e7f4d8b00f009ba4cb60fe3812494a8365ce33f12268eab8dd60e7d130bce"
+          },
+          "case": {
+            "file": "2019-cmodelsdiff/wireRouting/p15.smt2",
+            "logic": "QF_LIA",
+            "status": "challenge_timeout",
+            "statement_bytes": 38750749,
+            "native_bytes": 34908935,
+            "retained_lemmas": 0
+          },
+          "replay_validation": "bash -n only; challenge construction only; no extra solver/checker run during packaging"
+        }
       },
       "verification": {
         "fresh_python_methods": 8,
@@ -86,11 +333,1881 @@
           "make lint",
           "shell/SLURMsyntax and Python3.9grammar/actualselectionexecution",
           "all161selectionarchivepayloads match raw artifacts;155shardhashes/counts/partitions and345controls verified",
-          "make docs/assembled-site linkcheck/rendered-method inspection for protocol milestone"
+          "make docs/assembled-site linkcheck/rendered-method inspection for protocol milestone",
+          "All3849rows match frozen full-selection cases exactly; all155shard counts/completion/binary receipts checked",
+          "Every verified result requires successful freshYicesUNSAT, native mainUNSAT/reconstruction completion, both proof/kernel exits0 and exactchallenge proven withoutInconsistency proven",
+          "Allobserved errors classified from retained diagnostics; exact guard/phase unknowns preserved",
+          "Archivedmetadata and both compactfeedbackpacketpayloadSHA256s verified; replay.sh bash-n only; no extra solver/checker run for packaging"
         ],
-        "native_gates": "Native C++/activeC++tests unchanged from qualifieda5123159; no native suite/ASan/fuzz/clang-tidy rerun for workflow/selection/evidence-only change."
+        "native_gates": "Native C++/activeC++tests unchanged from qualifieda5123159; no native suite/ASan/fuzz/clang-tidy rerun for workflow/selection/evidence-only change.",
+        "final_report_checks": {
+          "make_lint": "passed",
+          "make_docs": "passed; no warnings",
+          "assembled_site_linkcheck": {
+            "pages": 277,
+            "local_links": 37040,
+            "unique_git_links": 1215,
+            "failures": 0,
+            "external_urls_deferred": 454
+          },
+          "rendered_inspection": "new outcomes table, controls, failure boundaries, packet-download text and LIA pointer checked in generatedHTML",
+          "native_identity": "git diff --exit-code a5123159 -- src :(glob)tests/**/*.cpp :(glob)tests/**/*.hpp passed; earlier tests/lia_export_cli.py changes are outside this C++-identity statement",
+          "runlog_preservation": "all pre-existing entries after the updated full-census entry preserved byte-for-byte",
+          "scheduler_final": "all155arrayworkersCOMPLETED0:0; squeue365550empty",
+          "process_final": "local monitor exited naturally; no local native/reference/checker/packaging experiment process or descendant remains",
+          "packet_replay_validation": "three shell replay scripts bash-n only; no extra solver/checker run during packaging"
+        },
+        "independent_documentation_review": {
+          "reviewer": "/root/review_lra_sweep_docs",
+          "baseline_git": "e107d7980cab54fe469cbe03600bbb9cc40b1d87",
+          "verdict": "Ready; no required or optional findings on final census unit",
+          "scope": "full-method/outcome subsections; LIApointer; fullcensusledger; firstmatchingrunlogentry; metadataarchive andfivefeedbackarchives; semantic verification receipts appended separately for recheck",
+          "pre_attestation_reviewed_sha256": {
+            "docs/reference/qf-lra-certificates.md": "efa7b721d794616a1bb404bc190ff4f094ff114ed93349f57b12861aeb3155ea",
+            "docs/reference/qf-lia-certificates.md": "801229bf6905ded5f3d53df98eb70dbbcdf3af0a009f666dcca44beae2bee457",
+            "docs/coverage/full-arithmetic-certificates-20261108.json": "24639ba74edda1ec5b4e40406eeb3c07fe74648fd56bf49482a4275813068182",
+            "docs/run-log.json": "f7d881d3365bc526f6c4d062a60e49d26ceb3c98ef87348e8675659f72d8cf10"
+          },
+          "findings_dispositions": {
+            "FULL-ARITH-DOC-01": "resolved: qualify EXITtrap initialization/externaltermination scope in protocolmilestonee107d798",
+            "FULL-PACKET-DOC-01": "resolved: LIA header compatibility-copy wording replaced independent-audit implication; nonREADMEpayloadhashes unchanged"
+          },
+          "independently_checked": "all3849rows/155rawsummaries/frozenshards;3816freshUNSAT;3200strictkernelacceptances; failureclasses/controls/payloads/lemmas/timings;39635metadatahashes; allfeedbackpacketpayloadhashes andbuilderreplaysyntax",
+          "unchecked_independently": "remote retention; actual additional replay execution; defect root causes; writer lint/docs/link checks; no checker implementation inspection"
+        }
       },
-      "source_to_cnf_verified": false
+      "source_to_cnf_verified": false,
+      "counts": {
+        "verified": 3200,
+        "reconstruction_incomplete": 99,
+        "proof_error": 86,
+        "export_error": 309,
+        "statement_timeout": 90,
+        "export_timeout": 9,
+        "reference_timeout": 33,
+        "challenge_timeout": 3,
+        "proof_timeout": 20
+      },
+      "by_logic": {
+        "QF_LRA": {
+          "cases": 605,
+          "counts": {
+            "verified": 561,
+            "proof_timeout": 16,
+            "reference_timeout": 28
+          },
+          "failure_attribution": {
+            "proof_timeout": 16,
+            "reference_timeout": 28
+          },
+          "controls": {
+            "counts": {
+              "verified": 217
+            },
+            "paired_native_and_statement_hashes": 217,
+            "transitions": {
+              "verified -> verified": 216,
+              "proof_timeout -> verified": 1
+            },
+            "rows": [
+              {
+                "file": "sal/gasburner/gasburner-prop3-8.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/pd_not_sc_seen.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_6clocks.worst_case_skew.induct.smt2",
+                "before": "proof_timeout",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/robotics/1_3.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/fs_frame_gap.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-8.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_8clocks.main_invar.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_7nodes.synchro.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-15.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-nosafe-2.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/fs_init_no_op_accs.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-15.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/carpark/Carpark2-ausgabe-3.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_5nodes.abstract.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-15.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-12.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/frame_prop.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/mode_cntrl.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sc/sc-7.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sc/sc-9.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sc/sc-11.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_5nodes.synchro.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/robotics/2_1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/robotics/3_3.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-16.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-20.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/pd_init_op_accs.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-safe-2.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-17.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_3clocks.main_invar.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/synched.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_7clocks.main_invar.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/robotics/2_4.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_7nodes.abstract.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-15.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "miplib/pk1--1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-2.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-safe2-2.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sc/sc-6.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-5.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/synched.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/carpark/Carpark2-ausgabe-4.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-9.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_7nodes.synchro.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_9nodes.abstract.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_2clocks.worst_case_skew.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-2.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-nosafe-3.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_3nodes.abstract.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/current_frame.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-10.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-12.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_9nodes.synchro.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-9.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-11.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/carpark/Carpark2-ausgabe-2.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_5clocks.main_invar.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_4nodes.synchro.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/robotics/3_1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-safe-1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/pd_no_op_accs.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-13.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-19.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-nosafe-6.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_6clocks.main_invar.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-10.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/robotics/4_3.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/bad_echos_ascend.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/carpark/Carpark2-ausgabe-1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-4.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/robotics/1_4.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/fs_window.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "uart/uart-8.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/robotics/2_3.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-20.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-19.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_12nodes.abstract.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-7.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/fs_not_sc_seen.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-3.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_3nodes.synchro.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/carpark/Carpark2-t1-3.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/op_seen_less2.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_6nodes.abstract.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_9clocks.main_invar.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/robotics/4_1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_10nodes.abstract.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_14nodes.abstract.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-2.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/pd_finish.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-14.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sc/sc-8.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/op_seen_more1.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-14.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-17.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_8nodes.synchro.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_4clocks.worst_case_skew.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-3.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-18.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/fs_no_op_accs.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sc/sc-12.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-8.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "uart/uart-13.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-3.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/bad_echos_ascend.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-16.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-nosafe-5.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "uart/uart-6.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-11.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_10clocks.main_invar.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_3clocks.worst_case_skew.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/pd_not_fs_seen.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-5.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-20.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/current_frame.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/op_seen_less2.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-14.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-18.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2017-Heizmann-UltimateInvariantSynthesis/_standard_two_index_06.i_3_2_2.bpl_7.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-5.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/carpark/Carpark2-t1-1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_2clocks.main_invar.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-4.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/fs_frame_gap.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/carpark/Carpark2-ausgabe-5.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/carpark/Carpark2-ausgabe-7.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_8nodes.synchro.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_9nodes.synchro.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/pd_finish.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/pd_init_op_accs.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/good_frame_update.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-7.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_4nodes.abstract.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-7.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "TM/p5-driverlogNumeric_s9.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-nosafe-1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/fs_not_sc_seen.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-12.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/reint_to_least.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-6.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-6.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-13.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-16.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-17.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_10nodes.synchro.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/pd_no_op_accs.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-4.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-5.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_4nodes.synchro.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "uart/uart-9.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-10.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-18.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-13.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-safe2-1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/no_op_accs.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sc/sc-5.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_4clocks.main_invar.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/op_seen_more1.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "uart/uart-7.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-19.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-14.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_12nodes.synchro.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-6.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_2clocks.main_invar.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_3clocks.main_invar.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_3nodes.synchro.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/fs_window.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-11.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "uart/uart-10.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "uart/uart-12.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/robotics/4_4.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "LassoRanker/SV-COMP/BradleyMannaSipma-2005ICALP-Fig1_true-termination.c_Iteration1_Lasso_5-phaseTemplate.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/mode_cntrl.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "clock_synchro/clocksynchro_5clocks.worst_case_skew.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-6.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sc/sc-10.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-7.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-13.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/carpark/Carpark2-ausgabe-6.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/windowreal/windowreal-no_t_deadlock-11.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_11nodes.abstract.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_15nodes.synchro.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/pd_not_fs_seen.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/sc_init_frame_gap.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-nosafe-4.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/robotics/1_1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/fs_no_op_accs.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-12.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "uart/uart-11.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/no_op_accs.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/sc_init_frame_gap.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/reint_to_least.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-8.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_5nodes.synchro.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_6nodes.synchro.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_8nodes.abstract.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_10nodes.synchro.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "miplib/danoint-30.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/pd_not_sc_seen.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/frame_prop.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/good_frame_update.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "uart/uart-5.base.cvc.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-9.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_6nodes.synchro.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_11nodes.synchro.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_15nodes.abstract.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "spider_benchmarks/fs_init_no_op_accs.induction.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/gasburner/gasburner-prop3-10.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/carpark/Carpark2-t1-2.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_3nodes.abstract.induct.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/tgc/tgc_io-safe-9.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "sal/pursuit/pursuit-safety-16.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/robotics/3_4.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "miplib/danoint-50.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "tta_startup/simple_startup_14nodes.synchro.base.smt2",
+                "before": "verified",
+                "after": "verified"
+              }
+            ]
+          },
+          "complete_export_lemmas": {
+            "collected": 987954,
+            "retained": 426364
+          },
+          "case_seconds": {
+            "count": 605,
+            "median": 0.9192154920019675,
+            "p90": 60.02579113098909,
+            "max": 275.165737850999,
+            "total": 12131.96177101438
+          }
+        },
+        "QF_LIA": {
+          "cases": 3244,
+          "counts": {
+            "verified": 2639,
+            "reconstruction_incomplete": 99,
+            "statement_timeout": 90,
+            "export_error": 309,
+            "proof_error": 86,
+            "reference_timeout": 5,
+            "proof_timeout": 4,
+            "export_timeout": 9,
+            "challenge_timeout": 3
+          },
+          "failure_attribution": {
+            "native post-CORE reconstruction ResourceLimit; individual guard not logged": 88,
+            "statement_timeout": 90,
+            "native SIGXFSZ under256MiB per-file cap; exact output/spool not logged": 192,
+            "Micromath producer out of memory under3GiB address-space cap": 83,
+            "native allocation failure under3GiB address-space cap; exact phase not logged": 115,
+            "native SIGABRT: CaDiCaL disconnect_external_propagator invalid API state; root cause untriaged": 2,
+            "reference_timeout": 5,
+            "proof_timeout": 4,
+            "export_timeout": 9,
+            "Micromath producer Logic failure: definition index allocation; exact cause untriaged": 3,
+            "native post-CORE reconstruction NotFound; implemented procedure found no proof": 10,
+            "challenge_timeout": 3,
+            "native post-CORE reconstruction interrupted at60.000224s; consistent with60s phase budget, stop flag not printed": 1
+          },
+          "controls": {
+            "counts": {
+              "verified": 124,
+              "reconstruction_incomplete": 4
+            },
+            "paired_native_and_statement_hashes": 124,
+            "transitions": {
+              "verified -> verified": 124,
+              "reconstruction_incomplete -> reconstruction_incomplete": 4
+            },
+            "rows": [
+              {
+                "file": "pidgeons/pigeon-hole-20.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER5-7-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER9-4-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/SharedMemory-PT-000020/RC-14.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/incrementalScheduling/305-incremental_scheduling-50100-0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_live_bgmc003.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pb2010/normalized-j602_7-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "CIRC/multiplier/MULTIPLIER_3.msat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "wisa/wisa2.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "prime-cone/prime_cone_unsat_17.smt2",
+                "before": "reconstruction_incomplete",
+                "after": "reconstruction_incomplete"
+              },
+              {
+                "file": "pb2010/normalized-j903_10-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/incrementalScheduling/099-incremental_scheduling-15631-0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/Diffusion2D-PT-D05N350/RF-10.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER6-6-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/SharedMemory-PT-000050/RC-04.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/incrementalScheduling/170-incremental_scheduling-18108-0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/incrementalScheduling/241-incremental_scheduling-28320-0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pb2010/normalized-j6010_2-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/BART-PT-030/RC-10.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20210219-Dartagnan/ReachSafety-Loops/underapprox_2-2-O0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc005.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/BART-PT-030/RC-05.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "bofill-scheduling/SMT_real_LIA/ex2000_2400_100.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "nec-smt/large/handler_sigchld/prp-23-46.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "calypto/problem-004344.cvc.1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "convert/convert-jpg2gif-query-2120.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/BART-PT-030/RC-15.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pb2010/normalized-j9012_2-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pidgeons/pigeon-hole-7.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/incrementalScheduling/298-incremental_scheduling-40824-0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/SharedMemory-PT-000020/RC-13.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/Eratosthenes-PT-500/RC-08.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "convert/convert-jpg2gif-query-2121.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/BART-PT-030/RC-00.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pb2010/normalized-j6033_2-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER2-5-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/BART-PT-030/RC-13.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pb2010/normalized-j6030_9-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/smt/10-vars/v10_problem__016.smt2.slack.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "dillig/25-22.smt2",
+                "before": "reconstruction_incomplete",
+                "after": "reconstruction_incomplete"
+              },
+              {
+                "file": "bofill-scheduling/SMT_real_LIA/ex2060_2400_100.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "nec-smt/small/int_from_list/prp-3-18.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/Eratosthenes-PT-500/RC-15.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "CAV_2009_benchmarks/smt/15-vars/problem_2__020.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "rings_preprocessed/ring_2exp4_5vars_0ite_unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "CIRC/simplebitadder/SIMPLEBITADDER_COMPOSE_2.msat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_blmc000.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/BART-PT-040/RC-14.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER1-2-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER2-4-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "convert/convert-tiff2jpg-query-1831.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "nec-smt/large/handler_sigchld/prp-24-46.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "bofill-scheduling/SMT_real_LIA/ex2040_2400_100.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "nec-smt/large/handler_sigchld/prp-21-46.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pb2010/normalized-j606_1-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "nec-smt/med/int_from_list/prp-28-27.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/incrementalScheduling/102-incremental_scheduling-18468-0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pb2010/normalized-j603_2-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc004.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/SharedMemory-PT-000020/RF-13.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/SharedMemory-PT-000020/RC-15.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/incrementalScheduling/332-incremental_scheduling-50480-0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER4-2-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/Eratosthenes-PT-500/RC-07.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20180326-Bromberger/more_slacked/cut_lemmas/15-vars/cut_lemma_03_013.smt2.slack.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_blmc002.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "nec-smt/med/int_from_list/prp-18-27.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "bofill-scheduling/SMT_real_LIA/ex2080_2400_100.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER5-2-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER8-4-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/incrementalScheduling/264-incremental_scheduling-40968-0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/incrementalScheduling/379-incremental_scheduling-78325-0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pb2010/normalized-j308_1-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/smt/10-vars/v10_problem_2__019.smt2.slack.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "nec-smt/med/int_from_list/prp-19-27.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "convert/convert-jpg2gif-query-2124.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/BART-PT-030/RF-06.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "convert/convert-jpg2gif-query-2122.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/BART-PT-030/RC-06.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pidgeons/pigeon-hole-19.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "bofill-scheduling/SMT_real_LIA/ex2020_2400_100.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "nec-smt/large/handler_sigchld/prp-20-46.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER11-3-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/BART-PT-040/RC-05.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "convert/convert-jpg2gif-query-2126.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pb2010/normalized-j9015_10-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "nec-smt/med/int_from_list/prp-29-28.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/BART-PT-030/RC-01.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "nec-smt/large/handler_sigchld/prp-25-46.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "prime-cone/prime_cone_unsat_16.smt2",
+                "before": "reconstruction_incomplete",
+                "after": "reconstruction_incomplete"
+              },
+              {
+                "file": "bofill-scheduling/SMT_real_LIA/ex2100_2400_100.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20210219-Dartagnan/ReachSafety-Loops/count_up_down-1-O0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/SharedMemory-PT-000020/RC-11.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "rings_preprocessed/ring_2exp6_5vars_0ite_unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/Eratosthenes-PT-500/RC-13.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc003.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "fft/Sz64_1159.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER3-3-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/Eratosthenes-PT-500/RC-06.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER7-5-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/Diffusion2D-PT-D05N050/RF-00.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "CIRC/multiplier/MULTIPLIER_4.msat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/MAPK-PT-00160/RF-00.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-cmodelsdiff/wireRouting/fig9.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "mathsat/FISCHER1-3-fair.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/incrementalScheduling/329-incremental_scheduling-50260-0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pidgeons/pigeon-hole-8.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20210219-Dartagnan/ReachSafety-Loops/deep-nested-O0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "calypto/problem-004299.cvc.1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "fft/Sz32_455.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/BART-PT-005/RF-04.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/incrementalScheduling/251-incremental_scheduling-40518-0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pb2010/normalized-j6027_4-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "dillig/25-31.smt2",
+                "before": "reconstruction_incomplete",
+                "after": "reconstruction_incomplete"
+              },
+              {
+                "file": "pb2010/normalized-j9028_2-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_safe_bgmc002.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "2019-ezsmt/incrementalScheduling/090-incremental_scheduling-15444-0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20180326-Bromberger/more_slacked/cut_lemmas/15-vars/cut_lemma_02_005.smt2.slack.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "nec-smt/med/int_from_list/prp-10-27.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20210219-Dartagnan/ReachSafety-Loops/cggmp2005-O0.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/BART-PT-030/RC-07.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "nec-smt/small/int_from_list/prp-2-17.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "CAV_2009_benchmarks/smt/15-vars/problem__016.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/Eratosthenes-PT-500/RC-02.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "20220307-SMPT/MAPK-PT-05120/RF-02.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "CAV_2009_benchmarks/smt/15-vars/problem_2__019.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "calypto/problem-004353.cvc.1.smt2",
+                "before": "verified",
+                "after": "verified"
+              },
+              {
+                "file": "pb2010/normalized-j907_8-unsat.smt2",
+                "before": "verified",
+                "after": "verified"
+              }
+            ]
+          },
+          "complete_export_lemmas": {
+            "collected": 589929,
+            "retained": 182895
+          },
+          "case_seconds": {
+            "count": 3244,
+            "median": 0.7690861419978319,
+            "p90": 42.073634169995785,
+            "max": 238.13026526398608,
+            "total": 40083.5013737297
+          }
+        }
+      },
+      "reference_checks": {
+        "fresh_unsat": 3816,
+        "timeouts": 33,
+        "reference_disagreement": 0
+      }
     },
     {
       "id": "2026-11-07-expanded-arithmetic-certificate-sweep-cfd36f46",

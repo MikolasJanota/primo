@@ -1,0 +1,55 @@
+{
+  "archive": "benchmarks/checker-regressions/full-arithmetic-20261108/checker-feedback.tar.gz",
+  "sha256": "0ea0dcd6d4046f53d124e1df85d2683fd27d6ffcf722d0633b4c0be7cb0cdaa1",
+  "bytes": 13772057,
+  "payloads": 24,
+  "payload_sha256": {
+    "README.txt": "5e9f3578a9964bb310f22930b93520c0ee371bf060521de170851d85a3a6a8c2",
+    "lia-native-read-oom/case.json": "6ca25a747c4216d82e49469b311824e3ae3be7db4c2bfb9509122501628cc727",
+    "lia-native-read-oom/challenge.err": "622919ef5ba87750b47af7d599d7f045f4908ae4330a4f816d671e68493b2214",
+    "lia-native-read-oom/export.err": "f7b3d5f03626b7e6a30f8af412ed4055084747be913cb80bfa010bfffacf9aa8",
+    "lia-native-read-oom/exported-cnf.smt2": "ed4729a8aeea70bbb80fb0b7f134de88a68727f3897e0de37021ba195b048ca7",
+    "lia-native-read-oom/input.smt2": "77d7a6f4b2652420806a69cebb175fd058580cc18a3145a60f5b54f67ad511ce",
+    "lia-native-read-oom/micromath-v2.sexp": "5651b47954c94c80e7d4f6d83b42bc44282dd8f2ca6f530ea422d760ae585299",
+    "lia-native-read-oom/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lia-native-read-oom/pipe/kernel.out": "755c50d57cb1d3c1b9bcb895ea012ba705ecafee1540e2f9eb063325809ed6fd",
+    "lia-native-read-oom/pipe/producer.err": "8c86c3c5c48735cdfc5c0494f8456247b56ef7217a7b86fca4af4d519cd9596a",
+    "lia-native-read-oom/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lia-native-read-oom/statement.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lra-clock-7/case.json": "743d7dd426810fce4bf6d3107799a178e372c3ee3c43da856d9841770a5bc2f4",
+    "lra-clock-7/challenge.err": "b44b68388092ff8d3e57f93c129d583949e3f562e794aa40088ad9bc83f6df04",
+    "lra-clock-7/export.err": "6afa5e418ace16c8afa3a12c0041dd7f537eafb9d3c0ea70b36425d66a963d91",
+    "lra-clock-7/exported-cnf.smt2": "c815a828491f9c8de51731c6cc4bdfb4aa898a8c152a563e9d6e358deb009065",
+    "lra-clock-7/input.smt2": "a1a55637f696c40a893402362623992d760b7f7c5dd46ae2cfd3899ff64476d0",
+    "lra-clock-7/native.sexp": "53403e94193bfd28a85355b4246e82dae4daaaefa955833c723c40e9ad3c96e9",
+    "lra-clock-7/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lra-clock-7/pipe/kernel.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lra-clock-7/pipe/producer.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lra-clock-7/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lra-clock-7/statement.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "replay.sh": "fef23566ec0ce772df948cb21f147454f1d7523c0a389d552a3dc14966e12ab7"
+  },
+  "cases": [
+    {
+      "name": "lra-clock-7",
+      "logic": "QF_LRA",
+      "file": "clock_synchro/clocksynchro_7clocks.worst_case_skew.induct.smt2",
+      "status": "proof_timeout",
+      "source_bytes": 15888,
+      "certificate_bytes": 626049,
+      "statement_bytes": 47428,
+      "retained_lemmas": 423
+    },
+    {
+      "name": "lia-native-read-oom",
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-38-32.smt2",
+      "status": "proof_error",
+      "source_bytes": 64199,
+      "certificate_bytes": 100876052,
+      "statement_bytes": 116007079,
+      "retained_lemmas": 0
+    }
+  ],
+  "replay_validation": "bash -n only; no additional solver/checker replay during packaging"
+}

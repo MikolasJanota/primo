@@ -1,0 +1,22 @@
+{
+  "archive": "benchmarks/checker-regressions/full-arithmetic-20261108/lia-challenge-deadline.tar.gz",
+  "sha256": "5f9cd5b775ce09fb73babd200cc8ee521ec08809db3f73e577cded59e6f1e8e3",
+  "bytes": 3952910,
+  "payloads": 5,
+  "payload_sha256": {
+    "exported-cnf.smt2": "81c604f31c848ff95837f5f2050959c6cc841e6bf24f307b1346512923695e55",
+    "challenge.err": "275680f6a30c04817e4c314c25be44c3120f037a58e133fb1f18d0dea4373d4a",
+    "case.json": "0b0ba64a897b6465dfd15f69b86d049a2f426c64290526b2b17e74e36ef301bd",
+    "replay.sh": "7ab6533c0e6dcbea01699ae24f3a483c5105d41a22a6c84d32c7dfafa774fbaa",
+    "README.txt": "1c2e7f4d8b00f009ba4cb60fe3812494a8365ce33f12268eab8dd60e7d130bce"
+  },
+  "case": {
+    "file": "2019-cmodelsdiff/wireRouting/p15.smt2",
+    "logic": "QF_LIA",
+    "status": "challenge_timeout",
+    "statement_bytes": 38750749,
+    "native_bytes": 34908935,
+    "retained_lemmas": 0
+  },
+  "replay_validation": "bash -n only; challenge construction only; no extra solver/checker run during packaging"
+}

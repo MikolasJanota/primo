@@ -1,0 +1,39 @@
+{
+  "archive": "benchmarks/certificate-regressions/full-arithmetic-20261108/native-api-crashes.tar.gz",
+  "sha256": "d7377199887e2325a2830c35735d5f428dd6961ebccb0da31dbe23f19c5f21d1",
+  "bytes": 491739,
+  "payloads": 13,
+  "payload_sha256": {
+    "RC-09/input.smt2": "0f16131ef2cf42bf1695625e9295d28d6bff9cdc5029d8dec8161b47148163dd",
+    "RC-09/export.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "RC-09/export.err": "c2cc0d1bc4a6f57ed8d5ffdc425c563e0a9f9e4043046475092a4e2291e0708d",
+    "RC-09/reference.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+    "RC-09/reference.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "RC-09/case.json": "0bae2aedf0021abcae64b4c8804522ec539a9c76ed8ba0bfbe70cfdbeed95485",
+    "RC-14/input.smt2": "952a15ffeeae3d1c2ff2c5750c6802a28495d3f0381ed2e2f56e910a2a2de78e",
+    "RC-14/export.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "RC-14/export.err": "c2cc0d1bc4a6f57ed8d5ffdc425c563e0a9f9e4043046475092a4e2291e0708d",
+    "RC-14/reference.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+    "RC-14/reference.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "RC-14/case.json": "496c17fce56fcfdb135448ffb634895869e5e31c38f97253d5a188dc463a8514",
+    "README.txt": "2ab30e9def85a771311cf71a1340472bacda692286f3adfa15a773eb0d1f0476"
+  },
+  "cases": [
+    {
+      "file": "20220307-SMPT/RwMutex-PT-r0010w2000/RC-09.smt2",
+      "source_bytes": 2104559,
+      "input_sha256": "0f16131ef2cf42bf1695625e9295d28d6bff9cdc5029d8dec8161b47148163dd",
+      "exit_code": -6,
+      "export_seconds": 34.535962127003586
+    },
+    {
+      "file": "20220307-SMPT/RwMutex-PT-r0010w2000/RC-14.smt2",
+      "source_bytes": 2104520,
+      "input_sha256": "952a15ffeeae3d1c2ff2c5750c6802a28495d3f0381ed2e2f56e910a2a2de78e",
+      "exit_code": -6,
+      "export_seconds": 36.13913725502789
+    }
+  ],
+  "cause": "native API-state SIGABRT; exact root cause and contribution of resource caps untriaged",
+  "replay_validation": "instruction only; no extra solver run during packaging"
+}

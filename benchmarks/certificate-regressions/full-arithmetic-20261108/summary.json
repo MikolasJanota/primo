@@ -1,0 +1,63 @@
+{
+  "archive": "benchmarks/certificate-regressions/full-arithmetic-20261108/producer-feedback.tar.gz",
+  "sha256": "88eabc23cf4a48b2094ca0c6cff4aedca16b17f82203305a6515ed39351790d1",
+  "bytes": 79707,
+  "payloads": 25,
+  "payload_sha256": {
+    "README.txt": "5555cf83b319889e2fb650f788459f8e9d1da9cc83fa76bb3b9882ba34fd78e3",
+    "native-allocation-limit/case.json": "a6bb57d8ceb2279853ff12223f1646075957eeeac0e4ccf2e1f87af46cdaa0c4",
+    "native-allocation-limit/export.err": "5c9ae8ca796e4bb7c5019d9c7c91edb7b13a2a166e9f758625cd5f8b709f7862",
+    "native-allocation-limit/export.out": "f13674351f8231c9e60fc923652b1ce94b62357ee00fedaf23ad3af677aff656",
+    "native-allocation-limit/input.smt2": "23e6c96e0be17fdf367a4e4c102ab578275e6583f4e9dc6cc3d2f67eacb95cb5",
+    "native-allocation-limit/reference.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-allocation-limit/reference.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+    "native-file-limit/case.json": "0d8878298ee29af33e9262ebc882685523e85c459e6e35a709e02327da882a55",
+    "native-file-limit/export.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-file-limit/export.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-file-limit/input.smt2": "f090a17272ca7d089eb01ba6faad157c3c5013c55ed4f3fcc69ae7fc35920049",
+    "native-file-limit/reference.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-file-limit/reference.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+    "reconstruction-not-found/case.json": "38fbbc8e0754c3511f6debd36a00dc992a8cb5969e434badfda257a708dabef9",
+    "reconstruction-not-found/export.err": "9995bb82964244b403c152c045fd7aad3ff42330e946ca4c38745a18ce777dab",
+    "reconstruction-not-found/export.out": "7f51b4fb44dbc72708fac0a474600c2e9d8af4ce3a8b8f1680330454f6a8d68f",
+    "reconstruction-not-found/input.smt2": "a269c19228898a4e396971cc033a2dc722c0e596beb2207a3240f2a2e55b83c2",
+    "reconstruction-not-found/reference.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reconstruction-not-found/reference.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+    "reconstruction-resource-limit/case.json": "df81d4117e0ce7be18bc1b44e0aef7e853c603070d73de970a0f14ee4ccd5d2f",
+    "reconstruction-resource-limit/export.err": "51222607338999e982b13470e83b304b822d32221a7646aa359df1ee26bfbf96",
+    "reconstruction-resource-limit/export.out": "7f51b4fb44dbc72708fac0a474600c2e9d8af4ce3a8b8f1680330454f6a8d68f",
+    "reconstruction-resource-limit/input.smt2": "cf0c68b37caa1368288be3d186afd9acd5092c98bd59fd0f09eb6165eefb4bf0",
+    "reconstruction-resource-limit/reference.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reconstruction-resource-limit/reference.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18"
+  },
+  "cases": [
+    {
+      "name": "native-allocation-limit",
+      "file": "nec-smt/large/getoption_group/prp-44-46.smt2",
+      "source_bytes": 212952,
+      "input_sha256": "23e6c96e0be17fdf367a4e4c102ab578275e6583f4e9dc6cc3d2f67eacb95cb5",
+      "status": "export_error"
+    },
+    {
+      "name": "native-file-limit",
+      "file": "nec-smt/med/checkpass_pwd/prp-32-32.smt2",
+      "source_bytes": 122995,
+      "input_sha256": "f090a17272ca7d089eb01ba6faad157c3c5013c55ed4f3fcc69ae7fc35920049",
+      "status": "export_error"
+    },
+    {
+      "name": "reconstruction-not-found",
+      "file": "prime-cone/prime_cone_unsat_3.smt2",
+      "source_bytes": 487,
+      "input_sha256": "a269c19228898a4e396971cc033a2dc722c0e596beb2207a3240f2a2e55b83c2",
+      "status": "reconstruction_incomplete"
+    },
+    {
+      "name": "reconstruction-resource-limit",
+      "file": "prime-cone/prime_cone_unsat_7.smt2",
+      "source_bytes": 1221,
+      "input_sha256": "cf0c68b37caa1368288be3d186afd9acd5092c98bd59fd0f09eb6165eefb4bf0",
+      "status": "reconstruction_incomplete"
+    }
+  ]
+}

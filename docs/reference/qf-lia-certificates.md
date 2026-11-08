@@ -252,7 +252,11 @@ and evaluates them alongside the frozen 217-case LRA cohort.
 
 The [full recorded-UNSAT sweeps](qf-lra-certificates.md#full-recorded-unsat-arithmetic-sweeps)
 remove sampling caps and cover the 605 LRA and 3,244 LIA recorded UNSAT inputs,
-using a separately documented larger per-case budget profile.
+using a separately documented larger per-case budget profile. The
+[completed full-census results](qf-lra-certificates.md#full-sweep-outcomes-and-failure-boundaries)
+account for all 3,244 LIA inputs, including distinct reconstruction `NotFound`,
+reconstruction resource limits, native export limits/crashes and external
+checker limits. A completed census does not mean every input has a certificate.
 
 The [real-source arithmetic stress pilot](qf-lra-certificates.md#real-source-arithmetic-stress-pilot)
 adds 24 real LIA sources: three kernel proofs, including one using an integer

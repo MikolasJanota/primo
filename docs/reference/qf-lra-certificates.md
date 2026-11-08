@@ -803,8 +803,12 @@ means this recorded solved-UNSAT set; it does not extend the certificate format
 to SAT or incremental sessions.
 
 The {arithmeticfullsource}`full wrapper <scripts/slurm_full_arithmetic_certificates.sbatch>`
-runs as array `365550`, with eight concurrent tasks, two CPUs, 12 GiB and four
-hours per task. It uses the same qualified native `a5123159`, Micromath
+runs as array `365550`, initially with eight concurrent tasks, two CPUs, 12 GiB
+and four hours per task. At 19:17:32 UTC on 8 November, the scheduler throttle
+was raised to 32 after idle CPU nodes were confirmed. The frozen inputs,
+binaries, per-worker allocation and per-case limits stayed the same; this
+campaign is coverage evidence, not a speed comparison across those allocations.
+It uses the same qualified native `a5123159`, Micromath
 `cfd36f46`, Yices 2.7.0 and LRAT-capable CaDiCaL as the preceding evaluation.
 Every attempted case first requests a fresh Yices check; only a successful
 UNSAT answer proceeds to native CORE export. Each worker verifies its frozen
@@ -836,7 +840,10 @@ check that marker before starting. Earlier environment/directory failures and
 external termination are outside this guarantee. The guarded exits include
 the stress driver's fatal wrong-answer/reference-disagreement/workflow-error
 statuses and later initialization failures;
-ordinary recorded per-case resource limits remain soft outcomes. The
+other recorded per-case outcomes, including resource limits and nonzero native
+or checker process exits, remain soft outcomes. In particular, an unexpected
+native abort is recorded as an export error and does not itself trip this
+array's stop guard; the final analysis must identify it separately. The
 {arithmeticfullsource}`orchestration tests <tests/python/test_full_arithmetic_sweep.py>`
 exercise full-mode cap removal, bounded/disjoint shards, budget dispatch,
 first-failure preservation, own-array cancellation and a failed binary check,
@@ -844,10 +851,126 @@ using synthetic inputs and a mock cancellation command. No native solver or
 external checker implementation is changed by this workflow.
 
 The {download}`full-sweep ledger <../coverage/full-arithmetic-certificates-20261108.json>`
-records the protocol, frozen selection identities, job ids and current campaign
-state. An active snapshot is not a completed coverage result; final outcomes
-must account for every case and distinguish reference, producer and checker
-limits. Raw per-worker summaries remain the stage evidence.
+records the protocol, frozen selection identities, job ids and complete case
+census. The outcomes below distinguish reference, producer and checker limits
+from successful proof acceptance; raw per-worker summaries preserve the stage
+evidence.
+
+### Full-sweep outcomes and failure boundaries
+
+Array `365550` finished all 155 tasks and accounted for all 3,849 frozen inputs.
+This completes the census of the recorded solved-UNSAT cohort; the resource and
+reconstruction outcomes below remain gaps in certificate coverage.
+
+| Outcome | QF_LRA (605) | QF_LIA (3,244) |
+| --- | ---: | ---: |
+| Kernel verified | 561 | 2,639 |
+| Yices (60 s) deadline | 28 | 5 |
+| Native export (120 s) deadline | 0 | 9 |
+| Native file limit (`SIGXFSZ`) | 0 | 192 |
+| Native allocation failure (`std::bad_alloc`) | 0 | 115 |
+| Native API-state crash (`SIGABRT`) | 0 | 2 |
+| Post-CORE reconstruction `ResourceLimit` | 0 | 88 |
+| Post-CORE reconstruction `NotFound` | 0 | 10 |
+| Post-CORE reconstruction interruption at 60 s | 0 | 1 |
+| Our statement conversion (60 s) deadline | 0 | 90 |
+| Micromath challenge (60 s) deadline | 0 | 3 |
+| Micromath producer out of memory | 0 | 83 |
+| Micromath `definition index allocation` failure | 0 | 3 |
+| Overall proof/kernel (120 s) deadline | 16 | 4 |
+
+All 3,816 successful fresh Yices runs answered UNSAT. The remaining 33
+reference timeouts stopped before native export. No wrong answer, reference
+disagreement or fatal workflow error was recorded. Every verified row has both
+producer/kernel exit codes zero and the exact `challenge proven` response,
+without `Inconsistency proven!`. Task exit zero alone is not proof acceptance.
+
+The 217 LRA controls all verify, including the six-clock case that timed out in
+the preceding 60-second profile. All 217 native-certificate and exported-CNF
+hash pairs match that sample. The 128 LIA controls give 124 verified and four
+incomplete reconstructions; all 124 completed certificate/statement pairs match
+the preceding sample. The native
+and checker binaries are unchanged between these two evaluations. The larger
+budgets and changed concurrency prevent attributing the changed outcomes solely
+to checker improvements or treating them as a speed comparison.
+
+CORE reduces the completed LRA exports from 987,954 collected theory lemmas to
+426,364 retained lemmas; completed LIA exports retain 182,895 of
+589,929. It does not minimize the initial CNF. The small natural LIA
+checker-memory replay below has **zero theory lemmas** but 1,401,073 CNF clauses;
+its native `:sat.clauses` and `:export.cnf.clauses` counters agree. Further theory
+lemma minimization cannot remove that initial-clause parsing cost.
+
+The failures have different boundaries:
+
+- Native file-limit exits are `SIGXFSZ` under the 256 MiB per-file cap;
+  allocation failures report `std::bad_alloc` under the 3 GiB address-space cap.
+  The exact output/spool and execution phase are not logged. Native export
+  deadlines are also not localized to an internal phase.
+- Two native SMPT `RwMutex` exports abort with `SIGABRT` and CaDiCaL's
+  `disconnect_external_propagator` invalid-state diagnostic. These are producer
+  crashes, not classified memory-limit exits. Their root cause is untriaged;
+  the inputs and logs are preserved separately. They block performance/default
+  promotion claims until resolved or precisely explained.
+- All 99 reconstruction failures occur after main UNSAT and completed
+  CORE reduction. 88 report `ResourceLimit`, whose individual guard
+  is not logged; 10 finish the implemented bounded procedure without
+  finding a cut proof (`NotFound`). One further row reports reconstruction
+  interruption after 60.000224 seconds, consistent with the internal 60-second
+  phase budget; the exact stop flag is not printed. These outcomes are distinct
+  from a satisfiable answer. The `NotFound` cases include a 487-byte,
+  three-variable prime-cone input with one retained lemma, making a small
+  producer-side investigation target.
+- Statement deadlines occur in our streaming Python CNF-to-SMT-LIB adapter.
+  Bounded memory does not ensure adequate throughput on these large CNFs.
+  Separate challenge-construction deadlines occur inside the Micromath builder,
+  before a proof/kernel pipeline is started.
+- The 83 Micromath error rows report producer out-of-memory diagnostics.
+  A following kernel `invalid solution` message after producer failure is not
+  evidence that a complete proof was rejected. The overall proof-pipeline
+  deadlines do not establish which internal phase dominated. Three further
+  producer rows report `Logic failure: definition index allocation`; its exact
+  cause is untriaged, and the diagnostic alone does not establish which limit
+  fired. The checker implementation was neither inspected nor changed.
+
+The {download}`producer feedback packet <../../benchmarks/certificate-regressions/full-arithmetic-20261108/producer-feedback.tar.gz>`
+is about 80 KiB and preserves four natural examples: reconstruction `NotFound`,
+reconstruction `ResourceLimit`, native file limit and native allocation failure.
+The separate {download}`native crash packet <../../benchmarks/certificate-regressions/full-arithmetic-20261108/native-api-crashes.tar.gz>`
+preserves two SMPT inputs and exact abort diagnostics without inferring that
+an allocation failure caused the invalid backend state.
+The {download}`checker feedback packet <../../benchmarks/checker-regressions/full-arithmetic-20261108/checker-feedback.tar.gz>`
+is 13.8 MB compressed and contains the seven-clock timeout and a natural LIA
+producer-OOM case. The latter needs a 100,876,052-byte certificate and a 116,007,079-byte exported-CNF statement
+before compression. Its version-2 LIA compatibility copy changes only the
+native header byte, preserving the body. The packets contain original inputs,
+case receipts, diagnostics and replay instructions; they contain no raw proof.
+The checker replay script was syntax checked only during packaging, with no
+additional solver/checker rerun. No empty-native-CNF transport experiment was
+performed in this campaign.
+
+The separate {download}`wisa5 allocation-diagnostic packet <../../benchmarks/checker-regressions/full-arithmetic-20261108/lia-definition-allocation.tar.gz>`
+is only 356 KB compressed. It preserves an 18,892,343-byte certificate and a
+270,318-byte statement for the distinct `definition index allocation` producer
+failure, with 10,598 retained lemmas and no assertion about its root cause.
+Its replay script was also syntax checked without an additional checker run.
+
+The {download}`challenge-deadline packet <../../benchmarks/checker-regressions/full-arithmetic-20261108/lia-challenge-deadline.tar.gz>`
+contains only the prepared 38,750,749-byte `wireRouting/p15` statement, stage
+receipt and a builder-only replay. It omits original/native bodies because
+challenge construction does not read them. Its compressed size is 3.95 MB; the replay's success means challenge construction completed, with no proof
+or kernel acceptance claimed. Packaging performed no extra checker run.
+
+The {download}`full results ledger <../coverage/full-arithmetic-certificates-20261108.json>`
+contains every case outcome, family totals, stage timings, control transitions,
+payload identities and scheduler accounting. The
+{download}`raw metadata archive <../../benchmarks/full-arithmetic-certificates-20261108/results-metadata.tar.gz>`
+preserves the worker summaries, stage logs and receipts without formula,
+certificate or raw-proof bodies. Large native certificates and failed-stage
+artifacts remain in the recorded SLURM result directory. The eight workflow
+checks, lint and documentation checks qualify the workflow changes; native
+C++/active C++ tests remain unchanged from the qualified `a5123159` build, so
+this sweep does not claim a new native suite, sanitizer or fuzz gate.
 
 ### Why lowering was already sufficient for the CNF boundary
 
