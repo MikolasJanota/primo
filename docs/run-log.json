@@ -3,6 +3,96 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-08-full-recorded-arithmetic-certificates",
+      "date": "2026-11-08",
+      "kind": "full-recorded-UNSAT-CORE-export-and-kernel-campaign",
+      "workflow_git": "ea51c2128460f95917441c60e7b0e7b442be00e3",
+      "producer_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "manifest": "docs/coverage/full-arithmetic-certificates-20261108.json",
+      "evidence_status": "running",
+      "scope": "Complete recorded default-profile UNSAT inventory in the named baseline; source hashes current; no timing/source-size/family/count sampling cap; conservative single-query/no-positive-arity screen retained; not SAT/incremental/default promotion.",
+      "jobs": {
+        "365547": "Inventory complete; no solving.",
+        "365548_0..1": "Full selections complete:605LRA+3244LIA; no exclusions;155shards,<=25cases each.",
+        "365550_0..154": "Full certificate campaign; status and completed prefix below."
+      },
+      "selection_counts": {
+        "QF_LRA": {
+          "historical_records": 605,
+          "selected": 605,
+          "shards": 25,
+          "controls": 217
+        },
+        "QF_LIA": {
+          "historical_records": 3244,
+          "selected": 3244,
+          "shards": 130,
+          "controls": 128
+        }
+      },
+      "allocation": {
+        "cpus_per_worker": 2,
+        "memory_gib_per_worker": 12,
+        "wall_minutes_per_worker": 240,
+        "maximum_concurrent": 8,
+        "shards": 155
+      },
+      "limits": {
+        "reference_seconds": 60,
+        "native_export_seconds": 120,
+        "statement_seconds": 60,
+        "challenge_seconds": 60,
+        "overall_proof_kernel_seconds": 120,
+        "external_address_bytes": 3221225472,
+        "external_file_bytes": 268435456
+      },
+      "progress": {
+        "completed_cases": 512,
+        "expected_cases": 3849,
+        "finished_shards": 15,
+        "expected_shards": 155,
+        "counts": {
+          "verified": 485,
+          "proof_timeout": 10,
+          "reference_timeout": 17
+        },
+        "by_logic": {
+          "QF_LRA": {
+            "verified": 485,
+            "proof_timeout": 10,
+            "reference_timeout": 17
+          },
+          "QF_LIA": {}
+        }
+      },
+      "commands": {
+        "inventory": "scripts/slurm_inventory_arithmetic_certificates.sbatch; read_history max_seconds=None, file stat inventory inSLURM.",
+        "selection": "FULL_ARITHMETIC_STAGE=select sbatch --array=0-1%2 --time=00:30:00 --mem=4G scripts/slurm_full_arithmetic_certificates.sbatch; all-known-unsat,cases-per-shard25; previous217/128controls.",
+        "run": "FULL_ARITHMETIC_STAGE=run FULL_LRA_SHARDS=25 FULL_LIA_SHARDS=130 sbatch --array=0-154%8 scripts/slurm_full_arithmetic_certificates.sbatch",
+        "staging": "scripts/slurm_stage_manifest_files.py with frozen helper list.",
+        "preflight": "Canonical scripts/slurm_prepare_benchmark_workspace.py --check-only --require-tool YICES immediately before every submission; authorized SSH config outside Git."
+      },
+      "artifacts": {
+        "local": "results/full-arithmetic-certificates-365550 metadata/JSON mirror; results/full-arithmetic-selection-365548; results/arithmetic-certificate-inventory-365547",
+        "remote": "$PRIMO_WORKDIR/results/full-arithmetic-certificates-365550/LOGIC/shard-N/run; full-arithmetic-selection-365548; arithmetic-certificate-inventory-365547",
+        "retention": "Native exports/prepared statements and failed-stage artifacts retained remotely; successful challenge dumps hashed then removed; raw proof streamed, no raw proof file."
+      },
+      "verification": {
+        "fresh_python_methods": 8,
+        "checks": [
+          "4full-selection/mock-worker orchestration tests",
+          "4existing selection/header transport tests",
+          "make lint",
+          "shell/SLURMsyntax and Python3.9grammar/actualselectionexecution",
+          "all161selectionarchivepayloads match raw artifacts;155shardhashes/counts/partitions and345controls verified",
+          "make docs/assembled-site linkcheck/rendered-method inspection for protocol milestone"
+        ],
+        "native_gates": "Native C++/activeC++tests unchanged from qualifieda5123159; no native suite/ASan/fuzz/clang-tidy rerun for workflow/selection/evidence-only change."
+      },
+      "source_to_cnf_verified": false
+    },
+    {
       "id": "2026-11-07-expanded-arithmetic-certificate-sweep-cfd36f46",
       "date": "2026-11-07",
       "kind": "recorded-fast-arithmetic-UNSAT-CORE-export-and-updated-kernel-sample",

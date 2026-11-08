@@ -250,6 +250,10 @@ The [larger updated-checker sample](qf-lra-certificates.md#larger-arithmetic-sam
 extends LIA evaluation to 128 selected inputs, including those 24 pilot controls,
 and evaluates them alongside the frozen 217-case LRA cohort.
 
+The [full recorded-UNSAT sweeps](qf-lra-certificates.md#full-recorded-unsat-arithmetic-sweeps)
+remove sampling caps and cover the 605 LRA and 3,244 LIA recorded UNSAT inputs,
+using a separately documented larger per-case budget profile.
+
 The [real-source arithmetic stress pilot](qf-lra-certificates.md#real-source-arithmetic-stress-pilot)
 adds 24 real LIA sources: three kernel proofs, including one using an integer
 cut, with the remaining outcomes and small replay files recorded separately.

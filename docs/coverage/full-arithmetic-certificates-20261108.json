@@ -1,0 +1,4685 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-08",
+  "status": "running",
+  "snapshot_utc": "2026-11-08T18:49:57.851109+00:00",
+  "workflow_git": "ea51c2128460f95917441c60e7b0e7b442be00e3",
+  "native_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+  "historical_git": "5efbd02293e15a53fbaad748ceda78bc7d27bbac",
+  "scope": "Complete recorded default-profile UNSAT inventory in the named baseline; source hashes current; no timing/source-size/family/count sampling cap; conservative single-query/no-positive-arity screen retained; not SAT/incremental/default promotion.",
+  "source_to_cnf_verified": false,
+  "selection": {
+    "selection_job": "365548",
+    "logics": {
+      "QF_LRA": {
+        "historical_records": 605,
+        "selected": 605,
+        "shards": 25,
+        "controls": 217,
+        "families": {
+          "sal": 96,
+          "clock_synchro": 34,
+          "spider_benchmarks": 42,
+          "sc": 36,
+          "tta_startup": 46,
+          "2019-ezsmt": 21,
+          "uart": 37,
+          "miplib": 9,
+          "2017-Heizmann-UltimateInvariantSynthesis": 18,
+          "TM": 1,
+          "LassoRanker": 92,
+          "check": 1,
+          "keymaera": 21,
+          "latendresse": 1,
+          "meti-tarski": 150
+        },
+        "excluded": {},
+        "historical_max_seconds": 57.0313,
+        "maximum_source_bytes": 11282707,
+        "selection_sha256": "7fda592eaff34b9236567a0b2681b5371a45d4e5853c3e5227820c5636b6f420"
+      },
+      "QF_LIA": {
+        "historical_records": 3244,
+        "selected": 3244,
+        "shards": 130,
+        "controls": 128,
+        "families": {
+          "20220307-SMPT": 1554,
+          "prime-cone": 18,
+          "CAV_2009_benchmarks": 85,
+          "20180326-Bromberger": 94,
+          "CIRC": 14,
+          "rings_preprocessed": 73,
+          "calypto": 13,
+          "nec-smt": 736,
+          "pidgeons": 19,
+          "convert": 39,
+          "fft": 2,
+          "dillig": 3,
+          "mathsat": 100,
+          "wisa": 2,
+          "bofill-scheduling": 245,
+          "Averest": 10,
+          "20210219-Dartagnan": 84,
+          "2019-ezsmt": 14,
+          "pb2010": 22,
+          "2019-cmodelsdiff": 7,
+          "20231117-c_inference": 6,
+          "check": 3,
+          "cut_lemmas": 67,
+          "rings": 26,
+          "tightrhombus": 8
+        },
+        "excluded": {},
+        "historical_max_seconds": 59.918062,
+        "maximum_source_bytes": 57992842,
+        "selection_sha256": "c00c2a4d9fbe3cbf76af73f976ce0f530f2e2b1213496e9e85f2a89087502fc3"
+      }
+    },
+    "archive": {
+      "file": "benchmarks/full-arithmetic-certificates-20261108/selection.tar.gz",
+      "sha256": "e1697d279c586c98384e1014eab947c0af254a07afb623a46ae329af85a72a52",
+      "bytes": 492827
+    }
+  },
+  "inventory": {
+    "job_id": "365547",
+    "host": "node-01.ciircluster",
+    "logics": {
+      "QF_LRA": {
+        "recorded_unsat": 605,
+        "existing": 605,
+        "missing": [],
+        "unique_historical_hashes": 605,
+        "families": {
+          "2017-Heizmann-UltimateInvariantSynthesis": 18,
+          "2019-ezsmt": 21,
+          "LassoRanker": 92,
+          "TM": 1,
+          "clock_synchro": 34,
+          "keymaera": 21,
+          "meti-tarski": 150,
+          "sal": 96,
+          "sc": 36,
+          "spider_benchmarks": 42,
+          "tta_startup": 46,
+          "uart": 37,
+          "miplib": 9,
+          "check": 1,
+          "latendresse": 1
+        },
+        "historical_max_seconds": 57.0313,
+        "historical_over_one_second": 202,
+        "source_bytes_total": 203266266,
+        "largest_sources": [
+          [
+            11282707,
+            "LassoRanker/Ultimate/Collatz.bpl_Iteration1_Loop_6-phaseTemplate.smt2"
+          ],
+          [
+            10490839,
+            "LassoRanker/SV-COMP/TelAviv-Amir-Minimum_true-termination.c_Iteration1_Loop_7-phaseTemplate.smt2"
+          ],
+          [
+            10128474,
+            "LassoRanker/Ultimate/Collatz.bpl_Iteration1_Loop_2-pieceTemplate.smt2"
+          ],
+          [
+            6298543,
+            "LassoRanker/SV-COMP/KroeningSharyginaTsitovichWintersteiger-2010CAV-Fig1_true-termination.c_Iteration1_Lasso_5-phaseTemplate.smt2"
+          ],
+          [
+            5157623,
+            "LassoRanker/SV-COMP/GulwaniJainKoskinen-2009PLDI-Fig1_true-termination.c_Iteration1_Lasso_4-lexTemplate.smt2"
+          ]
+        ]
+      },
+      "QF_LIA": {
+        "recorded_unsat": 3244,
+        "existing": 3244,
+        "missing": [],
+        "unique_historical_hashes": 3244,
+        "families": {
+          "20180326-Bromberger": 94,
+          "20210219-Dartagnan": 84,
+          "20220307-SMPT": 1554,
+          "CAV_2009_benchmarks": 85,
+          "bofill-scheduling": 245,
+          "convert": 39,
+          "mathsat": 100,
+          "nec-smt": 736,
+          "pb2010": 22,
+          "Averest": 10,
+          "rings_preprocessed": 73,
+          "tightrhombus": 8,
+          "cut_lemmas": 67,
+          "pidgeons": 19,
+          "2019-ezsmt": 14,
+          "CIRC": 14,
+          "rings": 26,
+          "wisa": 2,
+          "calypto": 13,
+          "dillig": 3,
+          "prime-cone": 18,
+          "2019-cmodelsdiff": 7,
+          "20231117-c_inference": 6,
+          "check": 3,
+          "fft": 2
+        },
+        "historical_max_seconds": 59.918062,
+        "historical_over_one_second": 1034,
+        "source_bytes_total": 751505783,
+        "largest_sources": [
+          [
+            57992842,
+            "2019-cmodelsdiff/wireRouting/p25.smt2"
+          ],
+          [
+            49138258,
+            "2019-cmodelsdiff/wireRouting/p20.smt2"
+          ],
+          [
+            34451399,
+            "2019-cmodelsdiff/wireRouting/p15.smt2"
+          ],
+          [
+            15006663,
+            "20220307-SMPT/SharedMemory-PT-000200/RC-06.smt2"
+          ],
+          [
+            8543654,
+            "2019-cmodelsdiff/wireRouting/wire.12.x.12.b.5.a.20_unsat.data.smt2"
+          ]
+        ]
+      }
+    }
+  },
+  "jobs": {
+    "365547": "Inventory complete; no solving.",
+    "365548_0..1": "Full selections complete:605LRA+3244LIA; no exclusions;155shards,<=25cases each.",
+    "365550_0..154": "Full certificate campaign; status and completed prefix below."
+  },
+  "allocation": {
+    "cpus_per_worker": 2,
+    "memory_gib_per_worker": 12,
+    "wall_minutes_per_worker": 240,
+    "maximum_concurrent": 8,
+    "shards": 155
+  },
+  "limits": {
+    "reference_seconds": 60,
+    "native_export_seconds": 120,
+    "statement_seconds": 60,
+    "challenge_seconds": 60,
+    "overall_proof_kernel_seconds": 120,
+    "external_address_bytes": 3221225472,
+    "external_file_bytes": 268435456
+  },
+  "previous_profile": "Earlier345case sample used15/30/30/60seconds; changed full-sweep budgets preclude direct timing/default-promotion comparisons.",
+  "progress": {
+    "completed_cases": 512,
+    "expected_cases": 3849,
+    "finished_shards": 15,
+    "expected_shards": 155,
+    "counts": {
+      "verified": 485,
+      "proof_timeout": 10,
+      "reference_timeout": 17
+    },
+    "by_logic": {
+      "QF_LRA": {
+        "verified": 485,
+        "proof_timeout": 10,
+        "reference_timeout": 17
+      },
+      "QF_LIA": {}
+    }
+  },
+  "stop_record": null,
+  "commands": {
+    "inventory": "scripts/slurm_inventory_arithmetic_certificates.sbatch; read_history max_seconds=None, file stat inventory inSLURM.",
+    "selection": "FULL_ARITHMETIC_STAGE=select sbatch --array=0-1%2 --time=00:30:00 --mem=4G scripts/slurm_full_arithmetic_certificates.sbatch; all-known-unsat,cases-per-shard25; previous217/128controls.",
+    "run": "FULL_ARITHMETIC_STAGE=run FULL_LRA_SHARDS=25 FULL_LIA_SHARDS=130 sbatch --array=0-154%8 scripts/slurm_full_arithmetic_certificates.sbatch",
+    "staging": "scripts/slurm_stage_manifest_files.py with frozen helper list.",
+    "preflight": "Canonical scripts/slurm_prepare_benchmark_workspace.py --check-only --require-tool YICES immediately before every submission; authorized SSH config outside Git."
+  },
+  "lifecycle": "Handled nonzero exits after EXIT-trap initialization preserve the firstSTOP and cancel only ownarray; ordinary case resources remainsoft outcomes. Earlier initialization failures/external termination outside guarantee.",
+  "artifacts": {
+    "local": "results/full-arithmetic-certificates-365550 metadata/JSON mirror; results/full-arithmetic-selection-365548; results/arithmetic-certificate-inventory-365547",
+    "remote": "$PRIMO_WORKDIR/results/full-arithmetic-certificates-365550/LOGIC/shard-N/run; full-arithmetic-selection-365548; arithmetic-certificate-inventory-365547",
+    "retention": "Native exports/prepared statements and failed-stage artifacts retained remotely; successful challenge dumps hashed then removed; raw proof streamed, no raw proof file."
+  },
+  "verification": {
+    "fresh_python_methods": 8,
+    "checks": [
+      "4full-selection/mock-worker orchestration tests",
+      "4existing selection/header transport tests",
+      "make lint",
+      "shell/SLURMsyntax and Python3.9grammar/actualselectionexecution",
+      "all161selectionarchivepayloads match raw artifacts;155shardhashes/counts/partitions and345controls verified",
+      "make docs/assembled-site linkcheck/rendered-method inspection for protocol milestone"
+    ],
+    "native_gates": "Native C++/activeC++tests unchanged from qualifieda5123159; no native suite/ASan/fuzz/clang-tidy rerun for workflow/selection/evidence-only change."
+  },
+  "shards": [
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "job_id": "365551",
+      "host": "node-01.ciircluster",
+      "requested": 25,
+      "completed": 25,
+      "finished": true,
+      "counts": {
+        "verified": 24,
+        "proof_timeout": 1
+      },
+      "summary_sha256": "bdf81fe34e615bdb72cadb3c6154216853a21d1143cfaeee7fcefd93d3c059a7"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "job_id": "365552",
+      "host": "node-01.ciircluster",
+      "requested": 25,
+      "completed": 25,
+      "finished": true,
+      "counts": {
+        "verified": 24,
+        "proof_timeout": 1
+      },
+      "summary_sha256": "8f96067f86069223bc7be53e5df9161646971b769c3669acc31f2d86bc025441"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "job_id": "365561",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 24,
+      "finished": true,
+      "counts": {
+        "verified": 22,
+        "proof_timeout": 2
+      },
+      "summary_sha256": "57c4db7d2504d0fb1260bf3f08ad64290759e3e167783e105993e037164ae91c"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "job_id": "365562",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 24,
+      "finished": true,
+      "counts": {
+        "verified": 23,
+        "reference_timeout": 1
+      },
+      "summary_sha256": "f1eb20202a068dc8f9896eddcce98c39de91a1e7a95afb88704a2e362fb8e593"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "job_id": "365563",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 24,
+      "finished": true,
+      "counts": {
+        "verified": 21,
+        "reference_timeout": 3
+      },
+      "summary_sha256": "e9b8c8a11427a0649d4937b939b05c67e178d21c6416fead5755f544ee99d151"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "job_id": "365576",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 24,
+      "finished": true,
+      "counts": {
+        "verified": 22,
+        "reference_timeout": 2
+      },
+      "summary_sha256": "4f6c9b8472c51619ff1884246508d37995552afd3242bdc94c957ed8cc006b87"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "job_id": "365595",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 22,
+      "finished": false,
+      "counts": {
+        "verified": 21,
+        "reference_timeout": 1
+      },
+      "summary_sha256": "5fd39693e50d4d4954dc52bb5a9e72e6f6c3f044652c427e885536aa2db9d71c"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "job_id": "365596",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 24,
+      "finished": true,
+      "counts": {
+        "verified": 23,
+        "reference_timeout": 1
+      },
+      "summary_sha256": "394665ec36bd5d79672c809cf4b93b24cb4d016ec1253ac26967c5246c69ec2c"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "job_id": "365597",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 23,
+      "finished": false,
+      "counts": {
+        "verified": 22,
+        "reference_timeout": 1
+      },
+      "summary_sha256": "00d570eac7cf4c527a47f18eb108e11019d0a42d72d68ca99c88ec9ff7c36300"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "job_id": "365598",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 21,
+      "finished": false,
+      "counts": {
+        "verified": 20,
+        "reference_timeout": 1
+      },
+      "summary_sha256": "7d4ec0e11b72023cb541f093a30723675a98f9678061357b135cf59953808fb7"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "job_id": "365604",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 19,
+      "finished": false,
+      "counts": {
+        "verified": 18,
+        "reference_timeout": 1
+      },
+      "summary_sha256": "1232d2045eb4c97d14470ee191b7718f5f03f2c7f67328fbc5e17dd64d501c6d"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "job_id": "365605",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 19,
+      "finished": false,
+      "counts": {
+        "verified": 19
+      },
+      "summary_sha256": "4f1ca4b653ca5486cd53634215469876377ba05dd48c79fa9c30b43c836365c7"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "job_id": "365553",
+      "host": "node-01.ciircluster",
+      "requested": 25,
+      "completed": 25,
+      "finished": true,
+      "counts": {
+        "verified": 24,
+        "proof_timeout": 1
+      },
+      "summary_sha256": "f09ab35075089d8327f9983ac04698a5fd37db46de0a8f21092e00964c913c5d"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "job_id": "365606",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 20,
+      "finished": false,
+      "counts": {
+        "verified": 20
+      },
+      "summary_sha256": "624c6d5d5de81a224de94292dc25a57058099aa7a259d2a77e405bef5ab1b2c9"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "job_id": "365607",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 14,
+      "finished": false,
+      "counts": {
+        "verified": 14
+      },
+      "summary_sha256": "35eca30f2c48def91509725c93dfd4d48dcbc51162cbcba041cc21d51fa0a54f"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-22",
+      "job_id": "365608",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 9,
+      "finished": false,
+      "counts": {
+        "verified": 9
+      },
+      "summary_sha256": "9ab526fe6bb99b7893d7c7d83a56852f442fad799c93abb3dbd0fa4517c9ec1d"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "job_id": "365554",
+      "host": "node-01.ciircluster",
+      "requested": 25,
+      "completed": 25,
+      "finished": true,
+      "counts": {
+        "verified": 22,
+        "proof_timeout": 1,
+        "reference_timeout": 2
+      },
+      "summary_sha256": "22e89b7c0c7455bdd01de507246d5264f4029fa782ef06d7625984a5a417e0c5"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "job_id": "365555",
+      "host": "node-01.ciircluster",
+      "requested": 25,
+      "completed": 25,
+      "finished": true,
+      "counts": {
+        "verified": 23,
+        "proof_timeout": 2
+      },
+      "summary_sha256": "fa7f6389061fa9b3f510a6b98426c80929781ed01b7a5cfbb8496aac2a12beed"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "job_id": "365556",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 24,
+      "finished": true,
+      "counts": {
+        "verified": 23,
+        "reference_timeout": 1
+      },
+      "summary_sha256": "fbccc66eb6a4f798984c8a8d75567030225003e05927ab4c521479801ef75f6d"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "job_id": "365557",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 24,
+      "finished": true,
+      "counts": {
+        "verified": 23,
+        "reference_timeout": 1
+      },
+      "summary_sha256": "d44465f67bf30bc07949553576a8911572426895cbc6125782f0c8118960a107"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "job_id": "365558",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 24,
+      "finished": true,
+      "counts": {
+        "verified": 23,
+        "proof_timeout": 1
+      },
+      "summary_sha256": "f73f1051724131863457d8048c30533d7982c99327802b5221e763479db01358"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "job_id": "365559",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 24,
+      "finished": true,
+      "counts": {
+        "verified": 22,
+        "proof_timeout": 1,
+        "reference_timeout": 1
+      },
+      "summary_sha256": "4abf22206c3ff6c439c8da7d86195af47b01bd2f416c14c8868e135a1340dccd"
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "job_id": "365560",
+      "host": "node-01.ciircluster",
+      "requested": 24,
+      "completed": 24,
+      "finished": true,
+      "counts": {
+        "verified": 23,
+        "reference_timeout": 1
+      },
+      "summary_sha256": "1572055af29c591a2d7aae342c114236da99a2c4910081dd4b511d813b116b1e"
+    }
+  ],
+  "rows": [
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 0,
+      "file": "keymaera/division_dijkstra-node701.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 1,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0032.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 2,
+      "file": "meti-tarski/sqrt/problem/sqrt-problem-Melquiond2-chunk-0051.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 3,
+      "file": "meti-tarski/bottom-plate-mixer/bottom-plate-mixer-chunk-0018.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 4,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0012.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 5,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0038.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 6,
+      "file": "meti-tarski/sin/problem/7/weak2/sin-problem-7-weak2-chunk-0043.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 7,
+      "file": "keymaera/intersection-example-simple.proof-node634.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 8,
+      "file": "sal/pursuit/pursuit-safety-3.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 9,
+      "file": "spider_benchmarks/bad_echos_ascend.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 10,
+      "file": "sal/gasburner/gasburner-prop3-16.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 11,
+      "file": "sal/tgc/tgc_io-nosafe-5.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 12,
+      "file": "uart/uart-6.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 13,
+      "file": "sc/sc-14.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 14,
+      "file": "sal/tgc/tgc_io-safe-11.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 15,
+      "file": "2019-ezsmt/blending/10.smt2",
+      "status": "proof_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 16,
+      "file": "clock_synchro/clocksynchro_10clocks.main_invar.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 17,
+      "file": "uart/uart-18.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 18,
+      "file": "uart/uart-22.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 19,
+      "file": "uart/uart-27.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 20,
+      "file": "LassoRanker/Ultimate/NonTerminationDifficult.bpl_Iteration1_Lasso_7-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 21,
+      "file": "LassoRanker/CooperatingT2/afagp-fail.t2.c_Iteration1_Lasso_3-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 22,
+      "file": "LassoRanker/CooperatingT2/afagp-fail.t2.c_Iteration1_Lasso_7-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 23,
+      "file": "LassoRanker/SV-COMP/NoriSharma-2013FSE-Fig8_true-termination.c_Iteration1_Lasso_3-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-0",
+      "index": 24,
+      "file": "LassoRanker/SV-COMP/GulwaniJainKoskinen-2009PLDI-Fig1_true-termination.c_Iteration1_Lasso_4-lexTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 0,
+      "file": "keymaera/square_root_zuse-node902.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 1,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0106.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/7/sin-problem-7-chunk-0016.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 3,
+      "file": "meti-tarski/sin/problem/7/sin-problem-7-chunk-0032.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 4,
+      "file": "meti-tarski/bottom-plate-mixer/bottom-plate-mixer-chunk-0024.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 5,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0054.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 6,
+      "file": "meti-tarski/sin/problem/7/weak2/sin-problem-7-weak2-chunk-0053.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 7,
+      "file": "keymaera/intersection-example-onelane.proof-node846.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 8,
+      "file": "spider_benchmarks/pd_finish.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 9,
+      "file": "spider_benchmarks/pd_init_op_accs.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 10,
+      "file": "spider_benchmarks/good_frame_update.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 11,
+      "file": "sal/pursuit/pursuit-safety-7.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 12,
+      "file": "tta_startup/simple_startup_4nodes.abstract.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 13,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-7.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 14,
+      "file": "sc/sc-19.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 15,
+      "file": "2019-ezsmt/blending/6.smt2",
+      "status": "proof_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 16,
+      "file": "uart/uart-14.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 17,
+      "file": "sc/sc-32.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 18,
+      "file": "sc/sc-39.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 19,
+      "file": "tta_startup/simple_startup_9nodes.abstract.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 20,
+      "file": "LassoRanker/CooperatingT2/heidy7-simple.t2.c_Iteration2_Lasso_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 21,
+      "file": "TM/p5-driverlogNumeric_s9.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 22,
+      "file": "LassoRanker/Ultimate/yPositive-SIscaled50.bpl_Iteration1_Loop_3-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 23,
+      "file": "LassoRanker/SV-COMP/NoriSharma-2013FSE-Fig8_true-termination.c_Iteration1_Loop_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-1",
+      "index": 24,
+      "file": "LassoRanker/SV-COMP/KroeningSharyginaTsitovichWintersteiger-2010CAV-Fig1_true-termination.c_Iteration1_Lasso_5-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 0,
+      "file": "meti-tarski/log/fun-ineq/log-fun-ineq-g-chunk-0010.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 1,
+      "file": "meti-tarski/cbrt/3/cbrt-problem-3-chunk-0074.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0018.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 3,
+      "file": "meti-tarski/sqrt/1mcosq/7/sqrt-1mcosq-7-chunk-0061.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 4,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0052.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 5,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0068.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 6,
+      "file": "keymaera/simple_example_2-node2074.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 7,
+      "file": "sal/gasburner/gasburner-prop3-4.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 8,
+      "file": "spider_benchmarks/pd_no_op_accs.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 9,
+      "file": "sal/pursuit/pursuit-safety-4.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 10,
+      "file": "clock_synchro/clocksynchro_7clocks.worst_case_skew.induct.smt2",
+      "status": "proof_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 11,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-5.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 12,
+      "file": "tta_startup/simple_startup_4nodes.synchro.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 13,
+      "file": "uart/uart-9.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 14,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-10.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 15,
+      "file": "sal/pursuit/pursuit-safety-18.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 16,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-13.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 17,
+      "file": "2017-Heizmann-UltimateInvariantSynthesis/_overflow1.i_3_8_2.bpl_7.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 18,
+      "file": "miplib/vpm2-10.smt2",
+      "status": "proof_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 19,
+      "file": "LassoRanker/SV-COMP/HarrisLalNoriRajamani-2010SAS-Fig1_true-termination.c_Iteration1_Lasso_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 20,
+      "file": "tta_startup/simple_startup_15nodes.synchro.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 21,
+      "file": "LassoRanker/Ultimate/Lobnya-Boolean-Reordered.bpl_Iteration1_Loop_7-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 22,
+      "file": "LassoRanker/CooperatingT2/eric.t2.c_Iteration1_Loop_7-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-10",
+      "index": 23,
+      "file": "LassoRanker/CooperatingT2/ex11.t2.c_Iteration1_Lasso_7-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 0,
+      "file": "meti-tarski/log/fun-ineq/log-fun-ineq-g-chunk-0038.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 1,
+      "file": "meti-tarski/bottom-plate-mixer/bottom-plate-mixer-chunk-0020.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/7/weak2/sin-problem-7-weak2-chunk-0018.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 3,
+      "file": "meti-tarski/sin/problem/8/weak/sin-problem-8-weak-chunk-0010.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 4,
+      "file": "meti-tarski/sin/problem/7/sin-problem-7-chunk-0048.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 5,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0095.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 6,
+      "file": "meti-tarski/sqrt/1mcosq/7/sqrt-1mcosq-7-chunk-0108.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 7,
+      "file": "sal/tgc/tgc_io-safe-1.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 8,
+      "file": "spider_benchmarks/mode_cntrl.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 9,
+      "file": "clock_synchro/clocksynchro_5clocks.worst_case_skew.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 10,
+      "file": "sal/pursuit/pursuit-safety-6.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 11,
+      "file": "sc/sc-10.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 12,
+      "file": "sal/tgc/tgc_io-safe-7.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 13,
+      "file": "sal/pursuit/pursuit-safety-13.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 14,
+      "file": "sal/carpark/Carpark2-ausgabe-6.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 15,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-11.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 16,
+      "file": "sc/sc-27.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 17,
+      "file": "sc/sc-34.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 18,
+      "file": "tta_startup/simple_startup_11nodes.abstract.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 19,
+      "file": "2017-Heizmann-UltimateInvariantSynthesis/_half_2.i_3_6_2.bpl_7.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 20,
+      "file": "tta_startup/simple_startup_15nodes.synchro.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 21,
+      "file": "LassoRanker/Ultimate/OpposedDisjuncts.bpl_Iteration1_Lasso_2-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 22,
+      "file": "LassoRanker/SV-COMP/joey_false-termination.c_Iteration2_Loop_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-11",
+      "index": 23,
+      "file": "LassoRanker/CooperatingT2/sas2.t2.c_Iteration5_Loop_7-phaseTemplate.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 0,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0030.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 1,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0132.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 2,
+      "file": "meti-tarski/sqrt/1mcosq/7/sqrt-1mcosq-7-chunk-0062.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 3,
+      "file": "meti-tarski/cbrt/3/cbrt-problem-3-chunk-0040.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 4,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0033.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 5,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0067.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 6,
+      "file": "keymaera/simple_example_1-node2318.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 7,
+      "file": "sal/tgc/tgc_io-nosafe-1.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 8,
+      "file": "spider_benchmarks/fs_not_sc_seen.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 9,
+      "file": "sal/gasburner/gasburner-prop3-12.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 10,
+      "file": "spider_benchmarks/reint_to_least.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 11,
+      "file": "sal/tgc/tgc_io-safe-6.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 12,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-6.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 13,
+      "file": "sc/sc-16.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 14,
+      "file": "LassoRanker/Ultimate/Braverman-2006CAV-Ex1-int.bpl_Iteration1_Lasso_5-phaseTemplate.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 15,
+      "file": "sal/tgc/tgc_io-safe-13.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 16,
+      "file": "sal/tgc/tgc_io-safe-16.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 17,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-17.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 18,
+      "file": "tta_startup/simple_startup_10nodes.synchro.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 19,
+      "file": "uart/uart-31.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 20,
+      "file": "LassoRanker/CooperatingT2/agafp.t2.c_Iteration1_Lasso_4-pieceTemplate.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 21,
+      "file": "2017-Heizmann-UltimateInvariantSynthesis/_sorting_bubblesort_ground.i_4_3_3.bpl_7.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 22,
+      "file": "2017-Heizmann-UltimateInvariantSynthesis/_standard_allDiff2_ground.i_4_4_3.bpl_7.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-12",
+      "index": 23,
+      "file": "LassoRanker/CooperatingT2/sas2.t2.c_Iteration6_Loop_7-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 0,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0037.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 1,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0059.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 2,
+      "file": "meti-tarski/sqrt/1mcosq/7/sqrt-1mcosq-7-chunk-0126.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 3,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0011.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 4,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0040.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 5,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0053.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 6,
+      "file": "keymaera/water_tank-node28718.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 7,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-1.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 8,
+      "file": "clock_synchro/clocksynchro_4clocks.worst_case_skew.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 9,
+      "file": "sal/tgc/tgc_io-safe-3.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 10,
+      "file": "sal/gasburner/gasburner-prop3-18.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 11,
+      "file": "spider_benchmarks/fs_no_op_accs.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 12,
+      "file": "sc/sc-12.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 13,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-8.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 14,
+      "file": "LassoRanker/Ultimate/Braverman-2006CAV-Ex1-int.bpl_Iteration1_Loop_5-phaseTemplate.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 15,
+      "file": "uart/uart-13.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 16,
+      "file": "sc/sc-28.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 17,
+      "file": "sc/sc-35.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 18,
+      "file": "LassoRanker/Ultimate/MenloPark.bpl_Iteration1_Lasso_3-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 19,
+      "file": "tta_startup/simple_startup_12nodes.synchro.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 20,
+      "file": "LassoRanker/CooperatingT2/polyrank4.t2.c_Iteration8_Loop_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 21,
+      "file": "LassoRanker/SV-COMP/Masse_true-termination.c_Iteration1_Loop_3-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 22,
+      "file": "LassoRanker/Ultimate/Gulwani.bpl_Iteration1_Lasso_6-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-13",
+      "index": 23,
+      "file": "LassoRanker/CooperatingT2/p-46.t2.c_Iteration2_Lasso_7-phaseTemplate.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 0,
+      "file": "meti-tarski/Chua/1/VC1/L/Chua-1-VC1-L-chunk-0155.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 1,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0019.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/8/sin-problem-8-chunk-0042.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 3,
+      "file": "meti-tarski/sin/problem/7/weak2/sin-problem-7-weak2-chunk-0011.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 4,
+      "file": "meti-tarski/sin/344/3/sin-344-3-weak-chunk-0016.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 5,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0057.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 6,
+      "file": "keymaera/water_tank-node28604.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 7,
+      "file": "clock_synchro/clocksynchro_2clocks.worst_case_skew.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 8,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-2.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 9,
+      "file": "sal/tgc/tgc_io-nosafe-3.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 10,
+      "file": "tta_startup/simple_startup_3nodes.abstract.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 11,
+      "file": "spider_benchmarks/current_frame.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 12,
+      "file": "sal/pursuit/pursuit-safety-10.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 13,
+      "file": "clock_synchro/clocksynchro_5clocks.main_invar.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 14,
+      "file": "sal/tgc/tgc_io-safe-12.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 15,
+      "file": "sc/sc-23.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 16,
+      "file": "uart/uart-16.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 17,
+      "file": "tta_startup/simple_startup_9nodes.synchro.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 18,
+      "file": "uart/uart-24.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 19,
+      "file": "tta_startup/simple_startup_10nodes.abstract.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 20,
+      "file": "2017-Heizmann-UltimateInvariantSynthesis/_standard_copyInitSum2_ground.i_3_2_2.bpl_7.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-14",
+      "index": 21,
+      "file": "LassoRanker/SV-COMP/NoriSharma-2013FSE-Fig8_true-termination.c_Iteration1_Loop_5-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 0,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0009.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 1,
+      "file": "keymaera/bouncing-ball-inv-node1886.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/7/sin-problem-7-chunk-0041.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 3,
+      "file": "meti-tarski/sin/problem/8/weak/sin-problem-8-weak-chunk-0042.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 4,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0099.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 5,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0048.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 6,
+      "file": "keymaera/water_tank-node17126.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 7,
+      "file": "sal/windowreal/windowreal-safe2-1.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 8,
+      "file": "spider_benchmarks/no_op_accs.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 9,
+      "file": "sc/sc-5.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 10,
+      "file": "clock_synchro/clocksynchro_4clocks.main_invar.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 11,
+      "file": "spider_benchmarks/op_seen_more1.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 12,
+      "file": "uart/uart-7.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 13,
+      "file": "sc/sc-17.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 14,
+      "file": "tta_startup/simple_startup_5nodes.abstract.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 15,
+      "file": "sal/pursuit/pursuit-safety-19.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 16,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-14.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 17,
+      "file": "uart/uart-20.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 18,
+      "file": "uart/uart-25.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 19,
+      "file": "tta_startup/simple_startup_12nodes.synchro.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 20,
+      "file": "2017-Heizmann-UltimateInvariantSynthesis/_standard_copy3_ground.i_3_2_2.bpl_7.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 21,
+      "file": "LassoRanker/Ultimate/OpposedDisjuncts.bpl_Iteration1_Lasso_5-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 22,
+      "file": "LassoRanker/CooperatingT2/sas2.t2.c_Iteration5_Loop_3-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-15",
+      "index": 23,
+      "file": "LassoRanker/SV-COMP/GulwaniJainKoskinen-2009PLDI-Fig1_true-termination.c_Iteration1_Lasso_5-nestedTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 0,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0039.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 1,
+      "file": "keymaera/bouncing-ball-inv-node1935.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0014.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 3,
+      "file": "meti-tarski/sin/problem/7/sin-problem-7-chunk-0046.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 4,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0049.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 5,
+      "file": "meti-tarski/sin/problem/7/weak2/sin-problem-7-weak2-chunk-0072.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 6,
+      "file": "keymaera/water_tank-node15243.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 7,
+      "file": "sal/windowreal/windowreal-safe-1.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 8,
+      "file": "spider_benchmarks/pd_no_op_accs.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 9,
+      "file": "sal/gasburner/gasburner-prop3-13.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 10,
+      "file": "sal/gasburner/gasburner-prop3-19.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 11,
+      "file": "sal/tgc/tgc_io-nosafe-6.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 12,
+      "file": "clock_synchro/clocksynchro_6clocks.main_invar.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 13,
+      "file": "sal/tgc/tgc_io-safe-10.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 14,
+      "file": "clock_synchro/clocksynchro_6clocks.main_invar.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 15,
+      "file": "2019-ezsmt/robotics/4_3.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 16,
+      "file": "sc/sc-29.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 17,
+      "file": "LassoRanker/Ultimate/Madrid.bpl_Iteration1_Lasso_4-pieceTemplate.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 18,
+      "file": "uart/uart-20-with-lemmas.induction.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 19,
+      "file": "uart/uart-32.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 20,
+      "file": "LassoRanker/Ultimate/Cairo2.bpl_Iteration1_Lasso_7-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 21,
+      "file": "LassoRanker/SV-COMP/BradleyMannaSipma-2005ICALP-Fig1_true-termination.c_Iteration1_Lasso_2-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-16",
+      "index": 22,
+      "file": "LassoRanker/CooperatingT2/eric.t2.c_Iteration1_Lasso_7-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 0,
+      "file": "meti-tarski/Chua/1/IL/L/Chua-1-IL-L-chunk-0155.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 1,
+      "file": "meti-tarski/sqrt/1mcosq/7/sqrt-1mcosq-7-chunk-0091.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0045.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 3,
+      "file": "meti-tarski/sin/problem/8/weak/sin-problem-8-weak-chunk-0012.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 4,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0033.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 5,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0059.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 6,
+      "file": "meti-tarski/bottom-plate-mixer/bottom-plate-mixer-chunk-0023.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 7,
+      "file": "sal/gasburner/gasburner-prop3-5.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 8,
+      "file": "sal/carpark/Carpark2-t1-1.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 9,
+      "file": "clock_synchro/clocksynchro_2clocks.main_invar.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 10,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-4.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 11,
+      "file": "spider_benchmarks/fs_frame_gap.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 12,
+      "file": "clock_synchro/clocksynchro_4clocks.main_invar.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 13,
+      "file": "sal/carpark/Carpark2-ausgabe-5.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 14,
+      "file": "sc/sc-21.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 15,
+      "file": "sal/carpark/Carpark2-ausgabe-7.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 16,
+      "file": "tta_startup/simple_startup_8nodes.synchro.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 17,
+      "file": "tta_startup/simple_startup_9nodes.synchro.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 18,
+      "file": "LassoRanker/Ultimate/2013POPL-BenAmGen-Ex3.20.bpl_Iteration1_Loop_4-pieceTemplate.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 19,
+      "file": "latendresse/shewanella-compact2.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-17",
+      "index": 20,
+      "file": "2017-Heizmann-UltimateInvariantSynthesis/_gr2006.c.i_4_4_3.bpl_7.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 0,
+      "file": "meti-tarski/Chua/1/VC2/U/Chua-1-VC2-U-chunk-0112.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 1,
+      "file": "meti-tarski/cbrt/3/cbrt-problem-3-chunk-0046.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/7/weak2/sin-problem-7-weak2-chunk-0014.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 3,
+      "file": "meti-tarski/sin/problem/8/weak/sin-problem-8-weak-chunk-0023.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 4,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0059.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 5,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0074.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 6,
+      "file": "clock_synchro/clocksynchro_3clocks.worst_case_skew.base.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 7,
+      "file": "sal/pursuit/pursuit-safety-2.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 8,
+      "file": "spider_benchmarks/pd_finish.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 9,
+      "file": "sal/gasburner/gasburner-prop3-14.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 10,
+      "file": "sc/sc-8.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 11,
+      "file": "spider_benchmarks/op_seen_more1.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 12,
+      "file": "sc/sc-13.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 13,
+      "file": "sal/pursuit/pursuit-safety-14.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 14,
+      "file": "sal/pursuit/pursuit-safety-17.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 15,
+      "file": "sc/sc-24.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 16,
+      "file": "tta_startup/simple_startup_8nodes.synchro.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 17,
+      "file": "2017-Heizmann-UltimateInvariantSynthesis/_count_by_k.i_3_3_2.bpl_7.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-18",
+      "index": 18,
+      "file": "LassoRanker/Ultimate/2013POPL-BenAmGen-Ex3.20.bpl_Iteration1_Lasso_4-pieceTemplate.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 0,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0016.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 1,
+      "file": "meti-tarski/cbrt/3/cbrt-problem-3-chunk-0058.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/7/weak2/sin-problem-7-weak2-chunk-0026.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 3,
+      "file": "meti-tarski/cbrt/3/cbrt-problem-3-chunk-0042.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 4,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0046.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 5,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0089.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 6,
+      "file": "keymaera/water_tank-node23593.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 7,
+      "file": "sal/gasburner/gasburner-prop3-6.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 8,
+      "file": "clock_synchro/clocksynchro_2clocks.main_invar.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 9,
+      "file": "clock_synchro/clocksynchro_3clocks.main_invar.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 10,
+      "file": "tta_startup/simple_startup_3nodes.synchro.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 11,
+      "file": "spider_benchmarks/fs_window.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 12,
+      "file": "sal/pursuit/pursuit-safety-11.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 13,
+      "file": "uart/uart-10.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 14,
+      "file": "uart/uart-12.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 15,
+      "file": "2019-ezsmt/robotics/4_4.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 16,
+      "file": "uart/uart-17.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 17,
+      "file": "sc/sc-36.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-19",
+      "index": 18,
+      "file": "uart/uart-26.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 0,
+      "file": "keymaera/integer_cubic_root_knuth-node1362.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 1,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0109.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 2,
+      "file": "meti-tarski/sqrt/1mcosq/7/sqrt-1mcosq-7-chunk-0016.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 3,
+      "file": "meti-tarski/CMOS/CMOS-opamp-chunk-0024.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 4,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0039.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 5,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0066.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 6,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0045.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 7,
+      "file": "clock_synchro/clocksynchro_6clocks.worst_case_skew.base.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 8,
+      "file": "spider_benchmarks/bad_echos_ascend.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 9,
+      "file": "sal/carpark/Carpark2-ausgabe-1.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 10,
+      "file": "sal/tgc/tgc_io-safe-4.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 11,
+      "file": "2019-ezsmt/robotics/1_4.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 12,
+      "file": "spider_benchmarks/fs_window.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 13,
+      "file": "uart/uart-8.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 14,
+      "file": "2019-ezsmt/robotics/2_3.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 15,
+      "file": "2019-ezsmt/blending/4.smt2",
+      "status": "proof_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 16,
+      "file": "sal/pursuit/pursuit-safety-20.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 17,
+      "file": "miplib/pp08a-1000.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 18,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-19.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 19,
+      "file": "tta_startup/simple_startup_12nodes.abstract.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 20,
+      "file": "uart/uart-38.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 21,
+      "file": "LassoRanker/CooperatingT2/collatz.t2.c_Iteration1_Loop_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 22,
+      "file": "LassoRanker/SV-COMP/NoriSharma-2013FSE-Fig8_true-termination.c_Iteration1_Lasso_5-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 23,
+      "file": "LassoRanker/CooperatingT2/sas2.t2.c_Iteration6_Loop_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-2",
+      "index": 24,
+      "file": "LassoRanker/Ultimate/Collatz.bpl_Iteration1_Loop_2-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 0,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0036.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 1,
+      "file": "meti-tarski/cbrt/3/cbrt-problem-3-chunk-0072.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/8/sin-problem-8-chunk-0023.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 3,
+      "file": "meti-tarski/sin/344/3/sin-344-3-chunk-0016.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 4,
+      "file": "meti-tarski/sin/344/3/sin-344-3-weak-chunk-0013.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 5,
+      "file": "meti-tarski/sin/problem/7/weak2/sin-problem-7-weak2-chunk-0040.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 6,
+      "file": "keymaera/water_tank-node21443.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 7,
+      "file": "sal/gasburner/gasburner-prop3-7.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 8,
+      "file": "spider_benchmarks/fs_not_sc_seen.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 9,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-3.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 10,
+      "file": "tta_startup/simple_startup_3nodes.synchro.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 11,
+      "file": "sal/carpark/Carpark2-t1-3.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 12,
+      "file": "spider_benchmarks/op_seen_less2.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 13,
+      "file": "tta_startup/simple_startup_6nodes.abstract.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 14,
+      "file": "clock_synchro/clocksynchro_9clocks.main_invar.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 15,
+      "file": "2019-ezsmt/robotics/4_1.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 16,
+      "file": "sc/sc-30.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 17,
+      "file": "tta_startup/simple_startup_10nodes.abstract.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 18,
+      "file": "LassoRanker/Ultimate/Braverman-2006CAV-Ex1-int.bpl_Iteration1_Loop_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-20",
+      "index": 19,
+      "file": "tta_startup/simple_startup_14nodes.abstract.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 0,
+      "file": "meti-tarski/Chua/1/VC1/L/Chua-1-VC1-L-chunk-0113.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 1,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0027.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 2,
+      "file": "meti-tarski/sqrt/1mcosq/8/sqrt-1mcosq-8-chunk-0707.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 3,
+      "file": "meti-tarski/cbrt/3/cbrt-problem-3-chunk-0037.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 4,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0056.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 5,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0050.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 6,
+      "file": "clock_synchro/clocksynchro_4clocks.worst_case_skew.base.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 7,
+      "file": "clock_synchro/clocksynchro_3clocks.worst_case_skew.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 8,
+      "file": "spider_benchmarks/pd_not_fs_seen.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 9,
+      "file": "sal/pursuit/pursuit-safety-5.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 10,
+      "file": "sal/gasburner/gasburner-prop3-20.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 11,
+      "file": "spider_benchmarks/current_frame.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 12,
+      "file": "spider_benchmarks/op_seen_less2.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-21",
+      "index": 13,
+      "file": "sc/sc-18.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-22",
+      "index": 0,
+      "file": "meti-tarski/atan/problem/1/atan-problem-1-chunk-0014.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-22",
+      "index": 1,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0047.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-22",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/7/sin-problem-7-chunk-0049.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-22",
+      "index": 3,
+      "file": "meti-tarski/sin/344/3/sin-344-3-chunk-0013.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-22",
+      "index": 4,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0068.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-22",
+      "index": 5,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0061.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-22",
+      "index": 6,
+      "file": "sal/gasburner/gasburner-prop3-1.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-22",
+      "index": 7,
+      "file": "sal/gasburner/gasburner-prop3-8.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-22",
+      "index": 8,
+      "file": "spider_benchmarks/pd_not_sc_seen.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 0,
+      "file": "keymaera/bouncing-ball-simple-node1628.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 1,
+      "file": "meti-tarski/atan/problem/1/atan-problem-1-chunk-0030.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/8/sin-problem-8-chunk-0036.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 3,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0052.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 4,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0040.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 5,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0081.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 6,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0099.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 7,
+      "file": "clock_synchro/clocksynchro_7clocks.worst_case_skew.base.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 8,
+      "file": "spider_benchmarks/pd_not_fs_seen.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 9,
+      "file": "spider_benchmarks/sc_init_frame_gap.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 10,
+      "file": "sal/tgc/tgc_io-nosafe-4.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 11,
+      "file": "2019-ezsmt/robotics/1_1.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 12,
+      "file": "spider_benchmarks/fs_no_op_accs.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 13,
+      "file": "sal/pursuit/pursuit-safety-12.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 14,
+      "file": "uart/uart-11.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 15,
+      "file": "2019-ezsmt/blending/9.smt2",
+      "status": "proof_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 16,
+      "file": "sc/sc-25.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 17,
+      "file": "miplib/pp08a-2000.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 18,
+      "file": "tta_startup/simple_startup_8nodes.abstract.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 19,
+      "file": "tta_startup/simple_startup_11nodes.synchro.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 20,
+      "file": "2017-Heizmann-UltimateInvariantSynthesis/_standard_copyInit_ground.i_3_2_2.bpl_7.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 21,
+      "file": "2017-Heizmann-UltimateInvariantSynthesis/_gr2006.c.i_4_4_3.bpl_11.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 22,
+      "file": "LassoRanker/SV-COMP/LeeJonesBen-Amram-2001POPL-Ex5_true-termination.c_Iteration2_Loop_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 23,
+      "file": "LassoRanker/Ultimate/Canberra.bpl_Iteration1_Loop_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-3",
+      "index": 24,
+      "file": "LassoRanker/SV-COMP/TelAviv-Amir-Minimum_true-termination.c_Iteration1_Loop_7-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 0,
+      "file": "keymaera/bouncing-ball-simple-node1629.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 1,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0118.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 2,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0131.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 3,
+      "file": "meti-tarski/asin/8/vars4/asin-8-vars4-chunk-0022.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 4,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0071.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 5,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0088.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 6,
+      "file": "meti-tarski/sin/344/4/sin-344-4-chunk-0020.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 7,
+      "file": "clock_synchro/clocksynchro_8clocks.worst_case_skew.base.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 8,
+      "file": "spider_benchmarks/pd_not_sc_seen.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 9,
+      "file": "spider_benchmarks/frame_prop.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 10,
+      "file": "spider_benchmarks/good_frame_update.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 11,
+      "file": "uart/uart-5.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 12,
+      "file": "sal/pursuit/pursuit-safety-9.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 13,
+      "file": "sc/sc-15.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 14,
+      "file": "tta_startup/simple_startup_6nodes.synchro.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 15,
+      "file": "2019-ezsmt/blending/8.smt2",
+      "status": "proof_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 16,
+      "file": "clock_synchro/clocksynchro_7clocks.main_invar.induct.smt2",
+      "status": "proof_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 17,
+      "file": "miplib/pp08a-3000.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 18,
+      "file": "sc/sc-40.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 19,
+      "file": "tta_startup/simple_startup_11nodes.synchro.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 20,
+      "file": "tta_startup/simple_startup_15nodes.abstract.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 21,
+      "file": "2017-Heizmann-UltimateInvariantSynthesis/_jain_5.i_2_4_3.bpl_7.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 22,
+      "file": "LassoRanker/CooperatingT2/eric.t2.c_Iteration1_Loop_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 23,
+      "file": "LassoRanker/Ultimate/Canberra.bpl_Iteration1_Lasso_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-4",
+      "index": 24,
+      "file": "LassoRanker/Ultimate/Collatz.bpl_Iteration1_Loop_6-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 0,
+      "file": "check/bignum_lra2.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 1,
+      "file": "meti-tarski/atan/problem/2/weak2/atan-problem-2-weak2-chunk-0126.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 2,
+      "file": "meti-tarski/bottom-plate-mixer/bottom-plate-mixer-chunk-0025.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 3,
+      "file": "meti-tarski/sqrt/problem/sqrt-problem-Melquiond2-chunk-0048.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 4,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0117.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 5,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0097.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 6,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0062.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 7,
+      "file": "sal/gasburner/gasburner-prop3-2.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 8,
+      "file": "spider_benchmarks/pd_init_op_accs.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 9,
+      "file": "sal/windowreal/windowreal-safe-2.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 10,
+      "file": "sal/gasburner/gasburner-prop3-17.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 11,
+      "file": "clock_synchro/clocksynchro_3clocks.main_invar.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 12,
+      "file": "spider_benchmarks/synched.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 13,
+      "file": "clock_synchro/clocksynchro_7clocks.main_invar.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 14,
+      "file": "2019-ezsmt/robotics/2_4.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 15,
+      "file": "tta_startup/simple_startup_7nodes.abstract.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 16,
+      "file": "sal/tgc/tgc_io-safe-15.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 17,
+      "file": "miplib/pk1--1.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 18,
+      "file": "uart/uart-23.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 19,
+      "file": "uart/uart-28.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 20,
+      "file": "uart/uart-39.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 21,
+      "file": "LassoRanker/SV-COMP/LeeJonesBen-Amram-2001POPL-Ex5_true-termination.c_Iteration2_Lasso_2-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 22,
+      "file": "LassoRanker/Ultimate/Canberra.bpl_Iteration1_Loop_6-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-5",
+      "index": 23,
+      "file": "LassoRanker/CooperatingT2/sas2.t2.c_Iteration5_Loop_4-pieceTemplate.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 0,
+      "file": "meti-tarski/Chua/1/VC2/U/Chua-1-VC2-U-chunk-0156.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 1,
+      "file": "meti-tarski/cbrt/3/cbrt-problem-3-chunk-0044.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0012.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 3,
+      "file": "meti-tarski/sin/problem/8/weak/sin-problem-8-weak-chunk-0036.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 4,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0147.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 5,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0032.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 6,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0102.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 7,
+      "file": "clock_synchro/clocksynchro_9clocks.worst_case_skew.base.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 8,
+      "file": "spider_benchmarks/frame_prop.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 9,
+      "file": "spider_benchmarks/mode_cntrl.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 10,
+      "file": "sc/sc-7.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 11,
+      "file": "sc/sc-9.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 12,
+      "file": "sc/sc-11.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 13,
+      "file": "tta_startup/simple_startup_5nodes.synchro.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 14,
+      "file": "2019-ezsmt/robotics/2_1.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 15,
+      "file": "2019-ezsmt/robotics/3_3.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 16,
+      "file": "sc/sc-26.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 17,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-16.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 18,
+      "file": "sal/windowreal/windowreal-no_t_deadlock-20.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 19,
+      "file": "uart/uart-29.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 20,
+      "file": "uart/uart-40.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 21,
+      "file": "LassoRanker/Ultimate/BradleyMannaSipma-2005ICALP-Fig1-deterministic.bpl_Iteration1_Lasso_7-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 22,
+      "file": "LassoRanker/Ultimate/Canberra.bpl_Iteration1_Lasso_6-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-6",
+      "index": 23,
+      "file": "LassoRanker/CooperatingT2/p-46.t2.c_Iteration2_Loop_7-phaseTemplate.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 0,
+      "file": "meti-tarski/Chua/1/VC1/L/Chua-1-VC1-L-chunk-0156.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 1,
+      "file": "meti-tarski/cbrt/3/cbrt-problem-3-chunk-0041.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/7/weak2/sin-problem-7-weak2-chunk-0012.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 3,
+      "file": "meti-tarski/sqrt/1mcosq/8/sqrt-1mcosq-8-chunk-0035.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 4,
+      "file": "meti-tarski/cbrt/3/weak/cbrt-problem-3-weak-chunk-0098.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 5,
+      "file": "clock_synchro/clocksynchro_2clocks.worst_case_skew.base.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 6,
+      "file": "meti-tarski/sin/344/4/sin-344-4-chunk-0017.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 7,
+      "file": "clock_synchro/clocksynchro_10clocks.worst_case_skew.base.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 8,
+      "file": "spider_benchmarks/no_op_accs.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 9,
+      "file": "spider_benchmarks/sc_init_frame_gap.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 10,
+      "file": "spider_benchmarks/reint_to_least.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 11,
+      "file": "sal/pursuit/pursuit-safety-8.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 12,
+      "file": "clock_synchro/clocksynchro_10clocks.worst_case_skew.induct.smt2",
+      "status": "proof_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 13,
+      "file": "tta_startup/simple_startup_5nodes.synchro.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 14,
+      "file": "tta_startup/simple_startup_6nodes.synchro.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 15,
+      "file": "sc/sc-22.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 16,
+      "file": "tta_startup/simple_startup_8nodes.abstract.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 17,
+      "file": "tta_startup/simple_startup_7nodes.abstract.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 18,
+      "file": "tta_startup/simple_startup_10nodes.synchro.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 19,
+      "file": "miplib/danoint-30.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 20,
+      "file": "tta_startup/simple_startup_14nodes.synchro.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 21,
+      "file": "LassoRanker/SV-COMP/LeeJonesBen-Amram-2001POPL-Ex5_true-termination.c_Iteration2_Loop_6-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 22,
+      "file": "LassoRanker/Ultimate/OpposedDisjuncts.bpl_Iteration1_Lasso_6-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-7",
+      "index": 23,
+      "file": "LassoRanker/CooperatingT2/sas2.t2.c_Iteration7_Loop_5-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 0,
+      "file": "meti-tarski/Chua/1/IL/L/Chua-1-IL-L-chunk-0156.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 1,
+      "file": "meti-tarski/cbrt/3/cbrt-problem-3-chunk-0048.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 2,
+      "file": "meti-tarski/sin/problem/8/sin-problem-8-chunk-0032.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 3,
+      "file": "meti-tarski/sin/problem/8/weak/sin-problem-8-weak-chunk-0032.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 4,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0115.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 5,
+      "file": "keymaera/water_tank-node5964.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 6,
+      "file": "meti-tarski/sin/problem/7/weak/sin-problem-7-weak-chunk-0066.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 7,
+      "file": "sal/pursuit/pursuit-safety-1.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 8,
+      "file": "spider_benchmarks/fs_init_no_op_accs.induction.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 9,
+      "file": "sal/gasburner/gasburner-prop3-10.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 10,
+      "file": "sal/carpark/Carpark2-t1-2.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 11,
+      "file": "clock_synchro/clocksynchro_9clocks.worst_case_skew.induct.smt2",
+      "status": "proof_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 12,
+      "file": "tta_startup/simple_startup_3nodes.abstract.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 13,
+      "file": "sal/tgc/tgc_io-safe-9.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 14,
+      "file": "sal/pursuit/pursuit-safety-16.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 15,
+      "file": "2019-ezsmt/robotics/3_4.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 16,
+      "file": "uart/uart-15.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 17,
+      "file": "sc/sc-33.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 18,
+      "file": "miplib/vpm2-0.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 19,
+      "file": "miplib/danoint-50.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 20,
+      "file": "tta_startup/simple_startup_14nodes.synchro.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 21,
+      "file": "LassoRanker/Ultimate/BradleyMannaSipma-2005ICALP-Fig1-deterministic.bpl_Iteration1_Lasso_4-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 22,
+      "file": "LassoRanker/SV-COMP/min_rf_true-termination.c_Iteration1_Loop_6-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-8",
+      "index": 23,
+      "file": "LassoRanker/CooperatingT2/janne_complex.t2.c_Iteration3_Lasso_7-phaseTemplate.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 0,
+      "file": "meti-tarski/Chua/1/VC2/U/Chua-1-VC2-U-chunk-0155.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 1,
+      "file": "meti-tarski/cbrt/3/cbrt-problem-3-chunk-0060.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 2,
+      "file": "meti-tarski/bottom-plate-mixer/bottom-plate-mixer-chunk-0016.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 3,
+      "file": "meti-tarski/sqrt/1mcosq/7/sqrt-1mcosq-7-chunk-0015.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 4,
+      "file": "meti-tarski/polypaver/bench-exp-3d/polypaver-bench-exp-3d-chunk-0145.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 5,
+      "file": "keymaera/water_tank-node4029.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 6,
+      "file": "keymaera/simple_example_2-node2406.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 7,
+      "file": "sal/gasburner/gasburner-prop3-3.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 8,
+      "file": "sal/gasburner/gasburner-prop3-9.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 9,
+      "file": "sal/gasburner/gasburner-prop3-11.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 10,
+      "file": "sal/carpark/Carpark2-ausgabe-2.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 11,
+      "file": "clock_synchro/clocksynchro_5clocks.main_invar.base.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 12,
+      "file": "tta_startup/simple_startup_4nodes.synchro.induct.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 13,
+      "file": "tta_startup/simple_startup_4nodes.abstract.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 14,
+      "file": "sc/sc-20.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 15,
+      "file": "2019-ezsmt/robotics/3_1.smt2",
+      "status": "verified",
+      "baseline_control": true
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 16,
+      "file": "tta_startup/simple_startup_6nodes.abstract.induct.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 17,
+      "file": "uart/uart-19.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 18,
+      "file": "miplib/vpm2-5.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 19,
+      "file": "uart/uart-30.base.cvc.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 20,
+      "file": "tta_startup/simple_startup_12nodes.abstract.induct.smt2",
+      "status": "reference_timeout",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 21,
+      "file": "LassoRanker/SV-COMP/LeeJonesBen-Amram-2001POPL-Ex5_true-termination.c_Iteration2_Lasso_5-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 22,
+      "file": "LassoRanker/SV-COMP/BradleyMannaSipma-2005ICALP-Fig1_true-termination.c_Iteration1_Lasso_6-phaseTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    },
+    {
+      "logic": "QF_LRA",
+      "shard": "shard-9",
+      "index": 23,
+      "file": "LassoRanker/SV-COMP/CookSeeZuleger-2013TACAS-Fig3_true-termination.c_Iteration1_Loop_3-pieceTemplate.smt2",
+      "status": "verified",
+      "baseline_control": false
+    }
+  ]
+}

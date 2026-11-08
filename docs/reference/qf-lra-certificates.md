@@ -774,6 +774,81 @@ All 25 manifest-listed payload hashes were checked. Three producer cases are new
 to this expanded sample; `dillig/25-22.smt2` reconfirms the known limitation.
 Full benchmark artifacts remain in the per-shard result directories above.
 
+### Full recorded-UNSAT arithmetic sweeps
+
+The full scope is the completed default-profile UNSAT records in baseline
+`5efbd022`, with current input hashes verified. Inventory `365547` finds 605
+LRA and 3,244 LIA records, all present, from 15 and 25 families. Their historical
+maximum solve times are 57.03 and 59.92 seconds. Source sizes reach 11,282,707
+and 57,992,842 bytes. The
+{arithmeticfullsource}`inventory wrapper <scripts/slurm_inventory_arithmetic_certificates.sbatch>`
+reads benchmark provenance and file sizes in SLURM; it does not solve instances.
+
+Selection `365548` removes the sample's one-second, source-size, family and
+case-count caps. The {arithmeticfullsource}`selector <scripts/select_arithmetic_certificate_sweep.py>`
+uses `--all-known-unsat --cases-per-shard 25`, calling `read_history` without a
+timing cutoff and retaining all eligible records. Its existing conservative
+single-query/no-positive-arity screen and hash deduplication remain; all 3,849
+records pass, with no exclusions. This includes all 217 LRA and 128 LIA controls
+from the preceding sample. The screening pass retains record metadata and uses
+memory proportional to the largest individual source, rather than retaining
+all formulas together.
+
+The {download}`frozen selection archive <../../benchmarks/full-arithmetic-certificates-20261108/selection.tar.gz>`
+contains both complete selections, 155 disjoint shard manifests, hashes and
+workflow provenance. There are 25 LRA shards and 130 LIA shards, each containing
+at most 25 cases. The partition is deterministic round-robin over the sorted
+selection, so larger files are distributed among workers. A full sweep here
+means this recorded solved-UNSAT set; it does not extend the certificate format
+to SAT or incremental sessions.
+
+The {arithmeticfullsource}`full wrapper <scripts/slurm_full_arithmetic_certificates.sbatch>`
+runs as array `365550`, with eight concurrent tasks, two CPUs, 12 GiB and four
+hours per task. It uses the same qualified native `a5123159`, Micromath
+`cfd36f46`, Yices 2.7.0 and LRAT-capable CaDiCaL as the preceding evaluation.
+Every attempted case first requests a fresh Yices check; only a successful
+UNSAT answer proceeds to native CORE export. Each worker verifies its frozen
+shard and all six checker binaries against build `362913` before using the
+shared stress workflow.
+
+The full profile allows 60 seconds for Yices, 120 for native export, 60 each
+for statement conversion and challenge construction, and one overall
+120-second proof/kernel pipeline deadline. The external-process bounds remain
+3 GiB address space and 256 MiB per file. The
+{arithmeticfullsource}`shared wrapper <scripts/slurm_arithmetic_certificate_stress.sbatch>`
+accepts these through `ARITHMETIC_REFERENCE_SECONDS`, `ARITHMETIC_EXPORT_SECONDS`,
+`ARITHMETIC_CHALLENGE_SECONDS` and `ARITHMETIC_PROOF_SECONDS`; its old sample
+defaults remain 15/30/30/60. These larger budgets cover historically slower
+refutations and define a different profile from the 345-case sample. Control
+outcomes therefore cannot be read as a direct checker-speed comparison.
+
+Native reconstruction limits are unchanged. Theory lemmas are CORE-reduced
+before witness reconstruction; raw Micromath steps stream to the independent
+kernel, with both exits and exact acceptance required. Successful challenge
+dumps are hashed then removed; failed-stage artifacts remain under
+`results/full-arithmetic-certificates-365550/LOGIC/shard-N/run`. Source-to-CNF
+preprocessing/clausification remains trusted.
+
+After its run-directory and exit trap are initialized, a handled nonzero
+worker exit creates an exclusive `STOP` record identifying the first failing
+task and requests cancellation of only its own array. Queued workers also
+check that marker before starting. Earlier environment/directory failures and
+external termination are outside this guarantee. The guarded exits include
+the stress driver's fatal wrong-answer/reference-disagreement/workflow-error
+statuses and later initialization failures;
+ordinary recorded per-case resource limits remain soft outcomes. The
+{arithmeticfullsource}`orchestration tests <tests/python/test_full_arithmetic_sweep.py>`
+exercise full-mode cap removal, bounded/disjoint shards, budget dispatch,
+first-failure preservation, own-array cancellation and a failed binary check,
+using synthetic inputs and a mock cancellation command. No native solver or
+external checker implementation is changed by this workflow.
+
+The {download}`full-sweep ledger <../coverage/full-arithmetic-certificates-20261108.json>`
+records the protocol, frozen selection identities, job ids and current campaign
+state. An active snapshot is not a completed coverage result; final outcomes
+must account for every case and distinguish reference, producer and checker
+limits. Raw per-worker summaries remain the stage evidence.
+
 ### Why lowering was already sufficient for the CNF boundary
 
 The existing {liaexportsource}`lowering pass <src/smt/preprocessing.cpp#L4493>`
