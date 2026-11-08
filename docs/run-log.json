@@ -3,6 +3,80 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-08-lia-cube-implementation",
+      "date": "2026-11-08",
+      "kind": "experimental-cube-integration-and-qualification",
+      "commit": "65b6f48afb4618f29378fb9ea2c965ecb58d52ed",
+      "baseline_commit": "aeaf282312923d0bb33c5a73a7412a48ee2619cd",
+      "evidence_status": "implementation committed; exact-commit qualification and timing pending",
+      "scope": "Optional pure QF_LIA uniform and difference cube model attempts before cuts; default off; QF_UFLIA policy unchanged.",
+      "jobs": {
+        "baseline_failed_missing_headers": "363274",
+        "baseline_build": "363275",
+        "development_compile_fix": "363276",
+        "development_unit": "363277",
+        "full_inventory_audit": "363278",
+        "bounded_debug": "363279",
+        "development_unit_cli": "363280",
+        "development_python_environment_fix": "363281",
+        "repaired_cli_and_python": "363282",
+        "exact_commit_build": "363283",
+        "qualified_check": "363284",
+        "qualified_fuzz": "363285",
+        "qualified_asan": "363297",
+        "qualified_static": "363298",
+        "qualified_mutations": "363299"
+      },
+      "environment": {
+        "execution": "SLURM only for all solver, test-suite and corpus work; workstation edits, lint and docs",
+        "development_binary": "dirty-cube-debug; preliminary verification only; current committed binary must be rebuilt via checked-in preparation helper"
+      },
+      "commands": {
+        "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --cxx-header-manifest <staged-header-manifest>",
+        "development_unit": "ctest --test-dir build-debug-cubes --output-on-failure; repaired CLI fixture rerun with -R ^primo_lia_cube_cli$",
+        "python": "python3 -m unittest discover -s tests/python -p test_*.py",
+        "lint": "make lint",
+        "docs": "PRIMO_DOCS_VENV=<docs-venv> make docs-site",
+        "inventory": "scripts/slurm_lia_cube_inventory.sbatch with PRIMO_CORPUS_ROOT, PRIMO_INVENTORY and PRIMO_AUDIT_OUT"
+      },
+      "results": {
+        "development_ctest_groups": 47,
+        "development_python_tests": 311,
+        "lint": "pass",
+        "strict_books": "pass",
+        "initial_failures": "Missing cluster C++ headers fixed by existing staged manifest; undefined timer variable fixed before commit; fallback integration test corrected to require equality with cube-off (both node-limit unknown); SMT-LIB produce-models option moved before set-logic; Python lint tests required the established qualification virtual environment.",
+        "budget_fallback": "On the strict scaled auxiliary regression with patching/cuts/integrality preparation disabled, cube-off and zero-budget uniform both reach the existing branch limit; positive-budget cubes find a checked model. No claim that the optional failure decides integer infeasibility.",
+        "inventory": {
+          "files": 13306,
+          "bytes": 8192190039,
+          "all_content_hashes_match": true,
+          "sha256": "a7423b6c1f643568d4151e3afa822639ef1f577251ced0a3f63b3c98d7ab811b"
+        },
+        "local_git_links": "282 pages; 38591 local links; 1201 unique Git links; 0 failures; external URLs deferred"
+      },
+      "artifacts": {
+        "manifest": "benchmarks/lia-cubes-20261108/inputs.txt",
+        "selection": "benchmarks/lia-cubes-20261108/selection.json",
+        "full_inventory": "benchmarks/lia-cubes-20261108/inventory.tsv",
+        "local_debug_logs": "/tmp/primo-cubes-{debug*,precommit*,baseline-build,docs,lint}.log",
+        "planned_timings": "results/lia-cubes-20261108"
+      },
+      "remaining": [
+        "fresh exact-commit make check and ASan",
+        "whole-tree static/include review",
+        "fresh reference-checked generated and real-seed gates",
+        "paired 200-input timings under default and M124",
+        "separate replay of all successful timing SAT rows",
+        "full corpus only if opportunity and development results justify it",
+        "evidence analysis and final commits"
+      ],
+      "correctness_plan": {
+        "generated": "12,000 fresh FuzzSMT QF_LIA cases, 3,000 each for uniform/difference under default and M124; identical seeds across profiles; separate Dolmen models",
+        "mutations": "four profiles, 10 historical easy-control real families per profile, 20 OpFuzz mutations per seed; original smoke/scaled-arena regression and seed answers checked before mutation; direct SAT-model validation",
+        "timing": "withhold 200-input comparison until current-commit gates pass"
+      }
+    },
+    {
       "id": "2026-11-07-uflia-equality-causal-ablation",
       "date": "2026-11-07",
       "kind": "controlled-equality-delivery-ablation",

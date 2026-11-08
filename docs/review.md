@@ -153,6 +153,6 @@ integer reconstruction status and correct result/helper ownership. All were
 fixed and rechecked; no required findings remain. The subsequent optional
 wording fix says extra tableaux may be allocated, since patching can finish first.
 The acceptance covers source/prose agreement only; runtime qualification is
-pending. The configured cube source links will be pinned to the implementation
-commit in the adjacent qualification record. Writer checks: strict books,
-lint and diff whitespace pass; source-link resolution awaits that commit pin.
+pending. The configured cube source links are pinned to implementation commit
+`65b6f48a` in this adjacent documentation record. Writer checks: strict books,
+lint and diff whitespace pass; source-link resolution is checked after that commit pin.
