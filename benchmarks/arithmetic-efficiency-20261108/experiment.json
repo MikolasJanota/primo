@@ -1,0 +1,185 @@
+{
+  "binary_sha256": "0102030d508c15a51ee3d2f35a5ff19aa5d0183b396f65aa8d7796cfcda8d495",
+  "source_commit": "84654ade",
+  "review_commit": "44bb99c1",
+  "gdb_seconds": 40,
+  "callgrind_seconds": 40,
+  "normal_timeout": 60,
+  "cases": [
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/checkpass/prp-23-46.smt2",
+      "reason": "bounded 25s native vs 0.2s Z3",
+      "sha256": "a263a4a383f99dc690e63942ecce9ac9cc3f71147a74d7b08e7f0217564b0025"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/checkpass/prp-6-49.smt2",
+      "reason": "timeout vs subsecond Z3",
+      "sha256": "f91be727f721127a5883cabdff6b29290599cf44bd7e420e593c2def4bb46371"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "rings/ring_2exp10_3vars_1ite_unsat.smt2",
+      "reason": "9s native vs 0.03s Z3",
+      "sha256": "c22240228e8c62ca9152ac238120a7bf4e65feea23909f7c3887539f308f5d2a"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "rings_preprocessed/ring_2exp14_4vars_1ite_unsat.smt2",
+      "reason": "timeout vs 0.03s Z3",
+      "sha256": "7aa176aa3b28686b54926805eb8f35b6292f1fb5e0ebfe8f90de392882e984b8"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "convert/convert-jpg2gif-query-1577.smt2",
+      "reason": "4s native vs 0.26s Z3",
+      "sha256": "cd3180655cf0c5ae788532418a8e16d7143952183429fafd381b298745e05605"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "20180326-Bromberger/more_slacked/cut_lemmas/15-vars/cut_lemma_01_005.smt2.slack.smt2",
+      "reason": "timeout vs 0.05s Z3",
+      "sha256": "6e31725ae3bfbfbc3aecf2ebeb8f0868048fcfe8f1b89325561434152639e028"
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "LassoRanker/CooperatingT2/eric.t2.c_Iteration1_Lasso_7-phaseTemplate.smt2",
+      "reason": "historical fast reference gap",
+      "sha256": "0148cf629b9dd4c579d66f80e596ba6d66dfca8b86b5a65f4aac7ac1b552974b"
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "tropical-matrix/constraint-199552.smt2",
+      "reason": "sparse tableau update hotspot control",
+      "sha256": "04e51f77b55beb47e4f58f660a119d858ad5f03a90fa9fa8fc7af50cbc1d092d"
+    },
+    {
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_37_57.smt2",
+      "reason": "mixed integer arithmetic and equality sensitivity",
+      "sha256": "5c70a76d2c4f181502c3dd51966f39ddec4fd9eac378d543f4e52d603eca3a56"
+    },
+    {
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Wisa/xs-14-16-4-1-1-5.smt2",
+      "reason": "mixed integer arithmetic fast control",
+      "sha256": "1e1198d7821eae01a8ecc353ee90acd99f823d3da205e4327d275600f7295887"
+    },
+    {
+      "logic": "QF_UFLRA",
+      "file": "cpachecker-bmc-svcomp14/cpachecker-bmc.parport_false-unreach-call.i.cil.c.smt2",
+      "reason": "mixed rational arithmetic historical medium case",
+      "sha256": "4df1c5109877a101386c4bdb9d6e613b5a7b451d65338e22cd29afc06404df9d"
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "2019-ezsmt/Labyrinth/SCC_Strong/0028-labyrinth-12-0.smt2",
+      "reason": "phase-sensitive rational arithmetic control",
+      "sha256": "48227cf53fcd6e4b2df890880e1556640ae5a4cdd7065a20402ddc5ff4b7370c"
+    }
+  ],
+  "method_sha256": "ce4900c502a2efbbcb99938c5f7fdf6cdf0a159965ed652036937f62eba0d9d9",
+  "paper": {
+    "title": "Decision Procedures for Linear Arithmetic",
+    "author": "Martin Bromberger",
+    "year": 2019,
+    "local_sha256": "bd100c750ebe0afafca944566d162481bc9c3e92181f0e833821bd47901e1912",
+    "pages": 342,
+    "scope": "Focused primary reading: Sections 7.1-7.2, 2.7.4, 4.3.2-4.3.3, 8.1.1-8.1.2 and 8.2.3-8.2.5; prior Chapter 6 overview/selected definitions is not a complete incremental-transformation audit."
+  },
+  "status": "complete: focused profiling and repeated existing-option diagnosis; arithmetic behavior and defaults unchanged",
+  "jobs": {
+    "initial_setup_failure": "365583",
+    "profiles": "365599"
+  },
+  "execution": {
+    "environment": "SLURM compute",
+    "concurrency": 4,
+    "cpus_per_task": 1,
+    "memory_requested": "24G",
+    "wall_limit": "00:15:00",
+    "native_sampler": "GDB wall-clock samples with 0.1s jittered interval; capped at 40s including sampling overhead",
+    "callgrind": "Instruction profile, capped at 40s; instrumented time is not native time",
+    "SAT_replay": "Separate from normal timing: 90s solver, 30s Dolmen; every successful native SAT timing row"
+  },
+  "flattening": {
+    "job": "365629",
+    "case_indices": [
+      0,
+      1,
+      6,
+      11
+    ],
+    "caps": [
+      0,
+      256,
+      2048
+    ],
+    "repetitions": 2,
+    "timeout": 60,
+    "method_sha256": "402e676103ce762c17cf6aa835cd44b2da9edb7651cdb3fbe5ea24c3083f0234",
+    "scope": "Focused existing-option diagnosis; no default/profile promotion.",
+    "cpus_per_task": 1,
+    "memory_requested": "12G",
+    "wall_limit": "00:30:00",
+    "status": "complete"
+  },
+  "reference": {
+    "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "version": "Z3 version 5.1.0 - 64 bit"
+  },
+  "analyzer_sha256": "d85b15f052e9876e45f3a140529e538bc4ce1cd9989f6ba942071e0b6737f560",
+  "harness_fix_commit": "bf889d32",
+  "accounting": {
+    "initial": {
+      "job": "365583",
+      "tasks": 12,
+      "states": {
+        "FAILED": 12
+      },
+      "exit_codes": {
+        "1:0": 12
+      },
+      "maximum_batch_step_MaxRSS": "16744K",
+      "scope": "Slurm whole-task accounting, not individual normal-run or cgroup-total memory."
+    },
+    "profiles": {
+      "job": "365599",
+      "tasks": 12,
+      "states": {
+        "COMPLETED": 12
+      },
+      "exit_codes": {
+        "0:0": 12
+      },
+      "maximum_batch_step_MaxRSS": "5016936K",
+      "scope": "Slurm whole-task accounting, not individual normal-run or cgroup-total memory."
+    },
+    "flattening": {
+      "job": "365629",
+      "tasks": 4,
+      "states": {
+        "COMPLETED": 4
+      },
+      "exit_codes": {
+        "0:0": 4
+      },
+      "maximum_batch_step_MaxRSS": "5016604K",
+      "scope": "Slurm whole-task accounting, not individual normal-run or cgroup-total memory."
+    }
+  },
+  "results": {
+    "profile_cases": 12,
+    "normal_profile_rows": 30,
+    "normal_native_rows": 18,
+    "ablation_cases": 4,
+    "ablation_native_rows": 24,
+    "ablation_reference_rows": 4,
+    "native_sat_model_passes": 10,
+    "distinct_native_sat_inputs": 4,
+    "no_arithmetic_behavior_change": true,
+    "no_default_promotion": true,
+    "main_summary": "benchmarks/arithmetic-efficiency-20261108/summary.json"
+  }
+}

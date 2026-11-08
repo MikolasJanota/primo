@@ -226,3 +226,32 @@ test characterization agree with the code. Accepted blobs: documentation
 execution occurred. The single mocked regression, lint, strict docs-site and
 local/Git links pass; this Python workflow fix requires no new solver binary
 and does not claim a rerun of full solver qualification.
+
+
+## Arithmetic efficiency and thesis mapping, 8 November
+
+A fresh read-only reviewer checked the new efficiency evidence, thesis
+checklist and rounding example against baseline `bf889d32`, profiled C++
+`84654ade`, the supplied primary thesis sections and the recorded artifacts.
+Required finding AE-R1 is resolved: the linear coefficient merge is distinguished
+from backlink-repair searches and rational bit complexity. Optional AE-S1 is
+resolved by expanding CITE on first use. No required findings remain, and the
+terminology review preserves the distinction between model choices, entailed
+constraints, scratch mutations and unimplemented candidates.
+
+Accepted blobs: evidence `6c325d6c`, paper guide `f4e8659f`, summary `70afa22d`,
+experiment `72233df1`, analyzer `2e4764dc`, profile batch `9537a9b4`, flattening
+batch `9f7070e4`, TOC `3af4a67e`. Run-log evidence was reviewed at `85f0e841`;
+its final verification field records the writer's subsequent checks. Acceptance
+covers documentation/evidence/source agreement, not a general implementation
+audit, default promotion or new full solver qualification. The reviewer ran
+no solver or tests.
+
+Writer verification: `make lint`, strict `make docs-site` (including
+`make docs`), the local/Git link checker and the twelve-case artifact audit
+pass. Rendered evidence text, repeated-cap table, rounding equations and guard
+explanations were inspected. SLURM `365599` and `365629` are fully complete;
+all ten successful native SAT timing rows passed separate Dolmen replay.
+Initial setup job `365583` failed before any solver run and is not performance
+evidence. No experiment process remains locally, and none of these jobs is
+active. Reader acceptance and implementation of the proposals remain separate.

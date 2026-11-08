@@ -3,6 +3,117 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-08-arithmetic-efficiency-review",
+      "date": "2026-11-08",
+      "kind": "paper-grounded arithmetic efficiency audit and focused profiling",
+      "commit": "44bb99c1",
+      "profiled_solver_commit": "84654ade",
+      "evidence_status": "complete: focused profiling and existing-option diagnosis; arithmetic behavior and defaults unchanged",
+      "scope": "Review common LRA tableau, integer completion and combined arithmetic against Bromberger 2019. Profiled C++ at 84654ade matches review baseline 44bb99c1 and runner-fix bf889d32; no arithmetic behavior change. Also repair relative-root manifest runner regression.",
+      "jobs": {
+        "initial_setup_failure": "365583",
+        "profiles": "365599",
+        "flattening": "365629"
+      },
+      "environment": {
+        "environment": "SLURM compute",
+        "concurrency": 4,
+        "cpus_per_task": 1,
+        "memory_requested": "24G",
+        "wall_limit": "00:15:00",
+        "native_sampler": "GDB wall-clock samples with 0.1s jittered interval; capped at 40s including sampling overhead",
+        "callgrind": "Instruction profile, capped at 40s; instrumented time is not native time",
+        "SAT_replay": "Separate from normal timing: 90s solver, 30s Dolmen; every successful native SAT timing row",
+        "flattening_resources": {
+          "cpus_per_task": 1,
+          "memory_requested": "12G",
+          "wall_limit": "00:30:00",
+          "timeout": 60,
+          "repetitions": 2
+        }
+      },
+      "methods": "scripts/qualification/arithmetic_efficiency/{profile.sbatch,flattening.sbatch,analyze.py}; scripts/profile_gdb_samples.py; scripts/benchmark_model_replay.py benchmark/replay",
+      "artifacts": {
+        "metadata": "benchmarks/arithmetic-efficiency-20261108/experiment.json",
+        "raw": "results/arithmetic-efficiency-20261108/retry1",
+        "summary": "benchmarks/arithmetic-efficiency-20261108/summary.json",
+        "evidence": "docs/evidence/arithmetic-efficiency-20261108.md",
+        "paper_checklist": "docs/papers/bromberger-linear-arithmetic.md#efficiency-review-checklist",
+        "flattening_raw": "results/arithmetic-efficiency-20261108/flattening",
+        "accounting": "results/arithmetic-efficiency-20261108/accounting.psv"
+      },
+      "results": {
+        "initial_failure": "365583: all12 tasks stopped before solver execution. callgrind_annotate lacks --version; two QF_UFLIA inputs absent from partial corpus. Retried with Valgrind version and complete existing corpus. This run provides no solver/performance evidence.",
+        "manifest_regression": "Resolve corpus root once. One focused actual-runner test passes with mocked binary/solver calls; no local solver execution.",
+        "profiles": "12 cases, 18 native option profiles and 12 references. Nine native GDB runs finish and nine hit the 40s sampling cap. Callgrind is also capped; instrumented prefixes are not native timing measurements.",
+        "measured_costs": "Case 0: 24.08s default, 8,723,275 clauses, 53/236 native samples in Boolean flattening and 31/236 in CITE. Case 4: freedom intervals in 25/43 default and 24/39 M124+cube samples. Case 10: whole-interface model grouping in 38/55 samples. Ring/cut prefixes dominated by tableau operations and GMP; transformed-cut prefix remains in Gomory before branching.",
+        "flattening": "Four cases, caps 0/256/2048, two rotated repetitions, 24 native and four fresh reference rows. NEC case 0: cap256 12.88/12.19s versus cap2048 24.76/24.87s; NEC case1: cap256 31.14/29.49s versus two cap2048 timeouts. Disabling flattening hurts LRA case6: 6.11/6.16s versus cap2048 1.16/1.14s. Labyrinth case11 varies at every cap. Diagnostic selection does not qualify a default change.",
+        "models": {
+          "native_sat_row_passes": 10,
+          "distinct_native_sat_inputs": 4,
+          "wrong_answers": 0,
+          "unexpected_process_errors": 0,
+          "contradictory_successful_decisions": 0,
+          "validation": "Every successful native SAT normal-timing row separately replayed with 90s solver / 30s Dolmen, strict=false. Timing excludes model validation."
+        },
+        "accounting": {
+          "initial": {
+            "job": "365583",
+            "tasks": 12,
+            "states": {
+              "FAILED": 12
+            },
+            "exit_codes": {
+              "1:0": 12
+            },
+            "maximum_batch_step_MaxRSS": "16744K",
+            "scope": "Slurm whole-task accounting, not individual normal-run or cgroup-total memory."
+          },
+          "profiles": {
+            "job": "365599",
+            "tasks": 12,
+            "states": {
+              "COMPLETED": 12
+            },
+            "exit_codes": {
+              "0:0": 12
+            },
+            "maximum_batch_step_MaxRSS": "5016936K",
+            "scope": "Slurm whole-task accounting, not individual normal-run or cgroup-total memory."
+          },
+          "flattening": {
+            "job": "365629",
+            "tasks": 4,
+            "states": {
+              "COMPLETED": 4
+            },
+            "exit_codes": {
+              "0:0": 4
+            },
+            "maximum_batch_step_MaxRSS": "5016604K",
+            "scope": "Slurm whole-task accounting, not individual normal-run or cgroup-total memory."
+          }
+        },
+        "reference": {
+          "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+          "version": "Z3 version 5.1.0 - 64 bit"
+        },
+        "prior_solver_qualification": "No C++ behavior changes: exact-source qualification from benchmarks/lia-cubes-20261108/qualification.json retained. No fresh full solver test/fuzz/static rerun claimed; previous whole-tree static scan has baseline advisories."
+      },
+      "harness_fix_commit": "bf889d32",
+      "verification": {
+        "analysis": "analyze.py audits both complete arrays and all 10 native SAT row models; passes",
+        "manifest_regression": "python3 -m unittest discover -s tests/python -p test_uflia_qualification_manifest.py -v: one focused actual-runner test passes; solver calls mocked",
+        "lint": "make lint: pass",
+        "docs": "PRIMO_DOCS_VENV=<docs-venv> make docs-site (includes make docs): pass",
+        "links": "python3 scripts/check_doc_links.py docs/_build/site: 284 pages, 39061 local links, 1211 unique Git links, 0 failures; external URLs deferred",
+        "independent_review": "Fresh read-only reviewer: ready; required AE-R1 complexity qualification and optional AE-S1 acronym expansion resolved. Accepted evidence6c325d6c, paperf4e8659f, summary70afa22d; details docs/review.md.",
+        "rendering": "Inspected report opening, repeated-cap table, rounding equations and guard explanations in generated HTML",
+        "batch_syntax": "slurm_validate_sbatch.py both checked-in batches: pass; analyze.py py_compile: pass",
+        "process_and_queue": "All task arrays terminal; initial setup365583 failed before solver execution. Successful365599 and365629 complete. No local solver/profiler/Chrome experiment remains."
+      }
+    },
+    {
       "id": "2026-11-08-lia-cube-implementation",
       "date": "2026-11-08",
       "kind": "experimental-cube-integration-and-qualification",

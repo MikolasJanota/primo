@@ -111,6 +111,7 @@ parts:
       - file: evidence/long-limits
       - file: evidence/qf-lia-progress
       - file: evidence/lia-cubes
+      - file: evidence/arithmetic-efficiency-20261108
       - file: evidence/qf-uflia-progress
       - file: evidence/qf-uflia-equality-sharing
       - file: evidence/qf-uflia-equality-ablation
