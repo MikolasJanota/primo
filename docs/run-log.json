@@ -199,7 +199,8 @@
           "final_report": "370941"
         },
         "resource_recovery_preparation": "370777",
-        "resource_recovery_gate": "370778"
+        "resource_recovery_gate": "370778",
+        "qualified_export": "371623"
       },
       "setup_history": [
         "Preparation helper built native throughSLURM; first post-build preflight requested unavailable reference executables. User subsequently required archived reference reuse, so only native/Z3/Dolmen preflight is needed and passes; no reference installation or corpus rerun.",
@@ -439,6 +440,15 @@
         },
         "timing_task_wall_minutes": 90,
         "wall_budget_note": "Up to12native120s timings plus independent240s resource diagnostics; diagnostic time is excluded from performance metrics."
+      },
+      "public_export": {
+        "job": "371623",
+        "parent_final_audit": "370941",
+        "status": "dependent metadata export queued; no qualified public results yet",
+        "workflow_commit": "d5520445",
+        "exporter_sha256": "8555eb3de568f2a4cb95fb5738589121dc899e7f4d4d00dcdd3b1fd249d972de",
+        "results": "Public gallery/summary/pairedCSV only after final qualification; private destination in local controller.",
+        "gdb_version_observed": "GNU gdb (GDB) Rocky Linux 10.2-13.el9"
       }
     },
     {

@@ -94,5 +94,14 @@
     "blocker": "benchmarks/uniform120-20261109/blocker.json",
     "recovery": "42certified complete shards reused;3166remaining native tasks resumed"
   },
-  "resource_recovery": "benchmarks/uniform120-20261109/resource-recovery.json"
+  "resource_recovery": "benchmarks/uniform120-20261109/resource-recovery.json",
+  "public_export": {
+    "job": "371623",
+    "parent_final_audit": "370941",
+    "status": "dependent metadata export queued; no qualified public results yet",
+    "workflow_commit": "d5520445",
+    "exporter_sha256": "8555eb3de568f2a4cb95fb5738589121dc899e7f4d4d00dcdd3b1fd249d972de",
+    "results": "Public gallery/summary/pairedCSV only after final qualification; private destination in local controller.",
+    "gdb_version_observed": "GNU gdb (GDB) Rocky Linux 10.2-13.el9"
+  }
 }
