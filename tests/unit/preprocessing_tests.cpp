@@ -1981,42 +1981,49 @@ void constant_ite_comparisons_match_leaf_decisions() {
     const Rational offset(1, real ? 3 : 1);
     for (const Rational& scale : std::vector<Rational>{Rational(-2), Rational(0), Rational(1),
                                                        real ? Rational(3, 2) : Rational(3)}) {
-      const TermId scaled = terms.mk_times(scale, cite);
-      const TermId expression = terms.mk_plus({number(offset), scaled});
-      std::vector<Rational> values;
-      for (const Rational& value : original) {
-        values.push_back(offset + scale * value);
-      }
-      std::vector<Rational> constants = values;
-      constants.insert(constants.end(), {Rational(-100), Rational(0), Rational(1), Rational(100)});
-      if (real) {
-        constants.push_back((values[0] + values[1]) / Rational(2));
-      }
-      for (const Rational& constant : constants) {
-        for (const TermKind op : {TermKind::Le, TermKind::Lt, TermKind::Equality}) {
-          for (const bool constant_on_left : {false, true}) {
-            const TermId numeral = number(constant);
-            const TermId lhs = constant_on_left ? numeral : expression;
-            const TermId rhs = constant_on_left ? expression : numeral;
-            const TermId atom = op == TermKind::Le   ? terms.mk_le(lhs, rhs)
-                                : op == TermKind::Lt ? terms.mk_lt(lhs, rhs)
-                                                     : terms.mk_eq(lhs, rhs);
-            const auto decide = [&](const Rational& value) {
-              const Rational a = constant_on_left ? constant : value;
-              const Rational b = constant_on_left ? value : constant;
-              return op == TermKind::Le ? a <= b : op == TermKind::Lt ? a < b : a == b;
-            };
-            const bool a = decide(values[0]);
-            const bool b = decide(values[1]);
-            const bool c = decide(values[2]);
-            const TermId tail_result =
-                b == c ? terms.mk_bool(b) : terms.mk_ite(q, terms.mk_bool(b), terms.mk_bool(c));
-            const TermId expected = scale.is_zero() ? atom
-                                    : a == b && b == c
-                                        ? terms.mk_bool(a)
-                                        : terms.mk_ite(p, terms.mk_bool(a), tail_result);
-            const auto result = primo::smt::simplify_constant_ites(terms, {atom});
-            check(result.assertions.at(0) == expected);
+      for (const bool shifted : {false, true}) {
+        const TermId scaled = terms.mk_times(scale, cite);
+        const TermId expression = shifted ? terms.mk_plus({number(offset), scaled}) : scaled;
+        std::vector<Rational> values;
+        for (const Rational& value : original) {
+          values.push_back((shifted ? offset : Rational(0)) + scale * value);
+        }
+        std::vector<Rational> constants = values;
+        constants.insert(constants.end(),
+                         {Rational(-100), Rational(0), Rational(1), Rational(100)});
+        if (real) {
+          constants.push_back((values[0] + values[1]) / Rational(2));
+        }
+        for (const Rational& constant : constants) {
+          for (const TermKind op : {TermKind::Le, TermKind::Lt, TermKind::Equality}) {
+            for (const bool constant_on_left : {false, true}) {
+              const TermId numeral = number(constant);
+              const TermId lhs = constant_on_left ? numeral : expression;
+              const TermId rhs = constant_on_left ? expression : numeral;
+              const TermId atom = op == TermKind::Le   ? terms.mk_le(lhs, rhs)
+                                  : op == TermKind::Lt ? terms.mk_lt(lhs, rhs)
+                                                       : terms.mk_eq(lhs, rhs);
+              const auto decide = [&](const Rational& value) {
+                const Rational a = constant_on_left ? constant : value;
+                const Rational b = constant_on_left ? value : constant;
+                return op == TermKind::Le ? a <= b : op == TermKind::Lt ? a < b : a == b;
+              };
+              const bool a = decide(values[0]);
+              const bool b = decide(values[1]);
+              const bool c = decide(values[2]);
+              const TermId tail_result =
+                  b == c ? terms.mk_bool(b) : terms.mk_ite(q, terms.mk_bool(b), terms.mk_bool(c));
+              // Preserve the current fallback: a scaled CITE hidden inside a sum
+              // has no directly hoistable ITE child. Pure scales and pure offsets
+              // do reconstruct mixed branches.
+              const bool mixed = !(a == b && b == c);
+              const bool unhoistable = shifted && scale != Rational(1);
+              const TermId expected = scale.is_zero() || (mixed && unhoistable) ? atom
+                                      : !mixed                                  ? terms.mk_bool(a)
+                                               : terms.mk_ite(p, terms.mk_bool(a), tail_result);
+              const auto result = primo::smt::simplify_constant_ites(terms, {atom});
+              check(result.assertions.at(0) == expected);
+            }
           }
         }
       }

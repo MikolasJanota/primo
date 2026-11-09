@@ -295,7 +295,7 @@ orientation. Present leaf sets are sorted and unique; negative scales are
 resorted by the existing leaf builder. The complete vectors and their merging
 representation remain unchanged.
 
-{source}`csimp_against_constant <src/smt/preprocessing.cpp>` classifies a
+{citesource}`csimp_against_constant <src/smt/preprocessing.cpp>` classifies a
 nonempty set using its first and last leaf for `<` and `<=`. Each comparison
 is monotone in the leaf value, in either operand orientation: matching endpoint
 truth values establish a uniform result. Different endpoint truth values require
@@ -307,7 +307,9 @@ branches; equality to 4 requires the original conditional reconstruction.
 
 These are Primo engineering adaptations of Bromberger §8.2.3, p. 274
 {cite:p}`bromberger2019`, not additional rules attributed to the thesis.
-`SimplifyConstantItesResult` owns the counters published as
+{citesource}`SimplifyConstantItesResult <src/smt/preprocessing.hpp>` owns the
+counters published by {citesource}`make_simplify_constant_ites
+<src/smt/preprocessing_tactics.cpp>` as
 `:preprocessing.cite.uniformity-checks`, `.leaf-comparisons` and
 `.leaf-scan-equivalent`. One uniformity check counts one classification visit;
 leaf comparisons count exact endpoint predicates or binary-search comparisons,
@@ -319,13 +321,16 @@ construction, sorting and union work are excluded.
 Per classification, inequalities take at most two leaf comparisons and equality
 takes logarithmic comparisons in the set size. Reconstruction can still visit
 many subterms; these bounds do not make the whole pass constant/logarithmic or
-bound the sum of cached leaf-set sizes by the input DAG size. Non-CITE absence
+bound the sum of cached leaf-set sizes by the input DAG size. The existing
+hoist only handles a directly exposed ITE child: a mixed comparison against
+a scaled CITE hidden inside a sum can retain its original atom. This fallback
+is preserved, rather than extending the reconstruction pipeline. Non-CITE absence
 still rebuilds the original atom, and an empty present set retains the old
 vacuous true result before endpoint access. The outer pass still leaves a
 top-level set with fewer than two leaves to ordinary folding. All endpoints
 and iterators are consumed before any term construction or leaf-map mutation.
 
-{source}`Preprocessing regressions <tests/unit/preprocessing_tests.cpp>` compare
+{citesource}`Preprocessing regressions <tests/unit/preprocessing_tests.cpp>` compare
 reconstructed terms against independent leaf decisions for both orientations,
 strictness, exact rational thresholds, negative/zero scales, equality membership
 and absence, singleton leaves and shared subterms. Balanced 8/64/512/4096-leaf
