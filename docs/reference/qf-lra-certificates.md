@@ -961,6 +961,21 @@ receipt and a builder-only replay. It omits original/native bodies because
 challenge construction does not read them. Its compressed size is 3.95 MB; the replay's success means challenge construction completed, with no proof
 or kernel acceptance claimed. Packaging performed no extra checker run.
 
+A single {download}`compact checker handoff <../../benchmarks/checker-regressions/micromath-handoff-20261109/micromath-checker-feedback.tar.gz>`
+combines these four checker examples into one 18.1 MB archive with a portable
+`replay.sh` selector. They are the smallest natural cases in each observed
+checker-failure category by required uncompressed input bytes: statement plus
+proof input, or statement alone for challenge construction. No input reduction
+or new checker run was performed. The
+{download}`handoff instructions <../../benchmarks/checker-regressions/micromath-handoff-20261109/README.md>`
+explain extraction, tool paths, original budgets and the exported-CNF boundary.
+Its complete index lists all 109 checker failures/timeouts (83 producer OOM,
+three definition-index diagnostics, 20 proof-pipeline deadlines and three
+challenge deadlines); only four representative payloads are embedded. Native
+crashes, native export/reconstruction failures and our statement-conversion
+failures are excluded. Start with `bash replay.sh wisa5 /fresh/output` after
+unpacking and setting `MICROMATH` and `CADICAL` to the built-tool paths.
+
 The {download}`full results ledger <../coverage/full-arithmetic-certificates-20261108.json>`
 contains every case outcome, family totals, stage timings, control transitions,
 payload identities and scheduler accounting. The

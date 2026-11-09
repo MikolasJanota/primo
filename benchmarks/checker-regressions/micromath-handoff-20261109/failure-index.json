@@ -1,0 +1,2704 @@
+{
+  "source_commit": "a2a92d25663b1f54fb2e5b2af360e308e219f3dd",
+  "source_report": "docs/coverage/full-arithmetic-certificates-20261108.json",
+  "source_report_sha256": "ca5e326bd61eb23b03502e00b2ab2cfc299f47f4fb35707f1d0a76eec4c7a5bc",
+  "primary_slurm_array": "365550",
+  "native_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "micromath_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+  "limits": {
+    "reference_seconds": 60,
+    "native_export_seconds": 120,
+    "statement_seconds": 60,
+    "challenge_seconds": 60,
+    "overall_proof_kernel_seconds": 120,
+    "external_address_bytes": 3221225472,
+    "external_file_bytes": 268435456
+  },
+  "counts": {
+    "challenge_construction_deadline": 3,
+    "overall_proof_pipeline_deadline": 20,
+    "producer_definition_index_allocation": 3,
+    "producer_out_of_memory": 83
+  },
+  "all_failing_cases": 109,
+  "embedded_representatives": 4,
+  "remaining_cases": "indexed only; their payloads are not embedded in this compact handoff",
+  "all_checker_inputs_uncompressed_bytes": 25618086206,
+  "rows": [
+    {
+      "logic": "QF_LIA",
+      "file": "2019-cmodelsdiff/wireRouting/p15.smt2",
+      "failure_kind": "challenge_construction_deadline",
+      "status": "challenge_timeout",
+      "primary_case": "QF_LIA/shard-121/run/024",
+      "input_sha256": "e441da13ac2c83cc233a0f04ba9a3ccf5560dd357946ff317f61751a15657057",
+      "native_sha256": "4cc338f6a65311a654ecda43def329aa9a78c9f8bf42b9d2871382ac0ef8c0c0",
+      "native_bytes": 34908935,
+      "statement_sha256": "81c604f31c848ff95837f5f2050959c6cc841e6bf24f307b1346512923695e55",
+      "statement_bytes": 38750749,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": null,
+      "phase_seconds": {
+        "reference": 1.0204834569594823,
+        "export": 8.033664964023046,
+        "statement": 11.53992642601952,
+        "challenge": 60.02271435002331
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "2019-cmodelsdiff/wireRouting/p20.smt2",
+      "failure_kind": "challenge_construction_deadline",
+      "status": "challenge_timeout",
+      "primary_case": "QF_LIA/shard-122/run/024",
+      "input_sha256": "a4f508bbca666505c17c20063a983d73e2d529f1eb7a3486f32cf80348b0e9eb",
+      "native_sha256": "68b81304f888358f3b0f789b082aaa491bd3ca55f39323b8a2e8fe4d75b9cc9d",
+      "native_bytes": 49783725,
+      "statement_sha256": "6d56eb32ed11ad6d4a06876ac92e9315f35ac87eefdd254fa4566eb8d86ca62f",
+      "statement_bytes": 55223809,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": null,
+      "phase_seconds": {
+        "reference": 1.421867717988789,
+        "export": 10.741230098996311,
+        "statement": 16.148426177038345,
+        "challenge": 60.02206105500227
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "2019-cmodelsdiff/wireRouting/p25.smt2",
+      "failure_kind": "challenge_construction_deadline",
+      "status": "challenge_timeout",
+      "primary_case": "QF_LIA/shard-123/run/024",
+      "input_sha256": "aa237bc54c690a363b9bda85915bc50daaa2f8ed82caa0d8ad1484462418dbe2",
+      "native_sha256": "f965512195f9f6ae73a45dddbe5904e8db975c2c574eb35811265a607988e10a",
+      "native_bytes": 58751186,
+      "statement_sha256": "eac83c31bffc2fac1df2bab0767341f5b3114fef2960e8deffbd2eb59f23cd86",
+      "statement_bytes": 65150509,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": null,
+      "phase_seconds": {
+        "reference": 1.5211456899996847,
+        "export": 12.189856620971113,
+        "statement": 19.10080272698542,
+        "challenge": 60.01410709298216
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "mathsat/FISCHER11-14-fair.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LIA/shard-34/run/023",
+      "input_sha256": "84b8f850f53d6f297062169fbf22727916f5ead501ad89da02175710bd1ac9c7",
+      "native_sha256": "d0fb5a081c94714d5fc6d7ba1080ba225c980a322f1639fdf66f40db58a4567e",
+      "native_bytes": 1410562,
+      "statement_sha256": "00dc0236b9556eb7faf7744bd70ebbba0a3bc11b014c113559dc186a7cde6e6b",
+      "statement_bytes": 1043696,
+      "retained_theory_lemmas": 1124,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 40.04992324800696,
+        "export": 77.28789349700673,
+        "statement": 0.6199855180166196,
+        "challenge": 0.11844693502644077,
+        "proof": 120.00648630497744
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "calypto/problem-006045.cvc.1.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LIA/shard-77/run/008",
+      "input_sha256": "50b5d8ff7058d100a46b8ce1bcb2c6c0c0df6fd172bbe012b8099f311548e322",
+      "native_sha256": "a9baa21d4124172fa6bbf18ab2876f535cbcb9b43e63c512225aaa2dc3757fcc",
+      "native_bytes": 11658889,
+      "statement_sha256": "59d6cb1c5c562d978fd1eae364ba766a0d53ea6f606b390a085fd79e9deb78e8",
+      "statement_bytes": 46690,
+      "retained_theory_lemmas": 1680,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 0.11954530095681548,
+        "export": 9.185672610998154,
+        "statement": 4.325945817981847,
+        "challenge": 0.020208141999319196,
+        "proof": 120.00562485901173
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "CIRC/simplebitadder/SIMPLEBITADDER_COMPOSE_7.msat.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LIA/shard-2/run/012",
+      "input_sha256": "bac451a0c16723dfb16fe25ad0a90223f5aa2da40b300897238f07d2c86f4430",
+      "native_sha256": "59e6f0f0f65263b134f3c5516ee05e207e55c434dc5f3467aa58782be3c1df8e",
+      "native_bytes": 64280796,
+      "statement_sha256": "419ff330cdf4df52065a913967748fc2989e562c6f002ffde468b603c76bb9e7",
+      "statement_bytes": 36205,
+      "retained_theory_lemmas": 32880,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 0.5686881450237706,
+        "export": 32.07768595399102,
+        "statement": 22.75760135301971,
+        "challenge": 0.02136547997361049,
+        "proof": 120.00603538998985
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "CIRC/multiplier/MULTIPLIER_7.msat.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LIA/shard-20/run/011",
+      "input_sha256": "17618228c8344a8d6d21c9f743707fa60b6b5d235ddb41a35b32b5e0b5185df3",
+      "native_sha256": "a8f64bae42a618bb6e3b6fdd6c37a2ce997fe7761d371df837eb510ee7201fd6",
+      "native_bytes": 90237231,
+      "statement_sha256": "ea6593c7e85b7b72083f4583c36cef4593a66037365710a6cf794041605dfb0d",
+      "statement_bytes": 28272,
+      "retained_theory_lemmas": 32332,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 1.6212247090006713,
+        "export": 45.26757883201935,
+        "statement": 30.474900479021017,
+        "challenge": 0.02170260899583809,
+        "proof": 120.00620649600751
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "clock_synchro/clocksynchro_7clocks.worst_case_skew.induct.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-10/run/010",
+      "input_sha256": "a1a55637f696c40a893402362623992d760b7f7c5dd46ae2cfd3899ff64476d0",
+      "native_sha256": "53403e94193bfd28a85355b4246e82dae4daaaefa955833c723c40e9ad3c96e9",
+      "native_bytes": 626049,
+      "statement_sha256": "c815a828491f9c8de51731c6cc4bdfb4aa898a8c152a563e9d6e358deb009065",
+      "statement_bytes": 47428,
+      "retained_theory_lemmas": 423,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 5.878824954008451,
+        "export": 2.8742211499775294,
+        "statement": 0.3692416609846987,
+        "challenge": 0.020680043991887942,
+        "proof": 120.00617683699238
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "clock_synchro/clocksynchro_8clocks.worst_case_skew.induct.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-24/run/010",
+      "input_sha256": "689eba82fbf36013792e81410e5c6121945b7bfb3ed03a41522b89fba9429082",
+      "native_sha256": "bdb210e49a9b1f65e847acf9aa785660a80a9144d31e82d981d12794a3524a14",
+      "native_bytes": 933269,
+      "statement_sha256": "b8dba02a59abd4b326faa423ae41bb5c11f2185c9f2625803fd546a4baf1813a",
+      "statement_bytes": 55490,
+      "retained_theory_lemmas": 667,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 14.24365018401295,
+        "export": 5.231028297013836,
+        "statement": 0.46915713799535297,
+        "challenge": 0.020557411015033722,
+        "proof": 120.00623567399452
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "clock_synchro/clocksynchro_7clocks.main_invar.induct.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-4/run/016",
+      "input_sha256": "b66bda92b20a70cff5b9c2c15d4cc5922a6511cb8e826cdf34fbef19c81924fa",
+      "native_sha256": "ab7b76542a499ec950b1847cdd2c456a9532a3ad1b00e67b54a8ca8b6a727075",
+      "native_bytes": 1024372,
+      "statement_sha256": "3d6b5a7320005494488be7e486f8b12612542e447688bca831ca64b1a90f25b2",
+      "statement_bytes": 243200,
+      "retained_theory_lemmas": 988,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 21.961011437000707,
+        "export": 6.835354514012579,
+        "statement": 0.5195412779867183,
+        "challenge": 0.06877599700237624,
+        "proof": 120.00648061098764
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "clock_synchro/clocksynchro_9clocks.worst_case_skew.induct.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-8/run/011",
+      "input_sha256": "5026b1fdd5e98e75b5d67ccbe6cdd3dd8a4d2f4e6d6e75331900b4ccd90c2375",
+      "native_sha256": "34ab0e38c88279089d061528b661c615f90fdd4164dda711f7af768007e9f9cf",
+      "native_bytes": 1283891,
+      "statement_sha256": "eb0fbf940f25562a381e38dfccbd6b5fcafdfd52a95c06ea583f97b9dfefa773",
+      "statement_bytes": 63876,
+      "retained_theory_lemmas": 941,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 24.003303799021523,
+        "export": 8.031552042986732,
+        "statement": 0.61929089599289,
+        "challenge": 0.036460627015912905,
+        "proof": 120.00609124399489
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "clock_synchro/clocksynchro_8clocks.main_invar.induct.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-21/run/016",
+      "input_sha256": "92d61f99173cecff9986f8e984f3db2038b02e9b701932d7b162731132333f83",
+      "native_sha256": "e3be1b333257d4bef3974beccff4b6f14e12eeea7a69559f08aba8e2669eca63",
+      "native_bytes": 1384437,
+      "statement_sha256": "766165d80e2258faad5abf3b57d7e55788afb5746f98031a9147d651340a5275",
+      "statement_bytes": 291895,
+      "retained_theory_lemmas": 1257,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 46.112890515010804,
+        "export": 10.69090411500656,
+        "statement": 0.6704473819991108,
+        "challenge": 0.06874954199884087,
+        "proof": 120.00612469098996
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "clock_synchro/clocksynchro_10clocks.worst_case_skew.induct.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-7/run/012",
+      "input_sha256": "2038e7a0b0f34b09819599e0a5a667b91e2f55f42387599cdcb52fa5576152bc",
+      "native_sha256": "905eee741366c7319a70cc5735af536c3395ac00daa8a1d6843f232862aa4b21",
+      "native_bytes": 1698314,
+      "statement_sha256": "847491b9f65ecbe12421d9a61655af213a1a5e65f4db06acc8e40f60f6a94e25",
+      "statement_bytes": 72602,
+      "retained_theory_lemmas": 1267,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 48.18919087501126,
+        "export": 10.585799497988774,
+        "statement": 0.7700187020236626,
+        "challenge": 0.036030796996783465,
+        "proof": 120.0056376690045
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "2019-ezsmt/blending/4.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-2/run/015",
+      "input_sha256": "fd9154cff6deec934ee02e2ebcff2ba8ce10a4cfb94e8297cbb661c0a139a3c0",
+      "native_sha256": "c5daa1ad330e03cc9d3d63840332eb935a8b95bbdd35bde6218511cc5e4eb1df",
+      "native_bytes": 23320828,
+      "statement_sha256": "5ceaa3a129044b42580f82085efce63ff7a335bc2e802a5d94650b50e68421e5",
+      "statement_bytes": 63069,
+      "retained_theory_lemmas": 12313,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 3.8751776670105755,
+        "export": 30.47774907099665,
+        "statement": 9.085120281000854,
+        "challenge": 0.036354517011204734,
+        "proof": 120.00607640700764
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "2019-ezsmt/blending/1.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-24/run/014",
+      "input_sha256": "4455b7974ddcc9a269da5afa8d8112909b3fe7e0cb704cb2b18681d18ee8cfa0",
+      "native_sha256": "73a5aa59256fdb80634376697911e45d09a7455935ce9eac5ebaf26b5faa1385",
+      "native_bytes": 23648817,
+      "statement_sha256": "1d4fcba34f229cab61a697a761406eab6d371465ad0eec490019a56f8a53f506",
+      "statement_bytes": 63066,
+      "retained_theory_lemmas": 12314,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 3.825492123985896,
+        "export": 33.13701248599682,
+        "statement": 9.135414129006676,
+        "challenge": 0.03679825799190439,
+        "proof": 120.00624951900681
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "2019-ezsmt/blending/5.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-23/run/014",
+      "input_sha256": "3c5755007e8a5e12746a9a79e33f1044e7f72db26325c5b5587aaf32f0ce4e88",
+      "native_sha256": "b5c94f6c326dde7fd5bf286acf85bf81e17bac979fbcfcaa408bbb0aa014b27e",
+      "native_bytes": 23875457,
+      "statement_sha256": "487e00808b65e1b3de4a40f352e70a87dae6cd12ee5b38f5c1f3bf8b5f1456ce",
+      "statement_bytes": 63061,
+      "retained_theory_lemmas": 12308,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 3.5750824179849587,
+        "export": 31.6305990589899,
+        "statement": 9.134747356001753,
+        "challenge": 0.03636891898349859,
+        "proof": 120.00581455900101
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "2019-ezsmt/blending/8.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-4/run/015",
+      "input_sha256": "046f11e2430de9e48610bc19582ad90f4254d874674214bb777eff6b4349b49d",
+      "native_sha256": "d66a303ad083e60483a72dff28a14e4f776dd6a93f154faa04b52d651fbdea24",
+      "native_bytes": 23982120,
+      "statement_sha256": "3ff393e568245ab60d4d50a8c36f83fbd4186f76190028efa81345a9bce0e33f",
+      "statement_bytes": 63247,
+      "retained_theory_lemmas": 12309,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 4.0749590799969155,
+        "export": 33.83225931299967,
+        "statement": 9.185676310007693,
+        "challenge": 0.036488172016106546,
+        "proof": 120.0060351830034
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "2019-ezsmt/blending/16.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-22/run/014",
+      "input_sha256": "494d44dc1fa6c5bbd612e9a42cd448b8ff788b6257dfef8b1c3cd7d3147352f4",
+      "native_sha256": "266c2ba328bf12135693867ee3761686c38f56ee80ec31e1dd94fd0442aea2bd",
+      "native_bytes": 24415439,
+      "statement_sha256": "bcc325e44995871d9fdf832ce1db70077b91d959582b9e4cd8792919147cfe41",
+      "statement_bytes": 63565,
+      "retained_theory_lemmas": 12308,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 3.8765513740072493,
+        "export": 33.734916307992535,
+        "statement": 9.385425329994177,
+        "challenge": 0.036419544980162755,
+        "proof": 120.005883276026
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "2019-ezsmt/blending/13.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-21/run/014",
+      "input_sha256": "4b18234bccf39e03f754953c41a2534019b667875a024108c67f852ada8dbaaa",
+      "native_sha256": "06c765378d155eb64934590c1d19f5841c5e89558439bb65d8c4656af5572a8a",
+      "native_bytes": 24758657,
+      "statement_sha256": "c91f897ce144735aba285efb2dbb3591eff2eae72bf10cd39242edaae10ff8ec",
+      "statement_bytes": 63794,
+      "retained_theory_lemmas": 12313,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 4.827285035979003,
+        "export": 39.4454360009986,
+        "statement": 9.537088746990776,
+        "challenge": 0.036489958001766354,
+        "proof": 120.00607304598088
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "2019-ezsmt/blending/9.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-3/run/015",
+      "input_sha256": "0de1cebcfbf1cb4df1960964ce734e8ae0c40c34f067a941723df90472eeeb90",
+      "native_sha256": "d2748b458e67f6e87724118ccfc98161c42e5ae72eb609cb22778a1cb1c035fb",
+      "native_bytes": 24778290,
+      "statement_sha256": "1d562de5de872a0c2230976eeb9cd1c8e48eff4c9866870404e053dc1d4f0705",
+      "statement_bytes": 63836,
+      "retained_theory_lemmas": 12311,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 4.176435822999338,
+        "export": 42.45162083298783,
+        "statement": 9.736340161995031,
+        "challenge": 0.03643631999148056,
+        "proof": 120.00613988700206
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "2019-ezsmt/blending/10.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-0/run/015",
+      "input_sha256": "144f0842a643a0e33a19c22404761b8561d3a94aee7b60c2a065916672c38f60",
+      "native_sha256": "09f05aa397dd14e48e0967d2c4c3b750ed7ae09a3128526464b514fad6a66010",
+      "native_bytes": 25073610,
+      "statement_sha256": "56398fe01a695b20d60eacc0e777dcf9d732ef16dfb5f26a510a4319320ca2ae",
+      "statement_bytes": 64076,
+      "retained_theory_lemmas": 12315,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 4.7772836520161945,
+        "export": 42.05022837599972,
+        "statement": 9.635578907007584,
+        "challenge": 0.03646654501790181,
+        "proof": 120.00636845402187
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "2019-ezsmt/blending/6.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-1/run/015",
+      "input_sha256": "a73ec549bd8ed7bd609d77d0eb42492daa00a68097d8904c9b27cbe78f7946d3",
+      "native_sha256": "9ab5339d61cbd2bc96497952a056363c2886c2b58ce80f27dba1a6b818a710fb",
+      "native_bytes": 25418732,
+      "statement_sha256": "b4e88230a26584900a0d73f5c7122e1374bdc5a7b6b3e144af4cc00f539fb015",
+      "statement_bytes": 63584,
+      "retained_theory_lemmas": 12315,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 6.028734009014443,
+        "export": 40.79611403300078,
+        "statement": 9.68558771800599,
+        "challenge": 0.036754258995642886,
+        "proof": 120.0063926629955
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "miplib/vpm2-10.smt2",
+      "failure_kind": "overall_proof_pipeline_deadline",
+      "status": "proof_timeout",
+      "primary_case": "QF_LRA/shard-10/run/018",
+      "input_sha256": "9f03757b8f1555d585f538b61b96912400e9f43fe962fdf4ba87416c56899ef2",
+      "native_sha256": "277d74427580b26f8e32ae9756e3c8b402368dd8c8cc6589b76b2c4c7dd886dc",
+      "native_bytes": 61639539,
+      "statement_sha256": "b5a767ac2dded8834c185d4d6ebe7156fdab2b620d77b495d7350119b24e8653",
+      "statement_bytes": 467166,
+      "retained_theory_lemmas": 25757,
+      "producer_diagnostic": "",
+      "pipeline_exit_codes": [],
+      "phase_seconds": {
+        "reference": 19.60753999897861,
+        "export": 109.579092836997,
+        "statement": 25.415779451985145,
+        "challenge": 0.11947523499839008,
+        "proof": 120.00611110002501
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "wisa/wisa5.smt2",
+      "failure_kind": "producer_definition_index_allocation",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-88/run/013",
+      "input_sha256": "736ba50c3d5e70578083a16c1a1ab3932997fbef479dfe9bc235a31bc00f9db7",
+      "native_sha256": "ad7f03ee2967a98ece64b3c6d37c3e87c3f68b3fd8237aab3f7852e66022e970",
+      "native_bytes": 18892343,
+      "statement_sha256": "4e73d5b0bdd4fb27fca6dbba88ac3197a41735991a6471c21b04d4c2e1630e50",
+      "statement_bytes": 270318,
+      "retained_theory_lemmas": 10598,
+      "producer_diagnostic": "Logic failure: definition index allocation",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.9194018600101117,
+        "export": 18.550201917008962,
+        "statement": 7.082303501025308,
+        "challenge": 0.07005527600995265,
+        "proof": 75.55888763201074
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "CIRC/multiplier/MULTIPLIER_6.msat.smt2",
+      "failure_kind": "producer_definition_index_allocation",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-107/run/010",
+      "input_sha256": "83786cf1c749641f2420972e6f7e70fa651bbf4b60bd4acb2ece8d726ba9f563",
+      "native_sha256": "0187226f66e3055596e3319f416082f9f960b4d1a04ea804d3ace6cc6c539486",
+      "native_bytes": 19296273,
+      "statement_sha256": "1738200443b12566f2c53cc2f6cbeec1affc77e381fd2547dfe3bec3380580b9",
+      "statement_bytes": 24368,
+      "retained_theory_lemmas": 7997,
+      "producer_diagnostic": "Logic failure: definition index allocation",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.21866327803581953,
+        "export": 8.235044464992825,
+        "statement": 6.732351106009446,
+        "challenge": 0.020930822007358074,
+        "proof": 115.79601197096054
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "2019-ezsmt/incrementalScheduling/064-incremental_scheduling-15092-0.smt2",
+      "failure_kind": "producer_definition_index_allocation",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-90/run/021",
+      "input_sha256": "81365be2fe0779cdee83f6da7a8f36821c7735c099ee94973e5f73beabe26cde",
+      "native_sha256": "f332203ab4750a58dc0f2e0c29d3d8a39e9d0393531685dbd89a4667eb7fba42",
+      "native_bytes": 33333849,
+      "statement_sha256": "f667d970ea19365f047522c5755ad8294a9814d258efe3824ea78bf1b3750585",
+      "statement_bytes": 490212,
+      "retained_theory_lemmas": 11980,
+      "producer_diagnostic": "Logic failure: definition index allocation",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 2.9232205360312946,
+        "export": 48.62058221496409,
+        "statement": 11.489428726024926,
+        "challenge": 0.0711668569711037,
+        "proof": 58.38830132497242
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-38-32.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-22/run/015",
+      "input_sha256": "77d7a6f4b2652420806a69cebb175fd058580cc18a3145a60f5b54f67ad511ce",
+      "native_sha256": "f37bda76453cbb7c024fc821e9720c539083b63db4e8886fd82ccc8c37001b57",
+      "native_bytes": 100876052,
+      "statement_sha256": "ed4729a8aeea70bbb80fb0b7f134de88a68727f3897e0de37021ba195b048ca7",
+      "statement_bytes": 116007079,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-22/run/015/micromath-v2.sexp:1413551: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.012235913018230349,
+        "export": 4.9283240730001125,
+        "statement": 35.184264858980896,
+        "challenge": 9.08733025600668,
+        "proof": 6.682061673986027
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-31-32.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-23/run/015",
+      "input_sha256": "9df1616b0a2123ec2d3dceebdf3f98024861a2ea61282c0accf04976dc96576a",
+      "native_sha256": "6f431466623409e7cfa086ce74441c1293fb5ac5a1181599243532b35d961294",
+      "native_bytes": 101226645,
+      "statement_sha256": "aa3e520af9352b4d76887ea6687ab5df557e4deea48ae8fd706d3c22ae0abac9",
+      "statement_bytes": 116404803,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-23/run/015/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.03629187698243186,
+        "export": 6.735424623999279,
+        "statement": 36.43872696699691,
+        "challenge": 9.03863331899629,
+        "proof": 6.6321352279919665
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-22-32.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-24/run/015",
+      "input_sha256": "489fdb34874d6886828f5681f045626582e43950571cf3a7e553aa1d129c8079",
+      "native_sha256": "dd23d6be6c379a1c30fc1bb3e09002e34b4cd3966e9a975067084abfb9605065",
+      "native_bytes": 101226785,
+      "statement_sha256": "e15ee3c9751d9dead22452de147c00c5e06defa416c4e7f585a89f0f91d0c4c1",
+      "statement_bytes": 116404979,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-24/run/015/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.036207905010087416,
+        "export": 7.383086999005172,
+        "statement": 35.38384539799881,
+        "challenge": 9.039652840001509,
+        "proof": 6.781709600996692
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-13-32.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-25/run/015",
+      "input_sha256": "fba923219a2c1594cb411fa8f1aca2ae4c75cebf83a44d006061b17a5edb6e61",
+      "native_sha256": "8acaea4444bca362929243ef7175b16c33d90ab39bbf987a2561ad194779fd26",
+      "native_bytes": 101232620,
+      "statement_sha256": "61bc95adb50bddb6d68bbc9c18746614e0ee2e069e5b1a0e7da932ec9b699756",
+      "statement_bytes": 116405108,
+      "retained_theory_lemmas": 5,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-25/run/015/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.036355749994982034,
+        "export": 7.434200246992987,
+        "statement": 35.639895572006935,
+        "challenge": 9.038948749017436,
+        "proof": 7.182612933014752
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-23-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-66/run/018",
+      "input_sha256": "a69cbd6c8a38a166ec28e95c756576625366165dd801c39546c505ef15b368ce",
+      "native_sha256": "38bae24a6eacaf9604c2e14947c23150c8337b5c80e0b392bbcbe4079e65a39c",
+      "native_bytes": 119949413,
+      "statement_sha256": "0c5f79247ddee0ba3529e3b849a662534b7684503ec770f34dbb6d33e5adfb66",
+      "statement_bytes": 137942580,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-66/run/018/micromath-v2.sexp:1348003: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06815602298593149,
+        "export": 5.7788962649938185,
+        "statement": 41.79050955097773,
+        "challenge": 10.489785335987108,
+        "proof": 8.88612796299276
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-19-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-71/run/018",
+      "input_sha256": "c5cc5437182042f3e2365818f8e0c1d0b7181d3dffad379948aebd25c39db6da",
+      "native_sha256": "5f2e4a63d5fa3206472fe8f1006911f388bd3108cd2981d5a907e8c8cdbdc2db",
+      "native_bytes": 120308952,
+      "statement_sha256": "3a4bdfac14fdd5cf870c317a7dcadaffa626f0a5b0f6f19795e73ffa25ade2d6",
+      "statement_bytes": 138347969,
+      "retained_theory_lemmas": 4,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-71/run/018/micromath-v2.sexp:1346928: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06848149496363476,
+        "export": 9.78908755601151,
+        "statement": 42.19953433604678,
+        "challenge": 10.641183883009944,
+        "proof": 8.437516324978787
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-16-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-73/run/018",
+      "input_sha256": "bf1b73c19c54b0e26ecb7469d1803b2d78455b34923a6b82edba37fca42f0e4c",
+      "native_sha256": "108d40ee9764a2faa8fee5d3361bb7485ca340cd59ae3c93cada7f8f3fdd82de",
+      "native_bytes": 120310037,
+      "statement_sha256": "d08ce1c2c9604aef18a766ca7449e62f16249c03634abfed1c539cc3c2252991",
+      "statement_bytes": 138351011,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-73/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.14815051900222898,
+        "export": 10.139441004983382,
+        "statement": 41.89260650399956,
+        "challenge": 10.841540020017419,
+        "proof": 7.081918299983954
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-13-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-76/run/018",
+      "input_sha256": "44cca121566d55329b2989d18e106697455a7c5f6cdf3584f4ffc6cbc3f0d192",
+      "native_sha256": "b0b48a044b481a62470bdc19abe1785591e12ea0723c3153ee4258e436e8001c",
+      "native_bytes": 120310084,
+      "statement_sha256": "5e15038faf425723a160194782f7639c60e6fccb312d5d2d7b4fa7d38425285a",
+      "statement_bytes": 138351071,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-76/run/018/micromath-v2.sexp:1346981: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11854772601509467,
+        "export": 9.689329457003623,
+        "statement": 42.45368642199901,
+        "challenge": 10.540542906004703,
+        "proof": 7.183331701991847
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-18-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-70/run/018",
+      "input_sha256": "1e9259e586a52f23c2a82638589e32edf9d63bc4b9ca80fb86593037363b5f5f",
+      "native_sha256": "d7f5ae60df0a9d09c35d1e004d3cdf24f2b47918cbd02be7f44c55f5467460d1",
+      "native_bytes": 120310103,
+      "statement_sha256": "c7c55470d7b787caa3af5e6d0caa24745ab3858316410d3f203cd29dc3fdd91a",
+      "statement_bytes": 138351059,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-70/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.1207056840066798,
+        "export": 8.989041077002184,
+        "statement": 42.093469418992754,
+        "challenge": 10.640989200008335,
+        "proof": 7.785370689001866
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-17-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-74/run/018",
+      "input_sha256": "5f79e81eba5ee3f7d23818337fe9a439c67ed984643b2cd40255e3f84739e03c",
+      "native_sha256": "218cc580f49b2838e589168d10be59dd64c478a802b0dce4f30117e412eb6089",
+      "native_bytes": 120310481,
+      "statement_sha256": "9fefe5996a7660bbebe13171698059215e23b7addf20626c2d75087107e8b806",
+      "statement_bytes": 138351011,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-74/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11867238394916058,
+        "export": 9.689115832035895,
+        "statement": 41.936947921989486,
+        "challenge": 10.790310795011465,
+        "proof": 6.931966315023601
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-14-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-77/run/018",
+      "input_sha256": "ad8fe0901fafb09f7bf48c1a030da1d1b08c8d5978c2f0809de5727fd1a6e165",
+      "native_sha256": "4c4d7f4cd37e4f28441e8e8c6dcdb97ca6dfb9f520413f2291d53cac76d33fe9",
+      "native_bytes": 120310540,
+      "statement_sha256": "4276e8f9bbc4120f379cb08fa3be97ca34ef03886e978c9717c07819242d93d4",
+      "statement_bytes": 138351071,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-77/run/018/micromath-v2.sexp:1346981: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11821552104083821,
+        "export": 9.13599424198037,
+        "statement": 41.89249109203229,
+        "challenge": 10.390236834995449,
+        "proof": 7.181431049015373
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-6-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-85/run/018",
+      "input_sha256": "007980cd1f60be6f7334be7e36e1d5b647b1e122c297a919aec6914b3c73b183",
+      "native_sha256": "98e9ada7afc7855d34836cadcc6bbc3f5cfecd4248d07a9cfbe7dd95891f336d",
+      "native_bytes": 120312149,
+      "statement_sha256": "ae869641799e2c0d263c62d5ac58fc6f7e0274e3338fb2961003ac9090e0ff78",
+      "statement_bytes": 138351159,
+      "retained_theory_lemmas": 3,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-85/run/018/micromath-v2.sexp:1346975: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.131869614997413,
+        "export": 9.63797665698803,
+        "statement": 41.94453160898411,
+        "challenge": 10.691217328014318,
+        "proof": 7.032119110983331
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-10-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-79/run/018",
+      "input_sha256": "ca42bf592cb9b43994dc0a81fa2e13e6cebf47361fa80e864929222090196d83",
+      "native_sha256": "fa1e84faa9af107bbed5224d7bf7ef8f777e6dbed0d13c46f1a39c0726877a69",
+      "native_bytes": 120312728,
+      "statement_sha256": "5e47c6a4fd510ee1d2148373675a1b14630291e78d550eacf3dfb6df43c7a038",
+      "statement_bytes": 138351159,
+      "retained_theory_lemmas": 2,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-79/run/018/micromath-v2.sexp:1346976: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.21849351504351944,
+        "export": 9.637968725000974,
+        "statement": 42.239551301987376,
+        "challenge": 10.289733298995998,
+        "proof": 6.931601079006214
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-11-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-78/run/018",
+      "input_sha256": "4b1e60b925d21ba7cdccaeec07b6cddb8d584ac389c230de1bc345a58305da57",
+      "native_sha256": "f9679de69c87acfd775880847db485a36b58957f8fe3a2c682b0a651a9b4d95c",
+      "native_bytes": 120312765,
+      "statement_sha256": "6f83696d7b306d9d3f3395bb46bfd10de204871af37083995a84263c4041f145",
+      "statement_bytes": 138351099,
+      "retained_theory_lemmas": 2,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-78/run/018/micromath-v2.sexp:1346981: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11811656097415835,
+        "export": 10.590389476012206,
+        "statement": 42.702657192974584,
+        "challenge": 10.691767362004612,
+        "proof": 7.487309651012765
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-7-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-86/run/018",
+      "input_sha256": "408028afd47de0fa92a0c04361b3ae79e0862b5123472ebab0e825e5dad19942",
+      "native_sha256": "7aa25933d1d105274417ba7b58c30956cb4331b13f0b29c17c1b9f5a33f83f2b",
+      "native_bytes": 120313350,
+      "statement_sha256": "24c8b3332b07308498f09c6d5af0da4448e6a237f7b49376bafecfa25eb8411b",
+      "statement_bytes": 138351099,
+      "retained_theory_lemmas": 8,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-86/run/018/micromath-v2.sexp:1346975: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11855880299117416,
+        "export": 9.287522025988437,
+        "statement": 42.042942757951096,
+        "challenge": 10.289520303020254,
+        "proof": 6.9325409270240925
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-5-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-84/run/018",
+      "input_sha256": "afda4dfdd5fa3d229576c868c92c151e9fbd19a5b428e2aa44f7d96a3246db09",
+      "native_sha256": "56e301e985cd826a2e715bbbe70746dad6d26b50607ce07fb2fd7ad24287d1ef",
+      "native_bytes": 120313364,
+      "statement_sha256": "6b51eb3d4ae83001de7908ebcfa0945391a44680066e39634ae41c88c1a176d2",
+      "statement_bytes": 138351231,
+      "retained_theory_lemmas": 7,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-84/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11856758900103159,
+        "export": 10.239858126005856,
+        "statement": 42.52036668700748,
+        "challenge": 10.64261494600214,
+        "proof": 7.432694413990248
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-3-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-82/run/018",
+      "input_sha256": "14d90feb4c3b7cee8dfec4d06a99d75ca2c87c3476b2d01cb9de27c7400d6708",
+      "native_sha256": "b6ab4b60766e398e56e8b1876790bb9756dfbac7f368f2fb9058a229bec4c21e",
+      "native_bytes": 120315451,
+      "statement_sha256": "cbcafc950452610dc057859fce5e7c8cceac4ea391f320d015e61d1b3da5090b",
+      "statement_bytes": 138351291,
+      "retained_theory_lemmas": 9,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-82/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11882635799702257,
+        "export": 9.839177111018216,
+        "statement": 41.93934960299521,
+        "challenge": 10.539913954999065,
+        "proof": 8.018429813004332
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-4-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-83/run/018",
+      "input_sha256": "67d9ab88747cf3708a49a268fba9d3e646923a12a45147f349b3ed5aec8a36b9",
+      "native_sha256": "9781f43ba33d304dc3efef03fe30073b9a1f777a057d594b41bd1004ffe5f2c4",
+      "native_bytes": 120319620,
+      "statement_sha256": "2d68bf2f718414d7c7be9f218ed9aa73859ede66d68810deaf4b645e366d96a7",
+      "statement_bytes": 138355623,
+      "retained_theory_lemmas": 8,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-83/run/018/micromath-v2.sexp:1346979: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11855300498427823,
+        "export": 10.490915234957356,
+        "statement": 42.20362236001529,
+        "challenge": 10.892150036001112,
+        "proof": 7.58355182496598
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-8-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-80/run/018",
+      "input_sha256": "75cf3bce2c20622f5482483fd9ec973e27d3557fbef5ba555be8e6b4590af47b",
+      "native_sha256": "b60820c3c271f2a3dd308e1292f753c76a85422f2432efb8e64f4513ea26bc3f",
+      "native_bytes": 120320104,
+      "statement_sha256": "2b23886cbe4b589231ef539733f6bdcbd813f54197a72f13283efa15e26c304c",
+      "statement_bytes": 138351592,
+      "retained_theory_lemmas": 19,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-80/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.21899921796284616,
+        "export": 9.987065663968679,
+        "statement": 42.13644114404451,
+        "challenge": 10.238718949025497,
+        "proof": 7.231943405990023
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-15-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-72/run/018",
+      "input_sha256": "6f5323d3000d3ce55f6bb9468ae9ff86edbfa1cddb9dfa9d72ce42a06d565c3a",
+      "native_sha256": "f65505a439a9f0c607d6f658f1a897b7857f56182c637ff201e71b6b26b414cc",
+      "native_bytes": 120324023,
+      "statement_sha256": "fe1ed0d18bfa3f05ad2ab23b3c9d38c90a4447ebca3ce601efb8ab5f49b8ba63",
+      "statement_bytes": 138351011,
+      "retained_theory_lemmas": 13,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-72/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11860086297383532,
+        "export": 11.091432204993907,
+        "statement": 42.26794863102259,
+        "challenge": 10.46397280896781,
+        "proof": 7.032602180028334
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-1-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-88/run/018",
+      "input_sha256": "e8bad27dd5e57f838f25c31c03d4a3a61dfcef86f5f09728420d4995fffe2646",
+      "native_sha256": "ee04b0809084f3b09d782406d45a4cf72822ec4af6335f40e40e553a113d8284",
+      "native_bytes": 120325309,
+      "statement_sha256": "ac2f5ca4420a74183e430842bbc938292b6fe7fb26bcd3088f914664cf19e385",
+      "statement_bytes": 138352212,
+      "retained_theory_lemmas": 17,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-88/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06832566697266884,
+        "export": 10.139695891994052,
+        "statement": 42.648749620013405,
+        "challenge": 10.943481267982861,
+        "proof": 7.383468701009406
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-2-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-81/run/018",
+      "input_sha256": "3c81ad6fc8abcfd28eaa1bd8c867d9147743ea8a0d37ed1a80306387acd029a9",
+      "native_sha256": "ff4716686c4de99fd95cb16b759f49aadd0e11fb883aae60c37117034820dc9f",
+      "native_bytes": 120327290,
+      "statement_sha256": "ae02738451703fa512fcfb988ddffcd3464d6d5c2c735389edea9b74ce11d604",
+      "statement_bytes": 138351764,
+      "retained_theory_lemmas": 21,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-81/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.219012061948888,
+        "export": 10.539733348996378,
+        "statement": 42.49894944898551,
+        "challenge": 10.741719606041443,
+        "proof": 7.081958448980004
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-0-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-87/run/018",
+      "input_sha256": "7734d9f0715c55dd63ddbaf0f97c4565f67add27fc8c37782930f393e805e810",
+      "native_sha256": "77c6ae3ed09f545f8a0421fd84859d277a2e78436176e11c5f2cc207c7a2e01f",
+      "native_bytes": 120331603,
+      "statement_sha256": "76570dc2181fdee1b18d9999e9e0abd372dc9632a3e42426a5084a7b335ee113",
+      "statement_bytes": 138351974,
+      "retained_theory_lemmas": 38,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-87/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.236898441973608,
+        "export": 11.92007052799454,
+        "statement": 42.52867283800151,
+        "challenge": 10.589970720990095,
+        "proof": 7.283018090005498
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-12-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-75/run/018",
+      "input_sha256": "fc549f1d6e48050fb0ccaa54c2ab62d90e9f20cd2bbea6092588dc49963c94c4",
+      "native_sha256": "3aa87504bd32c5aa1c3163a4aa016b5b42eb0fe008f0505bee1a384fc8efa32c",
+      "native_bytes": 120335764,
+      "statement_sha256": "6a71b1df4b64db39312c1236ccf59741f876f7e725a931ffb28714ea7d1543dd",
+      "statement_bytes": 138351071,
+      "retained_theory_lemmas": 31,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-75/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.2189197939587757,
+        "export": 11.14085540297674,
+        "statement": 42.29910713399295,
+        "challenge": 10.991611605975777,
+        "proof": 7.1429044979740866
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-20-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-67/run/018",
+      "input_sha256": "bf6822712f546a3a19ddeb55628f8f4e3301d4d4b521255b2083ec6df42b2b2f",
+      "native_sha256": "ee6fb6b1e6ae1ad47bf2ab3ace1d09120c8dc8053441e46242fb04ad79750e6f",
+      "native_bytes": 122290409,
+      "statement_sha256": "ddf6f9ab966b40e4e455c60481984a798d8756cc6ce740b1757caa9395b94588",
+      "statement_bytes": 140633749,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-67/run/018/micromath-v2.sexp:1341059: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06886826996924356,
+        "export": 10.541352415981237,
+        "statement": 42.96048382396111,
+        "challenge": 11.39482125802897,
+        "proof": 7.233825406001415
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-21-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-68/run/018",
+      "input_sha256": "95552c968259ac26d3e7c749f9213c8c37d5d660c4eef38f2edb45eaac7e1f0f",
+      "native_sha256": "30bddc79745ba1b8ee35ed4c392a1912ea33bf59a22a0a0182ae7de143397b23",
+      "native_bytes": 122303239,
+      "statement_sha256": "d1d6786e991be6b216f744d96ea89407c5c59654a9d6db7b6be238993702d20a",
+      "statement_bytes": 140648689,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-68/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06828314097947441,
+        "export": 9.186246263008798,
+        "statement": 42.24183190398617,
+        "challenge": 10.840461824001977,
+        "proof": 7.132612866989803
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-22-48.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-69/run/018",
+      "input_sha256": "eb1b6501102c7d308c0cf3deba748bd5b54d9714dc614aec478f34eb11875246",
+      "native_sha256": "a3c3fdda980890ce64e9897e09509ac9f8abd2f979c26ecacb2b9a99a0778c6a",
+      "native_bytes": 122313023,
+      "statement_sha256": "f40b805b8d0f2ef56e6f0b890044144083adc7b5a28c18e162cab47fd49c94ea",
+      "statement_bytes": 140658605,
+      "retained_theory_lemmas": 2,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-69/run/018/micromath-v2.sexp:1341088: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06921852601226419,
+        "export": 10.298774319991935,
+        "statement": 43.47704713098938,
+        "challenge": 10.84228559199255,
+        "proof": 7.282027532986831
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-30-33.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-52/run/015",
+      "input_sha256": "303971fed895bdbd9388711d31a93fdd35c3e8d0ac87840d82210dd948e8b12f",
+      "native_sha256": "0910bfb6782447832f5e9ed6cdc6f7dcb714e9ca59721a9eb017700a1842c213",
+      "native_bytes": 124475577,
+      "statement_sha256": "c5e5e7870d022f75323364ee0e3a5be32dc503c41d94fabd6f2cfbb30f4ab5b2",
+      "statement_bytes": 143109430,
+      "retained_theory_lemmas": 2,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-52/run/015/micromath-v2.sexp:1343727: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.03612431196961552,
+        "export": 8.83572216302855,
+        "statement": 43.82738945999881,
+        "challenge": 11.246904515021015,
+        "proof": 9.192840368952602
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-31-33.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-53/run/015",
+      "input_sha256": "2a9e448eb7ec833bbedede4d5a878c3a08868f14b312fbbd5169d78b1e8e1a54",
+      "native_sha256": "3285b9c2c8a03dd63cc40dbd7b5689f373c86064f7ca0598e4a1d5bc398ad67d",
+      "native_bytes": 124482486,
+      "statement_sha256": "4f65babaddb645c4a471c16592b3e5e9f2b00e157b40791360860ca61c560445",
+      "statement_bytes": 143120107,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-53/run/015/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.03614376700716093,
+        "export": 8.83541611302644,
+        "statement": 43.80291378800757,
+        "challenge": 11.093434789043386,
+        "proof": 9.386727032018825
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-13-33.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-62/run/015",
+      "input_sha256": "35f73e1f9b9c8e703c6499ee66b750b4397cddae63866ce8cf21e91f2957fe24",
+      "native_sha256": "e5f4cbe2e19546317e505f5b08c4b500c01fcec5737bb82bf615aac7153885be",
+      "native_bytes": 124482690,
+      "statement_sha256": "03d415b33c7cc7e6489a17d257dd5c6b21b74a5cbae5ef60813ed280c4575c91",
+      "statement_bytes": 143120412,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-62/run/015/micromath-v2.sexp:1343719: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.037138662999495864,
+        "export": 9.08714656002121,
+        "statement": 43.09545534703648,
+        "challenge": 10.79397095902823,
+        "proof": 7.334272176027298
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-23-33.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-54/run/015",
+      "input_sha256": "28d30177048bf807847aac95f8093687f08a61a0e2802ab6e3a1aff2baffb20a",
+      "native_sha256": "f570c8353d18ac278a6065d946e81dcd3c7c4c1cca22b43be2b142b23b4ab768",
+      "native_bytes": 124486803,
+      "statement_sha256": "ae952ec4e0f21ed784131c68bffbe9665108246bc6dbb90c92c102648b7f94a8",
+      "statement_bytes": 143120239,
+      "retained_theory_lemmas": 5,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-54/run/015/micromath-v2.sexp:1343733: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06904467602726072,
+        "export": 9.338130313961301,
+        "statement": 43.94995382800698,
+        "challenge": 11.242797387007158,
+        "proof": 7.382724513998255
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-14-33.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-57/run/015",
+      "input_sha256": "4d8a2b575c5d63f0addd54560ef0eee7f880a400d2cbbc0c07ea00b98c70ca89",
+      "native_sha256": "f0f90655598be978f26bb84ad6c107dac8ec3e79964c95014dabe60ad34d527f",
+      "native_bytes": 124487039,
+      "statement_sha256": "e96b155fccf6c28366b58ba4d3d623faf98f0b3d2e2c190c2a09112e5eea2417",
+      "statement_bytes": 143120369,
+      "retained_theory_lemmas": 7,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-57/run/015/micromath-v2.sexp:1343744: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06804444099543616,
+        "export": 8.385972629999742,
+        "statement": 43.19621849799296,
+        "challenge": 10.690594453015365,
+        "proof": 7.284633887989912
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-25-33.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-55/run/015",
+      "input_sha256": "6cc62131781a480792c1b0bff11765b4ee26ccc1f09b9582d6a37a44d69b81e8",
+      "native_sha256": "c5b07992394db06177dea87b520b10566aa921f98b58e6bae70f9fb70bba64ec",
+      "native_bytes": 124489378,
+      "statement_sha256": "297253e52f0400a864f96a598f062d0f8654fc25fa1732c0f313290e6d46fa65",
+      "statement_bytes": 143120239,
+      "retained_theory_lemmas": 10,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-55/run/015/micromath-v2.sexp:1343733: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06835841404972598,
+        "export": 9.98852875403827,
+        "statement": 43.71089953399496,
+        "challenge": 11.193618257995695,
+        "proof": 9.288886900991201
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-36-33.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-50/run/015",
+      "input_sha256": "3c130210ea443f9a8ceecded7591359747da9619bd5413fbbff8f3fca3afd7d5",
+      "native_sha256": "0a37543bc9e7c2f5dd0dfe637be6b59fb9947cf74d6e265b2af45d37b9d65125",
+      "native_bytes": 126288524,
+      "statement_sha256": "71544387d28887817b22079cb41f9b2dad3cd11d581acb23aeba15218f2503d4",
+      "statement_bytes": 145198331,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-50/run/015/micromath-v2.sexp:1338241: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.0361358990194276,
+        "export": 7.2315881620161235,
+        "statement": 44.77359543903731,
+        "challenge": 10.991626712027937,
+        "proof": 7.685395580949262
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-38-33.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-51/run/015",
+      "input_sha256": "2c534e286ea3767fc0d5136b69f766b59b426e963e9f60648e996fae21b861ad",
+      "native_sha256": "f17117669bc16e2faae9368f50a2b5bbad515620cefe3a56492461df8910083d",
+      "native_bytes": 126460330,
+      "statement_sha256": "96b2908aedf6ee703cd26e7d0b4d4ab56ee19fe3070ffc3954109080f7e0fc91",
+      "statement_bytes": 145401447,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-51/run/015/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.01206360902870074,
+        "export": 7.132351381005719,
+        "statement": 44.565011730010156,
+        "challenge": 11.142164201010019,
+        "proof": 9.137443036015611
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/checkpass_pwd/prp-22-28.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-100/run/015",
+      "input_sha256": "cf08e951df589784b684c685479f38e2a976c73690cee0d0e447e860b17b60b6",
+      "native_sha256": "2e234375399ed10c4aa278071762147d839537102f8393734b2536996197c35e",
+      "native_bytes": 130483392,
+      "statement_sha256": "5ec364bc32eac75bb24130f08cd13a5fee8bb5ca130bf1b6016545a4c6fbe117",
+      "statement_bytes": 150295939,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-100/run/015/micromath-v2.sexp:1311266: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06891759901191108,
+        "export": 6.682044319983106,
+        "statement": 45.350789278018055,
+        "challenge": 11.34299810999073,
+        "proof": 7.332939768995857
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/checkpass_pwd/prp-2-28.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-101/run/015",
+      "input_sha256": "756d9220c6983bdeb4fc659b871f844639e6da7d9a4a94b53022f38d214b08b5",
+      "native_sha256": "27ea7d80736baba7237da283114f0295a0f930c38c1b3d1f73f2e51be99a8bdd",
+      "native_bytes": 130976457,
+      "statement_sha256": "ac38d1a02f8e7d3a35c82694d4e6d842bd35146daeec86605466a3aebdaa4894",
+      "statement_bytes": 150860743,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-101/run/015/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11988457600818947,
+        "export": 16.101205329003278,
+        "statement": 46.20881376299076,
+        "challenge": 11.541709268989507,
+        "proof": 7.433428407006431
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-24-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-124/run/018",
+      "input_sha256": "d5fe35c2eac63e0ecd74b1f1053efbda19db71dddcca66e1cd45091d5deb9243",
+      "native_sha256": "5a232d8e58e17e904304cf29b49aa47585033843b63d528dda82be4b9fe79139",
+      "native_bytes": 145687464,
+      "statement_sha256": "c13fa33b93f5be9083c98831fbee94e289fd3c994cb94ae97acde696c1e5b140",
+      "statement_bytes": 167532477,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-124/run/018/micromath-v2.sexp:1271867: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06850406300509349,
+        "export": 7.133575659012422,
+        "statement": 50.66316261596512,
+        "challenge": 13.396518270019442,
+        "proof": 7.784358714998234
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-19-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-3/run/019",
+      "input_sha256": "38e2222a81238171fde8c673c7843b7895f40bc33875f57c2c01e0acbda32baf",
+      "native_sha256": "be5ae868bc4db8795739f12ca5f4b0f3471453fc342ce0ea9b42da880191d3fd",
+      "native_bytes": 146169628,
+      "statement_sha256": "3bfb3c76d26bc87eca0e88f2a5366e2ea4614ba66cc55f1b26ad910b3c7fcf60",
+      "statement_bytes": 168079152,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-3/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11862991302041337,
+        "export": 12.594991965015652,
+        "statement": 51.2657815470011,
+        "challenge": 12.693429792998359,
+        "proof": 7.6840325229859445
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-18-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-2/run/019",
+      "input_sha256": "093a69e8a5f9f45c6e664448b1190aa4b018d71a5c846e4ed394f736511dd53c",
+      "native_sha256": "5bbd152a1dce04d7dac46f49102af82e78bcb883a5772eca7faa85e03de7e964",
+      "native_bytes": 146171605,
+      "statement_sha256": "7ff20aa75b35e068bd85ae9a93c24d4785d20d2bee415c965b22d3bdcf451b53",
+      "statement_bytes": 168082238,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-2/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11933130800025538,
+        "export": 11.342648307007039,
+        "statement": 50.99431622598786,
+        "challenge": 12.238729370001238,
+        "proof": 7.382315292983549
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-20-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-128/run/018",
+      "input_sha256": "da587dd72fe4a20a4d04f06aaa4c7d7dd08dee7ca3aab425fee490b41940e1f9",
+      "native_sha256": "b7695249d7df103a2631a0b39b05397a7f0bf0af4078d7d6a24817280350c5af",
+      "native_bytes": 146171646,
+      "statement_sha256": "135343ac4952aece5a8494cecaf27c3d781a7ee23de9a16542865368a1c47833",
+      "statement_bytes": 168082270,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-128/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.1686044050147757,
+        "export": 12.748162387986667,
+        "statement": 51.012507384002674,
+        "challenge": 12.088995905010961,
+        "proof": 7.333924359001685
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-21-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-129/run/018",
+      "input_sha256": "4c5b10a52629a52339d034453c59eecdb02a30e640e19260b5a97026603f5d52",
+      "native_sha256": "123b4c5ae71272b033100cb7a0a16e532484701286832fc3b40cec8a34e90c6a",
+      "native_bytes": 146171658,
+      "statement_sha256": "9660b7b5b87a11a727ace1cc1c70ad60afb7c6d141354e68a37bdb163610fe9a",
+      "statement_bytes": 168082286,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-129/run/018/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.1179938479908742,
+        "export": 11.641857456997968,
+        "statement": 50.95616842000163,
+        "challenge": 12.341536551975878,
+        "proof": 7.433306671009632
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-13-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-11/run/019",
+      "input_sha256": "3dbee9d223eb6eca658d987c7db1da721b174ab739b1f7c8fdb6e7c1d325d89f",
+      "native_sha256": "4632767438cc9750dae9745617a12bc31bb993f7fc6e7e114e8fdaf15f851222",
+      "native_bytes": 146171798,
+      "statement_sha256": "f974ac66bdae43280cb2e3b06d4179cbc6c989c378aa6af198c367e99781650e",
+      "statement_bytes": 168082462,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-11/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11901368098915555,
+        "export": 12.344995063001988,
+        "statement": 51.66908632798004,
+        "challenge": 12.795747074007522,
+        "proof": 7.684624918008922
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-14-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-12/run/019",
+      "input_sha256": "8c2adc30c8fca2575d768ec28dbcfc652865832f60f359341040aa7a71153d36",
+      "native_sha256": "29343a153b446990102ea6b4c042e8b3e09a6683f8a64b97ad2586f333d99010",
+      "native_bytes": 146171798,
+      "statement_sha256": "7f72b9033b752c3028ebf20a36582416e67a4cf30067d4a8419c1d7d69160cf9",
+      "statement_bytes": 168082462,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-12/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.18888091098051518,
+        "export": 11.944717419013614,
+        "statement": 51.16949901697808,
+        "challenge": 12.644994003989268,
+        "proof": 7.484816686017439
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-17-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-7/run/019",
+      "input_sha256": "b0899c69866ace0eaa2e6e253e5598b6a9c2c9686308dd2bfef177b698894912",
+      "native_sha256": "75d84d27f9d8f821c0aef4dbb6df175b271ce8d3bf2b3270792ca462b056f9e7",
+      "native_bytes": 146172366,
+      "statement_sha256": "6ee9027229da5552f886998898fd77a9adbf759009e189edb8e454bebdcbe196",
+      "statement_bytes": 168082402,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-7/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11833153999759816,
+        "export": 12.545702554984018,
+        "statement": 51.264951781980926,
+        "challenge": 12.795971223007655,
+        "proof": 7.383776060974924
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-16-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-6/run/019",
+      "input_sha256": "8d027a29dd5f8e6eef224a44e696b8dccaa5f024474212c54c3031212e3c4936",
+      "native_sha256": "9dbbaa4040de35c61dd75e85e2a055e88c8c9caf1a381dbc8bb2338303d7b028",
+      "native_bytes": 146173666,
+      "statement_sha256": "0decf0923d9bdd04f95d81a6210ee04d80e3a97f4efd0fa81e7333c6b8b6d472",
+      "statement_bytes": 168082402,
+      "retained_theory_lemmas": 4,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-6/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11879474800662138,
+        "export": 13.503968780016294,
+        "statement": 51.817517365998356,
+        "challenge": 12.94475915300427,
+        "proof": 7.701494464999996
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-22-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-0/run/019",
+      "input_sha256": "b29419298eb0818ce2be0954003a9f263de63a03fca95c97665c6401fdff8f57",
+      "native_sha256": "7c8b13471b38e2ec2657a26a59670c152d59fc86e633e87347eb615929b0cb43",
+      "native_bytes": 146173945,
+      "statement_sha256": "09d733a2549fb6ff8b30215a3272698d9d849cdb22a844daed3eb265ced4c343",
+      "statement_bytes": 168082270,
+      "retained_theory_lemmas": 3,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-0/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11829735699575394,
+        "export": 11.188026513002114,
+        "statement": 50.70048409202718,
+        "challenge": 12.442064923990984,
+        "proof": 7.482945177005604
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-3-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-23/run/019",
+      "input_sha256": "d6b5387be314214142aeb2301f4562317594ee1c10c38715e86d0c2c0f030795",
+      "native_sha256": "a63429c29f02768b3d2d29f014af9cb513eb66bed9efcce72007bef2e549293b",
+      "native_bytes": 146175551,
+      "statement_sha256": "8501465d6165ae801784baf5ab2cd7f1116a91dea0178d5f8c3e275f079bfd3b",
+      "statement_bytes": 168082682,
+      "retained_theory_lemmas": 5,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-23/run/019/micromath-v2.sexp:1270341: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11861668797791936,
+        "export": 12.104078778997064,
+        "statement": 51.52528620799421,
+        "challenge": 12.545643261022633,
+        "proof": 7.633928217022913
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-6-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-27/run/019",
+      "input_sha256": "921140879c7448f3c85f10731e315f808f8344b7e74ad6ce8328c9567755b926",
+      "native_sha256": "3c025f9cdcf1351b936722b055af469dc7c582522f8b6509f3e145d658776c32",
+      "native_bytes": 146177254,
+      "statement_sha256": "a2dca5b61480fe66708c56f3e1d88ff0028141d27fee74a4e9e8104b6e5972d3",
+      "statement_bytes": 168082550,
+      "retained_theory_lemmas": 13,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-27/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11812580897822045,
+        "export": 11.793133399012731,
+        "statement": 51.556399299995974,
+        "challenge": 12.44748212400009,
+        "proof": 8.23574345902307
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-11-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-16/run/019",
+      "input_sha256": "4e1f17fb392b7e5310806232597c1f4f1dbc2a0f7528488bada92a515d8cd84a",
+      "native_sha256": "70a179d452bb8d87c6fd0f8bd32df6120da75d2837c9db9894d7e5ac660b98d5",
+      "native_bytes": 146177500,
+      "statement_sha256": "c577d6d23ad96fe8788163a023c8f1d213822f3e2601795b5daceb80958db069",
+      "statement_bytes": 168082490,
+      "retained_theory_lemmas": 7,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-16/run/019/micromath-v2.sexp:1270341: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11864924099063501,
+        "export": 12.64660813700175,
+        "statement": 50.76573300099699,
+        "challenge": 12.747545542020816,
+        "proof": 7.73470744502265
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-5-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-26/run/019",
+      "input_sha256": "3b0d8a4765fc0db676cbaa143b775d22cd68bc52e8b2988b182e2b5ab40d7c75",
+      "native_sha256": "d5e94121e0c9f77c9764e631c9a7b560e35d456bad4e5c044694f393579192a5",
+      "native_bytes": 146178304,
+      "statement_sha256": "1c2dd3e35c861eb1603df6a1a64b4cb4d71a3317fdf5820d4ff680e86e203048",
+      "statement_bytes": 168082622,
+      "retained_theory_lemmas": 14,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-26/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11834600000292994,
+        "export": 11.791091189981671,
+        "statement": 51.394609306997154,
+        "challenge": 12.345466451981338,
+        "proof": 7.484286947001237
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-7-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-28/run/019",
+      "input_sha256": "963188726d887ed57cf32e9f718b7dbcb3d001c40e1b4550e75f948c8f79aaac",
+      "native_sha256": "cb11b84191c192c64af819a7d99ad473447a30e05dbce98185b6f0fdf3e40cad",
+      "native_bytes": 146178559,
+      "statement_sha256": "48cda00b3a3d852094e122a234ede2c66367b4d785deda162aa8845530b06d37",
+      "statement_bytes": 168082490,
+      "retained_theory_lemmas": 11,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-28/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.16854822399909608,
+        "export": 12.495094074023655,
+        "statement": 51.37184846200398,
+        "challenge": 13.502282698987983,
+        "proof": 8.928166409983533
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-15-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-5/run/019",
+      "input_sha256": "57c04c66752741134f45e1936152eccfec9dac7d65faab3dde9b08b2dc9fd063",
+      "native_sha256": "d38cd1b223bf5f80a95208146e2dbee5126641bea8796cc35dedbbaec99867c8",
+      "native_bytes": 146184646,
+      "statement_sha256": "41aa4e03c78eac0cbfff831783484a86137235aa76de01013bd40349d8cdb882",
+      "statement_bytes": 168082402,
+      "retained_theory_lemmas": 16,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-5/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.1318317340046633,
+        "export": 12.139589867991162,
+        "statement": 51.193462210998405,
+        "challenge": 12.394333687989274,
+        "proof": 7.232886529003736
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-4-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-25/run/019",
+      "input_sha256": "9d5bdcf01fa0022d2e5beba4a21fcc00cf5ec6ba400544260c5cb8f1a082e400",
+      "native_sha256": "e204ca2d2f6720dbfd09d5adefaad6580d47adf9237d12282a97a65a75ba82b7",
+      "native_bytes": 146185722,
+      "statement_sha256": "ab622bbc580505fcfe2ce7caa234e1d5f866db6a34a059f00e22a7b441811949",
+      "statement_bytes": 168087580,
+      "retained_theory_lemmas": 11,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-25/run/019/micromath-v2.sexp:1270334: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11890211698482744,
+        "export": 12.899460757995257,
+        "statement": 52.52531066199299,
+        "challenge": 13.347361598018324,
+        "proof": 8.23644378897734
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-2-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-22/run/019",
+      "input_sha256": "63536df708079ef30c48116fb38c13cf8d35afdc4d8ea4cca6d4c9a5820a656c",
+      "native_sha256": "752e933a460673a1a9b7168483a243b59102c1756d556560a3e4f8d399eb0f3e",
+      "native_bytes": 146186420,
+      "statement_sha256": "c6fddf82b511d09b14abca30229fab8368cb4b83155d0d5b90733bfd45f47b59",
+      "statement_bytes": 168083155,
+      "retained_theory_lemmas": 24,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-22/run/019/micromath-v2.sexp:1270334: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.1684010519820731,
+        "export": 13.045038749987725,
+        "statement": 51.526982902985765,
+        "challenge": 12.645453292992897,
+        "proof": 7.633964607986854
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-12-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-10/run/019",
+      "input_sha256": "ff431f97fa88072269908a11c251d29c80c9b1ef1b3919860dc3e0e7f7584e15",
+      "native_sha256": "8ba6c5e71417683944b6f3521219e84372c8c3c400265a671a886a1a6cdf39fa",
+      "native_bytes": 146190542,
+      "statement_sha256": "6311e6f8b2fb7c4f31013ca7fceb34027a39b6227db0c34aec207d576a99e584",
+      "statement_bytes": 168082462,
+      "retained_theory_lemmas": 23,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-10/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.21884321700781584,
+        "export": 14.494277939986205,
+        "statement": 51.414784343971405,
+        "challenge": 12.593123375991127,
+        "proof": 8.185873190988787
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-0-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-30/run/019",
+      "input_sha256": "4f264c317bf93759fd13289745bd5e32efe93f046fb580486656ee17b8ae2966",
+      "native_sha256": "6f652d76e318938d5afd75a3e158341dbd3745e576ba45a3b9417c48413e0ad1",
+      "native_bytes": 146194763,
+      "statement_sha256": "7ef4aee70f888695f266bfb29fde2de3c0c300d2c886ed0c3f0d602a720c8037",
+      "statement_bytes": 168083365,
+      "retained_theory_lemmas": 29,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-30/run/019/micromath-v2.sexp:1270343: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.21948368300218135,
+        "export": 13.998163065989502,
+        "statement": 51.48049319998245,
+        "challenge": 12.795002617000137,
+        "proof": 7.58482106498559
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-9-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-20/run/019",
+      "input_sha256": "99479084867fd2e65d68cba2e9ee4360536b38efe5b41fe61f771b020206f313",
+      "native_sha256": "cc250de25e9f0d7a26b2b862bd8ebabd25ed2a72bc8167ff9220e5bc6cef59d8",
+      "native_bytes": 146195572,
+      "statement_sha256": "a891aa80cb57ceacdd38b4fdb4e40446b3414ce69f307919dabb78b2a1ccb75a",
+      "statement_bytes": 168082924,
+      "retained_theory_lemmas": 35,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-20/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.3693404659861699,
+        "export": 14.446706706017721,
+        "statement": 51.067038991022855,
+        "challenge": 13.449603626999306,
+        "proof": 8.840443801978836
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-1-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-31/run/019",
+      "input_sha256": "051f792f3df5ec642a1d6a913f50d1b27fd46d9b7a77a21ded63a408f755916e",
+      "native_sha256": "c315e2372218d0ae83d63c88f1d88d4d0eb4a67e506d8cf2570c7bc485871273",
+      "native_bytes": 146196933,
+      "statement_sha256": "9603797140c8e1b79a36ea0eef2e684ee1518e483cdef9d669f7ad38b9cf4f32",
+      "statement_bytes": 168083603,
+      "retained_theory_lemmas": 29,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-31/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06839844799833372,
+        "export": 13.045612788992003,
+        "statement": 51.31923711198033,
+        "challenge": 12.694597649999196,
+        "proof": 7.934224047989119
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-23-49.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-126/run/018",
+      "input_sha256": "970c74e23c6128a4d57ed4dd09205311046e6ad25b7a4214bb9b315a6ad03aac",
+      "native_sha256": "3235acd37459d812273c4511fde5ecb0fefd6d190dc9005509af93a8ba59e81b",
+      "native_bytes": 148433867,
+      "statement_sha256": "40c896cb29b77af31005e61776ff71369aecefc509928929ee169664099d63c9",
+      "statement_bytes": 170689606,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-126/run/018/micromath-v2.sexp:1263805: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06798524799523875,
+        "export": 11.492153933009831,
+        "statement": 51.655342337995535,
+        "challenge": 12.64353578799637,
+        "proof": 7.3511157679895405
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-30-34.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-92/run/015",
+      "input_sha256": "4bbe6ed9cf855912606e52bcd1f5e8b7fedbf8467e26db85f206d6bb3c72ef7c",
+      "native_sha256": "e089b82b3f96d1158609a9d04263d373b31295eb77ac5df3d94057dd0e59aa61",
+      "native_bytes": 154556357,
+      "statement_sha256": "185dadd200bf41b324d77bf186ada2a2e2975e224fb60b0731c2048125405e9c",
+      "statement_bytes": 177677412,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-92/run/015/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06841237400658429,
+        "export": 11.25750888796756,
+        "statement": 54.33896301698405,
+        "challenge": 13.34996088600019,
+        "proof": 9.30695266497787
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-23-34.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-94/run/015",
+      "input_sha256": "54419457f515fa1830f35426aced7427a3972de4df3862d60302748605f28b95",
+      "native_sha256": "0bbd44d6e915f28676862e371c1f2c443eb10d0d4ba4a3b166ff848f4104000c",
+      "native_bytes": 154568961,
+      "statement_sha256": "d82dfa3b15783faea9ab5b4d467044a3915597d53f32537e411c975da1ae8b3c",
+      "statement_bytes": 177689985,
+      "retained_theory_lemmas": 2,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-94/run/015/micromath-v2.sexp:1122644: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06821785701322369,
+        "export": 11.643550592998508,
+        "statement": 54.587487756012706,
+        "challenge": 13.395943543000612,
+        "proof": 8.636510941985762
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-38-34.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-91/run/015",
+      "input_sha256": "4d7bc137eafd3cb593652298b9c3de16bd78524e5bc669d5cc847686c19a6849",
+      "native_sha256": "41983892b434e3c88c933c53fd01ea5420d4003dce8b42857162ec655ab286e9",
+      "native_bytes": 154570655,
+      "statement_sha256": "9b542d03bff773551a4f3e6e7e9578c0a1939b1a989dfaf0edabccaed75e89db",
+      "statement_bytes": 177689721,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-91/run/015/micromath-v2.sexp:1122646: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.03560893895337358,
+        "export": 8.784385720035061,
+        "statement": 54.0629824679927,
+        "challenge": 12.693779985012952,
+        "proof": 7.933102025999688
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-31-34.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-93/run/015",
+      "input_sha256": "0854310c824a4ff16bd246b6da61543f10465e2e13011318514f7ba9c99e3bd2",
+      "native_sha256": "3900144ae35bbb5f2dcaf999438532a9abfd29367f71491fd1306e7b622da0dd",
+      "native_bytes": 154573793,
+      "statement_sha256": "8eaed266516ff3a7687cb0d5907292745d37ebbd4e972011d6b9956511e50c0d",
+      "statement_bytes": 177689853,
+      "retained_theory_lemmas": 4,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-93/run/015/micromath-v2.sexp:1122644: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06825567100895569,
+        "export": 10.292111021990422,
+        "statement": 54.523117858043406,
+        "challenge": 13.404208596039098,
+        "proof": 7.683467562019359
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-25-34.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-95/run/015",
+      "input_sha256": "d9b68145b2b7d4cfeb7afda2207c6dfef079470c868959ed2c822736a861dfc8",
+      "native_sha256": "e93129e2278a0f03d14be5e2b997d41f937321a34033a5781857fb55a853783c",
+      "native_bytes": 154574633,
+      "statement_sha256": "d642fc6e1075f73adca47600da8a27b23a6140cdb286873e56fbc8697c3c8b11",
+      "statement_bytes": 177689985,
+      "retained_theory_lemmas": 6,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-95/run/015/micromath-v2.sexp:1122644: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06904198904521763,
+        "export": 12.694804792001378,
+        "statement": 54.5739615939674,
+        "challenge": 13.899406472977716,
+        "proof": 7.732723850000184
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-14-34.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-97/run/015",
+      "input_sha256": "f3410a972736ea1e3e70d20097f75b335d6802f0c08e829161a518e57d82d358",
+      "native_sha256": "2645bfdc30ac07d703685428685e39fc05f412a3d268d87233656e7a57552d5e",
+      "native_bytes": 154574996,
+      "statement_sha256": "2fcae482106612fdbcd5ee1524569e2d4166eb125137583e61ff7f9e8c6cb286",
+      "statement_bytes": 177690115,
+      "retained_theory_lemmas": 12,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-97/run/015/micromath-v2.sexp:1122646: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06819321800139733,
+        "export": 11.740672054002061,
+        "statement": 54.58191793502192,
+        "challenge": 13.49615941097727,
+        "proof": 7.7838125840062276
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-15-34.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-98/run/015",
+      "input_sha256": "d6fbb90baea258ace2f1552a5e88d4e56de869cfec46b378ab7e0b0933753cb9",
+      "native_sha256": "d2858591d36dc42f902bd63fef983aa5e8bae3a1311608ebfaced558e41df66d",
+      "native_bytes": 154576218,
+      "statement_sha256": "13a85661a0ea76819c05cbb6900e4633786e8dff4a4cccb493530bff77f7e43d",
+      "statement_bytes": 177690155,
+      "retained_theory_lemmas": 10,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-98/run/015/micromath-v2.sexp:1122646: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06821964803384617,
+        "export": 12.893175577977672,
+        "statement": 54.47364479699172,
+        "challenge": 13.553159103961661,
+        "proof": 7.78324702201644
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/int_from_list/prp-39-34.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-90/run/015",
+      "input_sha256": "266093bd2e4dd934428ae8e12ad75fedcadc75f1db1d8cd1c9bced7775436ce0",
+      "native_sha256": "630efdbe9f8dae1de0e6e7631eaca571859bcee5aa7153445dba63f36b662eae",
+      "native_bytes": 156721549,
+      "statement_sha256": "99ae27b2b94fe1969b35f0637fd11cb1a149ca77d5ce06a08514e797bacd427a",
+      "statement_bytes": 180167927,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-90/run/015/micromath-v2.sexp:1116386: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.03711946704424918,
+        "export": 9.34999754303135,
+        "statement": 54.76941359002376,
+        "challenge": 13.598817404999863,
+        "proof": 7.883398541016504
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/checkpass_pwd/prp-25-29.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-87/run/016",
+      "input_sha256": "8a5560c21534699b51614e75872e383182c974ffcd5ecca841ce68c8c0ffa24c",
+      "native_sha256": "c2aa5cce6b7c34fc0c2cdf279781931bbe28ccb75d2c28cf157bbbb2cefd74a7",
+      "native_bytes": 168226998,
+      "statement_sha256": "4560295ef1805b72f8c558d8ec5ebb68eed3f074531d7968134b7ffd3f8d8453",
+      "statement_bytes": 193735865,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-87/run/016/micromath-v2.sexp:1069898: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06844192702556029,
+        "export": 9.236030202009715,
+        "statement": 59.52981930796523,
+        "challenge": 14.84945630596485,
+        "proof": 8.084266864985693
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/checkpass_pwd/prp-24-29.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-86/run/016",
+      "input_sha256": "ada603969efbabf9965f3b7c1657fa13676ef69049542db1cea22d1428803c80",
+      "native_sha256": "cd2d00080f31ddcea60a7d77e842d95a5e2de678194f98f8bcfeb8213439741b",
+      "native_bytes": 168739667,
+      "statement_sha256": "4c1527afaa2f862b356a1cd3bfa769479bc0cf7d21c4fd1dbb18c92521ef20e3",
+      "statement_bytes": 194322922,
+      "retained_theory_lemmas": 2,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-86/run/016/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.06803330400725827,
+        "export": 8.483015534991864,
+        "statement": 58.61453482799698,
+        "challenge": 13.944655960018281,
+        "proof": 9.138478858978488
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/checkpass_pwd/prp-3-29.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-92/run/016",
+      "input_sha256": "8ca077f99f539e589984ded69e668dfc2cdbe26e10da6499d09322b678c3a0a5",
+      "native_sha256": "325f49caf5d08ea83fab77e5f016f1a10aee4f48ad556442092668f815f9c46f",
+      "native_bytes": 169109044,
+      "statement_sha256": "6954b1c1c0ed174a60af5d0baf5bb69499a0ebbfb302dc497301da54c69fe948",
+      "statement_bytes": 194744833,
+      "retained_theory_lemmas": 1,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-92/run/016/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11977016500895843,
+        "export": 19.407308725989424,
+        "statement": 59.84650653100107,
+        "challenge": 14.748502102971543,
+        "proof": 8.153026192972902
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/checkpass_pwd/prp-20-29.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-91/run/016",
+      "input_sha256": "a92eb67e0fee746d94c6c2e429aabbe47e5bcf03924b1943825f4afb5b9943e7",
+      "native_sha256": "77d7134be4f80da7603f2a4a06ed664d925753124587ae451dff7cffb4c6c73c",
+      "native_bytes": 169129531,
+      "statement_sha256": "1d10e7ddaed71585b2317b58a34d5816c586a31878fe6a1cd0f99eef5f1c3a83",
+      "statement_bytes": 194745215,
+      "retained_theory_lemmas": 34,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-91/run/016/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.16856845904840156,
+        "export": 18.605542378965765,
+        "statement": 59.02785471500829,
+        "challenge": 14.196391226025298,
+        "proof": 8.184126348001882
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/med/checkpass_pwd/prp-14-29.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-88/run/016",
+      "input_sha256": "75f60c01e6378472302c60205693084b94e5185cb744b88e443c6bea50be4381",
+      "native_sha256": "9fd780c612bc1ae8aacab8c0448622164bb10eba1a372521f2933fb1a5a15451",
+      "native_bytes": 169135264,
+      "statement_sha256": "bfb343694024bbbc33050c99588074543b5e8ecaddccb17868c07eed5e59d2ee",
+      "statement_bytes": 194745303,
+      "retained_theory_lemmas": 54,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-88/run/016/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.21899178699823096,
+        "export": 20.158176398981595,
+        "statement": 59.12318103000871,
+        "challenge": 14.396576094004558,
+        "proof": 8.335436316003324
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-19-50.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-74/run/019",
+      "input_sha256": "c6684f1ec4592a9139c7d0984e1e19bdc91cf9dc77c953d7d72c2d47e3236dcc",
+      "native_sha256": "77528299792c38bdffe5ac13e4361975c4ce6cf6dbb5f7dba34d37fccc8085c5",
+      "native_bytes": 170909946,
+      "statement_sha256": "5f621c05014a1d67c66416e493e2102e24e7725898d18a81ff3f5c2e414a7199",
+      "statement_bytes": 196506145,
+      "retained_theory_lemmas": 2,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-74/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11848148703575134,
+        "export": 14.045117433997802,
+        "statement": 59.42240094701992,
+        "challenge": 14.39942701603286,
+        "proof": 8.134734827035572
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-17-50.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-77/run/019",
+      "input_sha256": "815bf83f5a05593947f771bd035a39a3a9dff54dbbdbc4dab45873b585ee8e02",
+      "native_sha256": "386e9d336b94e494545c8b6afb688a6aee8c559c5d036758daeb0ad650546627",
+      "native_bytes": 170911685,
+      "statement_sha256": "11218ccc49abbb6c2f9bb10d1996ef06692aaab8b0c497d0706e9d6c26e4ba2c",
+      "statement_bytes": 196509503,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-77/run/019/micromath-v2.sexp:1079341: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11865660100011155,
+        "export": 14.247726224013604,
+        "statement": 59.225170908961445,
+        "challenge": 14.447270523989573,
+        "proof": 8.283468275971245
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-13-50.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-79/run/019",
+      "input_sha256": "1d648e79118fc6aa9454e27420ba4059500e7d5e87188e7cd0750ea1a4f32842",
+      "native_sha256": "200e616317ae40c26f8d1979e484db52854202de9be97f7eece0e40a593ed161",
+      "native_bytes": 170911732,
+      "statement_sha256": "af9e026042c0c8e9b84d61775d20c3409845efbccb6a5207b2dd5678e980c3b5",
+      "statement_bytes": 196509563,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-79/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11877542798174545,
+        "export": 13.495555714005604,
+        "statement": 59.27498904900858,
+        "challenge": 14.297245058056433,
+        "proof": 8.333688771002926
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-14-50.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-80/run/019",
+      "input_sha256": "0e563535c474e6f6b1e5053df60227df72f6c9734ab7dc769d9e98a0566320a8",
+      "native_sha256": "4f5f0c1be500740ea98e474823c2a3ba793a9cbbcc7d0610ecb0a1e007f68ada",
+      "native_bytes": 170911732,
+      "statement_sha256": "8514abc80ad2f10bc5ce79db95e9e076da140090fbf43b38d77a67a855b69251",
+      "statement_bytes": 196509563,
+      "retained_theory_lemmas": 0,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-80/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.1210481760208495,
+        "export": 13.754459086980205,
+        "statement": 59.57013609295245,
+        "challenge": 14.39761702902615,
+        "proof": 7.833035813993774
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-18-50.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-73/run/019",
+      "input_sha256": "2e40a678a8d81fa8bcc3294efd366520bf5d764b755f739f4b1eae789a7c68b2",
+      "native_sha256": "0bf5e2097f2827624465d2d69ce3cab313fe4e118d7e99641016d5681bac87cf",
+      "native_bytes": 170911761,
+      "statement_sha256": "61caa18d1529002ea52f5d2bb94ceb4ccd164e6cad3668124ecbdf172413dbb2",
+      "statement_bytes": 196508807,
+      "retained_theory_lemmas": 2,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-73/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.1688114299904555,
+        "export": 14.947140440985095,
+        "statement": 59.37121967700659,
+        "challenge": 14.849331370001892,
+        "proof": 8.585082083009183
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-22-50.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-72/run/019",
+      "input_sha256": "c0c31f7a49217985c43824142dc5d66190f349920ff3fb29478c5dcee61d8910",
+      "native_sha256": "cdabf7ffc9685ee7256c40a743f5771c416b82efc9e14590a07f9c07113f6b12",
+      "native_bytes": 170913895,
+      "statement_sha256": "3bf8e437da51fdd0f6917ddaf005fb41add78a1a47d008b1e6f05d6b96a8c015",
+      "statement_bytes": 196509371,
+      "retained_theory_lemmas": 3,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-72/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11809696903219447,
+        "export": 15.35085353499744,
+        "statement": 59.731532070960384,
+        "challenge": 14.852581891987938,
+        "proof": 8.034882568987086
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-3-50.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-82/run/019",
+      "input_sha256": "e934f83a544065220c03cdb0c9cdf438b46eb317bedf6c5b7f92a379f969cf93",
+      "native_sha256": "84d1c118f4ab2b0afc5ecf1be4967f3c0e5f8e73da7727b23513cefc9133f9d0",
+      "native_bytes": 170915516,
+      "statement_sha256": "cac1a0542736d68a97bb1336bad7123f8b99bcc7e617bc1f16932152ff262992",
+      "statement_bytes": 196509783,
+      "retained_theory_lemmas": 9,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-82/run/019/micromath-v2.sexp:1079341: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11844655399909243,
+        "export": 14.146159277006518,
+        "statement": 59.42961818599724,
+        "challenge": 14.548743477993412,
+        "proof": 8.6340045859979
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-5-50.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-84/run/019",
+      "input_sha256": "c99e375a82412ead2b628fc3051781d7e3b69b0ae6bb5c5eaa0d9249d72b5c1c",
+      "native_sha256": "55e5066fd3ac59479317efc0a28a9b756644147edd5e11e5e3d8e4d5f97e564f",
+      "native_bytes": 170917723,
+      "statement_sha256": "8ee7aa7368c8ce781da5a4c78432a7c06033fcad6897a09328982598a3f70443",
+      "statement_bytes": 196509723,
+      "retained_theory_lemmas": 12,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-84/run/019/micromath-v2.sexp:0: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.16824777799774893,
+        "export": 15.999704488000134,
+        "statement": 59.686253216001205,
+        "challenge": 14.952517292986158,
+        "proof": 9.53575695300242
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-7-50.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-86/run/019",
+      "input_sha256": "e9fb5848bc44d3821cbfe27ce02f9a42e5b18ea803a0bfbd4c59e157d0ff6f94",
+      "native_sha256": "9b81f0aabe146d08e686605bf46ac960da7b0b2e56ae99267a2fc71e5b4f17b3",
+      "native_bytes": 170918521,
+      "statement_sha256": "6bf7f62fcebb12f443b0e1d62460d767e01fe46e588b29a603976868d04fe837",
+      "statement_bytes": 196509591,
+      "retained_theory_lemmas": 9,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-86/run/019/micromath-v2.sexp:1079341: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11862924398155883,
+        "export": 13.744547582988162,
+        "statement": 59.37829323398182,
+        "challenge": 14.246480185014661,
+        "proof": 8.400362888001837
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "nec-smt/large/handler_sigchld/prp-1-50.smt2",
+      "failure_kind": "producer_out_of_memory",
+      "status": "proof_error",
+      "primary_case": "QF_LIA/shard-91/run/019",
+      "input_sha256": "18d9ae7df6bb31a3532d116729097604f2f2a0f97fe746b7730e23ddefafd75a",
+      "native_sha256": "70d50e37579c273619a1b4140400f6c054aa21b6893b201d29c3d2bee8a6e5f5",
+      "native_bytes": 170931975,
+      "statement_sha256": "6b36f2ebe0dfd328315926649d17ad299bc06100edef2bc8fbd3066a0627635c",
+      "statement_bytes": 196510704,
+      "retained_theory_lemmas": 25,
+      "producer_diagnostic": "/home/janotmik/primo-lia-export-20261105/results/full-arithmetic-certificates-365550/QF_LIA/shard-91/run/019/micromath-v2.sexp:1079341: out of memory",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "phase_seconds": {
+        "reference": 0.11876903899246827,
+        "export": 15.099253104010131,
+        "statement": 59.62208235898288,
+        "challenge": 14.396108546003234,
+        "proof": 7.783043025992811
+      }
+    }
+  ],
+  "representative_selection": {
+    "challenge_construction_deadline": {
+      "file": "2019-cmodelsdiff/wireRouting/p15.smt2",
+      "required_input_bytes": 38750749,
+      "criterion": "minimum required uncompressed checker-input bytes among the109 primary failures; no input reduction"
+    },
+    "overall_proof_pipeline_deadline": {
+      "file": "clock_synchro/clocksynchro_7clocks.worst_case_skew.induct.smt2",
+      "required_input_bytes": 673477,
+      "criterion": "minimum required uncompressed checker-input bytes among the109 primary failures; no input reduction"
+    },
+    "producer_definition_index_allocation": {
+      "file": "wisa/wisa5.smt2",
+      "required_input_bytes": 19162661,
+      "criterion": "minimum required uncompressed checker-input bytes among the109 primary failures; no input reduction"
+    },
+    "producer_out_of_memory": {
+      "file": "nec-smt/med/int_from_list/prp-38-32.smt2",
+      "required_input_bytes": 216883131,
+      "criterion": "minimum required uncompressed checker-input bytes among the109 primary failures; no input reduction"
+    }
+  }
+}

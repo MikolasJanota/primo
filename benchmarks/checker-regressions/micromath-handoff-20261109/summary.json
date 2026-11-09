@@ -1,0 +1,82 @@
+{
+  "archive": "benchmarks/checker-regressions/micromath-handoff-20261109/micromath-checker-feedback.tar.gz",
+  "sha256": "843fe51a8efcbf2faffbcd21ef3730aea80cc2c983237d03da5b01fecaca39e5",
+  "bytes": 18122174,
+  "payloads": 51,
+  "payload_sha256": {
+    "README.md": "a1c90ca86c0c800b4ec96898551eb9c59ea7b4f2efd3a2d92528aea4579efe61",
+    "replay.sh": "a65f768916ff7bfd12046818b34c36273ee7e9d53e467e8a7a0e155dd003e56c",
+    "failure-index.json": "c93a1af7dc1086de5b0a7871772e0fde61e93996f82e16d1d7a4919e303e0b0c",
+    "failure-index.csv": "84756009fdf062e53170e566c6d670385fc9a162c3d5adb4482ed8b6311e4def",
+    "packets/definition-index/README.txt": "fd91e6600bed97116821ee1bceab2a69b06e0130459c5e38ad049836e250086f",
+    "packets/definition-index/SHA256SUMS": "530e6558d550304bcdcfeaac97190b655e92311ac8e61ae62293b76485c163e9",
+    "packets/definition-index/replay.sh": "834d8fce8f2360feac0cea5b349e6f76f032a1b094c026d6aecf0966033b2360",
+    "packets/definition-index/wisa-definition-allocation/case.json": "3d1df3a8adc98089a11b5c67304486143e7d46675b4f8ed49c41a56a0cfad9bc",
+    "packets/definition-index/wisa-definition-allocation/challenge.err": "7ef40c8eb5222cec5f22047d7aa72dccef74f02b55244cbf9d56e7e52485d923",
+    "packets/definition-index/wisa-definition-allocation/export.err": "7d82761571875c3897a693e7aea90049ab3037951a67c3225f88c1a8b31556b7",
+    "packets/definition-index/wisa-definition-allocation/export.out": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+    "packets/definition-index/wisa-definition-allocation/exported-cnf.smt2": "4e73d5b0bdd4fb27fca6dbba88ac3197a41735991a6471c21b04d4c2e1630e50",
+    "packets/definition-index/wisa-definition-allocation/input.smt2": "736ba50c3d5e70578083a16c1a1ab3932997fbef479dfe9bc235a31bc00f9db7",
+    "packets/definition-index/wisa-definition-allocation/micromath-v2.sexp": "d0761947f9e204b36589c843d85098cd70f7b85797d84c095ef7c354ff07372d",
+    "packets/definition-index/wisa-definition-allocation/pipe/exit-status.txt": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+    "packets/definition-index/wisa-definition-allocation/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packets/definition-index/wisa-definition-allocation/pipe/kernel.out": "755c50d57cb1d3c1b9bcb895ea012ba705ecafee1540e2f9eb063325809ed6fd",
+    "packets/definition-index/wisa-definition-allocation/pipe/producer.err": "651ee92cf32fc4189e77d372ef457d26df558240c4912a355146a99d8f1b6bba",
+    "packets/definition-index/wisa-definition-allocation/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packets/definition-index/wisa-definition-allocation/statement.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packets/proof-limits/README.txt": "5e9f3578a9964bb310f22930b93520c0ee371bf060521de170851d85a3a6a8c2",
+    "packets/proof-limits/SHA256SUMS": "6f57fb4c06276b30086e29cd7a0ef6a90707bcb4e342f16462cb1d3843977163",
+    "packets/proof-limits/lia-native-read-oom/case.json": "6ca25a747c4216d82e49469b311824e3ae3be7db4c2bfb9509122501628cc727",
+    "packets/proof-limits/lia-native-read-oom/challenge.err": "622919ef5ba87750b47af7d599d7f045f4908ae4330a4f816d671e68493b2214",
+    "packets/proof-limits/lia-native-read-oom/export.err": "f7b3d5f03626b7e6a30f8af412ed4055084747be913cb80bfa010bfffacf9aa8",
+    "packets/proof-limits/lia-native-read-oom/exported-cnf.smt2": "ed4729a8aeea70bbb80fb0b7f134de88a68727f3897e0de37021ba195b048ca7",
+    "packets/proof-limits/lia-native-read-oom/input.smt2": "77d7a6f4b2652420806a69cebb175fd058580cc18a3145a60f5b54f67ad511ce",
+    "packets/proof-limits/lia-native-read-oom/micromath-v2.sexp": "5651b47954c94c80e7d4f6d83b42bc44282dd8f2ca6f530ea422d760ae585299",
+    "packets/proof-limits/lia-native-read-oom/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packets/proof-limits/lia-native-read-oom/pipe/kernel.out": "755c50d57cb1d3c1b9bcb895ea012ba705ecafee1540e2f9eb063325809ed6fd",
+    "packets/proof-limits/lia-native-read-oom/pipe/producer.err": "8c86c3c5c48735cdfc5c0494f8456247b56ef7217a7b86fca4af4d519cd9596a",
+    "packets/proof-limits/lia-native-read-oom/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packets/proof-limits/lia-native-read-oom/statement.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packets/proof-limits/lra-clock-7/case.json": "743d7dd426810fce4bf6d3107799a178e372c3ee3c43da856d9841770a5bc2f4",
+    "packets/proof-limits/lra-clock-7/challenge.err": "b44b68388092ff8d3e57f93c129d583949e3f562e794aa40088ad9bc83f6df04",
+    "packets/proof-limits/lra-clock-7/export.err": "6afa5e418ace16c8afa3a12c0041dd7f537eafb9d3c0ea70b36425d66a963d91",
+    "packets/proof-limits/lra-clock-7/exported-cnf.smt2": "c815a828491f9c8de51731c6cc4bdfb4aa898a8c152a563e9d6e358deb009065",
+    "packets/proof-limits/lra-clock-7/input.smt2": "a1a55637f696c40a893402362623992d760b7f7c5dd46ae2cfd3899ff64476d0",
+    "packets/proof-limits/lra-clock-7/native.sexp": "53403e94193bfd28a85355b4246e82dae4daaaefa955833c723c40e9ad3c96e9",
+    "packets/proof-limits/lra-clock-7/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packets/proof-limits/lra-clock-7/pipe/kernel.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packets/proof-limits/lra-clock-7/pipe/producer.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packets/proof-limits/lra-clock-7/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packets/proof-limits/lra-clock-7/statement.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packets/proof-limits/replay.sh": "fef23566ec0ce772df948cb21f147454f1d7523c0a389d552a3dc14966e12ab7",
+    "packets/challenge-deadline/README.txt": "1c2e7f4d8b00f009ba4cb60fe3812494a8365ce33f12268eab8dd60e7d130bce",
+    "packets/challenge-deadline/SHA256SUMS": "932eb1454d3c2134f6ce5b5b8298a871860a2ce3538fa182e75c415c3426938c",
+    "packets/challenge-deadline/case.json": "0b0ba64a897b6465dfd15f69b86d049a2f426c64290526b2b17e74e36ef301bd",
+    "packets/challenge-deadline/challenge.err": "275680f6a30c04817e4c314c25be44c3120f037a58e133fb1f18d0dea4373d4a",
+    "packets/challenge-deadline/exported-cnf.smt2": "81c604f31c848ff95837f5f2050959c6cc841e6bf24f307b1346512923695e55",
+    "packets/challenge-deadline/replay.sh": "7ab6533c0e6dcbea01699ae24f3a483c5105d41a22a6c84d32c7dfafa774fbaa"
+  },
+  "representatives": 4,
+  "indexed_failures": 109,
+  "failure_counts": {
+    "challenge_construction_deadline": 3,
+    "overall_proof_pipeline_deadline": 20,
+    "producer_definition_index_allocation": 3,
+    "producer_out_of_memory": 83
+  },
+  "source_archives": [
+    {
+      "archive": "benchmarks/checker-regressions/full-arithmetic-20261108/lia-definition-allocation.tar.gz",
+      "sha256": "840eb421d18fac2f3cc2c0cc5eaedd178b2ec05ae3bb2083eef427ef4744965f"
+    },
+    {
+      "archive": "benchmarks/checker-regressions/full-arithmetic-20261108/checker-feedback.tar.gz",
+      "sha256": "0ea0dcd6d4046f53d124e1df85d2683fd27d6ffcf722d0633b4c0be7cb0cdaa1"
+    },
+    {
+      "archive": "benchmarks/checker-regressions/full-arithmetic-20261108/lia-challenge-deadline.tar.gz",
+      "sha256": "5f9cd5b775ce09fb73babd200cc8ee521ec08809db3f73e577cded59e6f1e8e3"
+    }
+  ],
+  "validation": "payload/archive hashes and shell syntax only; no new solver/checker run"
+}

@@ -3,6 +3,88 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-09-compact-micromath-checker-handoff",
+      "date": "2026-11-09",
+      "kind": "existing-checker-failure-artifact-handoff",
+      "source_git": "a2a92d25663b1f54fb2e5b2af360e308e219f3dd",
+      "source_slurm_array": "365550",
+      "evidence_status": "packaging of preserved primary-run inputs and diagnostics; no new solver/checker execution",
+      "native_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "selection": "compact representatives explicitly requested; one minimum required uncompressed-input case per observed checker failure category; no input reduction",
+      "indexed_checker_failures": 109,
+      "embedded_representatives": 4,
+      "failure_counts": {
+        "challenge_construction_deadline": 3,
+        "overall_proof_pipeline_deadline": 20,
+        "producer_definition_index_allocation": 3,
+        "producer_out_of_memory": 83
+      },
+      "complete_input_payload_bytes": 25618086206,
+      "archive": {
+        "file": "benchmarks/checker-regressions/micromath-handoff-20261109/micromath-checker-feedback.tar.gz",
+        "sha256": "843fe51a8efcbf2faffbcd21ef3730aea80cc2c983237d03da5b01fecaca39e5",
+        "bytes": 18122174,
+        "payloads_excluding_checksum": 51
+      },
+      "manifest": "benchmarks/checker-regressions/micromath-handoff-20261109/summary.json",
+      "index": "benchmarks/checker-regressions/micromath-handoff-20261109/failure-index.json",
+      "readme": "benchmarks/checker-regressions/micromath-handoff-20261109/README.md",
+      "source_archives": [
+        {
+          "archive": "benchmarks/checker-regressions/full-arithmetic-20261108/lia-definition-allocation.tar.gz",
+          "sha256": "840eb421d18fac2f3cc2c0cc5eaedd178b2ec05ae3bb2083eef427ef4744965f"
+        },
+        {
+          "archive": "benchmarks/checker-regressions/full-arithmetic-20261108/checker-feedback.tar.gz",
+          "sha256": "0ea0dcd6d4046f53d124e1df85d2683fd27d6ffcf722d0633b4c0be7cb0cdaa1"
+        },
+        {
+          "archive": "benchmarks/checker-regressions/full-arithmetic-20261108/lia-challenge-deadline.tar.gz",
+          "sha256": "5f9cd5b775ce09fb73babd200cc8ee521ec08809db3f73e577cded59e6f1e8e3"
+        }
+      ],
+      "limits": {
+        "reference_seconds": 60,
+        "native_export_seconds": 120,
+        "statement_seconds": 60,
+        "challenge_seconds": 60,
+        "overall_proof_kernel_seconds": 120,
+        "external_address_bytes": 3221225472,
+        "external_file_bytes": 268435456
+      },
+      "statement_boundary": "exported-cnf; original input-to-CNF transformation not verified; LIA one-byte version compatibility copies preserved verbatim",
+      "exclusions": "producer/native crashes, native export/reconstruction failures, our CNF-statement conversion failures and reference timeouts",
+      "verification": {
+        "archive_payload_hashes": "all51payloads checked; embedded old packet payloads identical to reviewed originals",
+        "shell_syntax": "top-level selector plus all3existing replay scripts bash-n; selector --list smoke only",
+        "new_solver_checker_runs": false,
+        "documentation": {
+          "make_lint": "passed",
+          "make_docs": "passed",
+          "assembled_site_links": {
+            "pages": 277,
+            "local_links": 37042,
+            "unique_git_links": 1215,
+            "failures": 0,
+            "external_urls_deferred": 454
+          },
+          "rendered_inspection": "new reference paragraph and both download payload bytes match sources"
+        },
+        "independent_review": {
+          "reviewer": "/root/review_checker_handoff",
+          "baseline_git": "a2a92d25663b1f54fb2e5b2af360e308e219f3dd",
+          "verdict": "Ready; no required findings or suggestions",
+          "scope": "complete new handoff README/selector/index/manifests/archive; added reference paragraph; first run-log entry with surrounding prose and primary evidence",
+          "archive_sha256": "843fe51a8efcbf2faffbcd21ef3730aea80cc2c983237d03da5b01fecaca39e5",
+          "readme_sha256": "a1c90ca86c0c800b4ec96898551eb9c59ea7b4f2efd3a2d92528aea4579efe61",
+          "checked": "109case membership/classification;minimum input-size selections;index CSV/JSON;51payload hashes;source packet byte identity;LIA one-byte copies;four shell syntaxes and selector paths",
+          "unchecked": "actual replay execution;tool/build compatibility;recurrence on another machine;checker implementation;solver correctness;writer rendering/link checks"
+        },
+        "native_gates": "not rerun; artifact/documentation packaging only, no solver modifications"
+      }
+    },
+    {
       "id": "2026-11-08-full-recorded-arithmetic-certificates",
       "date": "2026-11-08",
       "kind": "full-recorded-UNSAT-CORE-export-and-kernel-campaign",
