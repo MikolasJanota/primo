@@ -124,5 +124,41 @@
     "final_report": "370941"
   },
   "timing_task_wall_minutes": 90,
-  "wall_budget_note": "Up to12native120s timings plus independent240s resource diagnostics; diagnostic time is excluded from performance metrics."
+  "wall_budget_note": "Up to12native120s timings plus independent240s resource diagnostics; diagnostic time is excluded from performance metrics.",
+  "throttle_adjustments": [
+    {
+      "utc": "2026-11-09T18:59:48.811621+00:00",
+      "phase": "timing",
+      "job": "370779",
+      "old_limit": 32,
+      "new_limit": 42,
+      "active_arrays": 3,
+      "phase_maximum": 128,
+      "command_exit": null,
+      "note": "Active parent limit verified. scontrol may reject already-finished child tasks while updating the active array parent."
+    },
+    {
+      "utc": "2026-11-09T18:59:53.738729+00:00",
+      "phase": "timing",
+      "job": "370812",
+      "old_limit": 32,
+      "new_limit": 42,
+      "active_arrays": 3,
+      "phase_maximum": 128,
+      "command_exit": 1,
+      "note": "Active parent limit verified. scontrol may reject already-finished child tasks while updating the active array parent."
+    },
+    {
+      "utc": "2026-11-09T18:59:58.652540+00:00",
+      "phase": "timing",
+      "job": "370850",
+      "old_limit": 32,
+      "new_limit": 42,
+      "active_arrays": 3,
+      "phase_maximum": 128,
+      "command_exit": 1,
+      "note": "Active parent limit verified. scontrol may reject already-finished child tasks while updating the active array parent."
+    }
+  ],
+  "concurrency_policy": "As arrays drain, rebalance their limits within the original128timing/96model worker maxima; CPU/memory/solver arguments unchanged."
 }
