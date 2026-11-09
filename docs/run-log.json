@@ -6,7 +6,7 @@
       "id": "2026-11-09-uniform120",
       "date": "2026-11-09",
       "kind": "fresh-native120s full-corpus comparison with archived-reference reuse",
-      "evidence_status": "resource recovery verified; broad resume pending",
+      "evidence_status": "native corpus timings resumed; model/final qualification pending",
       "native_source_git": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
       "implementation_source": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
       "scope": "Native defaults on24505 inputs plus declared integer profile on13965inputs; references read-only and censored1200->120s.",
@@ -120,7 +120,86 @@
           "initial": "370631",
           "allocation_trace": "370649",
           "full_abort_trace": "370656"
-        }
+        },
+        "resource_recovery": {
+          "plan_sha256": "2515c8c7f6d10cadf797a03530d3b713ce99f38b2172dab3a31f8ad048dd7ac3",
+          "timing": [
+            "370779",
+            "370812",
+            "370850",
+            "370897"
+          ],
+          "models": [
+            "370937",
+            "370938",
+            "370939",
+            "370940"
+          ],
+          "gate_audit": "370778",
+          "chunks": [
+            {
+              "phase": "timing",
+              "job": "370779",
+              "offset": 0,
+              "tasks": 1000,
+              "throttle": 32
+            },
+            {
+              "phase": "timing",
+              "job": "370812",
+              "offset": 1000,
+              "tasks": 1000,
+              "throttle": 32
+            },
+            {
+              "phase": "timing",
+              "job": "370850",
+              "offset": 2000,
+              "tasks": 1000,
+              "throttle": 32
+            },
+            {
+              "phase": "timing",
+              "job": "370897",
+              "offset": 3000,
+              "tasks": 166,
+              "throttle": 32
+            },
+            {
+              "phase": "models",
+              "job": "370937",
+              "offset": 0,
+              "tasks": 1000,
+              "throttle": 24
+            },
+            {
+              "phase": "models",
+              "job": "370938",
+              "offset": 1000,
+              "tasks": 1000,
+              "throttle": 24
+            },
+            {
+              "phase": "models",
+              "job": "370939",
+              "offset": 2000,
+              "tasks": 1000,
+              "throttle": 24
+            },
+            {
+              "phase": "models",
+              "job": "370940",
+              "offset": 3000,
+              "tasks": 208,
+              "throttle": 24
+            }
+          ],
+          "recovery_sha256": "88ae50aa183dc1ffb69ccaa9c82c49f6d0076e52a15293c629a6d5f6c301beb7",
+          "timing_audit": "370935",
+          "final_report": "370941"
+        },
+        "resource_recovery_preparation": "370777",
+        "resource_recovery_gate": "370778"
       },
       "setup_history": [
         "Preparation helper built native throughSLURM; first post-build preflight requested unavailable reference executables. User subsequently required archived reference reuse, so only native/Z3/Dolmen preflight is needed and passes; no reference installation or corpus rerun.",
@@ -234,7 +313,7 @@
         "stderr_sha256": "aa09b1a91d687f2270ac57bbe011c4cbc88d5404c41f0ae94d78a8df589bb316"
       },
       "resource_recovery": {
-        "status": "resource recovery verified; broad resume pending",
+        "status": "native corpus timings resumed; model/final qualification pending",
         "owner_clarification": "Memory-outs are normal unsolved benchmark outcomes. The initial stop was too strict after exact resource attribution; no solver fix is required to resume.",
         "native_binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
         "native_implementation": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
@@ -274,7 +353,92 @@
         "policy": "Explicit or exact-replay-confirmed memory-outs remain unsolved and receive240s PAR2. Matching cleanup diagnostic alone is pending, not proof. Missing/different replay evidence, unexplained crashes, wrong answers and concrete disagreements still stop the campaign.",
         "raw_evidence": "results/uniform120-20261109/resource-smoke-370776 locally; dedicated SLURM workspace retained privately",
         "verification": "31metadata tests(9uniform+22legacy),make lint,sbatchvalidator/bash-n,independentreviewwith3requiredfindingsfixed,make docs-site and287pages40062locallinks1222Gitlinks0failures; builtchangedsectionrendered/inspected.",
-        "historical_initial_stop": "benchmarks/uniform120-20261109/blocker.json"
+        "historical_initial_stop": "benchmarks/uniform120-20261109/blocker.json",
+        "workflow_commit": "17f499a7",
+        "preparation_job": "370777",
+        "gate_audit_job": "370778",
+        "recovery_sha256": "88ae50aa183dc1ffb69ccaa9c82c49f6d0076e52a15293c629a6d5f6c301beb7",
+        "certified_reused_timing_shards": 42,
+        "pending_timing_shards_at_resume": 3166,
+        "jobs": {
+          "plan_sha256": "2515c8c7f6d10cadf797a03530d3b713ce99f38b2172dab3a31f8ad048dd7ac3",
+          "timing": [
+            "370779",
+            "370812",
+            "370850",
+            "370897"
+          ],
+          "models": [
+            "370937",
+            "370938",
+            "370939",
+            "370940"
+          ],
+          "gate_audit": "370778",
+          "chunks": [
+            {
+              "phase": "timing",
+              "job": "370779",
+              "offset": 0,
+              "tasks": 1000,
+              "throttle": 32
+            },
+            {
+              "phase": "timing",
+              "job": "370812",
+              "offset": 1000,
+              "tasks": 1000,
+              "throttle": 32
+            },
+            {
+              "phase": "timing",
+              "job": "370850",
+              "offset": 2000,
+              "tasks": 1000,
+              "throttle": 32
+            },
+            {
+              "phase": "timing",
+              "job": "370897",
+              "offset": 3000,
+              "tasks": 166,
+              "throttle": 32
+            },
+            {
+              "phase": "models",
+              "job": "370937",
+              "offset": 0,
+              "tasks": 1000,
+              "throttle": 24
+            },
+            {
+              "phase": "models",
+              "job": "370938",
+              "offset": 1000,
+              "tasks": 1000,
+              "throttle": 24
+            },
+            {
+              "phase": "models",
+              "job": "370939",
+              "offset": 2000,
+              "tasks": 1000,
+              "throttle": 24
+            },
+            {
+              "phase": "models",
+              "job": "370940",
+              "offset": 3000,
+              "tasks": 208,
+              "throttle": 24
+            }
+          ],
+          "recovery_sha256": "88ae50aa183dc1ffb69ccaa9c82c49f6d0076e52a15293c629a6d5f6c301beb7",
+          "timing_audit": "370935",
+          "final_report": "370941"
+        },
+        "timing_task_wall_minutes": 90,
+        "wall_budget_note": "Up to12native120s timings plus independent240s resource diagnostics; diagnostic time is excluded from performance metrics."
       }
     },
     {

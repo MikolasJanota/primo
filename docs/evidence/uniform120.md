@@ -1,10 +1,11 @@
 (uniform120-evaluation)=
 # Uniform 120-second theory comparisons
 
-**Status: resource-aware recovery is being verified.** The initial campaign
+**Status: resource-aware native timing recovery is running.** The initial campaign
 stopped on a masked allocation failure. Confirmed memory-outs are normal
 unsolved budget outcomes; they do not require a solver fix before continuing.
-Fresh full-corpus timing/model qualification and plots remain pending. The target
+Recovery reused 42 certified timing shards and resumed 3,166 unfinished tasks.
+Full-corpus timing/model qualification and plots remain pending. The target
 is a report within 18 hours of the 9 November request. The five quantifier-free divisions contain 24,505 inputs:
 
 | Logic | Full corpus |
