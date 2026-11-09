@@ -78,6 +78,7 @@ parts:
       - file: leads/lra-floating-point
       - file: leads/lra-equality-basis
       - file: leads/arithmetic-equality-exploitation
+      - file: leads/arithmetic-efficiency-followups
       - file: leads/lra-column-coefficients
       - file: leads/lia-extended-gcd
       - file: leads/lia-cube-test
@@ -112,6 +113,7 @@ parts:
       - file: evidence/qf-lia-progress
       - file: evidence/lia-cubes
       - file: evidence/arithmetic-efficiency-20261108
+      - file: evidence/arithmetic-overhead-20261109
       - file: evidence/qf-uflia-progress
       - file: evidence/qf-uflia-equality-sharing
       - file: evidence/qf-uflia-equality-ablation

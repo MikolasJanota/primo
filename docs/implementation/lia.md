@@ -239,11 +239,13 @@ splits as CDCL decisions. That simplifies the boundary and the lifetime of
 temporary rows; it also means that internal branch choices and cuts are not
 reused across successive Boolean candidates.
 
+(patching-interval-reuse)=
 ### Patching interval reuse
 
-`patch_integer_variables` owns an
+{patchsource}`patch_integer_variables <src/theory/arithmetic/lia_patching.cpp>` owns an
 `unordered_map<LraVarId, LraTableau::FreedomInterval>` for candidate selection.
-Each entry owns its optional exact `DeltaRational` endpoints; it borrows no
+Each {patchsource}`FreedomInterval <src/theory/arithmetic/lra_tableau.hpp>` entry
+owns its optional exact `DeltaRational` endpoints; it borrows no
 tableau rows or assignments. The first feasibility query for a moved nonbasic
 computes its interval, and further candidates for that variable reuse it,
 including candidates generated for other integer targets and lattice candidates.
@@ -256,7 +258,8 @@ the whole map is cleared immediately after the move and before the next attempt.
 No cache survives the patching call. Patching still never pivots. If future
 candidate generation mutates the tableau, it must invalidate the map first.
 
-For example, start integer nonbasics at $x=z=1/2$ with continuous row $s=x+z$
+For example, use `integer_vars = {x, z}` and start these integer nonbasics at
+$x=z=1/2$ with continuous row $s=x+z$
 and bound $s\ge1$. Candidate selection chooses $x:=1$ first. This changes
 $z$'s lower freedom endpoint from $1/2$ to $0$, so the next selection chooses
 $z:=0$. Retaining $z$'s old interval would choose a different second move.
@@ -265,7 +268,9 @@ The new `:lia.patch-interval-requests`, `:lia.patch-interval-computations`
 and `:lia.patch-interval-cache-hits` counters obey requests = computations + hits.
 Computations equal the number of distinct queried variables summed over attempts,
 including a final unsuccessful attempt. Cache lookups have expected constant
-cost and storage is linear in the distinct moved variables in an attempt.
+cost. Live entries are linear in the distinct queried variables in the current
+attempt; bucket storage can remain at the peak reached earlier in the call
+because `clear()` retains the bucket allocation.
 The underlying interval query still searches coefficients in affected rows;
 this change does not make that query constant-time or replace its representation.
 
@@ -274,10 +279,13 @@ principle in Bromberger (2019), §7.1.4, pp. 225–226 {cite:p}`bromberger2019`,
 not an implementation of the thesis's `VarInfo` scheme or a new patching
 heuristic. The [Bromberger checklist](../papers/bromberger-linear-arithmetic.md#efficiency-review-checklist)
 states the invariant and test obligations. Tests in
-`tests/unit/lia_patching_tests.cpp` cover cross-target reuse, both candidate
+{patchsource}`lia_patching_tests.cpp <tests/unit/lia_patching_tests.cpp>` cover cross-target reuse, both candidate
 families, exact strict/unbounded endpoints, accepted-move prefixes and invalidation
-through a shared row. Qualification and performance acceptance are pending;
-the existing profiling evidence establishes motivation only.
+through a shared row. Snapshot `cab1ebc4` is qualified against `75e10877` on the
+selected diagnostics/development sets; the [measurement and correctness record](../evidence/arithmetic-overhead-20261109.md)
+includes fresh generated/mutation gates, every successful native SAT timing
+row's direct model check and supplementary runtime controls. This is scoped
+acceptance, not a new search heuristic or an overall reference-gap claim.
 
 (lia-cubes)=
 ## Optional cube model attempt

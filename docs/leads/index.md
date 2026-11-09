@@ -5,6 +5,11 @@ not a promised feature. Recheck a historical profile before using it to rank
 work. Each investigation must name the input set, correctness conditions,
 observable mechanism, and result that would reject the proposal.
 
+The [ordered arithmetic efficiency follow-ups](arithmetic-efficiency-followups.md)
+connect the measured regrouping, flattening and normalization costs to bounded
+next experiments; rounding, per-node propagation and lower-priority mechanisms
+retain separate correctness contracts.
+
 The dedicated lead pages in the navigation cover library lifetime, compact
 storage, statistics, theory lemmas, arithmetic, combination, and quantifiers.
 The [arithmetic-symmetry lead](arithmetic-symmetry.md) connects existing finite

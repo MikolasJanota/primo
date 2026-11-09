@@ -1,0 +1,51 @@
+{
+  "status": "complete; accepted cache follow-up",
+  "reason": "Investigate suspected runtime regression",
+  "inputs": [
+    {
+      "logical_file": "QF_LIA/2019-cmodelsdiff/boundsmodels/dp_6.formula1-s-O2-b7.smo2.smt2",
+      "logic": "QF_LIA",
+      "family": "2019-cmodelsdiff",
+      "sha256": "6020dc14ca1df7a1f61fac423c74737cfb191656d482338fb46e52133ffc3973"
+    },
+    {
+      "logical_file": "QF_LRA/LassoRanker/Ultimate/SyntaxSupportDivision1.bpl_Iteration1_Lasso_7-phaseTemplate.smt2",
+      "logic": "QF_LRA",
+      "family": "LassoRanker",
+      "sha256": "7a1b896d0e7a77c88ea9367891d41fe632d4a3a70df9831b5f08dab1b27897ef"
+    },
+    {
+      "logical_file": "QF_LRA/LassoRanker/Ultimate/bound-scaled200.bpl_Iteration1_Loop_7-phaseTemplate.smt2",
+      "logic": "QF_LRA",
+      "family": "LassoRanker",
+      "sha256": "41796cec25a6db29c8cd342d49377f62546d723bc8dff06810f9e55863b0933f"
+    }
+  ],
+  "profiles": [
+    {
+      "name": "baseline-default",
+      "binary": "baseline",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "04eb73dc61eb94b0f5ea6a580d23e736a3c016135fe83bcad485636be4a373b7"
+    },
+    {
+      "name": "candidate-default",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "d5a53ae919e1dc9b85830657eeb81accc4104c692aaaa4011b26637356503be4"
+    }
+  ],
+  "timeout": 60,
+  "repetitions": 7,
+  "jobs": {
+    "benchmark": "366986",
+    "replay": "366989"
+  },
+  "summary_artifact": "benchmarks/arithmetic-overhead-20261109/cache/runtime-followup/summary.json"
+}

@@ -35,6 +35,12 @@ sphinx:
   config:
     bibtex_reference_style: label
     extlinks:
+      citesource:
+        - "https://github.com/primo-solver/primo/blob/98a5fd8bf18c3c18fda495454b42204cd033c458/%s"
+        - "%s"
+      patchsource:
+        - "https://github.com/primo-solver/primo/blob/cab1ebc45fdf5d93940b36f574e2675be7ef4b4b/%s"
+        - "%s"
       cubesource:
         - "https://github.com/primo-solver/primo/blob/84654ade537df8473d4ada833a6da5e3e729ca4a/%s"
         - "%s"

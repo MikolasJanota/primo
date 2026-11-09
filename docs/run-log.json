@@ -3,6 +3,214 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-09-arithmetic-overhead",
+      "date": "2026-11-09",
+      "kind": "separate interval-cache and CITE constant-comparison qualification",
+      "evidence_status": "interval cache accepted; CITE correctness gates passed, timing/model and final acceptance in progress",
+      "baseline_commit": "75e10877860c02a5a55a615f1c5f4f337f2e864c",
+      "source_snapshots": {
+        "cache": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
+        "cite_initial": "c5e3c1679371f702f828f0fce0cb07362ea5fa5f",
+        "cite_fixed": "98a5fd8bf18c3c18fda495454b42204cd033c458"
+      },
+      "scope": "Preserve candidate order, moves, arithmetic options and preprocessing results; qualify interval cache first, then CITE. Shared-model regrouping and heuristics deferred. CITE uses a separate checkout and immutable binary.",
+      "environment": {
+        "type": "SLURM compute only",
+        "timing_cpus_per_task": 1,
+        "timing_memory_requested": "12G",
+        "timeout_seconds": 60,
+        "diagnostic_repetitions": 3,
+        "order": "Serial arms on identical shards, rotated by shard and repetition",
+        "SAT_replay": "Separate dependent jobs after every timing array; every successful native SAT row; solve90s and direct Dolmen30s, strict=false"
+      },
+      "benchmark_selection": {
+        "diagnostic": "benchmarks/arithmetic-efficiency-20261108/experiment.json: frozen12 cases",
+        "lia": "benchmarks/lia-cubes-20261108/inputs.txt: frozen200 cases",
+        "lra": "benchmarks/qf-lra-smtcomp2026-selection.txt:519 cases; user amended to60-second budget, not1200 seconds or a nonexistent1200-input manifest"
+      },
+      "jobs": {
+        "baseline_build": "366066",
+        "cache_build": "366067",
+        "cache_gates": {
+          "check": "366110",
+          "fuzz": "366111",
+          "asan": "366112",
+          "static": "366113"
+        },
+        "cache_baseline_fixtures": "366137",
+        "initial_evaluation": {
+          "triage": "366138",
+          "lra-fuzz-retry": "366139",
+          "mutations": "366143",
+          "diagnostic-integer": "366144",
+          "diagnostic-real": "366145",
+          "lia-development": "366146",
+          "lra-selection60": "366147",
+          "diagnostic-integer-models": "366148",
+          "diagnostic-real-models": "366149",
+          "lia-development-models": "366150",
+          "lra-selection60-models": "366151"
+        },
+        "cache_timing_attempt2": {
+          "diagnostic-integer": "366506",
+          "diagnostic-real": "366514",
+          "lia-development": "366518",
+          "lra-selection60": "366543",
+          "diagnostic-integer-models": "366568",
+          "diagnostic-real-models": "366570",
+          "lia-development-models": "366571",
+          "lra-selection60-models": "366572"
+        },
+        "cache_conforming_lra_gate": "366152",
+        "cache_uflra_mutation_retry": "366581",
+        "cite_gates_initial": {
+          "check": "366593",
+          "fuzz": "366594",
+          "asan": "366595",
+          "static": "366597"
+        },
+        "cite_baseline_fixtures_initial": "366579",
+        "cite_fixture_debug": "366626",
+        "cite_fixed_gates": {
+          "check": "366696",
+          "fuzz": "366697",
+          "asan": "366698",
+          "static": "366699"
+        },
+        "cite_timing": {
+          "diagnostic-integer": "366895",
+          "diagnostic-real": "366903",
+          "lia-development": "366907",
+          "lra-selection60": "366932",
+          "diagnostic-integer-models": "366957",
+          "diagnostic-real-models": "366958",
+          "lia-development-models": "366960",
+          "lra-selection60-models": "366961"
+        },
+        "cite_mutations": {
+          "mutations": "366963"
+        },
+        "cache_suspected_regressions": {
+          "benchmark": "366986",
+          "replay": "366989"
+        },
+        "cache_cutoff_boundary": {
+          "benchmark": "367001",
+          "replay": "367003"
+        },
+        "cache_runtime_followups": {
+          "timing": "366986",
+          "models": "366989"
+        },
+        "cache_cutoff_followups": {
+          "timing": "367001",
+          "models": "367003"
+        },
+        "cite_test_hygiene": "367446"
+      },
+      "setup_and_triage": [
+        {
+          "jobs": "366111 tasks16-19",
+          "classification": "No LRA cases ran: missing staged seed directory. Subsequent fresh conforming gate replaces this missing coverage."
+        },
+        {
+          "jobs": "366139 tasks16-19",
+          "classification": "FuzzSMT LRA answer data retained; some Dolmen input probes reject negative denominators before checking models. Example shard3 file101 reports division expects a positive integer literal, received a negation. This is incomplete direct model coverage; replaced as qualification by conforming Boolean/arithmetic generator366152,4x250 cases."
+        },
+        {
+          "job": "366138",
+          "classification": "Longer baseline/candidate/Z3 replays triaged one LIA reference timeout and one UFLIA integer-node-limit unknown. Baseline and candidate agree; no contradictory concrete answers. Missing LIA SAT stages replayed. Artifact cache/triage/results.json."
+        },
+        {
+          "jobs": "366144-366151",
+          "classification": "Timing/model setup failed: symlink corpus root rejected by containment checks before timed solver execution. Canonical common-ancestor roots and new timing-attempt2 paths replace this setup."
+        },
+        {
+          "job": "366143 task5",
+          "classification": "60 retained UFLRA mutations checked; minimum100 assertion failed. Fresh retry366581 doubles mutations per seed."
+        },
+        {
+          "jobs": "366579,366593",
+          "classification": "New CITE oracle fixture expects more hoisting than the existing solver implements; fails both pristine baseline and candidate. Correct oracle to retain mixed scaled-CITE-inside-sum fallback and independently test pure scales/offsets. CITE qualification pending repaired fixture."
+        }
+      ],
+      "verification": {
+        "cache_check": "47 C++ groups and312 Python tests pass in366110",
+        "cache_ASan": {
+          "job": "366112",
+          "C++groups_passed": 47,
+          "generated_profile_case_checks": 200,
+          "outcomes": {
+            "PASS": 196,
+            "TIMEOUT": 4
+          },
+          "note": "The same100 generated formulas are checked under uniform and difference modes;200 checks are not200 independent formulas."
+        },
+        "cache_static": "366113 completed135translation units;2289warnings match exact prior C++baseline (2288owned,1externalCLI11),no new owned identities; advisory details cache-static.json",
+        "cache_baseline_fixtures": "366137 pass: new patching fixtures with only new-counter assertions removed, linked to pristine baseline libraries",
+        "local": "make lint and make docs-site pass;286rendered pages/full local+Git link checker0failures;6 synthetic analyzer provenance guards pass without invoking any solver",
+        "cite_fixed_check": "366696 pass47C++ and312Python, repaired regression fixture; initial failed check retained separately",
+        "cite_baseline_fixed_fixtures": "366665 pass against pristine baseline, excluding only new-counter assertions",
+        "cite_ASan": {
+          "job": "366698",
+          "C++groups_passed": 47,
+          "generated_profile_case_checks": 200,
+          "outcomes": {
+            "PASS": 196,
+            "TIMEOUT": 4
+          },
+          "note": "The same100 generated formulas are checked under uniform and difference modes;200 checks are not200 independent formulas."
+        },
+        "cache_generated_and_mutations": "cache-gates.json:6000 profile/input checks on4000 generated formulas,5954agreements,43native timeouts,2reference-timeout checks,1budgetunknown; all4385 primarySAT rows directDolmen;620 retained real mutations allPASS with successfulSAT covered",
+        "cite_generated_and_mutations": "cite-gates.json:6000fresh profile/input checks and1120 retained real-seed mutation checks; no blocking outcomes; every primary successfulSAT directly validated"
+      },
+      "fuzz_procedure": {
+        "script": "scripts/qualification/arithmetic_overhead/fuzz.sbatch",
+        "count": "4x250 per logic/profile;1000 QF_LIA default and M124+uniform,1000 QF_UFLIA default and M124,1000 QF_LRA,1000 QF_UFLRA;6000 profile-input checks using4000 generated formulas in primary accepted logic generators",
+        "reference": "z3; exact solver/reference commands and seeds retained in task logs; all SAT model checks direct Dolmen",
+        "seed_base_cache": 202611090,
+        "seed_base_cite_initial": 202611190,
+        "timeout": "5-second answer runs; model budgets from underlying gate scripts",
+        "failures": "Generated inputs and detailed failures retained under each remote stage; no failure erased or old bug corpus counted as fresh qualification"
+      },
+      "mutation_procedure": {
+        "script": "scripts/qualification/arithmetic_overhead/mutations.sbatch",
+        "seeds": "five hashed small real inputs per logic; integer profiles reuse matching inputs",
+        "generator": "seeded OpFuzz;20 per seed; UFLRA retry40 per seed; seed2026110990+task",
+        "reference": "z3 model_validate=true",
+        "timeout": "5-second mutation solver runs; retained answer recheck10s; direct model replay20s/Dolmen20s",
+        "artifacts": "remote stage/mutations/profile, seed-provenance.json and retained scratch/bugs/logs"
+      },
+      "reproduction": {
+        "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies; --check-only immediately before sbatch; SSH/header/dependency paths private",
+        "timings": "scripts/qualification/arithmetic_overhead/measure.sbatch invokes existing immutable benchmark/model harness",
+        "configs": "scripts/qualification/arithmetic_overhead/prepare.py consumes private roots, binaries and frozen manifests",
+        "artifacts": "results/arithmetic-overhead-20261109 locally and under dedicated cache/CITE remote workspaces; raw inputs/models/binaries retained remotely, metadata only committed"
+      },
+      "acceptance": {
+        "cache": "accepted atcab1ebc4 after complete primary and supplementary comparisons,1163 direct SAT timing-row model passes, unchanged logical counters, operation savings and no confirmed runtime regression",
+        "cite": "fixed source98a5fd8b passes check/ASan/fresh generated+mutation gates; complete timing/model audit and source-review closure pending"
+      },
+      "primary_cache_results": {
+        "artifact": "benchmarks/arithmetic-overhead-20261109/cache/summary.json",
+        "status": "accepted:3573 main timing rows and54 supplementary timing rows;1121main+42supplementary successful native SAT rows all directly Dolmen validated; no confirmed runtime regression",
+        "timing_rows": 3573,
+        "logic_preservation": "All matching completed answers retain logical counters. New cache work, Rational operation counts and durations intentionally excluded from value equality; counter meanings unchanged.",
+        "suspected_runtime_cases": [
+          "QF_LIA/2019-cmodelsdiff/boundsmodels/dp_6.formula1-s-O2-b7.smo2.smt2",
+          "QF_LRA/LassoRanker/Ultimate/SyntaxSupportDivision1.bpl_Iteration1_Lasso_7-phaseTemplate.smt2",
+          "QF_LRA/LassoRanker/Ultimate/bound-scaled200.bpl_Iteration1_Loop_7-phaseTemplate.smt2"
+        ],
+        "followup": "Seven-repeat outliers do not reproduce; three-repeat cutoff loss is UNSAT in both arms throughout, cutoff gain times out in both throughout. Original main rows remain immutable; no stable LRA gain credited.",
+        "acceptance_artifact": "benchmarks/arithmetic-overhead-20261109/cache/acceptance.json"
+      },
+      "source_review": {
+        "scope": "whole tracked non-generated C++ static/include scan plus whole-tree lint/check/docs and focused manual soundness, borrowed-storage, layering, API, comment and counter review of changed owners/callers",
+        "cache": "owning interval values, no map iteration, unchanged feasibility/scoring order, full invalidation after moves, no cross-layer shortcuts, no new unused includes/helpers or advisory identities",
+        "cite": "exact sorted-endpoint/membership proof, absent/empty/singleton/mixed preservation, consumed iterators before term creation, original mixed hoisting fallback retained; one added-test capacity advisory repaired separately without altering measured production binaries"
+      }
+    },
+    {
       "id": "2026-11-08-arithmetic-efficiency-review",
       "date": "2026-11-08",
       "kind": "paper-grounded arithmetic efficiency audit and focused profiling",

@@ -1,0 +1,52 @@
+{
+  "baseline": "75e10877",
+  "verdict": "ready; no required findings remain for scoped cache implementation, ordered leads and cache evidence",
+  "reviewers": [
+    "cache_docs_review",
+    "overhead_evidence_review"
+  ],
+  "units": {
+    "cache_implementation": {
+      "findings": {
+        "R1": "Document retained hash buckets/capacity lifetime and peak distinct variables",
+        "R2": "Pin source links to measured cache snapshot",
+        "S1": "State endpoint ownership and invalidation contract"
+      },
+      "disposition": "resolved; reviewer ready"
+    },
+    "ordered_leads": {
+      "findings": {
+        "F1": "Correct paper section references",
+        "F2": "Distinguish shared-bucket counts from all affected assignment updates",
+        "F3": "Pin implemented-source links",
+        "F4": "State next-experiment rejection criteria"
+      },
+      "disposition": "F1-F4 resolved; reviewer ready"
+    },
+    "cache_evidence": {
+      "findings": {
+        "OE-R1": "Explicit implementation anchor",
+        "OE-R2": "Distinguish generated M124+uniform profile from M124 timing",
+        "OE-R3": "Scope reference replays separately from 43 native timeouts",
+        "OE-R4": "Pin CITE helper/probe source links",
+        "OE-R5": "Explain byte-preserving preparation config collection/renaming",
+        "OE-R6": "Synchronize canonical ledger acceptance status"
+      },
+      "suggestions": "OE-S1-S3 addressed, including descriptive interval formula and limits",
+      "disposition": "all resolved; reviewer ready"
+    }
+  },
+  "sha256": {
+    "docs/evidence/arithmetic-overhead-20261109.md": "9bfe5acafca1385fe8d7b7910f3545ec9a9a29d67b42ff827f4e7958dc26b1c7",
+    "docs/_toc.yml": "024f99b88dd47b07c9f650d9b53e23d377ddfe3f6c89f2cc0d82c1edbbf68000",
+    "docs/_config.yml": "f9e64b05dcd8482bf9355180e4234c10660b7f8970ad53ad592bcc0a9f3dd56d",
+    "docs/implementation/lia.md": "eae15def9300e30b8ca462cf48c658dbfb78988e5df7aa361cb2a78ac17bc478",
+    "docs/papers/bromberger-linear-arithmetic.md": "bca72f5c8747e811fe85605e58f51391c9d68b2eda235d65367aab9c1a32c2a7",
+    "docs/run-log.json": "723cafc2ae332932b201f7b1c6b834e38acbfe2a8777b931243cf17842a22c90",
+    "docs/leads/arithmetic-efficiency-followups.md": "33e93d2349d74cd141d46e0fe0a298e0d319ed4847c61625caa967ee07ee243d",
+    "docs/leads/index.md": "37d61a99e18cf877cdbc633b0592f075e1d230e64b14b20806d6eb95fc0ef16a",
+    "benchmarks/arithmetic-overhead-20261109/cache/acceptance.json": "f3bf1e4adcbe8d49b1940cbffb1d55486e03086783f433c068f2151a107136e8"
+  },
+  "validation": "make lint; make docs; local/Git link checker; visual rendered inspection by writer; SLURM checks/static/fuzz/timing/model gates recorded separately",
+  "unchecked_scope": "Reviewers did not rerun experiments or rendering and did not accept the whole manual. CITE acceptance remains pending."
+}

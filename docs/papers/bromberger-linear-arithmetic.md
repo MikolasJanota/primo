@@ -67,9 +67,11 @@ assumes constant-time insertion/deletion through linked entries.
 ### Contracts for the smaller optimization candidates
 
 These are implementation checklists derived from this review. The patching
-interval cache is implemented with qualification pending; the CITE endpoint
-fast paths, shared-model bookkeeping and row representation below remain
-proposals. The measured findings are in the evidence page.
+interval cache is implemented and qualified on the selected diagnostic/development
+sets. A CITE endpoint/membership candidate is being measured separately;
+shared-model bookkeeping and the row representation remain proposals. The
+[implementation experiment](../evidence/arithmetic-overhead-20261109.md) separates
+accepted changes, candidates and historical motivation.
 
 **Patching interval cache.** The owner is `patch_integer_variables`, with owning
 `LraTableau::FreedomInterval` values keyed by `LraVarId`; clearing the map
@@ -85,8 +87,9 @@ request/computation/hit counters must show that the mechanism is used.
 These counters and the reuse/invalidation regressions now exist; see
 [the representation and worked example](../implementation/lia.md#patching-interval-reuse).
 This cache is Primo's engineering adaptation of §7.1.4's maintenance principle,
-not the thesis's variable-information implementation. Measured acceptance remains
-pending.
+not the thesis's variable-information implementation. The
+[accepted measurement record](../evidence/arithmetic-overhead-20261109.md) includes
+operation savings, decision preservation, model checks and runtime follow-ups.
 
 **Shared-model trial bookkeeping.** The owner would be
 {cubesource}`diversify_shared_model <src/theory/arithmetic/lra_tableau.cpp#L1554-L1713>`'s

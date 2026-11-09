@@ -1,0 +1,440 @@
+{
+  "stage": "cache",
+  "generated": {
+    "lia-default": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 977,
+        "TIMEOUT": 22,
+        "REFERENCE_UNUSABLE": 1
+      },
+      "primary_successful_SAT": 870,
+      "primary_SAT_direct_Dolmen": 870,
+      "uncovered_primary_SAT": [],
+      "all_model_outcomes": {
+        "pass": 876,
+        "not-sat": 83,
+        "solver-timeout": 14
+      },
+      "additional_Dolmen_passes_after_inconclusive_answers": 6,
+      "blocking_answer_or_model_outcomes": 0
+    },
+    "lia-m124": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 978,
+        "TIMEOUT": 21,
+        "REFERENCE_UNUSABLE": 1
+      },
+      "primary_successful_SAT": 871,
+      "primary_SAT_direct_Dolmen": 871,
+      "uncovered_primary_SAT": [],
+      "all_model_outcomes": {
+        "pass": 877,
+        "not-sat": 83,
+        "solver-timeout": 13
+      },
+      "additional_Dolmen_passes_after_inconclusive_answers": 6,
+      "blocking_answer_or_model_outcomes": 0
+    },
+    "uflia-default": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 999,
+        "UNKNOWN_INVOLVED": 1
+      },
+      "primary_successful_SAT": 502,
+      "primary_SAT_direct_Dolmen": 502,
+      "uncovered_primary_SAT": [],
+      "all_model_outcomes": {
+        "not-sat": 497,
+        "pass": 502,
+        "solver-unknown": 1
+      },
+      "additional_Dolmen_passes_after_inconclusive_answers": 0,
+      "blocking_answer_or_model_outcomes": 0
+    },
+    "uflia-m124": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "primary_successful_SAT": 503,
+      "primary_SAT_direct_Dolmen": 503,
+      "uncovered_primary_SAT": [],
+      "all_model_outcomes": {
+        "not-sat": 497,
+        "pass": 503
+      },
+      "additional_Dolmen_passes_after_inconclusive_answers": 0,
+      "blocking_answer_or_model_outcomes": 0
+    },
+    "lra-default": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "primary_successful_SAT": 1000,
+      "primary_SAT_direct_Dolmen": 1000,
+      "uncovered_primary_SAT": [],
+      "all_model_outcomes": {},
+      "additional_Dolmen_passes_after_inconclusive_answers": 0,
+      "blocking_answer_or_model_outcomes": 0
+    },
+    "uflra-default": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "primary_successful_SAT": 639,
+      "primary_SAT_direct_Dolmen": 639,
+      "uncovered_primary_SAT": [],
+      "all_model_outcomes": {
+        "pass": 639
+      },
+      "additional_Dolmen_passes_after_inconclusive_answers": 0,
+      "blocking_answer_or_model_outcomes": 0
+    }
+  },
+  "mutations": {
+    "lia-default": {
+      "seeds": [
+        {
+          "file": "pb2010/normalized-1096.cudf.paranoid.smt2",
+          "logic": "QF_LIA",
+          "sha256": "1ef041a0b9ea14fa3a74c6aa902f61468760eabcef787333686bd35633598092"
+        },
+        {
+          "file": "cut_lemmas/10-vars/cut_lemma_01_001.smt2",
+          "logic": "QF_LIA",
+          "sha256": "50be8773818a9e1039cd0f76aa7e31d071740bdd5f1277f466ed1c94747e3c33"
+        },
+        {
+          "file": "CAV_2009_benchmarks/coef-size/smt/size-10/problem__001.smt2",
+          "logic": "QF_LIA",
+          "sha256": "0b7ceffad2e4d5fbd9bd5dfde863479fbe47e192a21b420ada44b7f8bb48fdf8"
+        },
+        {
+          "file": "check/bignum_lia2.smt2",
+          "logic": "QF_LIA",
+          "sha256": "e952da1b9ddce77fe641ddae992965c536368e339abeb353d2549592fefa3af7"
+        },
+        {
+          "file": "pidgeons/pigeon-hole-2.smt2",
+          "logic": "QF_LIA",
+          "sha256": "6c16e6c97339f33554eac4b578a8dd2fab704edfaf0d11a9bfc36088dd017d51"
+        }
+      ],
+      "original_seeds": {
+        "cases": 5,
+        "outcomes": {
+          "PASS": 5
+        },
+        "primary_successful_SAT": 3,
+        "primary_SAT_direct_Dolmen": 3,
+        "uncovered_primary_SAT": [],
+        "all_model_outcomes": {
+          "pass": 3
+        },
+        "additional_Dolmen_passes_after_inconclusive_answers": 0,
+        "blocking_answer_or_model_outcomes": 0
+      },
+      "retained_mutants": {
+        "cases": 100,
+        "outcomes": {
+          "PASS": 100
+        },
+        "primary_successful_SAT": 66,
+        "primary_SAT_direct_Dolmen": 66,
+        "uncovered_primary_SAT": [],
+        "all_model_outcomes": {
+          "pass": 66
+        },
+        "additional_Dolmen_passes_after_inconclusive_answers": 0,
+        "blocking_answer_or_model_outcomes": 0
+      }
+    },
+    "lia-m124": {
+      "seeds": [
+        {
+          "file": "pb2010/normalized-1096.cudf.paranoid.smt2",
+          "logic": "QF_LIA",
+          "sha256": "1ef041a0b9ea14fa3a74c6aa902f61468760eabcef787333686bd35633598092"
+        },
+        {
+          "file": "cut_lemmas/10-vars/cut_lemma_01_001.smt2",
+          "logic": "QF_LIA",
+          "sha256": "50be8773818a9e1039cd0f76aa7e31d071740bdd5f1277f466ed1c94747e3c33"
+        },
+        {
+          "file": "CAV_2009_benchmarks/coef-size/smt/size-10/problem__001.smt2",
+          "logic": "QF_LIA",
+          "sha256": "0b7ceffad2e4d5fbd9bd5dfde863479fbe47e192a21b420ada44b7f8bb48fdf8"
+        },
+        {
+          "file": "check/bignum_lia2.smt2",
+          "logic": "QF_LIA",
+          "sha256": "e952da1b9ddce77fe641ddae992965c536368e339abeb353d2549592fefa3af7"
+        },
+        {
+          "file": "pidgeons/pigeon-hole-2.smt2",
+          "logic": "QF_LIA",
+          "sha256": "6c16e6c97339f33554eac4b578a8dd2fab704edfaf0d11a9bfc36088dd017d51"
+        }
+      ],
+      "original_seeds": {
+        "cases": 5,
+        "outcomes": {
+          "PASS": 5
+        },
+        "primary_successful_SAT": 3,
+        "primary_SAT_direct_Dolmen": 3,
+        "uncovered_primary_SAT": [],
+        "all_model_outcomes": {
+          "pass": 3
+        },
+        "additional_Dolmen_passes_after_inconclusive_answers": 0,
+        "blocking_answer_or_model_outcomes": 0
+      },
+      "retained_mutants": {
+        "cases": 100,
+        "outcomes": {
+          "PASS": 100
+        },
+        "primary_successful_SAT": 66,
+        "primary_SAT_direct_Dolmen": 66,
+        "uncovered_primary_SAT": [],
+        "all_model_outcomes": {
+          "pass": 66
+        },
+        "additional_Dolmen_passes_after_inconclusive_answers": 0,
+        "blocking_answer_or_model_outcomes": 0
+      }
+    },
+    "uflia-default": {
+      "seeds": [
+        {
+          "file": "TwoSquares/smtlib.606727.smt2",
+          "logic": "QF_UFLIA",
+          "sha256": "5e6eb668cf83efdf44e8e4df1497d779fac3b0e6b044087de7b94bf9827f64a2"
+        },
+        {
+          "file": "mathsat/Hash/hash_uns_03_03.smt2",
+          "logic": "QF_UFLIA",
+          "sha256": "dd2986cd3d565f1eb8abb4318a50bfc348293a0ad062c9783524343c7ac64cbc"
+        },
+        {
+          "file": "mathsat/EufLaArithmetic/hard/hard4.smt2",
+          "logic": "QF_UFLIA",
+          "sha256": "478eda832f3a83459a017b332329b2f2dbd640e500c4499e8287564082069251"
+        },
+        {
+          "file": "mathsat/Wisa/xs-05-06-2-2-5-1.smt2",
+          "logic": "QF_UFLIA",
+          "sha256": "713484b7f2c61e27f1303cde71e01f05cb58da2c89e95a5607d99d675601881e"
+        },
+        {
+          "file": "wisas/xs_5_5.smt2",
+          "logic": "QF_UFLIA",
+          "sha256": "0258aeb706a8355b378473c2602a2dc97e1d20afdca33d4b98cc1b17bfaa1503"
+        }
+      ],
+      "original_seeds": {
+        "cases": 5,
+        "outcomes": {
+          "PASS": 5
+        },
+        "primary_successful_SAT": 0,
+        "primary_SAT_direct_Dolmen": 0,
+        "uncovered_primary_SAT": [],
+        "all_model_outcomes": {},
+        "additional_Dolmen_passes_after_inconclusive_answers": 0,
+        "blocking_answer_or_model_outcomes": 0
+      },
+      "retained_mutants": {
+        "cases": 100,
+        "outcomes": {
+          "PASS": 100
+        },
+        "primary_successful_SAT": 42,
+        "primary_SAT_direct_Dolmen": 42,
+        "uncovered_primary_SAT": [],
+        "all_model_outcomes": {
+          "pass": 42
+        },
+        "additional_Dolmen_passes_after_inconclusive_answers": 0,
+        "blocking_answer_or_model_outcomes": 0
+      }
+    },
+    "uflia-m124": {
+      "seeds": [
+        {
+          "file": "TwoSquares/smtlib.606727.smt2",
+          "logic": "QF_UFLIA",
+          "sha256": "5e6eb668cf83efdf44e8e4df1497d779fac3b0e6b044087de7b94bf9827f64a2"
+        },
+        {
+          "file": "mathsat/Hash/hash_uns_03_03.smt2",
+          "logic": "QF_UFLIA",
+          "sha256": "dd2986cd3d565f1eb8abb4318a50bfc348293a0ad062c9783524343c7ac64cbc"
+        },
+        {
+          "file": "mathsat/EufLaArithmetic/hard/hard4.smt2",
+          "logic": "QF_UFLIA",
+          "sha256": "478eda832f3a83459a017b332329b2f2dbd640e500c4499e8287564082069251"
+        },
+        {
+          "file": "mathsat/Wisa/xs-05-06-2-2-5-1.smt2",
+          "logic": "QF_UFLIA",
+          "sha256": "713484b7f2c61e27f1303cde71e01f05cb58da2c89e95a5607d99d675601881e"
+        },
+        {
+          "file": "wisas/xs_5_5.smt2",
+          "logic": "QF_UFLIA",
+          "sha256": "0258aeb706a8355b378473c2602a2dc97e1d20afdca33d4b98cc1b17bfaa1503"
+        }
+      ],
+      "original_seeds": {
+        "cases": 5,
+        "outcomes": {
+          "PASS": 5
+        },
+        "primary_successful_SAT": 0,
+        "primary_SAT_direct_Dolmen": 0,
+        "uncovered_primary_SAT": [],
+        "all_model_outcomes": {},
+        "additional_Dolmen_passes_after_inconclusive_answers": 0,
+        "blocking_answer_or_model_outcomes": 0
+      },
+      "retained_mutants": {
+        "cases": 100,
+        "outcomes": {
+          "PASS": 100
+        },
+        "primary_successful_SAT": 52,
+        "primary_SAT_direct_Dolmen": 52,
+        "uncovered_primary_SAT": [],
+        "all_model_outcomes": {
+          "pass": 52
+        },
+        "additional_Dolmen_passes_after_inconclusive_answers": 0,
+        "blocking_answer_or_model_outcomes": 0
+      }
+    },
+    "lra-default": {
+      "seeds": [
+        {
+          "file": "keymaera/bouncing-ball-simple-node1628.smt2",
+          "logic": "QF_LRA",
+          "sha256": "1f5637b29ccf421692152522230c0c2e7cbd027633da53a593974de9c6fe06ae"
+        },
+        {
+          "file": "sal/gasburner/gasburner-prop3-5.smt2",
+          "logic": "QF_LRA",
+          "sha256": "50b3f1e72e5bbd708385ae1951683e699eb865b0febaf795e90f54f42fe7b831"
+        },
+        {
+          "file": "DTP-Scheduling/constraints-tempo-depth-7.smt2",
+          "logic": "QF_LRA",
+          "sha256": "abf143673943ee8d33c20c42868afaa83671e2608f3feb1d1e5abde898e36ae1"
+        },
+        {
+          "file": "spider_benchmarks/pd_not_fs_seen.induction.smt2",
+          "logic": "QF_LRA",
+          "sha256": "f70bf220bb5ec4511d8ef03e1eb93c2c13dd2dcb5abc0f35c19c9bdf25dbbfcb"
+        },
+        {
+          "file": "clock_synchro/clocksynchro_5clocks.worst_case_skew.induct.smt2",
+          "logic": "QF_LRA",
+          "sha256": "7c95b885666d45aafad1e187b91caac8488d349bf3f3b06478a89222e121f7f1"
+        }
+      ],
+      "original_seeds": {
+        "cases": 5,
+        "outcomes": {
+          "PASS": 5
+        },
+        "primary_successful_SAT": 1,
+        "primary_SAT_direct_Dolmen": 1,
+        "uncovered_primary_SAT": [],
+        "all_model_outcomes": {
+          "pass": 1
+        },
+        "additional_Dolmen_passes_after_inconclusive_answers": 0,
+        "blocking_answer_or_model_outcomes": 0
+      },
+      "retained_mutants": {
+        "cases": 100,
+        "outcomes": {
+          "PASS": 100
+        },
+        "primary_successful_SAT": 86,
+        "primary_SAT_direct_Dolmen": 86,
+        "uncovered_primary_SAT": [],
+        "all_model_outcomes": {
+          "pass": 86
+        },
+        "additional_Dolmen_passes_after_inconclusive_answers": 0,
+        "blocking_answer_or_model_outcomes": 0
+      }
+    },
+    "uflra-default": {
+      "seeds": [
+        {
+          "file": "cpachecker-induction-svcomp14/cpachecker-induction.32_1_cilled_true-unreach-call_ok_nondet_linux-3.4-32_1-drivers--i2c--algos--i2c-algo-pca.ko-ldv_main0_sequence_infinite_withcheck_stateful.cil.out.c.smt2",
+          "logic": "QF_UFLRA",
+          "sha256": "bb543a0d34b09944d2c0915461a90da43e82998609b893195899fcb67cc4fdaf"
+        },
+        {
+          "file": "FFT/smtlib.620524.smt2",
+          "logic": "QF_UFLRA",
+          "sha256": "a531f415f616a323f75f173cd152f60f0730c75dc12db144f7b1e275b16eec36"
+        },
+        {
+          "file": "cpachecker-bmc-svcomp14/cpachecker-bmc.callfpointer.c_false-unreach-call.i.smt2",
+          "logic": "QF_UFLRA",
+          "sha256": "f64f9efd050ba70517645a08853bbaf0c4d2a8339f70578be8191e414ef44c42"
+        },
+        {
+          "file": "mathsat/RandomCoupled/pb_real_10_0100_10_10.smt2",
+          "logic": "QF_UFLRA",
+          "sha256": "2cc6aaaa9064f1ba6df390c83a0dbe5247facc4dc162af9f43ad273d8de37b44"
+        },
+        {
+          "file": "FFT/smtlib.624914.smt2",
+          "logic": "QF_UFLRA",
+          "sha256": "365be0c62fbdb681f77522e74004997cfe76242903eeda7623c82b319616a60b"
+        }
+      ],
+      "original_seeds": {
+        "cases": 5,
+        "outcomes": {
+          "PASS": 5
+        },
+        "primary_successful_SAT": 4,
+        "primary_SAT_direct_Dolmen": 4,
+        "uncovered_primary_SAT": [],
+        "all_model_outcomes": {
+          "pass": 4
+        },
+        "additional_Dolmen_passes_after_inconclusive_answers": 0,
+        "blocking_answer_or_model_outcomes": 0
+      },
+      "retained_mutants": {
+        "cases": 120,
+        "outcomes": {
+          "PASS": 120
+        },
+        "primary_successful_SAT": 120,
+        "primary_SAT_direct_Dolmen": 120,
+        "uncovered_primary_SAT": [],
+        "all_model_outcomes": {
+          "pass": 120
+        },
+        "additional_Dolmen_passes_after_inconclusive_answers": 0,
+        "blocking_answer_or_model_outcomes": 0
+      }
+    }
+  },
+  "note": "Timeout/unknown/reference-inconclusive rows remain separate from PASS. See run-log triage for exceptional rows; no blanket correctness inference."
+}

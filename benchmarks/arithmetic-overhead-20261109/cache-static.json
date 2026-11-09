@@ -1,0 +1,19 @@
+{
+  "baseline_scope": "84654ade C++ source identical to75e10877 before cache",
+  "baseline_warning_occurrences": 2289,
+  "candidate_warning_occurrences": 2289,
+  "new_warnings": [],
+  "removed_warnings": [],
+  "translation_units": 135,
+  "owned_translation_units": 131,
+  "documentation_examples": 4,
+  "owned_baseline_warning_occurrences": 2288,
+  "owned_candidate_warning_occurrences": 2288,
+  "external_advisories": {
+    "CLI11_potential_memory_leak": {
+      "baseline": 1,
+      "candidate": 1
+    }
+  },
+  "review": "No new owned (file, diagnostic, message) identities or multiplicities; line numbers and workspace prefixes normalized. Paired header self-include advisories inspected and retained. Existing indirect-include, enum-width and other baseline advisories are not presented as fixed. One external CLI11 warning also matches baseline."
+}

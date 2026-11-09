@@ -1,0 +1,45 @@
+{
+  "status": "complete; accepted cache follow-up",
+  "reason": "Investigate one LRA cutoff gain/loss exchange",
+  "inputs": [
+    {
+      "logical_file": "QF_LRA/LassoRanker/SV-COMP/LeeJonesBen-Amram-2001POPL-Ex5_true-termination.c_Iteration2_Loop_7-phaseTemplate.smt2",
+      "logic": "QF_LRA",
+      "family": "LassoRanker",
+      "sha256": "771026119f3dfdd17f8fd54275d6a0910ec7915a47ed6d75ff7022e60ecc166b"
+    },
+    {
+      "logical_file": "QF_LRA/LassoRanker/Ultimate/simple-scaled200.bpl_Iteration1_Lasso_6-phaseTemplate.smt2",
+      "logic": "QF_LRA",
+      "family": "LassoRanker",
+      "sha256": "b06fbdae942920baa3f3bbdd0e3fe29693e14effda4a6a17e4de7ab9fb82601d"
+    }
+  ],
+  "profiles": [
+    {
+      "name": "baseline-default",
+      "binary": "baseline",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "04eb73dc61eb94b0f5ea6a580d23e736a3c016135fe83bcad485636be4a373b7"
+    },
+    {
+      "name": "candidate-default",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "d5a53ae919e1dc9b85830657eeb81accc4104c692aaaa4011b26637356503be4"
+    }
+  ],
+  "timeout": 60,
+  "repetitions": 3,
+  "jobs": {
+    "benchmark": "367001",
+    "replay": "367003"
+  },
+  "summary_artifact": "benchmarks/arithmetic-overhead-20261109/cache/cutoff-followup/summary.json"
+}

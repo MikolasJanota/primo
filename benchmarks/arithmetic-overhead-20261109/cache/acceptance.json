@@ -1,0 +1,237 @@
+{
+  "decision": "accepted",
+  "qualified_source": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
+  "baseline_source": "75e10877",
+  "scope": "Owning per-attempt interval cache; unchanged candidate order, scoring, bounds, moves, options and existing counter meanings.",
+  "main_timing_rows": 3573,
+  "supplementary_timing_rows": 54,
+  "main_SAT_timing_rows_direct_Dolmen": 1121,
+  "supplementary_SAT_timing_rows_direct_Dolmen": 42,
+  "confirmed_runtime_regressions": 0,
+  "runtime_followups": [
+    {
+      "file": "QF_LIA/2019-cmodelsdiff/boundsmodels/dp_6.formula1-s-O2-b7.smo2.smt2",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_seconds": 0.070991,
+          "candidate_seconds": 0.070612
+        },
+        {
+          "repetition": 1,
+          "baseline_seconds": 0.072281,
+          "candidate_seconds": 0.06966
+        },
+        {
+          "repetition": 2,
+          "baseline_seconds": 0.071167,
+          "candidate_seconds": 0.07048
+        },
+        {
+          "repetition": 3,
+          "baseline_seconds": 0.071399,
+          "candidate_seconds": 0.070382
+        },
+        {
+          "repetition": 4,
+          "baseline_seconds": 0.07174,
+          "candidate_seconds": 0.072598
+        },
+        {
+          "repetition": 5,
+          "baseline_seconds": 0.071843,
+          "candidate_seconds": 0.071513
+        },
+        {
+          "repetition": 6,
+          "baseline_seconds": 0.073115,
+          "candidate_seconds": 0.072256
+        }
+      ],
+      "paired_ratio_median": 0.9903466494302136,
+      "paired_ratio_range": [
+        0.963738741854706,
+        1.01195985503206
+      ],
+      "paired_geometric_ratio": 0.9899271021468876,
+      "descriptive_95pct_log_ratio_interval": [
+        0.9766576781392173,
+        1.0033768120596775
+      ]
+    },
+    {
+      "file": "QF_LRA/LassoRanker/Ultimate/SyntaxSupportDivision1.bpl_Iteration1_Lasso_7-phaseTemplate.smt2",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_seconds": 15.490919,
+          "candidate_seconds": 15.006875
+        },
+        {
+          "repetition": 1,
+          "baseline_seconds": 15.610509,
+          "candidate_seconds": 16.311092
+        },
+        {
+          "repetition": 2,
+          "baseline_seconds": 15.46216,
+          "candidate_seconds": 15.709138
+        },
+        {
+          "repetition": 3,
+          "baseline_seconds": 15.777211,
+          "candidate_seconds": 16.442991
+        },
+        {
+          "repetition": 4,
+          "baseline_seconds": 15.588433,
+          "candidate_seconds": 16.169969
+        },
+        {
+          "repetition": 5,
+          "baseline_seconds": 16.436081,
+          "candidate_seconds": 15.764365
+        },
+        {
+          "repetition": 6,
+          "baseline_seconds": 15.861255,
+          "candidate_seconds": 16.168941
+        }
+      ],
+      "paired_ratio_median": 1.0193985910950931,
+      "paired_ratio_range": [
+        0.9591316202445095,
+        1.0448789338003006
+      ],
+      "paired_geometric_ratio": 1.011992413359395,
+      "descriptive_95pct_log_ratio_interval": [
+        0.9797556846540242,
+        1.0452898214707653
+      ]
+    },
+    {
+      "file": "QF_LRA/LassoRanker/Ultimate/bound-scaled200.bpl_Iteration1_Loop_7-phaseTemplate.smt2",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_seconds": 29.199227,
+          "candidate_seconds": 29.371138
+        },
+        {
+          "repetition": 1,
+          "baseline_seconds": 30.25494,
+          "candidate_seconds": 29.372507
+        },
+        {
+          "repetition": 2,
+          "baseline_seconds": 29.699955,
+          "candidate_seconds": 29.852815
+        },
+        {
+          "repetition": 3,
+          "baseline_seconds": 29.706251,
+          "candidate_seconds": 29.832369
+        },
+        {
+          "repetition": 4,
+          "baseline_seconds": 29.458564,
+          "candidate_seconds": 29.637928
+        },
+        {
+          "repetition": 5,
+          "baseline_seconds": 29.898019,
+          "candidate_seconds": 29.903887
+        },
+        {
+          "repetition": 6,
+          "baseline_seconds": 30.16116,
+          "candidate_seconds": 30.374333
+        }
+      ],
+      "paired_ratio_median": 1.005146809144997,
+      "paired_ratio_range": [
+        0.9708334242275806,
+        1.0070677984533751
+      ],
+      "paired_geometric_ratio": 0.9998499282406046,
+      "descriptive_95pct_log_ratio_interval": [
+        0.9877420392723555,
+        1.0121062375143977
+      ]
+    }
+  ],
+  "cutoff_followups": [
+    {
+      "file": "QF_LRA/LassoRanker/SV-COMP/LeeJonesBen-Amram-2001POPL-Ex5_true-termination.c_Iteration2_Loop_7-phaseTemplate.smt2",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_status": "ok",
+          "baseline_answer": "unsat",
+          "baseline_seconds": 57.798849,
+          "candidate_status": "ok",
+          "candidate_answer": "unsat",
+          "candidate_seconds": 57.650235
+        },
+        {
+          "repetition": 1,
+          "baseline_status": "ok",
+          "baseline_answer": "unsat",
+          "baseline_seconds": 58.81327,
+          "candidate_status": "ok",
+          "candidate_answer": "unsat",
+          "candidate_seconds": 56.296668
+        },
+        {
+          "repetition": 2,
+          "baseline_status": "ok",
+          "baseline_answer": "unsat",
+          "baseline_seconds": 56.841225,
+          "candidate_status": "ok",
+          "candidate_answer": "unsat",
+          "candidate_seconds": 56.30213
+        }
+      ]
+    },
+    {
+      "file": "QF_LRA/LassoRanker/Ultimate/simple-scaled200.bpl_Iteration1_Lasso_6-phaseTemplate.smt2",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_status": "timeout",
+          "baseline_answer": "unknown",
+          "baseline_seconds": 61.112019,
+          "candidate_status": "timeout",
+          "candidate_answer": "unknown",
+          "candidate_seconds": 61.111005
+        },
+        {
+          "repetition": 1,
+          "baseline_status": "timeout",
+          "baseline_answer": "unknown",
+          "baseline_seconds": 61.103789,
+          "candidate_status": "timeout",
+          "candidate_answer": "unknown",
+          "candidate_seconds": 61.113668
+        },
+        {
+          "repetition": 2,
+          "baseline_status": "timeout",
+          "baseline_answer": "unknown",
+          "baseline_seconds": 60.900689,
+          "candidate_status": "timeout",
+          "candidate_answer": "unknown",
+          "candidate_seconds": 60.965349
+        }
+      ]
+    }
+  ],
+  "interpretation": "The three initial15%/0.1s outliers do not reproduce in seven rotated paired repeats. Ratios vary to both sides of1 and descriptive paired log-ratio intervals include1. The original LRA cutoff loss is unsat in both arms in all three repeats; the original gain times out in both arms in all three repeats. No stable LRA gain is credited; original timing rows remain immutable.",
+  "limits": "No universal speed guarantee or full-corpus/reference-gap claim. Initial noisy timing rows are not replaced by supplementary data.",
+  "verification": "47C++/312Python makecheck;47C++ASan+200generated checks;6000fresh generated profile/input checks,620 retained real-seed mutations, direct primary SAT coverage, unchanged logical counters, baseline-linked new fixtures and whole135-file static comparison with no new owned warning identities.",
+  "descriptive_interval_method": {
+    "formula": "exp(mean(log(candidate_seconds/baseline_seconds)) +/-2.446912*sample_sd(log_ratios)/sqrt(7))",
+    "critical_value": "Student-t two-sided95% reference,6degrees of freedom",
+    "scope": "Descriptive intervals for seven same-allocation rotated pairs, not a universal or preregistered performance guarantee."
+  }
+}
