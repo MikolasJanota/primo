@@ -13,5 +13,10 @@
     "commit": "98a5fd8bf18c3c18fda495454b42204cd033c458",
     "src_tree": "64e66a4a7ee46eb84a97b738bbadd65f64a9db0a",
     "tests_tree": "82737f069087c3a41bee23124dd6705803575273"
+  },
+  "final_production": {
+    "same_source_and_Cpp_tests_as": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
+    "source_tree": "d97e5d30582836aaf6832e1fe62ac4f6ce7f3414",
+    "CITE_status": "rejected; experimental snapshots retained in merge ancestry"
   }
 }

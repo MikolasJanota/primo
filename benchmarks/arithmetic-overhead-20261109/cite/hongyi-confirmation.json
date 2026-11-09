@@ -1,0 +1,75 @@
+{
+  "status": "complete; every successful native SAT row directly validated; CITE rejected",
+  "reason": "Hongyi60s cutoff confirmation: initial3 repeats cache-only3SAT, original2SAT, CITE1SAT; all new CITE comparison counters0. Additional rotated three-arm trials test whether the cutoff difference persists.",
+  "inputs": [
+    {
+      "logical_file": "QF_LRA/LassoRanker/CooperatingT2/hongyi1.t2.c_Iteration1_Loop_7-phaseTemplate.smt2",
+      "logic": "QF_LRA",
+      "family": "LassoRanker",
+      "sha256": "c767f54a0d0988b10497ec92b1232b552046f5ba782923e054493fe5371124fc"
+    }
+  ],
+  "profiles": [
+    {
+      "name": "baseline-default",
+      "binary": "baseline",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "04eb73dc61eb94b0f5ea6a580d23e736a3c016135fe83bcad485636be4a373b7"
+    },
+    {
+      "name": "control-default",
+      "binary": "control",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "d5a53ae919e1dc9b85830657eeb81accc4104c692aaaa4011b26637356503be4"
+    },
+    {
+      "name": "candidate-default",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "089ef83aaef81dbb763064df03cb997c41b45f942dd0552709c6f19beb261123"
+    }
+  ],
+  "timeout": 60,
+  "trials": 7,
+  "rotation": "Seven separate one-input one-repetition configs; initial profile order rotated by trial modulo3, serial arms share allocated CPU. All model jobs depend on every new timing job. Timing jobs depend on previous supplementary model stages.",
+  "jobs": {
+    "cite-hongyi-0": {
+      "benchmark": "367859",
+      "replay": "367871"
+    },
+    "cite-hongyi-1": {
+      "benchmark": "367860",
+      "replay": "367872"
+    },
+    "cite-hongyi-2": {
+      "benchmark": "367862",
+      "replay": "367873"
+    },
+    "cite-hongyi-3": {
+      "benchmark": "367864",
+      "replay": "367874"
+    },
+    "cite-hongyi-4": {
+      "benchmark": "367865",
+      "replay": "367875"
+    },
+    "cite-hongyi-5": {
+      "benchmark": "367866",
+      "replay": "367876"
+    },
+    "cite-hongyi-6": {
+      "benchmark": "367868",
+      "replay": "367878"
+    }
+  },
+  "summary_artifact": "benchmarks/arithmetic-overhead-20261109/cite/hongyi-confirmation/summary.json"
+}

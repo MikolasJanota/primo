@@ -1,0 +1,54 @@
+{
+  "status": "complete; every successful native SAT row directly validated; CITE rejected",
+  "reason": "Investigate CITE boundary cases before acceptance",
+  "inputs": [
+    {
+      "logical_file": "QF_LRA/LassoRanker/CooperatingT2/hongyi1.t2.c_Iteration1_Loop_7-phaseTemplate.smt2",
+      "logic": "QF_LRA",
+      "family": "LassoRanker",
+      "sha256": "c767f54a0d0988b10497ec92b1232b552046f5ba782923e054493fe5371124fc"
+    },
+    {
+      "logical_file": "QF_LRA/LassoRanker/SV-COMP/NoriSharma-2013FSE-Fig8_true-termination.c_Iteration1_Lasso_4-pieceTemplate.smt2",
+      "logic": "QF_LRA",
+      "family": "LassoRanker",
+      "sha256": "aded75149c3762133f2e4f5e8a8ebe35d500b3e5a018e6de3f9cd0bb141ec4b4"
+    }
+  ],
+  "profiles": [
+    {
+      "name": "baseline-default",
+      "binary": "baseline",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "04eb73dc61eb94b0f5ea6a580d23e736a3c016135fe83bcad485636be4a373b7"
+    },
+    {
+      "name": "control-default",
+      "binary": "control",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "d5a53ae919e1dc9b85830657eeb81accc4104c692aaaa4011b26637356503be4"
+    },
+    {
+      "name": "candidate-default",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "089ef83aaef81dbb763064df03cb997c41b45f942dd0552709c6f19beb261123"
+    }
+  ],
+  "timeout": 60,
+  "repetitions": 3,
+  "jobs": {
+    "benchmark": "367651",
+    "replay": "367653"
+  },
+  "summary_artifact": "benchmarks/arithmetic-overhead-20261109/cite/cutoff-followup/summary.json"
+}

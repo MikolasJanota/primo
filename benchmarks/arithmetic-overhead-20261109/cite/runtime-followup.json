@@ -1,0 +1,66 @@
+{
+  "status": "complete; every successful native SAT row directly validated; CITE rejected",
+  "reason": "Investigate CITE regression cases before acceptance",
+  "inputs": [
+    {
+      "logical_file": "QF_LRA/2017-Heizmann-UltimateInvariantSynthesis/_standard_allDiff2_ground.i_4_4_3.bpl_7.smt2",
+      "logic": "QF_LRA",
+      "family": "2017-Heizmann-UltimateInvariantSynthesis",
+      "sha256": "59b42986ecc946c545e2e0eddb65da3eb769f50947aed573523900dcdd63b359"
+    },
+    {
+      "logical_file": "QF_LRA/LassoRanker/CooperatingT2/sumit.t2.c_Iteration2_Loop_3-pieceTemplate.smt2",
+      "logic": "QF_LRA",
+      "family": "LassoRanker",
+      "sha256": "9d58988d6c1712d5c6025ad4d3ce94d12bc15606a1fc234985ee0fed7fb8a2cf"
+    },
+    {
+      "logical_file": "QF_LRA/LassoRanker/SV-COMP/GulwaniJainKoskinen-2009PLDI-Fig1_true-termination.c_Iteration1_Lasso_7-nestedTemplate.smt2",
+      "logic": "QF_LRA",
+      "family": "LassoRanker",
+      "sha256": "c73b8cdd93bb26d962e5f243024f6d665423363fa8479f0b17a1eb947bce2294"
+    },
+    {
+      "logical_file": "QF_LRA/LassoRanker/Ultimate/bound-scaled200.bpl_Iteration1_Loop_7-phaseTemplate.smt2",
+      "logic": "QF_LRA",
+      "family": "LassoRanker",
+      "sha256": "41796cec25a6db29c8cd342d49377f62546d723bc8dff06810f9e55863b0933f"
+    }
+  ],
+  "profiles": [
+    {
+      "name": "baseline-default",
+      "binary": "baseline",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "04eb73dc61eb94b0f5ea6a580d23e736a3c016135fe83bcad485636be4a373b7"
+    },
+    {
+      "name": "control-default",
+      "binary": "control",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "d5a53ae919e1dc9b85830657eeb81accc4104c692aaaa4011b26637356503be4"
+    },
+    {
+      "name": "candidate-default",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "089ef83aaef81dbb763064df03cb997c41b45f942dd0552709c6f19beb261123"
+    }
+  ],
+  "timeout": 60,
+  "repetitions": 7,
+  "jobs": {
+    "benchmark": "367646",
+    "replay": "367650"
+  },
+  "summary_artifact": "benchmarks/arithmetic-overhead-20261109/cite/runtime-followup/summary.json"
+}

@@ -1,0 +1,1118 @@
+{
+  "decision": "rejected; production changes reverted",
+  "qualified_source": "98a5fd8bf18c3c18fda495454b42204cd033c458",
+  "test_hygiene_source": "c814861106294dcd93644f09be5e71fe12c7f401",
+  "original_baseline": "75e10877",
+  "isolated_control": "cab1ebc4",
+  "main_timing_rows": 5000,
+  "main_SAT_timing_rows_direct_Dolmen": 1683,
+  "supplementary_timing_rows": 144,
+  "supplementary_SAT_timing_rows_direct_Dolmen": 73,
+  "runtime_followups": [
+    {
+      "file": "QF_LRA/2017-Heizmann-UltimateInvariantSynthesis/_standard_allDiff2_ground.i_4_4_3.bpl_7.smt2",
+      "baseline_profile": "baseline-default",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_seconds": 16.917549,
+          "candidate_seconds": 17.596516
+        },
+        {
+          "repetition": 1,
+          "baseline_seconds": 17.362331,
+          "candidate_seconds": 17.388045
+        },
+        {
+          "repetition": 2,
+          "baseline_seconds": 16.94544,
+          "candidate_seconds": 17.671383
+        },
+        {
+          "repetition": 3,
+          "baseline_seconds": 17.145636,
+          "candidate_seconds": 17.218218
+        },
+        {
+          "repetition": 4,
+          "baseline_seconds": 17.119843,
+          "candidate_seconds": 17.123304
+        },
+        {
+          "repetition": 5,
+          "baseline_seconds": 17.857005,
+          "candidate_seconds": 18.10707
+        },
+        {
+          "repetition": 6,
+          "baseline_seconds": 18.067047,
+          "candidate_seconds": 17.711517
+        }
+      ],
+      "paired_ratio_median": 1.00423326378794,
+      "paired_ratio_range": [
+        0.9803216319745004,
+        1.0428400206781292
+      ],
+      "paired_geometric_ratio": 1.011672694228351,
+      "descriptive_95pct_log_ratio_interval": [
+        0.9910559455901191,
+        1.032718329173459
+      ]
+    },
+    {
+      "file": "QF_LRA/2017-Heizmann-UltimateInvariantSynthesis/_standard_allDiff2_ground.i_4_4_3.bpl_7.smt2",
+      "baseline_profile": "control-default",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_seconds": 17.659461,
+          "candidate_seconds": 17.596516
+        },
+        {
+          "repetition": 1,
+          "baseline_seconds": 17.471587,
+          "candidate_seconds": 17.388045
+        },
+        {
+          "repetition": 2,
+          "baseline_seconds": 17.336502,
+          "candidate_seconds": 17.671383
+        },
+        {
+          "repetition": 3,
+          "baseline_seconds": 16.804282,
+          "candidate_seconds": 17.218218
+        },
+        {
+          "repetition": 4,
+          "baseline_seconds": 16.967407,
+          "candidate_seconds": 17.123304
+        },
+        {
+          "repetition": 5,
+          "baseline_seconds": 17.381309,
+          "candidate_seconds": 18.10707
+        },
+        {
+          "repetition": 6,
+          "baseline_seconds": 17.547565,
+          "candidate_seconds": 17.711517
+        }
+      ],
+      "paired_ratio_median": 1.0093432906502984,
+      "paired_ratio_range": [
+        0.9952184080358586,
+        1.0417552556024405
+      ],
+      "paired_geometric_ratio": 1.0135851394731445,
+      "descriptive_95pct_log_ratio_interval": [
+        0.9985681989835922,
+        1.028827911810633
+      ]
+    },
+    {
+      "file": "QF_LRA/LassoRanker/CooperatingT2/sumit.t2.c_Iteration2_Loop_3-pieceTemplate.smt2",
+      "baseline_profile": "baseline-default",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_seconds": 2.950434,
+          "candidate_seconds": 2.847782
+        },
+        {
+          "repetition": 1,
+          "baseline_seconds": 3.030841,
+          "candidate_seconds": 3.074511
+        },
+        {
+          "repetition": 2,
+          "baseline_seconds": 3.148486,
+          "candidate_seconds": 3.21871
+        },
+        {
+          "repetition": 3,
+          "baseline_seconds": 3.176843,
+          "candidate_seconds": 3.068844
+        },
+        {
+          "repetition": 4,
+          "baseline_seconds": 3.155271,
+          "candidate_seconds": 3.165174
+        },
+        {
+          "repetition": 5,
+          "baseline_seconds": 3.276607,
+          "candidate_seconds": 3.164647
+        },
+        {
+          "repetition": 6,
+          "baseline_seconds": 3.066423,
+          "candidate_seconds": 2.904267
+        }
+      ],
+      "paired_ratio_median": 0.9660043004958067,
+      "paired_ratio_range": [
+        0.9471188417253589,
+        1.0223040534402885
+      ],
+      "paired_geometric_ratio": 0.9830596826571227,
+      "descriptive_95pct_log_ratio_interval": [
+        0.9564842787330851,
+        1.0103734699601963
+      ]
+    },
+    {
+      "file": "QF_LRA/LassoRanker/CooperatingT2/sumit.t2.c_Iteration2_Loop_3-pieceTemplate.smt2",
+      "baseline_profile": "control-default",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_seconds": 2.808089,
+          "candidate_seconds": 2.847782
+        },
+        {
+          "repetition": 1,
+          "baseline_seconds": 3.055378,
+          "candidate_seconds": 3.074511
+        },
+        {
+          "repetition": 2,
+          "baseline_seconds": 3.26836,
+          "candidate_seconds": 3.21871
+        },
+        {
+          "repetition": 3,
+          "baseline_seconds": 3.14774,
+          "candidate_seconds": 3.068844
+        },
+        {
+          "repetition": 4,
+          "baseline_seconds": 3.132119,
+          "candidate_seconds": 3.165174
+        },
+        {
+          "repetition": 5,
+          "baseline_seconds": 3.271936,
+          "candidate_seconds": 3.164647
+        },
+        {
+          "repetition": 6,
+          "baseline_seconds": 3.125857,
+          "candidate_seconds": 2.904267
+        }
+      ],
+      "paired_ratio_median": 0.9848088949809691,
+      "paired_ratio_range": [
+        0.9291106406978951,
+        1.014135235742172
+      ],
+      "paired_geometric_ratio": 0.983455224073171,
+      "descriptive_95pct_log_ratio_interval": [
+        0.9555922438041199,
+        1.012130627919859
+      ]
+    },
+    {
+      "file": "QF_LRA/LassoRanker/SV-COMP/GulwaniJainKoskinen-2009PLDI-Fig1_true-termination.c_Iteration1_Lasso_7-nestedTemplate.smt2",
+      "baseline_profile": "baseline-default",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_seconds": 6.810406,
+          "candidate_seconds": 6.366205
+        },
+        {
+          "repetition": 1,
+          "baseline_seconds": 7.308163,
+          "candidate_seconds": 6.985422
+        },
+        {
+          "repetition": 2,
+          "baseline_seconds": 7.028495,
+          "candidate_seconds": 7.368353
+        },
+        {
+          "repetition": 3,
+          "baseline_seconds": 6.67046,
+          "candidate_seconds": 6.682858
+        },
+        {
+          "repetition": 4,
+          "baseline_seconds": 7.012391,
+          "candidate_seconds": 6.921327
+        },
+        {
+          "repetition": 5,
+          "baseline_seconds": 6.526206,
+          "candidate_seconds": 7.08433
+        },
+        {
+          "repetition": 6,
+          "baseline_seconds": 6.962921,
+          "candidate_seconds": 6.79922
+        }
+      ],
+      "paired_ratio_median": 0.9870138444932691,
+      "paired_ratio_range": [
+        0.9347761352260056,
+        1.0855204386744763
+      ],
+      "paired_geometric_ratio": 0.9973835628247604,
+      "descriptive_95pct_log_ratio_interval": [
+        0.9505226730500577,
+        1.046554700479643
+      ]
+    },
+    {
+      "file": "QF_LRA/LassoRanker/SV-COMP/GulwaniJainKoskinen-2009PLDI-Fig1_true-termination.c_Iteration1_Lasso_7-nestedTemplate.smt2",
+      "baseline_profile": "control-default",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_seconds": 6.792717,
+          "candidate_seconds": 6.366205
+        },
+        {
+          "repetition": 1,
+          "baseline_seconds": 6.960439,
+          "candidate_seconds": 6.985422
+        },
+        {
+          "repetition": 2,
+          "baseline_seconds": 6.980981,
+          "candidate_seconds": 7.368353
+        },
+        {
+          "repetition": 3,
+          "baseline_seconds": 7.048381,
+          "candidate_seconds": 6.682858
+        },
+        {
+          "repetition": 4,
+          "baseline_seconds": 6.747361,
+          "candidate_seconds": 6.921327
+        },
+        {
+          "repetition": 5,
+          "baseline_seconds": 7.012346,
+          "candidate_seconds": 7.08433
+        },
+        {
+          "repetition": 6,
+          "baseline_seconds": 7.108889,
+          "candidate_seconds": 6.79922
+        }
+      ],
+      "paired_ratio_median": 1.0035892851011265,
+      "paired_ratio_range": [
+        0.9372103975478443,
+        1.0554896224470458
+      ],
+      "paired_geometric_ratio": 0.9901373723184766,
+      "descriptive_95pct_log_ratio_interval": [
+        0.9499898036535936,
+        1.0319816194776998
+      ]
+    },
+    {
+      "file": "QF_LRA/LassoRanker/Ultimate/bound-scaled200.bpl_Iteration1_Loop_7-phaseTemplate.smt2",
+      "baseline_profile": "baseline-default",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_seconds": 30.635663,
+          "candidate_seconds": 30.17553
+        },
+        {
+          "repetition": 1,
+          "baseline_seconds": 29.482716,
+          "candidate_seconds": 29.724794
+        },
+        {
+          "repetition": 2,
+          "baseline_seconds": 29.53711,
+          "candidate_seconds": 29.126451
+        },
+        {
+          "repetition": 3,
+          "baseline_seconds": 31.079307,
+          "candidate_seconds": 30.957623
+        },
+        {
+          "repetition": 4,
+          "baseline_seconds": 30.440942,
+          "candidate_seconds": 30.038154
+        },
+        {
+          "repetition": 5,
+          "baseline_seconds": 30.454996,
+          "candidate_seconds": 29.595548
+        },
+        {
+          "repetition": 6,
+          "baseline_seconds": 29.473733,
+          "candidate_seconds": 29.442452
+        }
+      ],
+      "paired_ratio_median": 0.9867682149915071,
+      "paired_ratio_range": [
+        0.9717797368943999,
+        1.0082108446182503
+      ],
+      "paired_geometric_ratio": 0.9903486051727113,
+      "descriptive_95pct_log_ratio_interval": [
+        0.9795263712903048,
+        1.001290407807566
+      ]
+    },
+    {
+      "file": "QF_LRA/LassoRanker/Ultimate/bound-scaled200.bpl_Iteration1_Loop_7-phaseTemplate.smt2",
+      "baseline_profile": "control-default",
+      "pairs": [
+        {
+          "repetition": 0,
+          "baseline_seconds": 30.801242,
+          "candidate_seconds": 30.17553
+        },
+        {
+          "repetition": 1,
+          "baseline_seconds": 30.083916,
+          "candidate_seconds": 29.724794
+        },
+        {
+          "repetition": 2,
+          "baseline_seconds": 31.374051,
+          "candidate_seconds": 29.126451
+        },
+        {
+          "repetition": 3,
+          "baseline_seconds": 32.824371,
+          "candidate_seconds": 30.957623
+        },
+        {
+          "repetition": 4,
+          "baseline_seconds": 30.764264,
+          "candidate_seconds": 30.038154
+        },
+        {
+          "repetition": 5,
+          "baseline_seconds": 29.835649,
+          "candidate_seconds": 29.595548
+        },
+        {
+          "repetition": 6,
+          "baseline_seconds": 29.637284,
+          "candidate_seconds": 29.442452
+        }
+      ],
+      "paired_ratio_median": 0.979685494500514,
+      "paired_ratio_range": [
+        0.9283611797532935,
+        0.9934261182637383
+      ],
+      "paired_geometric_ratio": 0.9712804434507829,
+      "descriptive_95pct_log_ratio_interval": [
+        0.9476519788858803,
+        0.9954980529234513
+      ]
+    },
+    {
+      "series": "hongyi-uncensored",
+      "timeout_seconds": 90,
+      "baseline_profile": "baseline-default",
+      "pairs": [
+        {
+          "trial": "cite-hongyi-uncensored-0",
+          "baseline_seconds": 62.650295,
+          "candidate_seconds": 63.007317
+        },
+        {
+          "trial": "cite-hongyi-uncensored-1",
+          "baseline_seconds": 62.305555,
+          "candidate_seconds": 62.788797
+        },
+        {
+          "trial": "cite-hongyi-uncensored-2",
+          "baseline_seconds": 62.060741,
+          "candidate_seconds": 62.682139
+        },
+        {
+          "trial": "cite-hongyi-uncensored-3",
+          "baseline_seconds": 62.509469,
+          "candidate_seconds": 62.717715
+        },
+        {
+          "trial": "cite-hongyi-uncensored-4",
+          "baseline_seconds": 62.483323,
+          "candidate_seconds": 62.706549
+        },
+        {
+          "trial": "cite-hongyi-uncensored-5",
+          "baseline_seconds": 62.547361,
+          "candidate_seconds": 63.131025
+        },
+        {
+          "trial": "cite-hongyi-uncensored-6",
+          "baseline_seconds": 52.527961,
+          "candidate_seconds": 52.433783
+        }
+      ],
+      "paired_ratio_median": 1.0056986483463486,
+      "paired_ratio_range": [
+        0.9982070882210714,
+        1.010012738971325
+      ],
+      "paired_geometric_ratio": 1.00540848099434,
+      "descriptive_95pct_log_ratio_interval": [
+        1.0016034136652463,
+        1.0092280036828918
+      ]
+    },
+    {
+      "series": "hongyi-uncensored",
+      "timeout_seconds": 90,
+      "baseline_profile": "control-default",
+      "pairs": [
+        {
+          "trial": "cite-hongyi-uncensored-0",
+          "baseline_seconds": 62.282788,
+          "candidate_seconds": 63.007317
+        },
+        {
+          "trial": "cite-hongyi-uncensored-1",
+          "baseline_seconds": 62.097657,
+          "candidate_seconds": 62.788797
+        },
+        {
+          "trial": "cite-hongyi-uncensored-2",
+          "baseline_seconds": 61.701287,
+          "candidate_seconds": 62.682139
+        },
+        {
+          "trial": "cite-hongyi-uncensored-3",
+          "baseline_seconds": 61.774925,
+          "candidate_seconds": 62.717715
+        },
+        {
+          "trial": "cite-hongyi-uncensored-4",
+          "baseline_seconds": 62.278072,
+          "candidate_seconds": 62.706549
+        },
+        {
+          "trial": "cite-hongyi-uncensored-5",
+          "baseline_seconds": 62.170994,
+          "candidate_seconds": 63.131025
+        },
+        {
+          "trial": "cite-hongyi-uncensored-6",
+          "baseline_seconds": 51.636066,
+          "candidate_seconds": 52.433783
+        }
+      ],
+      "paired_ratio_median": 1.0152616939640153,
+      "paired_ratio_range": [
+        1.0068800620545864,
+        1.015896783482004
+      ],
+      "paired_geometric_ratio": 1.013094029560922,
+      "descriptive_95pct_log_ratio_interval": [
+        1.0099759968840163,
+        1.0162216883356798
+      ]
+    }
+  ],
+  "cutoff_followups": [
+    {
+      "series": "cutoff-followup",
+      "file": "QF_LRA/LassoRanker/CooperatingT2/hongyi1.t2.c_Iteration1_Loop_7-phaseTemplate.smt2",
+      "profiles": {
+        "baseline-default": {
+          "rows": 3,
+          "timeout_seconds": 60,
+          "solved": 2,
+          "par2": 239.01056999999997,
+          "outcomes": {
+            "ok/sat": 2,
+            "timeout/sat": 1
+          },
+          "rows_detail": [
+            {
+              "suite": "cite-boundary",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "59.718799"
+            },
+            {
+              "suite": "cite-boundary",
+              "repetition": "1",
+              "status": "timeout",
+              "answer": "sat",
+              "seconds": "60.595876"
+            },
+            {
+              "suite": "cite-boundary",
+              "repetition": "2",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "59.291771"
+            }
+          ]
+        },
+        "control-default": {
+          "rows": 3,
+          "timeout_seconds": 60,
+          "solved": 3,
+          "par2": 174.56946,
+          "outcomes": {
+            "ok/sat": 3
+          },
+          "rows_detail": [
+            {
+              "suite": "cite-boundary",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "58.489305"
+            },
+            {
+              "suite": "cite-boundary",
+              "repetition": "1",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "57.241379"
+            },
+            {
+              "suite": "cite-boundary",
+              "repetition": "2",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "58.838776"
+            }
+          ]
+        },
+        "candidate-default": {
+          "rows": 3,
+          "timeout_seconds": 60,
+          "solved": 1,
+          "par2": 298.69676300000003,
+          "outcomes": {
+            "ok/sat": 1,
+            "timeout/sat": 2
+          },
+          "rows_detail": [
+            {
+              "suite": "cite-boundary",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "58.696763"
+            },
+            {
+              "suite": "cite-boundary",
+              "repetition": "1",
+              "status": "timeout",
+              "answer": "sat",
+              "seconds": "60.443786"
+            },
+            {
+              "suite": "cite-boundary",
+              "repetition": "2",
+              "status": "timeout",
+              "answer": "sat",
+              "seconds": "60.228144"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "series": "cutoff-followup",
+      "file": "QF_LRA/LassoRanker/SV-COMP/NoriSharma-2013FSE-Fig8_true-termination.c_Iteration1_Lasso_4-pieceTemplate.smt2",
+      "profiles": {
+        "baseline-default": {
+          "rows": 3,
+          "timeout_seconds": 60,
+          "solved": 0,
+          "par2": 360,
+          "outcomes": {
+            "timeout/unknown": 3
+          },
+          "rows_detail": [
+            {
+              "suite": "cite-boundary",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.239523"
+            },
+            {
+              "suite": "cite-boundary",
+              "repetition": "1",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.237755"
+            },
+            {
+              "suite": "cite-boundary",
+              "repetition": "2",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.231367"
+            }
+          ]
+        },
+        "control-default": {
+          "rows": 3,
+          "timeout_seconds": 60,
+          "solved": 0,
+          "par2": 360,
+          "outcomes": {
+            "timeout/unknown": 3
+          },
+          "rows_detail": [
+            {
+              "suite": "cite-boundary",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.217018"
+            },
+            {
+              "suite": "cite-boundary",
+              "repetition": "1",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.239158"
+            },
+            {
+              "suite": "cite-boundary",
+              "repetition": "2",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.255077"
+            }
+          ]
+        },
+        "candidate-default": {
+          "rows": 3,
+          "timeout_seconds": 60,
+          "solved": 0,
+          "par2": 360,
+          "outcomes": {
+            "timeout/unknown": 3
+          },
+          "rows_detail": [
+            {
+              "suite": "cite-boundary",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.240761"
+            },
+            {
+              "suite": "cite-boundary",
+              "repetition": "1",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.269226"
+            },
+            {
+              "suite": "cite-boundary",
+              "repetition": "2",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.228658"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "series": "hongyi-confirmation",
+      "file": "QF_LRA/LassoRanker/CooperatingT2/hongyi1.t2.c_Iteration1_Loop_7-phaseTemplate.smt2",
+      "profiles": {
+        "baseline-default": {
+          "rows": 7,
+          "timeout_seconds": 60,
+          "solved": 1,
+          "par2": 779.738066,
+          "outcomes": {
+            "timeout/unknown": 5,
+            "timeout/sat": 1,
+            "ok/sat": 1
+          },
+          "rows_detail": [
+            {
+              "suite": "cite-hongyi-0",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "61.092252"
+            },
+            {
+              "suite": "cite-hongyi-1",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "61.092427"
+            },
+            {
+              "suite": "cite-hongyi-2",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.992806"
+            },
+            {
+              "suite": "cite-hongyi-3",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "61.093040"
+            },
+            {
+              "suite": "cite-hongyi-4",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "61.092477"
+            },
+            {
+              "suite": "cite-hongyi-5",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "sat",
+              "seconds": "60.261524"
+            },
+            {
+              "suite": "cite-hongyi-6",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "59.738066"
+            }
+          ]
+        },
+        "control-default": {
+          "rows": 7,
+          "timeout_seconds": 60,
+          "solved": 2,
+          "par2": 717.670488,
+          "outcomes": {
+            "timeout/unknown": 4,
+            "timeout/sat": 1,
+            "ok/sat": 2
+          },
+          "rows_detail": [
+            {
+              "suite": "cite-hongyi-0",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "61.134752"
+            },
+            {
+              "suite": "cite-hongyi-1",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "61.004541"
+            },
+            {
+              "suite": "cite-hongyi-2",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "sat",
+              "seconds": "60.653917"
+            },
+            {
+              "suite": "cite-hongyi-3",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.998730"
+            },
+            {
+              "suite": "cite-hongyi-4",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "61.203212"
+            },
+            {
+              "suite": "cite-hongyi-5",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "57.839063"
+            },
+            {
+              "suite": "cite-hongyi-6",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "59.831425"
+            }
+          ]
+        },
+        "candidate-default": {
+          "rows": 7,
+          "timeout_seconds": 60,
+          "solved": 1,
+          "par2": 778.84078,
+          "outcomes": {
+            "timeout/unknown": 5,
+            "timeout/sat": 1,
+            "ok/sat": 1
+          },
+          "rows_detail": [
+            {
+              "suite": "cite-hongyi-0",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "61.023247"
+            },
+            {
+              "suite": "cite-hongyi-1",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "61.092450"
+            },
+            {
+              "suite": "cite-hongyi-2",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "61.044609"
+            },
+            {
+              "suite": "cite-hongyi-3",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "61.112015"
+            },
+            {
+              "suite": "cite-hongyi-4",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "unknown",
+              "seconds": "60.969336"
+            },
+            {
+              "suite": "cite-hongyi-5",
+              "repetition": "0",
+              "status": "timeout",
+              "answer": "sat",
+              "seconds": "60.013901"
+            },
+            {
+              "suite": "cite-hongyi-6",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "58.840780"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "series": "hongyi-uncensored",
+      "file": "QF_LRA/LassoRanker/CooperatingT2/hongyi1.t2.c_Iteration1_Loop_7-phaseTemplate.smt2",
+      "profiles": {
+        "baseline-default": {
+          "rows": 7,
+          "timeout_seconds": 90,
+          "solved": 7,
+          "par2": 427.084705,
+          "outcomes": {
+            "ok/sat": 7
+          },
+          "rows_detail": [
+            {
+              "suite": "cite-hongyi-uncensored-0",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.650295"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-1",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.305555"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-2",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.060741"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-3",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.509469"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-4",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.483323"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-5",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.547361"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-6",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "52.527961"
+            }
+          ]
+        },
+        "control-default": {
+          "rows": 7,
+          "timeout_seconds": 90,
+          "solved": 7,
+          "par2": 423.94178899999997,
+          "outcomes": {
+            "ok/sat": 7
+          },
+          "rows_detail": [
+            {
+              "suite": "cite-hongyi-uncensored-0",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.282788"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-1",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.097657"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-2",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "61.701287"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-3",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "61.774925"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-4",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.278072"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-5",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.170994"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-6",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "51.636066"
+            }
+          ]
+        },
+        "candidate-default": {
+          "rows": 7,
+          "timeout_seconds": 90,
+          "solved": 7,
+          "par2": 429.467325,
+          "outcomes": {
+            "ok/sat": 7
+          },
+          "rows_detail": [
+            {
+              "suite": "cite-hongyi-uncensored-0",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "63.007317"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-1",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.788797"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-2",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.682139"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-3",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.717715"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-4",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "62.706549"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-5",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "63.131025"
+            },
+            {
+              "suite": "cite-hongyi-uncensored-6",
+              "repetition": "0",
+              "status": "ok",
+              "answer": "sat",
+              "seconds": "52.433783"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "descriptive_interval_formula": "exp(mean(log ratios) +/-2.446912*sample_sd(log ratios)/sqrt(7)); descriptive paired t interval, not a universal bound.",
+  "operation_savings": "NEC prp-23-46 default every diagnostic repetition:11274943 comparisons vs284989646 equivalent full-scan visits;1355778 uniformity checks.",
+  "scope": "Only endpoint/membership classification; retained complete leaf sets, exact rationals, orientation, mixed reconstruction, options, thresholds and search heuristics. Original main and first follow-up rows remain immutable.",
+  "final_production_source": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
+  "reason": "All7completed90s Hongyi pairs slower vs cache-only:median1.0152616939640153,geomean1.013094029560922,descriptive interval[1.0099759968840163,1.0162216883356798]. Fails no-confirmed-runtime-regression acceptance despite96.0% targeted comparison-work reduction.",
+  "cause": "Unestablished: Hongyi records0CITE classifications. No binary-layout cause is claimed as measured.",
+  "verification": "Candidate passes check/ASan,6000fresh generated profile-input checks and1120 real-seed mutations; all1756successful native SAT timing rows directDolmen. Production source and C++tests restored exactly to accepted cache version."
+}

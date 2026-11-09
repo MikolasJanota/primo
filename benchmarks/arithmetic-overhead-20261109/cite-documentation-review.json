@@ -1,0 +1,44 @@
+{
+  "baseline": "46811ddb for evidence; cab1ebc4 for CITE implementation contract",
+  "reviewers": [
+    "cite_docs_review",
+    "overhead_evidence_review"
+  ],
+  "primary_verdict": "ready with CITE acceptance explicitly pending",
+  "findings": {
+    "D-CITE-01": "Resolved: source links pinned to qualified snapshot98a5fd8b",
+    "CE-S1": "Adopted: distinguish original baseline from cache-only control",
+    "SR-S1": "Adopted: runtime decisions recorded when qualification finishes",
+    "D-CITE-02": "Resolved: source-review opening says CITE experimental source"
+  },
+  "independently_checked": [
+    "Preprocessing representation, endpoint/equality proof, retained hoisting fallback and comparison-counter boundaries",
+    "Bromberger attribution and engineering-adaptation boundary",
+    "Every primary table cell, ratio and pair count; NEC counters/medians",
+    "5000 timing rows and1683 direct SAT model passes; raw model/coverage records",
+    "Fresh generated/mutation totals and direct model coverage",
+    "135-unit source/static scope; focused capacity repair matches baseline test warnings; unchanged production source"
+  ],
+  "accepted_primary_evidence_sha256_before_CE_S1": "74e2bc66b4b1dc659300b1442bc83a77b3fd319784af71496e70aa220055e473",
+  "initial_accepted_preprocessing_blob": "b0500482e31239b1c0e4c8cd6199f3e7724337d8",
+  "unchecked_scope": "Reviewers did not rerun experiments/static tools, inspect rendering or accept the whole manual.",
+  "final_verdict": "ready; no required findings remain. Cache accepted, CITE rejected, production restored.",
+  "final_reviewed_sha256": {
+    "docs/evidence/arithmetic-overhead-20261109.md": "ad6433a25de956f696543853589fe4d7b3cb74151953da168b59c683d5e9e046",
+    "docs/run-log.json": "fa9985ce652f69cca89059c0056b8af6d3b578c93c978b75a5ff8c233cd4fed1",
+    "docs/implementation/preprocessing.md": "889c326434e4a561bd37b4760a9cfc26fb08023a09c2ca4bd86361e32b3dadaf",
+    "docs/papers/bromberger-linear-arithmetic.md": "719b0117da182feb24680e45522e90e4e36774e1d225f8cbb74e777080a7e18f",
+    "benchmarks/arithmetic-overhead-20261109/source-review.md": "da67497a9a406b83ab77442d98331ba94c43694af4796ac14049e6264a37b1d6",
+    "benchmarks/arithmetic-overhead-20261109/cite/acceptance.json": "c3ee65f7de2c967522e1bff502c1d60dabb8236ab35aaf5f34327393abf496ef",
+    "benchmarks/arithmetic-overhead-20261109/experiment.json": "9acab74b92cd2750924371adb89ba2822a8e552087d82ca64a470140f9ec85c7",
+    "benchmarks/arithmetic-overhead-20261109/source-identities.json": "0d611a2bd38420be0e8248084d19d42a3dd4a63804f1a50ae5051de3a92aafaf"
+  },
+  "supplementary_checks": "Reviewer independently recomputed144rows/73successfulSAT (42+6+4+21), all raw directDolmen passes; total5144/1756; all7uncensored candidate/control ratios>1 and median/geomean/interval, trialrotation,60/90s limits and0CITEwork match metadata. Production source/C++test diff againstcab empty.",
+  "validation": "Writer: make lint, make docs and docs-site, local/Git link checker, final rendered inspection; SLURM check/ASan/fuzz/mutations/static/timing/model jobs separately recorded.",
+  "accepted_rejection_status_blobs": {
+    "docs/implementation/preprocessing.md": "f0dd7b5dea1a5a73cf762243d0da3489249ed358",
+    "docs/papers/bromberger-linear-arithmetic.md": "620b15f1843293789ba5873e6695c9fbbaab1468",
+    "benchmarks/arithmetic-overhead-20261109/source-review.md": "418347aef19e25ae94bbd4101621bd4fa0dd5e8a"
+  },
+  "rendered_and_link_validation": "Final make docs-site and full local/Git check:286pages,39849local links,1222uniqueGit links,0failures. Writer inspected cache implementation/evidence, ordered leads, rejected CITE implementation section and CITE evidence/table in headless Chrome; math renders viaANGLE/SwiftShader."
+}

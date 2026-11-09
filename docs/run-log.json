@@ -6,7 +6,7 @@
       "id": "2026-11-09-arithmetic-overhead",
       "date": "2026-11-09",
       "kind": "separate interval-cache and CITE constant-comparison qualification",
-      "evidence_status": "interval cache accepted; CITE correctness gates passed, timing/model and final acceptance in progress",
+      "evidence_status": "complete: interval cache accepted; CITE rejected after confirmed runtime regression, production changes reverted",
       "baseline_commit": "75e10877860c02a5a55a615f1c5f4f337f2e864c",
       "source_snapshots": {
         "cache": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
@@ -21,7 +21,8 @@
         "timeout_seconds": 60,
         "diagnostic_repetitions": 3,
         "order": "Serial arms on identical shards, rotated by shard and repetition",
-        "SAT_replay": "Separate dependent jobs after every timing array; every successful native SAT row; solve90s and direct Dolmen30s, strict=false"
+        "SAT_replay": "Separate dependent jobs after every timing array; every successful native SAT row; solve90s and direct Dolmen30s, strict=false",
+        "timeout_scope": "Primary suites and cutoff repeats60s; final one-case Hongyi diagnostic90s, separately archived."
       },
       "benchmark_selection": {
         "diagnostic": "benchmarks/arithmetic-efficiency-20261108/experiment.json: frozen12 cases",
@@ -106,7 +107,78 @@
           "timing": "367001",
           "models": "367003"
         },
-        "cite_test_hygiene": "367446"
+        "cite_test_hygiene": "367446",
+        "cite_fixed_build": "366695",
+        "cite_baseline_fixed_fixtures": "366665",
+        "cite_runtime_followups": {
+          "timing": "367646",
+          "models": "367650"
+        },
+        "cite_cutoff_followups": {
+          "timing": "367651",
+          "models": "367653"
+        },
+        "cite_hongyi_confirmation": {
+          "cite-hongyi-0": {
+            "benchmark": "367859",
+            "replay": "367871"
+          },
+          "cite-hongyi-1": {
+            "benchmark": "367860",
+            "replay": "367872"
+          },
+          "cite-hongyi-2": {
+            "benchmark": "367862",
+            "replay": "367873"
+          },
+          "cite-hongyi-3": {
+            "benchmark": "367864",
+            "replay": "367874"
+          },
+          "cite-hongyi-4": {
+            "benchmark": "367865",
+            "replay": "367875"
+          },
+          "cite-hongyi-5": {
+            "benchmark": "367866",
+            "replay": "367876"
+          },
+          "cite-hongyi-6": {
+            "benchmark": "367868",
+            "replay": "367878"
+          }
+        },
+        "cite_hongyi_uncensored": {
+          "cite-hongyi-uncensored-0": {
+            "benchmark": "368000",
+            "replay": "368007"
+          },
+          "cite-hongyi-uncensored-1": {
+            "benchmark": "368001",
+            "replay": "368008"
+          },
+          "cite-hongyi-uncensored-2": {
+            "benchmark": "368002",
+            "replay": "368009"
+          },
+          "cite-hongyi-uncensored-3": {
+            "benchmark": "368003",
+            "replay": "368010"
+          },
+          "cite-hongyi-uncensored-4": {
+            "benchmark": "368004",
+            "replay": "368011"
+          },
+          "cite-hongyi-uncensored-5": {
+            "benchmark": "368005",
+            "replay": "368012"
+          },
+          "cite-hongyi-uncensored-6": {
+            "benchmark": "368006",
+            "replay": "368013"
+          }
+        },
+        "cite_initial_build": "366505"
       },
       "setup_and_triage": [
         {
@@ -131,7 +203,7 @@
         },
         {
           "jobs": "366579,366593",
-          "classification": "New CITE oracle fixture expects more hoisting than the existing solver implements; fails both pristine baseline and candidate. Correct oracle to retain mixed scaled-CITE-inside-sum fallback and independently test pure scales/offsets. CITE qualification pending repaired fixture."
+          "classification": "New CITE oracle expected more hoisting than existing solver implements; failed both pristine baseline and candidate. Repaired oracle preserves mixed scaled-CITE-inside-sum fallback and tests pure scales/offsets separately. Fixed baseline fixture366665 and check366696 pass. No production optimization change was needed; initial pending fuzz/ASan/static jobs cancelled before execution."
         }
       ],
       "verification": {
@@ -162,7 +234,9 @@
           "note": "The same100 generated formulas are checked under uniform and difference modes;200 checks are not200 independent formulas."
         },
         "cache_generated_and_mutations": "cache-gates.json:6000 profile/input checks on4000 generated formulas,5954agreements,43native timeouts,2reference-timeout checks,1budgetunknown; all4385 primarySAT rows directDolmen;620 retained real mutations allPASS with successfulSAT covered",
-        "cite_generated_and_mutations": "cite-gates.json:6000fresh profile/input checks and1120 retained real-seed mutation checks; no blocking outcomes; every primary successfulSAT directly validated"
+        "cite_generated_and_mutations": "cite-gates.json:6000fresh profile/input checks and1120 retained real-seed mutation checks; no blocking outcomes; every primary successfulSAT directly validated",
+        "cite_static": "366699 completed135units; one new test-only vector capacity advisory repaired by reserve in focused Release/ASan/static job367446. Final normalized test warning multiset matches cache baseline; production source and measured binary unchanged.",
+        "final_source": "git diff cab1ebc4 -- src tests/unit CMakeLists.txt Makefile is empty; accepted cache production and C++tests retained. Local6metadata tests and lint pass; final docs/review closure recorded in documentation review artifacts."
       },
       "fuzz_procedure": {
         "script": "scripts/qualification/arithmetic_overhead/fuzz.sbatch",
@@ -179,7 +253,8 @@
         "generator": "seeded OpFuzz;20 per seed; UFLRA retry40 per seed; seed2026110990+task",
         "reference": "z3 model_validate=true",
         "timeout": "5-second mutation solver runs; retained answer recheck10s; direct model replay20s/Dolmen20s",
-        "artifacts": "remote stage/mutations/profile, seed-provenance.json and retained scratch/bugs/logs"
+        "artifacts": "remote stage/mutations/profile, seed-provenance.json and retained scratch/bugs/logs",
+        "cite": "Fresh campaign with seed base2026110990+task,40mutations per seed:1120 retained mutations across six profiles; every successful SAT directly validated."
       },
       "reproduction": {
         "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies; --check-only immediately before sbatch; SSH/header/dependency paths private",
@@ -189,7 +264,7 @@
       },
       "acceptance": {
         "cache": "accepted atcab1ebc4 after complete primary and supplementary comparisons,1163 direct SAT timing-row model passes, unchanged logical counters, operation savings and no confirmed runtime regression",
-        "cite": "fixed source98a5fd8b passes check/ASan/fresh generated+mutation gates; complete timing/model audit and source-review closure pending"
+        "cite": "rejected; all7completed Hongyi90s pairs slower vs cache-only (median1.53%,geomean1.31%). Work-counter savings96.0%onNEC do not meet runtime acceptance. No production CITE change remains; source/probes retained in merge ancestry."
       },
       "primary_cache_results": {
         "artifact": "benchmarks/arithmetic-overhead-20261109/cache/summary.json",
@@ -207,7 +282,18 @@
       "source_review": {
         "scope": "whole tracked non-generated C++ static/include scan plus whole-tree lint/check/docs and focused manual soundness, borrowed-storage, layering, API, comment and counter review of changed owners/callers",
         "cache": "owning interval values, no map iteration, unchanged feasibility/scoring order, full invalidation after moves, no cross-layer shortcuts, no new unused includes/helpers or advisory identities",
-        "cite": "exact sorted-endpoint/membership proof, absent/empty/singleton/mixed preservation, consumed iterators before term creation, original mixed hoisting fallback retained; one added-test capacity advisory repaired separately without altering measured production binaries"
+        "cite": "exact sorted-endpoint/membership proof, absent/empty/singleton/mixed preservation, consumed iterators before term creation, original mixed hoisting fallback retained; one added-test capacity advisory repaired separately without altering measured production binaries Rejected after runtime measurement; production source and C++tests restored to cab1ebc4."
+      },
+      "primary_cite_results": {
+        "artifact": "benchmarks/arithmetic-overhead-20261109/cite/summary.json",
+        "timing_rows": 5000,
+        "successful_native_SAT_rows_direct_Dolmen": 1683,
+        "comparison": "baseline75e10877, cache-onlycab1ebc4, cache+CITE98a5fd8b",
+        "operation_counts": "NEC prp-23-46 default:11274943 comparisons vs284989646 equivalent scan visits,1355778 uniformity checks; unchanged every diagnostic repetition",
+        "status": "complete rejected experiment;5144 timing rows and1756successful native SAT timing rows all directDolmen; original rows immutable",
+        "followup": "Four runtime outliers do not reproduce in7repetitions; cutoff case Hongyi remains slower after3+7censored60s trials and7completed90s three-arm trials. Candidate rejected, not retuned.",
+        "uncensored_followup": "All21runs finishSAT and directDolmen passes21. All7candidate/cache pairs slower; median1.0152616939640153,geomean1.013094029560922,descriptive interval[1.0099759968840163,1.0162216883356798]. Cause unestablished;0CITE classifications onHongyi.",
+        "acceptance_artifact": "benchmarks/arithmetic-overhead-20261109/cite/acceptance.json"
       }
     },
     {

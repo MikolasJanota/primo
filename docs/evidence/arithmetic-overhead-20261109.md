@@ -1,9 +1,9 @@
 (arithmetic-overhead-experiment)=
 # Removing repeated arithmetic work
 
-**Status: interval cache accepted after correctness, paired timing and runtime
-follow-up qualification. Constant if-then-else (CITE) timing and final acceptance
-are in progress.**
+**Status: interval cache accepted; constant if-then-else (CITE) fast paths
+rejected after a confirmed paired runtime regression. Correctness and separate
+SAT-model qualification are complete for both experiments.**
 The baseline is `75e10877`. This batch changes work reuse, preserving arithmetic
 options, the Boolean flattening threshold, search heuristics, candidate order
 and preprocessing results. It makes no claim of closing the reference-solver gap.
@@ -126,7 +126,12 @@ were inspected rather than removed automatically. Formatting/lint, synthetic
 analysis-provenance guard tests and the independent documentation review are
 separate checks, not substitutes for solver qualification.
 
-## CITE candidate
+## CITE constant comparisons
+
+**Rejected candidate.** The implementation and counters below describe
+experimental snapshot `98a5fd8b`. Final production retains the interval cache
+and the previous full-scan CITE classifier; the candidate and probes remain in
+history for reproduction.
 
 {citesource}`Snapshot 98a5fd8b's csimp_against_constant
 <src/smt/preprocessing.cpp#L3949-L4031>` uses sorted endpoints for `<`/`<=` and singleton handling
@@ -140,10 +145,95 @@ expected an existing unimplemented hoist; the repaired oracle preserves the
 mixed scaled-CITE-inside-sum fallback and separately exercises pure scales and
 offsets. The repaired semantic fixtures pass against the pristine baseline.
 
-The fixed candidate passes `make check`, ASan and its fresh four-logic generated
-gate. Its independent timing comparison includes both `75e10877` and the
-interval-cache binary, allowing the second change's contribution to be measured
-separately. Timing, model coverage and acceptance remain pending.
+The NEC `prp-23-46` diagnostic records 11,274,943 leaf comparisons against
+284,989,646 equivalent full-scan leaf visits in each of three default-profile
+repetitions: **96.0% fewer comparisons**. There are 1,355,778 uniformity checks.
+These are mechanism counts rather than a claim that all preprocessing work
+falls by that proportion; complete leaf sets, sorting and cache-key comparisons
+remain. Median default runtimes are 24.982 seconds for `75e10877`, 24.462 seconds
+for the cache-only control, and 23.692 seconds for CITE. This modest wall-time
+improvement is distinct from the larger interval-cache gain on `convert`.
+
+The second experiment measures three immutable binaries: the original baseline,
+cache-only control and cache-plus-CITE candidate. The following cells list them
+in that order. Each LIA row has 200 inputs; LRA has 519. Ratios compare CITE
+with the cache-only control over common solves with both runtimes at least
+50 ms. These are new timing rows, separate from the first experiment.
+
+| Set / profile | Solved: baseline / cache / CITE | PAR2, s: baseline / cache / CITE | CITE/cache geometric ratio (pairs) |
+| --- | ---: | ---: | ---: |
+| LIA / Defaults | 92 / 96 / 96 | 13465.72 / 12967.01 / 12966.83 | 1.001 (57) |
+| LIA / M124 | 126 / 127 / 127 | 9441.84 / 9222.57 / 9222.37 | 1.004 (67) |
+| LIA / Uniform cubes | 126 / 130 / 130 | 9383.57 / 8879.73 / 8876.62 | 0.999 (59) |
+| LIA / M124 + uniform | 150 / 151 / 151 | 6562.36 / 6345.20 / 6343.61 | 1.003 (64) |
+| LRA / Defaults | 451 / 453 / 451 | 10986.13 / 10852.95 / 10993.68 | 1.002 (380) |
+
+The four LIA profiles retain the cache-only solved sets. LRA has two fewer
+solves than the cache-only control and the same solved set as the original
+baseline in this pass. Four distinct runtime cases exceed the investigation
+threshold against the original baseline or cache-only control. Seven rotated
+repetitions give CITE/cache median ratios of 1.009, 0.985, 1.004 and 0.980;
+the original large slowdowns do not reproduce on those four cases. The 84 timing rows contain 42 SAT and 42 UNSAT answers; all 42
+successful SAT timing rows in that series pass direct Dolmen replay.
+
+The two cutoff cases receive three rotated repetitions. `NoriSharma` times
+out in all arms throughout; `hongyi1` solves in 2/3 original-baseline, 3/3
+cache-only and 1/3 CITE runs. Seven additional rotated 60-second trials still
+leave most runs censored: solved counts are 1/7, 2/7 and 1/7 respectively.
+All six successful SAT rows in the first cutoff series and all four in the
+additional trials pass separate direct Dolmen checks. Printed SAT answers from
+processes that time out remain unsolved.
+
+To resolve the remaining runtime question, seven final three-arm trials use a
+**90-second ceiling on this one Hongyi diagnostic only**. All 21 timing runs
+finish SAT. CITE is slower than cache-only in all seven pairs: median ratio
+**1.0153**, geometric ratio 1.0131 and descriptive paired log-ratio interval
+[1.0100, 1.0162]. Against the original baseline, the median ratio is 1.0057.
+The interval uses the same formula as the cache follow-up and is descriptive,
+not a universal bound. Rotation balances the serial arm order; trial configs
+and allocation provenance are retained. Separate direct Dolmen validation accepts all
+21 SAT rows. The primary LRA selection and earlier cutoff rows
+retain their original 60-second limits and remain immutable.
+
+This confirmed slowdown fails the stated runtime acceptance rule. The CITE
+source and added C++ tests are reverted from production, while its snapshots,
+work counters, correctness results and all timing evidence remain reproducible.
+The regression case records zero CITE classifications, so the new helper does
+not execute there; the experiment does not establish the slowdown's cause.
+No binary-layout explanation is claimed as a measured result.
+Across all CITE supplementary series, 144 timing rows contain 73 successful
+native SAT rows; all 73 pass direct Dolmen, for 1,756 accepted SAT model rows
+including the main comparison. The {download}`rejection record
+<../../benchmarks/arithmetic-overhead-20261109/cite/acceptance.json>` retains all
+paired values and the decision.
+
+The strict main audit covers **5,000 timing rows** and **1,683 successful native
+SAT timing rows**, all separately accepted by direct Dolmen replay. Matching
+completed runs preserve logical counters and successful answers. The candidate
+passes SLURM `make check` (47 C++ groups, 312 Python tests) and ASan (47 groups
+plus 200 generated profile/input checks, including four inconclusive timeouts).
+Its fresh generated gate checks 6,000 profile/input pairs using 4,000 formulas:
+5,963 agreements, 37 native timeouts, no reference timeouts or budget unknowns,
+and all 4,385 primary SAT answers directly validated. Thirteen additional model
+passes follow initially inconclusive answer runs. The 1,120 retained real-seed
+mutations all agree with the reference; every successful SAT model passes.
+The generated profiles and model-stage separation are the same as for the
+cache gate, with fresh seeds.
+
+The whole 135-unit C++ scan initially reports one new advisory in the added
+oracle test, for a three-value vector grown without reserving capacity. A
+test-only reserve repair passes focused Release/ASan preprocessing regressions
+and the same static scan of that translation unit. Its normalized advisories
+then match the cache baseline; no new advisory remains in the experimental
+snapshot after its test-only repair. The measured workspace
+retains the `98a5fd8b` production sources and binary. Final production is restored
+to the accepted cache source. Existing baseline
+advisories remain documented rather than described as a clean static baseline.
+
+- {download}`CITE main summary <../../benchmarks/arithmetic-overhead-20261109/cite/summary.json>` and
+  {download}`individual rows <../../benchmarks/arithmetic-overhead-20261109/cite/rows.csv.gz>`.
+- {download}`CITE generated/mutation coverage <../../benchmarks/arithmetic-overhead-20261109/cite-gates.json>` and
+  {download}`static comparison and focused repair <../../benchmarks/arithmetic-overhead-20261109/cite-static.json>`.
 
 ## Reproduction and provenance
 

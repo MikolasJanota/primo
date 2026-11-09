@@ -1,0 +1,75 @@
+{
+  "status": "complete; every successful native SAT row directly validated; CITE rejected",
+  "reason": "60s confirmation remains censored (original1/7,cache2/7,CITE1/7 solves). Use90s ceiling only on this diagnostic case to obtain completed paired runtimes; primary519-case LRA results retain60s limits.",
+  "inputs": [
+    {
+      "logical_file": "QF_LRA/LassoRanker/CooperatingT2/hongyi1.t2.c_Iteration1_Loop_7-phaseTemplate.smt2",
+      "logic": "QF_LRA",
+      "family": "LassoRanker",
+      "sha256": "c767f54a0d0988b10497ec92b1232b552046f5ba782923e054493fe5371124fc"
+    }
+  ],
+  "profiles": [
+    {
+      "name": "baseline-default",
+      "binary": "baseline",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "04eb73dc61eb94b0f5ea6a580d23e736a3c016135fe83bcad485636be4a373b7"
+    },
+    {
+      "name": "control-default",
+      "binary": "control",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "d5a53ae919e1dc9b85830657eeb81accc4104c692aaaa4011b26637356503be4"
+    },
+    {
+      "name": "candidate-default",
+      "binary": "candidate",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "binary_sha256": "089ef83aaef81dbb763064df03cb997c41b45f942dd0552709c6f19beb261123"
+    }
+  ],
+  "timeout": 90,
+  "trials": 7,
+  "rotation": "Initial profile order rotated by trial modulo3; serial arms share allocatedCPU. All model jobs depend on all7new timing jobs. Timing jobs depend on previous60s confirmation model jobs.",
+  "jobs": {
+    "cite-hongyi-uncensored-0": {
+      "benchmark": "368000",
+      "replay": "368007"
+    },
+    "cite-hongyi-uncensored-1": {
+      "benchmark": "368001",
+      "replay": "368008"
+    },
+    "cite-hongyi-uncensored-2": {
+      "benchmark": "368002",
+      "replay": "368009"
+    },
+    "cite-hongyi-uncensored-3": {
+      "benchmark": "368003",
+      "replay": "368010"
+    },
+    "cite-hongyi-uncensored-4": {
+      "benchmark": "368004",
+      "replay": "368011"
+    },
+    "cite-hongyi-uncensored-5": {
+      "benchmark": "368005",
+      "replay": "368012"
+    },
+    "cite-hongyi-uncensored-6": {
+      "benchmark": "368006",
+      "replay": "368013"
+    }
+  },
+  "summary_artifact": "benchmarks/arithmetic-overhead-20261109/cite/hongyi-uncensored/summary.json"
+}

@@ -287,6 +287,67 @@ simplification because it can produce Boolean ITEs that those structural
 rules simplify further. Fewer
 auxiliary variables can come at the cost of more Boolean structure.
 
+### Constant-comparison work inside CITE simplification
+
+**Rejected experiment.** This subsection describes snapshot `98a5fd8b`, whose
+endpoint/membership fast paths passed correctness checks but were removed after
+a paired runtime regression. Current production retains the full leaf scan and
+does not export the three comparison-work counters below. The
+[experiment evidence](../evidence/arithmetic-overhead-20261109.md#cite-constant-comparisons)
+records the measured savings, regression and rejection. The snapshot retains
+the implementation and probes for reproduction.
+
+In that snapshot, the pass owns `CiteLeaves`, an optional vector of exact `Rational` values per
+`TermId`, and `CsimpCache`, keyed by operator, CITE ID, constant and operand
+orientation. Present leaf sets are sorted and unique; negative scales are
+resorted by the existing leaf builder. The complete vectors and their merging
+representation remain unchanged.
+
+{citesource}`csimp_against_constant <src/smt/preprocessing.cpp>` classifies a
+nonempty set using its first and last leaf for `<` and `<=`. Each comparison
+is monotone in the leaf value, in either operand orientation: matching endpoint
+truth values establish a uniform result. Different endpoint truth values require
+the existing mixed-branch reconstruction. Equality first handles a singleton;
+for larger sets, `lower_bound` finds whether the constant occurs. Absence is
+uniformly false, while membership is mixed because the leaves are unique.
+For example, equality to 3 over `{2, 4, 8}` is false without descending into
+branches; equality to 4 requires the original conditional reconstruction.
+
+These are Primo engineering adaptations of Bromberger §8.2.3, p. 274
+{cite:p}`bromberger2019`, not additional rules attributed to the thesis.
+{citesource}`SimplifyConstantItesResult <src/smt/preprocessing.hpp>` owns the
+counters published by {citesource}`make_simplify_constant_ites
+<src/smt/preprocessing_tactics.cpp>` as
+`:preprocessing.cite.uniformity-checks`, `.leaf-comparisons` and
+`.leaf-scan-equivalent`. One uniformity check counts one classification visit;
+leaf comparisons count exact endpoint predicates or binary-search comparisons,
+including the final equality test. The equivalent scan counter adds the full
+leaf-set size at the same visit. Mixed frames can be classified on entry and
+again after their children finish, as before. Cache-key comparisons and leaf
+construction, sorting and union work are excluded.
+
+Per classification, inequalities take at most two leaf comparisons and equality
+takes logarithmic comparisons in the set size. Reconstruction can still visit
+many subterms; these bounds do not make the whole pass constant/logarithmic or
+bound the sum of cached leaf-set sizes by the input DAG size. The existing
+hoist only handles a directly exposed ITE child: a mixed comparison against
+a scaled CITE hidden inside a sum can retain its original atom. This fallback
+is preserved, rather than extending the reconstruction pipeline. Non-CITE absence
+still rebuilds the original atom, and an empty present set retains the old
+vacuous true result before endpoint access. The outer pass still leaves a
+top-level set with fewer than two leaves to ordinary folding. All endpoints
+and iterators are consumed before any term construction or leaf-map mutation.
+
+{citesource}`Preprocessing regressions <tests/unit/preprocessing_tests.cpp>` compare
+reconstructed terms against independent leaf decisions for both orientations,
+strictness, exact rational thresholds, negative/zero scales, equality membership
+and absence, singleton leaves and shared subterms. Balanced 8/64/512/4096-leaf
+probes require two comparisons for uniform inequalities and a logarithmic bound
+for equality absence inside the endpoint range. The candidate avoids 96.0% of
+equivalent leaf comparisons on the NEC diagnostic, but is rejected after seven
+completed Hongyi pairs are all slower than the cache-only control (median
+1.53%). This is not a new leaf representation or CITE pipeline.
+
 ### Translate remaining operators
 
 {source}`lower_extended_terms <src/smt/preprocessing.cpp#L4468-L4614>`

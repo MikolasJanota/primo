@@ -68,7 +68,8 @@ assumes constant-time insertion/deletion through linked entries.
 
 These are implementation checklists derived from this review. The patching
 interval cache is implemented and qualified on the selected diagnostic/development
-sets. A CITE endpoint/membership candidate is being measured separately;
+sets. The separately measured CITE endpoint/membership candidate was rejected
+after a reproducible runtime regression;
 shared-model bookkeeping and the row representation remain proposals. The
 [implementation experiment](../evidence/arithmetic-overhead-20261109.md) separates
 accepted changes, candidates and historical motivation.
@@ -119,6 +120,16 @@ negative/zero scales, strictness, mixed outcomes, sharing and a large-leaf probe
 leaf-comparison counters should distinguish this work from cache-key comparisons.
 Sorted sibling sets can also be merged linearly; caching every subterm alone
 does not bound the sum of all cached leaf-set sizes by the input DAG size.
+
+The endpoint and membership decisions and comparison-work counters were
+implemented in experimental snapshot `98a5fd8b` as a Primo engineering adaptation
+of §8.2.3. The owning types,
+classification proof, counter boundaries and unchanged reconstruction contract
+are described in [the preprocessing chapter](../implementation/preprocessing.md#constant-comparison-work-inside-cite-simplification).
+Correctness and operation-count checks passed, but seven completed paired runs
+of a cutoff case were all slower than the cache-only control (median 1.53%).
+The candidate is rejected and production retains the full leaf scan; leaf
+merging is unchanged.
 
 **Common-denominator rows.** A future row owner would store integer numerators
 $n_j$ and a positive denominator $d$, representing coefficient $n_j/d$.

@@ -1,0 +1,32 @@
+{
+  "comparison": "CITE98a5fd8b against qualified interval-cache sourcecab1ebc4; identical compiler/tool profile",
+  "baseline_warning_occurrences": 2289,
+  "candidate_warning_occurrences": 2290,
+  "owned_baseline_warning_occurrences": 2288,
+  "owned_candidate_warning_occurrences": 2289,
+  "new_warnings": [
+    {
+      "file": "tests/unit/preprocessing_tests.cpp",
+      "message": "'push_back' is called inside a loop; consider pre-allocating the container capacity before the loop [performance-inefficient-vector-operation]",
+      "count": 1
+    }
+  ],
+  "removed_warnings": [],
+  "translation_units": 135,
+  "scope": "131 source/test files plus4 documentation examples; advisory clang-analyzer and misc-include-cleaner. Existing paired self-include warnings are not automatically removable.",
+  "test_only_hygiene_followup": {
+    "job": "367446",
+    "checks": [
+      "Release preprocessing regression suite",
+      "ASan preprocessing regression suite",
+      "focused clang-analyzer/misc-include-cleaner"
+    ],
+    "test_source_sha256": "a46c35dd3a0836a2b5da5c99374db5b0e4ac0e116c2abd2ec95a21a7ba6fa1c7",
+    "measured_binary_unchanged": true,
+    "repair": "Reserve the three-value oracle buffer; removes the only newly introduced advisory without changing production sources or measured binaries.",
+    "baseline_test_warning_occurrences": 3,
+    "final_test_warning_occurrences": 3,
+    "normalized_warning_multisets_match": true
+  },
+  "outstanding_new_warnings": []
+}

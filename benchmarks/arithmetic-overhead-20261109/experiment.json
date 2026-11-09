@@ -1,6 +1,6 @@
 {
   "id": "2026-11-09-arithmetic-overhead",
-  "status": "interval-cache accepted; CITE primary timing/model audit complete, supplementary timing qualification running",
+  "status": "complete: interval cache accepted; CITE rejected and production changes reverted",
   "baseline_commit": "75e10877860c02a5a55a615f1c5f4f337f2e864c",
   "sources": {
     "cache": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
@@ -14,7 +14,9 @@
     "memory_requested_per_timing_task": "12G",
     "wall_limit_per_task": "01:00:00",
     "rotation": "Per shard and repetition; each profile serial on the same allocated CPU",
-    "SAT_model_stage": "Separate dependent jobs after all timing arrays; same profile replayed with --check-model;90-second solve,30-second Dolmen strict=false"
+    "SAT_model_stage": "Separate dependent jobs after all timing arrays; same profile replayed with --check-model;90-second solve,30-second Dolmen strict=false",
+    "accounting": "slurm-accounting.csv contains whole allocation/step accounting; MaxRSS is not per-input peak memory.",
+    "timeout_scope": "Primary selections and cutoff series60s. Final one-case Hongyi uncensored diagnostic90s, separate artifacts; model replay90s/Dolmen30s."
   },
   "selection_files": {
     "benchmarks/arithmetic-efficiency-20261108/experiment.json": "8d80d543b729f9f00d245ad3c6ca533887c455ec94a59cd4640a2a4026e4ca72",
@@ -4692,13 +4694,17 @@
   },
   "acceptance": {
     "cache": "accepted: main comparison plus7-repeat runtime and3-repeat cutoff followups;1163 successful native SAT timing rows directDolmen; no confirmed runtime regression",
-    "cite": "check/ASan/fresh generated+mutation gates and strict 5000-row timing/model audit passed; runtime and cutoff follow-ups pending"
+    "cite": "rejected: completed seven-pair90s diagnostic confirms1.53%median slowdown vs cache-only; all1756SAT timing rows directDolmen; production restored to accepted cache source"
   },
   "results": {
     "cache": "benchmarks/arithmetic-overhead-20261109/cache",
     "cache_static": "benchmarks/arithmetic-overhead-20261109/cache-static.json",
     "raw_metadata": "results/arithmetic-overhead-20261109; raw inputs/models/binaries retained in dedicated remote workspaces",
-    "cache_acceptance": "benchmarks/arithmetic-overhead-20261109/cache/acceptance.json"
+    "cache_acceptance": "benchmarks/arithmetic-overhead-20261109/cache/acceptance.json",
+    "cite": "benchmarks/arithmetic-overhead-20261109/cite",
+    "cite_static": "benchmarks/arithmetic-overhead-20261109/cite-static.json",
+    "cite_gates": "benchmarks/arithmetic-overhead-20261109/cite-gates.json",
+    "cite_rejection": "benchmarks/arithmetic-overhead-20261109/cite/acceptance.json"
   },
   "limits": "Diagnostic and development selections, not a full-corpus claim or closure of the reference-solver gap. No option, flattening threshold, search heuristic or shared-model regrouping change.",
   "selection_identity_audit": "passed:12 diagnostic hashes, ordered200 LIA file/hash pairs, ordered519 LRA manifest names"
