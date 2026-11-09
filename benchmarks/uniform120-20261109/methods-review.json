@@ -1,0 +1,19 @@
+{
+  "baseline": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
+  "reviewer": "cactus_docs_review",
+  "verdict": "ready; no required documentation/source-correspondence findings remain",
+  "findings": {
+    "U120-DOC-01": "Corrected TOC indentation",
+    "U120-DOC-02": "Export distinct filtered per-series metrics/PAR2, with regression",
+    "U120-DOC-03": "Added scripts helper bootstrap; direct report.py --help passes",
+    "U120-SUG-01": "Linked earlier development chart and full-LIA evidence"
+  },
+  "sha256": {
+    "docs/evidence/uniform120.md": "e0e2061e2042bfa488a9e2150e2df1bd7c80e8c2dda195889dab6bb59a474ab4",
+    "docs/_toc.yml": "4f27d6e307208680f22124d79a68595b8c7d3bf1c3be5a561ac52e884db6fd33",
+    "scripts/qualification/uniform120/report.py": "4f8120764e272260397d2e09e5f75e5eea022e6f3d5e31508bc27d33c804bb63"
+  },
+  "validation": "28metadata tests (6new+22existing), standalone CLI help, make lint, focusedruff/pycompile and sbatch validation; make docs-site and local/Git links0failures; writer rendered inspection.",
+  "scope": "Page/TOC and six assigned worker/report/config/batch contracts plus plotting extension. Review is preparation-stage source correspondence, not timing outcome acceptance.",
+  "unchecked_scope": "Remote archive provenance, active jobs/gate results, new launcher orchestration, final run-log/experiment records and actual generated campaign plots not independently reviewed."
+}

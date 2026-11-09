@@ -3,6 +3,72 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-09-uniform120",
+      "date": "2026-11-09",
+      "kind": "fresh-native120s full-corpus comparison with archived-reference reuse",
+      "evidence_status": "preparation; no new corpus timing/model result claimed",
+      "native_source_git": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
+      "implementation_source": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
+      "scope": "Native defaults on24505 inputs plus declared integer profile on13965inputs; references read-only and censored1200->120s.",
+      "corpora": {
+        "QF_UF": 7503,
+        "QF_LRA": 1753,
+        "QF_LIA": 13306,
+        "QF_UFLRA": 1284,
+        "QF_UFLIA": 659
+      },
+      "requested_timeout_seconds": 120,
+      "memory_mib": 8192,
+      "reference_policy": "2026-10-24-all-theories-enforced-memory",
+      "reference_parent_plan_sha256": "dd01e5c49cdbb9a75b4e2c819d15cc4f15514c0f2506506d6030127946db48ca",
+      "reference_corpus_benchmark_executions": 0,
+      "target_deadline_utc": "2026-11-10T08:16:48Z",
+      "jobs": {
+        "initial_gates": {
+          "check": "368705",
+          "arithmetic-gates": "368706"
+        },
+        "gates": {
+          "check": "368761",
+          "arithmetic-gates": "368762",
+          "uf-gates": "368787"
+        }
+      },
+      "setup_history": [
+        "Preparation helper built native throughSLURM; first post-build preflight requested unavailable reference executables. User subsequently required archived reference reuse, so only native/Z3/Dolmen preflight is needed and passes; no reference installation or corpus rerun.",
+        "Initialmakecheck368705 failed before tests because stagedRuff path was missing; linked existing verified tooling and rerancheck368761. Initial arithmetic array368706 was dependency-blocked and cancelled before execution.",
+        "Check368761 passes47C++groups and318Python tests; arithmetic368762 andUF368787 gates submitted for the exact7dd8874c build."
+      ],
+      "reference_reuse": {
+        "inputs": "ExactSHA256 equality against freshly hashed full corpus; duplicates/missingrows rejected.",
+        "cutoff": "Stored reference successes above120s become derived timeouts; original source files unchanged.",
+        "resources": "Same8GiBASlimit andphysicalXeonE5-2690v4CPU generation; measurement dates differ.",
+        "execution": "Execution task list contains onlynative profiles; references never scheduled."
+      },
+      "historical_feasibility": {
+        "purpose": "Scheduling proxy only, not new performance evidence. Old native execution errors make old campaign unsuitable as new native qualification.",
+        "five_logic_all_solver_cpu_hours_proxy": 516.4173290061111,
+        "native_only_proxy_CPUhours": 136.8660717138889,
+        "optional_integer_profile_proxy_CPUhours": 127.5,
+        "target_concurrency": "128timing/96models; smaller bounded shards; no guaranteeofqueue availability."
+      },
+      "verification": {
+        "metadata_tests": "28pass (6new+22existing), no solver execution",
+        "lint": "make lint and focusedRuff/py_compile pass",
+        "documentation": "Independent bounded reviewer resolvedU120-DOC-01/02/03; builds/links/rendered gate recorded in review artifact."
+      },
+      "artifacts": {
+        "experiment": "benchmarks/uniform120-20261109/experiment.json",
+        "raw_metadata": "results/uniform120-20261109 locally and dedicated remote workspace; SSH/corpus roots private"
+      },
+      "remaining": [
+        "Complete fresh gates and identity-checked reference import",
+        "Submit fresh-native timing arrays only",
+        "Audit global timing, validate every nativeSAT row separately",
+        "Generate/audit uniform full+filtered plots and commit qualified results"
+      ]
+    },
+    {
       "id": "2026-11-09-current-arithmetic-cactus",
       "date": "2026-11-09",
       "kind": "metadata-only cactus plots; current Primo vs fresh and archived references",

@@ -148,6 +148,8 @@ def svg(
     caption: list[str],
     highlighted: str | None = None,
     breakdown: dict[str, tuple[int, int]] | None = None,
+    colour_by_name: dict[str, str] | None = None,
+    percentage: bool = False,
 ) -> str:
     # The caption grows with the number of provenance notes, so the canvas and
     # the bottom margin grow with it rather than the plot area shrinking --
@@ -159,6 +161,8 @@ def svg(
     left, right, top, bottom = 78, 250, 56, 96 + extra
     plot_w, plot_h = width - left - right, height - top - bottom
     max_solved = max((len(s) for _, s in series), default=1) or 1
+    if percentage:
+        max_solved = total or 1
     # Log time axis: solved counts bunch up at the low end otherwise, and the
     # interesting separation between solvers is in the last decade.
     import math
@@ -195,20 +199,24 @@ def svg(
         out.append(f'<text x="{x:.1f}" y="{top+plot_h+20}" font-size="12" '
                    f'text-anchor="middle" fill="#444">{label}</text>')
     for frac in (0, 0.25, 0.5, 0.75, 1.0):
-        n = int(max_solved * frac)
+        n = max_solved * frac if percentage else int(max_solved * frac)
         y = y_of(n)
         out.append(f'<line x1="{left}" y1="{y:.1f}" x2="{left+plot_w}" y2="{y:.1f}" '
                    f'stroke="#e6e6e6" stroke-width="1"/>')
+        tick = f"{100 * frac:g}%" if percentage else str(n)
         out.append(f'<text x="{left-10}" y="{y+4:.1f}" font-size="12" '
-                   f'text-anchor="end" fill="#444">{n}</text>')
+                   f'text-anchor="end" fill="#444">{tick}</text>')
 
     # Anchored to the plot area, not the canvas: with a caption-driven height
     # a canvas-relative offset walks down into the caption block.
     out.append(f'<text x="{left+plot_w/2:.0f}" y="{top+plot_h+38}" font-size="13" '
                f'text-anchor="middle" fill="#222">per-instance time budget (log scale)</text>')
+    y_label = f"instances solved (of {total})"
+    if percentage:
+        y_label = f"instances solved (% of {total})"
     out.append(f'<text x="18" y="{top+plot_h/2:.0f}" font-size="13" fill="#222" '
                f'transform="rotate(-90 18 {top+plot_h/2:.0f})" text-anchor="middle">'
-               f'instances solved (of {total})</text>')
+               f'{y_label}</text>')
 
     # Two-line legend entries need the extra room; a single-line legend keeps
     # the tighter spacing it always had.
@@ -216,7 +224,9 @@ def svg(
     comparison_index = 0
     for index, (name, solved) in enumerate(series):
         is_highlighted = name == highlighted
-        if highlighted is None:
+        if colour_by_name is not None:
+            colour = colour_by_name[name]
+        elif highlighted is None:
             colour = palette[index % len(palette)]
         elif is_highlighted:
             colour = "#0057b8"

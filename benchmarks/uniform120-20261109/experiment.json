@@ -1,0 +1,79 @@
+{
+  "id": "2026-11-09-uniform120",
+  "status": "preparation; no new corpus timing/model result claimed",
+  "user_constraints": [
+    "Uniform presentation across five quantifier-free logics",
+    "120-second timing cutoff; target18-hour turnaround",
+    "Reuse existing reference corpus timings; no new reference corpus benchmarks"
+  ],
+  "native_commit": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
+  "native_implementation": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
+  "reference_parent": "2026-10-24-all-theories-enforced-memory",
+  "reference_parent_plan_sha256": "dd01e5c49cdbb9a75b4e2c819d15cc4f15514c0f2506506d6030127946db48ca",
+  "config": {
+    "timeout_seconds": 120,
+    "memory_mib": 8192,
+    "memory_limit_kind": "per-process RLIMIT_AS",
+    "maximum_inputs_per_shard": 12,
+    "maximum_concurrent_tasks": 128,
+    "model_concurrent_tasks": 96,
+    "model_timeout_seconds": 180,
+    "dolmen_timeout_seconds": 60,
+    "native_source_git": "7dd8874c",
+    "source_implementation": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
+    "corpora": {
+      "QF_UF": 7503,
+      "QF_LRA": 1753,
+      "QF_LIA": 13306,
+      "QF_UFLRA": 1284,
+      "QF_UFLIA": 659
+    },
+    "native_profiles": {
+      "primo": [
+        "--quiet"
+      ],
+      "primo-integer": [
+        "--quiet",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--no-lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=uniform"
+      ]
+    },
+    "extra_native_profiles": {
+      "QF_LIA": [
+        "primo-integer"
+      ],
+      "QF_UFLIA": [
+        "primo-integer"
+      ]
+    },
+    "references": [
+      "z3",
+      "cvc5",
+      "yices",
+      "opensmt"
+    ],
+    "easy_cutoff_seconds": 1,
+    "reference_policy": "Reuse matched archived1200s reference timings, censored at120s; never execute corpus references.",
+    "reference_parent_plan_sha256": "dd01e5c49cdbb9a75b4e2c819d15cc4f15514c0f2506506d6030127946db48ca"
+  },
+  "deadline_target_utc": "2026-11-10T08:16:48Z",
+  "fresh_measurements": "Native defaults on24505 inputs plus declared integer profile on13965inputs; references read-only and censored1200->120s.",
+  "correctness": "Fresh1000 generated cases per theory/profile; prior source-matched mutation evidence; all successful new native SAT timing rows directDolmen after global timing barrier.",
+  "resources": "1physicalCPU,8GiB enforced per-process address space and8GiBSLURM request; sameCPUgeneration and memory as archived references. Timing128/model96workers target; queues not guaranteed.",
+  "presentation": "Fixed solver colours/order; same0.01\u2013120s log axis and0\u2013100%solved axis; full and common-easy<1s-filtered cohorts, each with separate metrics; no portfolio.",
+  "methods": {
+    "scripts/qualification/uniform120/campaign.py": "7648452b35bb5cdbcb9f86a9af96c3c6cda3d82afd51fca8603aaec8c8607653",
+    "scripts/qualification/uniform120/config.json": "a3833a09778caa4656e5c3a212146f082e405bb0a961fca71a33427040cfffd1",
+    "scripts/qualification/uniform120/launch.py": "573ca47cb4106a968d20de0d670c635d7f354a6f6a26619b026c9f2b5ed6d06c",
+    "scripts/qualification/uniform120/report.py": "4f8120764e272260397d2e09e5f75e5eea022e6f3d5e31508bc27d33c804bb63",
+    "scripts/qualification/uniform120/report.sbatch": "7618f3362fbb8fb7101002d2208a7cbecd2fefb5f6d06d2e021d6030c0e1467f",
+    "scripts/qualification/uniform120/run.sbatch": "b1d9935c44263986b08af9191a574900d9c371704d9954a6c3ac2f61bb851d7a",
+    "scripts/qualification/uniform120/uf_gate.sbatch": "59a829b8f53aecc5c145ab411c85bf4333e38889fddb317784cdd2b3aac3598b"
+  },
+  "metadata_tests": "28pass:6new uniform guards plus22existing long-limit tests; no solver execution in these tests.",
+  "prior_reference_limitations": "Archived reference timings retain their original errors/resource outcomes as unsolved. Different dates; exact current input SHA256 match required. Old native results are not reused.",
+  "plotter_sha256": "4c1ed7fb4eb3e58d48dbf67ade963a9810c3927774c8b445deacebdd8e20cc56"
+}

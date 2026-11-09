@@ -114,6 +114,7 @@ parts:
       - file: evidence/lia-cubes
       - file: evidence/arithmetic-efficiency-20261108
       - file: evidence/arithmetic-overhead-20261109
+      - file: evidence/uniform120
       - file: evidence/qf-uflia-progress
       - file: evidence/qf-uflia-equality-sharing
       - file: evidence/qf-uflia-equality-ablation

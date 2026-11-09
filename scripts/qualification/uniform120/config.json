@@ -1,0 +1,49 @@
+{
+  "timeout_seconds": 120,
+  "memory_mib": 8192,
+  "memory_limit_kind": "per-process RLIMIT_AS",
+  "maximum_inputs_per_shard": 12,
+  "maximum_concurrent_tasks": 128,
+  "model_concurrent_tasks": 96,
+  "model_timeout_seconds": 180,
+  "dolmen_timeout_seconds": 60,
+  "native_source_git": "7dd8874c",
+  "source_implementation": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
+  "corpora": {
+    "QF_UF": 7503,
+    "QF_LRA": 1753,
+    "QF_LIA": 13306,
+    "QF_UFLRA": 1284,
+    "QF_UFLIA": 659
+  },
+  "native_profiles": {
+    "primo": [
+      "--quiet"
+    ],
+    "primo-integer": [
+      "--quiet",
+      "--lia-round-integer-bounds",
+      "--lia-primitive-int-rows",
+      "--no-lia-integer-slacks",
+      "--lia-patch-integral-moves",
+      "--lia-cube=uniform"
+    ]
+  },
+  "extra_native_profiles": {
+    "QF_LIA": [
+      "primo-integer"
+    ],
+    "QF_UFLIA": [
+      "primo-integer"
+    ]
+  },
+  "references": [
+    "z3",
+    "cvc5",
+    "yices",
+    "opensmt"
+  ],
+  "easy_cutoff_seconds": 1,
+  "reference_policy": "Reuse matched archived1200s reference timings, censored at120s; never execute corpus references.",
+  "reference_parent_plan_sha256": "dd01e5c49cdbb9a75b4e2c819d15cc4f15514c0f2506506d6030127946db48ca"
+}
