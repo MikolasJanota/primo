@@ -1,0 +1,25 @@
+{
+  "baseline": "04fb740d790cc493cb63e9101e86dc9f89174afd",
+  "reviewer": "cactus_docs_review",
+  "verdict": "ready; no required repairs",
+  "scope": "Blocked status, new corpus attempt provenance, exact debugger evidence and reproducible diagnostic workflow; no performance acceptance.",
+  "findings": {
+    "U120-STOP-S01": "Adopted suggestion distinguishing replayed input/profile/binary from original timing row; independently rechecked."
+  },
+  "sha256": {
+    "docs/evidence/uniform120.md": "a3c5e208746755766cad1659937689d3fe076c1b25a92847fd234eab7cab458d",
+    "benchmarks/uniform120-20261109/experiment.json": "950adae1c5e34450d2ab09156015ba440e85a54ed307e9c9f3d024117c1065cc",
+    "benchmarks/uniform120-20261109/blocker.json": "e4e982099795bfc04284fd0a9ae47543da96fc9cad55e3c167089754b8bf2b84",
+    "docs/run-log.json": "e4fa6e3a5ca1f5b1ef152184370b0e4d21a8dc5ffb7b824a4b6a4bb840a484fd",
+    "scripts/qualification/uniform120/crash.gdb": "e86db6ca4368f5bf8c2d65c3463ecc0a88cdce3c2fea42bdb61d210f702b0a96",
+    "scripts/qualification/uniform120/crash.sbatch": "07bc23e0ce1c1042e14b217d9c6fd30e77722e6fe831987463bc8a8ad842b982"
+  },
+  "validation": {
+    "metadata_tests": "python3 -m unittest discover -s tests/python -p test_uniform120_metadata.py:6pass;test_long_limit_metadata.py:22pass",
+    "lint": "make lint, git diff --check and crash.sbatch validator/bash-n pass",
+    "documentation": "make docs-site passes (includes make docs);287pages40056locallinks1222Gitlinks0failures. Changed built section rendered with local Sphinx styles and inspected by writer.",
+    "native": "Last successful current-source check368761:47C++groups,318Python tests. Fresh7000generatedchecks:6969PASS31inconclusiveT;5041primarySATdirectDolmen. Native corpusqualificationblocked.",
+    "static_analysis": "No new C++source or ownership changes; no fresh clang-tidy/include-cleaner/ASan in this documentation/diagnostic followup. Prior accepted-cache source qualification retained, not a qualification of this stopped corpus campaign."
+  },
+  "unchecked_scope": "Remote original reference/input files beyond certificate; original generated gate case artifacts; independent live-scheduler/rendered inspection. Reviewer checked supplied local traces/accounting/audit logs. Writer checked queue terminal and rendered section."
+}

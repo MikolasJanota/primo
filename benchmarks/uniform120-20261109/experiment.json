@@ -1,6 +1,6 @@
 {
   "id": "2026-11-09-uniform120",
-  "status": "fresh correctness gates and full input inventory complete; reference import/native timings pending",
+  "status": "blocked: native SIGABRT before full timing/model coverage",
   "user_constraints": [
     "Uniform presentation across five quantifier-free logics",
     "120-second timing cutoff; target18-hour turnaround",
@@ -83,5 +83,14 @@
     "inconclusive_timeouts": 31,
     "primary_SAT_direct_Dolmen": 5041
   },
-  "reference_correctness": "Use original uncensored reference answers for contradictions; censor every performance outcome observed after120s, preserving originals."
+  "reference_correctness": "Use original uncensored reference answers for contradictions; censor every performance outcome observed after120s, preserving originals.",
+  "plan_sha256": "2515c8c7f6d10cadf797a03530d3b713ce99f38b2172dab3a31f8ad048dd7ac3",
+  "reference_reuse_sha256": "eaab612d85791949c5c8d2826ed8349800f3b2f1f4cc3dddd48ea70a081c151b",
+  "reference_import": "20full archived reference series certified;98020input/profile rows;zero reference corpus executions",
+  "native_attempt": {
+    "planned_timing_tasks": 3208,
+    "completed_timing_tasks": 42,
+    "stop": "native execution failure",
+    "blocker": "benchmarks/uniform120-20261109/blocker.json"
+  }
 }

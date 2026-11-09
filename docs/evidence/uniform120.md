@@ -1,9 +1,10 @@
 (uniform120-evaluation)=
 # Uniform 120-second theory comparisons
 
-**Status: preparation and fresh correctness gates. No new full-corpus timing or
-model result is claimed yet.** The target is a report within 18 hours of the
-9 November request. The five quantifier-free divisions contain 24,505 inputs:
+**Status: blocked by a native execution failure. Reference reuse and fresh
+correctness gates passed; the corpus campaign stopped before a complete timing
+or SAT-model audit. No qualified new full-corpus plots are available.** The target
+is a report within 18 hours of the 9 November request. The five quantifier-free divisions contain 24,505 inputs:
 
 | Logic | Full corpus |
 | --- | ---: |
@@ -92,3 +93,43 @@ Exact options and phase budgets are in the
 run in SLURM. SSH routes and corpus roots remain private. The run-log entry
 `2026-11-09-uniform120` records preparation failures, jobs, throughput estimates,
 phase outcomes and acceptance status as the campaign progresses.
+
+## Stopped corpus attempt
+
+The frozen native binary passed 6,969 of 7,000 generated profile/input checks;
+31 were inconclusive timeouts. All 5,041 primary SAT cases received direct
+Dolmen acceptance. The full reference import then certified all 20 archived
+logic/solver series against freshly hashed inputs. No reference corpus solver
+was executed.
+
+The new timing campaign stopped on QF_LIA input
+`nec-smt/large/getoption_user/prp-42-49.smt2`, using Primo defaults. After
+58.558420 seconds the process exited with SIGABRT (`-6`), reporting an invalid
+CaDiCaL API state while disconnecting the external propagator. Its input SHA256
+is `eae1898b95df0fec3544ab4365e6e7dfc76c0057ffc1c5071cdeadf2db3a60ab`.
+The enforced address-space limit was 8 GiB. This row is an execution error,
+not a successful solve or a measured timeout.
+
+The owner guard cancelled the remaining timing and dependent model arrays.
+Forty-two timing shards had completed; the global timing and final audits failed
+because corpus coverage was incomplete. No corpus SAT-model replay completed,
+and the partial rows do not establish solved counts, PAR2 or solver rankings.
+Increasing the timeout cannot repair an abort already reached below 120 seconds.
+
+The [older allocation/cleanup diagnoses](long-limits.md) show a similar diagnostic
+for other exact input/binary combinations. They do not classify this new row.
+The new bounded debugger replay confirms allocation failure during binary-clause
+vector growth in SAT preprocessing, followed by an abort in external-propagator
+cleanup while the exception unwinds. This identifies the mechanism for this
+exact input/profile/binary combination in the replay; it does not classify other
+crashes by their message. The library's
+exception type was not printable without debug information. The inferior's
+8 GiB address-space limit was verified directly; the diagnostic allocation
+reserved 10 GiB for the solver plus debugger and supplies no speed measurement.
+The {download}`failure record <../../benchmarks/uniform120-20261109/blocker.json>`
+contains identities, stack summaries and raw-log digests. The newly written
+{download}`debugger commands <../../scripts/qualification/uniform120/crash.gdb>`
+and {download}`batch script <../../scripts/qualification/uniform120/crash.sbatch>`
+preserve the replay procedure. Qualification remains blocked pending a verified
+correction to the failure path and a new complete timing/model campaign. The saved references
+remain reusable; they need no rerun.

@@ -1,0 +1,170 @@
+{
+  "status": "blocked-native-execution-failure",
+  "native_commit": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
+  "native_binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
+  "plan_sha256": "2515c8c7f6d10cadf797a03530d3b713ce99f38b2172dab3a31f8ad048dd7ac3",
+  "reference_reuse_sha256": "eaab612d85791949c5c8d2826ed8349800f3b2f1f4cc3dddd48ea70a081c151b",
+  "reference_series": 20,
+  "reference_input_profile_rows": 98020,
+  "reference_benchmark_executions": 0,
+  "failure": {
+    "logic": "QF_LIA",
+    "profile": "primo",
+    "arguments": [
+      "--quiet"
+    ],
+    "input": "nec-smt/large/getoption_user/prp-42-49.smt2",
+    "input_sha256": "eae1898b95df0fec3544ab4365e6e7dfc76c0057ffc1c5071cdeadf2db3a60ab",
+    "status": "error",
+    "answer": "error",
+    "exit_code": -6,
+    "seconds": 58.55842,
+    "timeout_seconds": 120,
+    "address_space_limit_bytes": [
+      8589934592,
+      8589934592
+    ],
+    "diagnostic": "CaDiCaL disconnect_external_propagator: solver in invalid state",
+    "failure_journal_sha256": "ee8fc802b34d7579ba674e6dee5327be7ce04654ba2737009c509d04c4cb1ff3",
+    "job": "369734",
+    "array_job": "369717",
+    "array_task": 15,
+    "task_index": 1015
+  },
+  "jobs": {
+    "plan_sha256": "2515c8c7f6d10cadf797a03530d3b713ce99f38b2172dab3a31f8ad048dd7ac3",
+    "timing": [
+      "369610",
+      "369717",
+      "369823",
+      "369895"
+    ],
+    "models": [
+      "369965",
+      "370036",
+      "370095",
+      "370158"
+    ],
+    "gate_audit": "369282",
+    "chunks": [
+      {
+        "phase": "timing",
+        "job": "369610",
+        "offset": 0,
+        "tasks": 1000,
+        "throttle": 32
+      },
+      {
+        "phase": "timing",
+        "job": "369717",
+        "offset": 1000,
+        "tasks": 1000,
+        "throttle": 32
+      },
+      {
+        "phase": "timing",
+        "job": "369823",
+        "offset": 2000,
+        "tasks": 1000,
+        "throttle": 32
+      },
+      {
+        "phase": "timing",
+        "job": "369895",
+        "offset": 3000,
+        "tasks": 208,
+        "throttle": 32
+      },
+      {
+        "phase": "models",
+        "job": "369965",
+        "offset": 0,
+        "tasks": 1000,
+        "throttle": 24
+      },
+      {
+        "phase": "models",
+        "job": "370036",
+        "offset": 1000,
+        "tasks": 1000,
+        "throttle": 24
+      },
+      {
+        "phase": "models",
+        "job": "370095",
+        "offset": 2000,
+        "tasks": 1000,
+        "throttle": 24
+      },
+      {
+        "phase": "models",
+        "job": "370158",
+        "offset": 3000,
+        "tasks": 208,
+        "throttle": 24
+      }
+    ],
+    "timing_audit": "369938",
+    "final_report": "370210"
+  },
+  "outcome": {
+    "completed_timing_shards": 42,
+    "planned_timing_shards": 3208,
+    "timing_audit": "failed: missing timing provenance after cancellation",
+    "final_audit": "failed: no model executions after cancellation",
+    "native_corpus_model_passes": 0,
+    "qualified_plots": 0,
+    "partial_performance_metrics": "not published; incomplete coverage"
+  },
+  "artifacts": {
+    "private_raw_root": "results/uniform120-20261109",
+    "remote": "dedicated SLURM workspace; route retained outside tracked files",
+    "failure": "run1/failures/timing-1015.json",
+    "gdb": "logs/primo-uniform120-crash-370656.out"
+  },
+  "remaining": [
+    "Verified exception/cleanup correction",
+    "Fresh complete native timing campaign",
+    "All successful native SAT rows independently validated with Dolmen",
+    "Audited full/filtered uniform plots, result analysis, documentation review and qualified result commit"
+  ],
+  "diagnosis": {
+    "status": "confirmed allocation failure followed by cleanup abort for this exact input/profile/binary",
+    "job": "370656",
+    "initial_debugger_job": "370631 (cancelled;no solver activity observed while debug-info retrieval stalled)",
+    "allocation_only_job": "370649",
+    "solver_address_space_limit_bytes": [
+      8589934592,
+      8589934592
+    ],
+    "SLURM_memory_mib": 10240,
+    "resource_note": "10GiB reservation includes debugger;inferior stillhas8GiBASlimit,verified in/proc/limits. Diagnostic timings are not benchmark rows.",
+    "allocation_stack": [
+      "__cxa_throw",
+      "operator new(unsigned long) [clone .cold]",
+      "vector<CaDiCaL::CompactBinary>::_M_realloc_insert",
+      "CaDiCaL::Closure::extract_binaries",
+      "CaDiCaL::Internal::extract_gates",
+      "CaDiCaL::Internal::preprocess_quickly",
+      "CaDiCaL::Internal::preprocess",
+      "CaDiCaL::Solver::solve",
+      "primo::sat::CadicalBackend::solve"
+    ],
+    "abort_stack": [
+      "SIGABRT",
+      "CaDiCaL::Solver::disconnect_external_propagator",
+      "primo::sat::CadicalBackend::disconnect_external_propagator",
+      "default_delete<primo::smt::AssignmentConnection>",
+      "primo::smt::solve_component_recipe [clone .cold]"
+    ],
+    "exception_type": "not printed:library debug info unavailable;operator-new allocation throw and subsequent abort directly observed",
+    "VmPeak_kB": 8200048,
+    "reproduce": [
+      "python3 scripts/slurm_validate_sbatch.py scripts/qualification/uniform120/crash.sbatch",
+      "Use preparation helper --check-only --no-sync immediately before sbatch",
+      "Submit crash.sbatch in the prepared SLURM workspace with PRIMO_WORKDIR; frozen run1 binary and matching corpus aliases required"
+    ],
+    "stdout_sha256": "33e44d847cc685a8b0fa4db1eda81494913cce0fd6d6bc945285a99dcfbc6762",
+    "stderr_sha256": "aa09b1a91d687f2270ac57bbe011c4cbc88d5404c41f0ae94d78a8df589bb316"
+  }
+}
