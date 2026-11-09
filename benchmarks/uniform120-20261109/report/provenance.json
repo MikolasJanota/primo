@@ -1,0 +1,345 @@
+{
+  "plan_sha256": "2515c8c7f6d10cadf797a03530d3b713ce99f38b2172dab3a31f8ad048dd7ac3",
+  "qualified_audit_sha256": "02025b267fa5a23b28b0885f0e88cf50ced50973d3870c7df009a9cb90bd0019",
+  "reference_reuse_sha256": "eaab612d85791949c5c8d2826ed8349800f3b2f1f4cc3dddd48ea70a081c151b",
+  "tools": {
+    "primo": {
+      "sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
+      "version": "primo 0.2.0",
+      "full_version_text_sha256": "b6178aa8993239180352f4509601a84ef26b76a04f9ebb295dc4c99555e2ae97"
+    },
+    "z3": {
+      "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+      "version": "Z3 version 5.1.0 - 64 bit",
+      "full_version_text_sha256": "5b4f1a0b05fec775849f067e8b74475f2788ab7d87d9801663864f3cd5c4107a"
+    },
+    "cvc5": {
+      "sha256": "4a93548398445cf1a774655583f5465b156c26f63f2cdfb94f4728fdf7adde46",
+      "version": "cvc5 1.3.4 [git f3b21c4 on branch HEAD]",
+      "full_version_text_sha256": "a02b8fe7dec5930f736b4758a843e6384c59b28af2fc1ba57b2409091b041ade"
+    },
+    "yices": {
+      "sha256": "eab7efbff2a6f0cce2fcd2c25cb4a94e0e048c902d8ef9e6fd7d7989aa54c501",
+      "version": "Yices 2.7.0",
+      "full_version_text_sha256": "caf830f3a18f76b1a8fcc6ec0495c110080a4b84e96fb2c94912abf957f47014"
+    },
+    "opensmt": {
+      "sha256": "b7899e9aff299026d3251df7a28f51f56d8bd1e5b0fd7be11bcc72c4f2803a98",
+      "version": "v2.9.2",
+      "full_version_text_sha256": "7f29814f119a3a8f66eabcd8352e551680bcc4d8aeceaf33f25301c19a6d1dd9"
+    },
+    "dolmen": {
+      "sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+      "version": "0.10",
+      "full_version_text_sha256": "0ee15e911b924ccc416e129dc5b75bdfc620136a0d5e449d3c61dd421f0c9395"
+    }
+  },
+  "runs": [
+    {
+      "logic": "QF_UF",
+      "label": "primo",
+      "solver": "primo",
+      "arguments": [
+        "--quiet"
+      ],
+      "shards": 626,
+      "inputs": 7503
+    },
+    {
+      "logic": "QF_UF",
+      "label": "z3",
+      "solver": "z3",
+      "arguments": [],
+      "shards": 626,
+      "inputs": 7503
+    },
+    {
+      "logic": "QF_UF",
+      "label": "cvc5",
+      "solver": "cvc5",
+      "arguments": [],
+      "shards": 626,
+      "inputs": 7503
+    },
+    {
+      "logic": "QF_UF",
+      "label": "yices",
+      "solver": "yices",
+      "arguments": [],
+      "shards": 626,
+      "inputs": 7503
+    },
+    {
+      "logic": "QF_UF",
+      "label": "opensmt",
+      "solver": "opensmt",
+      "arguments": [],
+      "shards": 626,
+      "inputs": 7503
+    },
+    {
+      "logic": "QF_LRA",
+      "label": "primo",
+      "solver": "primo",
+      "arguments": [
+        "--quiet"
+      ],
+      "shards": 147,
+      "inputs": 1753
+    },
+    {
+      "logic": "QF_LRA",
+      "label": "z3",
+      "solver": "z3",
+      "arguments": [],
+      "shards": 147,
+      "inputs": 1753
+    },
+    {
+      "logic": "QF_LRA",
+      "label": "cvc5",
+      "solver": "cvc5",
+      "arguments": [],
+      "shards": 147,
+      "inputs": 1753
+    },
+    {
+      "logic": "QF_LRA",
+      "label": "yices",
+      "solver": "yices",
+      "arguments": [],
+      "shards": 147,
+      "inputs": 1753
+    },
+    {
+      "logic": "QF_LRA",
+      "label": "opensmt",
+      "solver": "opensmt",
+      "arguments": [],
+      "shards": 147,
+      "inputs": 1753
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "primo",
+      "solver": "primo",
+      "arguments": [
+        "--quiet"
+      ],
+      "shards": 1109,
+      "inputs": 13306
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "primo-integer",
+      "solver": "primo",
+      "arguments": [
+        "--quiet",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--no-lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=uniform"
+      ],
+      "shards": 1109,
+      "inputs": 13306
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "z3",
+      "solver": "z3",
+      "arguments": [],
+      "shards": 1109,
+      "inputs": 13306
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "cvc5",
+      "solver": "cvc5",
+      "arguments": [],
+      "shards": 1109,
+      "inputs": 13306
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "yices",
+      "solver": "yices",
+      "arguments": [],
+      "shards": 1109,
+      "inputs": 13306
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "opensmt",
+      "solver": "opensmt",
+      "arguments": [],
+      "shards": 1109,
+      "inputs": 13306
+    },
+    {
+      "logic": "QF_UFLRA",
+      "label": "primo",
+      "solver": "primo",
+      "arguments": [
+        "--quiet"
+      ],
+      "shards": 107,
+      "inputs": 1284
+    },
+    {
+      "logic": "QF_UFLRA",
+      "label": "z3",
+      "solver": "z3",
+      "arguments": [],
+      "shards": 107,
+      "inputs": 1284
+    },
+    {
+      "logic": "QF_UFLRA",
+      "label": "cvc5",
+      "solver": "cvc5",
+      "arguments": [],
+      "shards": 107,
+      "inputs": 1284
+    },
+    {
+      "logic": "QF_UFLRA",
+      "label": "yices",
+      "solver": "yices",
+      "arguments": [],
+      "shards": 107,
+      "inputs": 1284
+    },
+    {
+      "logic": "QF_UFLRA",
+      "label": "opensmt",
+      "solver": "opensmt",
+      "arguments": [],
+      "shards": 107,
+      "inputs": 1284
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "primo",
+      "solver": "primo",
+      "arguments": [
+        "--quiet"
+      ],
+      "shards": 55,
+      "inputs": 659
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "primo-integer",
+      "solver": "primo",
+      "arguments": [
+        "--quiet",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--no-lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=uniform"
+      ],
+      "shards": 55,
+      "inputs": 659
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "z3",
+      "solver": "z3",
+      "arguments": [],
+      "shards": 55,
+      "inputs": 659
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "cvc5",
+      "solver": "cvc5",
+      "arguments": [],
+      "shards": 55,
+      "inputs": 659
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "yices",
+      "solver": "yices",
+      "arguments": [],
+      "shards": 55,
+      "inputs": 659
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "opensmt",
+      "solver": "opensmt",
+      "arguments": [],
+      "shards": 55,
+      "inputs": 659
+    }
+  ],
+  "configuration": {
+    "timeout_seconds": 120,
+    "memory_mib": 8192,
+    "memory_limit_kind": "per-process RLIMIT_AS",
+    "maximum_inputs_per_shard": 12,
+    "maximum_concurrent_tasks": 128,
+    "model_concurrent_tasks": 96,
+    "model_timeout_seconds": 180,
+    "dolmen_timeout_seconds": 60,
+    "native_source_git": "7dd8874c",
+    "source_implementation": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
+    "corpora": {
+      "QF_UF": 7503,
+      "QF_LRA": 1753,
+      "QF_LIA": 13306,
+      "QF_UFLRA": 1284,
+      "QF_UFLIA": 659
+    },
+    "native_profiles": {
+      "primo": [
+        "--quiet"
+      ],
+      "primo-integer": [
+        "--quiet",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--no-lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=uniform"
+      ]
+    },
+    "extra_native_profiles": {
+      "QF_LIA": [
+        "primo-integer"
+      ],
+      "QF_UFLIA": [
+        "primo-integer"
+      ]
+    },
+    "references": [
+      "z3",
+      "cvc5",
+      "yices",
+      "opensmt"
+    ],
+    "easy_cutoff_seconds": 1,
+    "reference_policy": "Reuse matched archived1200s reference timings, censored at120s; never execute corpus references.",
+    "reference_parent_plan_sha256": "dd01e5c49cdbb9a75b4e2c819d15cc4f15514c0f2506506d6030127946db48ca"
+  },
+  "exporter_sha256": "8555eb3de568f2a4cb95fb5738589121dc899e7f4d4d00dcdd3b1fd249d972de",
+  "timing_table_sha256": "50a095267f0649fbaea10195a3d7e263b545ba7d1d821b727893e2652cad4b51",
+  "plot_data_sha256": "ec9cecc9df5f0f04ee16d65392491fdda78e2923cb9e58b579e529e0ba8be8d9",
+  "plots_sha256": {
+    "index.html": "890e7131529e32199c256fb910e44fd7041ef0761dd8c0af7b0ac1118566a31b",
+    "qf_lia-full.svg": "b4900cd788ffac6d19ba90dbf23663d3824e49efa7b80d5b604a6c7223cc2287",
+    "qf_lia-nontrivial.svg": "9391a264f884c5b17bad625c06b663426fb3971540d971ee607d637750e1243e",
+    "qf_lra-full.svg": "56f02af176d3d0abfa023ce2715b971572e212e46dbce912cdd65c8a4a2b41fc",
+    "qf_lra-nontrivial.svg": "8b1d95aafbbdcbcd25ee6b65b5d01d93c819f0f8604cf57b6a7326a73289d0b4",
+    "qf_uf-full.svg": "deb9777acfcf0e5e1257a4080e4eec92d60af28f9a2b47157fc470a78720bc54",
+    "qf_uf-nontrivial.svg": "f8318868714085ba1fa31b0162541b2274ddb4d16428d88467cc86e03c5f4131",
+    "qf_uflia-full.svg": "fceff5ea346f6e942f4229ce7ea2a54ea80cc1336ee66a9a51869b9576466ec0",
+    "qf_uflia-nontrivial.svg": "b469b2538418b5aecf0948b6d3435bbb9de47e798f8133374d8c695fd23e56b1",
+    "qf_uflra-full.svg": "08f16478c23e23b3289281944ca94680ca67e6eb53ff0ddfaf34f4e4f1206a83",
+    "qf_uflra-nontrivial.svg": "16e8d3f10faea90f0988a05845173e72c1c30312962e3c99a027455bb00b92b7"
+  },
+  "reference_benchmark_executions": 0
+}

@@ -1,6 +1,6 @@
 {
   "id": "2026-11-09-uniform120",
-  "status": "timing complete and globally audited; separate nativeSAT model qualification running",
+  "status": "complete and correctness-qualified: all timing rows audited and all successful native SAT rows direct-Dolmen validated",
   "user_constraints": [
     "Uniform presentation across five quantifier-free logics",
     "120-second timing cutoff; target18-hour turnaround",
@@ -73,7 +73,7 @@
     "scripts/qualification/uniform120/run.sbatch": "b1d9935c44263986b08af9191a574900d9c371704d9954a6c3ac2f61bb851d7a",
     "scripts/qualification/uniform120/uf_gate.sbatch": "59a829b8f53aecc5c145ab411c85bf4333e38889fddb317784cdd2b3aac3598b"
   },
-  "metadata_tests": "28pass:6new uniform guards plus22existing long-limit tests; no solver execution in these tests.",
+  "metadata_tests": "33pass:11uniform metadata+22legacy long-limit tests; no solver execution",
   "prior_reference_limitations": "Archived reference timings retain their original errors/resource outcomes as unsolved. Different dates; exact current input SHA256 match required. Old native results are not reused.",
   "plotter_sha256": "4c1ed7fb4eb3e58d48dbf67ade963a9810c3927774c8b445deacebdd8e20cc56",
   "native_binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
@@ -92,20 +92,22 @@
     "completed_timing_tasks": 42,
     "stop": "native execution failure",
     "blocker": "benchmarks/uniform120-20261109/blocker.json",
-    "recovery": "42certified complete shards reused;3166remaining native tasks resumed"
+    "recovery": "42certified complete shards reused;3166remaining native tasks resumed",
+    "scope": "Historical initial attempt before resource-classification correction; recovered campaign completion below."
   },
   "resource_recovery": "benchmarks/uniform120-20261109/resource-recovery.json",
   "public_export": {
     "job": "371623",
     "parent_final_audit": "370941",
-    "status": "dependent metadata export queued; no qualified public results yet",
+    "status": "complete; qualified portable gallery, summary and paired timing table exported",
     "workflow_commit": "d5520445",
     "exporter_sha256": "8555eb3de568f2a4cb95fb5738589121dc899e7f4d4d00dcdd3b1fd249d972de",
-    "results": "Public gallery/summary/pairedCSV only after final qualification; private destination in local controller.",
-    "gdb_version_observed": "GNU gdb (GDB) Rocky Linux 10.2-13.el9"
+    "results": "benchmarks/uniform120-20261109/report and docs/_static/uniform120-20261109",
+    "gdb_version_observed": "GNU gdb (GDB) Rocky Linux 10.2-13.el9",
+    "source_note": "Recorded exporter hash is the executed d5520445 capsule. Subsequent import-only lint cleanup changes no export behavior."
   },
   "timing_completion": {
-    "status": "timing complete and globally audited; separate nativeSAT model qualification running",
+    "status": "timing complete and globally audited (historical phase checkpoint; final qualification in completion)",
     "timing_audit_job": "370935",
     "timing_audit_sha256": "a2162b18251a1a2bef7b24d6af906050829446f5d48e5a4a2481bf46ded3d652",
     "native_profile_input_rows": 38470,
@@ -114,6 +116,49 @@
     "confirmed_cleanup_memory_out_rows": 409,
     "raw_error_exits": 782,
     "unclassified_native_errors": 0,
-    "note": "Profile/input rows include the optional integer profile; these are not counts of distinct corpus files. No new qualified performance ranking is claimed before complete model coverage."
+    "note": "Profile/input rows include optional integer profile and are not distinct files. Historical checkpoint preceded model validation; see completion for final qualified status."
+  },
+  "completion": {
+    "status": "complete and correctness-qualified: all timing rows audited and all successful native SAT rows direct-Dolmen validated",
+    "timing_audit_job": "370935",
+    "final_audit_job": "370941",
+    "public_export_job": "371623",
+    "qualified_audit_sha256": "02025b267fa5a23b28b0885f0e88cf50ced50973d3870c7df009a9cb90bd0019",
+    "native_profile_input_rows": 38470,
+    "native_successful_SAT_timing_rows": 20351,
+    "direct_Dolmen_validated_rows": 20351,
+    "model_coverage_by_logic_profile": {
+      "QF_UF": {
+        "primo": 3142
+      },
+      "QF_LRA": {
+        "primo": 983
+      },
+      "QF_LIA": {
+        "primo": 7024,
+        "primo-integer": 7656
+      },
+      "QF_UFLRA": {
+        "primo": 760
+      },
+      "QF_UFLIA": {
+        "primo": 407,
+        "primo-integer": 379
+      }
+    },
+    "invalid_or_missing_models": 0,
+    "unclassified_native_errors": 0,
+    "memory_out_profile_input_rows": 782,
+    "confirmed_cleanup_memory_out_rows": 409,
+    "explicit_allocation_failure_rows": 373,
+    "memory_out_scoring": "Unsolved;240seconds PAR2 per row; raw error exits preserved. Profile/input rows are not distinct files.",
+    "reference_corpus_benchmark_executions": 0,
+    "public_report_directory": "benchmarks/uniform120-20261109/report",
+    "plot_gallery": "docs/_static/uniform120-20261109/index.html",
+    "comparisons": "benchmarks/uniform120-20261109/report/comparisons.json",
+    "export_archive_bytes": 8002784,
+    "export_archive_sha256": "4acd4807b1b1a746377fb2edbc577858c7dc6c150e0c5144128041525f8775be",
+    "export_archive_retention": "Full archive retained in private execution results; portable public members committed separately.",
+    "descriptive_limits": "References reused from a different date; matched bytes, hardware generation and enforced resources. No controlled A/B speedup or native1200s prediction. Optional integer profiles remain separate; no default promotion."
   }
 }

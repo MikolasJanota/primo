@@ -6,7 +6,7 @@
       "id": "2026-11-09-uniform120",
       "date": "2026-11-09",
       "kind": "fresh-native120s full-corpus comparison with archived-reference reuse",
-      "evidence_status": "timing complete and globally audited; separate nativeSAT model qualification running",
+      "evidence_status": "complete and correctness-qualified: all timing rows audited and all successful native SAT rows direct-Dolmen validated",
       "native_source_git": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
       "implementation_source": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
       "scope": "Native defaults on24505 inputs plus declared integer profile on13965inputs; references read-only and censored1200->120s.",
@@ -225,9 +225,9 @@
         "target_concurrency": "128timing/96models; smaller bounded shards; no guaranteeofqueue availability."
       },
       "verification": {
-        "metadata_tests": "31pass(9uniform+22longlimit);newtestscoverpending-vs-certifiedOOM,immutableerrorrows/fullPAR2,workflowbindings,requiredloghashesandownedcancellationonmissingGDB",
+        "metadata_tests": "33pass:11uniform metadata+22legacy long-limit tests; no solver execution",
         "lint": "make lint and focusedRuff/py_compile pass",
-        "documentation": "Independent bounded reviewer resolvedU120-DOC-01/02/03; builds/links/rendered gate recorded in review artifact.",
+        "documentation": "Final results source/evidence review and rendered checks recorded in benchmarks/uniform120-20261109/final-review.json",
         "fresh_gate": "7000profile-input checks,6969agreements,31inconclusive timeouts,no blocking outcomes;all5041primarySATdirectDolmen;gateaudit368799complete",
         "code_review": "No native source changes; new diagnostic workflow and documentation/evidence reviewed as a bounded followup. Prior qualified C++checks remain source-matched."
       },
@@ -235,13 +235,17 @@
         "experiment": "benchmarks/uniform120-20261109/experiment.json",
         "raw_metadata": "results/uniform120-20261109 locally and dedicated remote workspace; SSH/corpus roots private",
         "blocker": "benchmarks/uniform120-20261109/blocker.json",
-        "gate_provenance": "benchmarks/uniform120-20261109/gate-provenance.json"
+        "gate_provenance": "benchmarks/uniform120-20261109/gate-provenance.json",
+        "qualified_summary": "benchmarks/uniform120-20261109/report/summary.json",
+        "export_provenance": "benchmarks/uniform120-20261109/report/provenance.json",
+        "paired_timing_table": "benchmarks/uniform120-20261109/report/timing.csv.gz",
+        "curve_arrays": "benchmarks/uniform120-20261109/report/plot-data.json",
+        "descriptive_comparisons": "benchmarks/uniform120-20261109/report/comparisons.json",
+        "gallery": "docs/_static/uniform120-20261109/index.html",
+        "report": "docs/evidence/uniform120.md",
+        "final_review": "benchmarks/uniform120-20261109/final-review.json"
       },
-      "remaining": [
-        "Finish and audit all20351scorednativeSAT model replays with directDolmen",
-        "Export/audit uniform full+filtered plots and paired data",
-        "Summarize qualified comparisons, independent documentation/evidence review, docsbuild/render and resultscommit"
-      ],
+      "remaining": [],
       "failure": {
         "logic": "QF_LIA",
         "profile": "primo",
@@ -264,7 +268,8 @@
         "job": "369734",
         "array_job": "369717",
         "array_task": 15,
-        "task_index": 1015
+        "task_index": 1015,
+        "disposition": "Confirmed allocation exhaustion followed by cleanup abort; normal unsolved memory-out. Raw row preserved; guard accounting corrected and campaign resumed."
       },
       "corpus_attempt": {
         "completed_timing_shards": 42,
@@ -273,7 +278,8 @@
         "final_audit": "failed: no model executions after cancellation",
         "native_corpus_model_passes": 0,
         "qualified_plots": 0,
-        "partial_performance_metrics": "not published; incomplete coverage"
+        "partial_performance_metrics": "not published; incomplete coverage",
+        "scope": "Historical cancelled initial attempt only; recovered campaign has complete qualified coverage below."
       },
       "diagnosis": {
         "status": "confirmed allocation failure followed by cleanup abort for this exact input/profile/binary",
@@ -315,7 +321,7 @@
         "stderr_sha256": "aa09b1a91d687f2270ac57bbe011c4cbc88d5404c41f0ae94d78a8df589bb316"
       },
       "resource_recovery": {
-        "status": "timing complete and globally audited; separate nativeSAT model qualification running",
+        "status": "complete and correctness-qualified: all timing rows audited and all successful native SAT rows direct-Dolmen validated",
         "owner_clarification": "Memory-outs are normal unsolved benchmark outcomes. The initial stop was too strict after exact resource attribution; no solver fix is required to resume.",
         "native_binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
         "native_implementation": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
@@ -546,11 +552,23 @@
             "phase_maximum": 96,
             "command_exit": 1,
             "note": "Active parent limit verified; finished-child update errors do not change active-parent verification. Budget reserves all draining workers."
+          },
+          {
+            "utc": "2026-11-09T20:48:23.255337+00:00",
+            "phase": "models",
+            "job": "370939",
+            "old_limit": 32,
+            "new_limit": 96,
+            "pending_arrays": 1,
+            "draining_workers": 0,
+            "phase_maximum": 96,
+            "command_exit": 1,
+            "note": "Active parent limit verified; finished-child update errors do not change active-parent verification. Budget reserves all draining workers."
           }
         ],
-        "concurrency_policy": "Rebalance active arrays within original128timing/96model maxima; per-taskCPU/AS/solverargs unchanged. Finished-child scontrol errors checked against active-parent settings.",
+        "concurrency_policy": "As arrays drain, rebalance their limits within the original128timing/96model worker maxima; CPU/memory/solver arguments unchanged.",
         "timing_completion": {
-          "status": "timing complete and globally audited; separate nativeSAT model qualification running",
+          "status": "timing complete and globally audited (historical phase checkpoint; final qualification in completion)",
           "timing_audit_job": "370935",
           "timing_audit_sha256": "a2162b18251a1a2bef7b24d6af906050829446f5d48e5a4a2481bf46ded3d652",
           "native_profile_input_rows": 38470,
@@ -559,17 +577,61 @@
           "confirmed_cleanup_memory_out_rows": 409,
           "raw_error_exits": 782,
           "unclassified_native_errors": 0,
-          "note": "Profile/input rows include the optional integer profile; these are not counts of distinct corpus files. No new qualified performance ranking is claimed before complete model coverage."
+          "note": "Profile/input rows include optional integer profile and are not distinct files. Historical checkpoint preceded model validation; see completion for final qualified status."
+        },
+        "completion": {
+          "status": "complete and correctness-qualified: all timing rows audited and all successful native SAT rows direct-Dolmen validated",
+          "timing_audit_job": "370935",
+          "final_audit_job": "370941",
+          "public_export_job": "371623",
+          "qualified_audit_sha256": "02025b267fa5a23b28b0885f0e88cf50ced50973d3870c7df009a9cb90bd0019",
+          "native_profile_input_rows": 38470,
+          "native_successful_SAT_timing_rows": 20351,
+          "direct_Dolmen_validated_rows": 20351,
+          "model_coverage_by_logic_profile": {
+            "QF_UF": {
+              "primo": 3142
+            },
+            "QF_LRA": {
+              "primo": 983
+            },
+            "QF_LIA": {
+              "primo": 7024,
+              "primo-integer": 7656
+            },
+            "QF_UFLRA": {
+              "primo": 760
+            },
+            "QF_UFLIA": {
+              "primo": 407,
+              "primo-integer": 379
+            }
+          },
+          "invalid_or_missing_models": 0,
+          "unclassified_native_errors": 0,
+          "memory_out_profile_input_rows": 782,
+          "confirmed_cleanup_memory_out_rows": 409,
+          "explicit_allocation_failure_rows": 373,
+          "memory_out_scoring": "Unsolved;240seconds PAR2 per row; raw error exits preserved. Profile/input rows are not distinct files.",
+          "reference_corpus_benchmark_executions": 0,
+          "public_report_directory": "benchmarks/uniform120-20261109/report",
+          "plot_gallery": "docs/_static/uniform120-20261109/index.html",
+          "comparisons": "benchmarks/uniform120-20261109/report/comparisons.json",
+          "export_archive_bytes": 8002784,
+          "export_archive_sha256": "4acd4807b1b1a746377fb2edbc577858c7dc6c150e0c5144128041525f8775be",
+          "export_archive_retention": "Full archive retained in private execution results; portable public members committed separately.",
+          "descriptive_limits": "References reused from a different date; matched bytes, hardware generation and enforced resources. No controlled A/B speedup or native1200s prediction. Optional integer profiles remain separate; no default promotion."
         }
       },
       "public_export": {
         "job": "371623",
         "parent_final_audit": "370941",
-        "status": "dependent metadata export queued; no qualified public results yet",
+        "status": "complete; qualified portable gallery, summary and paired timing table exported",
         "workflow_commit": "d5520445",
         "exporter_sha256": "8555eb3de568f2a4cb95fb5738589121dc899e7f4d4d00dcdd3b1fd249d972de",
-        "results": "Public gallery/summary/pairedCSV only after final qualification; private destination in local controller.",
-        "gdb_version_observed": "GNU gdb (GDB) Rocky Linux 10.2-13.el9"
+        "results": "benchmarks/uniform120-20261109/report and docs/_static/uniform120-20261109",
+        "gdb_version_observed": "GNU gdb (GDB) Rocky Linux 10.2-13.el9",
+        "source_note": "Recorded exporter hash is the executed d5520445 capsule. Subsequent import-only lint cleanup changes no export behavior."
       },
       "fresh_gate_protocol": {
         "native_source_git": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
@@ -907,7 +969,7 @@
         "reproduce": "Prepare/build through SLURM helper; submit arithmetic driver array0-23 with recorded environment/seedbase, UFdriver array0-3. Exact derived commands are owned by pinned source scripts. Private SSH/tools/output roots remain in local controllers."
       },
       "timing_completion": {
-        "status": "timing complete and globally audited; separate nativeSAT model qualification running",
+        "status": "timing complete and globally audited (historical phase checkpoint; final qualification in completion)",
         "timing_audit_job": "370935",
         "timing_audit_sha256": "a2162b18251a1a2bef7b24d6af906050829446f5d48e5a4a2481bf46ded3d652",
         "native_profile_input_rows": 38470,
@@ -916,7 +978,435 @@
         "confirmed_cleanup_memory_out_rows": 409,
         "raw_error_exits": 782,
         "unclassified_native_errors": 0,
-        "note": "Profile/input rows include the optional integer profile; these are not counts of distinct corpus files. No new qualified performance ranking is claimed before complete model coverage."
+        "note": "Profile/input rows include optional integer profile and are not distinct files. Historical checkpoint preceded model validation; see completion for final qualified status."
+      },
+      "completion": {
+        "status": "complete and correctness-qualified: all timing rows audited and all successful native SAT rows direct-Dolmen validated",
+        "timing_audit_job": "370935",
+        "final_audit_job": "370941",
+        "public_export_job": "371623",
+        "qualified_audit_sha256": "02025b267fa5a23b28b0885f0e88cf50ced50973d3870c7df009a9cb90bd0019",
+        "native_profile_input_rows": 38470,
+        "native_successful_SAT_timing_rows": 20351,
+        "direct_Dolmen_validated_rows": 20351,
+        "model_coverage_by_logic_profile": {
+          "QF_UF": {
+            "primo": 3142
+          },
+          "QF_LRA": {
+            "primo": 983
+          },
+          "QF_LIA": {
+            "primo": 7024,
+            "primo-integer": 7656
+          },
+          "QF_UFLRA": {
+            "primo": 760
+          },
+          "QF_UFLIA": {
+            "primo": 407,
+            "primo-integer": 379
+          }
+        },
+        "invalid_or_missing_models": 0,
+        "unclassified_native_errors": 0,
+        "memory_out_profile_input_rows": 782,
+        "confirmed_cleanup_memory_out_rows": 409,
+        "explicit_allocation_failure_rows": 373,
+        "memory_out_scoring": "Unsolved;240seconds PAR2 per row; raw error exits preserved. Profile/input rows are not distinct files.",
+        "reference_corpus_benchmark_executions": 0,
+        "public_report_directory": "benchmarks/uniform120-20261109/report",
+        "plot_gallery": "docs/_static/uniform120-20261109/index.html",
+        "comparisons": "benchmarks/uniform120-20261109/report/comparisons.json",
+        "export_archive_bytes": 8002784,
+        "export_archive_sha256": "4acd4807b1b1a746377fb2edbc577858c7dc6c150e0c5144128041525f8775be",
+        "export_archive_retention": "Full archive retained in private execution results; portable public members committed separately.",
+        "descriptive_limits": "References reused from a different date; matched bytes, hardware generation and enforced resources. No controlled A/B speedup or native1200s prediction. Optional integer profiles remain separate; no default promotion."
+      },
+      "qualified_full_results": {
+        "QF_UF": {
+          "primo": {
+            "inputs": 7503,
+            "solved": 7501,
+            "sat": 3142,
+            "unsat": 4359,
+            "timeouts": 2,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 4866.798780999998
+          },
+          "z3": {
+            "inputs": 7503,
+            "solved": 7496,
+            "sat": 3142,
+            "unsat": 4354,
+            "timeouts": 7,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 3670.636154000004
+          },
+          "cvc5": {
+            "inputs": 7503,
+            "solved": 7484,
+            "sat": 3142,
+            "unsat": 4342,
+            "timeouts": 19,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 7886.631395000004
+          },
+          "yices": {
+            "inputs": 7503,
+            "solved": 7501,
+            "sat": 3142,
+            "unsat": 4359,
+            "timeouts": 2,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 1054.4000329999988
+          },
+          "opensmt": {
+            "inputs": 7503,
+            "solved": 7484,
+            "sat": 3142,
+            "unsat": 4342,
+            "timeouts": 19,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 11141.924323000021
+          }
+        },
+        "QF_LRA": {
+          "primo": {
+            "inputs": 1753,
+            "solved": 1642,
+            "sat": 983,
+            "unsat": 659,
+            "timeouts": 111,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 37040.022620999975
+          },
+          "z3": {
+            "inputs": 1753,
+            "solved": 1516,
+            "sat": 927,
+            "unsat": 589,
+            "timeouts": 237,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 70673.11778000002
+          },
+          "cvc5": {
+            "inputs": 1753,
+            "solved": 1394,
+            "sat": 837,
+            "unsat": 557,
+            "timeouts": 359,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 102107.01449500001
+          },
+          "yices": {
+            "inputs": 1753,
+            "solved": 1605,
+            "sat": 978,
+            "unsat": 627,
+            "timeouts": 148,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 43599.673460000005
+          },
+          "opensmt": {
+            "inputs": 1753,
+            "solved": 1623,
+            "sat": 948,
+            "unsat": 675,
+            "timeouts": 130,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 41173.02187300002
+          }
+        },
+        "QF_LIA": {
+          "primo": {
+            "inputs": 13306,
+            "solved": 10617,
+            "sat": 7024,
+            "unsat": 3593,
+            "timeouts": 1803,
+            "unknown": 498,
+            "memory_out": 388,
+            "confirmed_cleanup_memory_out": 203,
+            "raw_error_exits": 388,
+            "errors": 0,
+            "par2_sum": 759013.6454169995
+          },
+          "primo-integer": {
+            "inputs": 13306,
+            "solved": 11302,
+            "sat": 7656,
+            "unsat": 3646,
+            "timeouts": 1288,
+            "unknown": 328,
+            "memory_out": 388,
+            "confirmed_cleanup_memory_out": 203,
+            "raw_error_exits": 388,
+            "errors": 0,
+            "par2_sum": 593372.5072669997
+          },
+          "z3": {
+            "inputs": 13306,
+            "solved": 12420,
+            "sat": 7977,
+            "unsat": 4443,
+            "timeouts": 886,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 271334.950733
+          },
+          "cvc5": {
+            "inputs": 13306,
+            "solved": 9397,
+            "sat": 6620,
+            "unsat": 2777,
+            "timeouts": 3848,
+            "unknown": 0,
+            "memory_out": 27,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 61,
+            "errors": 34,
+            "par2_sum": 973085.1585860001
+          },
+          "yices": {
+            "inputs": 13306,
+            "solved": 12157,
+            "sat": 7643,
+            "unsat": 4514,
+            "timeouts": 1149,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 293140.96665400005
+          },
+          "opensmt": {
+            "inputs": 13306,
+            "solved": 11264,
+            "sat": 7070,
+            "unsat": 4194,
+            "timeouts": 2021,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 21,
+            "errors": 21,
+            "par2_sum": 578159.469114
+          }
+        },
+        "QF_UFLRA": {
+          "primo": {
+            "inputs": 1284,
+            "solved": 1271,
+            "sat": 760,
+            "unsat": 511,
+            "timeouts": 7,
+            "unknown": 0,
+            "memory_out": 6,
+            "confirmed_cleanup_memory_out": 3,
+            "raw_error_exits": 6,
+            "errors": 0,
+            "par2_sum": 3969.9718960000005
+          },
+          "z3": {
+            "inputs": 1284,
+            "solved": 1253,
+            "sat": 752,
+            "unsat": 501,
+            "timeouts": 31,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 7946.208718000001
+          },
+          "cvc5": {
+            "inputs": 1284,
+            "solved": 1273,
+            "sat": 762,
+            "unsat": 511,
+            "timeouts": 10,
+            "unknown": 0,
+            "memory_out": 1,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 1,
+            "errors": 0,
+            "par2_sum": 3587.9583039999998
+          },
+          "yices": {
+            "inputs": 1284,
+            "solved": 1276,
+            "sat": 765,
+            "unsat": 511,
+            "timeouts": 8,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 1997.560219
+          },
+          "opensmt": {
+            "inputs": 1284,
+            "solved": 1265,
+            "sat": 754,
+            "unsat": 511,
+            "timeouts": 18,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 1,
+            "errors": 1,
+            "par2_sum": 6096.068950999999
+          }
+        },
+        "QF_UFLIA": {
+          "primo": {
+            "inputs": 659,
+            "solved": 577,
+            "sat": 407,
+            "unsat": 170,
+            "timeouts": 82,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 21102.743715
+          },
+          "primo-integer": {
+            "inputs": 659,
+            "solved": 549,
+            "sat": 379,
+            "unsat": 170,
+            "timeouts": 110,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 27903.501937
+          },
+          "z3": {
+            "inputs": 659,
+            "solved": 620,
+            "sat": 430,
+            "unsat": 190,
+            "timeouts": 39,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 10072.67995
+          },
+          "cvc5": {
+            "inputs": 659,
+            "solved": 607,
+            "sat": 421,
+            "unsat": 186,
+            "timeouts": 52,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 13671.169162999999
+          },
+          "yices": {
+            "inputs": 659,
+            "solved": 615,
+            "sat": 422,
+            "unsat": 193,
+            "timeouts": 44,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 11155.946121
+          },
+          "opensmt": {
+            "inputs": 659,
+            "solved": 605,
+            "sat": 418,
+            "unsat": 187,
+            "timeouts": 54,
+            "unknown": 0,
+            "memory_out": 0,
+            "confirmed_cleanup_memory_out": 0,
+            "raw_error_exits": 0,
+            "errors": 0,
+            "par2_sum": 14629.970226000001
+          }
+        }
+      },
+      "qualified_filtered_results": {
+        "QF_UF": {
+          "retained": 1090,
+          "removed_common_easy": 6413
+        },
+        "QF_LRA": {
+          "retained": 827,
+          "removed_common_easy": 926
+        },
+        "QF_LIA": {
+          "retained": 6473,
+          "removed_common_easy": 6833
+        },
+        "QF_UFLRA": {
+          "retained": 159,
+          "removed_common_easy": 1125
+        },
+        "QF_UFLIA": {
+          "retained": 366,
+          "removed_common_easy": 293
+        }
       }
     },
     {

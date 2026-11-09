@@ -1,5 +1,5 @@
 {
-  "status": "timing complete and globally audited; separate nativeSAT model qualification running",
+  "status": "complete and correctness-qualified: all timing rows audited and all successful native SAT rows direct-Dolmen validated",
   "owner_clarification": "Memory-outs are normal unsolved benchmark outcomes. The initial stop was too strict after exact resource attribution; no solver fix is required to resume.",
   "native_binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
   "native_implementation": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
@@ -230,11 +230,23 @@
       "phase_maximum": 96,
       "command_exit": 1,
       "note": "Active parent limit verified; finished-child update errors do not change active-parent verification. Budget reserves all draining workers."
+    },
+    {
+      "utc": "2026-11-09T20:48:23.255337+00:00",
+      "phase": "models",
+      "job": "370939",
+      "old_limit": 32,
+      "new_limit": 96,
+      "pending_arrays": 1,
+      "draining_workers": 0,
+      "phase_maximum": 96,
+      "command_exit": 1,
+      "note": "Active parent limit verified; finished-child update errors do not change active-parent verification. Budget reserves all draining workers."
     }
   ],
   "concurrency_policy": "As arrays drain, rebalance their limits within the original128timing/96model worker maxima; CPU/memory/solver arguments unchanged.",
   "timing_completion": {
-    "status": "timing complete and globally audited; separate nativeSAT model qualification running",
+    "status": "timing complete and globally audited (historical phase checkpoint; final qualification in completion)",
     "timing_audit_job": "370935",
     "timing_audit_sha256": "a2162b18251a1a2bef7b24d6af906050829446f5d48e5a4a2481bf46ded3d652",
     "native_profile_input_rows": 38470,
@@ -243,6 +255,49 @@
     "confirmed_cleanup_memory_out_rows": 409,
     "raw_error_exits": 782,
     "unclassified_native_errors": 0,
-    "note": "Profile/input rows include the optional integer profile; these are not counts of distinct corpus files. No new qualified performance ranking is claimed before complete model coverage."
+    "note": "Profile/input rows include optional integer profile and are not distinct files. Historical checkpoint preceded model validation; see completion for final qualified status."
+  },
+  "completion": {
+    "status": "complete and correctness-qualified: all timing rows audited and all successful native SAT rows direct-Dolmen validated",
+    "timing_audit_job": "370935",
+    "final_audit_job": "370941",
+    "public_export_job": "371623",
+    "qualified_audit_sha256": "02025b267fa5a23b28b0885f0e88cf50ced50973d3870c7df009a9cb90bd0019",
+    "native_profile_input_rows": 38470,
+    "native_successful_SAT_timing_rows": 20351,
+    "direct_Dolmen_validated_rows": 20351,
+    "model_coverage_by_logic_profile": {
+      "QF_UF": {
+        "primo": 3142
+      },
+      "QF_LRA": {
+        "primo": 983
+      },
+      "QF_LIA": {
+        "primo": 7024,
+        "primo-integer": 7656
+      },
+      "QF_UFLRA": {
+        "primo": 760
+      },
+      "QF_UFLIA": {
+        "primo": 407,
+        "primo-integer": 379
+      }
+    },
+    "invalid_or_missing_models": 0,
+    "unclassified_native_errors": 0,
+    "memory_out_profile_input_rows": 782,
+    "confirmed_cleanup_memory_out_rows": 409,
+    "explicit_allocation_failure_rows": 373,
+    "memory_out_scoring": "Unsolved;240seconds PAR2 per row; raw error exits preserved. Profile/input rows are not distinct files.",
+    "reference_corpus_benchmark_executions": 0,
+    "public_report_directory": "benchmarks/uniform120-20261109/report",
+    "plot_gallery": "docs/_static/uniform120-20261109/index.html",
+    "comparisons": "benchmarks/uniform120-20261109/report/comparisons.json",
+    "export_archive_bytes": 8002784,
+    "export_archive_sha256": "4acd4807b1b1a746377fb2edbc577858c7dc6c150e0c5144128041525f8775be",
+    "export_archive_retention": "Full archive retained in private execution results; portable public members committed separately.",
+    "descriptive_limits": "References reused from a different date; matched bytes, hardware generation and enforced resources. No controlled A/B speedup or native1200s prediction. Optional integer profiles remain separate; no default promotion."
   }
 }

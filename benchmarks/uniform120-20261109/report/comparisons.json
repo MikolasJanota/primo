@@ -1,0 +1,1042 @@
+{
+  "status": "qualified-descriptive-comparison",
+  "interpretation": "Runtime ratios are left/right on common successful inputs; below1means left faster. Different measurement dates: descriptive matched-input comparison, not a controlled A/B speedup.",
+  "parent_provenance_sha256": "347ad60b7c405be179387371faa097437e7cf2b42afa37b6168d1b9d6b65173a",
+  "analyzer_sha256": "1dbbf48c5262ef827185e5711f0f5d614f2177d8e653b3856a1922db46f51823",
+  "logics": {
+    "QF_UF": {
+      "inputs": 7503,
+      "common_easy_removed": 6413,
+      "cutoff_solved": {
+        "primo": {
+          "1": 6596,
+          "10": 7460,
+          "60": 7496,
+          "120": 7501
+        },
+        "z3": {
+          "1": 7273,
+          "10": 7482,
+          "60": 7491,
+          "120": 7496
+        },
+        "cvc5": {
+          "1": 7089,
+          "10": 7432,
+          "60": 7479,
+          "120": 7484
+        },
+        "yices": {
+          "1": 7423,
+          "10": 7496,
+          "60": 7500,
+          "120": 7501
+        },
+        "opensmt": {
+          "1": 6609,
+          "10": 7370,
+          "60": 7468,
+          "120": 7484
+        }
+      },
+      "matched_inputs": {
+        "primo/z3": {
+          "full": {
+            "inputs": 7503,
+            "common_solved": 7495,
+            "left_only_solved": 6,
+            "right_only_solved": 1,
+            "both_unsolved": 1,
+            "positive_runtime_pairs": 7495,
+            "geomean_left_over_right": 2.075840840570113,
+            "median_left_over_right": 2.0266405638214566,
+            "median_left_seconds": 0.064577,
+            "median_right_seconds": 0.031437
+          },
+          "nontrivial": {
+            "inputs": 1090,
+            "common_solved": 1082,
+            "left_only_solved": 6,
+            "right_only_solved": 1,
+            "both_unsolved": 1,
+            "positive_runtime_pairs": 1082,
+            "geomean_left_over_right": 3.0295757480593792,
+            "median_left_over_right": 2.9828113321556935,
+            "median_left_seconds": 1.6316424999999999,
+            "median_right_seconds": 0.5744935
+          }
+        },
+        "primo/cvc5": {
+          "full": {
+            "inputs": 7503,
+            "common_solved": 7483,
+            "left_only_solved": 18,
+            "right_only_solved": 1,
+            "both_unsolved": 1,
+            "positive_runtime_pairs": 7483,
+            "geomean_left_over_right": 1.2018665917414284,
+            "median_left_over_right": 1.1899884035562427,
+            "median_left_seconds": 0.064511,
+            "median_right_seconds": 0.063404
+          },
+          "nontrivial": {
+            "inputs": 1090,
+            "common_solved": 1070,
+            "left_only_solved": 18,
+            "right_only_solved": 1,
+            "both_unsolved": 1,
+            "positive_runtime_pairs": 1070,
+            "geomean_left_over_right": 1.7214591200304141,
+            "median_left_over_right": 2.4846821755283397,
+            "median_left_seconds": 1.625664,
+            "median_right_seconds": 0.7481169999999999
+          }
+        },
+        "primo/yices": {
+          "full": {
+            "inputs": 7503,
+            "common_solved": 7500,
+            "left_only_solved": 1,
+            "right_only_solved": 1,
+            "both_unsolved": 1,
+            "positive_runtime_pairs": 7500,
+            "geomean_left_over_right": 8.490951322992862,
+            "median_left_over_right": 8.207955172227964,
+            "median_left_seconds": 0.0646165,
+            "median_right_seconds": 0.008087
+          },
+          "nontrivial": {
+            "inputs": 1090,
+            "common_solved": 1087,
+            "left_only_solved": 1,
+            "right_only_solved": 1,
+            "both_unsolved": 1,
+            "positive_runtime_pairs": 1087,
+            "geomean_left_over_right": 12.820109319068568,
+            "median_left_over_right": 14.344919836827625,
+            "median_left_seconds": 1.637299,
+            "median_right_seconds": 0.115869
+          }
+        },
+        "primo/opensmt": {
+          "full": {
+            "inputs": 7503,
+            "common_solved": 7484,
+            "left_only_solved": 17,
+            "right_only_solved": 0,
+            "both_unsolved": 2,
+            "positive_runtime_pairs": 7484,
+            "geomean_left_over_right": 1.783806747143596,
+            "median_left_over_right": 2.1732699977216354,
+            "median_left_seconds": 0.0645275,
+            "median_right_seconds": 0.0292
+          },
+          "nontrivial": {
+            "inputs": 1090,
+            "common_solved": 1071,
+            "left_only_solved": 17,
+            "right_only_solved": 0,
+            "both_unsolved": 2,
+            "positive_runtime_pairs": 1071,
+            "geomean_left_over_right": 0.8192875036818681,
+            "median_left_over_right": 0.9548924180851216,
+            "median_left_seconds": 1.618602,
+            "median_right_seconds": 1.744324
+          }
+        }
+      }
+    },
+    "QF_LRA": {
+      "inputs": 1753,
+      "common_easy_removed": 926,
+      "cutoff_solved": {
+        "primo": {
+          "1": 1081,
+          "10": 1378,
+          "60": 1597,
+          "120": 1642
+        },
+        "z3": {
+          "1": 1032,
+          "10": 1227,
+          "60": 1432,
+          "120": 1516
+        },
+        "cvc5": {
+          "1": 935,
+          "10": 1106,
+          "60": 1286,
+          "120": 1394
+        },
+        "yices": {
+          "1": 1170,
+          "10": 1420,
+          "60": 1567,
+          "120": 1605
+        },
+        "opensmt": {
+          "1": 1099,
+          "10": 1354,
+          "60": 1586,
+          "120": 1623
+        }
+      },
+      "matched_inputs": {
+        "primo/z3": {
+          "full": {
+            "inputs": 1753,
+            "common_solved": 1508,
+            "left_only_solved": 134,
+            "right_only_solved": 8,
+            "both_unsolved": 103,
+            "positive_runtime_pairs": 1508,
+            "geomean_left_over_right": 0.5819422821277004,
+            "median_left_over_right": 0.5657262902967137,
+            "median_left_seconds": 0.065287,
+            "median_right_seconds": 0.049655000000000005
+          },
+          "nontrivial": {
+            "inputs": 827,
+            "common_solved": 582,
+            "left_only_solved": 134,
+            "right_only_solved": 8,
+            "both_unsolved": 103,
+            "positive_runtime_pairs": 582,
+            "geomean_left_over_right": 0.41611534581373255,
+            "median_left_over_right": 0.4219549663395722,
+            "median_left_seconds": 2.861543,
+            "median_right_seconds": 8.968263
+          }
+        },
+        "primo/cvc5": {
+          "full": {
+            "inputs": 1753,
+            "common_solved": 1388,
+            "left_only_solved": 254,
+            "right_only_solved": 6,
+            "both_unsolved": 105,
+            "positive_runtime_pairs": 1388,
+            "geomean_left_over_right": 0.39183072952839176,
+            "median_left_over_right": 0.6077092874862491,
+            "median_left_seconds": 0.038723,
+            "median_right_seconds": 0.0845735
+          },
+          "nontrivial": {
+            "inputs": 827,
+            "common_solved": 462,
+            "left_only_solved": 254,
+            "right_only_solved": 6,
+            "both_unsolved": 105,
+            "positive_runtime_pairs": 462,
+            "geomean_left_over_right": 0.13957597293101237,
+            "median_left_over_right": 0.15702012056925768,
+            "median_left_seconds": 2.103452,
+            "median_right_seconds": 19.886506500000003
+          }
+        },
+        "primo/yices": {
+          "full": {
+            "inputs": 1753,
+            "common_solved": 1575,
+            "left_only_solved": 67,
+            "right_only_solved": 30,
+            "both_unsolved": 81,
+            "positive_runtime_pairs": 1575,
+            "geomean_left_over_right": 2.5960663737788687,
+            "median_left_over_right": 2.420587396635301,
+            "median_left_seconds": 0.083116,
+            "median_right_seconds": 0.011903
+          },
+          "nontrivial": {
+            "inputs": 827,
+            "common_solved": 649,
+            "left_only_solved": 67,
+            "right_only_solved": 30,
+            "both_unsolved": 81,
+            "positive_runtime_pairs": 649,
+            "geomean_left_over_right": 2.041480659759675,
+            "median_left_over_right": 1.8259322911341662,
+            "median_left_seconds": 3.752517,
+            "median_right_seconds": 2.063648
+          }
+        },
+        "primo/opensmt": {
+          "full": {
+            "inputs": 1753,
+            "common_solved": 1594,
+            "left_only_solved": 48,
+            "right_only_solved": 29,
+            "both_unsolved": 82,
+            "positive_runtime_pairs": 1594,
+            "geomean_left_over_right": 1.3948252000534953,
+            "median_left_over_right": 1.7576718749680738,
+            "median_left_seconds": 0.08871799999999999,
+            "median_right_seconds": 0.052017
+          },
+          "nontrivial": {
+            "inputs": 827,
+            "common_solved": 668,
+            "left_only_solved": 48,
+            "right_only_solved": 29,
+            "both_unsolved": 82,
+            "positive_runtime_pairs": 668,
+            "geomean_left_over_right": 1.0146170653937396,
+            "median_left_over_right": 1.2010345463626082,
+            "median_left_seconds": 4.194475000000001,
+            "median_right_seconds": 4.3715115
+          }
+        }
+      }
+    },
+    "QF_LIA": {
+      "inputs": 13306,
+      "common_easy_removed": 6833,
+      "cutoff_solved": {
+        "primo": {
+          "1": 7718,
+          "10": 8696,
+          "60": 9759,
+          "120": 10617
+        },
+        "primo-integer": {
+          "1": 8413,
+          "10": 9388,
+          "60": 10453,
+          "120": 11302
+        },
+        "z3": {
+          "1": 9381,
+          "10": 11065,
+          "60": 12137,
+          "120": 12420
+        },
+        "cvc5": {
+          "1": 7415,
+          "10": 8669,
+          "60": 9222,
+          "120": 9397
+        },
+        "yices": {
+          "1": 10403,
+          "10": 11825,
+          "60": 12087,
+          "120": 12157
+        },
+        "opensmt": {
+          "1": 8363,
+          "10": 9405,
+          "60": 10737,
+          "120": 11264
+        }
+      },
+      "matched_inputs": {
+        "primo/primo-integer": {
+          "full": {
+            "inputs": 13306,
+            "common_solved": 10568,
+            "left_only_solved": 49,
+            "right_only_solved": 734,
+            "both_unsolved": 1955,
+            "positive_runtime_pairs": 10568,
+            "geomean_left_over_right": 1.00415592910141,
+            "median_left_over_right": 1.0011557279750283,
+            "median_left_seconds": 0.018875000000000003,
+            "median_right_seconds": 0.020678500000000002
+          },
+          "nontrivial": {
+            "inputs": 6473,
+            "common_solved": 3735,
+            "left_only_solved": 49,
+            "right_only_solved": 734,
+            "both_unsolved": 1955,
+            "positive_runtime_pairs": 3735,
+            "geomean_left_over_right": 1.0015372112339365,
+            "median_left_over_right": 1.0008306773982236,
+            "median_left_seconds": 10.987818,
+            "median_right_seconds": 10.56789
+          }
+        },
+        "primo/z3": {
+          "full": {
+            "inputs": 13306,
+            "common_solved": 10373,
+            "left_only_solved": 244,
+            "right_only_solved": 2047,
+            "both_unsolved": 642,
+            "positive_runtime_pairs": 10373,
+            "geomean_left_over_right": 0.9830492913341792,
+            "median_left_over_right": 0.5699420085632215,
+            "median_left_seconds": 0.017802,
+            "median_right_seconds": 0.027745
+          },
+          "nontrivial": {
+            "inputs": 6473,
+            "common_solved": 3540,
+            "left_only_solved": 244,
+            "right_only_solved": 2047,
+            "both_unsolved": 642,
+            "positive_runtime_pairs": 3540,
+            "geomean_left_over_right": 2.6847424384038248,
+            "median_left_over_right": 2.6354240904575548,
+            "median_left_seconds": 9.459752,
+            "median_right_seconds": 1.7028205
+          }
+        },
+        "primo/cvc5": {
+          "full": {
+            "inputs": 13306,
+            "common_solved": 8611,
+            "left_only_solved": 2006,
+            "right_only_solved": 786,
+            "both_unsolved": 1903,
+            "positive_runtime_pairs": 8611,
+            "geomean_left_over_right": 0.44780187516010156,
+            "median_left_over_right": 0.5973901973265436,
+            "median_left_seconds": 0.011364,
+            "median_right_seconds": 0.030009
+          },
+          "nontrivial": {
+            "inputs": 6473,
+            "common_solved": 1778,
+            "left_only_solved": 2006,
+            "right_only_solved": 786,
+            "both_unsolved": 1903,
+            "positive_runtime_pairs": 1778,
+            "geomean_left_over_right": 0.20930744807047,
+            "median_left_over_right": 0.21229719309469314,
+            "median_left_seconds": 1.220201,
+            "median_right_seconds": 2.7070045
+          }
+        },
+        "primo/yices": {
+          "full": {
+            "inputs": 13306,
+            "common_solved": 10493,
+            "left_only_solved": 124,
+            "right_only_solved": 1664,
+            "both_unsolved": 1025,
+            "positive_runtime_pairs": 10493,
+            "geomean_left_over_right": 7.497054428743454,
+            "median_left_over_right": 3.6441573693482088,
+            "median_left_seconds": 0.01863,
+            "median_right_seconds": 0.006103
+          },
+          "nontrivial": {
+            "inputs": 6473,
+            "common_solved": 3660,
+            "left_only_solved": 124,
+            "right_only_solved": 1664,
+            "both_unsolved": 1025,
+            "positive_runtime_pairs": 3660,
+            "geomean_left_over_right": 29.371400905238005,
+            "median_left_over_right": 43.1575947677556,
+            "median_left_seconds": 13.1111325,
+            "median_right_seconds": 0.20643650000000002
+          }
+        },
+        "primo/opensmt": {
+          "full": {
+            "inputs": 13306,
+            "common_solved": 9801,
+            "left_only_solved": 816,
+            "right_only_solved": 1463,
+            "both_unsolved": 1226,
+            "positive_runtime_pairs": 9801,
+            "geomean_left_over_right": 1.4771656821467458,
+            "median_left_over_right": 1.8131668558456298,
+            "median_left_seconds": 0.015404,
+            "median_right_seconds": 0.01048
+          },
+          "nontrivial": {
+            "inputs": 6473,
+            "common_solved": 2968,
+            "left_only_solved": 816,
+            "right_only_solved": 1463,
+            "both_unsolved": 1226,
+            "positive_runtime_pairs": 2968,
+            "geomean_left_over_right": 0.9569013934442165,
+            "median_left_over_right": 1.3834897111180373,
+            "median_left_seconds": 6.2826275,
+            "median_right_seconds": 6.478902
+          }
+        },
+        "primo-integer/primo": {
+          "full": {
+            "inputs": 13306,
+            "common_solved": 10568,
+            "left_only_solved": 734,
+            "right_only_solved": 49,
+            "both_unsolved": 1955,
+            "positive_runtime_pairs": 10568,
+            "geomean_left_over_right": 0.9958612711622099,
+            "median_left_over_right": 0.998845606232583,
+            "median_left_seconds": 0.020678500000000002,
+            "median_right_seconds": 0.018875000000000003
+          },
+          "nontrivial": {
+            "inputs": 6473,
+            "common_solved": 3735,
+            "left_only_solved": 734,
+            "right_only_solved": 49,
+            "both_unsolved": 1955,
+            "positive_runtime_pairs": 3735,
+            "geomean_left_over_right": 0.9984651481575582,
+            "median_left_over_right": 0.9991700120540039,
+            "median_left_seconds": 10.56789,
+            "median_right_seconds": 10.987818
+          }
+        },
+        "primo-integer/z3": {
+          "full": {
+            "inputs": 13306,
+            "common_solved": 11057,
+            "left_only_solved": 245,
+            "right_only_solved": 1363,
+            "both_unsolved": 641,
+            "positive_runtime_pairs": 11057,
+            "geomean_left_over_right": 0.9245677392040192,
+            "median_left_over_right": 0.5692358461580977,
+            "median_left_seconds": 0.025866,
+            "median_right_seconds": 0.034119
+          },
+          "nontrivial": {
+            "inputs": 6473,
+            "common_solved": 4224,
+            "left_only_solved": 245,
+            "right_only_solved": 1363,
+            "both_unsolved": 641,
+            "positive_runtime_pairs": 4224,
+            "geomean_left_over_right": 1.9608226250144736,
+            "median_left_over_right": 1.783298592013446,
+            "median_left_seconds": 3.9580545,
+            "median_right_seconds": 1.083993
+          }
+        },
+        "primo-integer/cvc5": {
+          "full": {
+            "inputs": 13306,
+            "common_solved": 9161,
+            "left_only_solved": 2141,
+            "right_only_solved": 236,
+            "both_unsolved": 1768,
+            "positive_runtime_pairs": 9161,
+            "geomean_left_over_right": 0.3866727641127915,
+            "median_left_over_right": 0.5777874915478818,
+            "median_left_seconds": 0.012329,
+            "median_right_seconds": 0.033108
+          },
+          "nontrivial": {
+            "inputs": 6473,
+            "common_solved": 2328,
+            "left_only_solved": 2141,
+            "right_only_solved": 236,
+            "both_unsolved": 1768,
+            "positive_runtime_pairs": 2328,
+            "geomean_left_over_right": 0.14291936408320885,
+            "median_left_over_right": 0.14764163466426308,
+            "median_left_seconds": 0.30526600000000004,
+            "median_right_seconds": 2.3982159999999997
+          }
+        },
+        "primo-integer/yices": {
+          "full": {
+            "inputs": 13306,
+            "common_solved": 10846,
+            "left_only_solved": 456,
+            "right_only_solved": 1311,
+            "both_unsolved": 693,
+            "positive_runtime_pairs": 10846,
+            "geomean_left_over_right": 6.593399044873408,
+            "median_left_over_right": 3.575219589986962,
+            "median_left_seconds": 0.024444,
+            "median_right_seconds": 0.0065190000000000005
+          },
+          "nontrivial": {
+            "inputs": 6473,
+            "common_solved": 4013,
+            "left_only_solved": 456,
+            "right_only_solved": 1311,
+            "both_unsolved": 693,
+            "positive_runtime_pairs": 4013,
+            "geomean_left_over_right": 18.583190701369304,
+            "median_left_over_right": 29.913104921811254,
+            "median_left_seconds": 8.487228,
+            "median_right_seconds": 0.203153
+          }
+        },
+        "primo-integer/opensmt": {
+          "full": {
+            "inputs": 13306,
+            "common_solved": 10164,
+            "left_only_solved": 1138,
+            "right_only_solved": 1100,
+            "both_unsolved": 904,
+            "positive_runtime_pairs": 10164,
+            "geomean_left_over_right": 1.2633905847406535,
+            "median_left_over_right": 1.796376323113653,
+            "median_left_seconds": 0.017157,
+            "median_right_seconds": 0.012483000000000001
+          },
+          "nontrivial": {
+            "inputs": 6473,
+            "common_solved": 3331,
+            "left_only_solved": 1138,
+            "right_only_solved": 1100,
+            "both_unsolved": 904,
+            "positive_runtime_pairs": 3331,
+            "geomean_left_over_right": 0.6298285859756497,
+            "median_left_over_right": 1.261147167648806,
+            "median_left_seconds": 3.939836,
+            "median_right_seconds": 6.34596
+          }
+        }
+      }
+    },
+    "QF_UFLRA": {
+      "inputs": 1284,
+      "common_easy_removed": 1125,
+      "cutoff_solved": {
+        "primo": {
+          "1": 1210,
+          "10": 1251,
+          "60": 1269,
+          "120": 1271
+        },
+        "z3": {
+          "1": 1183,
+          "10": 1244,
+          "60": 1252,
+          "120": 1253
+        },
+        "cvc5": {
+          "1": 1226,
+          "10": 1260,
+          "60": 1265,
+          "120": 1273
+        },
+        "yices": {
+          "1": 1262,
+          "10": 1276,
+          "60": 1276,
+          "120": 1276
+        },
+        "opensmt": {
+          "1": 1166,
+          "10": 1229,
+          "60": 1260,
+          "120": 1265
+        }
+      },
+      "matched_inputs": {
+        "primo/z3": {
+          "full": {
+            "inputs": 1284,
+            "common_solved": 1253,
+            "left_only_solved": 18,
+            "right_only_solved": 0,
+            "both_unsolved": 13,
+            "positive_runtime_pairs": 1253,
+            "geomean_left_over_right": 1.0689710073704792,
+            "median_left_over_right": 1.44402003613824,
+            "median_left_seconds": 0.053981,
+            "median_right_seconds": 0.036338
+          },
+          "nontrivial": {
+            "inputs": 159,
+            "common_solved": 128,
+            "left_only_solved": 18,
+            "right_only_solved": 0,
+            "both_unsolved": 13,
+            "positive_runtime_pairs": 128,
+            "geomean_left_over_right": 0.6694659121126513,
+            "median_left_over_right": 1.2199043970311194,
+            "median_left_seconds": 0.3348905,
+            "median_right_seconds": 1.098083
+          }
+        },
+        "primo/cvc5": {
+          "full": {
+            "inputs": 1284,
+            "common_solved": 1269,
+            "left_only_solved": 2,
+            "right_only_solved": 4,
+            "both_unsolved": 9,
+            "positive_runtime_pairs": 1269,
+            "geomean_left_over_right": 0.9688736741647578,
+            "median_left_over_right": 0.9247324533270315,
+            "median_left_seconds": 0.054747,
+            "median_right_seconds": 0.064283
+          },
+          "nontrivial": {
+            "inputs": 159,
+            "common_solved": 144,
+            "left_only_solved": 2,
+            "right_only_solved": 4,
+            "both_unsolved": 9,
+            "positive_runtime_pairs": 144,
+            "geomean_left_over_right": 1.571842490713537,
+            "median_left_over_right": 1.1013220644918142,
+            "median_left_seconds": 0.45599449999999997,
+            "median_right_seconds": 0.24534250000000002
+          }
+        },
+        "primo/yices": {
+          "full": {
+            "inputs": 1284,
+            "common_solved": 1271,
+            "left_only_solved": 0,
+            "right_only_solved": 5,
+            "both_unsolved": 8,
+            "positive_runtime_pairs": 1271,
+            "geomean_left_over_right": 5.7167469376947295,
+            "median_left_over_right": 6.052678438937527,
+            "median_left_seconds": 0.054775,
+            "median_right_seconds": 0.008698
+          },
+          "nontrivial": {
+            "inputs": 159,
+            "common_solved": 146,
+            "left_only_solved": 0,
+            "right_only_solved": 5,
+            "both_unsolved": 8,
+            "positive_runtime_pairs": 146,
+            "geomean_left_over_right": 15.175401846917277,
+            "median_left_over_right": 12.029731855819819,
+            "median_left_seconds": 0.5046930000000001,
+            "median_right_seconds": 0.0362985
+          }
+        },
+        "primo/opensmt": {
+          "full": {
+            "inputs": 1284,
+            "common_solved": 1261,
+            "left_only_solved": 10,
+            "right_only_solved": 4,
+            "both_unsolved": 9,
+            "positive_runtime_pairs": 1261,
+            "geomean_left_over_right": 1.2994102525075253,
+            "median_left_over_right": 1.9396575776791374,
+            "median_left_seconds": 0.054198,
+            "median_right_seconds": 0.03602
+          },
+          "nontrivial": {
+            "inputs": 159,
+            "common_solved": 136,
+            "left_only_solved": 10,
+            "right_only_solved": 4,
+            "both_unsolved": 9,
+            "positive_runtime_pairs": 136,
+            "geomean_left_over_right": 0.3504685234609411,
+            "median_left_over_right": 0.4920984414747752,
+            "median_left_seconds": 0.44816,
+            "median_right_seconds": 2.2714825000000003
+          }
+        }
+      }
+    },
+    "QF_UFLIA": {
+      "inputs": 659,
+      "common_easy_removed": 293,
+      "cutoff_solved": {
+        "primo": {
+          "1": 446,
+          "10": 538,
+          "60": 575,
+          "120": 577
+        },
+        "primo-integer": {
+          "1": 419,
+          "10": 509,
+          "60": 546,
+          "120": 549
+        },
+        "z3": {
+          "1": 582,
+          "10": 600,
+          "60": 618,
+          "120": 620
+        },
+        "cvc5": {
+          "1": 496,
+          "10": 579,
+          "60": 604,
+          "120": 607
+        },
+        "yices": {
+          "1": 585,
+          "10": 603,
+          "60": 612,
+          "120": 615
+        },
+        "opensmt": {
+          "1": 423,
+          "10": 561,
+          "60": 599,
+          "120": 605
+        }
+      },
+      "matched_inputs": {
+        "primo/primo-integer": {
+          "full": {
+            "inputs": 659,
+            "common_solved": 549,
+            "left_only_solved": 28,
+            "right_only_solved": 0,
+            "both_unsolved": 82,
+            "positive_runtime_pairs": 549,
+            "geomean_left_over_right": 0.9796097863810471,
+            "median_left_over_right": 1.0000610523209619,
+            "median_left_seconds": 0.216952,
+            "median_right_seconds": 0.217999
+          },
+          "nontrivial": {
+            "inputs": 366,
+            "common_solved": 256,
+            "left_only_solved": 28,
+            "right_only_solved": 0,
+            "both_unsolved": 82,
+            "positive_runtime_pairs": 256,
+            "geomean_left_over_right": 0.9884379662469746,
+            "median_left_over_right": 1.001107127631217,
+            "median_left_seconds": 0.8756325,
+            "median_right_seconds": 1.0618455
+          }
+        },
+        "primo/z3": {
+          "full": {
+            "inputs": 659,
+            "common_solved": 577,
+            "left_only_solved": 0,
+            "right_only_solved": 43,
+            "both_unsolved": 39,
+            "positive_runtime_pairs": 577,
+            "geomean_left_over_right": 9.714649230930059,
+            "median_left_over_right": 7.2913425503102065,
+            "median_left_seconds": 0.236634,
+            "median_right_seconds": 0.023809
+          },
+          "nontrivial": {
+            "inputs": 366,
+            "common_solved": 284,
+            "left_only_solved": 0,
+            "right_only_solved": 43,
+            "both_unsolved": 39,
+            "positive_runtime_pairs": 284,
+            "geomean_left_over_right": 23.85932518265676,
+            "median_left_over_right": 17.87795983241707,
+            "median_left_seconds": 0.8774150000000001,
+            "median_right_seconds": 0.028989
+          }
+        },
+        "primo/cvc5": {
+          "full": {
+            "inputs": 659,
+            "common_solved": 576,
+            "left_only_solved": 1,
+            "right_only_solved": 31,
+            "both_unsolved": 51,
+            "positive_runtime_pairs": 576,
+            "geomean_left_over_right": 2.575450873056904,
+            "median_left_over_right": 2.6304687082087534,
+            "median_left_seconds": 0.234078,
+            "median_right_seconds": 0.0707425
+          },
+          "nontrivial": {
+            "inputs": 366,
+            "common_solved": 283,
+            "left_only_solved": 1,
+            "right_only_solved": 31,
+            "both_unsolved": 51,
+            "positive_runtime_pairs": 283,
+            "geomean_left_over_right": 3.1425875641734105,
+            "median_left_over_right": 4.019079795336484,
+            "median_left_seconds": 0.876662,
+            "median_right_seconds": 0.339928
+          }
+        },
+        "primo/yices": {
+          "full": {
+            "inputs": 659,
+            "common_solved": 575,
+            "left_only_solved": 2,
+            "right_only_solved": 40,
+            "both_unsolved": 42,
+            "positive_runtime_pairs": 575,
+            "geomean_left_over_right": 36.4541014459913,
+            "median_left_over_right": 30.359225741578683,
+            "median_left_seconds": 0.231522,
+            "median_right_seconds": 0.00603
+          },
+          "nontrivial": {
+            "inputs": 366,
+            "common_solved": 282,
+            "left_only_solved": 2,
+            "right_only_solved": 40,
+            "both_unsolved": 42,
+            "positive_runtime_pairs": 282,
+            "geomean_left_over_right": 82.56853021084744,
+            "median_left_over_right": 45.76301830935789,
+            "median_left_seconds": 0.8748795,
+            "median_right_seconds": 0.009563499999999999
+          }
+        },
+        "primo/opensmt": {
+          "full": {
+            "inputs": 659,
+            "common_solved": 576,
+            "left_only_solved": 1,
+            "right_only_solved": 29,
+            "both_unsolved": 53,
+            "positive_runtime_pairs": 576,
+            "geomean_left_over_right": 2.0971254159660697,
+            "median_left_over_right": 1.6344134072874894,
+            "median_left_seconds": 0.234078,
+            "median_right_seconds": 0.129607
+          },
+          "nontrivial": {
+            "inputs": 366,
+            "common_solved": 283,
+            "left_only_solved": 1,
+            "right_only_solved": 29,
+            "both_unsolved": 53,
+            "positive_runtime_pairs": 283,
+            "geomean_left_over_right": 1.8338007571003163,
+            "median_left_over_right": 0.2768171168111782,
+            "median_left_seconds": 0.876662,
+            "median_right_seconds": 1.395639
+          }
+        },
+        "primo-integer/primo": {
+          "full": {
+            "inputs": 659,
+            "common_solved": 549,
+            "left_only_solved": 0,
+            "right_only_solved": 28,
+            "both_unsolved": 82,
+            "positive_runtime_pairs": 549,
+            "geomean_left_over_right": 1.0208146283371464,
+            "median_left_over_right": 0.9999389514061965,
+            "median_left_seconds": 0.217999,
+            "median_right_seconds": 0.216952
+          },
+          "nontrivial": {
+            "inputs": 366,
+            "common_solved": 256,
+            "left_only_solved": 0,
+            "right_only_solved": 28,
+            "both_unsolved": 82,
+            "positive_runtime_pairs": 256,
+            "geomean_left_over_right": 1.01169727807697,
+            "median_left_over_right": 0.9988940967568142,
+            "median_left_seconds": 1.0618455,
+            "median_right_seconds": 0.8756325
+          }
+        },
+        "primo-integer/z3": {
+          "full": {
+            "inputs": 659,
+            "common_solved": 549,
+            "left_only_solved": 0,
+            "right_only_solved": 71,
+            "both_unsolved": 39,
+            "positive_runtime_pairs": 549,
+            "geomean_left_over_right": 10.278692679038162,
+            "median_left_over_right": 7.52614629040699,
+            "median_left_seconds": 0.217999,
+            "median_right_seconds": 0.023476
+          },
+          "nontrivial": {
+            "inputs": 366,
+            "common_solved": 256,
+            "left_only_solved": 0,
+            "right_only_solved": 71,
+            "both_unsolved": 39,
+            "positive_runtime_pairs": 256,
+            "geomean_left_over_right": 28.758581952162743,
+            "median_left_over_right": 20.901138929908218,
+            "median_left_seconds": 1.0618455,
+            "median_right_seconds": 0.028182
+          }
+        },
+        "primo-integer/cvc5": {
+          "full": {
+            "inputs": 659,
+            "common_solved": 548,
+            "left_only_solved": 1,
+            "right_only_solved": 59,
+            "both_unsolved": 51,
+            "positive_runtime_pairs": 548,
+            "geomean_left_over_right": 2.7997524643325153,
+            "median_left_over_right": 2.828827664642904,
+            "median_left_seconds": 0.217412,
+            "median_right_seconds": 0.064067
+          },
+          "nontrivial": {
+            "inputs": 366,
+            "common_solved": 255,
+            "left_only_solved": 1,
+            "right_only_solved": 59,
+            "both_unsolved": 51,
+            "positive_runtime_pairs": 255,
+            "geomean_left_over_right": 3.7198342948025167,
+            "median_left_over_right": 4.325434398751184,
+            "median_left_seconds": 1.055944,
+            "median_right_seconds": 0.220816
+          }
+        },
+        "primo-integer/yices": {
+          "full": {
+            "inputs": 659,
+            "common_solved": 547,
+            "left_only_solved": 2,
+            "right_only_solved": 68,
+            "both_unsolved": 42,
+            "positive_runtime_pairs": 547,
+            "geomean_left_over_right": 37.51483834971383,
+            "median_left_over_right": 29.999106983389893,
+            "median_left_seconds": 0.216825,
+            "median_right_seconds": 0.005934
+          },
+          "nontrivial": {
+            "inputs": 366,
+            "common_solved": 254,
+            "left_only_solved": 2,
+            "right_only_solved": 68,
+            "both_unsolved": 42,
+            "positive_runtime_pairs": 254,
+            "geomean_left_over_right": 93.01100277285354,
+            "median_left_over_right": 54.64000503347286,
+            "median_left_seconds": 1.0359525,
+            "median_right_seconds": 0.008751
+          }
+        },
+        "primo-integer/opensmt": {
+          "full": {
+            "inputs": 659,
+            "common_solved": 548,
+            "left_only_solved": 1,
+            "right_only_solved": 57,
+            "both_unsolved": 53,
+            "positive_runtime_pairs": 548,
+            "geomean_left_over_right": 2.545044569754887,
+            "median_left_over_right": 1.8796757937538013,
+            "median_left_seconds": 0.217412,
+            "median_right_seconds": 0.1034215
+          },
+          "nontrivial": {
+            "inputs": 366,
+            "common_solved": 255,
+            "left_only_solved": 1,
+            "right_only_solved": 57,
+            "both_unsolved": 53,
+            "positive_runtime_pairs": 255,
+            "geomean_left_over_right": 2.65113656272033,
+            "median_left_over_right": 0.7743654531464029,
+            "median_left_seconds": 1.055944,
+            "median_right_seconds": 1.174991
+          }
+        }
+      }
+    }
+  }
+}

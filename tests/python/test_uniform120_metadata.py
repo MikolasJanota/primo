@@ -23,6 +23,10 @@ EXPORT_SPEC = importlib.util.spec_from_file_location('uniform_export', FOLDER / 
 EXPORT = importlib.util.module_from_spec(EXPORT_SPEC)
 with patch.dict(sys.modules, {'campaign': WORKER, 'report': REPORT}):
     EXPORT_SPEC.loader.exec_module(EXPORT)
+ANALYSIS_SPEC = importlib.util.spec_from_file_location('uniform_analysis', FOLDER / 'analyze.py')
+ANALYSIS = importlib.util.module_from_spec(ANALYSIS_SPEC)
+with patch.dict(sys.modules, {'campaign': WORKER, 'report': REPORT}):
+    ANALYSIS_SPEC.loader.exec_module(ANALYSIS)
 
 
 def row(name='a.smt2', **changes):
@@ -39,6 +43,20 @@ def write_rows(path, values):
 
 
 class UniformMetadataTests(unittest.TestCase):
+    def test_matched_runtime_pairs_exclude_budget_and_post_answer_failures(self):
+        left = {'a': row('a', seconds='2'), 'b': row('b', seconds='4', answer='unsat'),
+                'c': row('c', status='timeout', timeout='true'),
+                'd': row('d', status='error', exit_code='-6')}
+        right = {'a': row('a', seconds='1'), 'b': row('b', status='timeout', timeout='true'),
+                 'c': row('c', seconds='10'), 'd': row('d', seconds='3')}
+        result = ANALYSIS.matched(left, right, set(left), 120)
+        self.assertEqual((result['common_solved'], result['left_only_solved'],
+                          result['right_only_solved'], result['both_unsolved']), (1, 1, 2, 0))
+        self.assertEqual(result['geomean_left_over_right'], 2)
+        self.assertEqual(result['median_left_over_right'], 2)
+        left['e'], right['e'] = row('e', seconds='120.001'), row('e', seconds='120')
+        self.assertEqual(ANALYSIS.matched(left, right, {'e'}, 120)['right_only_solved'], 1)
+
     def test_public_export_preserves_pairs_and_refuses_changed_qualified_rows(self):
         with tempfile.TemporaryDirectory() as directory:
             out, dest = Path(directory) / 'private', Path(directory) / 'public'

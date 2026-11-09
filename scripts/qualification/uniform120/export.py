@@ -11,7 +11,8 @@ import io
 from pathlib import Path, PurePosixPath
 
 from campaign import digest, load, recovery, resources, verify_resource_workflow, write
-from report import COLOURS, DISPLAY, memory_exhausted, metrics, plots as draw_plots, solved
+from report import COLOURS, DISPLAY, memory_exhausted, metrics, solved
+from report import plots as draw_plots
 
 
 def export(out: Path, destination: Path) -> None:

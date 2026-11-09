@@ -1,12 +1,12 @@
 (uniform120-evaluation)=
 # Uniform 120-second theory comparisons
 
-**Status: full native timing passed its audit; separate SAT-model validation is running.** The initial campaign
-stopped on a masked allocation failure. Confirmed memory-outs are normal
-unsolved budget outcomes; they do not require a solver fix before continuing.
-Recovery reused 42 certified timing shards and completed all 3,166 remaining
-tasks. Full SAT-model qualification and the final plots remain pending. The target
-is a report within 18 hours of the 9 November request. The five quantifier-free divisions contain 24,505 inputs:
+**Status: complete and correctness-qualified.** The 120-second campaign finished
+38,470 native profile/input timing rows. All 20,351 successful native SAT timing
+rows have separate direct Dolmen validation. The four archived reference solvers
+were reused without any reference corpus rerun. Normal memory-outs remain
+unsolved budget outcomes, including the initially misclassified cleanup abort.
+The five quantifier-free divisions contain 24,505 inputs:
 
 | Logic | Full corpus |
 | --- | ---: |
@@ -21,6 +21,177 @@ need not match the full division. In the earlier full 13,306-input comparison,
 Primo M124 solved 9,865 and archived cvc5 solved 9,239 at 60 seconds; those are
 [historical results](qf-lia-progress.md) for their stated sources and profiles. Raising the wall
 limit does not itself remove easy cases or guarantee a ranking reversal.
+
+## Qualified results
+
+All series use a 120-second cutoff, one physical CPU and an enforced 8 GiB
+address-space limit. These are full-corpus solved counts; each optional integer
+profile is fixed across its entire logic, and curves remain separate.
+
+| Logic | Inputs | Primo default | Integer profile | Z3 | cvc5 | Yices | OpenSMT |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| QF_UF | 7,503 | 7,501 | — | 7,496 | 7,484 | 7,501 | 7,484 |
+| QF_LRA | 1,753 | 1,642 | — | 1,516 | 1,394 | 1,605 | 1,623 |
+| QF_LIA | 13,306 | 10,617 | 11,302 | 12,420 | 9,397 | 12,157 | 11,264 |
+| QF_UFLRA | 1,284 | 1,271 | — | 1,253 | 1,273 | 1,276 | 1,265 |
+| QF_UFLIA | 659 | 577 | 549 | 620 | 607 | 615 | 605 |
+
+Primo is ahead of cvc5 on full QF_LIA: 10,617 versus 9,397 with defaults,
+and 11,302 with the declared integer profile. On QF_LRA, Primo solves 1,642,
+ahead of OpenSMT’s 1,623 and the other archived references. QF_UF ties Yices
+at 7,501 solves, although Yices has lower PAR2. QF_UFLRA remains close behind
+Yices/cvc5, and QF_UFLIA remains behind the references.
+
+The integer profile gains 685 QF_LIA solves over defaults: 734 gains and 49
+losses on matched inputs. On QF_UFLIA it loses 28 solves with no gains. This
+does not support promotion across logics or a per-input portfolio.
+
+### Normalized PAR2
+
+Each unsolved input costs 240 seconds. The table divides the PAR2 sum by the
+logic’s input count; lower is better. Raw sums, SAT/UNSAT, timeout, unknown,
+resource and error counts, plus family summaries remain in the exported data.
+
+| Logic | Primo default | Integer profile | Z3 | cvc5 | Yices | OpenSMT |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| QF_UF | 0.649 | — | 0.489 | 1.051 | 0.141 | 1.485 |
+| QF_LRA | 21.130 | — | 40.316 | 58.247 | 24.871 | 23.487 |
+| QF_LIA | 57.043 | 44.594 | 20.392 | 73.131 | 22.031 | 43.451 |
+| QF_UFLRA | 3.092 | — | 6.189 | 2.794 | 1.556 | 4.748 |
+| QF_UFLIA | 32.022 | 42.342 | 15.285 | 20.745 | 16.929 | 22.200 |
+
+### Does the larger timeout explain the LIA ranking?
+
+In this same qualified dataset, Primo is already ahead of cvc5 when the
+measurements are censored at 60 seconds. Extending the view to 120 seconds
+adds 858 default solves, 849 integer-profile solves and 175 cvc5 solves. These
+are views of the recorded runs, not additional solver executions.
+
+| QF_LIA series | At 60 seconds | At 120 seconds |
+| --- | ---: | ---: |
+| Primo default | 9,759 | 10,617 |
+| Primo integer profile | 10,453 | 11,302 |
+| cvc5 | 9,222 | 9,397 |
+
+The earlier 200-input development selection does not determine full-corpus
+ranking. Historical full-corpus charts also used different profiles, measurement
+dates and allocations; the November 4 report did not establish an enforced
+native memory cap or archived cvc5 input hashes. The present comparison uses
+the October 24 enforced-memory reference archive and matches every input hash.
+It does not predict Primo’s behavior beyond 120 seconds.
+
+### Matched runtimes against cvc5
+
+Ratios are geometric means of Primo/cvc5 time on inputs both solve successfully
+within the cutoff; below one means Primo is faster. The filtered cohort removes
+only inputs every plotted profile solves in under one second. These are
+descriptive matched-input ratios from different measurement dates, not a
+controlled A/B speedup experiment. They are separate from solved counts and PAR2.
+
+| Logic/profile | Common solved, full | Full ratio | Common solved, filtered | Filtered ratio |
+| --- | ---: | ---: | ---: | ---: |
+| QF_UF, Primo default | 7,483 | 1.202 | 1,070 | 1.721 |
+| QF_LRA, Primo default | 1,388 | 0.392 | 462 | 0.140 |
+| QF_LIA, Primo default | 8,611 | 0.448 | 1,778 | 0.209 |
+| QF_LIA, Primo integer profile | 9,161 | 0.387 | 2,328 | 0.143 |
+| QF_UFLRA, Primo default | 1,269 | 0.969 | 144 | 1.572 |
+| QF_UFLIA, Primo default | 576 | 2.575 | 283 | 3.143 |
+| QF_UFLIA, Primo integer profile | 548 | 2.800 | 255 | 3.720 |
+
+## Uniform cactus plots
+
+[Open the full gallery](../_static/uniform120-20261109/index.html). Every panel
+uses the same 0.01–120 second log axis and 0–100% solved axis. Higher curves
+mean more solves within that per-input budget. Full views appear below;
+each filtered view uses the same colours and scales with its stated denominator.
+
+### QF_UF
+
+![QF_UF: full corpus at 120 seconds](../_static/uniform120-20261109/qf_uf-full.svg)
+
+[Filtered view](../_static/uniform120-20261109/qf_uf-nontrivial.svg): 1,090 inputs;
+6,413 common easy inputs removed.
+
+### QF_LRA
+
+![QF_LRA: full corpus at 120 seconds](../_static/uniform120-20261109/qf_lra-full.svg)
+
+[Filtered view](../_static/uniform120-20261109/qf_lra-nontrivial.svg): 827 inputs;
+926 common easy inputs removed.
+
+### QF_LIA
+
+![QF_LIA: full corpus at 120 seconds](../_static/uniform120-20261109/qf_lia-full.svg)
+
+[Filtered view](../_static/uniform120-20261109/qf_lia-nontrivial.svg): 6,473 inputs;
+6,833 common easy inputs removed.
+
+### QF_UFLRA
+
+![QF_UFLRA: full corpus at 120 seconds](../_static/uniform120-20261109/qf_uflra-full.svg)
+
+[Filtered view](../_static/uniform120-20261109/qf_uflra-nontrivial.svg): 159 inputs;
+1,125 common easy inputs removed.
+
+### QF_UFLIA
+
+![QF_UFLIA: full corpus at 120 seconds](../_static/uniform120-20261109/qf_uflia-full.svg)
+
+[Filtered view](../_static/uniform120-20261109/qf_uflia-nontrivial.svg): 366 inputs;
+293 common easy inputs removed.
+
+## Completed correctness and resource accounting
+
+All 20,351 selected successful native SAT timing rows passed Dolmen directly,
+with unchanged input/binary identities and matching profile arguments. Timing
+and validation did not overlap. There were no wrong answers, contradictory
+concrete decisions, invalid models or unclassified native execution errors.
+This validates SAT models and reference agreement; it does not supply independent
+UNSAT proofs.
+
+| Logic/profile | SAT timing rows | Direct Dolmen passes |
+| --- | ---: | ---: |
+| QF_UF, Primo default | 3,142 | 3,142 |
+| QF_LRA, Primo default | 983 | 983 |
+| QF_LIA, Primo default | 7,024 | 7,024 |
+| QF_LIA, Primo integer profile | 7,656 | 7,656 |
+| QF_UFLRA, Primo default | 760 | 760 |
+| QF_UFLIA, Primo default | 407 | 407 |
+| QF_UFLIA, Primo integer profile | 379 | 379 |
+
+The native runs contain 782 memory-out profile/input rows: 409 independently
+replayed allocation/cleanup aborts and 373 explicit allocation failures. All
+retain their raw error exits and remain unsolved with the full PAR2 penalty.
+These include repeated inputs under different fixed profiles, not 782 distinct
+corpus files. The cleanup defect remains recorded; it is not a prerequisite for
+counting confirmed budget exhaustion normally. Clean unknowns occur only in
+QF_LIA: 498 with defaults and 328 with the integer profile.
+
+Archived reference errors also remain unsolved and separately reported. For
+example, the censored cvc5 LIA view contains 27 explicit memory-outs and 34 other
+error rows; OpenSMT has 21 LIA error rows. No reference failure was rerun or
+silently turned into a successful result.
+
+The source remains the accepted interval-cache implementation; the losing CITE
+comparison change remains reverted. This campaign changes benchmark accounting
+and reporting, with no new arithmetic options, flattening thresholds, search
+heuristics or default promotion.
+
+### Downloadable evidence
+
+- {download}`Qualified summary and family metrics <../../benchmarks/uniform120-20261109/report/summary.json>`
+- {download}`Paired raw timing table (gzip) <../../benchmarks/uniform120-20261109/report/timing.csv.gz>`
+- {download}`Curve arrays and denominators <../../benchmarks/uniform120-20261109/report/plot-data.json>`
+- {download}`Matched-input comparisons and budget counts <../../benchmarks/uniform120-20261109/report/comparisons.json>`
+- {download}`Export provenance and checksums <../../benchmarks/uniform120-20261109/report/provenance.json>`
+- {download}`Generated-gate commands, seeds and coverage <../../benchmarks/uniform120-20261109/gate-provenance.json>`
+
+The {download}`analysis owner <../../scripts/qualification/uniform120/analyze.py>`
+rechecks exported identities, full scores and common-easy cohort membership before
+computing descriptive comparisons. The run ledger records all SLURM stages,
+recovery, resource-classification evidence and the independent documentation
+review. Raw binaries, inputs, original logs and model responses remain in the
+recorded private execution archive. Quantified UF is excluded.
 
 ## Frozen inputs, profiles and reused references
 
