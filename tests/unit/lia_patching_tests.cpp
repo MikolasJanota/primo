@@ -606,6 +606,93 @@ void explicit_default_matches_the_established_patcher() {
   assert(explicit_stats.lattice_candidates_scored == 0);
 }
 
+// Two targets request the same moved variable. Freeze the established move
+// and scoring counters as well as counting all interval queries, including
+// infeasible lattice candidates and fractional candidates rejected afterwards.
+void intervals_are_shared_across_targets_and_candidate_families() {
+  for (const bool integral_moves : {false, true}) {
+    LraTableau tableau;
+    const LraVarId y = tableau.add_variable();
+    const LraVarId s1 = tableau.add_variable();
+    const LraVarId s2 = tableau.add_variable();
+    tableau.add_row(s1, {{y, Rational(2, 3)}});
+    tableau.add_row(s2, {{y, Rational(2, 3)}});
+    assert(!tableau.assert_lower(y, rat(1), Lit{1}).has_value());
+    assert(!tableau.assert_upper(y, rat(2), Lit{2}).has_value());
+    assert(!tableau.check().has_value());
+    LiaPatchingStats stats;
+    assert(patch_integer_variables(tableau, {y, s1, s2}, 100, &stats, integral_moves) ==
+           (integral_moves ? 0U : 1U));
+    assert(tableau.assignment(y) == rat(integral_moves ? Rational(1) : Rational(3, 2)));
+    assert(tableau.assignment(s1) == rat(integral_moves ? Rational(2, 3) : Rational(1)));
+    assert(tableau.assignment(s2) == tableau.assignment(s1));
+    assert(!stats.fully_integral);
+    assert(stats.occurrence_entries == 2);
+    assert(stats.candidates_scored == (integral_moves ? 0U : 4U));
+    assert(stats.affected_rows_inspected == (integral_moves ? 0U : 8U));
+    assert(stats.full_scan_equivalent == (integral_moves ? 0U : 12U));
+    assert(stats.fractional_nonbasic_moves == (integral_moves ? 0U : 1U));
+    assert(stats.fractional_candidates_rejected == (integral_moves ? 2U : 0U));
+    assert(stats.lattice_candidates_scored == 0);
+    assert(stats.lattice_moves_accepted == 0);
+    // One distinct moved variable in each of two default attempts, or one
+    // attempt with both eight-element candidate families for both targets.
+    assert(stats.interval_requests == (integral_moves ? 32U : 24U));
+    assert(stats.interval_computations == (integral_moves ? 1U : 2U));
+    assert(stats.interval_cache_hits == stats.interval_requests - stats.interval_computations);
+    assert_feasible(tableau);
+  }
+}
+
+// Start at x=z=1/2 with continuous s=x+z. With s>=1 the first move x:=1
+// lowers z's feasible endpoint from 1/2 to 0. Retaining z's old interval
+// would choose z:=1 instead of the frozen second move z:=0. Also cover a
+// strict endpoint, unbounded intervals, and every accepted-move prefix.
+void accepted_moves_invalidate_other_variables_intervals() {
+  for (const int bound_kind : {0, 1, 2}) {
+    for (const std::size_t limit : {0U, 1U, 2U, 10U}) {
+      LraTableau tableau;
+      const LraVarId x = tableau.add_variable();
+      const LraVarId z = tableau.add_variable();
+      const LraVarId s = tableau.add_variable();
+      tableau.add_row(s, {{x, Rational(1)}, {z, Rational(1)}});
+      const DeltaRational epsilon{Rational(0), Rational(bound_kind == 2 ? 1 : 0)};
+      tableau.set_nonbasic_value(x, rat(Rational(1, 2)) + epsilon);
+      tableau.set_nonbasic_value(z, rat(Rational(1, 2)));
+      if (bound_kind != 0) {
+        assert(!tableau.assert_lower(s, rat(1) + epsilon, Lit{1}).has_value());
+      }
+      assert(!tableau.check().has_value());
+      LiaPatchingStats stats;
+      assert(patch_integer_variables(tableau, {x, z}, limit, &stats) == std::min(limit, 2UL));
+      const DeltaRational expected_x =
+          limit == 0 ? rat(Rational(1, 2)) + epsilon : rat(bound_kind == 0 ? 0 : 1);
+      const DeltaRational expected_z =
+          limit < 2 ? rat(Rational(1, 2)) : rat(bound_kind == 2 ? 1 : 0);
+      assert(tableau.assignment(x) == expected_x);
+      assert(tableau.assignment(z) == expected_z);
+      assert(tableau.assignment(s) == expected_x + expected_z);
+      assert(stats.interval_requests == (limit == 0 ? 0U : limit == 1 ? 16U : 24U));
+      assert(stats.interval_computations == (limit == 0 ? 0U : limit == 1 ? 2U : 3U));
+      assert(stats.interval_cache_hits == stats.interval_requests - stats.interval_computations);
+      assert(stats.occurrence_entries == 0);
+      assert(stats.affected_rows_inspected == 0);
+      const std::size_t scored = bound_kind == 0 ? (limit == 1 ? 16U : 24U)
+                                                 : (limit == 1        ? 8U
+                                                    : bound_kind == 1 ? 13U
+                                                                      : 12U);
+      assert(stats.candidates_scored == (limit == 0 ? 0U : scored));
+      assert(stats.full_scan_equivalent == stats.candidates_scored * 2);
+      assert(stats.fractional_nonbasic_moves == 0);
+      assert(stats.fractional_candidates_rejected == 0);
+      assert(stats.lattice_candidates_scored == 0);
+      assert(stats.lattice_moves_accepted == 0);
+      assert(stats.fully_integral == (limit >= 2));
+      assert_feasible(tableau);
+    }
+  }
+}
+
 }  // namespace
 
 int main() {
@@ -625,5 +712,7 @@ int main() {
   lattice_agrees_with_brute_force();
   integral_moves_keep_integer_nonbasics_integral();
   explicit_default_matches_the_established_patcher();
+  intervals_are_shared_across_targets_and_candidate_families();
+  accepted_moves_invalidate_other_variables_intervals();
   return 0;
 }

@@ -613,6 +613,9 @@ void add_lia_patching_stats(util::Statistics& statistics,
   statistics.increment(util::StatKey::LiaPatchLatticeCandidatesScored,
                        stats.lattice_candidates_scored);
   statistics.increment(util::StatKey::LiaPatchLatticeMovesAccepted, stats.lattice_moves_accepted);
+  statistics.increment(util::StatKey::LiaPatchIntervalRequests, stats.interval_requests);
+  statistics.increment(util::StatKey::LiaPatchIntervalComputations, stats.interval_computations);
+  statistics.increment(util::StatKey::LiaPatchIntervalCacheHits, stats.interval_cache_hits);
 }
 
 bool add_explained_theory_equality(theory::equality::ExplainedCongruenceClosure& closure,

@@ -66,12 +66,14 @@ assumes constant-time insertion/deletion through linked entries.
 
 ### Contracts for the smaller optimization candidates
 
-These are implementation checklists derived from this review. **The proposed
-caches, counters and row representation below are not implemented.** The
-measured findings are in the evidence page.
+These are implementation checklists derived from this review. The patching
+interval cache is implemented with qualification pending; the CITE endpoint
+fast paths, shared-model bookkeeping and row representation below remain
+proposals. The measured findings are in the evidence page.
 
-**Patching interval cache.** The owner would be `patch_integer_variables`, keyed
-by `LraVarId` and a candidate-selection epoch. Patching does not pivot, and its
+**Patching interval cache.** The owner is `patch_integer_variables`, with owning
+`LraTableau::FreedomInterval` values keyed by `LraVarId`; clearing the map
+defines the candidate-selection epoch. Patching does not pivot, and its
 bounds and assignment remain unchanged until a move is accepted. An interval
 can be reused for all candidates in that epoch. Every accepted move invalidates
 the epoch, including intervals of other nonbasics whose dependent rows changed.
@@ -79,7 +81,12 @@ Cache only values, not borrowed row pointers. Preserve scoring and tie order.
 The intended operation-count improvement is from one column query per candidate
 to one per distinct moved variable per epoch. Tests must include repeated
 variables across targets and stale-cache detection after an accepted move;
-query/hit/miss counters must show that the mechanism is used.
+request/computation/hit counters must show that the mechanism is used.
+These counters and the reuse/invalidation regressions now exist; see
+[the representation and worked example](../implementation/lia.md#patching-interval-reuse).
+This cache is Primo's engineering adaptation of §7.1.4's maintenance principle,
+not the thesis's variable-information implementation. Measured acceptance remains
+pending.
 
 **Shared-model trial bookkeeping.** The owner would be
 {cubesource}`diversify_shared_model <src/theory/arithmetic/lra_tableau.cpp#L1554-L1713>`'s

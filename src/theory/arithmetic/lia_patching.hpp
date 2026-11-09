@@ -29,6 +29,12 @@ struct LiaPatchingStats {
   std::size_t fractional_candidates_rejected = 0;
   std::size_t lattice_candidates_scored = 0;
   std::size_t lattice_moves_accepted = 0;
+  // Freedom queries remain at their original feasibility-check position.
+  // Computations count distinct moved variables per candidate-selection attempt;
+  // hits reuse owning intervals while the tableau assignment is unchanged.
+  std::size_t interval_requests = 0;
+  std::size_t interval_computations = 0;
+  std::size_t interval_cache_hits = 0;
 };
 
 // QF_LIA patching (stage 5, docs/qf-lia-branch-and-bound.md): Bjorner &

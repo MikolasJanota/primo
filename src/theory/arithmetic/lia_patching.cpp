@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cstddef>
 #include <optional>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -218,9 +219,18 @@ std::vector<util::Rational> lattice_values(const DeltaRational& basic_value,
 // row also gets the lattice candidates above.
 void collect_candidates(const LraTableau& tableau, PatchingScoringIndex& scoring, LraVarId target,
                         bool integral_moves, LiaPatchingStats& stats,
+                        std::unordered_map<LraVarId, LraTableau::FreedomInterval>& intervals,
                         std::vector<Candidate>& candidates) {
   const auto consider = [&](LraVarId moved, const DeltaRational& value, bool lattice) {
-    if (!tableau.freedom_interval(moved).contains(value)) {
+    ++stats.interval_requests;
+    auto interval = intervals.find(moved);
+    if (interval == intervals.end()) {
+      interval = intervals.emplace(moved, tableau.freedom_interval(moved)).first;
+      ++stats.interval_computations;
+    } else {
+      ++stats.interval_cache_hits;
+    }
+    if (!interval->second.contains(value)) {
       return;
     }
     if (integral_moves && scoring.is_integer_var(moved) && !is_integer_valued(value)) {
@@ -296,14 +306,19 @@ std::size_t patch_integer_variables(LraTableau& tableau, const std::vector<LraVa
   // and termination is free, since each accepted move strictly decreases a
   // count bounded by |integer_vars|.
   std::vector<Candidate> candidates;
+  // Primo adaptation of Bromberger (2019), Sect. 7.1.4's derived-state
+  // maintenance principle; see docs/papers/bromberger-linear-arithmetic.md.
+  // Own interval values: no basis, bound, or assignment changes during selection.
+  std::unordered_map<LraVarId, LraTableau::FreedomInterval> intervals;
   for (std::size_t attempt = 0; attempt < patch_limit && remaining > 0; ++attempt) {
+    intervals.clear();
     std::optional<Candidate> best;
     for (const LraVarId var : integer_vars) {
       if (is_integer_valued(tableau.assignment(var))) {
         continue;
       }
       candidates.clear();
-      collect_candidates(tableau, scoring, var, integral_moves, work, candidates);
+      collect_candidates(tableau, scoring, var, integral_moves, work, intervals, candidates);
       for (const Candidate& candidate : candidates) {
         if (candidate.resulting_count >= remaining) {
           continue;
@@ -325,6 +340,8 @@ std::size_t patch_integer_variables(LraTableau& tableau, const std::vector<LraVa
       break;
     }
     tableau.set_nonbasic_value(best->var, best->value);
+    // Any move can change other nonbasics' intervals through shared basic rows.
+    intervals.clear();
     if (scoring.is_integer_var(best->var) && !is_integer_valued(best->value)) {
       ++work.fractional_nonbasic_moves;
     }
