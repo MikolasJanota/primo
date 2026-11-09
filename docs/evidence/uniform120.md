@@ -174,3 +174,24 @@ reused shards retain their original driver and CSV digests. All successful nativ
 SAT timing rows still require separate direct Dolmen validation after the global
 timing audit. This changes benchmark classification and orchestration only;
 Primo's C++ source and solver decisions are unchanged.
+
+
+## Portable report data
+
+The {download}`export owner <../../scripts/qualification/uniform120/export.py>`
+requires a complete timing/model audit with matching plan/reference identities.
+It matches the recovery certificate to the audit, verifies inventory hashes
+against the plan, and checks each native CSV against its model-coverage parent
+digest and each reference CSV against the reuse certificate. It verifies
+resource proofs; full/filtered metrics must match the qualified audit. The gallery is
+regenerated from these verified rows; existing gallery files are ignored.
+
+The output contains the full and filtered SVG gallery, `summary.json`,
+`plot-data.json`, `provenance.json` and a deterministic `timing.csv.gz`. The
+compressed table preserves input/profile pairing, input hashes, raw statuses,
+exit codes and original reference fields, plus a separate resource classification
+and proof digest. Plot data contains each view's denominator, sorted successful
+runtimes and the fixed colour mapping. Private execution roots, log paths and
+diagnostics are omitted from the table; tool versions use their first line and
+a digest of the full recorded text. Exported files are result artifacts, not new
+solver measurements. An existing destination is refused to preserve attempts.

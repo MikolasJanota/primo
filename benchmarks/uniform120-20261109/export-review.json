@@ -1,0 +1,19 @@
+{
+  "baseline": "60d6d065d618e2bf08a9dae9d54af2cd9a08889b",
+  "reviewer": "cactus_docs_review",
+  "verdict": "ready; all required findings resolved",
+  "scope": "Portable report data section and qualified-data export consumer; active timing/model worker remains frozen at17f499a7.",
+  "findings": {
+    "U120-EXP-01": "Verify current input inventory digests against frozen plan tasks before exporting input hashes.",
+    "U120-EXP-02": "Match the current recovery certificate digest to the qualified audit.",
+    "U120-EXP-03": "Regenerate approved gallery from verified rows; ignore existing gallery/unrelated files; compare filtered metrics.",
+    "U120-EXP-04": "Clarify proofs are independently verified; metric counts, rather than proof digests, match the audit."
+  },
+  "sha256": {
+    "docs/evidence/uniform120.md": "d4d0f4168ed2f093d8ff4634457bf2dffab8519fe19422ff33ff50c51c472fc4",
+    "scripts/qualification/uniform120/export.py": "8555eb3de568f2a4cb95fb5738589121dc899e7f4d4d00dcdd3b1fd249d972de",
+    "tests/python/test_uniform120_metadata.py": "c5b87813f335f0c09e467ec55d4cba6292c024beac9afe2c37bcf619e376feee"
+  },
+  "validation": "32targetedmetadata tests(10uniform+22legacy); make lint/git diff --check; make docs-site and287pages40066locallinks1222Gitlinks0failures; writer inspected builtPortable reportdata section with Sphinx styles. Reviewer independently ran10uniformtests.",
+  "unchecked_scope": "No actual qualified export yet; campaign/model outcomes pending. Reviewer did not execute solvers, inspect active cluster state or rendered docs. No C++ changes or fresh C++static/ASan runs in this metadata-only consumer milestone."
+}

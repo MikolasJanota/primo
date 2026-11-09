@@ -1,5 +1,6 @@
 """Metadata guards for reusing references without scheduling their executables."""
 import csv
+import gzip
 import importlib.util
 import json
 import sys
@@ -18,6 +19,10 @@ REPORT_SPEC = importlib.util.spec_from_file_location('uniform_report', FOLDER / 
 REPORT = importlib.util.module_from_spec(REPORT_SPEC)
 with patch.dict(sys.modules, {'campaign': WORKER}), patch.object(sys, 'path', [str(ROOT / 'scripts'), *sys.path]):
     REPORT_SPEC.loader.exec_module(REPORT)
+EXPORT_SPEC = importlib.util.spec_from_file_location('uniform_export', FOLDER / 'export.py')
+EXPORT = importlib.util.module_from_spec(EXPORT_SPEC)
+with patch.dict(sys.modules, {'campaign': WORKER, 'report': REPORT}):
+    EXPORT_SPEC.loader.exec_module(EXPORT)
 
 
 def row(name='a.smt2', **changes):
@@ -34,6 +39,62 @@ def write_rows(path, values):
 
 
 class UniformMetadataTests(unittest.TestCase):
+    def test_public_export_preserves_pairs_and_refuses_changed_qualified_rows(self):
+        with tempfile.TemporaryDirectory() as directory:
+            out, dest = Path(directory) / 'private', Path(directory) / 'public'
+            run = {'logic': 'QF_UF', 'label': 'primo', 'solver': 'primo',
+                   'arguments': ['--quiet'], 'shards': 1, 'inputs': 1}
+            inventory = {'inputs': {'a.smt2': {'sha256': 'input'}}}
+            WORKER.write(out / 'inventory/QF_UF.json', inventory)
+            WORKER.write(out / 'plan.json', {'runs': [run], 'config': {'timeout_seconds': 120, 'easy_cutoff_seconds': 1},
+                         'driver_sha256': 'driver', 'tasks': [{'logic': 'QF_UF', 'inventory_sha256': WORKER.digest(out / 'inventory/QF_UF.json')}],
+                         'resource_workflow_sha256': WORKER.resource_workflow(), 'tools': {
+                             'primo': {'sha256': 'binary', 'version': 'primo 0.2\n/private/build', 'path': '/private/native'}}})
+            WORKER.write(out / 'reference-reuse.json', {})
+            source = out / 'timing/QF_UF/primo/shard-0/answers.csv'
+            values = [row(stdout_log='/private/log', stderr_head='/private/diagnostic')]
+            write_rows(source, values)
+            WORKER.write(source.parent / 'model-validation/coverage.json', {
+                'provenance': {'parent_answers_sha256': WORKER.digest(source)}})
+            audit = {'status': 'timing-complete', 'ground_models_complete': False,
+                     'plan_sha256': WORKER.digest(out / 'plan.json'),
+                     'reference_reuse_sha256': WORKER.digest(out / 'reference-reuse.json'),
+                     'runs': {'QF_UF': {'primo': REPORT.metrics(values, 120)}}}
+            WORKER.write(out / 'qualified-audit.json', audit)
+            with self.assertRaisesRegex(ValueError, 'qualification'):
+                EXPORT.export(out, dest)
+            audit.update(status='complete', ground_models_complete=True)
+            plan = WORKER.load(out / 'plan.json')
+            REPORT.plots(out, plan, {'QF_UF': {'primo': {'a.smt2': values[0]}}}, audit)
+            WORKER.write(out / 'qualified-audit.json', audit)
+            (out / 'plots/private-diagnostic.txt').write_text('/private/path')
+            (out / 'plots/qf_uf-full.svg').write_text('STALE')
+            EXPORT.export(out, dest)
+            with gzip.open(dest / 'timing.csv.gz', 'rt') as stream:
+                content = stream.read()
+            self.assertIn('a.smt2,input', content)
+            self.assertNotIn('/private/', content)
+            self.assertNotIn('/private/', (dest / 'provenance.json').read_text())
+            data = WORKER.load(dest / 'plot-data.json')['plots']['QF_UF']
+            self.assertEqual(data['full']['series']['Primo default'], [2])
+            self.assertEqual(data['nontrivial']['inputs'], 1)
+            self.assertFalse((dest / 'plots/private-diagnostic.txt').exists())
+            self.assertNotIn('STALE', (dest / 'plots/qf_uf-full.svg').read_text())
+            WORKER.write(out / 'inventory/QF_UF.json', {'inputs': {'a.smt2': {'sha256': 'changed'}}})
+            with self.assertRaisesRegex(ValueError, 'inventory changed'):
+                EXPORT.export(out, Path(directory) / 'changed-inventory')
+            WORKER.write(out / 'inventory/QF_UF.json', inventory)
+            WORKER.write(out / 'recovery.json', {'status': 'ready', 'plan_sha256': WORKER.digest(out / 'plan.json'),
+                         'parent_driver_sha256': 'driver', 'worker_driver_sha256': 'new-driver',
+                         'completed_task_indices': [0], 'pending_task_indices': [],
+                         'resource_workflow_sha256': WORKER.resource_workflow()})
+            with self.assertRaisesRegex(ValueError, 'different recovery'):
+                EXPORT.export(out, Path(directory) / 'changed-recovery')
+            (out / 'recovery.json').unlink()
+            write_rows(source, [{**values[0], 'seconds': '3'}])
+            with self.assertRaisesRegex(ValueError, 'changed after qualification'):
+                EXPORT.export(out, Path(directory) / 'changed')
+
     def test_masked_memory_out_requires_exact_replay_before_acceptance(self):
         failure = row(status='error', answer='error', exit_code='-6',
                       stderr_head='cadical: ' + WORKER.resources.DIAGNOSTIC + ': solver in invalid state')
