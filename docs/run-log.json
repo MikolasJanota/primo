@@ -234,7 +234,8 @@
       "artifacts": {
         "experiment": "benchmarks/uniform120-20261109/experiment.json",
         "raw_metadata": "results/uniform120-20261109 locally and dedicated remote workspace; SSH/corpus roots private",
-        "blocker": "benchmarks/uniform120-20261109/blocker.json"
+        "blocker": "benchmarks/uniform120-20261109/blocker.json",
+        "gate_provenance": "benchmarks/uniform120-20261109/gate-provenance.json"
       },
       "remaining": [
         "Resume unfinished native timing shards using certified complete-shard reuse",
@@ -485,6 +486,341 @@
         "exporter_sha256": "8555eb3de568f2a4cb95fb5738589121dc899e7f4d4d00dcdd3b1fd249d972de",
         "results": "Public gallery/summary/pairedCSV only after final qualification; private destination in local controller.",
         "gdb_version_observed": "GNU gdb (GDB) Rocky Linux 10.2-13.el9"
+      },
+      "fresh_gate_protocol": {
+        "native_source_git": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
+        "native_binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
+        "reference": {
+          "command_template": [
+            "z3",
+            "<case.smt2>"
+          ],
+          "binary_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+          "version": "Z3 version5.1.0",
+          "scope": "Generated correctness cases only; zero reference corpus timing executions."
+        },
+        "dolmen_binary_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+        "fuzzsmt_jar_sha256_observed": "89f887283d409842ebb19af6fce7a33a1b4a6c006746801b98ca8d716a3b0552",
+        "fuzzsmt_observation": "Retained installed dependency; jar checksum checked after gates. No dependency change/reinstall during this campaign.",
+        "batch_drivers": {
+          "arithmetic": "scripts/qualification/arithmetic_overhead/fuzz.sbatch",
+          "UF": "scripts/qualification/uniform120/uf_gate.sbatch"
+        },
+        "environment": {
+          "PRIMO_EXPECTED_GIT": "7dd8874c",
+          "PRIMO_OVERHEAD_FUZZ_SEED_BASE": "202611290",
+          "PRIMO_FUZZ_FUZZSMT_COUNT": "250",
+          "PRIMO_FUZZ_FUZZSMT_SHARDS": "4",
+          "PRIMO_FUZZ_OPFUZZ_TASKS": "0",
+          "PRIMO_FUZZ_YINYANG_SHARDS": "0"
+        },
+        "resources": "OneCPU and8GiBSLURM request per generated-gate task; these scripts do not assert the headline run hardASlimit.",
+        "profiles": {
+          "lia-default": {
+            "job_array": "368762",
+            "array_slots": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "count": 1000,
+            "shards": 4,
+            "cases_per_shard": 250,
+            "seeds": [
+              202611290,
+              202611291,
+              202611292,
+              202611293
+            ],
+            "generator": "scripts/fuzz_external.py",
+            "generator_sha256": "db5890e5397c7bac43944218449d93c6bc4173c8dd7f08504131d3f360e4932f",
+            "primary_native_argv_template": [
+              "build-slurm-rel/primo",
+              "--quiet",
+              "<case.smt2>"
+            ],
+            "reference_argv_template": [
+              "z3",
+              "<case.smt2>"
+            ],
+            "answer_timeout_seconds": 5,
+            "model_solver_timeout_seconds": 10,
+            "model_Dolmen_timeout_seconds": 10,
+            "outcomes": {
+              "PASS": 986,
+              "TIMEOUT": 14
+            },
+            "primary_SAT_direct_Dolmen": 870,
+            "artifact": "results/uniform120-20261109/run1/gates/fuzz/lia-default",
+            "generator_name": "FuzzSMT via fuzz_external.py",
+            "fuzzer_args": "-ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4"
+          },
+          "lia-m124": {
+            "job_array": "368762",
+            "array_slots": [
+              4,
+              5,
+              6,
+              7
+            ],
+            "count": 1000,
+            "shards": 4,
+            "cases_per_shard": 250,
+            "seeds": [
+              202611290,
+              202611291,
+              202611292,
+              202611293
+            ],
+            "generator": "scripts/fuzz_external.py",
+            "generator_sha256": "db5890e5397c7bac43944218449d93c6bc4173c8dd7f08504131d3f360e4932f",
+            "primary_native_argv_template": [
+              "build-slurm-rel/primo",
+              "--quiet",
+              "--lia-round-integer-bounds",
+              "--lia-primitive-int-rows",
+              "--no-lia-integer-slacks",
+              "--lia-patch-integral-moves",
+              "--lia-cube=uniform",
+              "<case.smt2>"
+            ],
+            "reference_argv_template": [
+              "z3",
+              "<case.smt2>"
+            ],
+            "answer_timeout_seconds": 5,
+            "model_solver_timeout_seconds": 10,
+            "model_Dolmen_timeout_seconds": 10,
+            "outcomes": {
+              "PASS": 983,
+              "TIMEOUT": 17
+            },
+            "primary_SAT_direct_Dolmen": 867,
+            "artifact": "results/uniform120-20261109/run1/gates/fuzz/lia-m124",
+            "generator_name": "FuzzSMT via fuzz_external.py",
+            "fuzzer_args": "-ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4"
+          },
+          "uflia-default": {
+            "job_array": "368762",
+            "array_slots": [
+              8,
+              9,
+              10,
+              11
+            ],
+            "count": 1000,
+            "shards": 4,
+            "cases_per_shard": 250,
+            "seeds": [
+              202611290,
+              202611291,
+              202611292,
+              202611293
+            ],
+            "generator": "scripts/qf_uflia_fuzz.py",
+            "generator_sha256": "fb0d611ebd1fda5449744e942ec3a25c45b86fa7f7f8d80ecebad0a5efa59ff1",
+            "primary_native_argv_template": [
+              "build-slurm-rel/primo",
+              "--quiet",
+              "<case.smt2>"
+            ],
+            "reference_argv_template": [
+              "z3",
+              "<case.smt2>"
+            ],
+            "answer_timeout_seconds": 5,
+            "model_solver_timeout_seconds": 5,
+            "model_Dolmen_timeout_seconds": 5,
+            "outcomes": {
+              "PASS": 1000
+            },
+            "primary_SAT_direct_Dolmen": 518,
+            "artifact": "results/uniform120-20261109/run1/gates/fuzz/uflia-default",
+            "shape": "mixed",
+            "depth": 3
+          },
+          "uflia-m124": {
+            "job_array": "368762",
+            "array_slots": [
+              12,
+              13,
+              14,
+              15
+            ],
+            "count": 1000,
+            "shards": 4,
+            "cases_per_shard": 250,
+            "seeds": [
+              202611290,
+              202611291,
+              202611292,
+              202611293
+            ],
+            "generator": "scripts/qf_uflia_fuzz.py",
+            "generator_sha256": "fb0d611ebd1fda5449744e942ec3a25c45b86fa7f7f8d80ecebad0a5efa59ff1",
+            "primary_native_argv_template": [
+              "build-slurm-rel/primo",
+              "--quiet",
+              "--lia-round-integer-bounds",
+              "--lia-primitive-int-rows",
+              "--no-lia-integer-slacks",
+              "--lia-patch-integral-moves",
+              "--lia-cube=uniform",
+              "<case.smt2>"
+            ],
+            "reference_argv_template": [
+              "z3",
+              "<case.smt2>"
+            ],
+            "answer_timeout_seconds": 5,
+            "model_solver_timeout_seconds": 5,
+            "model_Dolmen_timeout_seconds": 5,
+            "outcomes": {
+              "PASS": 1000
+            },
+            "primary_SAT_direct_Dolmen": 518,
+            "artifact": "results/uniform120-20261109/run1/gates/fuzz/uflia-m124",
+            "shape": "mixed",
+            "depth": 3
+          },
+          "lra-default": {
+            "job_array": "368762",
+            "array_slots": [
+              16,
+              17,
+              18,
+              19
+            ],
+            "count": 1000,
+            "shards": 4,
+            "cases_per_shard": 250,
+            "seeds": [
+              202611290,
+              202611291,
+              202611292,
+              202611293
+            ],
+            "generator": "scripts/qf_lra_boolean_arithmetic_fuzz.py",
+            "generator_sha256": "efeab57038e2ec3503fc5f308a4ea89e854463956ca35871f3c3528a4ac40bf8",
+            "primary_native_argv_template": [
+              "build-slurm-rel/primo",
+              "--quiet",
+              "--stats",
+              "--quiet",
+              "<case.smt2>"
+            ],
+            "reference_argv_template": [
+              "z3",
+              "<case.smt2>"
+            ],
+            "answer_timeout_seconds": 5,
+            "model_solver_timeout_seconds": 5,
+            "model_Dolmen_timeout_seconds": 10,
+            "outcomes": {
+              "PASS": 1000
+            },
+            "primary_SAT_direct_Dolmen": 1000,
+            "artifact": "results/uniform120-20261109/run1/gates/fuzz/lra-default"
+          },
+          "uflra-default": {
+            "job_array": "368762",
+            "array_slots": [
+              20,
+              21,
+              22,
+              23
+            ],
+            "count": 1000,
+            "shards": 4,
+            "cases_per_shard": 250,
+            "seeds": [
+              202611290,
+              202611291,
+              202611292,
+              202611293
+            ],
+            "generator": "scripts/qf_uflra_smoke_fuzz.py",
+            "generator_sha256": "dd4163fe73fb2b24b56323171e212fb51fd832c99418381c926ace6b462530f2",
+            "primary_native_argv_template": [
+              "build-slurm-rel/primo",
+              "<case.smt2>"
+            ],
+            "reference_argv_template": [
+              "z3",
+              "<case.smt2>"
+            ],
+            "answer_timeout_seconds": 5,
+            "model_solver_timeout_seconds": 10,
+            "model_Dolmen_timeout_seconds": 10,
+            "outcomes": {
+              "PASS": 1000
+            },
+            "primary_SAT_direct_Dolmen": 624,
+            "artifact": "results/uniform120-20261109/run1/gates/fuzz/uflra-default",
+            "shape": "separable (generator default)"
+          },
+          "uf-default": {
+            "job_array": "368787",
+            "array_slots": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "count": 1000,
+            "shards": 4,
+            "cases_per_shard": 250,
+            "seeds": [
+              202611400,
+              202611401,
+              202611402,
+              202611403
+            ],
+            "generator": "scripts/qf_uf_boolean_fuzz.py",
+            "generator_sha256": "c521978351deb0f91625eb1a48dcf350745958179bcb5c9f7991466bc491df6e",
+            "primary_native_argv_template": [
+              "build-slurm-rel/primo",
+              "--quiet",
+              "<case.smt2>"
+            ],
+            "reference_argv_template": [
+              "z3",
+              "<case.smt2>"
+            ],
+            "answer_timeout_seconds": 5,
+            "model_solver_timeout_seconds": 5,
+            "model_Dolmen_timeout_seconds": 20,
+            "outcomes": {
+              "PASS": 1000
+            },
+            "primary_SAT_direct_Dolmen": 644,
+            "artifact": "results/uniform120-20261109/run1/gates/fuzz/uf-default",
+            "flags": [
+              "--keep-passing",
+              "--validate-models"
+            ]
+          }
+        },
+        "summary": {
+          "profile_case_checks": 7000,
+          "PASS": 6969,
+          "inconclusive_TIMEOUT": 31,
+          "primary_SAT_direct_Dolmen": 5041,
+          "primary_wrong_answer": 0,
+          "primary_crash": 0,
+          "primary_parser_type_rejection": 0,
+          "primary_unsupported": 0,
+          "primary_reference_disagreement": 0,
+          "scope": "Answer outcomes and primary successfulSAT coverage; benign additional model-replay timeouts/unknowns are not claimed to be zero."
+        },
+        "prior_real_seed_mutations": {
+          "artifact": "benchmarks/arithmetic-overhead-20261109/cache-gates.json",
+          "count": 620,
+          "status": "prior source-matched accepted cache qualification, not a fresh mutation run for7dd8874c",
+          "source_equivalence": "git diff cab1ebc4 -- *.cpp *.hpp CMakeLists.txt is empty for current sources"
+        },
+        "reproduce": "Prepare/build through SLURM helper; submit arithmetic driver array0-23 with recorded environment/seedbase, UFdriver array0-3. Exact derived commands are owned by pinned source scripts. Private SSH/tools/output roots remain in local controllers."
       }
     },
     {
