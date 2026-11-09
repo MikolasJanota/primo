@@ -1985,6 +1985,7 @@ void constant_ite_comparisons_match_leaf_decisions() {
         const TermId scaled = terms.mk_times(scale, cite);
         const TermId expression = shifted ? terms.mk_plus({number(offset), scaled}) : scaled;
         std::vector<Rational> values;
+        values.reserve(original.size());
         for (const Rational& value : original) {
           values.push_back((shifted ? offset : Rational(0)) + scale * value);
         }
