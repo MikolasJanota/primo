@@ -3,6 +3,203 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-09-current-arithmetic-cactus",
+      "date": "2026-11-09",
+      "kind": "metadata-only cactus plots; current Primo vs fresh and archived references",
+      "evidence_status": "contextual historical-reference visualization; no new solver runs",
+      "code_revision": "fa244fec",
+      "native_source": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
+      "source_relation": "Current production source and C++ tests equal accepted cache; rejected CITE absent.",
+      "parents": [
+        "2026-11-09-arithmetic-overhead",
+        "2026-11-04-lia-m124-full-paired60-5dec036",
+        "2026-10-10-lra-new-default-five-reference-selection"
+      ],
+      "selection": "Frozen200LIA development inputs and519LRA selection; all compared curves have identical filenames within each panel; no filter or portfolio.",
+      "limit_seconds": 60,
+      "environment": "Read existing SLURM timing metadata and render locally; no solver, benchmark, fuzz or model execution.",
+      "jobs_reused": {
+        "current_native_and_fresh_Z3": [
+          "366518",
+          "366543"
+        ],
+        "native_models": [
+          "366571",
+          "366572"
+        ],
+        "historical_LIA_OpenSMT": "181259",
+        "historical_LIA_cvc5": "127709",
+        "historical_LRA_references": "184352"
+      },
+      "resources": "Native/freshZ3 9Nov:1CPU,12GiB requested; historicalLIA references:1CPU,3GiB; LRA references10Oct:1physicalCPU,7GiB. Different dates/allocations; no causal speed claim.",
+      "limits": [
+        "HistoricalLIA exported reference data establishes filename coverage only; no per-input historical content hashes in this export.",
+        "HistoricalLRA per-input SHA256 equals current frozen inputs; original1200s timings viewed with60s censoring, not fresh60s runs.",
+        "Only successful sat/unsat exit0 within60s count. Timeout, unknown and process errors are unsolved.",
+        "All displayed nativeSATrows already have separate directDolmen acceptance; no fresh reference-model validation claim."
+      ],
+      "results": {
+        "lia-development": {
+          "Primo default": {
+            "total": 200,
+            "solved": 96,
+            "answers": {
+              "sat": 50,
+              "unsat": 46
+            },
+            "statuses": {
+              "ok": 158,
+              "timeout": 42
+            },
+            "clean_unknown": 62,
+            "par2": 12966.982035999998
+          },
+          "Z3 5.1.0": {
+            "total": 200,
+            "solved": 199,
+            "answers": {
+              "sat": 102,
+              "unsat": 97
+            },
+            "statuses": {
+              "ok": 199,
+              "timeout": 1
+            },
+            "clean_unknown": 0,
+            "par2": 218.786133
+          },
+          "Primo M124+uniform": {
+            "total": 200,
+            "solved": 151,
+            "answers": {
+              "sat": 86,
+              "unsat": 65
+            },
+            "statuses": {
+              "ok": 170,
+              "timeout": 30
+            },
+            "clean_unknown": 19,
+            "par2": 6341.748224
+          },
+          "OpenSMT 2.9.2*": {
+            "total": 200,
+            "solved": 187,
+            "answers": {
+              "sat": 95,
+              "unsat": 92
+            },
+            "statuses": {
+              "ok": 187,
+              "timeout": 13
+            },
+            "clean_unknown": 0,
+            "par2": 2006.0269640000001
+          },
+          "cvc5 1.3.4*": {
+            "total": 200,
+            "solved": 161,
+            "answers": {
+              "sat": 90,
+              "unsat": 71
+            },
+            "statuses": {
+              "ok": 161,
+              "timeout": 39
+            },
+            "clean_unknown": 0,
+            "par2": 5174.805393000001
+          }
+        },
+        "lra-selection60": {
+          "Primo default": {
+            "total": 519,
+            "solved": 452,
+            "answers": {
+              "sat": 260,
+              "unsat": 192
+            },
+            "statuses": {
+              "timeout": 67,
+              "ok": 452
+            },
+            "clean_unknown": 0,
+            "par2": 10939.989188999998
+          },
+          "Z3 5.1.0": {
+            "total": 519,
+            "solved": 375,
+            "answers": {
+              "sat": 213,
+              "unsat": 162
+            },
+            "statuses": {
+              "timeout": 144,
+              "ok": 375
+            },
+            "clean_unknown": 0,
+            "par2": 20151.759388000002
+          },
+          "OpenSMT 2.9.2*": {
+            "total": 519,
+            "solved": 451,
+            "answers": {
+              "sat": 243,
+              "unsat": 208
+            },
+            "statuses": {
+              "timeout": 22,
+              "ok": 497
+            },
+            "clean_unknown": 0,
+            "par2": 11174.075131
+          },
+          "cvc5 1.3.4*": {
+            "total": 519,
+            "solved": 312,
+            "answers": {
+              "sat": 174,
+              "unsat": 138
+            },
+            "statuses": {
+              "timeout": 48,
+              "ok": 471
+            },
+            "clean_unknown": 0,
+            "par2": 27700.499032000003
+          },
+          "Yices 2.7.0*": {
+            "total": 519,
+            "solved": 439,
+            "answers": {
+              "sat": 256,
+              "unsat": 183
+            },
+            "statuses": {
+              "timeout": 30,
+              "ok": 489
+            },
+            "clean_unknown": 0,
+            "par2": 11789.730796
+          }
+        }
+      },
+      "artifacts": {
+        "root": "benchmarks/arithmetic-overhead-20261109/plots",
+        "summary": "benchmarks/arithmetic-overhead-20261109/plots/summary.json",
+        "rows": "benchmarks/arithmetic-overhead-20261109/plots/rows.csv.gz",
+        "plots": [
+          "benchmarks/arithmetic-overhead-20261109/plots/qf_lia-60.svg",
+          "benchmarks/arithmetic-overhead-20261109/plots/qf_lra-60.svg"
+        ],
+        "source_rows": "benchmarks/arithmetic-overhead-20261109/cache/rows.csv.gz",
+        "historical_LRA_archive_sha256": "a536e2a2daea2ed264151ae8ced2ffb1ef4db21f379cc1c8e95c29e16d3e237d"
+      },
+      "reproduction": "python3 scripts/qualification/arithmetic_overhead/plots.py --lia-references <archived-LIA-root> --lra-references <archived-LRA-selection-root> --out benchmarks/arithmetic-overhead-20261109/plots",
+      "method_sha256": "eee383d03b98dc5b7da0a06c97786c945f15a5458cb024ff4b3c7350f38ff286",
+      "validation": "All compared successful answers agree; exact input coverage; LRA content hashes match; status/cutoff-aware curves; writer rendered inspection. Independent bounded documentation review and docs/lint checks recorded in plots/review.json."
+    },
+    {
       "id": "2026-11-09-arithmetic-overhead",
       "date": "2026-11-09",
       "kind": "separate interval-cache and CITE constant-comparison qualification",

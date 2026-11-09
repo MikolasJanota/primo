@@ -305,3 +305,41 @@ under the required name `<suite>-private.json`; preserving the bytes preserves
 the audited parent-configuration digest. The audit uses these collected names,
 not the preparation filenames. For CITE, collect the corresponding
 `overhead-cite-*` files and use `--stage cite` and the CITE root for gate summaries.
+
+## Current-version cactus plots
+
+These plots reuse the accepted cache-only measurements on the frozen 200-input
+LIA development set and 519-input LRA selection. Current production is identical
+to source `cab1ebc4`; the rejected CITE candidate is excluded. The time axis is a
+per-input budget, not cumulative elapsed time. Higher curves mean more inputs
+solved at that budget. Every series covers the same filenames within its panel;
+no easy-input filter or per-input portfolio is used. M124+uniform is an optional
+static profile, separate from defaults.
+
+```{figure} ../../benchmarks/arithmetic-overhead-20261109/plots/qf_lia-60.svg
+:alt: Current Primo defaults and M124 plus uniform cubes against Z3, archived OpenSMT and cvc5 on 200 LIA inputs.
+```
+
+```{figure} ../../benchmarks/arithmetic-overhead-20261109/plots/qf_lra-60.svg
+:alt: Current Primo defaults against Z3 and archived OpenSMT, Yices and cvc5 on 519 LRA inputs.
+```
+
+Primo and fresh Z3 use the 9 November SLURM timing rows with 12 GiB requested
+per task. Starred reference curves are contextual historical comparisons with
+different dates and allocations. LIA uses OpenSMT from 9 October and cvc5 from
+21 August, both with 3 GiB requested; their exported reference data establishes
+filename coverage, not historical input-byte identity. LRA uses 10 October
+reference runs with 7 GiB requested and matching per-input SHA256 values; their
+original 1,200-second timings are censored at 60 seconds for this view. Only
+successful SAT/UNSAT exits within 60 seconds count as solved. All displayed
+native SAT rows already have separate direct Dolmen acceptance; no new solver
+or model-validation run is performed to draw these plots.
+
+{download}`Plot summary and source hashes
+<../../benchmarks/arithmetic-overhead-20261109/plots/summary.json>` and
+{download}`exported rows
+<../../benchmarks/arithmetic-overhead-20261109/plots/rows.csv.gz>` retain the
+outcomes, limits and provenance. The {download}`plot adapter source
+<../../scripts/qualification/arithmetic_overhead/plots.py>` owns this export.
+Reproduce with
+`python3 scripts/qualification/arithmetic_overhead/plots.py --lia-references <archived-LIA-root> --lra-references <archived-LRA-selection-root> --out <plot-output>`.

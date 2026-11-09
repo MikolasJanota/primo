@@ -1,0 +1,21 @@
+{
+  "baseline": "fa244fec047f7b610a58cb5456f86a64154c7ee3",
+  "reviewer": "cactus_docs_review",
+  "verdict": "ready; no required findings remain",
+  "finding_dispositions": {
+    "DOC-CACTUS-01": "Resolved: navigable download link to exact adapter source; avoids source role pinned before new script existed."
+  },
+  "scope": "Current-version cactus plots section, adapter, two SVGs, summary/row export and run-log entry2026-11-09-current-arithmetic-cactus",
+  "independent_checks": "All4generated artifacts reproduce byte-for-byte; every plotted solved count independently recomputed; both SVGs rendered; historical content-identity limitations, dates/resources/cutoff/current default-vs-optional profile checked; parent job IDs/archiveSHA agree.",
+  "sha256": {
+    "docs/evidence/arithmetic-overhead-20261109.md": "e39952f8ab6175584a9f297126bb5e2c3c37c92b7963d5d3d37cbb6a35310ca4",
+    "docs/run-log.json": "c3a1e8299c93f02051adc56bb60fe16e4434dd3f89bffa2103bfe99ab03fa9e2",
+    "scripts/qualification/arithmetic_overhead/plots.py": "eee383d03b98dc5b7da0a06c97786c945f15a5458cb024ff4b3c7350f38ff286",
+    "benchmarks/arithmetic-overhead-20261109/plots/summary.json": "fd4b30471d91fa2192bb19d3247d23116c0fa2e3089f4e004ccd236ef914150f",
+    "benchmarks/arithmetic-overhead-20261109/plots/rows.csv.gz": "6cf0ebe1892d5b6eba359eb389f0248c0abe00b1188f0e1f7bad46956954cb8c",
+    "benchmarks/arithmetic-overhead-20261109/plots/qf_lia-60.svg": "3de6e0d3bab80f445437b522987bb1b25ba254802f1c04e1cac734faeb48f8e8",
+    "benchmarks/arithmetic-overhead-20261109/plots/qf_lra-60.svg": "6f8c70f86bfcd80a5ffbd99c5137108582a954009b88ea0997f62fbd12c15553"
+  },
+  "writer_validation": "make lint; focusedruff/py_compile; make docs-site (includes docs build); full local/Git link check0failures; rendered PNGs/SVGs inspected. No solver processes started.",
+  "unchecked_scope": "Original solver/model execution not independently rerun; whole manual and built docs site outside independent scope. PNGs are writer-rendered previews of reviewed SVGs."
+}
