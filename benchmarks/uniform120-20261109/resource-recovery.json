@@ -1,5 +1,5 @@
 {
-  "status": "native corpus timings resumed; model/final qualification pending",
+  "status": "timing complete and globally audited; separate nativeSAT model qualification running",
   "owner_clarification": "Memory-outs are normal unsolved benchmark outcomes. The initial stop was too strict after exact resource attribution; no solver fix is required to resume.",
   "native_binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
   "native_implementation": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
@@ -158,7 +158,91 @@
       "phase_maximum": 128,
       "command_exit": 1,
       "note": "Active parent limit verified. scontrol may reject already-finished child tasks while updating the active array parent."
+    },
+    {
+      "utc": "2026-11-09T19:55:04.328711+00:00",
+      "phase": "timing",
+      "job": "370850",
+      "old_limit": 42,
+      "new_limit": 116,
+      "pending_arrays": 1,
+      "draining_workers": 12,
+      "phase_maximum": 128,
+      "command_exit": 1,
+      "note": "Active parent limit verified; finished-child update errors do not change active-parent verification. Budget reserves all draining workers."
+    },
+    {
+      "utc": "2026-11-09T19:56:57.025447+00:00",
+      "phase": "timing",
+      "job": "370850",
+      "old_limit": 116,
+      "new_limit": 126,
+      "pending_arrays": 1,
+      "draining_workers": 2,
+      "phase_maximum": 128,
+      "command_exit": 1,
+      "note": "Active parent limit verified; finished-child update errors do not change active-parent verification. Budget reserves all draining workers."
+    },
+    {
+      "utc": "2026-11-09T20:00:23.372527+00:00",
+      "phase": "timing",
+      "job": "370850",
+      "old_limit": 126,
+      "new_limit": 128,
+      "pending_arrays": 1,
+      "draining_workers": 0,
+      "phase_maximum": 128,
+      "command_exit": 1,
+      "note": "Active parent limit verified; finished-child update errors do not change active-parent verification. Budget reserves all draining workers."
+    },
+    {
+      "utc": "2026-11-09T20:28:14.846324+00:00",
+      "phase": "models",
+      "job": "370937",
+      "old_limit": 24,
+      "new_limit": 32,
+      "pending_arrays": 3,
+      "draining_workers": 0,
+      "phase_maximum": 96,
+      "command_exit": 1,
+      "note": "Active parent limit verified; finished-child update errors do not change active-parent verification. Budget reserves all draining workers."
+    },
+    {
+      "utc": "2026-11-09T20:28:19.760595+00:00",
+      "phase": "models",
+      "job": "370938",
+      "old_limit": 24,
+      "new_limit": 32,
+      "pending_arrays": 3,
+      "draining_workers": 0,
+      "phase_maximum": 96,
+      "command_exit": 1,
+      "note": "Active parent limit verified; finished-child update errors do not change active-parent verification. Budget reserves all draining workers."
+    },
+    {
+      "utc": "2026-11-09T20:28:25.074558+00:00",
+      "phase": "models",
+      "job": "370939",
+      "old_limit": 24,
+      "new_limit": 32,
+      "pending_arrays": 3,
+      "draining_workers": 0,
+      "phase_maximum": 96,
+      "command_exit": 1,
+      "note": "Active parent limit verified; finished-child update errors do not change active-parent verification. Budget reserves all draining workers."
     }
   ],
-  "concurrency_policy": "As arrays drain, rebalance their limits within the original128timing/96model worker maxima; CPU/memory/solver arguments unchanged."
+  "concurrency_policy": "As arrays drain, rebalance their limits within the original128timing/96model worker maxima; CPU/memory/solver arguments unchanged.",
+  "timing_completion": {
+    "status": "timing complete and globally audited; separate nativeSAT model qualification running",
+    "timing_audit_job": "370935",
+    "timing_audit_sha256": "a2162b18251a1a2bef7b24d6af906050829446f5d48e5a4a2481bf46ded3d652",
+    "native_profile_input_rows": 38470,
+    "SAT_rows_selected_for_validation": 20351,
+    "memory_out_rows": 782,
+    "confirmed_cleanup_memory_out_rows": 409,
+    "raw_error_exits": 782,
+    "unclassified_native_errors": 0,
+    "note": "Profile/input rows include the optional integer profile; these are not counts of distinct corpus files. No new qualified performance ranking is claimed before complete model coverage."
+  }
 }

@@ -1,6 +1,6 @@
 {
   "id": "2026-11-09-uniform120",
-  "status": "native corpus timings resumed; model/final qualification pending",
+  "status": "timing complete and globally audited; separate nativeSAT model qualification running",
   "user_constraints": [
     "Uniform presentation across five quantifier-free logics",
     "120-second timing cutoff; target18-hour turnaround",
@@ -103,5 +103,17 @@
     "exporter_sha256": "8555eb3de568f2a4cb95fb5738589121dc899e7f4d4d00dcdd3b1fd249d972de",
     "results": "Public gallery/summary/pairedCSV only after final qualification; private destination in local controller.",
     "gdb_version_observed": "GNU gdb (GDB) Rocky Linux 10.2-13.el9"
+  },
+  "timing_completion": {
+    "status": "timing complete and globally audited; separate nativeSAT model qualification running",
+    "timing_audit_job": "370935",
+    "timing_audit_sha256": "a2162b18251a1a2bef7b24d6af906050829446f5d48e5a4a2481bf46ded3d652",
+    "native_profile_input_rows": 38470,
+    "SAT_rows_selected_for_validation": 20351,
+    "memory_out_rows": 782,
+    "confirmed_cleanup_memory_out_rows": 409,
+    "raw_error_exits": 782,
+    "unclassified_native_errors": 0,
+    "note": "Profile/input rows include the optional integer profile; these are not counts of distinct corpus files. No new qualified performance ranking is claimed before complete model coverage."
   }
 }
