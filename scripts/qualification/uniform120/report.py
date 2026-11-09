@@ -19,7 +19,10 @@ from campaign import (
     digest,
     load,
     memory_exhausted,
+    recovery,
+    resources,
     strict_rows,
+    verify_resource_workflow,
     write,
 )
 
@@ -51,6 +54,8 @@ def metrics(rows: list[dict], timeout: float) -> dict:
             'timeouts': sum(r['status'] == 'timeout' or (decisive(r) and float(r['seconds']) > timeout) for r in rows),
             'unknown': sum(r['status'] == 'ok' and r['answer'] == 'unknown' for r in rows),
             'memory_out': sum(memory_exhausted(r) for r in rows),
+            'confirmed_cleanup_memory_out': sum(bool(r.get('_confirmed_oom')) for r in rows),
+            'raw_error_exits': sum(r['status'] == 'error' for r in rows),
             'unsupported': sum(r['status'] == 'unsupported' for r in rows),
             'errors': sum(r['status'] not in {'ok', 'timeout', 'unsupported'} and not memory_exhausted(r) for r in rows),
             'par2_sum': sum(float(r['seconds']) for r in success) + 2 * timeout * (len(rows) - len(success))}
@@ -115,6 +120,8 @@ def reference_answers(rows: list[dict]) -> list[dict]:
 
 def collect(args, final: bool) -> dict:
     plan = load(args.out / 'plan.json')
+    resumed = recovery(args.out, plan)
+    verify_resource_workflow((resumed or plan).get('resource_workflow_sha256'))
     gate_proof = load(args.out / 'gate-audit.json')
     if gate_proof['status'] != 'complete' or gate_proof['native_binary_sha256'] != plan['tools']['primo']['sha256']:
         raise ValueError('fresh correctness gate incomplete')
@@ -134,6 +141,7 @@ def collect(args, final: bool) -> dict:
             root = args.out / 'timing' / logic / label / f'shard-{shard}'
             if run['solver'] == 'primo':
                 root, parent, rows = auditor.timing_shard(args.out, plan, run, shard, expected)
+                rows = resources.annotate(rows, root, run, plan, corpus)
                 strict_rows(rows, [], False)
                 if final:
                     execution = load(root / 'execution-models.json')
@@ -173,6 +181,8 @@ def collect(args, final: bool) -> dict:
               'timeout_seconds': plan['config']['timeout_seconds'], 'memory_mib': plan['config']['memory_mib'],
               'runs': reports, 'reference_reuse_sha256': plan['reference_reuse_sha256'], 'reference_benchmark_executions': 0,
               'ground_models_complete': final, 'presentation': 'Defaults plus declared integer profile; full and common-easy-filtered cohorts; no portfolio.'}
+    if resumed:
+        report['recovery_sha256'] = digest(args.out / 'recovery.json')
     if final:
         plots(args.out, plan, data, report)
     return report

@@ -34,6 +34,81 @@ def write_rows(path, values):
 
 
 class UniformMetadataTests(unittest.TestCase):
+    def test_masked_memory_out_requires_exact_replay_before_acceptance(self):
+        failure = row(status='error', answer='error', exit_code='-6',
+                      stderr_head='cadical: ' + WORKER.resources.DIAGNOSTIC + ': solver in invalid state')
+        WORKER.strict_rows([failure], [], False, pending=True)
+        with self.assertRaisesRegex(ValueError, 'failure'):
+            WORKER.strict_rows([failure], [], False)
+        with self.assertRaises(ValueError):
+            WORKER.strict_rows([{**failure, 'wrong': 'true'}], [], False, pending=True)
+        with self.assertRaises(ValueError):
+            WORKER.strict_rows([{**failure, 'exit_code': '-11'}], [], False, pending=True)
+        with tempfile.TemporaryDirectory() as directory:
+            out = Path(directory)
+            task = {'logic': 'QF_LIA', 'label': 'primo', 'arguments': ['--quiet']}
+            plan = {'config': {'memory_mib': 8192}, 'tools': {'primo': {'sha256': 'binary'}}}
+            inventory = {'inputs': {'a.smt2': {'sha256': 'input'}}}
+            identity = WORKER.resources.identity(failure, task, plan, inventory)
+            root = out / 'resource-triage' / WORKER.resources.key(identity)
+            root.mkdir(parents=True)
+            traces = [{'stage': 'throw', 'address_space_bytes': [8589934592] * 2,
+                       'frames': ['__cxa_throw', 'operator new(unsigned long) [clone .cold]']},
+                      {'stage': 'abort', 'state': 'stopped with signal SIGABRT',
+                       'frames': ['primo::sat::CadicalBackend::disconnect_external_propagator()',
+                                  'default_delete<primo::smt::AssignmentConnection>']}]
+            (root / 'stdout.txt').write_text(''.join(WORKER.resources.PREFIX + json.dumps(t) + '\n' for t in traces))
+            (root / 'stderr.txt').write_text('original cleanup abort')
+            WORKER.write(root / 'proof.json', {'status': 'confirmed-memory-out', 'identity': identity,
+                         'artifacts': {name: WORKER.digest(root / name) for name in ['stdout.txt', 'stderr.txt']}})
+            annotated = WORKER.resources.annotate([failure], out, task, plan, inventory)
+            WORKER.strict_rows(annotated, [], False)
+            self.assertEqual((failure['status'], failure['exit_code']), ('error', '-6'))
+            scores = REPORT.metrics(annotated, 120)
+            self.assertEqual((scores['solved'], scores['memory_out'], scores['confirmed_cleanup_memory_out'],
+                              scores['raw_error_exits'], scores['par2_sum']), (0, 1, 1, 1, 240))
+            # A proof cannot transfer across profiles/inputs or mutated logs.
+            other = {**task, 'arguments': ['--other']}
+            self.assertFalse(WORKER.resources.annotate([failure], out, other, plan, inventory)[0].get('_confirmed_oom'))
+            (root / 'stdout.txt').write_text('tampered')
+            with self.assertRaisesRegex(ValueError, 'changed'):
+                WORKER.resources.annotate([failure], out, task, plan, inventory)
+            # Even syntactically valid traces cannot replace missing log hashes.
+            (root / 'stdout.txt').write_text(''.join(WORKER.resources.PREFIX + json.dumps(t) + '\n' for t in traces))
+            proof = WORKER.load(root / 'proof.json')
+            proof['artifacts'] = {}
+            WORKER.write(root / 'proof.json', proof)
+            with self.assertRaisesRegex(ValueError, 'changed'):
+                WORKER.resources.annotate([failure], out, task, plan, inventory)
+            traces[0]['frames'] = ['__cxa_throw', 'std::runtime_error']
+            with self.assertRaisesRegex(ValueError, 'allocation failure'):
+                WORKER.resources.traces(''.join(WORKER.resources.PREFIX + json.dumps(t) + '\n' for t in traces), 8589934592)
+
+    def test_missing_diagnostic_tool_cancels_owned_arrays(self):
+        failure = row(status='error', answer='error', exit_code='-6',
+                      stderr_head=WORKER.resources.DIAGNOSTIC + ': solver in invalid state')
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            write_rows(root / 'answers.csv', [failure])
+            (root / 'answers.csv.jsonl').write_text(json.dumps(failure) + '\n')
+            process = SimpleNamespace(poll=lambda: 0, returncode=0, pid=12345, wait=lambda: 0)
+            with (patch.object(WORKER.subprocess, 'Popen', return_value=process),
+                  patch.object(WORKER.resources, 'diagnose', side_effect=FileNotFoundError('gdb missing')),
+                  patch.object(WORKER.os, 'killpg'), patch.object(WORKER.time, 'sleep'),
+                  patch.object(WORKER.legacy, 'cancel_owned') as cancel):
+                with self.assertRaisesRegex(ValueError, 'unexplained cleanup diagnostic'):
+                    WORKER.guarded(['unused'], root, {'logic': 'QF_LIA', 'solver': 'primo'},
+                                   {'runs': []}, root, 0, {})
+                cancel.assert_called_once_with(root)
+            self.assertTrue((root / 'failures/timing-0.json').exists())
+
+    def test_new_plan_resource_binding_cannot_be_missing_or_changed(self):
+        bound = WORKER.resource_workflow()
+        WORKER.verify_resource_workflow(bound)
+        for invalid in [None, {}, {**bound, 'resource.gdb': 'changed'}]:
+            with self.assertRaisesRegex(ValueError, 'workflow changed'):
+                WORKER.verify_resource_workflow(invalid)
+
     def test_deadline_and_post_answer_error_are_unsolved(self):
         rows = [row(seconds='120'), row('b', seconds='120.01'),
                 row('c', status='timeout', timeout='true'), row('d', exit_code='1')]
@@ -116,6 +191,7 @@ class UniformMetadataTests(unittest.TestCase):
             self.assertEqual(len(plan['tasks']), 2)
             self.assertTrue(all(t['solver'] == 'primo' for t in plan['tasks']))
             self.assertEqual(plan['reference_reuse_sha256'], WORKER.digest(out / 'reference-reuse.json'))
+            self.assertEqual(plan['resource_workflow_sha256'], WORKER.resource_workflow())
 
     def test_percentage_axis_and_solver_colours_are_independent_of_rank(self):
         svg = REPORT.svg([('Primo default', [1]), ('cvc5', [1, 2])], 120, 3, 'test', [],

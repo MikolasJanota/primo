@@ -1,0 +1,43 @@
+{
+  "status": "resource recovery verified; broad resume pending",
+  "owner_clarification": "Memory-outs are normal unsolved benchmark outcomes. The initial stop was too strict after exact resource attribution; no solver fix is required to resume.",
+  "native_binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
+  "native_implementation": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
+  "scope": "Benchmark metadata/orchestration only; no C++ changes, new corpus reference runs or altered solver options.",
+  "smoke": {
+    "job": "370776",
+    "prior_job": "370775",
+    "status": "pass",
+    "metrics": {
+      "inputs": 2,
+      "solved": 1,
+      "sat": 1,
+      "unsat": 0,
+      "timeouts": 0,
+      "unknown": 0,
+      "memory_out": 1,
+      "confirmed_cleanup_memory_out": 1,
+      "raw_error_exits": 1,
+      "unsupported": 0,
+      "errors": 0,
+      "par2_sum": 240.012975
+    },
+    "input": "nec-smt/large/getoption_user/prp-42-49.smt2",
+    "input_sha256": "eae1898b95df0fec3544ab4365e6e7dfc76c0057ffc1c5071cdeadf2db3a60ab",
+    "solver_arguments": [
+      "--quiet"
+    ],
+    "address_space_bytes": 8589934592,
+    "raw_row_status": "error",
+    "raw_exit_code": "-6",
+    "summary_sha256": "31d8c42a3ce4a797971b59a1934624dd23dbd339985895f2258d24271891ca6c",
+    "proof_sha256": "b4662475bfe498bf525c9b0a02c7b6d3b5ad4ebc0b030b37c98a197304fd181c",
+    "classifier_sha256": "9f25472e1aa0c46298fb4f11cb8282b950767fad4d5ff444a883d5320cc0c9ed",
+    "debugger_commands_sha256": "2ccda1e3f37a1ebe203a8118e752c4afe8582b9d6caec033212e31be7068ad84",
+    "limitation": "Two-input harness integration only; timings are not added to the corpus curves. Its SAT row is not claimed as a separate model-validation result."
+  },
+  "policy": "Explicit or exact-replay-confirmed memory-outs remain unsolved and receive240s PAR2. Matching cleanup diagnostic alone is pending, not proof. Missing/different replay evidence, unexplained crashes, wrong answers and concrete disagreements still stop the campaign.",
+  "raw_evidence": "results/uniform120-20261109/resource-smoke-370776 locally; dedicated SLURM workspace retained privately",
+  "verification": "31metadata tests(9uniform+22legacy),make lint,sbatchvalidator/bash-n,independentreviewwith3requiredfindingsfixed,make docs-site and287pages40062locallinks1222Gitlinks0failures; builtchangedsectionrendered/inspected.",
+  "historical_initial_stop": "benchmarks/uniform120-20261109/blocker.json"
+}

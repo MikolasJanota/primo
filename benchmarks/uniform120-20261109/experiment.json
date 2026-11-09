@@ -1,6 +1,6 @@
 {
   "id": "2026-11-09-uniform120",
-  "status": "blocked: native SIGABRT before full timing/model coverage",
+  "status": "resource recovery verified; broad resume pending",
   "user_constraints": [
     "Uniform presentation across five quantifier-free logics",
     "120-second timing cutoff; target18-hour turnaround",
@@ -92,5 +92,6 @@
     "completed_timing_tasks": 42,
     "stop": "native execution failure",
     "blocker": "benchmarks/uniform120-20261109/blocker.json"
-  }
+  },
+  "resource_recovery": "benchmarks/uniform120-20261109/resource-recovery.json"
 }

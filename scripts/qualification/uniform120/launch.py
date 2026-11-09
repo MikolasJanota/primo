@@ -24,7 +24,8 @@ def main():
     if args.remote_out != plan['campaign_out'] or not args.gate_job.isdecimal():
         raise ValueError('campaign directory or gate job does not match the plan')
     # Reject a mistyped or stale staging path before creating submission state.
-    names = ['campaign.py', 'config.json', 'run.sbatch', 'report.py', 'report.sbatch', 'plot_cactus.py']
+    names = ['campaign.py', 'config.json', 'run.sbatch', 'report.py', 'report.sbatch', 'plot_cactus.py',
+             'resource_triage.py', 'resource.gdb']
     staged = subprocess.check_output(
         [*ssh, shlex.join(['sha256sum', *(args.workflow + '/' + name for name in names)])], text=True)
     hashes = {Path(line.split()[1]).name: line.split()[0] for line in staged.splitlines()}
@@ -42,6 +43,10 @@ def main():
             or hashes['config.json'] != plan['config_sha256']
             or hashes['plot_cactus.py'] != plan['plotter_sha256']):
         raise ValueError('staged driver or configuration differs from the plan')
+    bound = (resumed or plan).get('resource_workflow_sha256', {})
+    if (set(bound) != {'resource_triage.py', 'resource.gdb', 'report.py'}
+            or any(hashes[name] != checksum for name, checksum in bound.items())):
+        raise ValueError('staged resource classification differs from recovery metadata')
     state_path = Path(args.state)
     if state_path.exists():
         raise ValueError('submission state already exists; inspect it rather than duplicate jobs')
@@ -88,7 +93,7 @@ def main():
             job = submit(phase, 'run.sbatch', [
                 f'--export=ALL,PRIMO_TASK_OFFSET={offset}', f'--array=0-{count - 1}%{throttle}',
                 '--dependency=afterok:' + dependency,
-                '--time=' + ('01:00:00' if phase == 'models' else '00:30:00'),
+                '--time=' + ('01:00:00' if phase == 'models' else '01:30:00'),
                 '--job-name=primo-long-' + phase])
             state[phase].append(job)
             state['chunks'].append({'phase': phase, 'job': job, 'offset': offset,

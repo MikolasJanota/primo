@@ -22,8 +22,30 @@ legacy = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(legacy)
 # Shared provenance/audit primitives; old frozen campaigns remain unmodified.
 digest, write, load = legacy.digest, legacy.write, legacy.load
-recovery, memory_exhausted, decisive = legacy.recovery, legacy.memory_exhausted, legacy.decisive
-check_rows = legacy.check_rows
+recovery, decisive = legacy.recovery, legacy.decisive
+RESOURCE_SPEC = importlib.util.spec_from_file_location('uniform_resource_triage', Path(__file__).with_name('resource_triage.py'))
+resources = importlib.util.module_from_spec(RESOURCE_SPEC)
+RESOURCE_SPEC.loader.exec_module(resources)
+
+
+def resource_workflow() -> dict:
+    return {name: digest(Path(__file__).with_name(name)) for name in
+            ['resource_triage.py', 'resource.gdb', 'report.py']}
+
+
+def verify_resource_workflow(binding: dict) -> None:
+    if binding != resource_workflow():
+        raise ValueError('resource classification workflow changed or was not bound')
+
+
+def memory_exhausted(row: dict) -> bool:
+    return bool(row.get('_confirmed_oom')) or legacy.memory_exhausted(row)
+
+
+def check_rows(rows: list[dict], peers: list[dict], *, reference: bool = False, allow_execution_errors: bool = False) -> None:
+    legacy.check_rows(rows, peers, reference=reference, allow_execution_errors=True)
+    if not reference and not allow_execution_errors and any(r['status'] == 'error' and not memory_exhausted(r) for r in rows):
+        raise legacy.CorrectnessFailure('unclassified native execution failure')
 
 
 def allocation(config: dict) -> dict:
@@ -33,12 +55,14 @@ def allocation(config: dict) -> dict:
     return value
 
 
-def strict_rows(rows: list[dict], peers: list[dict], reference: bool) -> None:
-    check_rows(rows, peers, reference=reference)
+def strict_rows(rows: list[dict], peers: list[dict], reference: bool, *, pending: bool = False) -> None:
+    # Pending cleanup signatures are accepted only while the shard is timing.
+    # Every such row must receive an exact-input allocation replay before the
+    # shard/audit succeeds. Raw error exits remain immutable and unsolved.
+    legacy.check_rows(rows, peers, reference=reference, allow_execution_errors=True)
     for row in rows:
-        # Explicit allocation exhaustion is a resource outcome; signal crashes
-        # and other execution errors stop the campaign, including reference ones.
-        if (row['status'] == 'error' and not memory_exhausted(row)) or (
+        deferred = pending and resources.candidate(row)
+        if (row['status'] == 'error' and not memory_exhausted(row) and not deferred) or (
             row['status'] == 'unsupported' and not reference
         ):
             raise legacy.CorrectnessFailure(f'execution failure: {row}')
@@ -96,6 +120,7 @@ def plan(args, config: dict, out: Path) -> None:
     write(out / 'plan.json', {'config': config, 'tools': load(out / 'tools.json'), 'runs': runs, 'tasks': tasks,
                              'model_tasks': [t for t in tasks if t['solver'] == 'primo'],
                              'driver_sha256': digest(Path(__file__)), 'common_worker_sha256': digest(BASE),
+                             'resource_workflow_sha256': resource_workflow(),
                              'config_sha256': digest(args.config), 'campaign_out': str(out)})
     import_references(args, config, out, runs)
     value = load(out / 'plan.json')
@@ -183,7 +208,7 @@ def import_references(args, config: dict, out: Path, runs: list[dict]) -> None:
     write(out / 'reference-reuse.json', certificates)
 
 
-def guarded(command: list[str], directory: Path, selected: dict, plan_value: dict, out: Path, index: int) -> None:
+def guarded(command: list[str], directory: Path, selected: dict, plan_value: dict, out: Path, index: int, corpus: dict) -> None:
     process = subprocess.Popen(command, start_new_session=True)
     try:
         while True:
@@ -192,7 +217,8 @@ def guarded(command: list[str], directory: Path, selected: dict, plan_value: dic
                 if run['logic'] == selected['logic'] and run['label'] != selected['label']:
                     filename = 'answers.csv.jsonl' if run['solver'] == 'primo' else 'reference-answers.csv.jsonl'
                     peers += legacy.journal(out / 'timing' / run['logic'] / run['label'] / f"shard-{selected['shard']}" / filename, live=True)
-            strict_rows(legacy.journal(directory / 'answers.csv.jsonl', live=True), peers, selected['solver'] != 'primo')
+            strict_rows(legacy.journal(directory / 'answers.csv.jsonl', live=True), peers,
+                        selected['solver'] != 'primo', pending=True)
             if process.poll() is not None:
                 break
             try:
@@ -202,9 +228,18 @@ def guarded(command: list[str], directory: Path, selected: dict, plan_value: dic
         if process.returncode:
             raise RuntimeError(f'benchmark harness failed: {process.returncode}')
         with (directory / 'answers.csv').open() as stream:
-            strict_rows(list(csv.DictReader(stream)), peers, selected['solver'] != 'primo')
+            rows = list(csv.DictReader(stream))
+        # No diagnostic solver runs concurrently with this shard's timings.
+        try:
+            for row in rows:
+                if resources.candidate(row):
+                    resources.diagnose(row, directory, selected, plan_value, corpus)
+            classified = resources.annotate(rows, directory, selected, plan_value, corpus)
+        except (OSError, ValueError, KeyError, TypeError) as error:
+            raise legacy.CorrectnessFailure(f'unexplained cleanup diagnostic: {error}') from error
+        strict_rows(classified, peers, False)
     except BaseException as error:
-        folder = 'failures' if isinstance(error, legacy.CorrectnessFailure) else 'task-failures'
+        folder = 'failures' if isinstance(error, (legacy.CorrectnessFailure, ValueError)) else 'task-failures'
         write(out / folder / f'timing-{index}.json', {'error': str(error), 'selected': selected})
         for sig in [signal.SIGTERM, signal.SIGKILL]:
             try:
@@ -214,16 +249,20 @@ def guarded(command: list[str], directory: Path, selected: dict, plan_value: dic
             if sig == signal.SIGTERM:
                 time.sleep(1)
         process.wait()
-        if isinstance(error, legacy.CorrectnessFailure):
+        if folder == 'failures':
             legacy.cancel_owned(out)
         raise
 
 
 def task(args, config: dict, out: Path, phase: str) -> None:
     value = load(out / 'plan.json')
-    if digest(Path(__file__)) != value['driver_sha256'] or digest(BASE) != value['common_worker_sha256'] or digest(args.config) != value['config_sha256']:
+    resumed = recovery(out, value)
+    expected_driver = resumed['worker_driver_sha256'] if resumed else value['driver_sha256']
+    if digest(Path(__file__)) != expected_driver or digest(BASE) != value['common_worker_sha256'] or digest(args.config) != value['config_sha256']:
         raise ValueError('workflow changed after planning')
-    index = int(os.environ.get('PRIMO_TASK_OFFSET', '0')) + int(os.environ['SLURM_ARRAY_TASK_ID'])
+    verify_resource_workflow((resumed or value).get('resource_workflow_sha256'))
+    scheduled = int(os.environ.get('PRIMO_TASK_OFFSET', '0')) + int(os.environ['SLURM_ARRAY_TASK_ID'])
+    index = resumed['pending_task_indices'][scheduled] if resumed and phase == 'timing' else scheduled
     selected = value['model_tasks' if phase == 'models' else 'tasks'][index]
     if selected['solver'] != 'primo':
         raise ValueError('reference benchmark execution is forbidden')
@@ -236,6 +275,8 @@ def task(args, config: dict, out: Path, phase: str) -> None:
     directory.mkdir(parents=True, exist_ok=True)
     record = {**allocation(config), 'task_index': index, 'selected': selected, 'tool': tool,
               'plan_sha256': digest(out / 'plan.json')}
+    if resumed:
+        record['recovery_sha256'] = digest(out / 'recovery.json')
     if phase == 'models':
         barrier = out / 'timing-audit.json'
         if load(barrier)['status'] != 'timing-complete':
@@ -253,7 +294,7 @@ def task(args, config: dict, out: Path, phase: str) -> None:
         command += [f'--solver-arg={arg}' for arg in selected['arguments']]
         if selected['solver'] == 'primo':
             command += ['--expected-git', config['native_source_git']]
-        guarded(command, directory, selected, value, out, index)
+        guarded(command, directory, selected, value, out, index, corpus)
     else:
         command += ['--model-timeout', str(config['model_timeout_seconds']), '--dolmen-timeout', str(config['dolmen_timeout_seconds']),
                     '--dolmen-size', '5G', '--dolmen', value['tools']['dolmen']['path'], '--dolmen-arg=--strict=false']

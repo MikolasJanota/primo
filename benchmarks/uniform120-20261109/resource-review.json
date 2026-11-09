@@ -1,0 +1,23 @@
+{
+  "baseline": "af66205356b6ed3eda3920768dbedac5598d1600",
+  "reviewer": "cactus_docs_review",
+  "verdict": "ready; all required findings resolved",
+  "findings": {
+    "U120-RES-01": "Bind and enforce helper/report hashes in new plans as well as recovery; missing/changed map regression.",
+    "U120-RES-02": "Diagnostic missing-file/tool failures use global blocking path; mocked cancellation regression.",
+    "U120-RES-03": "Require hashes for both stdout and stderr; empty/incomplete artifact map rejected."
+  },
+  "sha256": {
+    "docs/evidence/uniform120.md": "c44ddd383f87678b86fed95b77b65e6d26c55335dcda2b527cf0a4821ce24754",
+    "scripts/qualification/uniform120/campaign.py": "a499429419f6a4be3a0ba818f13e24a27de90330727f86dfd2735edb629ec293",
+    "scripts/qualification/uniform120/resource_triage.py": "9f25472e1aa0c46298fb4f11cb8282b950767fad4d5ff444a883d5320cc0c9ed",
+    "scripts/qualification/uniform120/resource.gdb": "2ccda1e3f37a1ebe203a8118e752c4afe8582b9d6caec033212e31be7068ad84",
+    "scripts/qualification/uniform120/recover.py": "c1ff941ac2f92caa30c0b71737855a03460b8688dc56a79873c11c7b49852494",
+    "scripts/qualification/uniform120/report.py": "e52e1d07b3a34109190c0e48e31b4e0d824f4e90e6ec8a638e1b1431ac33b3bd",
+    "scripts/qualification/uniform120/launch.py": "62b1ea899c8b94b81e9db745ff4f3f34fdaea1f17bcd510eb7d9d24ac1f8bb0c",
+    "scripts/qualification/uniform120/resource_smoke.py": "beabe12f134935f32ddb81ad3ad6b50d79c1509dde07bfaee847c80fbe951512",
+    "tests/python/test_uniform120_metadata.py": "8445ee0b6ecf3c26bafcdf340813f942cd91bef3abd2f4561baf5437ef46eadd"
+  },
+  "validation": "31metadata tests(9uniform+22legacy),make lint,sbatchvalidator/bash-n,independentreviewwith3requiredfindingsfixed,make docs-site and287pages40062locallinks1222Gitlinks0failures; builtchangedsectionrendered/inspected.",
+  "unchecked_scope": "Reviewer did not execute solvers or independently inspect smoke outcome, remote recovery/staging/proofs, final campaign result acceptance or rendered docs. Writer collected/checked smoke records and rendered changed section. No new C++/tidy/ASan run because C++ source is unchanged; prior source qualification retained."
+}

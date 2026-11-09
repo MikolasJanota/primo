@@ -1,9 +1,10 @@
 (uniform120-evaluation)=
 # Uniform 120-second theory comparisons
 
-**Status: blocked by a native execution failure. Reference reuse and fresh
-correctness gates passed; the corpus campaign stopped before a complete timing
-or SAT-model audit. No qualified new full-corpus plots are available.** The target
+**Status: resource-aware recovery is being verified.** The initial campaign
+stopped on a masked allocation failure. Confirmed memory-outs are normal
+unsolved budget outcomes; they do not require a solver fix before continuing.
+Fresh full-corpus timing/model qualification and plots remain pending. The target
 is a report within 18 hours of the 9 November request. The five quantifier-free divisions contain 24,505 inputs:
 
 | Logic | Full corpus |
@@ -61,8 +62,9 @@ per theory/profile with direct SAT-model checks. Their Z3 calls are differential
 correctness checks on generated inputs, distinct from corpus reference timings.
 Source-matched real-seed mutation qualification from the accepted cache stage
 is retained as prior evidence; this campaign makes no new source-behavior change.
-Wrong answers, contradictory concrete answers and new native execution failures
-stop timing. Explicit address-space exhaustion is a reported resource outcome.
+Wrong answers, contradictory concrete answers and unexplained native execution
+failures stop the campaign. Explicit or independently confirmed address-space
+exhaustion is a reported unsolved resource outcome.
 
 All timing arrays must finish and pass the global audit before model replays
 start. Every successful native SAT timing row then receives separate direct
@@ -94,7 +96,7 @@ run in SLURM. SSH routes and corpus roots remain private. The run-log entry
 `2026-11-09-uniform120` records preparation failures, jobs, throughput estimates,
 phase outcomes and acceptance status as the campaign progresses.
 
-## Stopped corpus attempt
+## Initial stopped corpus attempt
 
 The frozen native binary passed 6,969 of 7,000 generated profile/input checks;
 31 were inconclusive timeouts. All 5,041 primary SAT cases received direct
@@ -130,6 +132,44 @@ The {download}`failure record <../../benchmarks/uniform120-20261109/blocker.json
 contains identities, stack summaries and raw-log digests. The newly written
 {download}`debugger commands <../../scripts/qualification/uniform120/crash.gdb>`
 and {download}`batch script <../../scripts/qualification/uniform120/crash.sbatch>`
-preserve the replay procedure. Qualification remains blocked pending a verified
-correction to the failure path and a new complete timing/model campaign. The saved references
-remain reusable; they need no rerun.
+preserve the replay procedure. The initial guard was too strict for this triaged resource failure. The cleanup
+defect remains recorded, while recovery treats a confirmed memory-out as an
+unsolved budget outcome. The saved references remain reusable; they need no rerun.
+
+
+## Memory-out classification and recovery
+
+The {download}`resource classifier <../../scripts/qualification/uniform120/resource_triage.py>`
+recognises only the specific SIGABRT/disconnection diagnostic as a candidate for
+allocation triage. A matching message alone is insufficient to call a row a
+memory-out. During a timing shard that candidate may remain pending; all other
+unexplained errors, wrong answers and concrete disagreements remain blocking.
+
+After the shard's timing harness has exited, each candidate is replayed under
+GDB with the same frozen binary, ordered arguments, input content hash and hard
+8 GiB address-space limit. No diagnostic solver runs alongside a timed solver
+on that task's allocated CPU. The replay has a separate 240-second budget.
+The {download}`debugger commands <../../scripts/qualification/uniform120/resource.gdb>`
+record an allocation throw through `operator new`, then continue and record the
+SIGABRT cleanup stack. Missing or different evidence leaves the crash unexplained
+and stops the campaign. The exception type itself need not be printable.
+
+Each successful diagnosis owns a `resource-triage/<identity>/proof.json` beside
+the original timing shard, with raw diagnostic logs, their hashes and replay
+identity. Identity includes the original row digest, input/binary hashes,
+profile/options and memory limit. Reports verify these identities and logs
+before annotating an in-memory copy of a row. The original CSV status, exit code,
+answer and measured seconds are never rewritten. A confirmed memory-out remains
+unsolved and receives the full PAR2 penalty; summaries retain both the raw error
+exit count and the confirmed allocation/cleanup count. Diagnostic duration does
+not enter performance metrics or SAT-model coverage.
+
+The {download}`recovery owner <../../scripts/qualification/uniform120/recover.py>`
+certifies complete timing shards against their original plan/provenance and
+archives interrupted directories before rerunning their tasks. The immutable
+plan, input inventories, saved references and native binary remain unchanged.
+New plans and recovery certificates bind the worker/classifier/debugger/report hashes;
+reused shards retain their original driver and CSV digests. All successful native
+SAT timing rows still require separate direct Dolmen validation after the global
+timing audit. This changes benchmark classification and orchestration only;
+Primo's C++ source and solver decisions are unchanged.
