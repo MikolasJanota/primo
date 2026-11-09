@@ -194,6 +194,11 @@ struct SimplifyConstantItesResult {
   std::size_t atoms_visited = 0;
   std::size_t atoms_simplified = 0;
   std::size_t branches_collapsed = 0;
+  // Uniformity work only: excludes leaf-set construction and csimp cache keys.
+  // Expanded mixed frames can be classified again after their children finish.
+  std::size_t uniformity_checks = 0;
+  std::size_t leaf_comparisons = 0;
+  std::size_t leaf_scan_equivalent = 0;
 };
 
 // Constant if-then-else simplification, piece 1 of open-leads lead 16.

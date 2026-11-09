@@ -67,9 +67,9 @@ assumes constant-time insertion/deletion through linked entries.
 ### Contracts for the smaller optimization candidates
 
 These are implementation checklists derived from this review. The patching
-interval cache is implemented with qualification pending; the CITE endpoint
-fast paths, shared-model bookkeeping and row representation below remain
-proposals. The measured findings are in the evidence page.
+interval cache and CITE constant-comparison fast paths are implemented with
+qualification pending; shared-model bookkeeping and row representation below
+remain proposals. The measured findings are in the evidence page.
 
 **Patching interval cache.** The owner is `patch_integer_variables`, with owning
 `LraTableau::FreedomInterval` values keyed by `LraVarId`; clearing the map
@@ -116,6 +116,12 @@ negative/zero scales, strictness, mixed outcomes, sharing and a large-leaf probe
 leaf-comparison counters should distinguish this work from cache-key comparisons.
 Sorted sibling sets can also be merged linearly; caching every subterm alone
 does not bound the sum of all cached leaf-set sizes by the input DAG size.
+
+The endpoint and membership decisions and comparison-work counters are now
+implemented as a Primo engineering adaptation of §8.2.3. The owning types,
+classification proof, counter boundaries and unchanged reconstruction contract
+are described in [the preprocessing chapter](../implementation/preprocessing.md#constant-comparison-work-inside-cite-simplification).
+Qualification and runtime acceptance are pending; leaf merging is unchanged.
 
 **Common-denominator rows.** A future row owner would store integer numerators
 $n_j$ and a positive denominator $d$, representing coefficient $n_j/d$.

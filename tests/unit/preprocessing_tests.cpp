@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <bit>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
@@ -1957,6 +1958,153 @@ void constant_ite_atoms_collapse() {
   }
 }
 
+// Compare the exact reconstructed term against an independently evaluated
+// three-leaf decision tree, including equality membership and both operand
+// orientations. Negative scales reverse the endpoint order; rational thresholds
+// exercise exact comparisons rather than floating-point approximations.
+void constant_ite_comparisons_match_leaf_decisions() {
+  using primo::core::TermId;
+  using primo::core::TermKind;
+  using primo::util::Rational;
+  for (const bool real : {false, true}) {
+    primo::core::SymbolTable symbols;
+    const auto sort = real ? symbols.real_sort() : symbols.int_sort();
+    const auto p_symbol = symbols.declare_constant("p", symbols.bool_sort());
+    const auto q_symbol = symbols.declare_constant("q", symbols.bool_sort());
+    primo::core::TermManager terms(symbols);
+    const TermId p = terms.mk_constant(p_symbol);
+    const TermId q = terms.mk_constant(q_symbol);
+    const auto number = [&](const Rational& value) { return terms.mk_rational(value, sort); };
+    const std::vector<Rational> original{Rational(-3, real ? 2 : 1), Rational(-1), Rational(2)};
+    const TermId tail = terms.mk_ite(q, number(original[1]), number(original[2]));
+    const TermId cite = terms.mk_ite(p, number(original[0]), tail);
+    const Rational offset(1, real ? 3 : 1);
+    for (const Rational& scale : std::vector<Rational>{Rational(-2), Rational(0), Rational(1),
+                                                       real ? Rational(3, 2) : Rational(3)}) {
+      const TermId scaled = terms.mk_times(scale, cite);
+      const TermId expression = terms.mk_plus({number(offset), scaled});
+      std::vector<Rational> values;
+      for (const Rational& value : original) {
+        values.push_back(offset + scale * value);
+      }
+      std::vector<Rational> constants = values;
+      constants.insert(constants.end(), {Rational(-100), Rational(0), Rational(1), Rational(100)});
+      if (real) {
+        constants.push_back((values[0] + values[1]) / Rational(2));
+      }
+      for (const Rational& constant : constants) {
+        for (const TermKind op : {TermKind::Le, TermKind::Lt, TermKind::Equality}) {
+          for (const bool constant_on_left : {false, true}) {
+            const TermId numeral = number(constant);
+            const TermId lhs = constant_on_left ? numeral : expression;
+            const TermId rhs = constant_on_left ? expression : numeral;
+            const TermId atom = op == TermKind::Le   ? terms.mk_le(lhs, rhs)
+                                : op == TermKind::Lt ? terms.mk_lt(lhs, rhs)
+                                                     : terms.mk_eq(lhs, rhs);
+            const auto decide = [&](const Rational& value) {
+              const Rational a = constant_on_left ? constant : value;
+              const Rational b = constant_on_left ? value : constant;
+              return op == TermKind::Le ? a <= b : op == TermKind::Lt ? a < b : a == b;
+            };
+            const bool a = decide(values[0]);
+            const bool b = decide(values[1]);
+            const bool c = decide(values[2]);
+            const TermId tail_result =
+                b == c ? terms.mk_bool(b) : terms.mk_ite(q, terms.mk_bool(b), terms.mk_bool(c));
+            const TermId expected = scale.is_zero() ? atom
+                                    : a == b && b == c
+                                        ? terms.mk_bool(a)
+                                        : terms.mk_ite(p, terms.mk_bool(a), tail_result);
+            const auto result = primo::smt::simplify_constant_ites(terms, {atom});
+            check(result.assertions.at(0) == expected);
+          }
+        }
+      }
+    }
+    // A top-level singleton leaf set is deliberately left to ordinary constant
+    // folding, exactly as before. Singleton descendants are exercised above.
+    const TermId singleton = terms.mk_ite(p, number(Rational(2)), number(Rational(2)));
+    const TermId atom = terms.mk_lt(singleton, number(Rational(3)));
+    const auto result = primo::smt::simplify_constant_ites(terms, {atom});
+    check(result.assertions.at(0) == atom);
+    check(result.uniformity_checks == 0);
+  }
+}
+
+void constant_ite_uniformity_reuses_shared_subterms() {
+  primo::core::SymbolTable symbols;
+  const auto p_symbol = symbols.declare_constant("p", symbols.bool_sort());
+  const auto q_symbol = symbols.declare_constant("q", symbols.bool_sort());
+  primo::core::TermManager terms(symbols);
+  const auto p = terms.mk_constant(p_symbol);
+  const auto q = terms.mk_constant(q_symbol);
+  const auto low = terms.mk_rational(primo::util::Rational(-1), symbols.int_sort());
+  const auto high = terms.mk_rational(primo::util::Rational(2), symbols.int_sort());
+  const auto tail = terms.mk_ite(q, low, high);
+  const auto cite = terms.mk_ite(p, tail, tail);
+  const auto atom = terms.mk_lt(cite, high);
+  const auto once = primo::smt::simplify_constant_ites(terms, {atom});
+  const auto twice = primo::smt::simplify_constant_ites(terms, {atom, atom});
+  const auto branch = terms.mk_ite(q, terms.mk_bool(true), terms.mk_bool(false));
+  const auto expected = terms.mk_ite(p, branch, branch);
+  check(once.assertions.at(0) == expected);
+  check(twice.assertions == std::vector<primo::core::TermId>({expected, expected}));
+  check(once.atoms_simplified == 1 && twice.atoms_simplified == 1);
+  check(once.branches_collapsed == 2 && twice.branches_collapsed == 2);
+  // The shared tail is classified on first entry and after its children; the
+  // duplicate sibling and assertion both hit existing memoization.
+  check(once.uniformity_checks == 6 && twice.uniformity_checks == 6);
+  check(once.leaf_comparisons == 10 && twice.leaf_comparisons == 10);
+}
+
+void constant_ite_large_leaf_comparison_work_is_bounded() {
+  using primo::core::TermId;
+  using primo::util::Rational;
+  for (const std::size_t count : {8U, 64U, 512U, 4096U}) {
+    primo::core::SymbolTable symbols;
+    const auto symbol = symbols.declare_constant("p", symbols.bool_sort());
+    primo::core::TermManager terms(symbols);
+    const auto p = terms.mk_constant(symbol);
+    const auto number = [&](long value) {
+      return terms.mk_rational(Rational(value), symbols.int_sort());
+    };
+    std::vector<TermId> layer;
+    for (std::size_t index = 0; index < count; ++index) {
+      layer.push_back(number(static_cast<long>(index * 2)));
+    }
+    while (layer.size() > 1) {
+      std::vector<TermId> next;
+      for (std::size_t index = 0; index < layer.size(); index += 2) {
+        next.push_back(terms.mk_ite(p, layer[index], layer[index + 1]));
+      }
+      layer = std::move(next);
+    }
+    const auto cite = layer.front();
+    for (const bool constant_on_left : {false, true}) {
+      const auto constant = number(constant_on_left ? -1 : static_cast<long>(count * 2));
+      for (const bool strict : {false, true}) {
+        const auto lhs = constant_on_left ? constant : cite;
+        const auto rhs = constant_on_left ? cite : constant;
+        const auto atom = strict ? terms.mk_lt(lhs, rhs) : terms.mk_le(lhs, rhs);
+        const auto result = primo::smt::simplify_constant_ites(terms, {atom});
+        check(result.assertions.at(0) == terms.mk_bool(true));
+        check(result.uniformity_checks == 1);
+        check(result.leaf_scan_equivalent == count);
+        check(result.leaf_comparisons == 2);
+      }
+      // An absent value inside the endpoints requires membership, not an
+      // endpoint test. A full scan would compare all count leaves.
+      const auto absent = number(1);
+      const auto atom = constant_on_left ? terms.mk_eq(absent, cite) : terms.mk_eq(cite, absent);
+      const auto result = primo::smt::simplify_constant_ites(terms, {atom});
+      check(result.assertions.at(0) == terms.mk_bool(false));
+      check(result.uniformity_checks == 1);
+      check(result.leaf_scan_equivalent == count);
+      check(result.leaf_comparisons <= std::bit_width(count) + 1);
+    }
+  }
+}
+
 // Original ownership regression: mixed leaves force hoisting, unlike the
 // all-true/all-false scale checks above, which collapse before constructing terms.
 void constant_ite_hoisting_survives_arena_growth() {
@@ -2349,6 +2497,9 @@ int main() {
   simplification_distributes_equality_over_an_ite();
   simplification_does_not_distribute_a_shared_ite();
   constant_ite_atoms_collapse();
+  constant_ite_comparisons_match_leaf_decisions();
+  constant_ite_uniformity_reuses_shared_subterms();
+  constant_ite_large_leaf_comparison_work_is_bounded();
   constant_ite_hoisting_survives_arena_growth();
   non_constant_ite_atoms_are_untouched();
   simplification_does_not_distribute_a_nested_ite();

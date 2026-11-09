@@ -3953,8 +3953,9 @@ core::TermId csimp_against_constant(core::TermManager& terms, core::TermKind op,
                                     util::Rational constant, core::TermId cite,
                                     bool constant_on_left,
                                     std::unordered_map<core::TermId, CiteLeaves>& leaves,
-                                    CsimpCache& results, std::size_t& collapses) {
+                                    CsimpCache& results, SimplifyConstantItesResult& work) {
   const auto decide = [&](const util::Rational& leaf) {
+    ++work.leaf_comparisons;
     return constant_on_left ? compare_values(op, constant, leaf)
                             : compare_values(op, leaf, constant);
   };
@@ -3992,19 +3993,42 @@ core::TermId csimp_against_constant(core::TermManager& terms, core::TermKind op,
       stack.pop_back();
       continue;
     }
-    std::size_t true_leaves = 0;
-    for (const util::Rational& leaf : leaf_set.value()) {
-      true_leaves += decide(leaf) ? std::size_t{1} : std::size_t{0};
+    ++work.uniformity_checks;
+    work.leaf_scan_equivalent += leaf_set->size();
+    std::optional<bool> uniform;
+    // Primo adaptation of Bromberger (2019), Sect. 8.2.3's csimp rule:
+    // sorted, unique leaf sets permit endpoint/membership decisions without
+    // changing the complete sets or mixed-case reconstruction.
+    if (leaf_set->empty()) {
+      uniform = true;  // Preserve the old scan's vacuous all-true result.
+    } else if (leaf_set->size() == 1) {
+      uniform = decide(leaf_set->front());
+    } else if (op == core::TermKind::Equality) {
+      const auto position =
+          std::lower_bound(leaf_set->begin(), leaf_set->end(), constant,
+                           [&work](const util::Rational& leaf, const util::Rational& value) {
+                             ++work.leaf_comparisons;
+                             return leaf < value;
+                           });
+      if (position == leaf_set->end()) {
+        uniform = false;
+      } else {
+        ++work.leaf_comparisons;
+        if (*position != constant) {
+          uniform = false;
+        }
+      }
+      // Membership in a nonsingleton set is mixed, in either orientation.
+    } else {
+      const bool first = decide(leaf_set->front());
+      const bool last = decide(leaf_set->back());
+      if (first == last) {
+        uniform = first;
+      }
     }
-    if (true_leaves == leaf_set.value().size()) {
-      ++collapses;
-      results.emplace(key, terms.mk_bool(true));
-      stack.pop_back();
-      continue;
-    }
-    if (true_leaves == 0) {
-      ++collapses;
-      results.emplace(key, terms.mk_bool(false));
+    if (uniform.has_value()) {
+      ++work.branches_collapsed;
+      results.emplace(key, terms.mk_bool(*uniform));
       stack.pop_back();
       continue;
     }
@@ -4404,7 +4428,7 @@ SimplifyConstantItesResult simplify_constant_ites(core::TermManager& terms,
           const util::Rational constant_value = constant_term.rational_value;
           const core::TermId simplified = csimp_against_constant(
               terms, kind, constant_value, other_side,
-              /*constant_on_left=*/index == 0, leaves, csimp_results, result.branches_collapsed);
+              /*constant_on_left=*/index == 0, leaves, csimp_results, result);
           if (simplified != visit.term) {
             ++result.atoms_simplified;
             rewritten.emplace(visit.term, simplified);

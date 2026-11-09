@@ -256,6 +256,9 @@ constexpr std::array<std::string_view, static_cast<std::size_t>(StatKey::Count)>
     ":preprocessing.cite.atoms-visited"sv,
     ":preprocessing.cite.atoms-simplified"sv,
     ":preprocessing.cite.branches-collapsed"sv,
+    ":preprocessing.cite.uniformity-checks"sv,
+    ":preprocessing.cite.leaf-comparisons"sv,
+    ":preprocessing.cite.leaf-scan-equivalent"sv,
 };
 
 const std::unordered_map<std::string_view, StatKey>& stat_keys_by_name() {

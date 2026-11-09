@@ -256,6 +256,9 @@ enum class StatKey : std::size_t {
   CiteAtomsVisited,
   CiteAtomsSimplified,
   CiteBranchesCollapsed,
+  CiteUniformityChecks,
+  CiteLeafComparisons,
+  CiteLeafScanEquivalent,
   Count,
 };
 

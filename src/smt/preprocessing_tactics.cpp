@@ -538,6 +538,9 @@ Tactic make_simplify_constant_ites() {
     statistics.increment(util::StatKey::CiteAtomsVisited, simplified.atoms_visited);
     statistics.increment(util::StatKey::CiteAtomsSimplified, simplified.atoms_simplified);
     statistics.increment(util::StatKey::CiteBranchesCollapsed, simplified.branches_collapsed);
+    statistics.increment(util::StatKey::CiteUniformityChecks, simplified.uniformity_checks);
+    statistics.increment(util::StatKey::CiteLeafComparisons, simplified.leaf_comparisons);
+    statistics.increment(util::StatKey::CiteLeafScanEquivalent, simplified.leaf_scan_equivalent);
     return AnyOf::single(goal.with_assertions(std::move(simplified.assertions)));
   });
 }

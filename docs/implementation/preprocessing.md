@@ -287,6 +287,52 @@ simplification because it can produce Boolean ITEs that those structural
 rules simplify further. Fewer
 auxiliary variables can come at the cost of more Boolean structure.
 
+### Constant-comparison work inside CITE simplification
+
+The pass owns `CiteLeaves`, an optional vector of exact `Rational` values per
+`TermId`, and `CsimpCache`, keyed by operator, CITE ID, constant and operand
+orientation. Present leaf sets are sorted and unique; negative scales are
+resorted by the existing leaf builder. The complete vectors and their merging
+representation remain unchanged.
+
+{source}`csimp_against_constant <src/smt/preprocessing.cpp>` classifies a
+nonempty set using its first and last leaf for `<` and `<=`. Each comparison
+is monotone in the leaf value, in either operand orientation: matching endpoint
+truth values establish a uniform result. Different endpoint truth values require
+the existing mixed-branch reconstruction. Equality first handles a singleton;
+for larger sets, `lower_bound` finds whether the constant occurs. Absence is
+uniformly false, while membership is mixed because the leaves are unique.
+For example, equality to 3 over `{2, 4, 8}` is false without descending into
+branches; equality to 4 requires the original conditional reconstruction.
+
+These are Primo engineering adaptations of Bromberger §8.2.3, p. 274
+{cite:p}`bromberger2019`, not additional rules attributed to the thesis.
+`SimplifyConstantItesResult` owns the counters published as
+`:preprocessing.cite.uniformity-checks`, `.leaf-comparisons` and
+`.leaf-scan-equivalent`. One uniformity check counts one classification visit;
+leaf comparisons count exact endpoint predicates or binary-search comparisons,
+including the final equality test. The equivalent scan counter adds the full
+leaf-set size at the same visit. Mixed frames can be classified on entry and
+again after their children finish, as before. Cache-key comparisons and leaf
+construction, sorting and union work are excluded.
+
+Per classification, inequalities take at most two leaf comparisons and equality
+takes logarithmic comparisons in the set size. Reconstruction can still visit
+many subterms; these bounds do not make the whole pass constant/logarithmic or
+bound the sum of cached leaf-set sizes by the input DAG size. Non-CITE absence
+still rebuilds the original atom, and an empty present set retains the old
+vacuous true result before endpoint access. The outer pass still leaves a
+top-level set with fewer than two leaves to ordinary folding. All endpoints
+and iterators are consumed before any term construction or leaf-map mutation.
+
+{source}`Preprocessing regressions <tests/unit/preprocessing_tests.cpp>` compare
+reconstructed terms against independent leaf decisions for both orientations,
+strictness, exact rational thresholds, negative/zero scales, equality membership
+and absence, singleton leaves and shared subterms. Balanced 8/64/512/4096-leaf
+probes require two comparisons for uniform inequalities and a logarithmic bound
+for equality absence inside the endpoint range. Qualification and paired timing
+acceptance are pending; this is not a new leaf representation or CITE pipeline.
+
 ### Translate remaining operators
 
 {source}`lower_extended_terms <src/smt/preprocessing.cpp#L4468-L4614>`
