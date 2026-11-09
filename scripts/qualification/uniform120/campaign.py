@@ -151,7 +151,12 @@ def import_references(args, config: dict, out: Path, runs: list[dict]) -> None:
                 derived = dict(row)
                 derived['original_seconds'] = row['seconds']
                 derived['original_status'] = row['status']
-                if decisive(row) and float(row['seconds']) > config['timeout_seconds']:
+                for field in ['answer', 'exit_code', 'timeout']:
+                    derived['original_' + field] = row[field]
+                elapsed = float(row['seconds'])
+                if not math.isfinite(elapsed) or elapsed < 0:
+                    raise ValueError('invalid archived duration')
+                if elapsed > config['timeout_seconds']:
                     derived.update(status='timeout', answer='unknown', timeout='true')
                 merged[row['file']] = derived
         if hashes != expected or set(merged) != set(expected):
@@ -167,6 +172,8 @@ def import_references(args, config: dict, out: Path, runs: list[dict]) -> None:
                 writer.writeheader()
                 writer.writerows(selected)
             (root / 'answers.csv.jsonl').write_text(''.join(json.dumps(r) + '\n' for r in selected))
+            originals = [{**r, **{k: r['original_' + k] for k in ['status', 'answer', 'seconds', 'exit_code', 'timeout']}} for r in selected]
+            (root / 'reference-answers.csv.jsonl').write_text(''.join(json.dumps(r) + '\n' for r in originals))
             derived_hashes[str(shard)] = digest(root / 'answers.csv')
         certificates[f'{logic}/{label}'] = {'kind': 'archived-reference-reuse', 'parent_plan_sha256': digest(parent_path),
                                            'source_files': source_files, 'derived_csv_sha256': derived_hashes,
@@ -183,7 +190,8 @@ def guarded(command: list[str], directory: Path, selected: dict, plan_value: dic
             peers = []
             for run in plan_value['runs']:
                 if run['logic'] == selected['logic'] and run['label'] != selected['label']:
-                    peers += legacy.journal(out / 'timing' / run['logic'] / run['label'] / f"shard-{selected['shard']}" / 'answers.csv.jsonl', live=True)
+                    filename = 'answers.csv.jsonl' if run['solver'] == 'primo' else 'reference-answers.csv.jsonl'
+                    peers += legacy.journal(out / 'timing' / run['logic'] / run['label'] / f"shard-{selected['shard']}" / filename, live=True)
             strict_rows(legacy.journal(directory / 'answers.csv.jsonl', live=True), peers, selected['solver'] != 'primo')
             if process.poll() is not None:
                 break

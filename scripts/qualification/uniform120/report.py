@@ -108,6 +108,11 @@ def gate(args) -> None:
                                         'native_revision': '7dd8874c'})
 
 
+def reference_answers(rows: list[dict]) -> list[dict]:
+    return [{**r, **{key: r['original_' + key] for key in
+                     ['status', 'answer', 'seconds', 'exit_code', 'timeout']}} for r in rows]
+
+
 def collect(args, final: bool) -> dict:
     plan = load(args.out / 'plan.json')
     gate_proof = load(args.out / 'gate-audit.json')
@@ -160,8 +165,10 @@ def collect(args, final: bool) -> dict:
         reports.setdefault(logic, {})[label] = result
         data.setdefault(logic, {})[label] = merged
     for logic, series in data.items():
-        for left, right in itertools.combinations(series.values(), 2):
-            check_rows(list(left.values()), list(right.values()), reference=True)
+        correctness = [reference_answers(list(rows.values())) if not label.startswith('primo') else list(rows.values())
+                       for label, rows in series.items()]
+        for left, right in itertools.combinations(correctness, 2):
+            check_rows(left, right, reference=True)
     report = {'status': 'complete' if final else 'timing-complete', 'plan_sha256': digest(args.out / 'plan.json'),
               'timeout_seconds': plan['config']['timeout_seconds'], 'memory_mib': plan['config']['memory_mib'],
               'runs': reports, 'reference_reuse_sha256': plan['reference_reuse_sha256'], 'reference_benchmark_executions': 0,

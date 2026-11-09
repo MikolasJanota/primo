@@ -6,7 +6,7 @@
       "id": "2026-11-09-uniform120",
       "date": "2026-11-09",
       "kind": "fresh-native120s full-corpus comparison with archived-reference reuse",
-      "evidence_status": "preparation; no new corpus timing/model result claimed",
+      "evidence_status": "Fresh gates and inventory complete; native corpus measurements/reference import pending",
       "native_source_git": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
       "implementation_source": "cab1ebc45fdf5d93940b36f574e2675be7ef4b4b",
       "scope": "Native defaults on24505 inputs plus declared integer profile on13965inputs; references read-only and censored1200->120s.",
@@ -32,6 +32,11 @@
           "check": "368761",
           "arithmetic-gates": "368762",
           "uf-gates": "368787"
+        },
+        "setup": {
+          "prepare": "368793",
+          "inventory": "368794",
+          "gate": "368799"
         }
       },
       "setup_history": [
@@ -43,7 +48,8 @@
         "inputs": "ExactSHA256 equality against freshly hashed full corpus; duplicates/missingrows rejected.",
         "cutoff": "Stored reference successes above120s become derived timeouts; original source files unchanged.",
         "resources": "Same8GiBASlimit andphysicalXeonE5-2690v4CPU generation; measurement dates differ.",
-        "execution": "Execution task list contains onlynative profiles; references never scheduled."
+        "execution": "Execution task list contains onlynative profiles; references never scheduled.",
+        "correctness": "Original uncensored archival concrete answers remain available to live/global contradiction checks, independently of120s performance cutoff."
       },
       "historical_feasibility": {
         "purpose": "Scheduling proxy only, not new performance evidence. Old native execution errors make old campaign unsuitable as new native qualification.",
@@ -55,14 +61,15 @@
       "verification": {
         "metadata_tests": "28pass (6new+22existing), no solver execution",
         "lint": "make lint and focusedRuff/py_compile pass",
-        "documentation": "Independent bounded reviewer resolvedU120-DOC-01/02/03; builds/links/rendered gate recorded in review artifact."
+        "documentation": "Independent bounded reviewer resolvedU120-DOC-01/02/03; builds/links/rendered gate recorded in review artifact.",
+        "fresh_gate": "7000profile-input checks,6969agreements,31inconclusive timeouts,no blocking outcomes;all5041primarySATdirectDolmen;gateaudit368799complete"
       },
       "artifacts": {
         "experiment": "benchmarks/uniform120-20261109/experiment.json",
         "raw_metadata": "results/uniform120-20261109 locally and dedicated remote workspace; SSH/corpus roots private"
       },
       "remaining": [
-        "Complete fresh gates and identity-checked reference import",
+        "Import and certify matching archived reference rows; fresh gates/inventory complete",
         "Submit fresh-native timing arrays only",
         "Audit global timing, validate every nativeSAT row separately",
         "Generate/audit uniform full+filtered plots and commit qualified results"

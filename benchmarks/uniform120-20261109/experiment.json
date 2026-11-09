@@ -1,6 +1,6 @@
 {
   "id": "2026-11-09-uniform120",
-  "status": "preparation; no new corpus timing/model result claimed",
+  "status": "fresh correctness gates and full input inventory complete; reference import/native timings pending",
   "user_constraints": [
     "Uniform presentation across five quantifier-free logics",
     "120-second timing cutoff; target18-hour turnaround",
@@ -65,15 +65,23 @@
   "resources": "1physicalCPU,8GiB enforced per-process address space and8GiBSLURM request; sameCPUgeneration and memory as archived references. Timing128/model96workers target; queues not guaranteed.",
   "presentation": "Fixed solver colours/order; same0.01\u2013120s log axis and0\u2013100%solved axis; full and common-easy<1s-filtered cohorts, each with separate metrics; no portfolio.",
   "methods": {
-    "scripts/qualification/uniform120/campaign.py": "7648452b35bb5cdbcb9f86a9af96c3c6cda3d82afd51fca8603aaec8c8607653",
+    "scripts/qualification/uniform120/campaign.py": "92c485b5cc9241c0b8562adc856b02f0d391dc094355f65bd8fa7221a8a254e7",
     "scripts/qualification/uniform120/config.json": "a3833a09778caa4656e5c3a212146f082e405bb0a961fca71a33427040cfffd1",
     "scripts/qualification/uniform120/launch.py": "573ca47cb4106a968d20de0d670c635d7f354a6f6a26619b026c9f2b5ed6d06c",
-    "scripts/qualification/uniform120/report.py": "4f8120764e272260397d2e09e5f75e5eea022e6f3d5e31508bc27d33c804bb63",
+    "scripts/qualification/uniform120/report.py": "0c2253fa55d2c69bf5a6aa1f8cfb147808c8eb37c57b94a3fc1ab3d9bfc6b850",
     "scripts/qualification/uniform120/report.sbatch": "7618f3362fbb8fb7101002d2208a7cbecd2fefb5f6d06d2e021d6030c0e1467f",
     "scripts/qualification/uniform120/run.sbatch": "b1d9935c44263986b08af9191a574900d9c371704d9954a6c3ac2f61bb851d7a",
     "scripts/qualification/uniform120/uf_gate.sbatch": "59a829b8f53aecc5c145ab411c85bf4333e38889fddb317784cdd2b3aac3598b"
   },
   "metadata_tests": "28pass:6new uniform guards plus22existing long-limit tests; no solver execution in these tests.",
   "prior_reference_limitations": "Archived reference timings retain their original errors/resource outcomes as unsolved. Different dates; exact current input SHA256 match required. Old native results are not reused.",
-  "plotter_sha256": "4c1ed7fb4eb3e58d48dbf67ade963a9810c3927774c8b445deacebdd8e20cc56"
+  "plotter_sha256": "4c1ed7fb4eb3e58d48dbf67ade963a9810c3927774c8b445deacebdd8e20cc56",
+  "native_binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
+  "fresh_gate": {
+    "profile_case_checks": 7000,
+    "PASS": 6969,
+    "inconclusive_timeouts": 31,
+    "primary_SAT_direct_Dolmen": 5041
+  },
+  "reference_correctness": "Use original uncensored reference answers for contradictions; censor every performance outcome observed after120s, preserving originals."
 }

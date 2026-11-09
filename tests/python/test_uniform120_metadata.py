@@ -54,14 +54,15 @@ class UniformMetadataTests(unittest.TestCase):
             parent = old / 'timing/QF_UF/z3/shard-0'
             WORKER.write(parent / 'provenance.json', {'status': 'complete', 'inputs_unchanged': True,
                          'timeout': 1200, 'solver': {'sha256': 'binary'}, 'solver_args': [],
-                         'inputs': {'a.smt2': 'A', 'b.smt2': 'B'}})
+                         'inputs': {'a.smt2': 'A', 'b.smt2': 'B', 'c.smt2': 'C'}})
             WORKER.write(parent / 'execution-timing.json', {'memory_mib': 8192,
                          'address_space_limit_bytes': [8192 * 1024**2] * 2, 'partition': 'compute',
                          'cpu_models': ['Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz'],
                          'job': 'old-job', 'array_job': 'old-job', 'task': 0, 'host': 'node-fixture', 'affinity': [0]})
-            write_rows(parent / 'answers.csv', [row(), row('b.smt2', seconds='121')])
+            write_rows(parent / 'answers.csv', [row(), row('b.smt2', seconds='121'),
+                                               row('c.smt2', status='error', answer='error', seconds='500', exit_code='1')])
             before = WORKER.digest(parent / 'answers.csv')
-            WORKER.write(out / 'inventory/QF_UF.json', {'inputs': {'a.smt2': {'sha256': 'A'}, 'b.smt2': {'sha256': 'B'}}})
+            WORKER.write(out / 'inventory/QF_UF.json', {'inputs': {'a.smt2': {'sha256': 'A'}, 'b.smt2': {'sha256': 'B'}, 'c.smt2': {'sha256': 'C'}}})
             config = {'reference_parent_plan_sha256': WORKER.digest(old / 'plan.json'), 'memory_mib': 8192, 'timeout_seconds': 120}
             run = {'logic': 'QF_UF', 'label': 'z3', 'solver': 'z3', 'shards': 1}
             with patch.object(WORKER.subprocess, 'run', side_effect=AssertionError('no reference execution')):
@@ -69,12 +70,17 @@ class UniformMetadataTests(unittest.TestCase):
             self.assertEqual(before, WORKER.digest(parent / 'answers.csv'))
             with (out / 'timing/QF_UF/z3/shard-0/answers.csv').open() as stream:
                 derived = list(csv.DictReader(stream))
-            self.assertEqual([r['status'] for r in derived], ['ok', 'timeout'])
+            self.assertEqual([r['status'] for r in derived], ['ok', 'timeout', 'timeout'])
             self.assertEqual(derived[1]['original_seconds'], '121')
+            self.assertEqual(derived[2]['original_status'], 'error')
+            original_answers = REPORT.reference_answers(derived)
+            self.assertEqual(original_answers[1]['answer'], 'sat')
+            with self.assertRaisesRegex(ValueError, 'disagreement'):
+                WORKER.strict_rows([row('b.smt2', answer='unsat')], original_answers, False)
             proof = json.loads((out / 'reference-reuse.json').read_text())['QF_UF/z3']
             self.assertEqual(proof['reference_benchmark_executions'], 0)
             # A changed current corpus must not be silently plotted by filename.
-            WORKER.write(out / 'inventory/QF_UF.json', {'inputs': {'a.smt2': {'sha256': 'changed'}, 'b.smt2': {'sha256': 'B'}}})
+            WORKER.write(out / 'inventory/QF_UF.json', {'inputs': {'a.smt2': {'sha256': 'changed'}, 'b.smt2': {'sha256': 'B'}, 'c.smt2': {'sha256': 'C'}}})
             with self.assertRaisesRegex(ValueError, 'input-byte mismatch'):
                 WORKER.import_references(SimpleNamespace(references=old), config, out, [run])
 

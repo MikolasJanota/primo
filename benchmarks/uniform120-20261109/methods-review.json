@@ -15,5 +15,16 @@
   },
   "validation": "28metadata tests (6new+22existing), standalone CLI help, make lint, focusedruff/pycompile and sbatch validation; make docs-site and local/Git links0failures; writer rendered inspection.",
   "scope": "Page/TOC and six assigned worker/report/config/batch contracts plus plotting extension. Review is preparation-stage source correspondence, not timing outcome acceptance.",
-  "unchecked_scope": "Remote archive provenance, active jobs/gate results, new launcher orchestration, final run-log/experiment records and actual generated campaign plots not independently reviewed."
+  "unchecked_scope": "Remote archive provenance, active jobs/gate results, new launcher orchestration, final run-log/experiment records and actual generated campaign plots not independently reviewed.",
+  "followup_contract_review": {
+    "baseline": "c7d51387",
+    "verdict": "ready; no required findings",
+    "scope": "Uncensored archived-answer contradiction checks and complete cutoff accounting, including delayed error/unknown outcomes; extended immutable-archive regression",
+    "sha256": {
+      "scripts/qualification/uniform120/campaign.py": "92c485b5cc9241c0b8562adc856b02f0d391dc094355f65bd8fa7221a8a254e7",
+      "scripts/qualification/uniform120/report.py": "0c2253fa55d2c69bf5a6aa1f8cfb147808c8eb37c57b94a3fc1ab3d9bfc6b850",
+      "tests/python/test_uniform120_metadata.py": "375df58f1a76e0ad540205dcda84df60480c152a04810480d866f747d0740f8f"
+    },
+    "validation": "Reviewer independently ran6new metadata tests without solver execution. All28new/existing metadata tests and lint pass."
+  }
 }

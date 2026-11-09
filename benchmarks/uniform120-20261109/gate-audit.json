@@ -1,0 +1,58 @@
+{
+  "status": "complete",
+  "profiles": {
+    "lia-default": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 986,
+        "TIMEOUT": 14
+      },
+      "primary_SAT_direct_Dolmen": 870
+    },
+    "lia-m124": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 983,
+        "TIMEOUT": 17
+      },
+      "primary_SAT_direct_Dolmen": 867
+    },
+    "uflia-default": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "primary_SAT_direct_Dolmen": 518
+    },
+    "uflia-m124": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "primary_SAT_direct_Dolmen": 518
+    },
+    "lra-default": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "primary_SAT_direct_Dolmen": 1000
+    },
+    "uflra-default": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "primary_SAT_direct_Dolmen": 624
+    },
+    "uf-default": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "primary_SAT_direct_Dolmen": 644
+    }
+  },
+  "native_binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
+  "native_revision": "7dd8874c"
+}
