@@ -1,0 +1,277 @@
+{
+  "schema_version": 1,
+  "scope": "Fresh generated answer/model correctness checks; not corpus timing validation",
+  "series": [
+    {
+      "logic": "QF_UF",
+      "profile": "strong",
+      "primary_rows": 1000,
+      "answers": {
+        "sat": 647,
+        "unsat": 353
+      },
+      "comparison_outcomes": {
+        "PASS": 1000
+      },
+      "model_replay_outcomes": {
+        "pass": 647
+      },
+      "selected_sat_rows": 647,
+      "selected_sat_direct_dolmen_pass": 647,
+      "all_direct_dolmen_pass": 647,
+      "missing_selected_sat": []
+    },
+    {
+      "logic": "QF_UF",
+      "profile": "auto",
+      "primary_rows": 1000,
+      "answers": {
+        "sat": 632,
+        "unsat": 368
+      },
+      "comparison_outcomes": {
+        "PASS": 1000
+      },
+      "model_replay_outcomes": {
+        "pass": 632
+      },
+      "selected_sat_rows": 632,
+      "selected_sat_direct_dolmen_pass": 632,
+      "all_direct_dolmen_pass": 632,
+      "missing_selected_sat": []
+    },
+    {
+      "logic": "QF_UFLIA",
+      "profile": "strong",
+      "primary_rows": 1000,
+      "answers": {
+        "sat": 515,
+        "unsat": 485
+      },
+      "comparison_outcomes": {
+        "PASS": 1000
+      },
+      "model_replay_outcomes": {
+        "pass": 515
+      },
+      "selected_sat_rows": 515,
+      "selected_sat_direct_dolmen_pass": 515,
+      "all_direct_dolmen_pass": 515,
+      "missing_selected_sat": []
+    },
+    {
+      "logic": "QF_UFLIA",
+      "profile": "auto",
+      "primary_rows": 1000,
+      "answers": {
+        "sat": 516,
+        "unsat": 484
+      },
+      "comparison_outcomes": {
+        "PASS": 1000
+      },
+      "model_replay_outcomes": {
+        "pass": 516
+      },
+      "selected_sat_rows": 516,
+      "selected_sat_direct_dolmen_pass": 516,
+      "all_direct_dolmen_pass": 516,
+      "missing_selected_sat": []
+    },
+    {
+      "logic": "QF_UFLRA",
+      "profile": "strong",
+      "primary_rows": 1000,
+      "answers": {
+        "sat": 617,
+        "unsat": 383
+      },
+      "comparison_outcomes": {
+        "PASS": 1000
+      },
+      "model_replay_outcomes": {
+        "pass": 617
+      },
+      "selected_sat_rows": 617,
+      "selected_sat_direct_dolmen_pass": 617,
+      "all_direct_dolmen_pass": 617,
+      "missing_selected_sat": []
+    },
+    {
+      "logic": "QF_UFLRA",
+      "profile": "auto",
+      "primary_rows": 1000,
+      "answers": {
+        "sat": 618,
+        "unsat": 382
+      },
+      "comparison_outcomes": {
+        "PASS": 1000
+      },
+      "model_replay_outcomes": {
+        "pass": 618
+      },
+      "selected_sat_rows": 618,
+      "selected_sat_direct_dolmen_pass": 618,
+      "all_direct_dolmen_pass": 618,
+      "missing_selected_sat": []
+    },
+    {
+      "logic": "QF_LRA",
+      "profile": "strong",
+      "primary_rows": 1000,
+      "answers": {
+        "sat": 1000
+      },
+      "comparison_outcomes": {
+        "PASS": 1000
+      },
+      "model_replay_outcomes": {},
+      "selected_sat_rows": 1000,
+      "selected_sat_direct_dolmen_pass": 1000,
+      "all_direct_dolmen_pass": 1000,
+      "missing_selected_sat": []
+    },
+    {
+      "logic": "QF_LRA",
+      "profile": "auto",
+      "primary_rows": 1000,
+      "answers": {
+        "sat": 1000
+      },
+      "comparison_outcomes": {
+        "PASS": 1000
+      },
+      "model_replay_outcomes": {},
+      "selected_sat_rows": 1000,
+      "selected_sat_direct_dolmen_pass": 1000,
+      "all_direct_dolmen_pass": 1000,
+      "missing_selected_sat": []
+    },
+    {
+      "logic": "QF_LIA",
+      "profile": "strong",
+      "primary_rows": 1000,
+      "answers": {
+        "TIMEOUT": 25,
+        "sat": 869,
+        "unsat": 106
+      },
+      "comparison_outcomes": {
+        "PASS": 975,
+        "TIMEOUT": 25
+      },
+      "model_replay_outcomes": {
+        "not-sat": 106,
+        "pass": 875,
+        "solver-timeout": 19
+      },
+      "selected_sat_rows": 869,
+      "selected_sat_direct_dolmen_pass": 869,
+      "all_direct_dolmen_pass": 875,
+      "missing_selected_sat": []
+    },
+    {
+      "logic": "QF_LIA",
+      "profile": "auto",
+      "primary_rows": 1000,
+      "answers": {
+        "TIMEOUT": 14,
+        "sat": 875,
+        "unsat": 111
+      },
+      "comparison_outcomes": {
+        "PASS": 986,
+        "TIMEOUT": 14
+      },
+      "model_replay_outcomes": {
+        "not-sat": 111,
+        "pass": 875,
+        "solver-timeout": 14
+      },
+      "selected_sat_rows": 875,
+      "selected_sat_direct_dolmen_pass": 875,
+      "all_direct_dolmen_pass": 875,
+      "missing_selected_sat": []
+    }
+  ],
+  "primary_rows": 10000,
+  "selected_sat_rows": 7289,
+  "selected_sat_direct_dolmen_pass": 7289,
+  "summary_sha256": {
+    "fuzz/uf-strong/shard-0/model-validation/summary.csv": "80428fe5615b1f82140de3ee374e7d5ed9d2af61de693e67b460d5cac45a3724",
+    "fuzz/uf-strong/shard-0/summary.csv": "04e28fd534eb8a71ef5f12728b83bc741452a5e947613179af678983542c48a9",
+    "fuzz/uf-strong/shard-1/model-validation/summary.csv": "8d9c8798396a7a7fce19ce62a1c005e5b21ba0c779079baf43f8626a6d820324",
+    "fuzz/uf-strong/shard-1/summary.csv": "74383f84af48334e9862eb65b47f33c459cb99e4ab68e7e07ef0b8f47703e8e6",
+    "fuzz/uf-strong/shard-2/model-validation/summary.csv": "713adfcf60f633656388978ef5cf3cbda5b82dfa3021ac56aa0a6b35faea7274",
+    "fuzz/uf-strong/shard-2/summary.csv": "e59dc5f8ebba81cc1e5a6cb309c01fb477d69912dcf3e80549f8f310501b1aae",
+    "fuzz/uf-strong/shard-3/model-validation/summary.csv": "4c4186b4db50016dbfb18b8f0744cba234c4f96b7cf3013bcf4f00aa481cbb38",
+    "fuzz/uf-strong/shard-3/summary.csv": "c3a66ac9f18341035c066acbcc4a469f86ab1fef4f05215a731f3cbcda18fb14",
+    "fuzz/uf-auto/shard-0/model-validation/summary.csv": "7a2ccc271b40cf526474ea639082698beb30bf235088a112285ae3d39960c0ed",
+    "fuzz/uf-auto/shard-0/summary.csv": "24151f3a511e155ef46a9fa9c787134fa178e325cc973b650f178d306c9cd242",
+    "fuzz/uf-auto/shard-1/model-validation/summary.csv": "ba56d7b29dd595015cd8de49fbb53dd70a0f376d320caa2e7f629649e50045d0",
+    "fuzz/uf-auto/shard-1/summary.csv": "b2ed88191dab76ec2d5ba661125cc00badec3f5650fc6da8a64b8e6f41d970d8",
+    "fuzz/uf-auto/shard-2/model-validation/summary.csv": "a4f749019d33f04c232ab6827721ef6a9c18d6de60c98ca0565762ac287da897",
+    "fuzz/uf-auto/shard-2/summary.csv": "5152f3e33c90640c632a02a34f0e3ba0e665befb3bd70b7dfc1e36f195eaa78c",
+    "fuzz/uf-auto/shard-3/model-validation/summary.csv": "7bdfc6f344c0c6701bee4dac59053e8873611f382e8dcacba97f911b16bd421c",
+    "fuzz/uf-auto/shard-3/summary.csv": "33776ff87916651992c80944364c0b35d6aff8d63146d6a50f175fc213d4cc63",
+    "fuzz/uflia-strong/shard-0/answers/summary.csv": "95dad27f7ba98e0271965011961e7d7bfdccd6581fa618fbad9d436a77218ae0",
+    "fuzz/uflia-strong/shard-0/models/summary.csv": "849f61b06ef989b8437baecc1c0a8fb35ebf10813566f7270bf79be7c5c7dae5",
+    "fuzz/uflia-strong/shard-1/answers/summary.csv": "e4ade372628262e265aa61e2a8a3e4d4553b911a2e664417171e753db9c539d2",
+    "fuzz/uflia-strong/shard-1/models/summary.csv": "6394ebb20efef70ab20ada0bb8722f80360d07a4f883b0b480387c6bdf75e417",
+    "fuzz/uflia-strong/shard-2/answers/summary.csv": "ec4b8159086bdf544c28319510f81c12c86b773185e7fec51a42af4b2037dfdd",
+    "fuzz/uflia-strong/shard-2/models/summary.csv": "95d568a1fbb616cbbb53fe88d84193d43dc6cddb59979f94404a1fa82830205d",
+    "fuzz/uflia-strong/shard-3/answers/summary.csv": "6e5621e82f814dfb9438d7a0f00e474293c3531adb10ac8693e1e6c8d9e048f5",
+    "fuzz/uflia-strong/shard-3/models/summary.csv": "98abebe2bd7261c84abf391546609d59e647e5fc5e3c9a53f04fb602a0ac0496",
+    "fuzz/uflia-auto/shard-0/answers/summary.csv": "2da145fa087b5449e564f2c65b60f06a319050dbc97996a876a61b5ba595616a",
+    "fuzz/uflia-auto/shard-0/models/summary.csv": "53fd2bb8e090793fac0c830836cc1d47cb1f0f080ca066b434bab480c79e1cb6",
+    "fuzz/uflia-auto/shard-1/answers/summary.csv": "4fd910ffaba5bc9d65b324620636b166a3f73ff881fcf491375c2154a54e29a2",
+    "fuzz/uflia-auto/shard-1/models/summary.csv": "fc5ba4c05e846ba47263b1ddf4645930a3889605b6891246f53c70a008523b08",
+    "fuzz/uflia-auto/shard-2/answers/summary.csv": "713893c9849a332e5a578ba452570172d26024cf1b0329751750db5855e202f4",
+    "fuzz/uflia-auto/shard-2/models/summary.csv": "0e3aef3fb6bfa8e01ed99e32192ba58fff73e3f18c92f114badf125a7c3a9549",
+    "fuzz/uflia-auto/shard-3/answers/summary.csv": "986ff5d9b34e37608a742e17ff78f29279c73a535fd9109f54150a014a6c0102",
+    "fuzz/uflia-auto/shard-3/models/summary.csv": "8f6e02b76fb2e15fb8717bad55b80c5f785d42419e114f0ea2f884a1b102641a",
+    "fuzz/uflra-strong/shard-0/answers/summary.csv": "479266318123aac35afaa8f160c7405842d2f6152e44475846cf82408d1dae82",
+    "fuzz/uflra-strong/shard-0/models/summary.csv": "bf5caa953d9699bfa05a9665b9f4efc02d32cd010cc66d2a080e0bf0dc09ccbf",
+    "fuzz/uflra-strong/shard-1/answers/summary.csv": "54f9a395597e4093274507ec1f7b4c7597684d3e5f7ec4c2ab3f54b4d2ca6836",
+    "fuzz/uflra-strong/shard-1/models/summary.csv": "53df5a0ef2a2a1a15b09289c1628aa6a9238488e2d6299cdf446b5ff9da7871f",
+    "fuzz/uflra-strong/shard-2/answers/summary.csv": "8e2b18d91311b424f06a566e49101ffae5b97da4158d5e30521699546113e05f",
+    "fuzz/uflra-strong/shard-2/models/summary.csv": "930ae3213c69d1ce61bad2b19609d7d9b245a1ecbdbfaae1260b46995ff28bf1",
+    "fuzz/uflra-strong/shard-3/answers/summary.csv": "a36e7d40316c2ab03aaf5e2c48c9e5a9f439b9ef2d6bb3aeeb18cdc2bf98fbf8",
+    "fuzz/uflra-strong/shard-3/models/summary.csv": "522a1e8d9f5c54d6974f295fa7d4cc7db3ee63f167e3334f4502dc84280e479c",
+    "fuzz/uflra-auto/shard-0/answers/summary.csv": "34c5a33e4b19882db69b80aeb7d234b204163b381a3803bdd2b07c9cbd3f51a2",
+    "fuzz/uflra-auto/shard-0/models/summary.csv": "700c04f124ab9090ae36643bb4c985d7667ee668f48a1becc3d1695aba6edf3f",
+    "fuzz/uflra-auto/shard-1/answers/summary.csv": "238d78dff9a7d95aaf1db19b9ebd72208aacd5c80651377c3d905ba8ffbbe802",
+    "fuzz/uflra-auto/shard-1/models/summary.csv": "2a42cbdf279f584136bdec92e1cd0d5dd27e3c33bc1faf1bcca6e1ea0c4a2acb",
+    "fuzz/uflra-auto/shard-2/answers/summary.csv": "935c20053aa0038d46d3e85b51fcca7a38acf84b9ac6c7946c75ade5d22fd5bf",
+    "fuzz/uflra-auto/shard-2/models/summary.csv": "fa96e6e0a22474d38e6eada7d5239b436729953c4d12be0d3d11d40d0ac864a7",
+    "fuzz/uflra-auto/shard-3/answers/summary.csv": "9b287a732fa0e5f4cf6a28e43ee2ad955b347d93c5f7326b07b1072a2cb5fa96",
+    "fuzz/uflra-auto/shard-3/models/summary.csv": "426d8cbf28dc07592f5ede0c59f6e74874f7bf20e347648ee38ce8ad6017df7c",
+    "fuzz/lra-strong/shard-0/summary.csv": "b14503eef43be05c72b19261442e06e8891786017ab8ada2de4704b86f32154e",
+    "fuzz/lra-strong/shard-1/summary.csv": "aef74756280d0d8db9dbad8880cea9d3db7457f6a699d1dbedb842b3798a76f1",
+    "fuzz/lra-strong/shard-2/summary.csv": "3647f07269512608d948167b9e1cd411692e1a1a2a89a3b7b715e33556614c9c",
+    "fuzz/lra-strong/shard-3/summary.csv": "34fb36bc3131a4881642425fe2d87e219bc2d15ccb0fc815e61f2363e60c2bcc",
+    "fuzz/lra-auto/shard-0/summary.csv": "4b7d7795838c87537e28c4834e23298ab2fb5fed5b068e56fe51402be6863967",
+    "fuzz/lra-auto/shard-1/summary.csv": "f7f6fd9fa4f8ddd1940a5a3747508e79a45412c8089c4b8bde08a504ecb3f89e",
+    "fuzz/lra-auto/shard-2/summary.csv": "266e8513c85fcfe3811299bc48c518d3dddc8ca5a508800c75c39b8821035ef9",
+    "fuzz/lra-auto/shard-3/summary.csv": "0e1f59321b2ad7800cfc2353e462c2d295d6e510097e89e32434525c64ccb0a8",
+    "fuzz/lia-strong/shard-0/lia/fuzzsmt/shard-0/summary.csv": "3270a64c9f57f9378c7e9f8c539b9e1d47db407ad28b36a9134f8d03672abe99",
+    "fuzz/lia-strong/shard-0/lia/model-validation/shard-0/summary.csv": "fe0bd8ad193197109b6d6869daf08ab128e8c2c8df4e74b2e254211900724204",
+    "fuzz/lia-strong/shard-1/lia/fuzzsmt/shard-0/summary.csv": "e8242f190231f5a0450ffb955405e545eabfb9b78744d6e2b577af53bff7bad7",
+    "fuzz/lia-strong/shard-1/lia/model-validation/shard-0/summary.csv": "64d3bd5421a2c3a73cca9d78977d3488614a33af05053c2d684f26de4a8b28f8",
+    "fuzz/lia-strong/shard-2/lia/fuzzsmt/shard-0/summary.csv": "24bc49e24ab2033757a675641d29ec224ffb4b5aaee04d7bc90acd2a6ab5c3ab",
+    "fuzz/lia-strong/shard-2/lia/model-validation/shard-0/summary.csv": "bc7ee803c416a41ea1fc11bebd25bd96b7484089bc7aaaf610e4ae672d190ca2",
+    "fuzz/lia-strong/shard-3/lia/fuzzsmt/shard-0/summary.csv": "0fe8531a4bdbc4641ee347cf787a8048afd12a8421e3fa4d7123d5e1e0a0e6ad",
+    "fuzz/lia-strong/shard-3/lia/model-validation/shard-0/summary.csv": "370c1e0b54c5f362bdb0363b88e58d754ae8a8b12baca88ce56b609ecee5f07e",
+    "fuzz/lia-auto/shard-0/lia/fuzzsmt/shard-0/summary.csv": "fee4e9eeb01103cc19d44c484cf80d30150e11ffa61e966d8437f42f281c79d0",
+    "fuzz/lia-auto/shard-0/lia/model-validation/shard-0/summary.csv": "d898fe9d89723d2c67a7aef819e9d7ac776d358fbb9db8adc47f66c150b81c99",
+    "fuzz/lia-auto/shard-1/lia/fuzzsmt/shard-0/summary.csv": "8c4f86ee477bfd8cfffbc4c6ba4ddcc00dc3c2ad2aa3a309c9beba843733647d",
+    "fuzz/lia-auto/shard-1/lia/model-validation/shard-0/summary.csv": "d3ab721fbd21b601f4490a3f4ec97b18641ac3c9bb80ac1f2fe4152eb4898be8",
+    "fuzz/lia-auto/shard-2/lia/fuzzsmt/shard-0/summary.csv": "ec86ebaea1ee734c0ed100cdf7844485c50c10b10af5a13ea5ea2b79146bb24b",
+    "fuzz/lia-auto/shard-2/lia/model-validation/shard-0/summary.csv": "8aa6cdf13f611f8e18e6ae7653609b662953f7f20a35a7f71a94c4b492f26ccd",
+    "fuzz/lia-auto/shard-3/lia/fuzzsmt/shard-0/summary.csv": "a6d57436d19a6e5313e212801fc22c9824219bcb9131714eaf6c4a17e50d42e8",
+    "fuzz/lia-auto/shard-3/lia/model-validation/shard-0/summary.csv": "72a984f6fb86d36e86cbd1b5079a77c7e4524cba1653920edeedc2ca4e321aea"
+  },
+  "failures": [],
+  "status": "complete"
+}

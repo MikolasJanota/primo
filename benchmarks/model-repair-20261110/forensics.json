@@ -1,0 +1,113 @@
+{
+  "schema_version": 1,
+  "scope": "Correctness repair; no new timing or default-promotion claim",
+  "historical_failure": "benchmarks/uflia-gaps-20261110/model-replay-failure.json",
+  "historical_failure_sha256": "75d5b9fd35faead87926ef3279a0e2647d9f66c9b7fc64b86b7f27bfd1ba88ae",
+  "baseline": {
+    "source_git": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
+    "binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
+    "minimal_job": "382131",
+    "minimal_exit_code": 2,
+    "minimal_input": "benchmarks/regressions/qf_uflia_finite_domain_eliminated_argument.smt2",
+    "minimal_sha256": "39180cb183752b5160ca696340722affe001305e944f94186ef4999719278084",
+    "solver_args": [
+      "--quiet",
+      "--check-model",
+      "--preprocessing-mode=strong"
+    ],
+    "diagnostic": "model: assembled component model falsifies a final assertion"
+  },
+  "diagnostic_snapshots": [
+    {
+      "source_git": "f2da08d75f2cfc0b288d87a8cc7c2e741837538d",
+      "job": "382124",
+      "purpose": "Identify the failing final assertion; temporary instrumentation only",
+      "binary_sha256": "86a747c9c30fdac39e80a37a064536479d30f08b7398dda809448629e40eaca7",
+      "executed_input_sha256": "c0073ced7aef3b3f5b2e8e53efd8ae09121b2e6a80910d51d1e788a232aa4414"
+    },
+    {
+      "source_git": "dd4383753f6bd227a17c803bda1faab99d0987cb",
+      "job": "382126",
+      "purpose": "Trace the implicated constant/application/proxy through reverse conversion; temporary instrumentation only",
+      "binary_sha256": "a4d1d59facb30d9f04fb1975c26c2cb32f041ce5a197cb7211977ccadc91b9fe",
+      "executed_input_sha256": "c0073ced7aef3b3f5b2e8e53efd8ae09121b2e6a80910d51d1e788a232aa4414"
+    }
+  ],
+  "original_seed": {
+    "logic": "QF_UFLIA",
+    "file": "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_58_QF_UFLIA.smt2",
+    "sha256": "47f6d84bcf95f569f885d5d8987cd849df0e9598d8e07b11c6154d6816cab6c7"
+  },
+  "failed_equality": {
+    "term_id": 37425,
+    "text": "$primo_no_proxy_540 = x130(x159, x285)"
+  },
+  "before_restoring_argument": {
+    "x159": "18446744073709551617",
+    "x285": "3547226262",
+    "x130(x159,x285)": "3547226262",
+    "$primo_no_proxy_540": "3547226262"
+  },
+  "after_directed_equality_substitution": {
+    "x159": "1084754512",
+    "x285": "3547226262",
+    "x130(x159,x285)": "18446744073709551618",
+    "$primo_no_proxy_540": "3547226262"
+  },
+  "root_cause": "Profile analysis cached finite-domain clauses before solve-eqs. Delayed emission reused clauses in the old vocabulary and reintroduced an eliminated UF argument. Model reconstruction restored that argument, invalidating an auxiliary function row.",
+  "repair": "Bind both raw AMO and optional symmetry results to the exact ordered source assertion IDs. Regenerate from current goal assertions after any mismatch, independently for each nonterminal alternative.",
+  "guards": "Component model guard, final model checks and reverse-conversion order unchanged.",
+  "raw_artifacts": "results/model-repair-20261110/raw; private frozen SLURM archive",
+  "diagnostic_sha256": {
+    "diagnostic1/exit-code": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+    "diagnostic1/identities.sha256": "99f06b8ae0a9bc4248b682180a306d7c329f909342252cff1ce6d0b7d7b72a97",
+    "diagnostic1/solver.stderr": "0bbcc80700fcee699828d6efb70b644b9e0eea95059c7fbeddb055be651fa18d",
+    "diagnostic1/solver.stdout": "2add29aa14d039d0bf2745eec0ede40204833c9b8191410aadd3269daec30798",
+    "diagnostic2/exit-code": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+    "diagnostic2/identities.sha256": "de07d60c57480836cbf7b9470985f5047393f4a72dd13036ab9d68f940fe4a4d",
+    "diagnostic2/solver.stderr": "ad42081460533295cf8568fb1adfecd0e5e5b52e0b17767f03636ca73a579025",
+    "diagnostic2/solver.stdout": "2add29aa14d039d0bf2745eec0ede40204833c9b8191410aadd3269daec30798",
+    "model-repair-minimal-baseline3/exit-code": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3",
+    "model-repair-minimal-baseline3/identities.sha256": "83964c44f438f8e55799a5fc68eaaac46e0b83acc0907c18bf8979fa4ea0545d",
+    "model-repair-minimal-baseline3/solver.stderr": "db5b8535a5f1b43e0a550f7b36012bc4a741fb4becf9940c7b1db3fb733c8950",
+    "model-repair-minimal-baseline3/solver.stdout": "2add29aa14d039d0bf2745eec0ede40204833c9b8191410aadd3269daec30798"
+  },
+  "exploratory_attempts": {
+    "382127": "Rejected by start-mode option order; not bug evidence",
+    "382128": "Correct option order with f(a)=1 happens to produce a passing model; final f(a)=0 witness fails"
+  },
+  "build_attempts": {
+    "382122": "Missing node C++ standard headers; failed before qualification",
+    "382123": "First diagnostic snapshot with explicit compiler-header manifest",
+    "382125": "Replay-trace diagnostic snapshot",
+    "382133": "Initial fix snapshot",
+    "382149": "Final source/test snapshot5dad44cd",
+    "382157": "Final source/test snapshot5d7d4fe0; same production C++ as the initial fix"
+  },
+  "test_attempts": {
+    "382143": "Strict compiler warning in new test fixture; fixed by explicitly initializing analyzed_symmetry in5dad44cd. Downstream382144/382145/382146/382148 canceled before execution.",
+    "382151": "Existing clause-count assertions expected stale raw clauses to survive. Six-fixture probe382156 confirmed new emission counts; SAT/UNSAT decisions unchanged. Updated count regressions in5d7d4fe0; canceled downstream382152/382153/382154/382155 before execution.",
+    "382159": "Final make check passed47C++ test groups and329Python tests."
+  },
+  "preliminary_model_replays": [
+    {
+      "job": "382141",
+      "source_git": "334c52bf79acb429672739ff0923eb9815f6c2dc",
+      "outcomes": {
+        "direct_Dolmen_pass": 2
+      },
+      "status": "Exploratory only; superseded by final382158. Binary was rebuilt; no standalone SHA recorded, so not accepted qualification evidence.",
+      "raw": "results/model-repair-20261110/raw/reproduce1"
+    },
+    {
+      "job": "382150",
+      "source_git": "5dad44cd182ffd5542758899d76b831c5ce0fb7b",
+      "outcomes": {
+        "direct_Dolmen_pass": 2
+      },
+      "status": "Exploratory only; superseded by final382158 after fixture count updates. Not included in final model totals.",
+      "raw": "results/model-repair-20261110/collected/results/reproduce2"
+    }
+  ],
+  "diagnostic_input_adaptation": "The original real seed was replayed through its separate command-adapted model input from the parent investigation; original assertion text preserved. Original and executed input identities are recorded separately."
+}

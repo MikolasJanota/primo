@@ -1,0 +1,176 @@
+{
+  "job": "382156",
+  "source_git": "5dad44cd182ffd5542758899d76b831c5ce0fb7b",
+  "scope": "Six existing unit fixtures observed before updating expected clause counts. SAT/UNSAT decisions unchanged. Parser in the stored runner was subsequently corrected; these values were independently extracted from retained stdout, not regenerated.",
+  "rows": [
+    {
+      "fixture": "strong_preprocessing_enables_finite_domain_amo",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--preprocessing-mode=strong"
+      ],
+      "exit_code": 0,
+      "answer": "sat",
+      "statistics": {
+        ":preprocessing.real-equality-lowering.lowered": 0,
+        ":preprocessing.finite-domain.domains": 1,
+        ":preprocessing.finite-domain.amo-clauses": 3,
+        ":preprocessing.finite-domain.raw-choices": 1,
+        ":preprocessing.finite-domain.raw-amo-clauses": 3,
+        ":preprocessing.finite-domain.post-amo-clauses": 3,
+        ":preprocessing.finite-domain.deduped-amo-clauses": 3,
+        ":preprocessing.finite-domain.evaluated-equalities": 0,
+        ":preprocessing.finite-domain.evaluation-cutoffs": 0,
+        ":preprocessing.real-equality-lowering.guarded-distributed": 0,
+        ":preprocessing.finite-domain.explicit-disequality-choices": 1,
+        ":preprocessing.finite-domain.integer-numeral-choices": 0,
+        ":preprocessing.finite-domain.rejected-missing-distinctness": 0,
+        ":preprocessing.finite-domain.raw-cache-refreshes": 1
+      },
+      "stdout_sha256": "d9dbf94b05b8314af9ca7f2034e92685c33447917605a7243b1099c693a12e5e",
+      "stderr_sha256": "bf7234682ba752217cd69c1841b3c737e52353365bfa66f325830c55950c6c1e"
+    },
+    {
+      "fixture": "finite_domain_raw_amo_survives_forced_atom_simplification",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--preprocessing-mode=strong"
+      ],
+      "exit_code": 0,
+      "answer": "sat",
+      "statistics": {
+        ":preprocessing.real-equality-lowering.lowered": 0,
+        ":preprocessing.finite-domain.domains": 1,
+        ":preprocessing.finite-domain.amo-clauses": 1,
+        ":preprocessing.finite-domain.raw-choices": 1,
+        ":preprocessing.finite-domain.raw-amo-clauses": 3,
+        ":preprocessing.finite-domain.post-amo-clauses": 1,
+        ":preprocessing.finite-domain.deduped-amo-clauses": 1,
+        ":preprocessing.finite-domain.evaluated-equalities": 0,
+        ":preprocessing.finite-domain.evaluation-cutoffs": 0,
+        ":preprocessing.real-equality-lowering.guarded-distributed": 0,
+        ":preprocessing.finite-domain.explicit-disequality-choices": 1,
+        ":preprocessing.finite-domain.integer-numeral-choices": 0,
+        ":preprocessing.finite-domain.rejected-missing-distinctness": 0,
+        ":preprocessing.finite-domain.raw-cache-refreshes": 1
+      },
+      "stdout_sha256": "d9dbf94b05b8314af9ca7f2034e92685c33447917605a7243b1099c693a12e5e",
+      "stderr_sha256": "8d427c46e04d071912372d64b58dccf6d14cec90f7cb5f608bd397c6d929c8ca"
+    },
+    {
+      "fixture": "finite_domain_post_amo_can_be_disabled",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--preprocessing-mode=strong",
+        "--no-finite-domain-post-amo"
+      ],
+      "exit_code": 0,
+      "answer": "sat",
+      "statistics": {
+        ":preprocessing.real-equality-lowering.lowered": 0,
+        ":preprocessing.finite-domain.domains": 1,
+        ":preprocessing.finite-domain.amo-clauses": 1,
+        ":preprocessing.finite-domain.raw-choices": 1,
+        ":preprocessing.finite-domain.raw-amo-clauses": 3,
+        ":preprocessing.finite-domain.post-amo-clauses": 0,
+        ":preprocessing.finite-domain.deduped-amo-clauses": 0,
+        ":preprocessing.finite-domain.evaluated-equalities": 0,
+        ":preprocessing.finite-domain.evaluation-cutoffs": 0,
+        ":preprocessing.real-equality-lowering.guarded-distributed": 0,
+        ":preprocessing.finite-domain.explicit-disequality-choices": 1,
+        ":preprocessing.finite-domain.integer-numeral-choices": 0,
+        ":preprocessing.finite-domain.rejected-missing-distinctness": 0,
+        ":preprocessing.finite-domain.raw-cache-refreshes": 1
+      },
+      "stdout_sha256": "d9dbf94b05b8314af9ca7f2034e92685c33447917605a7243b1099c693a12e5e",
+      "stderr_sha256": "756a7dd3ef27ebb38ca9543e535f452335da884af8cae409e739cca084f430d1"
+    },
+    {
+      "fixture": "finite_domain_amo_uses_forced_disequalities_modulo_forced_equalities",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--preprocessing-mode=strong"
+      ],
+      "exit_code": 0,
+      "answer": "sat",
+      "statistics": {
+        ":preprocessing.real-equality-lowering.lowered": 0,
+        ":preprocessing.finite-domain.domains": 2,
+        ":preprocessing.finite-domain.amo-clauses": 9,
+        ":preprocessing.finite-domain.raw-choices": 2,
+        ":preprocessing.finite-domain.raw-amo-clauses": 6,
+        ":preprocessing.finite-domain.post-amo-clauses": 9,
+        ":preprocessing.finite-domain.deduped-amo-clauses": 9,
+        ":preprocessing.finite-domain.evaluated-equalities": 0,
+        ":preprocessing.finite-domain.evaluation-cutoffs": 0,
+        ":preprocessing.real-equality-lowering.guarded-distributed": 0,
+        ":preprocessing.finite-domain.explicit-disequality-choices": 2,
+        ":preprocessing.finite-domain.integer-numeral-choices": 0,
+        ":preprocessing.finite-domain.rejected-missing-distinctness": 0,
+        ":preprocessing.finite-domain.raw-cache-refreshes": 1
+      },
+      "stdout_sha256": "d9dbf94b05b8314af9ca7f2034e92685c33447917605a7243b1099c693a12e5e",
+      "stderr_sha256": "1a87953ffcd9c8f7b1f13c80c26e11dd7218f303d35614393405a09dc4c0a536"
+    },
+    {
+      "fixture": "qf_uf_lra_lowers_finite_domain_amo_equalities_before_dispatch",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--preprocessing-mode=auto"
+      ],
+      "exit_code": 0,
+      "answer": "unsat",
+      "statistics": {
+        ":preprocessing.real-equality-lowering.lowered": 4,
+        ":preprocessing.finite-domain.domains": 0,
+        ":preprocessing.finite-domain.amo-clauses": 0,
+        ":preprocessing.finite-domain.raw-choices": 1,
+        ":preprocessing.finite-domain.raw-amo-clauses": 3,
+        ":preprocessing.finite-domain.post-amo-clauses": 0,
+        ":preprocessing.finite-domain.deduped-amo-clauses": 0,
+        ":preprocessing.finite-domain.evaluated-equalities": 0,
+        ":preprocessing.finite-domain.evaluation-cutoffs": 0,
+        ":preprocessing.real-equality-lowering.guarded-distributed": 0,
+        ":preprocessing.finite-domain.explicit-disequality-choices": 0,
+        ":preprocessing.finite-domain.integer-numeral-choices": 0,
+        ":preprocessing.finite-domain.rejected-missing-distinctness": 0,
+        ":preprocessing.finite-domain.raw-cache-refreshes": 1
+      },
+      "stdout_sha256": "5c17dfcc2a8f1f30d9e96df6a9825a5030ade046d560332c19de74d93d591a18",
+      "stderr_sha256": "50242972cdf94ef2afa6460918d07b8e9f8ffe446b812d49daacb34248acd02e"
+    },
+    {
+      "fixture": "qf_uf_lra_finite_domain_amo_sat_control_remains_sat",
+      "arguments": [
+        "--quiet",
+        "--stats",
+        "--preprocessing-mode=auto"
+      ],
+      "exit_code": 0,
+      "answer": "sat",
+      "statistics": {
+        ":preprocessing.real-equality-lowering.lowered": 4,
+        ":preprocessing.finite-domain.domains": 0,
+        ":preprocessing.finite-domain.amo-clauses": 0,
+        ":preprocessing.finite-domain.raw-choices": 1,
+        ":preprocessing.finite-domain.raw-amo-clauses": 3,
+        ":preprocessing.finite-domain.post-amo-clauses": 0,
+        ":preprocessing.finite-domain.deduped-amo-clauses": 0,
+        ":preprocessing.finite-domain.evaluated-equalities": 0,
+        ":preprocessing.finite-domain.evaluation-cutoffs": 0,
+        ":preprocessing.real-equality-lowering.guarded-distributed": 0,
+        ":preprocessing.finite-domain.explicit-disequality-choices": 0,
+        ":preprocessing.finite-domain.integer-numeral-choices": 0,
+        ":preprocessing.finite-domain.rejected-missing-distinctness": 0,
+        ":preprocessing.finite-domain.raw-cache-refreshes": 1
+      },
+      "stdout_sha256": "d9dbf94b05b8314af9ca7f2034e92685c33447917605a7243b1099c693a12e5e",
+      "stderr_sha256": "0a287f42159b8f4544a1cf9efb59b6289f0b4901a0cb97fc58de6d6e9ce83c7f"
+    }
+  ]
+}

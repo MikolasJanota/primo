@@ -37,7 +37,7 @@ has large runtime gaps even though both solvers finish. For example,
 
 Six inputs were replayed using the unchanged `7dd8874c` binary, SHA256
 `9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318`.
-Current production C++/headers/CMake still match that snapshot. Each input
+Production C++/headers/CMake matched that snapshot during this investigation. Each input
 runs defaults and the existing `--qf-uflia-tableau-equalities` option, rotating
 which goes first. This is a mechanism control, not a new implementation.
 
@@ -175,10 +175,11 @@ no further tuning was launched after discovering the failure.
 
 The {download}`failure record <../../benchmarks/uflia-gaps-20261110/model-replay-failure.json>`
 preserves its input/binary identities, options, diagnostic and coverage digest.
-The failing assertion and underlying reconstruction defect have not been
-minimized or fixed. Repair and independently validate this profile before
-using it in further performance claims. No solver implementation or default
-was changed by this investigation.
+The failing assertion and underlying reconstruction defect were still open
+at the end of this investigation. The [subsequent repair](model-repair-20261110.md)
+records their minimization, cache-validity fix and fresh qualification. This
+historical timing row remains rejected. No solver implementation or default
+was changed by the investigation itself.
 
 ## Reproduction and evidence boundaries
 

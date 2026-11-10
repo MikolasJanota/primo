@@ -1,0 +1,59 @@
+{
+  "reviewer": "/root/cactus_docs_review",
+  "mode": "Independent read-only documentation/source-agreement and evidence review; no solver experiments",
+  "baseline": "2fd342bd",
+  "candidate": "5d7d4fe035048a38c16528b1111c90a163b42444",
+  "source_contract": {
+    "accepted_revision": "480b077f",
+    "status": "ready",
+    "files": [
+      "docs/implementation/preprocessing.md",
+      "docs/reference/statistics.md",
+      "docs/_config.yml"
+    ],
+    "findings": {
+      "MODEL-DOC-01": "Resolved: same-manager identity is a caller precondition, not a checked condition.",
+      "MODEL-DOC-02": "Resolved: counts apply per nonterminal alternative.",
+      "MODEL-DOC-03": "Resolved: optional post-AMO scan explicit.",
+      "MODEL-DOC-04": "Resolved: orphan word removed."
+    }
+  },
+  "evidence": {
+    "staged_correctness_status": "ready",
+    "findings": {
+      "MODEL-EVID-01": "Resolved: qualification record exists and explicit stages/status match evidence.",
+      "MODEL-EVID-02": "Resolved: final regression integrated; link and hash verified."
+    },
+    "final_static_render_recheck": "ready; all findings resolved; no new required findings or terminology issues",
+    "verified": "Generated/model coverage joins, all17 reproducer artifact hashes, diagnostic identities,10314 retained input hashes, static baseline normalization and135-file coverage; historical ledger bytes preserved; build/link hashes and readable rendered sections.",
+    "static_manifest_hash_definition": "The recorded135-file SHA hashes sorted131 src/tests paths plus4 separately scanned documentation examples, each newline-terminated. The executed translation-units.txt itself lists131."
+  },
+  "unchecked_scope": [
+    "Independent rerunning of solver/model validation",
+    "Exhaustive whole-tree manual implementation review",
+    "Full generated/mutated-model payload inspection beyond recorded validation outputs and reproducer artifacts",
+    "488 external URLs deferred to Sphinx linkcheck"
+  ],
+  "accepted_file_sha256": {
+    "docs/implementation/preprocessing.md": "74b39f15be8c4ccd51c424ae35a2a738a212d7933a1ce9d5e47b8ae59b1b9efb",
+    "docs/reference/statistics.md": "526082efd83b31600615569bfa8a04c27e317c224f67b9054f95ba81f91d54f9",
+    "docs/_config.yml": "95784a477c3897acb0b67dcef96b57b085322b8f8c31ea711d1695ab52124129",
+    "docs/evidence/model-repair-20261110.md": "f92708a26e4d0f379cc5eae1d81917ff6db7ec39027086252d30c70e15d1158f",
+    "docs/evidence/uflia-gaps-20261110.md": "460ccb4c23501e305316e72237244f17c96aca54e7fe1d1190f6aaf2d9685889",
+    "docs/run-log.json": "43dda7c539f77fbb948476643dfda1252fe74a1d1a0e7ce57c81e0cad330eb45",
+    "benchmarks/model-repair-20261110/qualification.json": "b1c87e0048233a027f62ad3811b1a0dd7c6b84609ea5c3c38d66253a49db5117",
+    "benchmarks/model-repair-20261110/static-review.json": "20b41ac6d2280d8ff6c8be5d4663c7f0c259460f35fc3f74fd94216b9d7d4d28",
+    "benchmarks/model-repair-20261110/source-review.md": "b79316980f09b57713c2f3e7b29893b563056b4ca73d26e7c3f6b426468509f9",
+    "benchmarks/model-repair-20261110/fuzz-audit.json": "9629db06a50dd78755c9b23dbcb37d48ff45efdd428eafa1ad017c861b6e348f",
+    "benchmarks/model-repair-20261110/forensics.json": "5f8c496823e5f268320ad7b07b6327a3d311eb6eb0d0f3365225e7047b425d95",
+    "benchmarks/model-repair-20261110/fixture-counters.json": "988c1cecee4b5ddd4353063493aea62b1e603a07e0f98f3334c5a552a883be2f",
+    "benchmarks/model-repair-20261110/input-sha256.csv": "d9e0308c35ccabcde2658786d3db5f8868a4e1d0fc4de4a13ccdf8f088b4207e",
+    "benchmarks/model-repair-20261110/reproducer-artifacts.json": "780aab6ea051d5829046d989c0d579a1f33c4e6af204b0475211bf24860e2351"
+  },
+  "validation": {
+    "source_contract": "make docs-site; implementation/statistics render inspection",
+    "final_assembly": "make docs-site and check_doc_links.py passed after final qualification metadata; rendered qualification downloads byte-match source",
+    "local_git_links": "289 pages;40841 local links;1229 Git links;0 failures",
+    "experiments": "Reviewer performed none; all solver execution occurred on SLURM"
+  }
+}

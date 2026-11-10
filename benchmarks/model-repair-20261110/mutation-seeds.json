@@ -1,0 +1,30 @@
+[
+  {
+    "file": "TwoSquares/smtlib.598294.smt2",
+    "sha256": "79f0182c7f9a6b3f20541b1a758bf034cf41765f9971df1ae81f3caa082d0ecc",
+    "family": "TwoSquares",
+    "answer": "sat",
+    "seconds": "0.008698"
+  },
+  {
+    "file": "mathsat/Hash/hash_sat_03_03.smt2",
+    "sha256": "49958c9c85ad905cfbc8bd0e5f4d64f2cb1490110ba3402fb52ea5d874ee22b9",
+    "family": "mathsat",
+    "answer": "sat",
+    "seconds": "0.021569"
+  },
+  {
+    "file": "wisas/xs_8_8.smt2",
+    "sha256": "cad3a158240e69802daa0fbbf8bca94088ba24837a216fc03f0c248441185828",
+    "family": "wisas",
+    "answer": "sat",
+    "seconds": "0.088755"
+  },
+  {
+    "file": "mathsat/Hash/hash_sat_03_04.smt2",
+    "sha256": "9aec68d4fdde28d88d5bf047fa7846f8a0636028a3a4aba8e0e06de5576fc013",
+    "family": "mathsat",
+    "answer": "sat",
+    "seconds": "0.026830"
+  }
+]

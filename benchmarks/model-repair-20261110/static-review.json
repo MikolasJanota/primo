@@ -1,0 +1,68 @@
+{
+  "job": "382161",
+  "status": "completed0:0; advisory warnings reviewed",
+  "tool": "clang-tidy18.1.8; clang-analyzer-*,misc-include-cleaner plus repository .clang-tidy defaults",
+  "translation_units": 135,
+  "tracked_nongenerated_cpp_coverage": "all131 src/tests plus4 docs/examples; exact inventory cross-check passed",
+  "translation_unit_manifest_sha256": "1043bf502294c39f8defaecfda94203ba2e91555e7bb1336a0617ba659503afb",
+  "log_sha256": "dbaf3b3a24bc0c898565762f0adc8533da9b03a1fee32915f14992c4e68c21d0",
+  "baseline_log_sha256": "5eef4d5cae47b69c1442fad601bdda2c11088f457090ae241c8a61df6210b912",
+  "baseline_source": "cab1ebc4 accepted patching-cache implementation, production source equivalent to the pre-repair snapshot",
+  "baseline_warnings": 2289,
+  "current_warnings": 2292,
+  "errors": 0,
+  "counts_by_check": {
+    "bugprone-assert-side-effect": 6,
+    "bugprone-branch-clone": 5,
+    "bugprone-easily-swappable-parameters": 40,
+    "bugprone-exception-escape": 11,
+    "bugprone-implicit-widening-of-multiplication-result": 4,
+    "bugprone-optional-value-conversion": 2,
+    "bugprone-unchecked-optional-access": 112,
+    "clang-analyzer-cplusplus.NewDeleteLeaks": 2,
+    "clang-analyzer-optin.core.EnumCastOutOfRange": 16,
+    "clang-analyzer-optin.performance.Padding": 32,
+    "misc-include-cleaner": 407,
+    "performance-enum-size": 1569,
+    "performance-faster-string-find": 3,
+    "performance-inefficient-string-concatenation": 11,
+    "performance-inefficient-vector-operation": 6,
+    "performance-move-const-arg": 23,
+    "performance-no-automatic-move": 1,
+    "performance-unnecessary-copy-initialization": 3,
+    "performance-unnecessary-value-param": 39
+  },
+  "comparison": "Normalize workspace roots and ignore source-line shifts; compare diagnostic(file,message,check) occurrence counts.",
+  "additional_diagnostics": [
+    {
+      "file": "tests/unit/model_tests.cpp",
+      "line": 45,
+      "severity": "warning",
+      "message": "string concatenation results in allocation of unnecessary temporary strings; consider using 'operator+=' or 'string::append()' instead",
+      "check": "performance-inefficient-string-concatenation",
+      "additional_occurrences": 3
+    }
+  ],
+  "additional_disposition": "Three string-construction performance advisories in the new eight-case model test. The bounded test setup is outside solver runtime and intentionally retained; no production-path diagnostic was added.",
+  "include_cleaner_disposition": "407 diagnostics, same files/messages/counts as the accepted baseline. No new missing or unused include reported. Existing paired-header self-includes were not automatically removed.",
+  "preexisting_analyzer_disposition": "Same two leak reports (external CLI.hpp and existing tactic.cpp) and16 invalid-enum-cast reports in negative option-name tests. No new analyzer safety diagnostic. ASan passes, without claiming that sanitizer success proves all old analyzer reports false.",
+  "touched_production_diagnostics": [
+    {
+      "file": "src/smt/preprocessing_tactics.cpp",
+      "line": 59,
+      "severity": "warning",
+      "message": "enum 'RoundPhase' uses a larger base type ('int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size",
+      "check": "performance-enum-size"
+    },
+    {
+      "file": "src/smt/preprocessing_tactics.cpp",
+      "line": 542,
+      "severity": "warning",
+      "message": "std::move of the const expression has no effect; remove std::move()",
+      "check": "performance-move-const-arg"
+    }
+  ],
+  "touched_production_disposition": "Existing RoundPhase enum-width and const-move-in-Boolean-flattening advisories match baseline. Neither expression is changed by this repair.",
+  "baseline_log": "results/arithmetic-overhead-20261109/cache/static/clang-tidy.log",
+  "raw": "results/model-repair-20261110/collected/results/model-repair/static3/clang-tidy.log"
+}

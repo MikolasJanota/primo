@@ -1,0 +1,455 @@
+{
+  "schema_version": 1,
+  "status": "qualified-correctness-repair; resource-only rows retained separately",
+  "scope": "Correctness repair qualification, not a benchmark or default-profile promotion",
+  "source": {
+    "baseline": "2fd342bd",
+    "implementation": "e209d59f4c0d1526aba227f180fd2a40a86e15bf",
+    "qualified_snapshot": "5d7d4fe035048a38c16528b1111c90a163b42444",
+    "production_source_same_since": "e209d59f",
+    "docs_review_snapshot": "480b077f",
+    "note": "Subsequent candidate commits change documentation and regression fixtures/expected counters, not production C++."
+  },
+  "native": {
+    "binary_sha256": "e754c446c81caeb6fb277f41dc843071bea719e6625571bceafb93a4618248af",
+    "version": "Primo0.2.0; Release; git5d7d4fe0; cadical3.0.0-7b99c07",
+    "compiler": "GCC11.4.1",
+    "cmake": "4.4.0",
+    "build_job": "382157",
+    "build_command": "python3 scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --cxx-header-manifest HEADER_MANIFEST --jobs 8 --cmake CMAKE [private route/workspace arguments]",
+    "frozen_binary": "Private SLURM results/frozen-5d7d4fe0/primo"
+  },
+  "tools": {
+    "answer_reference": "Z3 5.1.0",
+    "z3_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "dolmen": "0.10",
+    "dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+    "clang_tidy": "18.1.8",
+    "mutator": "YinYang0.3.0; repository seeded_opfuzz.py; Python z3-solver5.0.0.0",
+    "mutator_generation_oracle": "Z3 5.0.0 from the mutation environment PATH, command z3 model_validate=true",
+    "mutator_generation_oracle_sha256": "450bffa1b87541409c37cd678b2e7261c5d20912144e5c052fd264b1f3a2077f",
+    "mutant_recheck_oracle": "Explicit contrib/local/bin/z3 5.1.0 for all160 retained mutants, at10s then60s",
+    "fuzzsmt_jar_sha256": "89f887283d409842ebb19af6fce7a33a1b4a6c006746801b98ca8d716a3b0552"
+  },
+  "execution": {
+    "location": "SLURM compute allocation only; preparation-helper --check-only --no-sync immediately before each sbatch",
+    "jobs": {
+      "reproduce": "382158",
+      "check": "382159",
+      "asan": "382160",
+      "static": "382161",
+      "fuzz": "382162",
+      "mutations": "382163",
+      "mutations-replay": "382203"
+    },
+    "limits": {
+      "reproduce": {
+        "requested_physical_cpus": 1,
+        "SLURM_memory_GiB": 8,
+        "job_seconds": 480,
+        "solver_seconds": 180,
+        "Dolmen_seconds": 60,
+        "Dolmen_size": "1G"
+      },
+      "check": {
+        "cpus": 4,
+        "SLURM_memory_GiB": 16,
+        "job_seconds": 1200
+      },
+      "asan": {
+        "cpus": 4,
+        "SLURM_memory_GiB": 24,
+        "job_seconds": 2400
+      },
+      "static": {
+        "cpus": 4,
+        "SLURM_memory_GiB": 12,
+        "job_seconds": 1800
+      },
+      "fuzz": {
+        "tasks": 40,
+        "max_concurrency": 12,
+        "requested_physical_cpus_per_task": 1,
+        "SLURM_memory_GiB_per_task": 8,
+        "job_seconds_per_task": 3600,
+        "answer_seconds": 5,
+        "model_seconds": 10,
+        "Dolmen_seconds": 10
+      },
+      "mutation_generation": {
+        "requested_cpus": 1,
+        "SLURM_memory_GiB": 8,
+        "job_seconds": 1500,
+        "generation_wall_seconds": 300,
+        "solver_seconds": 5,
+        "answer_recheck_seconds": 10,
+        "seed_answer_model_seconds": 30,
+        "Dolmen_seconds": 30
+      },
+      "mutation_replay": {
+        "requested_physical_cpus": 1,
+        "SLURM_memory_GiB": 8,
+        "job_seconds": 1200,
+        "solver_seconds": 60,
+        "Dolmen_seconds": 10
+      }
+    },
+    "memory_limit_note": "SLURM allocation limits; no additional RLIMIT_AS in these correctness gates. Resource limits are separate from algorithmic solver limits.",
+    "terminal_summary": "Reproduce382158,check382159,ASan382160,static382161,all40tasks382162 and mutation replay382203 completed0:0. Initial mutation382163 exited1 on one10s timeout; its preserved160 inputs were replayed with60s limits."
+  },
+  "unit_and_regression": {
+    "make_check": "passed",
+    "CXX_test_groups": 47,
+    "python_tests": 329,
+    "check_log_sha256": "2f40aaba2468998e758b529aeae414ca243b5a452215dd0c7f43bb787d2418e8",
+    "regression_input_sha256": "39180cb183752b5160ca696340722affe001305e944f94186ef4999719278084",
+    "new_model_matrix": "Int/Real UF x post-AMO off/on x function value0/1 =8 model-reconstruction checks",
+    "new_tactic_tests": "Exact-root hit, changed roots, independent alternatives, absence of eliminated symbols; AMO and symmetry",
+    "counter_probe": "fixture-counters.json; job382156; unchanged SAT/UNSAT outcomes with updated emitted counts"
+  },
+  "asan": {
+    "status": "passed",
+    "test_groups": 47,
+    "additional_checks": 150,
+    "unique_generated_cases": 25,
+    "profiles": 6,
+    "seed": 2026110716,
+    "outcomes": {
+      "PASS": 150
+    },
+    "binary_sha256": "8675f74153df438a64882e4410191232ecee21b9c3b12a4221414a08d0f72579",
+    "log_sha256": "90bcacc9eee90eaee8aab1d1b99d4dc8bbd53842f7c831772fda281e8cfc5df9",
+    "profile_summaries": [
+      {
+        "rows": 25,
+        "outcomes": {
+          "PASS": 25
+        },
+        "answers": {
+          "sat": 12,
+          "unsat": 13
+        },
+        "summary_sha256": "f63882255da79d0af94b113072938f5e0a7dde8f7558c4a4f2426eb27deca333"
+      },
+      {
+        "rows": 25,
+        "outcomes": {
+          "PASS": 25
+        },
+        "answers": {
+          "sat": 12,
+          "unsat": 13
+        },
+        "summary_sha256": "507db25991073c04548442b554d2e0640413a3985fb8cccc20d7ce815f5a53f5"
+      },
+      {
+        "rows": 25,
+        "outcomes": {
+          "PASS": 25
+        },
+        "answers": {
+          "sat": 12,
+          "unsat": 13
+        },
+        "summary_sha256": "e5bb7df8ba1c2137d0025c353e9baf83fb6abf5626df390603bacfbf0c5c4ff0"
+      },
+      {
+        "rows": 25,
+        "outcomes": {
+          "PASS": 25
+        },
+        "answers": {
+          "sat": 12,
+          "unsat": 13
+        },
+        "summary_sha256": "35a7a5972e56f782e0984b95b0cc9cd5bc7db0481ae555074d2cb35ae434ecd6"
+      },
+      {
+        "rows": 25,
+        "outcomes": {
+          "PASS": 25
+        },
+        "answers": {
+          "sat": 12,
+          "unsat": 13
+        },
+        "summary_sha256": "19dff4517c661a8c5b9a357eb09bce02b12dc3cb701ad1448d9e077dc2576113"
+      },
+      {
+        "rows": 25,
+        "outcomes": {
+          "PASS": 25
+        },
+        "answers": {
+          "sat": 12,
+          "unsat": 13
+        },
+        "summary_sha256": "7a54f1f22695bd99d34b26e1c32e1b32162d48c9218305a26967e3df024476af"
+      }
+    ]
+  },
+  "reproducer_models": {
+    "selected_sat_rows": 2,
+    "direct_dolmen_pass": 2,
+    "invalid_models": 0,
+    "summary_sha256": "1407bb35cb5c4f89c737eb12a6e0ada8e11373e2344fd4cec4e85be73ab1cd88",
+    "rows": [
+      {
+        "file": "qf_uflia_finite_domain_eliminated_argument.smt2",
+        "answer": "sat",
+        "outcome": "pass",
+        "validator": "dolmen",
+        "solver_exit": "0",
+        "dolmen_exit": "0",
+        "z3_exit": "",
+        "seconds": "0.035",
+        "solver_seconds": "0.022",
+        "validation_seconds": "0.013",
+        "message": ""
+      },
+      {
+        "file": "38347_092cc73601c78e45f4f9_58_QF_UFLIA.smt2",
+        "answer": "sat",
+        "outcome": "pass",
+        "validator": "dolmen",
+        "solver_exit": "0",
+        "dolmen_exit": "0",
+        "z3_exit": "",
+        "seconds": "19.559",
+        "solver_seconds": "19.481",
+        "validation_seconds": "0.079",
+        "message": ""
+      }
+    ],
+    "arguments": [
+      "--quiet",
+      "--preprocessing-mode=strong",
+      "--check-model"
+    ],
+    "model_production_durations_are_not_speed_evidence": true,
+    "artifact_identity_manifest": "reproducer-artifacts.json"
+  },
+  "generated": {
+    "audit": "fuzz-audit.json",
+    "primary_inputs": 10000,
+    "comparisons_pass": 9961,
+    "answer_timeouts": 39,
+    "wrong_answers": 0,
+    "crashes": 0,
+    "parser_type_errors": 0,
+    "unsupported": 0,
+    "reference_disagreements": 0,
+    "successful_primary_sat_rows": 7289,
+    "selected_sat_direct_dolmen_pass": 7289,
+    "extra_sat_model_replays_after_answer_timeout": 6,
+    "total_direct_dolmen_pass": 7295,
+    "model_replay_timeouts": 33,
+    "model_replay_not_sat": 217,
+    "invalid_models": 0,
+    "seed_rule": "40slots, seed202611510+slot; five logics(uf,uflia,uflra,lra,lia), strong then auto, four250-case shards per profile. Exact slot mapping in fuzz.sbatch.",
+    "args": [
+      "--quiet",
+      "--preprocessing-mode=PROFILE"
+    ],
+    "model_args_additional": [
+      "--check-model (UFLIA/UFLRA); shared validator requests models for all replay logics"
+    ],
+    "note": "Each affected logic/profile gets1000 generated attempts.39 QF_LIA answer timeouts and33 model-production timeouts stay resource outcomes, not passing comparisons; every selected successful primary SAT has a direct Dolmen pass.",
+    "successful_primary_unsat_rows": 2672
+  },
+  "real_seed_mutation": {
+    "logic": "QF_UFLIA",
+    "profile": "strong",
+    "seed_manifest": "mutation-seeds.json",
+    "seed_inputs": 4,
+    "families": [
+      "TwoSquares",
+      "mathsat/Hash",
+      "wisas"
+    ],
+    "Certora_coverage": "Original large failing Certora seed checked separately; no fast Certora mutation seed selected.",
+    "seed_answers": {
+      "rows": 4,
+      "outcomes": {
+        "PASS": 4
+      },
+      "answers": {
+        "sat": 4
+      },
+      "summary_sha256": "0abb2a5d26e306532130c54b59ec529c04ee12ece7d6ad20d9e3fed992e45a9e"
+    },
+    "seed_models": {
+      "rows": 4,
+      "outcomes": {
+        "pass": 4
+      },
+      "answers": {
+        "sat": 4
+      },
+      "summary_sha256": "e795f3e8ee310cc4e67b4987375d64b46b339e22da7d8275dc85831de0890e0f"
+    },
+    "mutator_random_seed": 202611550,
+    "requested_mutations_per_seed": 40,
+    "retained_mutants": 160,
+    "first_attempt": "Job382163 saved all160; strict10s answer check exited1 on one timeout, before mutant model checks. No mismatch/crash. Retained inputs then replayed in382203.",
+    "final_answer_comparison": {
+      "rows": 160,
+      "outcomes": {
+        "INCOMPLETE": 1,
+        "PASS": 159
+      },
+      "answers": {
+        "sat": 147,
+        "timeout": 1,
+        "unsat": 12
+      },
+      "summary_sha256": "2831e72ae845eab1f9faafa4d6d3761ec7dbc904727ff2b6448d89e958248ef6"
+    },
+    "final_models": {
+      "rows": 160,
+      "outcomes": {
+        "not-sat": 12,
+        "pass": 147,
+        "solver-timeout": 1
+      },
+      "answers": {
+        "": 1,
+        "sat": 147,
+        "unsat": 12
+      },
+      "summary_sha256": "5b79e4d437affcd0923e46807e4d443434cc312c8981594c33b02a97c44b5c0e"
+    },
+    "selected_sat_rows": 147,
+    "selected_sat_direct_dolmen_pass": 147,
+    "invalid_models": 0,
+    "resource_rows": [
+      {
+        "file": "mutations/scratch/seed-2-WRy9n-wyVlW.smt2",
+        "expected": "",
+        "ours": "timeout",
+        "ours_exit": "124",
+        "reference": "sat",
+        "reference_exit": "0",
+        "outcome": "INCOMPLETE",
+        "input_sha256": "635ee60199751fcfc643011dc321ff869e6e7d6a4e87e470b56e861b69d8fb23"
+      }
+    ],
+    "coverage": "159 concrete matching answers (147SAT,12UNSAT),1timeout even at60s; all successful SAT models directDolmen. The timeout remains incomplete, not a correctness pass."
+  },
+  "artifacts": {
+    "inputs": "input-sha256.csv",
+    "input_count": 10314,
+    "input_manifest_sha256": "d9e0308c35ccabcde2658786d3db5f8868a4e1d0fc4de4a13ccdf8f088b4207e",
+    "forensics": "forensics.json",
+    "source_review": "source-review.md",
+    "raw": "results/model-repair-20261110 locally and private retained SLURM workspace; full model/solver outputs retained remotely",
+    "scripts": "scripts/qualification/model_repair/",
+    "review": "review.json",
+    "static": "static-review.json"
+  },
+  "commands": {
+    "check": "make -o contrib-required check BUILD_DIR=build-slurm-rel [qualification tool overrides]",
+    "asan": "make -o contrib-required asan-test [compiler header and ASan runtime environment]",
+    "static": "xargs -P4 clang-tidy -p build-slurm-rel -checks=clang-analyzer-*,misc-include-cleaner; all131 src/tests translation units plus4 docs/examples",
+    "generated": "sbatch --array=0-39%12 scripts/qualification/model_repair/fuzz.sbatch",
+    "mutations": "sbatch scripts/qualification/model_repair/mutations.sbatch; then resume_mutations.sbatch on the same retained mutants",
+    "audit": "python3 scripts/qualification/model_repair/audit.py --root COLLECTED/results/model-repair --out benchmarks/model-repair-20261110/fuzz-audit.json",
+    "docs": "make docs-site; python3 scripts/check_doc_links.py docs/_build/site",
+    "lint": "make lint RUFF=\".venv/bin/python -m ruff\""
+  },
+  "unchanged_historical_evidence": "Old strong timing row is rejected. This fresh candidate validation does not qualify the original binary, alter cactus datasets or establish a speedup.",
+  "static": {
+    "job": "382161",
+    "status": "completed0:0; advisory warnings reviewed",
+    "tool": "clang-tidy18.1.8; clang-analyzer-*,misc-include-cleaner plus repository .clang-tidy defaults",
+    "translation_units": 135,
+    "tracked_nongenerated_cpp_coverage": "all131 src/tests plus4 docs/examples; exact inventory cross-check passed",
+    "translation_unit_manifest_sha256": "1043bf502294c39f8defaecfda94203ba2e91555e7bb1336a0617ba659503afb",
+    "log_sha256": "dbaf3b3a24bc0c898565762f0adc8533da9b03a1fee32915f14992c4e68c21d0",
+    "baseline_log_sha256": "5eef4d5cae47b69c1442fad601bdda2c11088f457090ae241c8a61df6210b912",
+    "baseline_source": "cab1ebc4 accepted patching-cache implementation, production source equivalent to the pre-repair snapshot",
+    "baseline_warnings": 2289,
+    "current_warnings": 2292,
+    "errors": 0,
+    "counts_by_check": {
+      "bugprone-assert-side-effect": 6,
+      "bugprone-branch-clone": 5,
+      "bugprone-easily-swappable-parameters": 40,
+      "bugprone-exception-escape": 11,
+      "bugprone-implicit-widening-of-multiplication-result": 4,
+      "bugprone-optional-value-conversion": 2,
+      "bugprone-unchecked-optional-access": 112,
+      "clang-analyzer-cplusplus.NewDeleteLeaks": 2,
+      "clang-analyzer-optin.core.EnumCastOutOfRange": 16,
+      "clang-analyzer-optin.performance.Padding": 32,
+      "misc-include-cleaner": 407,
+      "performance-enum-size": 1569,
+      "performance-faster-string-find": 3,
+      "performance-inefficient-string-concatenation": 11,
+      "performance-inefficient-vector-operation": 6,
+      "performance-move-const-arg": 23,
+      "performance-no-automatic-move": 1,
+      "performance-unnecessary-copy-initialization": 3,
+      "performance-unnecessary-value-param": 39
+    },
+    "comparison": "Normalize workspace roots and ignore source-line shifts; compare diagnostic(file,message,check) occurrence counts.",
+    "additional_diagnostics": [
+      {
+        "file": "tests/unit/model_tests.cpp",
+        "line": 45,
+        "severity": "warning",
+        "message": "string concatenation results in allocation of unnecessary temporary strings; consider using 'operator+=' or 'string::append()' instead",
+        "check": "performance-inefficient-string-concatenation",
+        "additional_occurrences": 3
+      }
+    ],
+    "additional_disposition": "Three string-construction performance advisories in the new eight-case model test. The bounded test setup is outside solver runtime and intentionally retained; no production-path diagnostic was added.",
+    "include_cleaner_disposition": "407 diagnostics, same files/messages/counts as the accepted baseline. No new missing or unused include reported. Existing paired-header self-includes were not automatically removed.",
+    "preexisting_analyzer_disposition": "Same two leak reports (external CLI.hpp and existing tactic.cpp) and16 invalid-enum-cast reports in negative option-name tests. No new analyzer safety diagnostic. ASan passes, without claiming that sanitizer success proves all old analyzer reports false.",
+    "touched_production_diagnostics": [
+      {
+        "file": "src/smt/preprocessing_tactics.cpp",
+        "line": 59,
+        "severity": "warning",
+        "message": "enum 'RoundPhase' uses a larger base type ('int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size",
+        "check": "performance-enum-size"
+      },
+      {
+        "file": "src/smt/preprocessing_tactics.cpp",
+        "line": 542,
+        "severity": "warning",
+        "message": "std::move of the const expression has no effect; remove std::move()",
+        "check": "performance-move-const-arg"
+      }
+    ],
+    "touched_production_disposition": "Existing RoundPhase enum-width and const-move-in-Boolean-flattening advisories match baseline. Neither expression is changed by this repair.",
+    "baseline_log": "results/arithmetic-overhead-20261109/cache/static/clang-tidy.log",
+    "raw": "results/model-repair-20261110/collected/results/model-repair/static3/clang-tidy.log"
+  },
+  "documentation": {
+    "source_contract_review": "Independent read-only reviewer accepted480b077f after manager-precondition, per-alternative counter and optional-post-scan clarifications; final review identities and verdict in review.json.",
+    "evidence_review": "Bounded independent review findings, acceptance and unchecked scope are recorded in review.json.",
+    "build": "make docs-site passed after final static text",
+    "local_git_links": "289 pages;40841 local links;1229 unique Git links;zero failures",
+    "external_link_scope": "488 external URLs deferred to Sphinx linkcheck; no claim they were network-checked",
+    "rendered": "Headless Chrome at1440px: implementation Representation, statistics cache-counter paragraph, evidence correctness table/static paragraph inspected; no clipping or missing content.",
+    "build_log_sha256": "10531dfe56934a02d32078c362452e57334787ba55a8dd3fc791c4c88587dd00",
+    "link_log_sha256": "43c7c19ad13167b50cc0c533b8f877ea4ecdf2ca2790503dbe3b97a4d4d55d2d"
+  },
+  "source_review_inventory": {
+    "source_snapshot": "5d7d4fe035048a38c16528b1111c90a163b42444",
+    "tracked_files": 1513,
+    "path_inventory_sha256": "c4fa98820229d2a8eeb1609f097ba47b596043adb9c6d6fc89b63bc909d38de8",
+    "scope": "All tracked non-generated project files through inventory/lint/static/docs checks; manual soundness/lifetime/API/efficiency review focused on changed implementation and its generator/model callers."
+  },
+  "workflow_sha256": {
+    "scripts/qualification/model_repair/audit.py": "ba5a3b2fe8ccaf9fb354583c6aba57778c8f5ba30b7598d2cb48d5d35ab69c2e",
+    "scripts/qualification/model_repair/counters.sbatch": "8d89a48e58494debe8ec5f1a3dc456fa4a73875a45a3496b36245c3a7c2bfd97",
+    "scripts/qualification/model_repair/diagnose.sbatch": "52e5f4e995b8686454c5cb99e6019130d570a6ddf3d9f5b161bc96713512382a",
+    "scripts/qualification/model_repair/fuzz.sbatch": "bb2e5ea15d64e7e044fc6886ed7f8b3ca27c1e42e3c75a19358a2cd9ba50c68d",
+    "scripts/qualification/model_repair/mutations.sbatch": "2a5e572a68ceaa7915979a687d9af628a2fe6e8077434309e44c30c94beb8ab2",
+    "scripts/qualification/model_repair/reproduce.sbatch": "77ce1fd90faf5e4092a83197ba8ffab7b87efe7c895cb19ee4ad857212fdf766",
+    "scripts/qualification/model_repair/resume_mutations.sbatch": "28bcc0ea715828005d909a4c170bced892b7b11716e5ce06793e67dd2def8186"
+  },
+  "workflow_note": "Current counter-probe runner has the corrected stdout parser and final renamed fixture names; the recorded382156 probe used predecessor names and the original parser. fixture-counters.json independently extracts unchanged input/output values from retained stdout. Other qualification batch owners retain the executed content."
+}
