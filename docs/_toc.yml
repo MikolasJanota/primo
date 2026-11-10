@@ -113,6 +113,7 @@ parts:
       - file: evidence/static-analysis
       - file: evidence/assignment
       - file: evidence/arithmetic
+      - file: evidence/checker-replay-20261110
       - file: evidence/lra-regressions
       - file: evidence/quantifiers
       - file: evidence/archive

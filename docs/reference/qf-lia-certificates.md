@@ -262,6 +262,11 @@ The [real-source arithmetic stress pilot](qf-lra-certificates.md#real-source-ari
 adds 24 real LIA sources: three kernel proofs, including one using an integer
 cut, with the remaining outcomes and small replay files recorded separately.
 
+The [complete checker-failure replay](../evidence/checker-replay-20261110.md)
+revisits all 109 saved checker failures with the newer build and adds bounded
+coefficient comparisons for the remaining LRA pipeline timeouts. Native
+producer failures and reference timeouts are outside that replay.
+
 ## Sources and implementation status
 
 Pugh, expanded *Omega Test*, §§2.1, 2.3.1 and the exact-projection criterion in
