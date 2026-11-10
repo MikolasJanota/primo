@@ -992,7 +992,8 @@ void finite_domain_snapshot_is_bound_to_the_executing_goal() {
       std::make_shared<const primo::smt::FiniteDomainAtMostOneResult>(generator.generate(original));
   check(!raw->clauses.empty());
   const auto tactic = primo::smt::make_finite_domain_preprocess(
-      {.generate_at_most_one = true}, {.source_assertions = original, .raw_at_most_one = raw});
+      {.generate_at_most_one = true},
+      {.source_assertions = original, .raw_at_most_one = raw, .analyzed_symmetry = std::nullopt});
   const auto unchanged =
       tactic(fixture.context, primo::smt::AnyOf::single(primo::smt::Goal(original)));
   check(assertions_mention(fixture.terms, unchanged.alternatives()[0].assertions(), a));
