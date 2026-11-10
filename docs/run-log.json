@@ -3,6 +3,154 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-10-uflia-cvc5-gap-investigation",
+      "date": "2026-11-10",
+      "kind": "Archived gap ranking and fresh focused SLURM profiling of unchanged solver",
+      "evidence_status": "Diagnostic investigation complete; one strong-preprocessing model-replay failure triaged to exact profile/input and excluded. No solver/default promotion.",
+      "native_source_git": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
+      "native_binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
+      "current_source_equivalence": "Production C++/headers/CMake unchanged from7dd8874c; no solver implementation or default changes in this investigation.",
+      "reference_policy": "Reuse existing qualified cvc5 timing/answer rows only; no corpus reference executions",
+      "cases_manifest": "benchmarks/uflia-gaps-20261110/cases.json",
+      "manifest_sha256": "7aa0fbbb69072caa07e196a97346cd52cbae655f0d510353adace079514e9d4f",
+      "corpus": "Complete659input QF_UFLIA division for archival ranking; six representative inputs for new diagnostic runs",
+      "profiles": {
+        "default": [
+          "--quiet",
+          "--stats"
+        ],
+        "equality-sharing": [
+          "--quiet",
+          "--stats",
+          "--qf-uflia-tableau-equalities"
+        ]
+      },
+      "resource_limits": {
+        "native_wall_seconds": 120,
+        "native_address_space_bytes": 8589934592,
+        "SLURM_memory_mib": 12288,
+        "physical_cpus": 1,
+        "GDB_seconds_per_profile": 35,
+        "GDB_interval_seconds": 0.15,
+        "Callgrind_seconds_default_only": 35,
+        "Callgrind_address_space": "No RLIMIT_AS under instrumentation; SLURM memory only. Instrumented times never benchmark times.",
+        "model_solver_seconds": 180,
+        "Dolmen_seconds": 60,
+        "Dolmen_size": "5G"
+      },
+      "jobs": {
+        "profile": "382098",
+        "models": "382104",
+        "profile_tasks": 6,
+        "model_tasks": 6,
+        "model_dependency": "afterok:382098",
+        "controls": "382110",
+        "controls-models": "382116",
+        "terminal_states": "All6profile,6primarymodel,6controltiming tasks complete0:0;5controlmodel tasks complete0:0;controlmodeltask3failed1:0 on preserved internal model-assembly error."
+      },
+      "preflight": "Preparation helper --check-only --no-sync against original clean7dd8874c source snapshot immediately before eachsbatch; no solver rebuild required",
+      "commands": {
+        "rank": "python3 scripts/qualification/uflia_gaps/rank.py --report benchmarks/uniform120-20261109/report --out benchmarks/uflia-gaps-20261110/gaps.json",
+        "shapes": "python3 scripts/qualification/uflia_gaps/shape.py --cases benchmarks/uflia-gaps-20261110/cases.json --root CORPUS_ROOT --out benchmarks/uflia-gaps-20261110/input-shapes.json",
+        "profile": "PRIMO_GAP_PHASE=profile sbatch --array=0-5%6 scripts/qualification/uflia_gaps/run.sbatch",
+        "models": "PRIMO_GAP_PHASE=models sbatch --dependency=afterok:PROFILE_JOB --array=0-5%6 scripts/qualification/uflia_gaps/run.sbatch"
+      },
+      "artifacts": {
+        "gaps": "benchmarks/uflia-gaps-20261110/gaps.json",
+        "inputs": "benchmarks/uflia-gaps-20261110/input-shapes.json",
+        "raw": "results/uflia-gaps-20261110 locally; frozen SLURM execution archive retained privately",
+        "diagnostics": "benchmarks/uflia-gaps-20261110/diagnostics.json",
+        "model_failure": "benchmarks/uflia-gaps-20261110/model-replay-failure.json",
+        "documentation": "docs/evidence/uflia-gaps-20261110.md",
+        "review": "benchmarks/uflia-gaps-20261110/review.json"
+      },
+      "scope": "Diagnosis and improvement opportunities; existing equality-sharing flag is a mechanism control, not a default promotion or fresh general correctness gate.",
+      "validation": {
+        "timing_rows": 18,
+        "SAT": 13,
+        "UNSAT": 3,
+        "timeout": 2,
+        "wrong_answers": 0,
+        "timing_crash": 0,
+        "unsupported": 0,
+        "concrete_reference_disagreement": 0,
+        "SAT_replays": 13,
+        "direct_Dolmen_pass": 12,
+        "model_solver_errors": 1,
+        "model_error_scope": "Strong-preprocessing control on case3 only; excludes that profile from performance recommendations. All7primarySAT and5othercontrolSAT rows directly validated.",
+        "model_error": "benchmarks/uflia-gaps-20261110/model-replay-failure.json",
+        "invalid_models_accepted": 0
+      },
+      "timing_stage_boundary": "Primary model array after allprimaryprofiles;controlmodelarray after allcontroltimings. Control timings overlapped primary model validation on separately allocated physical cores; no repeated paired speedup claim.",
+      "diagnostic_summary": {
+        "default": {
+          "inputs": 6,
+          "solved": 4,
+          "SAT": 3,
+          "UNSAT": 1,
+          "timeouts": 2,
+          "errors": 0,
+          "raw_timing_par2_sum": 563.585651,
+          "model_qualified": true,
+          "scope": "Selected single diagnostic rows; strong includes rejected model row and has no accepted performance claim."
+        },
+        "equality-sharing": {
+          "inputs": 6,
+          "solved": 6,
+          "SAT": 4,
+          "UNSAT": 2,
+          "timeouts": 0,
+          "errors": 0,
+          "raw_timing_par2_sum": 77.98721499999999,
+          "model_qualified": true,
+          "scope": "Selected single diagnostic rows; strong includes rejected model row and has no accepted performance claim."
+        },
+        "no-propagation": {
+          "inputs": 3,
+          "solved": 3,
+          "SAT": 3,
+          "UNSAT": 0,
+          "timeouts": 0,
+          "errors": 0,
+          "raw_timing_par2_sum": 51.534528,
+          "model_qualified": true,
+          "scope": "Selected single diagnostic rows; strong includes rejected model row and has no accepted performance claim."
+        },
+        "strong": {
+          "inputs": 3,
+          "solved": 3,
+          "SAT": 3,
+          "UNSAT": 0,
+          "timeouts": 0,
+          "errors": 0,
+          "raw_timing_par2_sum": 46.057042,
+          "model_qualified": false,
+          "scope": "Selected single diagnostic rows; strong includes rejected model row and has no accepted performance claim."
+        }
+      },
+      "workflow": {
+        "runner_sha256": "ef4b07ffe1ffd77fda5c7c3dfe50cfd25beb1919336925e4a0048df37914d77d",
+        "executed_controls_sha256": "16f4a8ce2d69d19d0d305509be4bf9077cdff8ee49bd8ae3a7106e5b66736ea2",
+        "controls_owner_sha256": "9cccaa8b29cbbaf658253cdb99abdaa61dfb85309fdc1bdf5292de59cd45fa49",
+        "cleanup": "Checked-in controls owner differs only by replacing local SHA lambda with identical named helper for lint; executed original capsule retained privately.",
+        "raw_archive_sha256": "86ae8862cb6547d6c5820fa13ff029b2b6c9e194ca8a720291eec4c950accda5",
+        "raw_archive_bytes": 2253015
+      },
+      "reproducibility": {
+        "summarize": "python3 scripts/qualification/uflia_gaps/summarize.py --root RAW_ROOT --cases benchmarks/uflia-gaps-20261110/cases.json --out benchmarks/uflia-gaps-20261110/diagnostics.json",
+        "control_timing": "PRIMO_GAP_RUNNER=CONTROLS_RUNNER PRIMO_GAP_PHASE=profile sbatch --array=0-5%6 --time=00:06:00 scripts/qualification/uflia_gaps/run.sbatch",
+        "control_models": "PRIMO_GAP_RUNNER=CONTROLS_RUNNER PRIMO_GAP_PHASE=models sbatch --dependency=afterok:CONTROL_TIMING_JOB --array=0-5%6 --time=00:06:00 scripts/qualification/uflia_gaps/run.sbatch",
+        "required_environment": "PRIMO_WORKDIR,PRIMO_GAP_CONFIG,PRIMO_GAP_OUT,PRIMO_GAP_CORPUS,PRIMO_GAP_RUNNER are private execution paths, not tracked connection details."
+      },
+      "verification": {
+        "metadata_tests": "11uniform metadata+22legacy long-limit metadata tests pass; no local solver execution",
+        "lint": "make lint, sbatch validator, bash-n and git diff --check pass",
+        "artifact_reproduction": "Ranked gaps, lexical input shapes and diagnostic summary reproduce byte-for-byte from their recorded inputs/raw artifacts",
+        "documentation": "Independent bounded review resolves UFLIA-GAP-01/02; optional byte-unit repair adopted; review.json records identities and unchecked scope. make docs-site includes make docs; link/render gates recorded there.",
+        "CXX_scope": "Production CPP/headers/CMake unchanged from7dd8874c. No new C++ownership/behavior change: ASan,clang-tidy/include-cleaner,fresh solver makecheck/fuzz campaigns not rerun for this evidence-only investigation. Prior frozen-source qualification retained, not claimed as fresh for new optional controls."
+      }
+    },
+    {
       "id": "2026-11-10-uniform120-single-primo-presentation",
       "date": "2026-11-10",
       "kind": "Presentation-only derivation of qualified timing data",

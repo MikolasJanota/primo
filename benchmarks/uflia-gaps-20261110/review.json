@@ -1,0 +1,74 @@
+{
+  "status": "ready for investigative evidence; no solver/default promotion",
+  "reviewer": "independent read-only agent /root/cactus_docs_review",
+  "baseline": "d3d7889ebd8d8597332bf858c7dc82a38590df68",
+  "scope": "New gap-investigation evidence page,affectedlead paragraphs,uniformreportlink/TOC,ranking/shape/profile/control/audit owners,manifest and portable diagnostics/failure data,first run-log entry.",
+  "findings": [
+    {
+      "id": "UFLIA-GAP-01",
+      "status": "resolved",
+      "required": true,
+      "issue": "New code links targeted stale default source revision and incorrect owning ranges.",
+      "repair": "Use patchsource cab1ebc4 with independently verified updater,component lifecycle,care-pair,callback and model-guard ranges."
+    },
+    {
+      "id": "UFLIA-GAP-02",
+      "status": "resolved",
+      "required": true,
+      "issue": "Failure scope incorrectly claimed default SAT model validation on a timeout input.",
+      "repair": "State equality-sharing model passes exactcase; default timedout with no selectedSATmodel. Fix auditor,regenerate diagnostics,failuremetadata andprose."
+    },
+    {
+      "id": "UFLIA-GAP-S01",
+      "status": "resolved",
+      "required": false,
+      "issue": "6.3KiB is inaccurate for6340bytes.",
+      "repair": "Write exact6340-byte count."
+    }
+  ],
+  "independent_checks": [
+    "Ranked gaps,input shapes and revised diagnostic exports reproduce without solver runs",
+    "Timing arguments,input identities,modelcoverage parent hashes and exit2 failure evidence",
+    "New source navigation against production-equivalentcab1ebc4",
+    "Samples overlap,instrumentedprefix and historicalreference limitations appropriately stated",
+    "No remaining required findings or terminology defects"
+  ],
+  "unchecked_by_reviewer": [
+    "Live scheduler state",
+    "Independent model revalidation beyond collected evidence",
+    "Executed control-capsule contents",
+    "Final built site rendering",
+    "This finalreview record"
+  ],
+  "writer_verification": {
+    "metadata_tests": "33focused metadata tests pass",
+    "lint": "make lint; sbatchvalidator; bash-n; git diff --check pass",
+    "docs": "make docs-site and check_doc_links:288pages40354locallinks1228Gitlinks0failures,after navigation repairs; final unit/ledger incremental rebuild separately repeated",
+    "rendering": "Changed evidence page/diagnostic table visually inspected in built HTML; no chart regeneration needed",
+    "scheduler": "382098,382104,382110 all6tasksCOMPLETED0:0 each;382116 has5COMPLETED0:0 plus task3FAILED1:0 at preserved strong-profile model guard. No owned jobs active.",
+    "source": "No changes to CPP,headers,CMake relative7dd8874c; no new source gate claimed",
+    "code_review": "Metadata/workflow review: zero-exit decision scoring,parent/input identities,all SAT joins,explicit rejected-profile boundary,durable per-row output,separate diagnostics and timing,ordinary import/lint hygiene. No blocking workflow issues found.",
+    "process_audit": "No local solver/test/fuzz experiment processes remain."
+  },
+  "qualification_boundary": "Investigation and improvement leads only. One existing strong-preprocessing model construction failure remains open and excludes its profile from accepted performance recommendations; no correctness fix or performance improvement implemented.",
+  "reviewed_file_sha256": {
+    "scripts/qualification/uflia_gaps/rank.py": "725d4a0246965a04f2461b0ca3089e541b85e10c05253cce3ec98faea7689fe4",
+    "scripts/qualification/uflia_gaps/shape.py": "250fb5cc3652f8006aefc985b88087d81226b6d073d9a65d441501b96b5a94a8",
+    "scripts/qualification/uflia_gaps/summarize.py": "84591b16180c71b1ffd9e6d52625d17a6cf4001366a10f7a795ca5860c6a86b5",
+    "scripts/qualification/uflia_gaps/controls.py": "9cccaa8b29cbbaf658253cdb99abdaa61dfb85309fdc1bdf5292de59cd45fa49",
+    "scripts/qualification/uflia_gaps/run.py": "ef4b07ffe1ffd77fda5c7c3dfe50cfd25beb1919336925e4a0048df37914d77d",
+    "scripts/qualification/uflia_gaps/run.sbatch": "09faffef00b3a3d6ce63215be0bf50ea176521ddd71e3ffdac78af872f2defcd",
+    "docs/evidence/uflia-gaps-20261110.md": "397109c9fcd235bc2387bf7a9876f2e13c15dc0cf8b975b32e6055fd4138f7eb",
+    "docs/evidence/uniform120.md": "919facca95a82f1f1ff06c96d1b1ad217b8ff9153210322f5603c0640cccb4d2",
+    "docs/leads/care-pair-generation.md": "66ba48991d505b7931301cbc1e5f71c3378933c4c602cfea1c239db89fa3997a",
+    "docs/leads/arithmetic-efficiency-followups.md": "80a09954adeff4df3503777fa7a01254734750bdd23f0de096890221d922b5b0",
+    "docs/_toc.yml": "744a9f223913c90a8cadaff081496ebda616c861a26e46c9d8d89277a984cdde",
+    "benchmarks/uflia-gaps-20261110/model-replay-failure.json": "75d5b9fd35faead87926ef3279a0e2647d9f66c9b7fc64b86b7f27bfd1ba88ae",
+    "benchmarks/uflia-gaps-20261110/cases.json": "7aa0fbbb69072caa07e196a97346cd52cbae655f0d510353adace079514e9d4f",
+    "benchmarks/uflia-gaps-20261110/gaps.json": "be86d7e7226247f2b75e9aaac21664d197eaa488454163834588d13c7f0ad46f",
+    "benchmarks/uflia-gaps-20261110/input-shapes.json": "7eaedc237d16b2b845cae99c107d7329513b0134936dea2c45f091f5961b1f0b",
+    "benchmarks/uflia-gaps-20261110/diagnostics.json": "36f7f0cc55ff95dd97d28ad8c213a35c71b1a3e051e9064895d5444cb9f02f0b"
+  },
+  "first_run_log_entry_sha256": "cff793cd1fe9a6eb4383494460b9d1afb784dffebc1e143a0b10043f695aae37",
+  "accepted_final_page_sha256": "397109c9fcd235bc2387bf7a9876f2e13c15dc0cf8b975b32e6055fd4138f7eb"
+}

@@ -101,6 +101,9 @@ controlled A/B speedup experiment. They are separate from solved counts and PAR2
 | QF_UFLIA, Primo default | 576 | 2.575 | 283 | 3.143 |
 | QF_UFLIA, Primo integer profile | 548 | 2.800 | 255 | 3.720 |
 
+The [selected QF_UFLIA gap investigation](uflia-gaps-20261110.md)
+examines where cvc5 remains faster and profiles representative cases.
+
 ## Uniform cactus plots
 
 [Open the full gallery](../_static/uniform120-20261109/index.html). Every panel

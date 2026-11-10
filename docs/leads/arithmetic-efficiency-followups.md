@@ -128,3 +128,22 @@ Next count coefficient searches/entries inspected, violation rebuild sizes and
 branch-selection work separately on current binaries. Retain lower priority
 unless profiles show material cost. Do not infer a branching remedy from a
 case still processing root cuts.
+
+## Fresh QF_UFLIA prioritization
+
+The {ref}`10 November selected-gap investigation <uflia-gap-hash>`
+raises violation maintenance’s priority for MathSAT Hash. In
+`hash_sat_10_19`, the completed default run has 123,377 pivots, 17,314,853
+affected-row updates and 214,134,568 pivot term operations. Integer completion
+takes only 0.062 s of a 48.022 s run. A separate capped Callgrind prefix places
+11.07% of self instruction count in `update_violation_status`; this is not a
+native-time percentage or evidence that all those updates are redundant.
+
+Before a representation change, count actual violated-set membership
+transitions, unchanged insert/erase requests and operations since interface
+growth. A narrow membership cache must leave the exact ordered violated set,
+bound assertions, basis transitions and rollback states unchanged. Compare
+operation counts and native paired timing on this case, other Hash inputs and
+the earlier arithmetic controls before widening the experiment. Shared-model
+regrouping was not observed in these selected UFLIA profiles; its older
+`parport` evidence remains a separate lead, not this family’s measured cause.

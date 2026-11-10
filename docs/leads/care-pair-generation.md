@@ -5,7 +5,8 @@
 Investigate whether proposing fewer care pairs, or producing them on demand,
 reduces total solving time. This is the first investigation to try before
 [using care information to reduce combination obligations](care-guided-combination.md).
-No prototype or new performance evaluation has been selected.
+No prototype is implemented. The {ref}`10 November QF_UFLIA investigation <uflia-gap-certora>`
+provides fresh selected profiling evidence, not acceptance for a refinement.
 
 ## Implemented baseline
 
@@ -74,3 +75,16 @@ including both large care classes and cases with little care work. Reject or
 restrict a refinement if its bookkeeping or changed search loses the savings,
 or if gains on a few cases hide substantial broader regressions. Record the
 decision and reproducible evidence before closing the lead.
+
+## Fresh selected QF_UFLIA evidence
+
+The default Certora `39657…_48` run takes 24.487 s, against archived cvc5’s
+1.108 s. Care-pair construction appears in 22 of 161 inclusive native stack
+observations; pivoting appears in 34 and GMP in 25. These overlap and are not
+exclusive CPU percentages. See the [diagnostic record](../evidence/uflia-gaps-20261110.md).
+First count unchanged EUF assignment/closure epochs, rebuilt candidate pairs
+and allocation volume. A cache preserving the exact pair list and ordering
+is a separate experiment from changing the care heuristic. Invalidate on
+relevant closure merges, rollback, added terms and model-token changes; retain
+complete model comparison and fallback. The profile does not establish which
+cache would be valid or that caching alone repays its bookkeeping cost.

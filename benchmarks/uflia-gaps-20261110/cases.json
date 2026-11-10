@@ -1,0 +1,112 @@
+{
+  "source_commit": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
+  "expected_git": "7dd8874c",
+  "binary_sha256": "9f04d52de397d03b65439b18b35d172e55cffb037a16340860f33a9f9fb19318",
+  "normal_timeout": 120,
+  "gdb_seconds": 35,
+  "callgrind_seconds": 35,
+  "address_space_bytes": 8589934592,
+  "profiles": {
+    "default": [
+      "--quiet",
+      "--stats"
+    ],
+    "equality-sharing": [
+      "--quiet",
+      "--stats",
+      "--qf-uflia-tableau-equalities"
+    ]
+  },
+  "cases": [
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium13.smt2",
+      "sha256": "a7bf9b5b53f8edd829d0d5c3db912dcb67137888b6e5a90f85bbacc1fb740731",
+      "family": "mathsat",
+      "answer": "unsat",
+      "primo_status": "timeout",
+      "primo_seconds": 120.325185,
+      "cvc5_seconds": 0.049008,
+      "integer_status": "timeout",
+      "integer_seconds": 120.326173,
+      "primo_solved": false,
+      "runtime_ratio": null,
+      "runtime_ratio_lower_bound": 2448.5798237022527,
+      "par2_gap": 239.950992
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium12.smt2",
+      "sha256": "a868174d7f2c1c706d082dad4b15f5d63be79ac42c0703c861b6573ac608fe8d",
+      "family": "mathsat",
+      "answer": "unsat",
+      "primo_status": "ok",
+      "primo_seconds": 2.995304,
+      "cvc5_seconds": 0.042395,
+      "integer_status": "ok",
+      "integer_seconds": 2.888712,
+      "primo_solved": true,
+      "runtime_ratio": 70.65229390258284,
+      "runtime_ratio_lower_bound": null,
+      "par2_gap": 2.952909
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_10_19.smt2",
+      "sha256": "675fb32a7b7d5156f66f81fe2cfb38a3dfc6723e6df21376ccc310cfa1789c9d",
+      "family": "mathsat",
+      "answer": "sat",
+      "primo_status": "ok",
+      "primo_seconds": 51.184777,
+      "cvc5_seconds": 1.313523,
+      "integer_status": "ok",
+      "integer_seconds": 51.045651,
+      "primo_solved": true,
+      "runtime_ratio": 38.96755290923722,
+      "runtime_ratio_lower_bound": null,
+      "par2_gap": 49.87125399999999
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_58_QF_UFLIA.smt2",
+      "sha256": "47f6d84bcf95f569f885d5d8987cd849df0e9598d8e07b11c6154d6816cab6c7",
+      "family": "20230314-Jaroslav-Bendik-Certora",
+      "answer": "sat",
+      "primo_status": "timeout",
+      "primo_seconds": 121.011255,
+      "cvc5_seconds": 1.050987,
+      "integer_status": "timeout",
+      "integer_seconds": 121.104254,
+      "primo_solved": false,
+      "runtime_ratio": null,
+      "runtime_ratio_lower_bound": 114.17838660230812,
+      "par2_gap": 238.949013
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+      "sha256": "936f197c41d37113cb50d53fa0e57f4926941c1a03d048e77d6cbcc1e0db7825",
+      "family": "20230314-Jaroslav-Bendik-Certora",
+      "answer": "sat",
+      "primo_status": "ok",
+      "primo_seconds": 26.206869,
+      "cvc5_seconds": 1.107532,
+      "integer_status": "ok",
+      "integer_seconds": 27.179898,
+      "primo_solved": true,
+      "runtime_ratio": 23.662403433941414,
+      "runtime_ratio_lower_bound": null,
+      "par2_gap": 25.099337000000002
+    },
+    {
+      "file": "mathsat/Wisa/xs-09-06-1-5-3-2.smt2",
+      "sha256": "7da9a70e945efdedb640870e4042b3b665eee8f0d2923b7082c5885df51f651a",
+      "family": "mathsat",
+      "answer": "sat",
+      "primo_status": "ok",
+      "primo_seconds": 8.553028,
+      "cvc5_seconds": 0.026282,
+      "integer_status": "ok",
+      "integer_seconds": 0.207281,
+      "primo_solved": true,
+      "runtime_ratio": 325.4329198691119,
+      "runtime_ratio_lower_bound": null,
+      "par2_gap": 8.526746
+    }
+  ]
+}
