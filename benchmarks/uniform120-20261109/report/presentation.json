@@ -1,0 +1,73 @@
+{
+  "kind": "single-Primo-profile presentation of qualified measurements",
+  "selection": "Per logic: most full-corpus solves, then lowest full-corpus PAR2, then profile ID; one fixed profile for every input and both views.",
+  "selected_profiles": {
+    "QF_UF": {
+      "profile": "primo",
+      "arguments": [
+        "--quiet"
+      ],
+      "solved": 7501,
+      "par2_sum": 4866.798780999998
+    },
+    "QF_LRA": {
+      "profile": "primo",
+      "arguments": [
+        "--quiet"
+      ],
+      "solved": 1642,
+      "par2_sum": 37040.022620999975
+    },
+    "QF_LIA": {
+      "profile": "primo-integer",
+      "arguments": [
+        "--quiet",
+        "--lia-round-integer-bounds",
+        "--lia-primitive-int-rows",
+        "--no-lia-integer-slacks",
+        "--lia-patch-integral-moves",
+        "--lia-cube=uniform"
+      ],
+      "solved": 11302,
+      "par2_sum": 593372.5072669997
+    },
+    "QF_UFLRA": {
+      "profile": "primo",
+      "arguments": [
+        "--quiet"
+      ],
+      "solved": 1271,
+      "par2_sum": 3969.9718960000005
+    },
+    "QF_UFLIA": {
+      "profile": "primo",
+      "arguments": [
+        "--quiet"
+      ],
+      "solved": 577,
+      "par2_sum": 21102.743715
+    }
+  },
+  "display_name": "Primo",
+  "filter": "Remove inputs every displayed solver solves successfully in under1s; recomputed after profile selection.",
+  "source_provenance_sha256": "347ad60b7c405be179387371faa097437e7cf2b42afa37b6168d1b9d6b65173a",
+  "source_timing_sha256": "50a095267f0649fbaea10195a3d7e263b545ba7d1d821b727893e2652cad4b51",
+  "source_qualification_sha256": "02025b267fa5a23b28b0885f0e88cf50ced50973d3870c7df009a9cb90bd0019",
+  "generator_sha256": "0c3cab3fd17ecc0963b7dcf1d96d9edc1157a25c542e98f8d5256375d62a958e",
+  "plot_data_sha256": "0f9760a5dc433fe9b5f6da631c3f815a3027e3a209a69137d6eeb65f0fcbc48d",
+  "plots_sha256": {
+    "index.html": "baad48dad5d2094beaa80c04305f318b991cdcb7a8beec050199df85d9925e14",
+    "qf_lia-full.svg": "48662d0f8a88bb47d28a12b7272fdb8acba0c6a8e3cce1faf405f797b8748643",
+    "qf_lia-nontrivial.svg": "1c8d2a286c862c99bfebeac854e08d4febf5c34c786d1e8f68a88da45476ee41",
+    "qf_lra-full.svg": "bcc2d9533a5cad29cc938c95b0fcaf1aad1c2138d3b4b92a1b984798d240a1d1",
+    "qf_lra-nontrivial.svg": "8479a5bbbf4ed118768648e050e96c133963df08d686c1c3125118231ca331ac",
+    "qf_uf-full.svg": "bebfa917aa5cbf947a460dd082388ef060f5d09c834d73c9423dae05e428465a",
+    "qf_uf-nontrivial.svg": "150c242f19357dd19953c51ee0ce7678a652582e34c7984acd6154fee2de4717",
+    "qf_uflia-full.svg": "1812c68f58b8ef532e30fc5dea355de757196830b2ff504b258a526823c11560",
+    "qf_uflia-nontrivial.svg": "5923c53dacc47cee41a885b4f610885f2d5583576446331462c5008612f2c92a",
+    "qf_uflra-full.svg": "818e9c4da5bf2610d2f3e246ea005a81b17e70f3c491965b9abf644801c4756c",
+    "qf_uflra-nontrivial.svg": "a40928a3bf4fce448534f6199b3f90e541db34dfa23478ce1a3dcef38c777db7"
+  },
+  "original_gallery": "docs/_static/uniform120-20261109/all-profiles",
+  "solver_executions": 0
+}

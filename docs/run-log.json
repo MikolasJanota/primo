@@ -3,6 +3,78 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-10-uniform120-single-primo-presentation",
+      "date": "2026-11-10",
+      "kind": "Presentation-only derivation of qualified timing data",
+      "evidence_status": "Complete plot generation; same qualified measurements, no solver execution",
+      "parent_result_commit": "320b34e9",
+      "native_source_git": "7dd8874c448b3fedc9d77f3a3d943945bbd36495",
+      "selection": "Per logic: most full-corpus solves, then lowest full-corpus PAR2, then profile ID; one fixed profile for every input and both views.",
+      "selected_profiles": {
+        "QF_UF": {
+          "profile": "primo",
+          "arguments": [
+            "--quiet"
+          ],
+          "solved": 7501,
+          "par2_sum": 4866.798780999998
+        },
+        "QF_LRA": {
+          "profile": "primo",
+          "arguments": [
+            "--quiet"
+          ],
+          "solved": 1642,
+          "par2_sum": 37040.022620999975
+        },
+        "QF_LIA": {
+          "profile": "primo-integer",
+          "arguments": [
+            "--quiet",
+            "--lia-round-integer-bounds",
+            "--lia-primitive-int-rows",
+            "--no-lia-integer-slacks",
+            "--lia-patch-integral-moves",
+            "--lia-cube=uniform"
+          ],
+          "solved": 11302,
+          "par2_sum": 593372.5072669997
+        },
+        "QF_UFLRA": {
+          "profile": "primo",
+          "arguments": [
+            "--quiet"
+          ],
+          "solved": 1271,
+          "par2_sum": 3969.9718960000005
+        },
+        "QF_UFLIA": {
+          "profile": "primo",
+          "arguments": [
+            "--quiet"
+          ],
+          "solved": 577,
+          "par2_sum": 21102.743715
+        }
+      },
+      "display_name": "Primo",
+      "filter": "Remove inputs every displayed solver solves successfully in under1s; recomputed after profile selection.",
+      "solver_executions": 0,
+      "execution_location": "Local metadata processing and docs/figure rendering only; no build, solver test, benchmark or corpus validation rerun",
+      "source_provenance_sha256": "347ad60b7c405be179387371faa097437e7cf2b42afa37b6168d1b9d6b65173a",
+      "source_timing_sha256": "50a095267f0649fbaea10195a3d7e263b545ba7d1d821b727893e2652cad4b51",
+      "source_qualification_sha256": "02025b267fa5a23b28b0885f0e88cf50ced50973d3870c7df009a9cb90bd0019",
+      "artifacts": {
+        "gallery": "docs/_static/uniform120-20261109/index.html",
+        "manifest": "benchmarks/uniform120-20261109/report/presentation.json",
+        "curve_arrays": "benchmarks/uniform120-20261109/report/presentation-plot-data.json",
+        "original_gallery": "docs/_static/uniform120-20261109/all-profiles/index.html",
+        "documentation": "docs/evidence/uniform120.md",
+        "review": "benchmarks/uniform120-20261109/presentation-review.json"
+      },
+      "verification": "Original qualified export revalidated by analyzer; deterministic regeneration identical for13data/gallery files; eleven existing uniform metadata tests pass; all10SVGs visually inspected. Documentation/review gate detailed in presentation-review.json."
+    },
+    {
       "id": "2026-11-09-uniform120",
       "date": "2026-11-09",
       "kind": "fresh-native120s full-corpus comparison with archived-reference reuse",

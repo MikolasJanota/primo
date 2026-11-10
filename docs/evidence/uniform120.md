@@ -26,7 +26,8 @@ limit does not itself remove easy cases or guarantee a ranking reversal.
 
 All series use a 120-second cutoff, one physical CPU and an enforced 8 GiB
 address-space limit. These are full-corpus solved counts; each optional integer
-profile is fixed across its entire logic, and curves remain separate.
+profile is fixed across its entire logic. The table retains both measured
+profiles; the plots below show the stronger profile as “Primo”.
 
 | Logic | Inputs | Primo default | Integer profile | Z3 | cvc5 | Yices | OpenSMT |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -84,7 +85,9 @@ It does not predict Primo’s behavior beyond 120 seconds.
 
 Ratios are geometric means of Primo/cvc5 time on inputs both solve successfully
 within the cutoff; below one means Primo is faster. The filtered cohort removes
-only inputs every plotted profile solves in under one second. These are
+only inputs every originally measured profile solves in under one second.
+This table retains the original all-profile cohort; the simplified plots below
+recompute the filter using their displayed profiles. These are
 descriptive matched-input ratios from different measurement dates, not a
 controlled A/B speedup experiment. They are separate from solved counts and PAR2.
 
@@ -104,6 +107,10 @@ controlled A/B speedup experiment. They are separate from solved counts and PAR2
 uses the same 0.01–120 second log axis and 0–100% solved axis. Higher curves
 mean more solves within that per-input budget. Full views appear below;
 each filtered view uses the same colours and scales with its stated denominator.
+Each theory shows one curve labelled **Primo**, using the measured configuration
+with the most full-corpus solves, breaking ties by lower PAR2. This selects the
+integer profile for QF_LIA and defaults for the other four theories. The same
+configuration serves every input and both views of its theory.
 
 ### QF_UF
 
@@ -123,8 +130,8 @@ each filtered view uses the same colours and scales with its stated denominator.
 
 ![QF_LIA: full corpus at 120 seconds](../_static/uniform120-20261109/qf_lia-full.svg)
 
-[Filtered view](../_static/uniform120-20261109/qf_lia-nontrivial.svg): 6,473 inputs;
-6,833 common easy inputs removed.
+[Filtered view](../_static/uniform120-20261109/qf_lia-nontrivial.svg): 6,377 inputs;
+6,929 common easy inputs removed.
 
 ### QF_UFLRA
 
@@ -137,8 +144,8 @@ each filtered view uses the same colours and scales with its stated denominator.
 
 ![QF_UFLIA: full corpus at 120 seconds](../_static/uniform120-20261109/qf_uflia-full.svg)
 
-[Filtered view](../_static/uniform120-20261109/qf_uflia-nontrivial.svg): 366 inputs;
-293 common easy inputs removed.
+[Filtered view](../_static/uniform120-20261109/qf_uflia-nontrivial.svg): 365 inputs;
+294 common easy inputs removed.
 
 ## Completed correctness and resource accounting
 
@@ -183,6 +190,8 @@ heuristics or default promotion.
 - {download}`Paired raw timing table (gzip) <../../benchmarks/uniform120-20261109/report/timing.csv.gz>`
 - {download}`Curve arrays and denominators <../../benchmarks/uniform120-20261109/report/plot-data.json>`
 - {download}`Matched-input comparisons and budget counts <../../benchmarks/uniform120-20261109/report/comparisons.json>`
+- {download}`Simplified plot selection and checksums <../../benchmarks/uniform120-20261109/report/presentation.json>`
+- {download}`Simplified plot arrays and denominators <../../benchmarks/uniform120-20261109/report/presentation-plot-data.json>`
 - {download}`Export provenance and checksums <../../benchmarks/uniform120-20261109/report/provenance.json>`
 - {download}`Generated-gate commands, seeds and coverage <../../benchmarks/uniform120-20261109/gate-provenance.json>`
 
@@ -201,7 +210,8 @@ paths remain rejected. Defaults run in every division. LIA and UFLIA also run
 one fixed optional integer profile: integer-bound rounding, primitive integer
 rows, no integer-slack obligations, integral patch moves and uniform cubes.
 Uniform cubes apply to pure QF_LIA; the switch is ignored by QF_UFLIA. Profiles
-remain separate curves; no per-input portfolio or promotion of defaults occurs.
+remain separate in the qualification data; the simplified gallery selects
+one per theory, with no per-input portfolio or promotion of defaults.
 
 The four reference candidates are archived Z3, cvc5, Yices and OpenSMT runs from
 the October 24 enforced-memory campaign. Admission and timing records are read
@@ -248,16 +258,23 @@ rows during a task; private submission state records owned arrays for cancellati
 ## Uniform presentation
 
 The {download}`report owner <../../scripts/qualification/uniform120/report.py>`
-uses fixed solver colours and ordering across all five divisions. Blue is
-Primo defaults; purple is the declared optional integer profile. Every panel
-has the same logarithmic time axis, 0.01–120 seconds, and a 0–100% solved axis;
+generated the original all-profile comparison with fixed solver colours and
+ordering. The {download}`presentation owner <../../scripts/qualification/uniform120/presentation.py>`
+now derives the displayed gallery from the verified exported timing table. It
+selects one fixed Primo configuration per theory by most full-corpus solves,
+then lowest full-corpus PAR2, then profile ID. Its blue curve is labelled
+“Primo” in every theory. Exact selected options remain in `presentation.json`;
+this is a presentation choice after measurement, not a change to solver defaults.
+Every panel has the same logarithmic time axis, 0.01–120 seconds, and a 0–100% solved axis;
 legends retain absolute counts. Higher curves mean more inputs solved within
 the per-input time budget, rather than cumulative elapsed time.
 
 Each division has two views. The full view retains every input. The nontrivial
-view removes only inputs every plotted profile solves in under one second.
-Its cohort and denominator are explicitly reported, and its counts/PAR2 are
-kept separate from full-corpus metrics. The filter is computed after measurement
+view removes only inputs every displayed solver solves in under one second,
+recomputed after choosing the single Primo configuration.
+Its cohort and denominator are explicitly reported; legend counts refer to
+that cohort. Gallery table PAR2 uses the full corpus. Filtered PAR2 in the
+original qualification summary still belongs to the original all-profile cohort. The filter is computed after measurement
 and never changes the scored full corpus. Quantified UF is outside this report.
 
 Exact options and phase budgets are in the
@@ -366,3 +383,12 @@ runtimes and the fixed colour mapping. Private execution roots, log paths and
 diagnostics are omitted from the table; tool versions use their first line and
 a digest of the full recorded text. Exported files are result artifacts, not new
 solver measurements. An existing destination is refused to preserve attempts.
+
+
+The original export, all-profile curve arrays and qualification summary remain
+unchanged. The original eleven gallery files are preserved under
+[the all-profile archive](../_static/uniform120-20261109/all-profiles/index.html),
+where their hashes still match
+the original export provenance. `presentation.json` binds the simplified
+gallery and its recomputed curve arrays to that export and records the selected
+options. Regeneration uses existing timings only and runs no solver.

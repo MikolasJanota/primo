@@ -1,0 +1,52 @@
+{
+  "status": "ready",
+  "reviewer": "independent read-only agent /root/cactus_docs_review",
+  "baseline": "320b34e9b86b94a1025c9faeac09bfde8035cfd3",
+  "scope": "Single-Primo-profile presentation generator,manifest,curve arrays,both11-file galleries and affected report prose. Presentation only; qualified measurement artifacts unchanged.",
+  "findings": [
+    {
+      "id": "U120-PRES-01",
+      "required": true,
+      "status": "resolved",
+      "finding": "New filtered cohort does not export filtered PAR2; prose must not attribute old filtered PAR2 to new plots.",
+      "repair": "Distinguish displayed-cohort legend counts, full-corpus gallery PAR2 and original all-profile filtered PAR2."
+    }
+  ],
+  "suggestions": [
+    {
+      "status": "adopted",
+      "suggestion": "Clickable archived all-profile gallery link."
+    }
+  ],
+  "independent_checks": [
+    "One blue curve labelled exactly Primo per panel",
+    "Full-corpus strongest-profile selection:integer forLIA,defaults for otherfour",
+    "All10curve arrays,counts and denominators against paired timing table",
+    "Both11-file gallery manifests and original export preservation",
+    "Byte-identical regeneration in isolated temporary directory",
+    "RevisedLIA/UFLIA rendering legible",
+    "No terminology defects or remaining findings"
+  ],
+  "unchecked_by_reviewer": [
+    "New run-log entry and this review record",
+    "Final documentation build",
+    "Underlying solver/model evidence beyond prior acceptance"
+  ],
+  "writer_verification": {
+    "metadata_tests": "python3 -m unittest discover -s tests/python -p test_uniform120_metadata.py:11pass",
+    "lint": "make lint:pass; git diff --check:pass",
+    "reproducibility": "presentation.py regenerated all13data/gallery files with identical hashes",
+    "docs": "make docs-site (includes make docs):pass; zero WARNING/ERROR; link checker287pages40124local links1222Gitlinks0failures",
+    "visual": "All10SVGs viewed at900x574 in full/filtered contact sheets; rebuilt documentation plot section viewed, legible and unclipped",
+    "native_execution": "None; no SLURM submission, reference rerun or new model validation. Existing measurements reused.",
+    "code_review": "Presentation source reviewed for exact input/score identities,static per-theory selection,recomputed filtering,unsolved-row exclusion and immutable original export preservation;no blocking issues. No solver source changes or fresh whole-tree C++review claimed."
+  },
+  "reviewed_file_sha256": {
+    "docs/evidence/uniform120.md": "1136a21f28c4daa39a369e8be068bfe250954e3637641514eff43b582397219a",
+    "scripts/qualification/uniform120/presentation.py": "0c3cab3fd17ecc0963b7dcf1d96d9edc1157a25c542e98f8d5256375d62a958e",
+    "benchmarks/uniform120-20261109/report/presentation.json": "79c525550ee5a47aaaf2da8553cb4489f7f52186565544e2db00af7e43b48a6b",
+    "benchmarks/uniform120-20261109/report/presentation-plot-data.json": "0f9760a5dc433fe9b5f6da631c3f815a3027e3a209a69137d6eeb65f0fcbc48d"
+  },
+  "manifest_scope": "presentation.json binds both current gallery hashes and original export identity; original export provenance hashes resolve in all-profiles archive.",
+  "remaining": []
+}
