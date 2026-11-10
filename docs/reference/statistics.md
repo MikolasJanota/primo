@@ -380,6 +380,13 @@ ordinary post-model check or by the CaDiCaL external-clause callback used by
 theory-literal notifications received by the online/conflict EUF callback.
 Predicate atoms contribute only to `:euf.assignments`.
 
+The delayed finite-domain stage records
+`:preprocessing.finite-domain.raw-cache-hits` and `raw-cache-refreshes`.
+A hit requires exactly matching ordered source/executing assertion IDs; a
+refresh regenerates raw constraints on the executing goal. Symmetry has the
+analogous `:preprocessing.symmetry.cache-hits` and `cache-refreshes` counters.
+These count phase invocations, not clauses or solver decisions.
+
 ## Experimental pure-QF_LRA equality propagation
 
 With `--lra-equality-propagation`, the per-query `OnlineLraPropagator` records:
