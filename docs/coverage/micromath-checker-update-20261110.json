@@ -1,0 +1,1350 @@
+{
+  "date": "2026-11-10",
+  "status": "complete; all four representative stages recovered, three kernel proofs plus one challenge only",
+  "workflow_git": "6267bafaf0e974f6702f1964b0db9039af616f2f",
+  "native_export_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "old_checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+  "new_checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+  "source_handoff": {
+    "file": "benchmarks/checker-regressions/micromath-handoff-20261109/micromath-checker-feedback.tar.gz",
+    "sha256": "843fe51a8efcbf2faffbcd21ef3730aea80cc2c983237d03da5b01fecaca39e5",
+    "representatives": 4,
+    "complete_failure_index": 109
+  },
+  "jobs": {
+    "build": "382225",
+    "paired_replay": "382226_0..7"
+  },
+  "allocation": {
+    "build": {
+      "cpus": 4,
+      "memory_gib": 8,
+      "wall_minutes": 20
+    },
+    "replay": {
+      "cpus_per_worker": 2,
+      "memory_gib_per_worker": 12,
+      "wall_minutes": 10,
+      "maximum_concurrent": 2
+    }
+  },
+  "builds": {
+    "old": {
+      "job": "362913",
+      "revision": [
+        "cfd36f46e756f080295d469753c9f2989dab1fee",
+        "2026-11-07 16:29:54 +0100",
+        "Fix LRA/LIA proof reconstruction and reduce encoding overhead"
+      ],
+      "compiler": "gcc (GCC) 11.4.1 20231218 (Red Hat 11.4.1-3)",
+      "binary_sha256": {
+        "build-axioms": "5b205cb0fa92f03281f20449a7342a50d2b5fe0662fff36fda73518b71089bcf",
+        "smt/build-lra-challenge": "bc30474c6bedac2bca4e5209555249f94d72ee68386b9f18bbe7a8ac8c894e51",
+        "smt/build-lia-challenge": "21b208275b1daf2fd2cc525645445a9737185e1ad8de6e364730f2abf81e8414",
+        "smt/prove-lra": "54f17a17cd7375887a9436c8fb932aa7b56837325ea8fcc555a600ab02c13379",
+        "smt/prove-lia": "ab8fe3a9112a6d043e0e982b918e2b8dab210ee11bad78b93ac12ad0ae53a67f",
+        "check-solution": "02c269438239a39e1048301c794ea27fcaebdbbe9a11e5ed7f1759fcd36fa70f"
+      },
+      "dependencies_sha256": {
+        "compiler_header_manifest": "827dccad02b2067c4b9bc76649deb83e390d73055111e6d532df4ea45e27ca28",
+        "gmp_header": "170523605c7877865865d35b6ec4e422c942f53d33bfdd37ce08022041893ef4",
+        "gmp_static_library": "61f5c57acd989bcd4c845feca2bf5e08ea55d673e6af0e478a53e7c124f3ccf6"
+      }
+    },
+    "new": {
+      "job": "382225",
+      "revision": [
+        "62353d2da3035fdc544c374156bd616b44fb8640",
+        "2026-11-10 12:49:26 +0100",
+        "SMT optimization & refactor"
+      ],
+      "compiler": "gcc (GCC) 11.4.1 20231218 (Red Hat 11.4.1-3)",
+      "binary_sha256": {
+        "build-axioms": "2e65ed67555c1997bab373556c1090f6ea22bab379e5c76603979c709cafbc21",
+        "smt/build-lra-challenge": "4c342a98ca1ef5da81b3d8592a935608d54c24cbb6e5dac5d9e944acb4524f0b",
+        "smt/build-lia-challenge": "eb092a4b9b04506ac9cfef65190f7c553a098141c6d0f80008d1583fe9dcb0b8",
+        "smt/prove-lra": "c08d0fff84d2012b307a05e9a2fb16f6b39f6750dc2da290d2acd514fda7a3fb",
+        "smt/prove-lia": "8bb91aab9b71b59a74b9c522a93ccb7ad38922ba1fb1a2418574b0522274ad09",
+        "check-solution": "4acea307cb92eb5ef1ba3469135a90621877c73d93bce0095064f3aaf5185cd5"
+      },
+      "dependencies_sha256": {
+        "compiler_header_manifest": "827dccad02b2067c4b9bc76649deb83e390d73055111e6d532df4ea45e27ca28",
+        "gmp_header": "170523605c7877865865d35b6ec4e422c942f53d33bfdd37ce08022041893ef4",
+        "gmp_static_library": "61f5c57acd989bcd4c845feca2bf5e08ea55d673e6af0e478a53e7c124f3ccf6"
+      }
+    }
+  },
+  "limits": {
+    "axioms": 30,
+    "challenge": 60,
+    "overall_proof_kernel": 120,
+    "process_address_bytes": 3221225472,
+    "process_file_bytes": 268435456
+  },
+  "same_replay_node_for_all_eight_runs": true,
+  "counts": {
+    "old": {
+      "challenge_timeout": 1,
+      "proof_timeout": 1,
+      "proof_error": 2
+    },
+    "new": {
+      "challenge_built": 1,
+      "verified": 3
+    }
+  },
+  "pairs": [
+    {
+      "case": "wisa5",
+      "file": "wisa/wisa5.smt2",
+      "primary_status": "proof_error",
+      "fresh_old_status": "proof_error",
+      "new_status": "verified",
+      "compared_stage": "proof",
+      "old_stage_seconds": 71.75100971199572,
+      "new_stage_seconds": 27.872375754988752,
+      "old_total_stage_seconds": 71.83082509995438,
+      "new_total_stage_seconds": 27.952416749903932,
+      "identical_payloads": {
+        "case.json": {
+          "sha256": "3d1df3a8adc98089a11b5c67304486143e7d46675b4f8ed49c41a56a0cfad9bc",
+          "bytes": 8300
+        },
+        "exported-cnf.smt2": {
+          "sha256": "4e73d5b0bdd4fb27fca6dbba88ac3197a41735991a6471c21b04d4c2e1630e50",
+          "bytes": 270318
+        },
+        "micromath-v2.sexp": {
+          "sha256": "d0761947f9e204b36589c843d85098cd70f7b85797d84c095ef7c354ff07372d",
+          "bytes": 18892343
+        }
+      }
+    },
+    {
+      "case": "clock7",
+      "file": "clock_synchro/clocksynchro_7clocks.worst_case_skew.induct.smt2",
+      "primary_status": "proof_timeout",
+      "fresh_old_status": "proof_timeout",
+      "new_status": "verified",
+      "compared_stage": "proof",
+      "old_stage_seconds": 120.00556460907683,
+      "new_stage_seconds": 53.85938328993507,
+      "old_total_stage_seconds": 120.036845440045,
+      "new_total_stage_seconds": 53.891224044025876,
+      "identical_payloads": {
+        "case.json": {
+          "sha256": "743d7dd426810fce4bf6d3107799a178e372c3ee3c43da856d9841770a5bc2f4",
+          "bytes": 7762
+        },
+        "exported-cnf.smt2": {
+          "sha256": "c815a828491f9c8de51731c6cc4bdfb4aa898a8c152a563e9d6e358deb009065",
+          "bytes": 47428
+        },
+        "native.sexp": {
+          "sha256": "53403e94193bfd28a85355b4246e82dae4daaaefa955833c723c40e9ad3c96e9",
+          "bytes": 626049
+        }
+      }
+    },
+    {
+      "case": "lia-oom",
+      "file": "nec-smt/med/int_from_list/prp-38-32.smt2",
+      "primary_status": "proof_error",
+      "fresh_old_status": "proof_error",
+      "new_status": "verified",
+      "compared_stage": "proof",
+      "old_stage_seconds": 6.131355767021887,
+      "new_stage_seconds": 16.15552857099101,
+      "old_total_stage_seconds": 37.00981468404643,
+      "new_total_stage_seconds": 41.978910745936446,
+      "identical_payloads": {
+        "case.json": {
+          "sha256": "6ca25a747c4216d82e49469b311824e3ae3be7db4c2bfb9509122501628cc727",
+          "bytes": 7949
+        },
+        "exported-cnf.smt2": {
+          "sha256": "ed4729a8aeea70bbb80fb0b7f134de88a68727f3897e0de37021ba195b048ca7",
+          "bytes": 116007079
+        },
+        "micromath-v2.sexp": {
+          "sha256": "5651b47954c94c80e7d4f6d83b42bc44282dd8f2ca6f530ea422d760ae585299",
+          "bytes": 100876052
+        }
+      }
+    },
+    {
+      "case": "challenge-p15",
+      "file": "2019-cmodelsdiff/wireRouting/p15.smt2",
+      "primary_status": "challenge_timeout",
+      "fresh_old_status": "challenge_timeout",
+      "new_status": "challenge_built",
+      "compared_stage": "challenge",
+      "old_stage_seconds": 60.26821150502656,
+      "new_stage_seconds": 24.06014709395822,
+      "old_total_stage_seconds": 60.28067677409854,
+      "new_total_stage_seconds": 24.072208641911857,
+      "identical_payloads": {
+        "case.json": {
+          "sha256": "0b0ba64a897b6465dfd15f69b86d049a2f426c64290526b2b17e74e36ef301bd",
+          "bytes": 5974
+        },
+        "exported-cnf.smt2": {
+          "sha256": "81c604f31c848ff95837f5f2050959c6cc841e6bf24f307b1346512923695e55",
+          "bytes": 38750749
+        }
+      }
+    }
+  ],
+  "rows": [
+    {
+      "job_id": "382226",
+      "profile": "new",
+      "case": "challenge-p15",
+      "file": "2019-cmodelsdiff/wireRouting/p15.smt2",
+      "primary_status": "challenge_timeout",
+      "micromath_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+      "binary_sha256": {
+        "build-axioms": "2e65ed67555c1997bab373556c1090f6ea22bab379e5c76603979c709cafbc21",
+        "smt/build-lra-challenge": "4c342a98ca1ef5da81b3d8592a935608d54c24cbb6e5dac5d9e944acb4524f0b",
+        "smt/build-lia-challenge": "eb092a4b9b04506ac9cfef65190f7c553a098141c6d0f80008d1583fe9dcb0b8",
+        "smt/prove-lra": "c08d0fff84d2012b307a05e9a2fb16f6b39f6750dc2da290d2acd514fda7a3fb",
+        "smt/prove-lia": "8bb91aab9b71b59a74b9c522a93ccb7ad38922ba1fb1a2418574b0522274ad09",
+        "check-solution": "4acea307cb92eb5ef1ba3469135a90621877c73d93bce0095064f3aaf5185cd5"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "archive_sha256": "843fe51a8efcbf2faffbcd21ef3730aea80cc2c983237d03da5b01fecaca39e5",
+      "workflow_sha256": "77ab805dcebc41643a1efa7b6c9ca2ef046a5d13b50400811cf3ef58a3e0b0bd",
+      "payloads": {
+        "case.json": {
+          "sha256": "0b0ba64a897b6465dfd15f69b86d049a2f426c64290526b2b17e74e36ef301bd",
+          "bytes": 5974
+        },
+        "exported-cnf.smt2": {
+          "sha256": "81c604f31c848ff95837f5f2050959c6cc841e6bf24f307b1346512923695e55",
+          "bytes": 38750749
+        }
+      },
+      "limits": {
+        "axioms": 30,
+        "challenge": 60,
+        "overall_proof_kernel": 120,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "statement_source": "exported-cnf",
+      "source_to_cnf_verified": false,
+      "proof_transport": "--raw live pipe; no raw proof file",
+      "stages": {
+        "axioms": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_NEW/build-axioms",
+            "--fragment",
+            "finitary",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/new/axioms.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/new/axioms.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/new/axioms.err",
+          "state": "ok",
+          "seconds": 0.012061547953635454,
+          "exit_code": 0
+        },
+        "challenge": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_NEW/smt/build-lia-challenge",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/new/axioms.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/new/inputs/exported-cnf.smt2",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/new/challenge.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/new/challenge.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/new/challenge.err",
+          "state": "ok",
+          "seconds": 24.06014709395822,
+          "exit_code": 0
+        }
+      },
+      "status": "challenge_built",
+      "finished": true,
+      "challenge_bytes": 90410898,
+      "challenge_sha256": "e13840032759bb6f90a0f3556c8bf2b9855c0405213b2c56020d5792ff6e9065",
+      "seconds": 24.072208641911857,
+      "source_raw_sha256": "738936aabbf6b8e4ac9ed968249bc2b4657fe20e28888d35ace083c016981add"
+    },
+    {
+      "job_id": "382233",
+      "profile": "old",
+      "case": "challenge-p15",
+      "file": "2019-cmodelsdiff/wireRouting/p15.smt2",
+      "primary_status": "challenge_timeout",
+      "micromath_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "binary_sha256": {
+        "build-axioms": "5b205cb0fa92f03281f20449a7342a50d2b5fe0662fff36fda73518b71089bcf",
+        "smt/build-lra-challenge": "bc30474c6bedac2bca4e5209555249f94d72ee68386b9f18bbe7a8ac8c894e51",
+        "smt/build-lia-challenge": "21b208275b1daf2fd2cc525645445a9737185e1ad8de6e364730f2abf81e8414",
+        "smt/prove-lra": "54f17a17cd7375887a9436c8fb932aa7b56837325ea8fcc555a600ab02c13379",
+        "smt/prove-lia": "ab8fe3a9112a6d043e0e982b918e2b8dab210ee11bad78b93ac12ad0ae53a67f",
+        "check-solution": "02c269438239a39e1048301c794ea27fcaebdbbe9a11e5ed7f1759fcd36fa70f"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "archive_sha256": "843fe51a8efcbf2faffbcd21ef3730aea80cc2c983237d03da5b01fecaca39e5",
+      "workflow_sha256": "77ab805dcebc41643a1efa7b6c9ca2ef046a5d13b50400811cf3ef58a3e0b0bd",
+      "payloads": {
+        "case.json": {
+          "sha256": "0b0ba64a897b6465dfd15f69b86d049a2f426c64290526b2b17e74e36ef301bd",
+          "bytes": 5974
+        },
+        "exported-cnf.smt2": {
+          "sha256": "81c604f31c848ff95837f5f2050959c6cc841e6bf24f307b1346512923695e55",
+          "bytes": 38750749
+        }
+      },
+      "limits": {
+        "axioms": 30,
+        "challenge": 60,
+        "overall_proof_kernel": 120,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "statement_source": "exported-cnf",
+      "source_to_cnf_verified": false,
+      "proof_transport": "--raw live pipe; no raw proof file",
+      "stages": {
+        "axioms": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_OLD/build-axioms",
+            "--fragment",
+            "finitary",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/old/axioms.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/old/axioms.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/old/axioms.err",
+          "state": "ok",
+          "seconds": 0.01246526907198131,
+          "exit_code": 0
+        },
+        "challenge": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_OLD/smt/build-lia-challenge",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/old/axioms.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/old/inputs/exported-cnf.smt2",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/old/challenge.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/old/challenge.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/challenge-p15/old/challenge.err",
+          "state": "timeout",
+          "seconds": 60.26821150502656,
+          "exit_code": -15
+        }
+      },
+      "status": "challenge_timeout",
+      "finished": true,
+      "seconds": 60.28067677409854,
+      "source_raw_sha256": "f43a140bf24398d69fc484d5822858f448dd8bb98a611b8bb9bfc2aaa19cfbee"
+    },
+    {
+      "job_id": "382230",
+      "profile": "new",
+      "case": "clock7",
+      "file": "clock_synchro/clocksynchro_7clocks.worst_case_skew.induct.smt2",
+      "primary_status": "proof_timeout",
+      "micromath_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+      "binary_sha256": {
+        "build-axioms": "2e65ed67555c1997bab373556c1090f6ea22bab379e5c76603979c709cafbc21",
+        "smt/build-lra-challenge": "4c342a98ca1ef5da81b3d8592a935608d54c24cbb6e5dac5d9e944acb4524f0b",
+        "smt/build-lia-challenge": "eb092a4b9b04506ac9cfef65190f7c553a098141c6d0f80008d1583fe9dcb0b8",
+        "smt/prove-lra": "c08d0fff84d2012b307a05e9a2fb16f6b39f6750dc2da290d2acd514fda7a3fb",
+        "smt/prove-lia": "8bb91aab9b71b59a74b9c522a93ccb7ad38922ba1fb1a2418574b0522274ad09",
+        "check-solution": "4acea307cb92eb5ef1ba3469135a90621877c73d93bce0095064f3aaf5185cd5"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "archive_sha256": "843fe51a8efcbf2faffbcd21ef3730aea80cc2c983237d03da5b01fecaca39e5",
+      "workflow_sha256": "77ab805dcebc41643a1efa7b6c9ca2ef046a5d13b50400811cf3ef58a3e0b0bd",
+      "payloads": {
+        "case.json": {
+          "sha256": "743d7dd426810fce4bf6d3107799a178e372c3ee3c43da856d9841770a5bc2f4",
+          "bytes": 7762
+        },
+        "exported-cnf.smt2": {
+          "sha256": "c815a828491f9c8de51731c6cc4bdfb4aa898a8c152a563e9d6e358deb009065",
+          "bytes": 47428
+        },
+        "native.sexp": {
+          "sha256": "53403e94193bfd28a85355b4246e82dae4daaaefa955833c723c40e9ad3c96e9",
+          "bytes": 626049
+        }
+      },
+      "limits": {
+        "axioms": 30,
+        "challenge": 60,
+        "overall_proof_kernel": 120,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "statement_source": "exported-cnf",
+      "source_to_cnf_verified": false,
+      "proof_transport": "--raw live pipe; no raw proof file",
+      "stages": {
+        "axioms": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_NEW/build-axioms",
+            "--fragment",
+            "finitary",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/axioms.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/axioms.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/axioms.err",
+          "state": "ok",
+          "seconds": 0.012504350044764578,
+          "exit_code": 0
+        },
+        "challenge": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_NEW/smt/build-lra-challenge",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/axioms.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/inputs/exported-cnf.smt2",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/challenge.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/challenge.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/challenge.err",
+          "state": "ok",
+          "seconds": 0.019336404046043754,
+          "exit_code": 0
+        },
+        "proof": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+            "checker-handoff-update",
+            "$MICROMATH_NEW/smt/prove-lra",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/challenge.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/inputs/native.sexp",
+            "$CADICAL",
+            "$MICROMATH_NEW/check-solution",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/pipe",
+            ""
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/pipeline.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/new/pipeline.err",
+          "state": "ok",
+          "seconds": 53.85938328993507,
+          "exit_code": 0
+        }
+      },
+      "status": "verified",
+      "finished": true,
+      "challenge_bytes": 119683,
+      "challenge_sha256": "4eb28b672962d5053ff9351eafbca15da09a8e7a41cef8fcae08d9d9e179e5e6",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "producer_diagnostic": "LRAT inputs proved: 274/390 source clauses, 2/4 gate clauses, 392/423 theory conflicts\nLibrary preparation: 634131 kernel steps\nSource conversion: 20343 kernel steps (encoding terms 5, witness terms 0, arithmetic bridges 0, SAT input clauses 20338)\nLRA checking: 125850923 kernel steps (392 conflicts)\nSAT checking: 335795 kernel steps (1275 RUP clause additions, 3979 unit hints, 1153 contradiction hints)\nProof: 126841192 exported / 126841192 generated steps\n",
+      "kernel_result": "challenge proven\n",
+      "seconds": 53.891224044025876,
+      "source_raw_sha256": "9380061357beab688f09dd7a94121f4da375740b761dd9011d4bdb1b3295bed1"
+    },
+    {
+      "job_id": "382229",
+      "profile": "old",
+      "case": "clock7",
+      "file": "clock_synchro/clocksynchro_7clocks.worst_case_skew.induct.smt2",
+      "primary_status": "proof_timeout",
+      "micromath_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "binary_sha256": {
+        "build-axioms": "5b205cb0fa92f03281f20449a7342a50d2b5fe0662fff36fda73518b71089bcf",
+        "smt/build-lra-challenge": "bc30474c6bedac2bca4e5209555249f94d72ee68386b9f18bbe7a8ac8c894e51",
+        "smt/build-lia-challenge": "21b208275b1daf2fd2cc525645445a9737185e1ad8de6e364730f2abf81e8414",
+        "smt/prove-lra": "54f17a17cd7375887a9436c8fb932aa7b56837325ea8fcc555a600ab02c13379",
+        "smt/prove-lia": "ab8fe3a9112a6d043e0e982b918e2b8dab210ee11bad78b93ac12ad0ae53a67f",
+        "check-solution": "02c269438239a39e1048301c794ea27fcaebdbbe9a11e5ed7f1759fcd36fa70f"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "archive_sha256": "843fe51a8efcbf2faffbcd21ef3730aea80cc2c983237d03da5b01fecaca39e5",
+      "workflow_sha256": "77ab805dcebc41643a1efa7b6c9ca2ef046a5d13b50400811cf3ef58a3e0b0bd",
+      "payloads": {
+        "case.json": {
+          "sha256": "743d7dd426810fce4bf6d3107799a178e372c3ee3c43da856d9841770a5bc2f4",
+          "bytes": 7762
+        },
+        "exported-cnf.smt2": {
+          "sha256": "c815a828491f9c8de51731c6cc4bdfb4aa898a8c152a563e9d6e358deb009065",
+          "bytes": 47428
+        },
+        "native.sexp": {
+          "sha256": "53403e94193bfd28a85355b4246e82dae4daaaefa955833c723c40e9ad3c96e9",
+          "bytes": 626049
+        }
+      },
+      "limits": {
+        "axioms": 30,
+        "challenge": 60,
+        "overall_proof_kernel": 120,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "statement_source": "exported-cnf",
+      "source_to_cnf_verified": false,
+      "proof_transport": "--raw live pipe; no raw proof file",
+      "stages": {
+        "axioms": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_OLD/build-axioms",
+            "--fragment",
+            "finitary",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/axioms.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/axioms.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/axioms.err",
+          "state": "ok",
+          "seconds": 0.011841651983559132,
+          "exit_code": 0
+        },
+        "challenge": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_OLD/smt/build-lra-challenge",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/axioms.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/inputs/exported-cnf.smt2",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/challenge.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/challenge.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/challenge.err",
+          "state": "ok",
+          "seconds": 0.019439178984612226,
+          "exit_code": 0
+        },
+        "proof": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+            "checker-handoff-update",
+            "$MICROMATH_OLD/smt/prove-lra",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/challenge.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/inputs/native.sexp",
+            "$CADICAL",
+            "$MICROMATH_OLD/check-solution",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/pipe",
+            ""
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/pipeline.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/clock7/old/pipeline.err",
+          "state": "timeout",
+          "seconds": 120.00556460907683,
+          "exit_code": -15
+        }
+      },
+      "status": "proof_timeout",
+      "finished": true,
+      "challenge_bytes": 119683,
+      "challenge_sha256": "4eb28b672962d5053ff9351eafbca15da09a8e7a41cef8fcae08d9d9e179e5e6",
+      "pipeline_exit_codes": [],
+      "producer_diagnostic": "",
+      "kernel_result": "",
+      "seconds": 120.036845440045,
+      "source_raw_sha256": "2988c78255ca2483419716f04492890cbfb79cfd47835e4e20f5d3aa05e3ae18"
+    },
+    {
+      "job_id": "382232",
+      "profile": "new",
+      "case": "lia-oom",
+      "file": "nec-smt/med/int_from_list/prp-38-32.smt2",
+      "primary_status": "proof_error",
+      "micromath_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+      "binary_sha256": {
+        "build-axioms": "2e65ed67555c1997bab373556c1090f6ea22bab379e5c76603979c709cafbc21",
+        "smt/build-lra-challenge": "4c342a98ca1ef5da81b3d8592a935608d54c24cbb6e5dac5d9e944acb4524f0b",
+        "smt/build-lia-challenge": "eb092a4b9b04506ac9cfef65190f7c553a098141c6d0f80008d1583fe9dcb0b8",
+        "smt/prove-lra": "c08d0fff84d2012b307a05e9a2fb16f6b39f6750dc2da290d2acd514fda7a3fb",
+        "smt/prove-lia": "8bb91aab9b71b59a74b9c522a93ccb7ad38922ba1fb1a2418574b0522274ad09",
+        "check-solution": "4acea307cb92eb5ef1ba3469135a90621877c73d93bce0095064f3aaf5185cd5"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "archive_sha256": "843fe51a8efcbf2faffbcd21ef3730aea80cc2c983237d03da5b01fecaca39e5",
+      "workflow_sha256": "77ab805dcebc41643a1efa7b6c9ca2ef046a5d13b50400811cf3ef58a3e0b0bd",
+      "payloads": {
+        "case.json": {
+          "sha256": "6ca25a747c4216d82e49469b311824e3ae3be7db4c2bfb9509122501628cc727",
+          "bytes": 7949
+        },
+        "exported-cnf.smt2": {
+          "sha256": "ed4729a8aeea70bbb80fb0b7f134de88a68727f3897e0de37021ba195b048ca7",
+          "bytes": 116007079
+        },
+        "micromath-v2.sexp": {
+          "sha256": "5651b47954c94c80e7d4f6d83b42bc44282dd8f2ca6f530ea422d760ae585299",
+          "bytes": 100876052
+        }
+      },
+      "limits": {
+        "axioms": 30,
+        "challenge": 60,
+        "overall_proof_kernel": 120,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "statement_source": "exported-cnf",
+      "source_to_cnf_verified": false,
+      "proof_transport": "--raw live pipe; no raw proof file",
+      "stages": {
+        "axioms": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_NEW/build-axioms",
+            "--fragment",
+            "finitary",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/axioms.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/axioms.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/axioms.err",
+          "state": "ok",
+          "seconds": 0.012342719943262637,
+          "exit_code": 0
+        },
+        "challenge": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_NEW/smt/build-lia-challenge",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/axioms.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/inputs/exported-cnf.smt2",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/challenge.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/challenge.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/challenge.err",
+          "state": "ok",
+          "seconds": 25.811039455002174,
+          "exit_code": 0
+        },
+        "proof": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+            "checker-handoff-update",
+            "$MICROMATH_NEW/smt/prove-lia",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/challenge.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/inputs/micromath-v2.sexp",
+            "$CADICAL",
+            "$MICROMATH_NEW/check-solution",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/pipe",
+            ""
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/pipeline.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/new/pipeline.err",
+          "state": "ok",
+          "seconds": 16.15552857099101,
+          "exit_code": 0
+        }
+      },
+      "status": "verified",
+      "finished": true,
+      "challenge_bytes": 151861350,
+      "challenge_sha256": "a8eb8f2682fbe4559cc127eea3f5ad968381751038c885beeef94a114c40a28f",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "producer_diagnostic": "LRAT inputs proved: 51876/1401073 source clauses, 8816/38126 gate clauses, 0/0 theory conflicts\nLibrary preparation: 4041 kernel steps\nSource conversion: 2678863 kernel steps (encoding terms 63085, witness terms 0, arithmetic bridges 0, SAT input clauses 2615778)\nLIA checking: 0 kernel steps (0 conflicts, 0 cuts)\nSAT checking: 2041582 kernel steps (112192 RUP clause additions, 112190 unit hints, 2 contradiction hints)\nProof: 4724486 exported / 4724486 generated steps\n",
+      "kernel_result": "challenge proven\n",
+      "seconds": 41.978910745936446,
+      "source_raw_sha256": "ea74eca6d8bf9383002d4ad4ac3c82d54095252a5095930930c5901bf10da769"
+    },
+    {
+      "job_id": "382231",
+      "profile": "old",
+      "case": "lia-oom",
+      "file": "nec-smt/med/int_from_list/prp-38-32.smt2",
+      "primary_status": "proof_error",
+      "micromath_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "binary_sha256": {
+        "build-axioms": "5b205cb0fa92f03281f20449a7342a50d2b5fe0662fff36fda73518b71089bcf",
+        "smt/build-lra-challenge": "bc30474c6bedac2bca4e5209555249f94d72ee68386b9f18bbe7a8ac8c894e51",
+        "smt/build-lia-challenge": "21b208275b1daf2fd2cc525645445a9737185e1ad8de6e364730f2abf81e8414",
+        "smt/prove-lra": "54f17a17cd7375887a9436c8fb932aa7b56837325ea8fcc555a600ab02c13379",
+        "smt/prove-lia": "ab8fe3a9112a6d043e0e982b918e2b8dab210ee11bad78b93ac12ad0ae53a67f",
+        "check-solution": "02c269438239a39e1048301c794ea27fcaebdbbe9a11e5ed7f1759fcd36fa70f"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "archive_sha256": "843fe51a8efcbf2faffbcd21ef3730aea80cc2c983237d03da5b01fecaca39e5",
+      "workflow_sha256": "77ab805dcebc41643a1efa7b6c9ca2ef046a5d13b50400811cf3ef58a3e0b0bd",
+      "payloads": {
+        "case.json": {
+          "sha256": "6ca25a747c4216d82e49469b311824e3ae3be7db4c2bfb9509122501628cc727",
+          "bytes": 7949
+        },
+        "exported-cnf.smt2": {
+          "sha256": "ed4729a8aeea70bbb80fb0b7f134de88a68727f3897e0de37021ba195b048ca7",
+          "bytes": 116007079
+        },
+        "micromath-v2.sexp": {
+          "sha256": "5651b47954c94c80e7d4f6d83b42bc44282dd8f2ca6f530ea422d760ae585299",
+          "bytes": 100876052
+        }
+      },
+      "limits": {
+        "axioms": 30,
+        "challenge": 60,
+        "overall_proof_kernel": 120,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "statement_source": "exported-cnf",
+      "source_to_cnf_verified": false,
+      "proof_transport": "--raw live pipe; no raw proof file",
+      "stages": {
+        "axioms": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_OLD/build-axioms",
+            "--fragment",
+            "finitary",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/axioms.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/axioms.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/axioms.err",
+          "state": "ok",
+          "seconds": 0.012086424045264721,
+          "exit_code": 0
+        },
+        "challenge": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_OLD/smt/build-lia-challenge",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/axioms.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/inputs/exported-cnf.smt2",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/challenge.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/challenge.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/challenge.err",
+          "state": "ok",
+          "seconds": 30.86637249297928,
+          "exit_code": 0
+        },
+        "proof": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+            "checker-handoff-update",
+            "$MICROMATH_OLD/smt/prove-lia",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/challenge.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/inputs/micromath-v2.sexp",
+            "$CADICAL",
+            "$MICROMATH_OLD/check-solution",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/pipe",
+            ""
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/pipeline.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/pipeline.err",
+          "state": "error",
+          "seconds": 6.131355767021887,
+          "exit_code": 1
+        }
+      },
+      "status": "proof_error",
+      "finished": true,
+      "challenge_bytes": 151861350,
+      "challenge_sha256": "a8eb8f2682fbe4559cc127eea3f5ad968381751038c885beeef94a114c40a28f",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "producer_diagnostic": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/lia-oom/old/inputs/micromath-v2.sexp:1413551: out of memory\n",
+      "kernel_result": "invalid solution\n",
+      "seconds": 37.00981468404643,
+      "source_raw_sha256": "b7ccc3f53f56c83ea6204e824dce2bd0755262e382ea2c3592456f973783e8af"
+    },
+    {
+      "job_id": "382228",
+      "profile": "new",
+      "case": "wisa5",
+      "file": "wisa/wisa5.smt2",
+      "primary_status": "proof_error",
+      "micromath_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+      "binary_sha256": {
+        "build-axioms": "2e65ed67555c1997bab373556c1090f6ea22bab379e5c76603979c709cafbc21",
+        "smt/build-lra-challenge": "4c342a98ca1ef5da81b3d8592a935608d54c24cbb6e5dac5d9e944acb4524f0b",
+        "smt/build-lia-challenge": "eb092a4b9b04506ac9cfef65190f7c553a098141c6d0f80008d1583fe9dcb0b8",
+        "smt/prove-lra": "c08d0fff84d2012b307a05e9a2fb16f6b39f6750dc2da290d2acd514fda7a3fb",
+        "smt/prove-lia": "8bb91aab9b71b59a74b9c522a93ccb7ad38922ba1fb1a2418574b0522274ad09",
+        "check-solution": "4acea307cb92eb5ef1ba3469135a90621877c73d93bce0095064f3aaf5185cd5"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "archive_sha256": "843fe51a8efcbf2faffbcd21ef3730aea80cc2c983237d03da5b01fecaca39e5",
+      "workflow_sha256": "77ab805dcebc41643a1efa7b6c9ca2ef046a5d13b50400811cf3ef58a3e0b0bd",
+      "payloads": {
+        "case.json": {
+          "sha256": "3d1df3a8adc98089a11b5c67304486143e7d46675b4f8ed49c41a56a0cfad9bc",
+          "bytes": 8300
+        },
+        "exported-cnf.smt2": {
+          "sha256": "4e73d5b0bdd4fb27fca6dbba88ac3197a41735991a6471c21b04d4c2e1630e50",
+          "bytes": 270318
+        },
+        "micromath-v2.sexp": {
+          "sha256": "d0761947f9e204b36589c843d85098cd70f7b85797d84c095ef7c354ff07372d",
+          "bytes": 18892343
+        }
+      },
+      "limits": {
+        "axioms": 30,
+        "challenge": 60,
+        "overall_proof_kernel": 120,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "statement_source": "exported-cnf",
+      "source_to_cnf_verified": false,
+      "proof_transport": "--raw live pipe; no raw proof file",
+      "stages": {
+        "axioms": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_NEW/build-axioms",
+            "--fragment",
+            "finitary",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/axioms.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/axioms.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/axioms.err",
+          "state": "ok",
+          "seconds": 0.012306338991038501,
+          "exit_code": 0
+        },
+        "challenge": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_NEW/smt/build-lia-challenge",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/axioms.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/inputs/exported-cnf.smt2",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/challenge.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/challenge.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/challenge.err",
+          "state": "ok",
+          "seconds": 0.06773465592414141,
+          "exit_code": 0
+        },
+        "proof": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+            "checker-handoff-update",
+            "$MICROMATH_NEW/smt/prove-lia",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/challenge.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/inputs/micromath-v2.sexp",
+            "$CADICAL",
+            "$MICROMATH_NEW/check-solution",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/pipe",
+            ""
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/pipeline.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/new/pipeline.err",
+          "state": "ok",
+          "seconds": 27.872375754988752,
+          "exit_code": 0
+        }
+      },
+      "status": "verified",
+      "finished": true,
+      "challenge_bytes": 704306,
+      "challenge_sha256": "c8aa54b9252b3e8bf718dfc7d014ae7a2b4cb5317ba723224fcb440a14ab20c6",
+      "pipeline_exit_codes": [
+        0,
+        0
+      ],
+      "producer_diagnostic": "LRAT inputs proved: 677/3362 source clauses, 2/118 gate clauses, 10386/10598 theory conflicts\nLibrary preparation: 363375 kernel steps\nSource conversion: 877387 kernel steps (encoding terms 195, witness terms 38, arithmetic bridges 0, SAT input clauses 877154)\nLIA checking: 36438901 kernel steps (10386 conflicts, 10386 cuts)\nLIA normalization cache: 10162 hits, 250 proofs, 186 evictions, 64/64 entries\nLIA chains: 390841 -> 61532 bounds, 20386 paths, 329309 links, 93106 bulk joins; 566586 conversion / 8941815 joining steps\nSAT checking: 20245185 kernel steps (54372 RUP clause additions, 334638 unit hints, 53743 contradiction hints)\nProof: 57924848 exported / 57924848 generated steps\n",
+      "kernel_result": "challenge proven\n",
+      "seconds": 27.952416749903932,
+      "source_raw_sha256": "3b16c9363c99d47e09a5226606cc42502e954656763864da70739f6a88456933"
+    },
+    {
+      "job_id": "382227",
+      "profile": "old",
+      "case": "wisa5",
+      "file": "wisa/wisa5.smt2",
+      "primary_status": "proof_error",
+      "micromath_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "binary_sha256": {
+        "build-axioms": "5b205cb0fa92f03281f20449a7342a50d2b5fe0662fff36fda73518b71089bcf",
+        "smt/build-lra-challenge": "bc30474c6bedac2bca4e5209555249f94d72ee68386b9f18bbe7a8ac8c894e51",
+        "smt/build-lia-challenge": "21b208275b1daf2fd2cc525645445a9737185e1ad8de6e364730f2abf81e8414",
+        "smt/prove-lra": "54f17a17cd7375887a9436c8fb932aa7b56837325ea8fcc555a600ab02c13379",
+        "smt/prove-lia": "ab8fe3a9112a6d043e0e982b918e2b8dab210ee11bad78b93ac12ad0ae53a67f",
+        "check-solution": "02c269438239a39e1048301c794ea27fcaebdbbe9a11e5ed7f1759fcd36fa70f"
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "archive_sha256": "843fe51a8efcbf2faffbcd21ef3730aea80cc2c983237d03da5b01fecaca39e5",
+      "workflow_sha256": "77ab805dcebc41643a1efa7b6c9ca2ef046a5d13b50400811cf3ef58a3e0b0bd",
+      "payloads": {
+        "case.json": {
+          "sha256": "3d1df3a8adc98089a11b5c67304486143e7d46675b4f8ed49c41a56a0cfad9bc",
+          "bytes": 8300
+        },
+        "exported-cnf.smt2": {
+          "sha256": "4e73d5b0bdd4fb27fca6dbba88ac3197a41735991a6471c21b04d4c2e1630e50",
+          "bytes": 270318
+        },
+        "micromath-v2.sexp": {
+          "sha256": "d0761947f9e204b36589c843d85098cd70f7b85797d84c095ef7c354ff07372d",
+          "bytes": 18892343
+        }
+      },
+      "limits": {
+        "axioms": 30,
+        "challenge": 60,
+        "overall_proof_kernel": 120,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "statement_source": "exported-cnf",
+      "source_to_cnf_verified": false,
+      "proof_transport": "--raw live pipe; no raw proof file",
+      "stages": {
+        "axioms": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_OLD/build-axioms",
+            "--fragment",
+            "finitary",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/axioms.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/axioms.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/axioms.err",
+          "state": "ok",
+          "seconds": 0.011853551957756281,
+          "exit_code": 0
+        },
+        "challenge": {
+          "command": [
+            "prlimit",
+            "--as=3221225472",
+            "--fsize=268435456",
+            "--",
+            "$MICROMATH_OLD/smt/build-lia-challenge",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/axioms.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/inputs/exported-cnf.smt2",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/challenge.umd"
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/challenge.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/challenge.err",
+          "state": "ok",
+          "seconds": 0.06796183600090444,
+          "exit_code": 0
+        },
+        "proof": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+            "checker-handoff-update",
+            "$MICROMATH_OLD/smt/prove-lia",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/challenge.umd",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/inputs/micromath-v2.sexp",
+            "$CADICAL",
+            "$MICROMATH_OLD/check-solution",
+            "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/pipe",
+            ""
+          ],
+          "stdout": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/pipeline.out",
+          "stderr": "$PRIMO_WORKDIR/results/checker-handoff-update-382226/wisa5/old/pipeline.err",
+          "state": "error",
+          "seconds": 71.75100971199572,
+          "exit_code": 1
+        }
+      },
+      "status": "proof_error",
+      "finished": true,
+      "challenge_bytes": 704306,
+      "challenge_sha256": "c8aa54b9252b3e8bf718dfc7d014ae7a2b4cb5317ba723224fcb440a14ab20c6",
+      "pipeline_exit_codes": [
+        1,
+        1
+      ],
+      "producer_diagnostic": "Logic failure: definition index allocation\n",
+      "kernel_result": "invalid solution\n",
+      "seconds": 71.83082509995438,
+      "source_raw_sha256": "6c87aa5c8c2626752c334934001d9a3fd2ad54bded35d1a7639c7c2d48c25cf0"
+    }
+  ],
+  "artifact": {
+    "file": "benchmarks/checker-regressions/micromath-update-20261110/paired-replay-results.tar.gz",
+    "sha256": "46f33252365a398815be577a3639a41ed494880a1b4de5c2b8d002b7b219fd6f",
+    "bytes": 1649671,
+    "payloads_excluding_checksums": 78,
+    "payload_sha256": {
+      "challenge-p15/new/summary.json": "526316f55fefcb9a42fb27c83f8ecb90bb2aef729bd0c385ce5c55baf13d31ea",
+      "challenge-p15/new/axioms.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "challenge-p15/new/axioms.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "challenge-p15/new/challenge.err": "5f1ab41eb18fd5353662787c383cb653f504c4e07351b1fa0bf91e1073ec3c76",
+      "challenge-p15/new/challenge.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "challenge-p15/old/summary.json": "5058eeb42fa16bec141274b12030354f2979fa0052e55eed7df6b5c2ef47256f",
+      "challenge-p15/old/axioms.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "challenge-p15/old/axioms.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "challenge-p15/old/challenge.err": "c2d61a30af2777063824d30338dec446a87c064674e2e7e48fcd3e09d826f52b",
+      "challenge-p15/old/challenge.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/new/summary.json": "a776f38c005e763e286e0f8667371c8dccf007fc4bddffef51b1b2418f30e7cd",
+      "clock7/new/axioms.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/new/axioms.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/new/challenge.err": "b44b68388092ff8d3e57f93c129d583949e3f562e794aa40088ad9bc83f6df04",
+      "clock7/new/challenge.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/new/pipe/exit-status.txt": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "clock7/new/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/new/pipe/kernel.out": "0a47f1d2f499317aa1d55076f12a37d413555027fac4ab38b5142e30bb56f7af",
+      "clock7/new/pipe/producer.err": "4ab18b84a9915a9cf3270df072f5fabdd1ec753c064c64d6b2634b856f6d6b68",
+      "clock7/new/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/new/pipeline.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/old/summary.json": "3e59d11ccaca56f4e77e1fbe107c3bc93ce784e041f40fcd8891169dfd5475df",
+      "clock7/old/axioms.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/old/axioms.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/old/challenge.err": "b44b68388092ff8d3e57f93c129d583949e3f562e794aa40088ad9bc83f6df04",
+      "clock7/old/challenge.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/old/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/old/pipe/kernel.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/old/pipe/producer.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/old/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "clock7/old/pipeline.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lia-oom/new/summary.json": "abc455c5e21caeb450a8a048a3a57363965a4f84c8b030758ece2d9115f1eba5",
+      "lia-oom/new/axioms.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lia-oom/new/axioms.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lia-oom/new/challenge.err": "622919ef5ba87750b47af7d599d7f045f4908ae4330a4f816d671e68493b2214",
+      "lia-oom/new/challenge.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lia-oom/new/pipe/exit-status.txt": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "lia-oom/new/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lia-oom/new/pipe/kernel.out": "0a47f1d2f499317aa1d55076f12a37d413555027fac4ab38b5142e30bb56f7af",
+      "lia-oom/new/pipe/producer.err": "5be430e672221ed0e7bebf7de3ead3ba4e0d6fc2131d7f7b85363f7e3470c160",
+      "lia-oom/new/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lia-oom/new/pipeline.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lia-oom/old/summary.json": "660f0a88c48710b8df0ea2816eedb99e4f06549d0af76a579e09db9c3c342cc3",
+      "lia-oom/old/axioms.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lia-oom/old/axioms.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lia-oom/old/challenge.err": "622919ef5ba87750b47af7d599d7f045f4908ae4330a4f816d671e68493b2214",
+      "lia-oom/old/challenge.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lia-oom/old/pipe/exit-status.txt": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+      "lia-oom/old/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lia-oom/old/pipe/kernel.out": "755c50d57cb1d3c1b9bcb895ea012ba705ecafee1540e2f9eb063325809ed6fd",
+      "lia-oom/old/pipe/producer.err": "6e5939d353ddb12fd778793b4d35c6c967ea1108e92e2352888a5f74261a2a24",
+      "lia-oom/old/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "lia-oom/old/pipeline.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wisa5/new/summary.json": "cbfed1e94f2637d3ea252587be93a40ccb33beb8e64d7c431a2be575642cb335",
+      "wisa5/new/axioms.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wisa5/new/axioms.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wisa5/new/challenge.err": "7ef40c8eb5222cec5f22047d7aa72dccef74f02b55244cbf9d56e7e52485d923",
+      "wisa5/new/challenge.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wisa5/new/pipe/exit-status.txt": "0ccdb5a77ba5bf7687f2565a8ed97dfb9c1af45503c496fb646312239fab5101",
+      "wisa5/new/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wisa5/new/pipe/kernel.out": "0a47f1d2f499317aa1d55076f12a37d413555027fac4ab38b5142e30bb56f7af",
+      "wisa5/new/pipe/producer.err": "ba1c2757deebb802966f4deaffe5af232992be35d1f4869fe2ca039641ef9c29",
+      "wisa5/new/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wisa5/new/pipeline.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wisa5/old/summary.json": "544e9375ce7643b7595a5822789ff530c773e253f12b3aab6483416fa9cb3065",
+      "wisa5/old/axioms.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wisa5/old/axioms.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wisa5/old/challenge.err": "7ef40c8eb5222cec5f22047d7aa72dccef74f02b55244cbf9d56e7e52485d923",
+      "wisa5/old/challenge.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wisa5/old/pipe/exit-status.txt": "3f11ad6bbc7ecca0b2416b713dee77f1a635c00aaeaa946e14cde1c2bfae56d5",
+      "wisa5/old/pipe/kernel.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wisa5/old/pipe/kernel.out": "755c50d57cb1d3c1b9bcb895ea012ba705ecafee1540e2f9eb063325809ed6fd",
+      "wisa5/old/pipe/producer.err": "651ee92cf32fc4189e77d372ef457d26df558240c4912a355146a99d8f1b6bba",
+      "wisa5/old/pipeline.err": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wisa5/old/pipeline.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "README.txt": "0f1b2d17840a605c88c3bb0cefdb54f960b8a263b617d10dccc3d08590f30335",
+      "builds.json": "81f3a73cdf6debb8a55cca3f69317aebca839fc003dc3a44bdbc765cf0354ab3",
+      "accounting.json": "89675daccc8e21b822ab91ca73e0b64878f5d769b13238813ea7164245ad1099"
+    }
+  },
+  "scope": "Four minimum-input representatives selected before the update. Fresh old/new controls on identical payloads and limits. Three proof replays and one challenge-only replay; not all 109 failed cases or a full-corpus/default qualification.",
+  "boundary": {
+    "statement": "exported-cnf",
+    "source_to_cnf_verified": false,
+    "transport": "raw live pipe, no raw proof file",
+    "native_input_regenerated": false,
+    "native_solver_rerun": false,
+    "checker_implementation_inspected": false,
+    "checker_implementation_modified": false
+  },
+  "commands": {
+    "build": "scripts/slurm_build_micromath_update.sbatch; pinned isolated worktree and qualified GMP/compiler header inputs",
+    "replay": "scripts/slurm_replay_checker_handoff.sbatch --array=0-7%2; even tasks old, odd tasks new; case index task/2",
+    "preflight": "canonical slurm_prepare_benchmark_workspace.py --check-only immediately before each sbatch; existing native qualification workspace unchanged",
+    "staging": "slurm_stage_manifest_files.py explicit scripts and handoff manifests; all staged helper hashes match the source commit"
+  },
+  "interpretation": "All four historical failure classes reproduced in fresh old controls. New recovers all four tested stages within unchanged caps, with three strict kernel acceptances. Individual stage times are observations on a selected sample; failure-time/success-time ratios are not general speedups. No claim that all 109 cases are now fixed. No new certificate regeneration or native changes.",
+  "verification": {
+    "pure_workflow_tests": 5,
+    "checks": [
+      "Ruff format/check",
+      "five metadata/acceptance tests without native/checker execution",
+      "make lint",
+      "bash-n and SLURM wrapper validation",
+      "all 8 complete summaries checked; binary pins, input identities, limits and staged helper hashes verified",
+      "metadata archive payload SHA-256s verified"
+    ],
+    "final_writer_checks": {
+      "make_docs": "passed; no warnings",
+      "assembled_site_links": {
+        "pages": 277,
+        "local_links": 37047,
+        "unique_git_links": 1218,
+        "failures": 0,
+        "external_urls_deferred": 454
+      },
+      "rendered_inspection": "new table, phase-time explanation, proof/challenge distinction and artifact links checked",
+      "runtime_cleanup": "build and all eight replay tasks terminal; no local native/checker experiment ran",
+      "native_gates": "native C++ unchanged and not executed; no new native suite/ASan/fuzz/clang-tidy qualification claimed",
+      "prior_runlog_entries": "preserved byte-for-byte"
+    },
+    "independent_documentation_review": {
+      "reviewer": "/root/review_checker_update",
+      "baseline_git": "6267bafaf0e974f6702f1964b0db9039af616f2f",
+      "verdict": "Ready; no required findings",
+      "scope": "new reference subsection/source-role configuration; coverage ledger; first run-log entry; archive/manifest; replay/build workflows; five pure tests; raw replay/build metadata",
+      "pre_verification_reviewed_sha256": {
+        "docs/reference/qf-lra-certificates.md": "5ce77b6218ff0cf47d5b69e20f89a933b8983c32d9bb4e44bb8558cd7de70513",
+        "docs/_config.yml": "21cab916f857d25a64b0dbdc1b69b18641c5c81889a40b52d16f75edc9d6f63d",
+        "docs/coverage/micromath-checker-update-20261110.json": "694c21719644755c7e86055b988a918f6573d624277857e694dccc6df048c40b",
+        "docs/run-log.json": "ff2b257d40ccd24b44cea9d6b3d4ba732900723d7dc32794f4835ed4b651e692"
+      },
+      "finding_dispositions": {
+        "S1": "optional JSON human-readable spacing suggestion accepted and repaired; measurements and artifact unchanged"
+      },
+      "independently_checked": "all eight paired reports; three strict proof acceptances and one challenge-only recovery; old-control replication; input/build/limit/helper identities; 78 payload hashes; raw normalization and scheduler accounting",
+      "unchecked": "checker implementation/soundness;independent execution;source-to-CNF correctness;untested cases;writer rendering/link checks"
+    }
+  },
+  "scheduler_accounting": [
+    {
+      "JobIDRaw": "382225",
+      "JobID": "382225",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:27",
+      "AllocCPUS": "4",
+      "ReqMem": "8G",
+      "MaxRSS": ""
+    },
+    {
+      "JobIDRaw": "382225.batch",
+      "JobID": "382225.batch",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:27",
+      "AllocCPUS": "4",
+      "ReqMem": "",
+      "MaxRSS": "33204K"
+    },
+    {
+      "JobIDRaw": "382227",
+      "JobID": "382226_0",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:01:15",
+      "AllocCPUS": "2",
+      "ReqMem": "12G",
+      "MaxRSS": ""
+    },
+    {
+      "JobIDRaw": "382227.batch",
+      "JobID": "382226_0.batch",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:01:15",
+      "AllocCPUS": "2",
+      "ReqMem": "",
+      "MaxRSS": "2181884K"
+    },
+    {
+      "JobIDRaw": "382228",
+      "JobID": "382226_1",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:30",
+      "AllocCPUS": "2",
+      "ReqMem": "12G",
+      "MaxRSS": ""
+    },
+    {
+      "JobIDRaw": "382228.batch",
+      "JobID": "382226_1.batch",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:30",
+      "AllocCPUS": "2",
+      "ReqMem": "",
+      "MaxRSS": "39208K"
+    },
+    {
+      "JobIDRaw": "382229",
+      "JobID": "382226_2",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:02:01",
+      "AllocCPUS": "2",
+      "ReqMem": "12G",
+      "MaxRSS": ""
+    },
+    {
+      "JobIDRaw": "382229.batch",
+      "JobID": "382226_2.batch",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:02:01",
+      "AllocCPUS": "2",
+      "ReqMem": "",
+      "MaxRSS": "455400K"
+    },
+    {
+      "JobIDRaw": "382230",
+      "JobID": "382226_3",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:55",
+      "AllocCPUS": "2",
+      "ReqMem": "12G",
+      "MaxRSS": ""
+    },
+    {
+      "JobIDRaw": "382230.batch",
+      "JobID": "382226_3.batch",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:55",
+      "AllocCPUS": "2",
+      "ReqMem": "",
+      "MaxRSS": "98740K"
+    },
+    {
+      "JobIDRaw": "382231",
+      "JobID": "382226_4",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:58",
+      "AllocCPUS": "2",
+      "ReqMem": "12G",
+      "MaxRSS": ""
+    },
+    {
+      "JobIDRaw": "382231.batch",
+      "JobID": "382226_4.batch",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:58",
+      "AllocCPUS": "2",
+      "ReqMem": "",
+      "MaxRSS": "1180532K"
+    },
+    {
+      "JobIDRaw": "382232",
+      "JobID": "382226_5",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:01:14",
+      "AllocCPUS": "2",
+      "ReqMem": "12G",
+      "MaxRSS": ""
+    },
+    {
+      "JobIDRaw": "382232.batch",
+      "JobID": "382226_5.batch",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:01:14",
+      "AllocCPUS": "2",
+      "ReqMem": "",
+      "MaxRSS": "1125496K"
+    },
+    {
+      "JobIDRaw": "382233",
+      "JobID": "382226_6",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:01:21",
+      "AllocCPUS": "2",
+      "ReqMem": "12G",
+      "MaxRSS": ""
+    },
+    {
+      "JobIDRaw": "382233.batch",
+      "JobID": "382226_6.batch",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:01:21",
+      "AllocCPUS": "2",
+      "ReqMem": "",
+      "MaxRSS": "113948K"
+    },
+    {
+      "JobIDRaw": "382226",
+      "JobID": "382226_7",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:38",
+      "AllocCPUS": "2",
+      "ReqMem": "12G",
+      "MaxRSS": ""
+    },
+    {
+      "JobIDRaw": "382226.batch",
+      "JobID": "382226_7.batch",
+      "State": "COMPLETED",
+      "ExitCode": "0:0",
+      "Elapsed": "00:00:38",
+      "AllocCPUS": "2",
+      "ReqMem": "",
+      "MaxRSS": "674444K"
+    }
+  ]
+}

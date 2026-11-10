@@ -3,6 +3,209 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-10-micromath-checker-paired-update",
+      "date": "2026-11-10",
+      "kind": "paired-replay-of-fixed-checker-failure-handoff",
+      "evidence_status": "complete paired comparison; selected-four-stage recovery, three kernel proofs and one challenge only",
+      "workflow_git": "6267bafaf0e974f6702f1964b0db9039af616f2f",
+      "old_checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "new_checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+      "manifest": "docs/coverage/micromath-checker-update-20261110.json",
+      "jobs": {
+        "build": "382225",
+        "paired_replay": "382226_0..7"
+      },
+      "counts": {
+        "old": {
+          "challenge_timeout": 1,
+          "proof_timeout": 1,
+          "proof_error": 2
+        },
+        "new": {
+          "challenge_built": 1,
+          "verified": 3
+        }
+      },
+      "pairs": [
+        {
+          "case": "wisa5",
+          "file": "wisa/wisa5.smt2",
+          "primary_status": "proof_error",
+          "fresh_old_status": "proof_error",
+          "new_status": "verified",
+          "compared_stage": "proof",
+          "old_stage_seconds": 71.75100971199572,
+          "new_stage_seconds": 27.872375754988752,
+          "old_total_stage_seconds": 71.83082509995438,
+          "new_total_stage_seconds": 27.952416749903932,
+          "identical_payloads": {
+            "case.json": {
+              "sha256": "3d1df3a8adc98089a11b5c67304486143e7d46675b4f8ed49c41a56a0cfad9bc",
+              "bytes": 8300
+            },
+            "exported-cnf.smt2": {
+              "sha256": "4e73d5b0bdd4fb27fca6dbba88ac3197a41735991a6471c21b04d4c2e1630e50",
+              "bytes": 270318
+            },
+            "micromath-v2.sexp": {
+              "sha256": "d0761947f9e204b36589c843d85098cd70f7b85797d84c095ef7c354ff07372d",
+              "bytes": 18892343
+            }
+          }
+        },
+        {
+          "case": "clock7",
+          "file": "clock_synchro/clocksynchro_7clocks.worst_case_skew.induct.smt2",
+          "primary_status": "proof_timeout",
+          "fresh_old_status": "proof_timeout",
+          "new_status": "verified",
+          "compared_stage": "proof",
+          "old_stage_seconds": 120.00556460907683,
+          "new_stage_seconds": 53.85938328993507,
+          "old_total_stage_seconds": 120.036845440045,
+          "new_total_stage_seconds": 53.891224044025876,
+          "identical_payloads": {
+            "case.json": {
+              "sha256": "743d7dd426810fce4bf6d3107799a178e372c3ee3c43da856d9841770a5bc2f4",
+              "bytes": 7762
+            },
+            "exported-cnf.smt2": {
+              "sha256": "c815a828491f9c8de51731c6cc4bdfb4aa898a8c152a563e9d6e358deb009065",
+              "bytes": 47428
+            },
+            "native.sexp": {
+              "sha256": "53403e94193bfd28a85355b4246e82dae4daaaefa955833c723c40e9ad3c96e9",
+              "bytes": 626049
+            }
+          }
+        },
+        {
+          "case": "lia-oom",
+          "file": "nec-smt/med/int_from_list/prp-38-32.smt2",
+          "primary_status": "proof_error",
+          "fresh_old_status": "proof_error",
+          "new_status": "verified",
+          "compared_stage": "proof",
+          "old_stage_seconds": 6.131355767021887,
+          "new_stage_seconds": 16.15552857099101,
+          "old_total_stage_seconds": 37.00981468404643,
+          "new_total_stage_seconds": 41.978910745936446,
+          "identical_payloads": {
+            "case.json": {
+              "sha256": "6ca25a747c4216d82e49469b311824e3ae3be7db4c2bfb9509122501628cc727",
+              "bytes": 7949
+            },
+            "exported-cnf.smt2": {
+              "sha256": "ed4729a8aeea70bbb80fb0b7f134de88a68727f3897e0de37021ba195b048ca7",
+              "bytes": 116007079
+            },
+            "micromath-v2.sexp": {
+              "sha256": "5651b47954c94c80e7d4f6d83b42bc44282dd8f2ca6f530ea422d760ae585299",
+              "bytes": 100876052
+            }
+          }
+        },
+        {
+          "case": "challenge-p15",
+          "file": "2019-cmodelsdiff/wireRouting/p15.smt2",
+          "primary_status": "challenge_timeout",
+          "fresh_old_status": "challenge_timeout",
+          "new_status": "challenge_built",
+          "compared_stage": "challenge",
+          "old_stage_seconds": 60.26821150502656,
+          "new_stage_seconds": 24.06014709395822,
+          "old_total_stage_seconds": 60.28067677409854,
+          "new_total_stage_seconds": 24.072208641911857,
+          "identical_payloads": {
+            "case.json": {
+              "sha256": "0b0ba64a897b6465dfd15f69b86d049a2f426c64290526b2b17e74e36ef301bd",
+              "bytes": 5974
+            },
+            "exported-cnf.smt2": {
+              "sha256": "81c604f31c848ff95837f5f2050959c6cc841e6bf24f307b1346512923695e55",
+              "bytes": 38750749
+            }
+          }
+        }
+      ],
+      "allocation": {
+        "build": {
+          "cpus": 4,
+          "memory_gib": 8,
+          "wall_minutes": 20
+        },
+        "replay": {
+          "cpus_per_worker": 2,
+          "memory_gib_per_worker": 12,
+          "wall_minutes": 10,
+          "maximum_concurrent": 2
+        }
+      },
+      "limits": {
+        "axioms": 30,
+        "challenge": 60,
+        "overall_proof_kernel": 120,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456
+      },
+      "artifact": {
+        "file": "benchmarks/checker-regressions/micromath-update-20261110/paired-replay-results.tar.gz",
+        "sha256": "46f33252365a398815be577a3639a41ed494880a1b4de5c2b8d002b7b219fd6f",
+        "bytes": 1649671,
+        "payloads_excluding_checksums": 78
+      },
+      "commands": {
+        "build": "scripts/slurm_build_micromath_update.sbatch; pinned isolated worktree and qualified GMP/compiler header inputs",
+        "replay": "scripts/slurm_replay_checker_handoff.sbatch --array=0-7%2; even tasks old, odd tasks new; case index task/2",
+        "preflight": "canonical slurm_prepare_benchmark_workspace.py --check-only immediately before each sbatch; existing native qualification workspace unchanged",
+        "staging": "slurm_stage_manifest_files.py explicit scripts and handoff manifests; all staged helper hashes match the source commit"
+      },
+      "scope": "Four minimum-input representatives selected before the update. Fresh old/new controls on identical payloads and limits. Three proof replays and one challenge-only replay; not all 109 failed cases or a full-corpus/default qualification.",
+      "source_to_cnf_verified": false,
+      "verification": {
+        "pure_workflow_tests": 5,
+        "checks": [
+          "Ruff format/check",
+          "five metadata/acceptance tests without native/checker execution",
+          "make lint",
+          "bash-n and SLURM wrapper validation",
+          "all 8 complete summaries checked; binary pins, input identities, limits and staged helper hashes verified",
+          "metadata archive payload SHA-256s verified"
+        ],
+        "final_writer_checks": {
+          "make_docs": "passed; no warnings",
+          "assembled_site_links": {
+            "pages": 277,
+            "local_links": 37047,
+            "unique_git_links": 1218,
+            "failures": 0,
+            "external_urls_deferred": 454
+          },
+          "rendered_inspection": "new table, phase-time explanation, proof/challenge distinction and artifact links checked",
+          "runtime_cleanup": "build and all eight replay tasks terminal; no local native/checker experiment ran",
+          "native_gates": "native C++ unchanged and not executed; no new native suite/ASan/fuzz/clang-tidy qualification claimed",
+          "prior_runlog_entries": "preserved byte-for-byte"
+        },
+        "independent_documentation_review": {
+          "reviewer": "/root/review_checker_update",
+          "baseline_git": "6267bafaf0e974f6702f1964b0db9039af616f2f",
+          "verdict": "Ready; no required findings",
+          "scope": "new reference subsection/source-role configuration; coverage ledger; first run-log entry; archive/manifest; replay/build workflows; five pure tests; raw replay/build metadata",
+          "pre_verification_reviewed_sha256": {
+            "docs/reference/qf-lra-certificates.md": "5ce77b6218ff0cf47d5b69e20f89a933b8983c32d9bb4e44bb8558cd7de70513",
+            "docs/_config.yml": "21cab916f857d25a64b0dbdc1b69b18641c5c81889a40b52d16f75edc9d6f63d",
+            "docs/coverage/micromath-checker-update-20261110.json": "694c21719644755c7e86055b988a918f6573d624277857e694dccc6df048c40b",
+            "docs/run-log.json": "ff2b257d40ccd24b44cea9d6b3d4ba732900723d7dc32794f4835ed4b651e692"
+          },
+          "finding_dispositions": {
+            "S1": "optional JSON human-readable spacing suggestion accepted and repaired; measurements and artifact unchanged"
+          },
+          "independently_checked": "all eight paired reports; three strict proof acceptances and one challenge-only recovery; old-control replication; input/build/limit/helper identities; 78 payload hashes; raw normalization and scheduler accounting",
+          "unchecked": "checker implementation/soundness;independent execution;source-to-CNF correctness;untested cases;writer rendering/link checks"
+        }
+      }
+    },
+    {
       "id": "2026-11-09-compact-micromath-checker-handoff",
       "date": "2026-11-09",
       "kind": "existing-checker-failure-artifact-handoff",

@@ -987,6 +987,70 @@ checks, lint and documentation checks qualify the workflow changes; native
 C++/active C++ tests remain unchanged from the qualified `a5123159` build, so
 this sweep does not claim a new native suite, sanitizer or fuzz gate.
 
+### Paired checker update, 10 November
+
+Micromath `62353d2da3035fdc544c374156bd616b44fb8640`, fetched from upstream
+`main`, recovers all four compact-handoff representatives at their tested
+stages. This means **three kernel-verified proofs and one successful challenge
+construction**, not four UNSAT proofs. The old `cfd36f46` build reproduces all
+four failures in fresh controls; the comparison does not rely only on the
+historical sweep timings.
+
+| Representative | Fresh old checker | New checker |
+| --- | --- | --- |
+| `wisa5` | Definition-index allocation error, 71.75 s | Kernel verified, 27.87 s |
+| `clock7` | Proof-pipeline timeout, 120.01 s | Kernel verified, 53.86 s |
+| `lia-oom` | Producer out of memory, 6.13 s | Kernel verified, 16.16 s |
+| `challenge-p15` | Challenge-builder timeout, 60.27 s | Challenge built, 24.06 s |
+
+Times in the first three rows measure the live proof-producer/kernel stage,
+after successful challenge construction. The last row measures only challenge
+construction, with no proof producer or kernel invoked. Each is a single
+observation; a failure's completion time is not comparable to a successful
+proof as a general speedup ratio. The large-CNF case also takes 25.81 seconds
+to build its new challenge, recorded separately from its 16.16-second proof.
+
+Build `382225` compiles the new revision in an isolated worktree, using the
+same GCC 11.4.1 compiler and qualified header/GMP dependency hashes as the old
+build. Paired array `382226` has eight tasks, old/new for each example, with two
+concurrent tasks, two CPUs, 12 GiB and ten minutes per task. All eight finish
+with scheduler exit `0:0`; the per-case status, not task exit alone, determines
+acceptance. The raw reports confirm that all eight replays use the same SLURM
+node. The old worktree and binaries are retained unchanged.
+
+The {checkerhandoffreplaysource}`replay helper <scripts/replay_checker_handoff.py>`
+checks the worktree revision, six qualified checker-binary hashes, the original
+CaDiCaL hash and the saved handoff archive/payload hashes. It copies only the
+selected inputs in bounded blocks, without rebuilding native certificates or
+regenerating statements. Atomic JSON checkpoints retain each finished stage.
+The {checkerhandoffreplaysource}`SLURM wrapper <scripts/slurm_replay_checker_handoff.sbatch>`
+assigns even tasks to the old build, odd tasks to the new one, and selects the
+case by integer division of the task index by two. Both profiles use the same
+30-second axiom, 60-second challenge and overall 120-second proof/kernel
+budgets, with 3 GiB per-process address space and 256 MiB per-file limits.
+Raw proof steps stream directly to the independent kernel; no raw proof file
+is written. Proof acceptance requires both pipeline exits zero, exact
+`challenge proven`, and no inconsistency marker. The builder-only case has its
+own `challenge_built` status and cannot count as kernel verification.
+
+The {download}`paired comparison ledger <../coverage/micromath-checker-update-20261110.json>`
+records both fresh profiles, identical input hashes, stage timings, tool hashes,
+compiler/dependency provenance and scheduler accounting. The
+{download}`paired diagnostic archive <../../benchmarks/checker-regressions/micromath-update-20261110/paired-replay-results.tar.gz>`
+contains normalized summaries and stage logs, omitting installation paths and
+private host names. Original raw artifacts remain in
+`results/checker-handoff-update-382226`. The
+{checkerhandoffreplaysource}`five pure workflow tests <tests/python/test_checker_handoff_replay.py>`
+exercise acceptance gates, timeout precedence and input-integrity rejection;
+they execute neither solver nor checker.
+
+This is a controlled improvement on four examples selected before the update.
+It does not recheck the other 105 indexed failures, establish new full-corpus
+coverage, or qualify a default performance profile. The existing native
+producer failures are unaffected by this evaluation. The verified statement
+remains the exported CNF: original-input-to-CNF conversion is trusted, and no
+native solver run or checker-implementation inspection was performed here.
+
 ### Why lowering was already sufficient for the CNF boundary
 
 The existing {liaexportsource}`lowering pass <src/smt/preprocessing.cpp#L4493>`

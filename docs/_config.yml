@@ -35,6 +35,9 @@ sphinx:
   config:
     bibtex_reference_style: label
     extlinks:
+      checkerhandoffreplaysource:
+        - "https://github.com/primo-solver/primo/blob/6267bafaf0e974f6702f1964b0db9039af616f2f/%s"
+        - "%s"
       arithmeticfullsource:
         - "https://github.com/primo-solver/primo/blob/ea51c2128460f95917441c60e7b0e7b442be00e3/%s"
         - "%s"
