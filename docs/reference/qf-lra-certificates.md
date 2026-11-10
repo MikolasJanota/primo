@@ -31,6 +31,41 @@ formatted text or a vector of all numeric lemmas in RAM. Empty selection needs
 no reconstruction. SAT or inconclusive results write no artifact and leave
 an existing output untouched. Reconstruction failure is not a SAT result.
 
+## Optional coefficient simplification
+
+The experimental standalone {farkassource}`coefficient adapter <scripts/minimize_lra_coefficients.py>`
+rewrites weights in an already completed version-2 QF_LRA certificate:
+
+```sh
+python3 scripts/minimize_lra_coefficients.py result.sexp smaller.sexp --report weights.json
+python3 scripts/minimize_lra_coefficients.py result.sexp optimized.sexp \
+  --optimizer /path/to/z3 --problems-dir coefficient-problems --report weights.json
+```
+
+The first command uses cheap exact-checked candidates: primitive scaling,
+unit weights, simpler ratios, duplicate merging, and contradictory constant or
+opposite-row pairs. The second also asks an external Optimize-compatible solver
+for bounded integer weights, minimizing their maximum and then their sum.
+Every original and replacement witness must pass exact rational cancellation
+and strictness checks. Invalid or timed-out external proposals retain the cheap
+incumbent. Malformed original arithmetic prevents publication and preserves an
+existing destination.
+
+The adapter keeps declarations, CNF, signed facts, premise positions and all
+bytes outside weight spans unchanged. It holds the signature and one conflict
+at a time. Zero weights remain in their original positions, so this does not
+remove theory clauses or replace CORE/MUS selection. It does not check that the
+complete Boolean problem is UNSAT; use the independent verification routes
+below for that obligation. QF_LIA cut records are unsupported.
+
+The [design and option reference](../leads/farkas-coefficient-minimization.md)
+states the exact optimization problem, resource limits, failure policy and
+qualification scope. Smaller printed weights need not reduce proof work:
+removing a common scale can leave the checker's arithmetic derivation unchanged.
+The [bounded qualification](../leads/farkas-coefficient-minimization.md#bounded-qualification-10-november-2026)
+records 1,000 generated controls and 42 independent kernel replays, including
+this distinction on the real clock-7 certificate.
+
 ## Small examples for checker development
 
 The {download}`starter archive <../../benchmarks/checker-regressions/lra-starter-20261104/lra-starter.tar.gz>`

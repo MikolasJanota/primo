@@ -3,6 +3,106 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-10-farkas-coefficient-adapter",
+      "kind": "optional-proof-postprocessor-generated-gate-and-paired-kernel-replay",
+      "evidence_status": "qualified bounded adapter; clock7 file-size win only",
+      "date": "2026-11-10",
+      "status": "qualified optional QF_LRA coefficient postprocessor; no native/default performance promotion",
+      "adapter_git": "180dcaa8fcb360d4e2ac8edca513fab718ea335a",
+      "final_workflow_git": "43104db18d4566306b15c9fd752f6fbaa58d2705",
+      "native_export_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+      "jobs": {
+        "generated": "382321_0",
+        "initial_two_case_replay": "382321_1",
+        "complete_replay": "382323_1",
+        "final_unit_tests": "382324"
+      },
+      "allocation": {
+        "qualification": {
+          "cpus_per_task": 2,
+          "memory_gib_per_task": 12,
+          "wall_minutes": 20,
+          "maximum_concurrent": 2
+        },
+        "unit": {
+          "cpus": 1,
+          "memory_gib": 2,
+          "wall_minutes": 2
+        }
+      },
+      "limits": {
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456,
+        "optimizer_file_bytes": 16777216,
+        "reference_seconds": 5,
+        "adapter_seconds": 150,
+        "axioms_seconds": 30,
+        "challenge_seconds": 60,
+        "proof_kernel_seconds": 120,
+        "optimizer_call_seconds": 1,
+        "optimizer_total_seconds": 30,
+        "optimizer_max_queries": 32,
+        "optimizer_max_premises": 256,
+        "encoding_bits": 4096
+      },
+      "commands": [
+        "python3 -m unittest discover -s \"$FARKAS_WORKFLOW/tests/python\" -p test_farkas_coefficients.py",
+        "sbatch scripts/slurm_farkas_coefficients.sbatch (task 0: generated; task 1: real; required environment documented in script)",
+        "python3 scripts/minimize_lra_coefficients.py SOURCE OUTPUT --report METRICS",
+        "python3 scripts/minimize_lra_coefficients.py SOURCE OUTPUT --report METRICS --optimizer \"$Z3\" --problems-dir QUERIES --call-seconds 1 --total-seconds 30 (authored case adds --min-bits 0)",
+        "prlimit --as=3221225472 --fsize=268435456 -- \"$MICROMATH/smt/prove-lra\" CHALLENGE CERTIFICATE - --raw --cadical \"$CADICAL\" | prlimit --as=3221225472 --fsize=268435456 -- \"$MICROMATH/check-solution\" CHALLENGE -"
+      ],
+      "generated_gate": {
+        "seed": 20261110,
+        "count": 1000,
+        "reference": "pinned Z3 on generated original SMT-LIB",
+        "valid_witness_pass": 750,
+        "sat_negative_control_rejected": 250,
+        "wrong_answer": 0,
+        "crash": 0,
+        "unexpected_parser_type_error": 0,
+        "timeout": 0,
+        "unsupported": 0,
+        "reference_disagreement": 0,
+        "optimization_queries": 51,
+        "optimization_adopted": 0,
+        "notes": "Authored exact witnesses with random rational matrices/bounds/scales and duplicate premises. Each accepted output receives unchanged-structure, exact arithmetic and CaDiCaL propositional checks. Expected invalid-witness rejections on SAT sources are negative-control passes, not crashes or parser errors. This is a proof-postprocessor gate, not native solver fuzzing."
+      },
+      "unit_tests": 14,
+      "independent_replay": {
+        "inputs": 14,
+        "starter_certificates": 12,
+        "real_core_certificate": 1,
+        "authored_certificate": 1,
+        "profiles": [
+          "original",
+          "cheap",
+          "optimized"
+        ],
+        "kernel_verified": 42,
+        "failures": 0,
+        "optimizer_queries": 33,
+        "optimizer_adopted": 1,
+        "acceptance": "Producer/kernel exit codes both zero; exact challenge proven line; no Inconsistency proven!; independent witness/CaDiCaL check and unchanged CNF/premise structure on every profile."
+      },
+      "limitations": [
+        "Version-2 QF_LRA only; LIA intermediate cut conclusions require a different preservation contract.",
+        "One pass per profile on a bounded 14-input set; only clock7 is a large real certificate. No broad checker-speed or solver-speed claim.",
+        "Clock7 weight text shrinks 213349 to 73254 bytes and full certificate 626049 to 485954 bytes; max weight bit height 68 to 59. Arithmetic kernel steps remain exactly 125850923 in all profiles. All 32 bounded external queries failed to improve the cheap incumbent.",
+        "Authored alternative ratios reduce LRA kernel steps 42712 to 30062, with no meaningful wall-time difference at subsecond scale; no realistic-corpus gain follows.",
+        "Auxiliary integer optimization uses bounded min-max then L1 objectives, not globally optimal serialized bit cost. Timeout, unknown, errors and unacceptable models retain the checked incumbent.",
+        "Postprocessor validates arithmetic only and preserves the initial CNF as bytes; source-to-CNF equivalence remains a separate obligation. No native source or C++ test changes; C++ suites, ASan, clang-tidy and include-cleaner were not rerun for these Python utilities."
+      ],
+      "manifest": "docs/coverage/farkas-coefficients-20261110.json",
+      "archive": {
+        "path": "benchmarks/checker-regressions/farkas-coefficients-20261110/results.tar.gz",
+        "sha256": "8464539f5db595b4b6ac35ffb5fe1ce852d5edec4d93c3a037dd4f078ee83122",
+        "bytes": 271012,
+        "payloads": 527
+      }
+    },
+    {
       "id": "2026-11-10-micromath-checker-paired-update",
       "date": "2026-11-10",
       "kind": "paired-replay-of-fixed-checker-failure-handoff",

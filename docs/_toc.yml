@@ -74,6 +74,7 @@ parts:
       - file: leads/theory-lemmas
       - file: leads/theory-lemma-reduction
       - file: leads/lra-conflict-certificates
+      - file: leads/farkas-coefficient-minimization
       - file: leads/lia-conflict-certificates
       - file: leads/experimental-sort-erasure
       - file: leads/cnf-export-spooling

@@ -35,6 +35,9 @@ sphinx:
   config:
     bibtex_reference_style: label
     extlinks:
+      farkassource:
+        - "https://github.com/primo-solver/primo/blob/180dcaa8fcb360d4e2ac8edca513fab718ea335a/%s"
+        - "%s"
       checkerhandoffreplaysource:
         - "https://github.com/primo-solver/primo/blob/6267bafaf0e974f6702f1964b0db9039af616f2f/%s"
         - "%s"
