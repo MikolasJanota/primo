@@ -3,6 +3,217 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-10-complete-checker-failure-replay",
+      "kind": "saved-export-checker-replay-with-bounded-lra-coefficient-comparison",
+      "evidence_status": "complete",
+      "date": "2026-11-10",
+      "status": "complete",
+      "finished": true,
+      "workflow_git": "ca01855c15da908d1ee0aba65bbd5ba0f9ca52f0",
+      "native_export_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "previous_checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+      "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+      "job": "382354_0..7",
+      "scope": "Complete frozen 109-case checker-failure index, 109 original and 30 additional LRA profiles planned; exported-CNF boundary; no native solver rerun.",
+      "allocation": {
+        "workers": 8,
+        "maximum_concurrent": 8,
+        "cpus_per_worker": 2,
+        "memory_gib_per_worker": 12,
+        "wall_minutes": 90
+      },
+      "limits": {
+        "axioms_seconds": 30,
+        "challenge_seconds": 60,
+        "proof_kernel_seconds": 120,
+        "adapter_seconds": 600,
+        "process_address_bytes": 3221225472,
+        "process_file_bytes": 268435456,
+        "optimizer_call_seconds": 1,
+        "optimizer_total_seconds": 30,
+        "optimizer_max_queries": 32
+      },
+      "baseline_counts": {
+        "proof_timeout": 16,
+        "verified": 68,
+        "proof_error": 25,
+        "not_started": 0
+      },
+      "profile_counts": {
+        "original": {
+          "proof_timeout": 16,
+          "verified": 68,
+          "proof_error": 25
+        },
+        "cheap": {
+          "adapter_timeout": 1,
+          "proof_timeout": 10,
+          "verified": 4
+        },
+        "optimized": {
+          "adapter_timeout": 1,
+          "proof_timeout": 10,
+          "verified": 4
+        }
+      },
+      "commands": [
+        "sbatch scripts/slurm_replay_remaining_checker_failures.sbatch (required environment in wrapper)",
+        "python3 scripts/replay_remaining_checker_failures.py --selection SELECTION --saved SAVED --micromath MICROMATH --micromath-git 62353d2da3035fdc544c374156bd616b44fb8640 --build-report BUILD_REPORT --cadical CADICAL --z3 Z3 --shard N --shards 8 --out NEW_OUTPUT"
+      ],
+      "boundary": {
+        "source_to_cnf_verified": false,
+        "native_solver_rerun": false,
+        "proof_transport": "live --raw pipe, no expanded proof file",
+        "checker_implementation_inspected": false,
+        "checker_implementation_modified": false
+      },
+      "limitations": [
+        "Historical old-checker outcomes are retained; the complete old checker cohort is not freshly rerun.",
+        "LRA adapter profiles are optional bounded comparisons, not LIA cut minimization or a default performance promotion.",
+        "Timeout denotes the overall producer/kernel pipeline cap, not a diagnosis of an internal checker phase."
+      ],
+      "manifest": "docs/coverage/remaining-checker-replay-20261110.json",
+      "artifact_directory": "$PRIMO_WORKDIR/results/checker-remaining-382354",
+      "by_logic": {
+        "QF_LRA": {
+          "verified": 5,
+          "proof_timeout": 11
+        },
+        "QF_LIA": {
+          "verified": 63,
+          "proof_timeout": 5,
+          "proof_error": 25
+        }
+      },
+      "transitions": {
+        "challenge_construction_deadline": {
+          "verified": 3
+        },
+        "overall_proof_pipeline_deadline": {
+          "verified": 6,
+          "proof_timeout": 14
+        },
+        "producer_definition_index_allocation": {
+          "verified": 1,
+          "proof_timeout": 2
+        },
+        "producer_out_of_memory": {
+          "verified": 58,
+          "proof_error": 25
+        }
+      },
+      "producer_diagnostics": {
+        "Logic failure: shared theorem allocation": 6,
+        "Logic failure: free-list allocation": 16,
+        "Logic failure: theorem slot allocation": 3
+      },
+      "coefficient_comparison": {
+        "cases": 15,
+        "counts": {
+          "original": {
+            "verified": 4,
+            "proof_timeout": 11
+          },
+          "cheap": {
+            "verified": 4,
+            "proof_timeout": 10,
+            "adapter_timeout": 1
+          },
+          "optimized": {
+            "verified": 4,
+            "proof_timeout": 10,
+            "adapter_timeout": 1
+          }
+        },
+        "completed_optimizer_counts": {
+          "queries": 448,
+          "ok": 370,
+          "not_better": 370,
+          "skipped": 115478,
+          "timeout": 1,
+          "error": 77
+        },
+        "completed_optimized_outputs": 14,
+        "additional_unreported_queries_in_timed_out_vpm_profile": 32,
+        "total_query_logs": 480,
+        "optimizer_defaults": {
+          "min_bits": 8,
+          "max_queries": 32,
+          "max_premises": 256,
+          "max_bits": 4096,
+          "call_seconds": 1,
+          "total_seconds": 30
+        },
+        "kernel_step_comparison": [
+          {
+            "file": "clock_synchro/clocksynchro_8clocks.worst_case_skew.induct.smt2",
+            "steps": {
+              "original": 177897708,
+              "cheap": 177897708,
+              "optimized": 177897708
+            }
+          },
+          {
+            "file": "clock_synchro/clocksynchro_7clocks.main_invar.induct.smt2",
+            "steps": {
+              "original": 160508527,
+              "cheap": 160508527,
+              "optimized": 160508527
+            }
+          },
+          {
+            "file": "clock_synchro/clocksynchro_9clocks.worst_case_skew.induct.smt2",
+            "steps": {
+              "original": 246552290,
+              "cheap": 246552290,
+              "optimized": 246552290
+            }
+          },
+          {
+            "file": "clock_synchro/clocksynchro_8clocks.main_invar.induct.smt2",
+            "steps": {
+              "original": 228487964,
+              "cheap": 228487964,
+              "optimized": 228487964
+            }
+          }
+        ],
+        "conclusion": "No additional verified case, no adopted optimizer candidate in completed outputs, identical arithmetic steps on all four verified comparisons. Optional experiment; no performance promotion."
+      },
+      "result_counts_all_profiles": {
+        "verified": 76,
+        "proof_timeout": 36,
+        "proof_error": 25,
+        "adapter_timeout": 2
+      },
+      "artifacts": {
+        "results": {
+          "path": "benchmarks/checker-regressions/checker-replay-20261110/results.tar.gz",
+          "bytes": 6416842,
+          "sha256": "13c93c2059005b7f48ae7516a405542371fb811e66c3d85a77df3a6fa0078402",
+          "payloads": 2561,
+          "uncompressed_payload_bytes": 61063764
+        },
+        "feedback": {
+          "path": "benchmarks/checker-regressions/checker-replay-20261110/feedback.tar.xz",
+          "bytes": 20367988,
+          "sha256": "1ec40eba365e86c0d21b97ff942e0895b560216e14a7e0ff13f91ecc1d064407",
+          "payloads": 39,
+          "uncompressed_payload_bytes": 977447947
+        }
+      },
+      "verification": {
+        "archive_payloads_checked": {
+          "results": 2560,
+          "feedback": 38
+        },
+        "all_worker_sources_and_binary_hashes_match": true,
+        "all_109_indices_unique": true,
+        "all_139_profiles_terminal": true,
+        "feedback_replay_shell_syntax": "bash -n passed; no additional checker replay executed"
+      }
+    },
+    {
       "id": "2026-11-10-farkas-coefficient-adapter",
       "kind": "optional-proof-postprocessor-generated-gate-and-paired-kernel-replay",
       "evidence_status": "qualified bounded adapter; clock7 file-size win only",

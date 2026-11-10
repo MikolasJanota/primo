@@ -244,3 +244,12 @@ also have unchanged arithmetic kernel steps across profiles. These are single
 passes on a small set, not a full-corpus speed claim. The table uses externally
 measured adapter wall time, including startup and publication. Optimizer cost is
 already included in that time; add adapter and proof time when judging total work.
+
+
+A [follow-up on fifteen real LRA timeout cases](../evidence/checker-replay-20261110.md#completed-coefficient-comparison)
+found no additional verification through simplification: each transformed
+profile verifies the same four cases, ten checker pipelines time out, and the
+largest adapter input reaches its separate processing cap. The 448 optimizer
+queries in completed outputs adopt no candidate. This strengthens the reason
+to keep optimization optional; the authored step reduction is not evidence of
+routine benefit on real certificates.
