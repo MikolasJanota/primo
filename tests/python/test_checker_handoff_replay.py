@@ -2,6 +2,7 @@
 
 import hashlib
 import io
+import json
 import sys
 import tarfile
 import tempfile
@@ -10,6 +11,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 from replay_checker_handoff import pipeline_status, unpack_case
+from replay_remaining_checker_failures import assignment, checked_copy, profiles
 
 
 class ReplayAcceptanceTests(unittest.TestCase):
@@ -83,6 +85,39 @@ class InputIntegrityTests(unittest.TestCase):
         self.manifest["payload_sha256"][f"{self.relative}/case.json"] = "0" * 64
         with self.assertRaisesRegex(ValueError, "input changed"):
             unpack_case(self.bundle, self.manifest, self.relative, self.output)
+
+
+class CompleteReplayTests(unittest.TestCase):
+    def test_complete_index_coverage_and_profile_selection(self):
+        path = (
+            Path(__file__).resolve().parents[2]
+            / "benchmarks/checker-regressions/checker-replay-20261110/selection.json"
+        )
+        rows = json.loads(path.read_text())["rows"]
+        assigned = assignment(rows, 8)
+        self.assertEqual(
+            sorted(i for shard in assigned for i in shard), list(range(109))
+        )
+        self.assertEqual(sum(len(profiles(row)) for row in rows), 139)
+        self.assertTrue(
+            all(len(profiles(row)) == 1 for row in rows if row["logic"] == "QF_LIA")
+        )
+
+    def test_lia_header_only_copy_across_block_boundary(self):
+        with tempfile.TemporaryDirectory() as directory:
+            native, adapted = Path(directory) / "native", Path(directory) / "adapted"
+            body = (
+                b"(primo-conflicts\n  (version 3)\n  (logic QF_LIA)\n" + b"x" * 1024**2
+            )
+            native.write_bytes(body)
+            converted = body[:28] + b"2" + body[29:]
+            adapted.write_bytes(converted)
+            self.assertEqual(
+                checked_copy(native, adapted), hashlib.sha256(converted).hexdigest()
+            )
+            adapted.write_bytes(converted[:-1] + b"y")
+            with self.assertRaisesRegex(ValueError, "body"):
+                checked_copy(native, adapted)
 
 
 if __name__ == "__main__":
