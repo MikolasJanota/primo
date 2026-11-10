@@ -957,6 +957,89 @@ void preprocessing_round_transforms_each_alternative_independently() {
   check(fixture.statistics.get(":tactic.unit-equality-propagation.invocations") == 1);
 }
 
+bool assertions_mention(const primo::core::TermManager& terms,
+                        const std::vector<primo::core::TermId>& roots, primo::core::TermId target) {
+  auto pending = roots;
+  while (!pending.empty()) {
+    const auto id = pending.back();
+    pending.pop_back();
+    if (id == target) return true;
+    const auto& children = terms.get(id).children;
+    pending.insert(pending.end(), children.begin(), children.end());
+  }
+  return false;
+}
+
+void finite_domain_snapshot_is_bound_to_the_executing_goal() {
+  Fixture fixture;
+  const auto integer = fixture.symbols.int_sort();
+  const auto a =
+      fixture.terms.mk_constant(fixture.symbols.declare_constant("eliminated_a", integer));
+  const auto b = fixture.terms.mk_constant(fixture.symbols.declare_constant("live_b", integer));
+  const auto f = fixture.symbols.declare_function("domain_f", {integer}, integer);
+  const auto zero = fixture.terms.mk_rational(primo::util::Rational(0), integer);
+  const auto one = fixture.terms.mk_rational(primo::util::Rational(1), integer);
+  const auto seven = fixture.terms.mk_rational(primo::util::Rational(7), integer);
+  const auto domain = [&](primo::core::TermId argument) {
+    const auto application = fixture.terms.mk_app(f, {argument});
+    const auto low = fixture.terms.mk_eq(application, zero);
+    const auto high = fixture.terms.mk_eq(application, one);
+    return fixture.terms.mk_or({low, high});
+  };
+  const std::vector original{fixture.terms.mk_eq(a, seven), domain(a)};
+  primo::smt::FiniteDomainAtMostOne generator(fixture.terms);
+  const auto raw =
+      std::make_shared<const primo::smt::FiniteDomainAtMostOneResult>(generator.generate(original));
+  check(!raw->clauses.empty());
+  const auto tactic = primo::smt::make_finite_domain_preprocess(
+      {.generate_at_most_one = true}, {.source_assertions = original, .raw_at_most_one = raw});
+  const auto unchanged =
+      tactic(fixture.context, primo::smt::AnyOf::single(primo::smt::Goal(original)));
+  check(assertions_mention(fixture.terms, unchanged.alternatives()[0].assertions(), a));
+  check(fixture.statistics.get(":preprocessing.finite-domain.raw-cache-hits") == 1);
+  // One shared tactic can see alternatives with different surviving symbols.
+  // Neither alternative may regain a constant removed by solve-eqs.
+  const auto changed =
+      tactic(fixture.context,
+             primo::smt::AnyOf({primo::smt::Goal({domain(seven)}), primo::smt::Goal({domain(b)})}));
+  check(changed.size() == 2);
+  for (const auto& goal : changed.alternatives())
+    check(!assertions_mention(fixture.terms, goal.assertions(), a));
+  check(fixture.statistics.get(":preprocessing.finite-domain.raw-cache-refreshes") == 2);
+  check(assertions_mention(fixture.terms, changed.alternatives()[1].assertions(), b));
+}
+
+void symmetry_snapshot_is_bound_to_the_executing_goal() {
+  Fixture fixture;
+  const auto sort = fixture.symbols.declare_sort("SymmetricValues");
+  const auto constant = [&](const char* name) {
+    return fixture.terms.mk_constant(fixture.symbols.declare_constant(name, sort));
+  };
+  const auto first = constant("first");
+  const auto second = constant("second");
+  const auto old = constant("old_choice");
+  const auto live = constant("live_choice");
+  const auto different = fixture.terms.mk_not(fixture.terms.mk_eq(first, second));
+  const auto choice = [&](primo::core::TermId term) {
+    const auto left = fixture.terms.mk_eq(term, first);
+    const auto right = fixture.terms.mk_eq(term, second);
+    return fixture.terms.mk_or({left, right});
+  };
+  const std::vector original{different, choice(old)};
+  primo::smt::UfSymmetryBreaker breaker(fixture.terms);
+  const auto analyzed = breaker.break_symmetries(original);
+  check(!analyzed.constraints.empty());
+  const auto tactic = primo::smt::make_finite_domain_preprocess(
+      {.symmetry_breaking = true}, {.source_assertions = original, .analyzed_symmetry = analyzed});
+  static_cast<void>(tactic(fixture.context, primo::smt::AnyOf::single(primo::smt::Goal(original))));
+  check(fixture.statistics.get(":preprocessing.symmetry.cache-hits") == 1);
+  const auto changed = tactic(
+      fixture.context, primo::smt::AnyOf::single(primo::smt::Goal({different, choice(live)})));
+  check(!assertions_mention(fixture.terms, changed.alternatives()[0].assertions(), old));
+  check(assertions_mention(fixture.terms, changed.alternatives()[0].assertions(), live));
+  check(fixture.statistics.get(":preprocessing.symmetry.cache-refreshes") == 1);
+}
+
 void public_preprocessing_leaves_are_independently_constructible_and_typed() {
   Fixture fixture;
   const primo::core::TermId p = fixture.p_term();
@@ -1493,6 +1576,8 @@ int main() {
   preprocessing_fixed_point_and_terminal_change_statistics_are_exact();
   solver_adapter_does_not_hide_serious_failures();
   preprocessing_round_transforms_each_alternative_independently();
+  finite_domain_snapshot_is_bound_to_the_executing_goal();
+  symmetry_snapshot_is_bound_to_the_executing_goal();
   public_preprocessing_leaves_are_independently_constructible_and_typed();
   production_preprocessing_profile_and_strategy_are_explicit_and_stable();
   solver_dispatch_uses_formula_tactics();

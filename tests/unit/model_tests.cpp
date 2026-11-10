@@ -35,6 +35,30 @@ void rejects(Fn fn) {
   assert(rejected);
 }
 
+void simplified_finite_domain_arguments_reconstruct_the_original_model() {
+  for (const bool integer : {false, true}) {
+    for (const bool post_amo : {false, true}) {
+      for (const int value : {0, 1}) {
+        const std::string logic = integer ? "QF_UFLIA" : "QF_UFLRA";
+        const std::string sort = integer ? "Int" : "Real";
+        const std::string input = "(set-option :produce-models true)(set-logic " + logic +
+                                  ")(declare-const a " + sort + ")(declare-fun f (" + sort + ") " +
+                                  sort + ")(assert (= a 7))(assert (or (= (f a) 0) (= (f a) 1)))" +
+                                  "(assert (= (f a) " + std::to_string(value) +
+                                  "))(check-sat)(get-model)";
+        smt::CheckSatOptions options;
+        options.preprocessing_mode = smt::PreprocessingMode::Strong;
+        options.finite_domain_post_amo = post_amo;
+        options.check_model = true;
+        const auto result = smt::check_sat_smtlib(input, options);
+        assert(result.result == smt::CheckSatResult::Sat);
+        assert(result.typed_model);
+        assert(!result.model.empty());
+      }
+    }
+  }
+}
+
 void driver_boolean_facts_do_not_bypass_fragment_validation() {
   core::SymbolTable symbols;
   core::TermManager terms(symbols);
@@ -366,6 +390,7 @@ void reconstruction_uses_staged_constants_and_fixed_tables() {
 }  // namespace
 
 int main() {
+  simplified_finite_domain_arguments_reconstruct_the_original_model();
   driver_boolean_facts_do_not_bypass_fragment_validation();
   canonical_identifier_model_roundtrip();
   component_fragments_are_owned_typed_and_checked();

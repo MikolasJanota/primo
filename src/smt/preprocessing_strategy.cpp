@@ -523,7 +523,7 @@ Strategy make_preprocessing_strategy(const CheckSatOptions& options,
       "finite-domain-preprocess", finite_options,
       make_finite_domain_preprocess(
           finite_options,
-          FiniteDomainPreprocessInput{.symmetry_source_assertions = symmetry_source_assertions,
+          FiniteDomainPreprocessInput{.source_assertions = symmetry_source_assertions,
                                       .raw_at_most_one = profile.raw_finite_domain,
                                       .analyzed_symmetry = profile.analyzed_symmetry})));
   const NormalizeArithmeticOptions arithmetic_options{

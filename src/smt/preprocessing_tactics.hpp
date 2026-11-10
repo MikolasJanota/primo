@@ -63,11 +63,11 @@ struct FiniteDomainPreprocessOptions {
 };
 
 // Formula snapshots produced by profile analysis before the fixed-point round.
-// They are immutable inputs to the delayed finite-domain emission stage. Keeping
-// them in one value prevents symmetry and AMO generation from silently observing
-// a different formula state when the surrounding strategy is refactored.
+// Cached constraints are valid only for this exact source assertion vector in
+// the same term manager. The delayed emission stage refreshes them after any
+// intervening transformation, so eliminated constants cannot be reintroduced.
 struct FiniteDomainPreprocessInput {
-  std::vector<core::TermId> symmetry_source_assertions;
+  std::vector<core::TermId> source_assertions;
   std::shared_ptr<const FiniteDomainAtMostOneResult> raw_at_most_one =
       std::make_shared<const FiniteDomainAtMostOneResult>();
   std::optional<UfSymmetryBreakingResult> analyzed_symmetry;
