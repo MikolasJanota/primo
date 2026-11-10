@@ -385,7 +385,9 @@ The delayed finite-domain stage records
 A hit requires exactly matching ordered source/executing assertion IDs; a
 refresh regenerates raw constraints on the executing goal. Symmetry has the
 analogous `:preprocessing.symmetry.cache-hits` and `cache-refreshes` counters.
-These count phase invocations, not clauses or solver decisions.
+Each counts an enabled cache decision per nonterminal goal alternative.
+One tactic call over two alternatives may increment twice; these are not
+counts of tactic invocations, clauses or solver decisions.
 
 ## Experimental pure-QF_LRA equality propagation
 

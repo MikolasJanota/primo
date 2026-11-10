@@ -403,7 +403,8 @@ At-most-one (AMO) clauses state
 $\neg(t=c_i)\lor\neg(t=c_j)$ for distinct values. Cached clauses generated before simplification are reused only if the
 executing goal has the same ordered assertion roots. Otherwise that raw scan
 is repeated on the current goal before emission. Emitted clauses are
-deduplicated against a second scan after simplification. A choice disjunction is not always needed: if
+deduplicated against existing assertions and clauses from the optional
+post-simplification scan. A choice disjunction is not always needed: if
 the formula contains $t=u$ and $t=v$, and asserts $u\ne v$, the generator
 can add $\neg(t=u)\lor\neg(t=v)$. For terms $s,t$ with the same recognized
 domain and a known disequality $s\ne t$, it can add
@@ -553,7 +554,7 @@ describes their reverse replay and validation against original assertions.
 | {source}`PreprocessingProfile <src/smt/preprocessing_strategy.hpp>` | Selected passes, repetition limits, finite-domain analysis, and generated clauses retained for later use. |
 | {source}`PreparedPreprocessingStrategy <src/smt/preprocessing_strategy.hpp>` | Full strategy description, selected profile, and result returned by `prepare_and_execute_preprocessing_strategy` after executing the transformations. |
 | {source}`PreprocessingRoundOptions <src/smt/preprocessing_tactics.hpp>` | Immutable settings for one simplification round. The round uses the executing tactic context. |
-| {modelrepairsource}`FiniteDomainPreprocessInput <src/smt/preprocessing_tactics.hpp#L65-L75>` | Owning source assertion IDs, immutable precomputed AMO clauses and optional symmetry result. Reuse is bound to the same term manager and exact executing goal roots. |
+| {modelrepairsource}`FiniteDomainPreprocessInput <src/smt/preprocessing_tactics.hpp#L65-L75>` | Owning source assertion IDs, immutable precomputed AMO clauses and optional symmetry result. Reuse requires exact executing goal roots; supplying IDs from the same term manager is a caller precondition. |
 | {source}`ModelReconstruction <src/smt/model_reconstruction.hpp>` | Each goal's model-conversion records and forced equality/disequality pairs needed by later stages. |
 
 The term manager owns every original and generated term. Pass results refer
@@ -578,14 +579,14 @@ For example, let `a = 7`, `f(a) = 0`, and `f(a) = 0 or f(a) = 1`. A raw AMO
 clause over `f(a)` may be computed before solve-eqs eliminates `a`. Emitting it
 afterwards reintroduces `a` as a free argument of an auxiliary purification
 application. Its temporary model value need not be 7. Restoring `a = 7` can
-then invalidate the function row selected by that auxiliary. The refreshed
-scan uses the surviving `f(7)` syntax instead. The model guards and reverse
+then invalidate the function row selected by that auxiliary. The refreshed scan uses surviving syntax such as `f(7)` instead; it may emit
+no clause when simplification has removed that finite-domain opportunity. The model guards and reverse
 conversion order remain unchanged.
 
 The same cache boundary applies to analyzed symmetry constraints. Each
 alternative goal is checked separately; refreshing one invocation owns a local
-result and does not replace the immutable snapshot captured by another. All
-IDs belong to the same live term manager, which must outlive the tactic.
+result and does not replace the immutable snapshot captured by another. The caller must supply IDs from the same live term manager, which must
+outlive the tactic; comparing root IDs does not check manager identity.
 This is an original cache-validity repair; it adds no new finite-domain or
 symmetry algorithm. Regression tests exercise unchanged cache hits, changed
 goals, alternative goals, AMO and symmetry, plus original-model replay on
