@@ -9,7 +9,7 @@ import tempfile
 import unittest
 from fractions import Fraction as F
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 from farkas_coefficients import (
@@ -20,6 +20,7 @@ from farkas_coefficients import (
     optimization_problem,
     valid,
 )
+from micromath_stress import invoke
 from minimize_lra_coefficients import Lexer, Optimizer, transform
 
 
@@ -103,6 +104,20 @@ class CoefficientTests(unittest.TestCase):
         ):
             with self.assertRaises(ValueError):
                 model_weights(text, 2)
+
+    def test_interruption_reaps_external_process(self):
+        process = Mock(pid=1234)
+        process.wait.side_effect = [InterruptedError("cancelled"), 0]
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with (
+                patch("micromath_stress.subprocess.Popen", return_value=process),
+                patch("micromath_stress.os.killpg") as kill,
+                self.assertRaises(InterruptedError),
+            ):
+                invoke(["fake"], root, root / "log", 1)
+        self.assertEqual(process.wait.call_count, 2)
+        self.assertEqual(kill.call_args.args[0], process.pid)
 
 
 class StreamingTests(unittest.TestCase):

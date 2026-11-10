@@ -62,6 +62,14 @@ def invoke(command: list[str], cwd: Path, log: Path, timeout: float) -> dict:
                 process.wait()
             except ProcessLookupError:
                 process.wait()
+        except BaseException:
+            # Interrupting a caller must also stop its independent child session.
+            try:
+                os.killpg(process.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            process.wait()
+            raise
         if state == "ok" and process.returncode != 0:
             state = "error"
     return {
