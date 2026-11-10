@@ -1422,7 +1422,7 @@ void strong_preprocessing_enables_finite_domain_amo() {
   assert(result.statistics.get(":euf.propagation.rounds") == 0);
 }
 
-void finite_domain_raw_amo_survives_forced_atom_simplification() {
+void finite_domain_raw_amo_is_refreshed_after_forced_atom_simplification() {
   primo::smt::CheckSatOptions options;
   options.preprocessing_mode = primo::smt::PreprocessingMode::Strong;
   const auto result = check_sat_smtlib(
@@ -1442,9 +1442,11 @@ void finite_domain_raw_amo_survives_forced_atom_simplification() {
   assert(result.result == CheckSatResult::Sat);
   assert(result.statistics.get(":preprocessing.forced-atoms.rewrites") >= 1);
   assert(result.statistics.get(":preprocessing.finite-domain.raw-choices") == 1);
+  // Initial analysis remains diagnostic; emission uses the simplified goal.
+  assert(result.statistics.get(":preprocessing.finite-domain.raw-cache-refreshes") == 1);
   assert(result.statistics.get(":preprocessing.finite-domain.raw-amo-clauses") == 3);
   assert(result.statistics.get(":preprocessing.finite-domain.post-amo-clauses") == 1);
-  assert(result.statistics.get(":preprocessing.finite-domain.amo-clauses") == 3);
+  assert(result.statistics.get(":preprocessing.finite-domain.amo-clauses") == 1);
   assert(result.statistics.get(":preprocessing.finite-domain.deduped-amo-clauses") == 1);
 }
 
@@ -1468,9 +1470,11 @@ void finite_domain_post_amo_can_be_disabled() {
       options);
   assert(result.result == CheckSatResult::Sat);
   assert(result.statistics.get(":preprocessing.forced-atoms.rewrites") >= 1);
+  // Initial analysis remains diagnostic; emission uses the simplified goal.
+  assert(result.statistics.get(":preprocessing.finite-domain.raw-cache-refreshes") == 1);
   assert(result.statistics.get(":preprocessing.finite-domain.raw-amo-clauses") == 3);
   assert(result.statistics.get(":preprocessing.finite-domain.post-amo-clauses") == 0);
-  assert(result.statistics.get(":preprocessing.finite-domain.amo-clauses") == 3);
+  assert(result.statistics.get(":preprocessing.finite-domain.amo-clauses") == 1);
   assert(result.statistics.get(":preprocessing.finite-domain.deduped-amo-clauses") == 0);
 }
 
@@ -1497,10 +1501,12 @@ void finite_domain_amo_uses_forced_disequalities_modulo_forced_equalities() {
       options);
   assert(result.result == CheckSatResult::Sat);
   assert(result.statistics.get(":preprocessing.forced-atoms.disequalities") >= 1);
+  // Initial analysis remains diagnostic; emission uses the simplified goal.
+  assert(result.statistics.get(":preprocessing.finite-domain.raw-cache-refreshes") == 1);
   assert(result.statistics.get(":preprocessing.finite-domain.raw-amo-clauses") == 6);
   assert(result.statistics.get(":preprocessing.finite-domain.post-amo-clauses") == 9);
-  assert(result.statistics.get(":preprocessing.finite-domain.amo-clauses") == 12);
-  assert(result.statistics.get(":preprocessing.finite-domain.deduped-amo-clauses") == 3);
+  assert(result.statistics.get(":preprocessing.finite-domain.amo-clauses") == 9);
+  assert(result.statistics.get(":preprocessing.finite-domain.deduped-amo-clauses") == 9);
 }
 
 void auto_preprocessing_uses_basic_polarity_for_small_multiple_assertions() {
@@ -3246,7 +3252,7 @@ int main() {
   pure_theory_literal_filter_can_be_disabled();
   mixed_polarity_theory_literal_is_not_filtered();
   strong_preprocessing_enables_finite_domain_amo();
-  finite_domain_raw_amo_survives_forced_atom_simplification();
+  finite_domain_raw_amo_is_refreshed_after_forced_atom_simplification();
   finite_domain_post_amo_can_be_disabled();
   finite_domain_amo_uses_forced_disequalities_modulo_forced_equalities();
   auto_preprocessing_uses_basic_polarity_for_small_multiple_assertions();
