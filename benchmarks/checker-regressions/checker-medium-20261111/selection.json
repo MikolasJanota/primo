@@ -1,0 +1,273 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-11",
+  "purpose": "Find medium-cost already-verified real arithmetic cases for coefficient experiments. Discovery baseline plus cheap coefficient statistics, not an optimization speed comparison.",
+  "selection_policy": {
+    "known_verified_proof_seconds": [
+      10,
+      90
+    ],
+    "max_native_bytes": 25000000,
+    "require_retained_lemmas": true,
+    "diversity": "Nine distinct top-level benchmark families, chosen from saved positive results; latest replay supersedes older status.",
+    "excluded_focus": "Large NEC cases dominated by input/SAT work, including zero arithmetic proof steps, are not coefficient targets."
+  },
+  "sources": {
+    "docs/coverage/full-arithmetic-certificates-20261108.json": "ca5e326bd61eb23b03502e00b2ab2cfc299f47f4fb35707f1d0a76eec4c7a5bc",
+    "docs/coverage/remaining-checker-replay-20261110.json": "560c1f90c8deffc0f8c6089c21fa7fe9c2167c5184e85cf51ca30511d2a5065e"
+  },
+  "native_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "target_checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+  "primary_array": "365550",
+  "rows": [
+    {
+      "logic": "QF_LIA",
+      "file": "mathsat/FISCHER11-14-fair.smt2",
+      "family": "mathsat",
+      "input_sha256": "84b8f850f53d6f297062169fbf22727916f5ead501ad89da02175710bd1ac9c7",
+      "native_sha256": "d0fb5a081c94714d5fc6d7ba1080ba225c980a322f1639fdf66f40db58a4567e",
+      "native_bytes": 1410562,
+      "statement_sha256": "00dc0236b9556eb7faf7744bd70ebbba0a3bc11b014c113559dc186a7cde6e6b",
+      "statement_bytes": 1043696,
+      "cnf_clauses": 13649,
+      "collected_lemmas": 1505,
+      "retained_lemmas": 1124,
+      "primary_case": "QF_LIA/shard-34/run/023",
+      "previous": {
+        "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+        "job": "382354_0..7",
+        "status": "verified",
+        "proof_seconds": 46.7062190999859,
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_steps": {
+          "Library preparation": 363708,
+          "Source conversion": 321824,
+          "LIA checking": 5674779,
+          "SAT checking": 53041236
+        }
+      },
+      "historical_export_seconds": 77.28789349700673
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "wisa/wisa5.smt2",
+      "family": "wisa",
+      "input_sha256": "736ba50c3d5e70578083a16c1a1ab3932997fbef479dfe9bc235a31bc00f9db7",
+      "native_sha256": "ad7f03ee2967a98ece64b3c6d37c3e87c3f68b3fd8237aab3f7852e66022e970",
+      "native_bytes": 18892343,
+      "statement_sha256": "4e73d5b0bdd4fb27fca6dbba88ac3197a41735991a6471c21b04d4c2e1630e50",
+      "statement_bytes": 270318,
+      "cnf_clauses": 3362,
+      "collected_lemmas": 14060,
+      "retained_lemmas": 10598,
+      "primary_case": "QF_LIA/shard-88/run/013",
+      "previous": {
+        "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+        "job": "382354_0..7",
+        "status": "verified",
+        "proof_seconds": 29.179138388019055,
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_steps": {
+          "Library preparation": 363375,
+          "Source conversion": 877387,
+          "LIA checking": 36438901,
+          "SAT checking": 20245185
+        }
+      },
+      "historical_export_seconds": 18.550201917008962
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "rings/ring_2exp14_4vars_3ite_unsat.smt2",
+      "family": "rings",
+      "input_sha256": "001f346fef84c391bf48db45c04212b4b642b39ea359e515f23fa827d02803a6",
+      "native_sha256": "a6d19ebabff27f7b5fb14c43651e3b1a49292e9564f8a1932373f63f2264011b",
+      "native_bytes": 2455983,
+      "statement_sha256": "4d3b13a44d4f617fc41f045dce0417f8526ff8ef89989d850cff91189c46cadd",
+      "statement_bytes": 18289,
+      "cnf_clauses": 180,
+      "collected_lemmas": 1631,
+      "retained_lemmas": 1567,
+      "primary_case": "QF_LIA/shard-32/run/007",
+      "previous": {
+        "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+        "job": "365550",
+        "status": "verified",
+        "proof_seconds": 47.365713258011965,
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_steps": null
+      },
+      "historical_export_seconds": 7.232234069990227
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "CIRC/simplebitadder/SIMPLEBITADDER_COMPOSE_6.msat.smt2",
+      "family": "CIRC",
+      "input_sha256": "d548b2e6fc03f72cb351609ae7bf39365d87e292869fb03f350b50c45f4eb46d",
+      "native_sha256": "233dc44d1396d55b56d5558d4a309dc4a6306d8848a0927c6d31703efbb823ef",
+      "native_bytes": 14115363,
+      "statement_sha256": "51374b7e90869b8ec0f86fb9663e66bc143b6eeef0dce771f25be23a6ade0065",
+      "statement_bytes": 31372,
+      "cnf_clauses": 330,
+      "collected_lemmas": 8345,
+      "retained_lemmas": 8260,
+      "primary_case": "QF_LIA/shard-123/run/011",
+      "previous": {
+        "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+        "job": "365550",
+        "status": "verified",
+        "proof_seconds": 70.50791385298362,
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_steps": null
+      },
+      "historical_export_seconds": 6.180317773949355
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "2019-ezsmt/incrementalScheduling/165-incremental_scheduling-18180-0.smt2",
+      "family": "2019-ezsmt",
+      "input_sha256": "6fb829ffcfaf06628142c8faa987e2121fc2057fb0e8463d22c1f780ca6996b2",
+      "native_sha256": "22ded109f0c7ea7c54784920aa0f6d790ceecf1a665eee21231a44a0c92b5e8c",
+      "native_bytes": 5013339,
+      "statement_sha256": "7faaff44318a22e1e8c007a8572878fa5a2e38f7a3a6182f243289ad124fc8f9",
+      "statement_bytes": 639368,
+      "cnf_clauses": 5376,
+      "collected_lemmas": 3503,
+      "retained_lemmas": 1632,
+      "primary_case": "QF_LIA/shard-78/run/022",
+      "previous": {
+        "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+        "job": "365550",
+        "status": "verified",
+        "proof_seconds": 47.55989729100838,
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_steps": null
+      },
+      "historical_export_seconds": 8.184754972986411
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "uart/uart-28.base.cvc.smt2",
+      "family": "uart",
+      "input_sha256": "b47389ebe1586682841f8c818d201b1d44ace5aa3ef4f447d280be45a0f2580a",
+      "native_sha256": "be6db1cf12bfe78d990a7a73a7728277a57805a78f02176d158f625af7d7ceed",
+      "native_bytes": 2311047,
+      "statement_sha256": "f006dbae0ccd77d84466428210b59b2833058d1e8e86447fe704d672c304a4b6",
+      "statement_bytes": 968960,
+      "cnf_clauses": 11913,
+      "collected_lemmas": 8704,
+      "retained_lemmas": 5671,
+      "primary_case": "QF_LRA/shard-5/run/019",
+      "previous": {
+        "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+        "job": "365550",
+        "status": "verified",
+        "proof_seconds": 40.99582574600936,
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_steps": null
+      },
+      "historical_export_seconds": 24.422005261993036
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "LassoRanker/Ultimate/Braverman-2006CAV-Ex1-int.bpl_Iteration1_Lasso_4-pieceTemplate.smt2",
+      "family": "LassoRanker",
+      "input_sha256": "c9d03400f49d2408dc01e275d995d6edf8f95d30150c56498da765d1fd40972a",
+      "native_sha256": "4653f0aeaf1d96e3f9d062d8dcfe72f38d8f85e767e8e84ff002ed2ccfa344af",
+      "native_bytes": 3470664,
+      "statement_sha256": "d9ef64f57a18042a3ae537110e24bde6e03398842d264dd34b992e00cfd7d841",
+      "statement_bytes": 441585,
+      "cnf_clauses": 2411,
+      "collected_lemmas": 5096,
+      "retained_lemmas": 1691,
+      "primary_case": "QF_LRA/shard-24/run/018",
+      "previous": {
+        "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+        "job": "365550",
+        "status": "verified",
+        "proof_seconds": 68.50790986602078,
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_steps": null
+      },
+      "historical_export_seconds": 10.843420897988835
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "miplib/pp08a-3000.smt2",
+      "family": "miplib",
+      "input_sha256": "49761967d8071fc4d32d82165bcd7ef4fcdfe436b7634da8d42a9be673087218",
+      "native_sha256": "950432d1db913dcd504bb8ae4665e07b826787fb617f554c69d50cfd67568ab4",
+      "native_bytes": 1878253,
+      "statement_sha256": "2b21d9f07e796b1820236d82171865318ea38a0a650c009949dfebe9c592a21f",
+      "statement_bytes": 420930,
+      "cnf_clauses": 6390,
+      "collected_lemmas": 1365,
+      "retained_lemmas": 391,
+      "primary_case": "QF_LRA/shard-4/run/017",
+      "previous": {
+        "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+        "job": "365550",
+        "status": "verified",
+        "proof_seconds": 44.95589709299384,
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_steps": null
+      },
+      "historical_export_seconds": 14.548381428001449
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "clock_synchro/clocksynchro_7clocks.main_invar.induct.smt2",
+      "family": "clock_synchro",
+      "input_sha256": "b66bda92b20a70cff5b9c2c15d4cc5922a6511cb8e826cdf34fbef19c81924fa",
+      "native_sha256": "ab7b76542a499ec950b1847cdd2c456a9532a3ad1b00e67b54a8ca8b6a727075",
+      "native_bytes": 1024372,
+      "statement_sha256": "3d6b5a7320005494488be7e486f8b12612542e447688bca831ca64b1a90f25b2",
+      "statement_bytes": 243200,
+      "cnf_clauses": 2600,
+      "collected_lemmas": 1386,
+      "retained_lemmas": 988,
+      "primary_case": "QF_LRA/shard-4/run/016",
+      "previous": {
+        "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+        "job": "382354_0..7",
+        "status": "verified",
+        "proof_seconds": 69.64601245499216,
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_steps": {
+          "Library preparation": 634219,
+          "Source conversion": 73417,
+          "LRA checking": 160508527,
+          "SAT checking": 1386437
+        }
+      },
+      "historical_export_seconds": 6.835354514012579
+    }
+  ]
+}
