@@ -133,6 +133,20 @@ class IntegerStreamingTests(unittest.TestCase):
         self.assertEqual(stats["peak_live_rows"], 2)
         self.assertEqual(stats["released_rows"], 503)
 
+    def test_second_scan_offsets_beyond_a_lexer_block(self):
+        data = b";" + b"padding" * 12000 + b"\n" + CERTIFICATE
+        result, _ = self.rewrite(data)
+        validate(parse(result.decode()))
+        self.assertTrue(result.startswith(b";" + b"padding" * 12000 + b"\n"))
+
+    def test_proof_byte_guard_fires_during_first_scan(self):
+        # The malformed tail must not be reached after exceeding the byte budget.
+        pairs = b" (high 0)" * 100
+        data = CERTIFICATE.replace(b"(high 100))", b"(high 100)" + pairs + b" BROKEN))")
+        with patch("minimize_lra_coefficients.INTEGER_CONFLICT_BYTES", 800):
+            with self.assertRaisesRegex(ValueError, "byte limit"):
+                self.rewrite(data)
+
     def test_failed_late_cut_preserves_existing_output(self):
         source, output = self.root / "input.sexp", self.root / "output.sexp"
         source.write_bytes(CERTIFICATE.replace(b"(high 100)", b"(high 99)"))

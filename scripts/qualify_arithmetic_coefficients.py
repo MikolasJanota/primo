@@ -84,9 +84,12 @@ def main():
         parser.add_argument(f"--{flag}", type=Path, required=True)
     parser.add_argument("--micromath-git", required=True)
     parser.add_argument("--workflow-git", required=True)
+    parser.add_argument("--logic", choices=("all", "QF_LRA", "QF_LIA"), default="all")
     args = parser.parse_args()
     if not os.environ.get("SLURM_JOB_ID"):
         parser.error("qualification requires SLURM")
+    if args.mode != "generated" and args.logic != "all":
+        parser.error("--logic applies only to generated mode")
     for flag in (
         "out",
         "z3",
@@ -101,6 +104,8 @@ def main():
     scripts = Path(__file__).resolve().parent
     report = {
         "mode": args.mode,
+        "logic_filter": args.logic,
+        "command": sys.argv,
         "workflow_git": args.workflow_git,
         "job_id": os.environ["SLURM_JOB_ID"],
         "seed": 20261111,
@@ -167,6 +172,8 @@ def main():
             ("QF_LRA", generated_case),
             ("QF_LIA", generated_integer),
         ):
+            if args.logic not in ("all", logic):
+                continue
             for index in range(1000):
                 directory = args.out / f"{logic}-{index:04d}"
                 directory.mkdir()

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=primo-arithmetic-coefficients
-#SBATCH --array=0-1%2
+#SBATCH --array=0-3%4
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=8G
 #SBATCH --time=00:15:00
@@ -19,9 +19,17 @@ set -euo pipefail
 : "${COEFFICIENT_LRA_INPUTS:?fourteen retained LRA input certificates}"
 cd "$PRIMO_WORKDIR"
 python3 -m unittest discover -s "$COEFFICIENT_WORKFLOW/tests/python" -p 'test_*coefficients.py'
-if [[ $SLURM_ARRAY_TASK_ID == 0 ]]; then mode=generated; else mode=kernel; fi
+extra=()
+case "$SLURM_ARRAY_TASK_ID" in
+  0) mode=generated-QF_LRA; extra=(--logic QF_LRA);;
+  1) mode=generated-QF_LIA; extra=(--logic QF_LIA);;
+  2) mode=kernel;;
+  3) mode=sparse;;
+  *) exit 2;;
+esac
 python3 "$COEFFICIENT_WORKFLOW/scripts/qualify_arithmetic_coefficients.py" \
-  --mode "$mode" --out "$PWD/results/arithmetic-coefficients-$SLURM_ARRAY_JOB_ID/$mode" \
+  --mode "${mode%%-*}" "${extra[@]}" \
+  --out "$PWD/results/arithmetic-coefficients-$SLURM_ARRAY_JOB_ID/$mode" \
   --workflow-git "$COEFFICIENT_GIT" --z3 "$FARKAS_Z3" --cadical "$FARKAS_CADICAL" \
   --micromath "$FARKAS_MICROMATH" --micromath-git "$FARKAS_MICROMATH_GIT" \
   --build-report "$FARKAS_CHECKER_BUILD" --lra-inputs "$COEFFICIENT_LRA_INPUTS" \

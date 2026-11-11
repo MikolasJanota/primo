@@ -42,6 +42,7 @@ from micromath_stress import digest, invoke
 
 ATOM = re.compile(rb'[^\s();|"\\]+')
 SPACE = re.compile(rb"\s+")
+INTEGER_CONFLICT_BYTES = 64 * 1024**2
 
 
 class Lexer:
@@ -301,28 +302,35 @@ def update_statistics(stats, weights, candidate, divisor=None, new_divisor=None)
     stats["entries"] += len(weights)
 
 
-def integer_instruction(lex):
+def integer_instruction(lex, record_start):
     """Read one proof instruction with exact numeral byte spans."""
-    lex.take("(")
-    kind = lex.take()[0]
-    label = name(lex.take()[0])
+
+    def take(expected=None):
+        token = lex.take(expected)
+        if token[2] - record_start > INTEGER_CONFLICT_BYTES:
+            raise ValueError("integer conflict exceeds byte limit")
+        return token
+
+    take("(")
+    kind = take()[0]
+    label = name(take()[0])
     if kind == "contradiction":
-        lex.take(")")
+        take(")")
         return kind, label, None, [], [], []
     if kind != "cut":
         raise ValueError("expected cut or contradiction")
-    token = lex.take()
+    token = take()
     divisor = natural(token[0])
     spans = [(token[1], token[2])]
     references, weights = [], []
     while lex.peek() != ")":
-        lex.take("(")
-        references.append(name(lex.take()[0]))
-        token = lex.take()
+        take("(")
+        references.append(name(take()[0]))
+        token = take()
         weights.append(natural(token[0]))
         spans.append((token[1], token[2]))
-        lex.take(")")
-    lex.take(")")
+        take(")")
+    take(")")
     return kind, label, divisor, references, weights, spans
 
 
@@ -333,7 +341,7 @@ def transform_integer(lex, source, sorts, optimizer, stats, replace, record_star
     rows = {}
     while lex.peek() != ")":
         premise, _, end = lex.expression()
-        if end - record_start > 64 * 1024**2:
+        if end - record_start > INTEGER_CONFLICT_BYTES:
             raise ValueError("integer conflict exceeds 64 MiB")
         if not isinstance(premise, list) or len(premise) != 2:
             raise ValueError("invalid named integer premise")
@@ -348,7 +356,7 @@ def transform_integer(lex, source, sorts, optimizer, stats, replace, record_star
     step = 0
     # First scan retains label/index metadata, never the proof syntax or history.
     while True:
-        kind, label, _, references, _, _ = integer_instruction(lex)
+        kind, label, _, references, _, _ = integer_instruction(lex, record_start)
         if kind == "contradiction":
             if label not in available:
                 raise ValueError("unknown contradiction reference")
@@ -364,7 +372,7 @@ def transform_integer(lex, source, sorts, optimizer, stats, replace, record_star
         step += 1
     lex.take(")")
     end = lex.take(")")[2]
-    if end - record_start > 64 * 1024**2:
+    if end - record_start > INTEGER_CONFLICT_BYTES:
         raise ValueError("integer conflict exceeds 64 MiB")
     del available
     stats["peak_live_rows"] = max(stats["peak_live_rows"], len(rows))
@@ -383,7 +391,7 @@ def transform_integer(lex, source, sorts, optimizer, stats, replace, record_star
         step = 0
         while True:
             kind, label, divisor, references, weights, spans = integer_instruction(
-                replay
+                replay, record_start
             )
             if kind == "contradiction":
                 coefficients, bound = rows[label]
@@ -511,7 +519,7 @@ def transform(source, destination, optimizer):
                 lex.take("(")
                 literal, _, _ = lex.expression()
                 weight, start, end = lex.expression()
-                if end - record_start > 64 * 1024**2:
+                if end - record_start > INTEGER_CONFLICT_BYTES:
                     raise ValueError("weighted conflict exceeds 64 MiB")
                 lex.take(")")
                 premises.append(inequality(literal, sorts))
