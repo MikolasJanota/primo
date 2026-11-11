@@ -16,7 +16,7 @@ from pathlib import Path
 from certificate_cnf_statement import convert_certificate
 from check_lia_certificate import check_file as check_integer
 from check_lra_certificate import check_file as check_real
-from check_lra_certificate import parse
+from check_lra_certificate import parse, spelling
 from micromath_stress import digest, invoke, write_json
 from qualify_farkas_coefficients import generated_case, kernel_result, numeric
 from replay_micromath_lra import PIPE
@@ -69,7 +69,9 @@ def same_structure(left, right):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--mode", choices=("generated", "kernel"), required=True)
+    parser.add_argument(
+        "--mode", choices=("generated", "kernel", "sparse"), required=True
+    )
     for flag in (
         "out",
         "z3",
@@ -224,21 +226,38 @@ def main():
             report["checker_sha256"][name] = value
         inputs = args.out / "inputs"
         inputs.mkdir()
-        for source in sorted(args.lra_inputs.glob("*.sexp")):
-            (inputs / ("lra-" + source.name)).write_bytes(source.read_bytes())
-        if len(list(inputs.glob("lra-*.sexp"))) != 14:
-            raise ValueError(
-                "expected twelve LRA starters, clock7 and authored example"
+        if args.mode == "sparse":
+            # Authored trade-off: max-weight optimum needs 4 rows, sparse optimum 3.
+            for logic, source in (
+                ("QF_LRA", args.lra_inputs / "authored-choice.sexp"),
+                ("QF_LIA", args.examples / "lia-coefficient-choice.sexp"),
+            ):
+                root = parse(source.read_text())
+                conflict = root[5][1]
+                pairs = conflict[1:] if logic == "QF_LRA" else conflict[2][1][3:]
+                for pair, weight in zip(pairs, (41, 33, 31, 31)):
+                    pair[1] = str(weight)
+                if logic == "QF_LIA":
+                    conflict[2][1][2] = "31"
+                (inputs / f"{logic}-authored-support.sexp").write_text(
+                    spelling(root) + "\n"
+                )
+        else:
+            for source in sorted(args.lra_inputs.glob("*.sexp")):
+                (inputs / ("lra-" + source.name)).write_bytes(source.read_bytes())
+            if len(list(inputs.glob("lra-*.sexp"))) != 14:
+                raise ValueError(
+                    "expected twelve LRA starters, clock7 and authored example"
+                )
+            for name in (
+                "qf-lia-certificate-native.sexp",
+                "qf-lia-certificate-proposal.sexp",
+                "lia-coefficient-choice.sexp",
+            ):
+                (inputs / name).write_bytes((args.examples / name).read_bytes())
+            (inputs / "lia-scaled-negative-floor.sexp").write_text(
+                generated_integer(3, random.Random(20261111))[0]
             )
-        for name in (
-            "qf-lia-certificate-native.sexp",
-            "qf-lia-certificate-proposal.sexp",
-            "lia-coefficient-choice.sexp",
-        ):
-            (inputs / name).write_bytes((args.examples / name).read_bytes())
-        (inputs / "lia-scaled-negative-floor.sexp").write_text(
-            generated_integer(3, random.Random(20261111))[0]
-        )
         axioms = args.out / "axioms.umd"
         if (
             bounded(
@@ -264,6 +283,7 @@ def main():
             ]
             if bounded(command, case / "challenge", 60)["state"] != "ok":
                 raise ValueError("challenge construction failed")
+            support_counts = {}
             for profile in ("original", "cheap", "size", "support"):
                 directory = case / profile
                 directory.mkdir()
@@ -275,6 +295,7 @@ def main():
                     if stage["state"] != "ok":
                         raise ValueError("saved certificate adaptation failed")
                     stats = json.loads((directory / "statistics.json").read_text())
+                    support_counts[profile] = stats["after_nonzeros"]
                 checked(source, certificate, logic)
                 if theory == "lia":
                     # Only the external checker's envelope differs; the native body is unchanged.
@@ -333,6 +354,12 @@ def main():
                 checkpoint()
                 if not accepted:
                     raise ValueError("independent kernel replay failed")
+            if args.mode == "sparse" and not (
+                support_counts["support"] == 3 and support_counts["size"] == 4
+            ):
+                raise ValueError(
+                    "authored support objective probe did not separate objectives"
+                )
     report["finished"] = True
     checkpoint()
 

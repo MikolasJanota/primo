@@ -113,6 +113,22 @@ class CoefficientTests(unittest.TestCase):
         )
         self.assertNotIn("(ite (> w0", optimization_problem(self.premises, [F(10)] * 2))
 
+    def test_nontrivial_sparse_witness_is_exact_checked_and_adopted(self):
+        premises = [
+            ({"x": F(31)}, F(0), False),
+            ({"y": F(31)}, F(0), False),
+            ({"x": F(-7), "y": F(-20)}, F(0), False),
+            ({"x": F(-34), "y": F(-13)}, F(-1), False),
+        ]
+        incumbent = list(map(F, [41, 33, 31, 31]))
+        sparse = list(map(F, [34, 13, 0, 31]))
+        self.assertTrue(valid(premises, sparse))
+        self.assertEqual(cheap(premises, incumbent, objective="support"), incumbent)
+        optimizer = Optimizer(args(objective="support"), Path("unused"))
+        with patch.object(optimizer, "solve", return_value=sparse):
+            self.assertEqual(optimizer.improve(0, premises, incumbent), sparse)
+        self.assertEqual(optimizer.counts["adopted"], 1)
+
     def test_interruption_reaps_external_process(self):
         process = Mock(pid=1234)
         process.wait.side_effect = [InterruptedError("cancelled"), 0]
