@@ -6,7 +6,7 @@
       "id": "2026-11-11-uflia-smtcomp2026-model-unit",
       "date": "2026-11-11",
       "kind": "Official SMT-COMP2026 QF_UFLIA selection replay at120seconds",
-      "evidence_status": "running; performance conclusions and SAT coverage pending",
+      "evidence_status": "complete and every successful native SAT row direct-Dolmen validated",
       "source_git": "44eee3c1c018e84c062f35601dc29a7b5431f294",
       "current_source_equivalence": "No src/ or tests/ C++ changes between44eee3c1 qualified snapshot and80f8dc88; frozen qualified binary reused, not rebuilt",
       "binary_sha256": "1f7db885abdb8e8ee01ac7daf0d2113cb892416b0f0c65d8e75a3c67717b78c5",
@@ -59,7 +59,659 @@
       "correctness_basis": "benchmarks/uflia-model-unit-20261111/qualification.json; fresh1000model-all and1000model-fixed trials plus sixotherprofiles,real-seed mutants,ASan; exact newproducer flags qualified. Legacy controls preserve previously qualified discovery.",
       "reference_policy": "1200archived rows from uniform120, four solvers x300 byte-matched inputs. No reference corpus execution. Use uncensored successful original answers to detect contradictions.",
       "artifacts": "benchmarks/uflia-smtcomp2026-20261111; raw results/uflia-smtcomp2026-20261111/collected/results/uflia-smtcomp2026-20261111 and retained SLURM workspace",
-      "presentation": "Choose one whole-selection Primo profile by solves thenPAR2; label onlyPrimo; uniform axes/colours as previous theory plots. Full andcommon-easy-filtered views."
+      "presentation": "Choose one whole-selection Primo profile by solves thenPAR2; label onlyPrimo; uniform axes/colours as previous theory plots. Full andcommon-easy-filtered views.",
+      "qualification": "benchmarks/uflia-smtcomp2026-20261111/qualification.json",
+      "workflow_commit": "e1684026",
+      "validation": {
+        "global_barrier": "timings afterok -> separate resource classification afterok -> SAT-model replay",
+        "selected_sat": 998,
+        "direct_dolmen_pass": 998,
+        "solver_seconds": 180,
+        "Dolmen_seconds": 60,
+        "Dolmen_size": "1G",
+        "Dolmen_args": [
+          "--strict=false"
+        ],
+        "flags": "Exact timed argv plus --check-model; validate_model.py --expect-sat --require-dolmen-pass",
+        "scope": "Every successful native SAT timing row in all5profiles; durations excluded from timing metrics. Does not certify UNSAT as proofs.",
+        "invalid_models": 0,
+        "changed_answers": 0,
+        "unexplained_errors": 0,
+        "missing": 0
+      },
+      "results": {
+        "profiles": {
+          "off": {
+            "inputs": 300,
+            "solved": 259,
+            "sat": 203,
+            "unsat": 56,
+            "statuses": {
+              "timeout": 41,
+              "ok": 259
+            },
+            "unknown": 0,
+            "memory_out": 0,
+            "unexplained_errors": 0,
+            "par2_sum": 10610.265162
+          },
+          "legacy-all": {
+            "inputs": 300,
+            "solved": 261,
+            "sat": 195,
+            "unsat": 66,
+            "statuses": {
+              "timeout": 39,
+              "ok": 261
+            },
+            "unknown": 0,
+            "memory_out": 0,
+            "unexplained_errors": 0,
+            "par2_sum": 10981.388964
+          },
+          "model-all": {
+            "inputs": 300,
+            "solved": 269,
+            "sat": 202,
+            "unsat": 67,
+            "statuses": {
+              "timeout": 31,
+              "ok": 269
+            },
+            "unknown": 0,
+            "memory_out": 0,
+            "unexplained_errors": 0,
+            "par2_sum": 8611.157739
+          },
+          "legacy-fixed": {
+            "inputs": 300,
+            "solved": 266,
+            "sat": 199,
+            "unsat": 67,
+            "statuses": {
+              "timeout": 34,
+              "ok": 266
+            },
+            "unknown": 0,
+            "memory_out": 0,
+            "unexplained_errors": 0,
+            "par2_sum": 9112.197139
+          },
+          "model-fixed": {
+            "inputs": 300,
+            "solved": 266,
+            "sat": 199,
+            "unsat": 67,
+            "statuses": {
+              "timeout": 34,
+              "ok": 266
+            },
+            "unknown": 0,
+            "memory_out": 0,
+            "unexplained_errors": 0,
+            "par2_sum": 9400.976338
+          },
+          "z3": {
+            "inputs": 300,
+            "solved": 282,
+            "sat": 213,
+            "unsat": 69,
+            "statuses": {
+              "ok": 282,
+              "timeout": 18
+            },
+            "unknown": 0,
+            "memory_out": 0,
+            "unexplained_errors": 0,
+            "par2_sum": 4592.950739000001
+          },
+          "cvc5": {
+            "inputs": 300,
+            "solved": 276,
+            "sat": 208,
+            "unsat": 68,
+            "statuses": {
+              "timeout": 24,
+              "ok": 276
+            },
+            "unknown": 0,
+            "memory_out": 0,
+            "unexplained_errors": 0,
+            "par2_sum": 6352.799873
+          },
+          "yices": {
+            "inputs": 300,
+            "solved": 284,
+            "sat": 212,
+            "unsat": 72,
+            "statuses": {
+              "ok": 284,
+              "timeout": 16
+            },
+            "unknown": 0,
+            "memory_out": 0,
+            "unexplained_errors": 0,
+            "par2_sum": 4162.684239
+          },
+          "opensmt": {
+            "inputs": 300,
+            "solved": 277,
+            "sat": 207,
+            "unsat": 70,
+            "statuses": {
+              "timeout": 23,
+              "ok": 277
+            },
+            "unknown": 0,
+            "memory_out": 0,
+            "unexplained_errors": 0,
+            "par2_sum": 6489.456739
+          }
+        },
+        "families": {
+          "20230314-Jaroslav-Bendik-Certora": {
+            "off": {
+              "inputs": 37,
+              "solved": 7,
+              "sat": 6,
+              "unsat": 1,
+              "statuses": {
+                "timeout": 30,
+                "ok": 7
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 7339.05088
+            },
+            "legacy-all": {
+              "inputs": 37,
+              "solved": 7,
+              "sat": 6,
+              "unsat": 1,
+              "statuses": {
+                "timeout": 30,
+                "ok": 7
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 7277.765359
+            },
+            "model-all": {
+              "inputs": 37,
+              "solved": 8,
+              "sat": 7,
+              "unsat": 1,
+              "statuses": {
+                "timeout": 29,
+                "ok": 8
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 7160.739178
+            },
+            "legacy-fixed": {
+              "inputs": 37,
+              "solved": 5,
+              "sat": 4,
+              "unsat": 1,
+              "statuses": {
+                "timeout": 32,
+                "ok": 5
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 7751.090239
+            },
+            "model-fixed": {
+              "inputs": 37,
+              "solved": 5,
+              "sat": 4,
+              "unsat": 1,
+              "statuses": {
+                "timeout": 32,
+                "ok": 5
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 7763.045505
+            },
+            "z3": {
+              "inputs": 37,
+              "solved": 19,
+              "sat": 16,
+              "unsat": 3,
+              "statuses": {
+                "ok": 19,
+                "timeout": 18
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 4552.383598
+            },
+            "cvc5": {
+              "inputs": 37,
+              "solved": 14,
+              "sat": 11,
+              "unsat": 3,
+              "statuses": {
+                "timeout": 23,
+                "ok": 14
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 5815.237326
+            },
+            "yices": {
+              "inputs": 37,
+              "solved": 21,
+              "sat": 15,
+              "unsat": 6,
+              "statuses": {
+                "ok": 21,
+                "timeout": 16
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 4143.83752
+            },
+            "opensmt": {
+              "inputs": 37,
+              "solved": 14,
+              "sat": 10,
+              "unsat": 4,
+              "statuses": {
+                "timeout": 23,
+                "ok": 14
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 5888.453539
+            }
+          },
+          "mathsat": {
+            "off": {
+              "inputs": 202,
+              "solved": 191,
+              "sat": 147,
+              "unsat": 44,
+              "statuses": {
+                "ok": 191,
+                "timeout": 11
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 3122.863563
+            },
+            "legacy-all": {
+              "inputs": 202,
+              "solved": 202,
+              "sat": 147,
+              "unsat": 55,
+              "statuses": {
+                "ok": 202
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 727.897191
+            },
+            "model-all": {
+              "inputs": 202,
+              "solved": 202,
+              "sat": 147,
+              "unsat": 55,
+              "statuses": {
+                "ok": 202
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 500.95904
+            },
+            "legacy-fixed": {
+              "inputs": 202,
+              "solved": 202,
+              "sat": 147,
+              "unsat": 55,
+              "statuses": {
+                "ok": 202
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 498.957878
+            },
+            "model-fixed": {
+              "inputs": 202,
+              "solved": 202,
+              "sat": 147,
+              "unsat": 55,
+              "statuses": {
+                "ok": 202
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 513.186521
+            },
+            "z3": {
+              "inputs": 202,
+              "solved": 202,
+              "sat": 147,
+              "unsat": 55,
+              "statuses": {
+                "ok": 202
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 6.596401
+            },
+            "cvc5": {
+              "inputs": 202,
+              "solved": 202,
+              "sat": 147,
+              "unsat": 55,
+              "statuses": {
+                "ok": 202
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 91.238419
+            },
+            "yices": {
+              "inputs": 202,
+              "solved": 202,
+              "sat": 147,
+              "unsat": 55,
+              "statuses": {
+                "ok": 202
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 2.27214
+            },
+            "opensmt": {
+              "inputs": 202,
+              "solved": 202,
+              "sat": 147,
+              "unsat": 55,
+              "statuses": {
+                "ok": 202
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 137.750071
+            }
+          },
+          "wisas": {
+            "off": {
+              "inputs": 61,
+              "solved": 61,
+              "sat": 50,
+              "unsat": 11,
+              "statuses": {
+                "ok": 61
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 148.350719
+            },
+            "legacy-all": {
+              "inputs": 61,
+              "solved": 52,
+              "sat": 42,
+              "unsat": 10,
+              "statuses": {
+                "ok": 52,
+                "timeout": 9
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 2975.7264139999997
+            },
+            "model-all": {
+              "inputs": 61,
+              "solved": 59,
+              "sat": 48,
+              "unsat": 11,
+              "statuses": {
+                "ok": 59,
+                "timeout": 2
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 949.459521
+            },
+            "legacy-fixed": {
+              "inputs": 61,
+              "solved": 59,
+              "sat": 48,
+              "unsat": 11,
+              "statuses": {
+                "ok": 59,
+                "timeout": 2
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 862.149022
+            },
+            "model-fixed": {
+              "inputs": 61,
+              "solved": 59,
+              "sat": 48,
+              "unsat": 11,
+              "statuses": {
+                "ok": 59,
+                "timeout": 2
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 1124.744312
+            },
+            "z3": {
+              "inputs": 61,
+              "solved": 61,
+              "sat": 50,
+              "unsat": 11,
+              "statuses": {
+                "ok": 61
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 33.97074
+            },
+            "cvc5": {
+              "inputs": 61,
+              "solved": 60,
+              "sat": 50,
+              "unsat": 10,
+              "statuses": {
+                "ok": 60,
+                "timeout": 1
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 446.32412800000003
+            },
+            "yices": {
+              "inputs": 61,
+              "solved": 61,
+              "sat": 50,
+              "unsat": 11,
+              "statuses": {
+                "ok": 61
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 16.574579
+            },
+            "opensmt": {
+              "inputs": 61,
+              "solved": 61,
+              "sat": 50,
+              "unsat": 11,
+              "statuses": {
+                "ok": 61
+              },
+              "unknown": 0,
+              "memory_out": 0,
+              "unexplained_errors": 0,
+              "par2_sum": 463.253129
+            }
+          }
+        },
+        "selected_primo_profile": "model-all",
+        "selection_rule": "One fixed profile for all300inputs, most solved then lowestPAR2 thenname; no per-input portfolio",
+        "common_easy_removed": 97
+      },
+      "comparison_summary": {
+        "model-all/off": {
+          "gains": [
+            "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_58_QF_UFLIA.smt2",
+            "20230314-Jaroslav-Bendik-Certora/72771_f9d228efc97cf1458e38_64_QF_UFLIA.smt2",
+            "mathsat/EufLaArithmetic/hard/hard17.smt2",
+            "mathsat/EufLaArithmetic/hard/hard18.smt2",
+            "mathsat/EufLaArithmetic/hard/hard19.smt2",
+            "mathsat/EufLaArithmetic/hard/hard20.smt2",
+            "mathsat/EufLaArithmetic/medium/medium13.smt2",
+            "mathsat/EufLaArithmetic/medium/medium15.smt2",
+            "mathsat/EufLaArithmetic/medium/medium16.smt2",
+            "mathsat/EufLaArithmetic/medium/medium17.smt2",
+            "mathsat/EufLaArithmetic/medium/medium18.smt2",
+            "mathsat/EufLaArithmetic/medium/medium19.smt2",
+            "mathsat/EufLaArithmetic/medium/medium20.smt2"
+          ],
+          "losses": [
+            "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+            "wisas/xs_26_46.smt2",
+            "wisas/xs_39_59.smt2"
+          ],
+          "common_at_least_50ms": 241,
+          "median_ratio": 1.0257504764079213,
+          "geometric_ratio": 1.2374704118970141
+        },
+        "model-all/legacy-all": {
+          "gains": [
+            "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_8_QF_UFLIA.smt2",
+            "wisas/xs_23_43.smt2",
+            "wisas/xs_27_47.smt2",
+            "wisas/xs_32_42.smt2",
+            "wisas/xs_34_54.smt2",
+            "wisas/xs_36_46.smt2",
+            "wisas/xs_38_38.smt2",
+            "wisas/xs_38_58.smt2",
+            "wisas/xs_40_50.smt2"
+          ],
+          "losses": [
+            "wisas/xs_39_59.smt2"
+          ],
+          "common_at_least_50ms": 245,
+          "median_ratio": 0.8582339626458947,
+          "geometric_ratio": 0.47456547223650725
+        },
+        "model-fixed/legacy-fixed": {
+          "gains": [
+            "20230314-Jaroslav-Bendik-Certora/72771_f9d228efc97cf1458e38_64_QF_UFLIA.smt2",
+            "wisas/xs_39_59.smt2"
+          ],
+          "losses": [
+            "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+            "wisas/xs_38_58.smt2"
+          ],
+          "common_at_least_50ms": 249,
+          "median_ratio": 0.9919095990139253,
+          "geometric_ratio": 0.9715213641882229
+        },
+        "model-all/cvc5": {
+          "gains": [
+            "wisas/xs_23_43.smt2"
+          ],
+          "losses": [
+            "20230314-Jaroslav-Bendik-Certora/17512_5c1021b0faa6b6e1791b_19_QF_UFLIA.smt2",
+            "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+            "20230314-Jaroslav-Bendik-Certora/44289_4066055e0f64d96da11a_14_QF_UFLIA.smt2",
+            "20230314-Jaroslav-Bendik-Certora/44788_1965f0d6d94d5d8054ba_35_QF_UFLIA.smt2",
+            "20230314-Jaroslav-Bendik-Certora/52759_af0c476fe3b544b9a8507f3e42472c43_13_QF_UFLIA.smt2",
+            "20230314-Jaroslav-Bendik-Certora/63058_64ab9a7ef7b6c3492507_24_QF_UFLIA.smt2",
+            "wisas/xs_26_46.smt2",
+            "wisas/xs_39_59.smt2"
+          ],
+          "common_at_least_50ms": 253,
+          "median_ratio": 3.5712082006369426,
+          "geometric_ratio": 3.559215283117395
+        }
+      },
+      "commands": {
+        "submission": "sbatch --array=0-299%32 CAPSULE/run.sbatch; PRIMO_COMP_PHASE timing/resources/models; afterok parent recorded separately",
+        "worker": "scripts/qualification/uflia_smtcomp2026/run.py PHASE --manifest selection.json --slot ARRAY_ID --root CORPUS_ROOT --solver FROZEN44_BINARY --out CAMPAIGN_OUT",
+        "report": "python3 scripts/qualification/uflia_smtcomp2026/report.py --root COLLECTED/CAMPAIGN_OUT --manifest benchmarks/uflia-smtcomp2026-20261111/selection.json --references benchmarks/uflia-smtcomp2026-20261111/references.csv --out benchmarks/uflia-smtcomp2026-20261111 --gallery docs/_static/uflia-smtcomp2026-20261111",
+        "metadata_tests": "python3 -m unittest tests.python.test_uflia_smtcomp2026 -v",
+        "lint": "make lint; python3 scripts/slurm_validate_sbatch.py scripts/qualification/uflia_smtcomp2026/run.sbatch",
+        "docs": "make docs-full; python3 scripts/check_doc_links.py docs/_build/site"
+      },
+      "reference": {
+        "executions": 0,
+        "parent": "benchmarks/uniform120-20261109/report/timing.csv.gz",
+        "parent_sha256": "50a095267f0649fbaea10195a3d7e263b545ba7d1d821b727893e2652cad4b51",
+        "reused_rows": 1200,
+        "selected_rows": "benchmarks/uflia-smtcomp2026-20261111/references.csv",
+        "selected_rows_sha256": "1edb27bdd2d942182801d9eacd359e712bcebb84b522206bc4237a9a868a852e",
+        "tools": {
+          "z3": {
+            "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+            "version": "Z3 version 5.1.0 - 64 bit\n"
+          },
+          "cvc5": {
+            "sha256": "4a93548398445cf1a774655583f5465b156c26f63f2cdfb94f4728fdf7adde46",
+            "version": "cvc5 1.3.4 [git f3b21c4 on branch HEAD]\ncompiled with GCC version Ubuntu Clang 18.1.3 (1ubuntu1) on May  7 2026 15:33:02\n\nCopyright (c) 2009-2026 by the authors and their institutional\naffiliations listed at https://cvc5.github.io/people.html\n\ncvc5 is open-source and is covered by the BSD license (modified).\n\nTHIS SOFTWARE IS PROVIDED AS-IS, WITHOUT ANY WARRANTIES.\nUSE AT YOUR OWN RISK.\n\nThis version of cvc5 is linked against the following non-(L)GPL'ed\nthird party libraries.\n\n  CaDiCaL - Simplified Satisfiability Solver\n  See https://github.com/arminbiere/cadical for copyright information.\n\n  SymFPU - The Symbolic Floating Point Unit\n  See https://github.com/martin-cs/symfpu/tree/CVC4 for copyright information.\n\nThis version of cvc5 is linked against the following third party\nlibraries covered by the LGPLv3 license.\nSee licenses/lgpl-3.0.txt for more information.\n\n  GMP - Gnu Multi Precision Arithmetic Library\n  See http://gmplib.org for copyright information.\n\n  LibPoly polynomial library\n  See https://github.com/SRI-CSL/libpoly for copyright and\n  licensing information.\n\ncvc5 is statically linked against these libraries. To recompile\nthis version of cvc5 with different versions of these libraries\nfollow the instructions on https://github.com/cvc5/cvc5/blob/main/INSTALL.md\n\nSee the file COPYING (distributed with the source code, and with\nall binaries) for the full cvc5 copyright, licensing, and (lack of)\nwarranty information.\n\n"
+          },
+          "yices": {
+            "sha256": "eab7efbff2a6f0cce2fcd2c25cb4a94e0e048c902d8ef9e6fd7d7989aa54c501",
+            "version": "Yices 2.7.0\nCopyright SRI International.\nLinked with GMP 6.3.0\nCopyright Free Software Foundation, Inc.\nBuild date: 2025-07-17\nPlatform: x86_64-pc-linux-gnu (release/static)\nRevision: 4f19700f0e272f4a68250080d12a873523bc7ac3\n"
+          },
+          "opensmt": {
+            "sha256": "b7899e9aff299026d3251df7a28f51f56d8bd1e5b0fd7be11bcc72c4f2803a98",
+            "version": "v2.9.2\n"
+          }
+        },
+        "policy": "Match all300input hashes; preserve original successful answers beyond120seconds for contradiction checks; censor timings at120seconds. Official2026 data supplies membership only."
+      },
+      "native": {
+        "sha256": "1f7db885abdb8e8ee01ac7daf0d2113cb892416b0f0c65d8e75a3c67717b78c5",
+        "version": "primo 0.2.0\ngit: 44eee3c1\nbuild: Release, sanitizers: none\ncadical: cadical-3.0.0-7b99c07\n",
+        "compiler": "GCC11.4.1",
+        "build_job": "382610",
+        "cpu_models": [
+          "Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz"
+        ],
+        "affinity_sizes": [
+          2
+        ]
+      },
+      "scheduler_status": "All900phase tasks completed0:0",
+      "review": "benchmarks/uflia-smtcomp2026-20261111/final-review.json"
     },
     {
       "id": "2026-11-11-uflia-model-unit-discovery",

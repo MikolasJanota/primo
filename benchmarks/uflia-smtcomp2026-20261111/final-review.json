@@ -1,0 +1,70 @@
+{
+  "status": "READY; no required findings remain",
+  "independent_read_only_reviewer": "uflia_model_unit_docs_review",
+  "writer": "root",
+  "baseline_methods": "e1684026",
+  "scope": "Final evidence/status, result table and comparisons, family interpretation, qualified plot data and profile selection, metadata and first run-log entry. Methods previously independently accepted; see methods-review.json.",
+  "accepted_sha256": {
+    "docs/evidence/uflia-smtcomp2026-20261111.md": "20e7b1a414b8119306692a158a2ec121e729bc2b286cfc84856466ab0a8dc4cf",
+    "benchmarks/uflia-smtcomp2026-20261111/summary.json": "9fe992706357f70515057b827680c1b2d0c02fc8e98cc9a1aabe8b58fd46b6d8",
+    "benchmarks/uflia-smtcomp2026-20261111/qualification.json": "2a95898a121c22a512a16d5209fd23c921875f1e067cb7204690a5f397a97193",
+    "benchmarks/uflia-smtcomp2026-20261111/timings.jsonl.gz": "23332973e17335e2f770578fd9f71229dec47e50a116fc130026d3a820670ed3",
+    "docs/_static/uflia-smtcomp2026-20261111/qf-uflia-full.svg": "96de49842a707770cb984a17728cb3057bca508e0a1327712f327f80df4c4bfb",
+    "docs/_static/uflia-smtcomp2026-20261111/qf-uflia-nontrivial.svg": "5095a2ffb06f19bfaa7a232506b14ff58b4084ff05e5b2e00129050c9894d772",
+    "docs/run-log.json": "4bc967e15bd7c203379d1dbba38dafa281755f97067cd810b4ba874bb08dc033"
+  },
+  "independent_checks": [
+    "All1500raw timing rows equal the portable archive; exact300input/fiveprofile cover",
+    "Nine-series scoring,PAR2,family counts,gain/loss sets and common runtime ratios recomputed",
+    "Exact998successfulSAT-to998directDolmen joins with per-summary hashes and successful process exits; no missing/incomplete/invalid rows",
+    "All900uniquephase tasks completed0:0; both global scheduler barriers retained",
+    "All1200summary artifact hashes plus qualification/workflow identities verified",
+    "Each point in bothSVGs recomputed:solePrimo=model-all,otherfourrefs,correctcolours/logaxes and percentage denominators300/203;exact97common-easy removal",
+    "Historical ledger suffix unchanged while first planned entry updated in place"
+  ],
+  "findings": [
+    {
+      "id": "SMC-M01",
+      "resolution": "Methods-stage artifact/worker links and external scheduler-dependency receipts added and rechecked."
+    },
+    {
+      "id": "SMC-R-S01",
+      "resolution": "Clarified net7Wisas solves as8gains/1loss; corrected singular loss. Rendered review then replaced repetitive comparison prose with the same3rows of data in a table and one shared ratio/repetition explanation; independently rechecked."
+    }
+  ],
+  "writer_validation": {
+    "tests": "Four metadata/fake-executable tests pass; no real local solver execution",
+    "commands": [
+      "python3 -m unittest tests.python.test_uflia_smtcomp2026 -v",
+      "make lint",
+      "python3 scripts/slurm_validate_sbatch.py scripts/qualification/uflia_smtcomp2026/run.sbatch",
+      "make docs-full",
+      "make docs",
+      "python3 scripts/assemble_docs.py",
+      "python3 scripts/check_doc_links.py docs/_build/site",
+      "git diff --check"
+    ],
+    "links": "291 pages; 41457 local links; 1232 unique Git links; 0 failures\n493 external URLs deferred to Sphinx linkcheck",
+    "rendered": [
+      "results/uflia-smtcomp2026-20261111/cactus-full.png",
+      "results/uflia-smtcomp2026-20261111/cactus-filtered.png",
+      "results/uflia-smtcomp2026-20261111/results-page-final.png"
+    ],
+    "render_result": "Both plots and final tables inspected. Counts,legend,labels,percentage axes,links and captions are visible; tables do not overlap. Exact new evidence-page qualification download matches source bytes.",
+    "source_review": "No blocking issue found in new benchmark scripts/tests or metadata. All imports used; commands use argv with no shell interpolation; worker outputs are owning/durable and phases separated. Production C++ is unchanged, so prior135-TU static/ASan/fuzz qualification remains applicable to the same frozen binary; no fresh C++ change is claimed. Current whole-tree lint/docs hygiene passes."
+  },
+  "tool_closeout": {
+    "native_sha256": "1f7db885abdb8e8ee01ac7daf0d2113cb892416b0f0c65d8e75a3c67717b78c5",
+    "Dolmen_version": "0.10",
+    "Dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+    "Z3_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "identity_relation": "Unchanged between preceding qualification closeout and this campaign closeout; model metadata names the same validator path. Reference corpus executions remain0.",
+    "receipt": "results/uflia-smtcomp2026-20261111/closeout-tool-identities.txt"
+  },
+  "unchecked": [
+    "Independent solver/model re-execution",
+    "Remote printed-model payloads beyond collected validation summaries and identities",
+    "UNSAT proof certification",
+    "Reviewer did not independently render or check final commit state; writer handles those."
+  ]
+}
