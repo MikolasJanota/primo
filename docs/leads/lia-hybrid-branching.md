@@ -1,6 +1,8 @@
 # Hybrid integer branching
 
-**Status: implementation checklist; not implemented or qualified.** Baseline:
+**Status: original implementation checklist; opt-in implementation under
+qualification.** See {ref}`the current representation <lia-hybrid-branching>`.
+Baseline:
 `c49585a0`. Preserve private branching as the default for QF_LIA and QF_UFLIA.
 The intended outcome is bounded private exploration followed by a SAT-visible
 integer-bound choice, with sound explanations and separately validated models.
@@ -23,7 +25,8 @@ here do not establish. The driver must preserve resource limits.
 
 These papers are algorithmic sources, not implementation sources. The existing
 [integer waterfall](../implementation/lia.md) supplies patching, GCD, optional
-cubes, Gomory cuts and private branching. The changes below are planned.
+cubes, Gomory cuts and private branching. The sections below retain the original
+implementation and acceptance requirements; they do not assert qualification.
 
 ## Representation and ownership
 

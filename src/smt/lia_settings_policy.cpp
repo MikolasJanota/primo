@@ -21,6 +21,10 @@ LiaSettings default_lia_settings(LiaRoute route) {
 
 LiaSettings resolve_lia_settings(LiaRoute route, const LiaSettingOverrides& overrides) {
   LiaSettings settings = default_lia_settings(route);
+  settings.hybrid_branching = overrides.hybrid_branching.value_or(settings.hybrid_branching);
+  settings.private_branch_factor =
+      overrides.private_branch_factor.value_or(settings.private_branch_factor);
+  settings.split_atom_limit = overrides.split_atom_limit.value_or(settings.split_atom_limit);
   settings.branch_limit = overrides.branch_limit.value_or(settings.branch_limit);
   settings.gomory_cut_limit = overrides.gomory_cut_limit.value_or(settings.gomory_cut_limit);
   settings.patch_limit = overrides.patch_limit.value_or(settings.patch_limit);

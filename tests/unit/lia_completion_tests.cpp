@@ -154,6 +154,53 @@ void gomory_cut_from_an_integer_slack_row() {
 }  // namespace
 
 int main() {
+  {
+    LraTableau tableau;
+    const auto x = tableau.add_variable();
+    const auto y = tableau.add_variable();
+    const auto slack = tableau.add_variable();
+    tableau.add_row(slack, {{x, Rational(2)}, {y, Rational(-2)}});
+    assert(!tableau.assert_lower(slack, rat(Rational(1)), Lit{1}));
+    assert(!tableau.assert_upper(slack, rat(Rational(3, 2)), Lit{2}));
+    assert(!tableau.check());
+    primo::theory::arithmetic::LiaBranchHistory history;
+    const std::vector originals{x, y};
+    primo::theory::arithmetic::LiaCompletionLimits limits{0, 0, 50};
+    limits.hybrid = true;
+    const auto result =
+        complete_integer_assignment(tableau, originals, limits, nullptr, &history, &originals);
+    assert(result.status == Status::Split && result.branch_nodes == 2);
+    assert(!tableau.lower_bound(x) && !tableau.upper_bound(x));
+    assert(!tableau.lower_bound(y) && !tableau.upper_bound(y));
+    assert(!tableau.check());
+  }
+  {
+    // An open gap on a stable coordinate must escape as a split, including
+    // negative infinitesimal floors, without adding rows or numerical variables.
+    for (const auto& value :
+         {DeltaRational{Rational(-3), Rational(-1)}, DeltaRational{Rational(-7, 2), Rational(0)}}) {
+      LraTableau tableau;
+      const auto x = tableau.add_variable();
+      const auto y = tableau.add_variable();
+      tableau.add_row(x, {{y, Rational(1)}});
+      assert(!tableau.assert_upper(y, value, Lit{1}));
+      assert(!tableau.check());
+      const auto count = tableau.variable_count();
+      primo::theory::arithmetic::LiaBranchHistory history;
+      const std::vector original{x};
+      primo::theory::arithmetic::LiaCompletionLimits limits{0, 0, 20};
+      limits.hybrid = true;
+      limits.private_branch_factor = 0;
+      const auto result =
+          complete_integer_assignment(tableau, original, limits, nullptr, &history, &original);
+      assert(result.status == Status::Split);
+      assert(result.split_variable == x && result.split_floor == Rational(-4));
+      assert(result.branch_nodes == 0 && result.branch_budget_exit);
+      assert(tableau.variable_count() == count);
+      assert(!tableau.upper_bound(x) && !tableau.lower_bound(x));
+      assert(!tableau.check());
+    }
+  }
   patching_and_disabled_search();
   branching_preserves_the_winning_assignment();
   gcd_precedes_the_zero_branch_budget();

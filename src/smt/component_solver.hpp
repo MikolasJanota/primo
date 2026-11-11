@@ -30,6 +30,8 @@ struct CombinationRecipe {
   // Original design: docs/implementation/uflia-equality-ablation.md.
   bool learn_exported_equalities = true;
   std::size_t decision_budget = 0;
+  std::size_t integer_split_atom_limit = 0;
+  bool integer_splits = false;
   std::string timing_prefix;
   // Idempotent registry completion before initial ownership planning and at
   // every atom installation, including generated interface/lemma atoms.

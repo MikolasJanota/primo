@@ -1,12 +1,39 @@
 #pragma once
 
 #include <cstddef>
+#include <optional>
 #include <vector>
 
 #include "theory/arithmetic/lia_explanation.hpp"
 #include "theory/arithmetic/lra_tableau.hpp"
 
 namespace primo::theory::arithmetic {
+
+// Griggio (JSAT 2012), Section 5: prefer the smaller observed mean number of
+// fractional integer obligations. Unobserved sides score zero; ties use variable ID.
+// Owned by the solve-scoped component, not by the tableau or SAT trail.
+class LiaBranchHistory {
+ public:
+  void observe(LraVarId variable, bool lower_branch, std::size_t fractional_count);
+  [[nodiscard]] std::optional<LraVarId> select(const LraTableau& tableau,
+                                               const std::vector<LraVarId>& candidates) const;
+
+ private:
+  struct Side {
+    util::Rational count;
+    util::Rational total;
+  };
+  struct Entry {
+    Side lower;
+    Side upper;
+  };
+  [[nodiscard]] util::Rational score(LraVarId variable) const;
+  std::vector<Entry> entries_;
+};
+
+// Saturating proportional node budget; zero factor requests immediate handoff.
+std::size_t lia_private_branch_budget(std::size_t node_limit, std::size_t factor,
+                                      std::size_t original_terms);
 
 // Plain branch-and-bound for QF_LIA, layered entirely on top of an
 // already-built LraTableau -- no tableau/simplex change of any kind for this
@@ -44,6 +71,7 @@ struct LiaBranchAndBoundResult {
   };
   Status status = Status::Unsat;
   std::size_t nodes = 0;
+  std::size_t conflicts = 0;
 };
 
 // **Contract on `tableau`'s final state**: on Sat, `tableau` is left
@@ -65,6 +93,7 @@ struct LiaBranchAndBoundResult {
 LiaBranchAndBoundResult branch_and_bound(LraTableau& tableau,
                                          const std::vector<LraVarId>& integer_vars,
                                          std::size_t node_limit,
-                                         LiaExplanation* explanation = nullptr);
+                                         LiaExplanation* explanation = nullptr,
+                                         LiaBranchHistory* history = nullptr);
 
 }  // namespace primo::theory::arithmetic

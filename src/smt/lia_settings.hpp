@@ -13,6 +13,11 @@ namespace primo::smt {
 // logic, command line or strategy chose it. lia_settings_policy.hpp decides
 // the values per solver route.
 struct LiaSettings {
+  // Partial Griggio Section 5 policy; ordinary semantic-term splits only.
+  bool hybrid_branching = false;
+  std::size_t private_branch_factor = 1;
+  // Fresh ordinary SAT split atoms per solve; zero means unlimited.
+  std::size_t split_atom_limit = 0;
   // Branch-and-bound node cap. Plain branch-and-bound has no completeness
   // argument of its own (an unbounded integer-infeasible polytope can branch
   // forever), so reaching the cap reports Unknown instead of hanging. Not

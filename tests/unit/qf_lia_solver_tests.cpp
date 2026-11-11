@@ -1093,6 +1093,58 @@ void cube_controls_and_model_reconstruction() {
 }  // namespace
 
 int main() {
+  {
+    auto options = engine_defaults();
+    options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+    options.lia.hybrid_branching = true;
+    options.lia.private_branch_factor = 0;
+    options.lia.patch_limit = 0;
+    options.lia.gomory_cut_limit = 0;
+    const auto lower = check_sat_smtlib(R"(
+      (set-logic QF_LIA) (declare-const x Int)
+      (assert (<= (* 2 x) (- 1))) (check-sat)
+    )",
+                                        options);
+    assert(lower.result == CheckSatResult::Sat);
+    assert(lower.statistics.get(":lia.branching.unique-atoms") == 1);
+    assert(lower.statistics.get(":lia.branching.choice-conflicts") == 0);
+    // Force repeated atom and term-arena growth with independently fractional
+    // coordinates. ASan covers these allocations in the full suite.
+    std::string input = "(set-logic QF_LIA)\n";
+    for (int i = 0; i < 40; ++i) {
+      const auto name = "x" + std::to_string(i);
+      input += "(declare-const " + name + " Int)(assert (<= 1 (* 2 " + name + ")))\n";
+    }
+    const auto grown = check_sat_smtlib(input + "(check-sat)", options);
+    assert(grown.result == CheckSatResult::Sat);
+    assert(grown.statistics.get(":lia.branching.unique-atoms") == 40);
+    assert(grown.statistics.get(":lia.branching.existing-coordinate-registrations") == 40);
+  }
+  {
+    CheckSatOptions options;
+    options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+    options.lia.hybrid_branching = true;
+    options.lia.private_branch_factor = 0;
+    options.lia.patch_limit = 0;
+    options.lia.gomory_cut_limit = 0;
+    const std::string formula = R"(
+      (set-logic QF_LIA)
+      (declare-const x Int) (declare-const y Int)
+      (assert (<= 1 (* 2 x))) (assert (<= (* 2 x) 5))
+      (assert (<= 1 (* 2 y))) (assert (<= (* 2 y) 5))
+      (check-sat)
+    )";
+    // Disable bound rounding so both rational half-integers reach completion.
+    options.lia.round_integer_bounds = false;
+    const auto result = check_sat_smtlib(formula, options);
+    assert(result.result == CheckSatResult::Sat);
+    assert(result.statistics.get(":lia.branching.unique-atoms") >= 2);
+    assert(result.statistics.get(":lia.branching.choice-conflicts") >= 1);
+    options.lia.split_atom_limit = 1;
+    const auto limited = check_sat_smtlib(formula, options);
+    assert(limited.result == CheckSatResult::Unknown);
+    assert(limited.statistics.get(":lia.branching.split-budget-exhaustions") == 1);
+  }
   cube_controls_and_model_reconstruction();
   shared_driver_preserves_boolean_models_and_recipe_isolation();
   boolean_only_lia_and_solving_without_models();

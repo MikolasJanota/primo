@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <map>
 #include <optional>
+#include <set>
 #include <stdexcept>
 #include <tuple>
 #include <utility>
@@ -20,6 +21,7 @@
 #include "smt/solver_runtime.hpp"
 #include "smt/solver_support.hpp"
 #include "smt/theory_combination_plan.hpp"
+#include "theory/arithmetic/lra_atom.hpp"
 
 namespace primo::smt {
 namespace {
@@ -223,6 +225,10 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
     for (const auto index : online_order) online_components.push_back(components[index]);
   }
   std::vector<theory::ComponentAtom> propositional_atoms;
+  using BoundKey = std::pair<core::TermId, util::Rational>;
+  std::map<BoundKey, sat::Lit> integer_bounds;
+  std::size_t fresh_integer_atoms = 0;
+  std::set<int> integer_choice_variables;
   std::size_t installed_atoms = 0;
   std::size_t installed_pairs = 0;
   const auto install_atoms = [&]() {
@@ -251,6 +257,23 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
         continue;
       }
       const auto atom = component_atom(all[atom_index]);
+      // Index exact ordinary input bounds too. Fractional input thresholds may
+      // deliberately remain unrounded, so they cannot replace a progress bound.
+      const auto& node = terms.get(atom.term);
+      if (recipe.integer_splits && node.kind == core::TermKind::Le &&
+          terms.get(node.children[0]).sort == terms.symbols().int_sort()) {
+        const auto normalized = theory::arithmetic::normalize_atom(terms, atom.term);
+        if (normalized.polynomial.terms().size() == 1) {
+          const auto [term, coefficient] = *normalized.polynomial.terms().begin();
+          const auto threshold = normalized.rhs / coefficient;
+          if (threshold.is_integer()) {
+            const bool lower_branch = coefficient.sign() > 0;
+            const auto floor = lower_branch ? threshold : threshold - util::Rational(1);
+            integer_bounds.try_emplace(BoundKey{term, floor},
+                                       lower_branch ? atom.lit : sat::Lit{-atom.lit.value});
+          }
+        }
+      }
       additions[*owner].push_back(atom);
       atoms_by_component[*owner].push_back(atom);
     }
@@ -333,7 +356,14 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
     sat::SatResult sat_result;
     {
       CombinationTimer timer(statistics, recipe.timing_prefix + "sat-us");
+      const auto resume_start = std::chrono::steady_clock::now();
       sat_result = backend.solve();
+      if (statistics.get(":lia.branching.sat-resumes") != 0)
+        statistics.increment(
+            ":time.lia.branching.resumed-sat-us",
+            static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::microseconds>(
+                                           std::chrono::steady_clock::now() - resume_start)
+                                           .count()));
     }
     publish_sat_stats(backend.statistics(), statistics);
     if (auto stop = terminator.stop_outcome()) return *stop;
@@ -378,6 +408,11 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
               failure.diagnostic, statistics, "", reason};
     }
     if (sat_result == sat::SatResult::Unsat && !active_choices.empty()) {
+      if (std::ranges::any_of(active_choices, [&](sat::Lit choice) {
+            return backend.failed(choice) &&
+                   integer_choice_variables.contains(std::abs(choice.value));
+          }))
+        statistics.increment(":lia.branching.choice-conflicts");
       sat::Clause clause;
       std::vector<sat::Lit> surviving;
       for (const auto choice : active_choices) {
@@ -511,6 +546,43 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
         active_choices.insert(active_choices.end(), combined.decision_lits.begin(),
                               combined.decision_lits.end());
         continue;
+      case ModelBasedCombinationStatus::IntegerSplit: {
+        // Griggio Section 5 ordinary splitting on demand. Neither polarity is
+        // implied: manage it as a SAT assumption, retaining failed-choice recovery.
+        if (!recipe.integer_splits)
+          throw std::logic_error("integer split requested by a disabled recipe");
+        const auto request = combined.integer_split;
+        if (request.term == core::kInvalidTermId || !request.floor.is_integer() ||
+            terms.get(request.term).sort != terms.symbols().int_sort())
+          throw std::logic_error("invalid ordinary integer split request");
+        const BoundKey key{request.term, request.floor};
+        if (const auto found = integer_bounds.find(key); found != integer_bounds.end()) {
+          statistics.increment(":lia.branching.reused-atoms");
+          // Complete checks receive every registered atom. Either polarity
+          // excludes this open integer gap, so requesting it again is a bug.
+          throw std::logic_error("assigned integer split made no arithmetic progress");
+        }
+        if (recipe.integer_split_atom_limit != 0 &&
+            fresh_integer_atoms >= recipe.integer_split_atom_limit) {
+          statistics.increment(":lia.branching.split-budget-exhaustions");
+          return {CheckSatResult::Unknown, "integer split atom limit", statistics, "",
+                  InconclusiveReason::ResourceLimit};
+        }
+        detach_dispatcher();
+        // Each operation may grow term/atom storage. Retain only owning IDs/values.
+        const auto threshold = terms.mk_rational(request.floor, terms.symbols().int_sort());
+        const auto bound = terms.mk_le(request.term, threshold);
+        const auto literal = clausifier.ensure_theory_atom(bound).lit;
+        integer_bounds.emplace(key, literal);
+        ++fresh_integer_atoms;
+        statistics.increment(":lia.branching.unique-atoms");
+        statistics.set(":lia.branching.peak-generated-atoms", fresh_integer_atoms);
+        install_atoms();
+        active_choices.push_back(literal);
+        integer_choice_variables.insert(std::abs(literal.value));
+        statistics.increment(":lia.branching.sat-resumes");
+        continue;
+      }
       case ModelBasedCombinationStatus::FreshDecision:
         if (const auto literal = materialize(combined.decision.pair); literal.has_value()) {
           active_choices.push_back(combined.decision.preferred_value ==
@@ -521,7 +593,6 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
           continue;
         }
         [[fallthrough]];
-      case ModelBasedCombinationStatus::IntegerSplit:
       case ModelBasedCombinationStatus::Unsupported:
         if (guided) return fallback(":combination.model.fallback-unsupported");
         return {CheckSatResult::Unsupported, combined.diagnostic, statistics, "",

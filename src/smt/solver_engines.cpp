@@ -8734,19 +8734,24 @@ struct LiaComponentCheck {
     Sat,
     Unsat,
     ResourceLimit,
+    Split,
   };
 
   Status status = Status::ResourceLimit;
   sat::Clause conflict;
   std::optional<theory::arithmetic::LraTableau> model;
+  theory::IntegerSplitRequest integer_split = {};
 };
 
 LiaComponentCheck complete_lia_integer_model(
     theory::arithmetic::LraTableau tableau, const PreparedLraTheory& prepared,
     std::span<const theory::AssignedTheoryLiteral> assigned_atoms,
     const std::vector<theory::arithmetic::LraVarId>& integer_vars, const LiaSettings& settings,
-    util::Statistics& statistics, const LiaComponentTiming& timing) {
+    util::Statistics& statistics, const LiaComponentTiming& timing,
+    theory::arithmetic::LiaBranchHistory& history,
+    const std::vector<theory::arithmetic::LraVarId>& original_vars) {
   ScopedStatisticsTimer integer_timer(statistics, timing.integer);
+  ScopedStatisticsTimer private_timer(statistics, ":time.lia.branching.private-completion-us");
   std::optional<theory::arithmetic::LiaCubeProblem> cube_problem;
   if (settings.cube_mode != theory::arithmetic::LiaCubeMode::Off &&
       std::ranges::any_of(integer_vars, [&](theory::arithmetic::LraVarId variable) {
@@ -8761,9 +8766,25 @@ LiaComponentCheck complete_lia_integer_model(
   const auto completion = theory::arithmetic::complete_integer_assignment(
       tableau, integer_vars,
       {settings.patch_limit, settings.gomory_cut_limit, settings.branch_limit,
-       settings.patch_integral_moves, settings.cube_mode, settings.cube_steps},
-      cube_problem ? &*cube_problem : nullptr);
+       settings.patch_integral_moves, settings.cube_mode, settings.cube_steps,
+       settings.hybrid_branching, settings.private_branch_factor},
+      cube_problem ? &*cube_problem : nullptr, &history, &original_vars);
   publish_lia_completion_stats(completion, settings, statistics);
+  statistics.increment(":lia.branching.private-nodes", completion.branch_nodes);
+  statistics.increment(":lia.branching.private-conflicts", completion.branch_conflicts);
+  statistics.increment(":lia.branching.budget-exits", completion.branch_budget_exit ? 1 : 0);
+  if (completion.status == theory::arithmetic::LiaCompletionResult::Status::Split) {
+    for (const auto& [term, variable] : prepared.variables_by_term) {
+      if (variable == *completion.split_variable) {
+        statistics.increment(":lia.branching.split-requests");
+        LiaComponentCheck split;
+        split.status = LiaComponentCheck::Status::Split;
+        split.integer_split = {term, completion.split_floor};
+        return split;
+      }
+    }
+    throw std::logic_error("integer split does not name a semantic term");
+  }
   if (completion.status == theory::arithmetic::LiaCompletionResult::Status::Sat) {
     return {.status = LiaComponentCheck::Status::Sat, .conflict = {}, .model = std::move(tableau)};
   }
@@ -9854,8 +9875,18 @@ class LiaComponentAdapter final : public theory::TheorySolver {
 
   void append_atom(const BooleanClausifier::TheoryAtom& atom) {
     atoms_.push_back(atom);
+    const auto variables_before = prepared_.base_tableau.variable_count();
+    const auto normalized = theory::arithmetic::normalize_atom(terms_, atom.term);
+    const bool existing_coordinate_bound =
+        normalized.polynomial.terms().size() == 1 &&
+        prepared_.var_ids_.contains(normalized.polynomial.terms().begin()->first);
     const std::vector<theory::arithmetic::LraVarId> new_model_variables =
         prepared_.append_atom(atom);
+    if (existing_coordinate_bound) {
+      if (prepared_.base_tableau.variable_count() != variables_before)
+        throw std::logic_error("ordinary integer bound allocated a tableau variable or row");
+      statistics_.increment(":lia.branching.existing-coordinate-registrations");
+    }
     integer_input_vars_.insert(integer_input_vars_.end(), new_model_variables.begin(),
                                new_model_variables.end());
     rebuild_integer_obligations();
@@ -9879,7 +9910,8 @@ class LiaComponentAdapter final : public theory::TheorySolver {
       return std::move(*propagated);
     }
     return translate(complete_lia_integer_model(std::move(rational.tableau), prepared_, assignment,
-                                                integer_vars_, settings_, statistics_, timing_));
+                                                integer_vars_, settings_, statistics_, timing_,
+                                                branch_history_, integer_input_vars_));
   }
 
   const PreparedLraTheory& prepared() const { return prepared_; }
@@ -9921,14 +9953,16 @@ class LiaComponentAdapter final : public theory::TheorySolver {
       }
       statistics_.increment(":combination.online-components.integer-completions");
       return translate(complete_lia_integer_model(std::move(feasible), prepared_, assignment,
-                                                  integer_vars_, settings_, statistics_, timing_));
+                                                  integer_vars_, settings_, statistics_, timing_,
+                                                  branch_history_, integer_input_vars_));
     }
     if (auto propagated = explained_equalities(rational_model, assignment, arrangement)) {
       return std::move(*propagated);
     }
     statistics_.increment(":combination.online-components.integer-completions");
-    LiaComponentCheck result = complete_lia_integer_model(
-        rational_model, prepared_, assignment, integer_vars_, settings_, statistics_, timing_);
+    LiaComponentCheck result =
+        complete_lia_integer_model(rational_model, prepared_, assignment, integer_vars_, settings_,
+                                   statistics_, timing_, branch_history_, integer_input_vars_);
     return translate(std::move(result));
   }
 
@@ -10125,6 +10159,12 @@ class LiaComponentAdapter final : public theory::TheorySolver {
                                          .reasons = {},
                                          .decision = {},
                                          .diagnostic = "integer branch-and-bound node limit"};
+      case LiaComponentCheck::Status::Split: {
+        theory::TheoryCheckResult check;
+        check.status = theory::TheoryCheckStatus::IntegerSplit;
+        check.integer_split = std::move(result.integer_split);
+        return check;
+      }
     }
     throw std::logic_error("unreachable LIA component status");
   }
@@ -10142,6 +10182,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
   PreparedLraTheory prepared_;
   std::vector<theory::arithmetic::LraVarId> integer_input_vars_;
   std::vector<theory::arithmetic::LraVarId> integer_vars_;
+  theory::arithmetic::LiaBranchHistory branch_history_;
   // The resolved engine settings, held by value; the adapter does not read
   // CheckSatOptions for LIA settings.
   LiaSettings settings_;
@@ -10564,6 +10605,8 @@ CheckSatOutcome solve_qf_lia_impl(core::TermManager& terms,
 #if PRIMO_HAVE_IPASIR
   CombinationRecipe recipe;
   recipe.model_guided = false;
+  recipe.integer_split_atom_limit = settings.split_atom_limit;
+  recipe.integer_splits = settings.hybrid_branching;
   recipe.online = true;
   recipe.forgettable_clauses = false;
   recipe.online_order = {0};
@@ -10602,6 +10645,8 @@ CheckSatOutcome solve_qf_uflia_engine_impl(
       options.qf_uflia_online_components && options.euf_engine == EufEngine::Incremental;
   CombinationRecipe recipe;
   recipe.model_guided = options.qf_uflia_model_combination;
+  recipe.integer_split_atom_limit = settings.split_atom_limit;
+  recipe.integer_splits = settings.hybrid_branching;
   recipe.decision_budget = options.qf_uflia_model_decision_budget;
   recipe.learn_exported_equalities =
       !options.qf_uflia_tableau_equalities ||

@@ -28,6 +28,9 @@ std::vector<StrategyParameter> lia_strategy_parameters(std::string_view prefix,
                            : settings.cube_mode == LiaCubeMode::Difference ? "difference"
                                                                            : "off";
   return {{key + "branch-limit", std::to_string(settings.branch_limit)},
+          {key + "branching", settings.hybrid_branching ? "hybrid" : "private"},
+          {key + "private-branch-factor", std::to_string(settings.private_branch_factor)},
+          {key + "split-atom-limit", std::to_string(settings.split_atom_limit)},
           {key + "cube", cube},
           {key + "cube-steps", std::to_string(settings.cube_steps)},
           {key + "conflict-generalization", flag(settings.conflict_generalization)},

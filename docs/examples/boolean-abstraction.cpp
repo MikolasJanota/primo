@@ -8,7 +8,6 @@
 #include "core/symbol_table.hpp"
 #include "core/term_manager.hpp"
 #include "sat/cadical_backend.hpp"
-#include "sat/ipasir_up.hpp"
 #include "sat/lit.hpp"
 #include "smt/clausifier.hpp"
 

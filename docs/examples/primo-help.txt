@@ -1,7 +1,7 @@
 Primo SMT solver scaffold
 
 
-build-slurm-rel/primo [OPTIONS] [files...]
+primo [OPTIONS] [files...]
 
 
 POSITIONALS:
@@ -434,6 +434,10 @@ QF_LIA theory options:
                               QF_UFLIA SAT search
           --no-qf-uflia-online-components [default: off]
                               Disable trail-synchronized QF_UFLIA components
+          --qf-uflia-lia-equality-producer TEXT:{legacy,model-unit} [legacy]
+                              QF_UFLIA equality discovery: legacy exact-offset rules or
+                              model-unit current-model-filtered unit rows; requires
+                              --qf-uflia-tableau-equalities
           --qf-uflia-tableau-equalities [=MODE; default: off]
                               Experimental pre-integer equality policy: off, scan only,
                               names/bridges only, fixed-value proofs, or all proofs. Bare flag
@@ -442,10 +446,17 @@ QF_LIA theory options:
                               Maximum QF_UFLIA model-choice batches before complete arrangement
                               fallback
           --lia-branch-limit UINT:INT in [1 - 100000000] [100000]
-                              QF_LIA branch-and-bound node cap: plain branch-and-bound alone
-                              has no completeness argument (an unbounded integer-infeasible
-                              polytope can branch forever), so once this many nodes have been
-                              explored the search reports Unknown instead of continuing
+                              Private integer branch-and-bound node cap for QF_LIA/QF_UFLIA:
+                              private mode reports Unknown at the cap; hybrid mode restores
+                              private bounds and hands off to SAT. Plain branching has no
+                              completeness guarantee on unbounded inputs
+          --lia-branching TEXT:{private,hybrid} [private]
+                              Integer branching policy: private or hybrid (default private)
+          --lia-private-branch-factor UINT:INT in [0 - 100000000] [1]
+                              Hybrid private nodes per original Int term (default 1; zero hands
+                              off immediately)
+          --lia-split-atom-limit UINT:INT in [0 - 100000000] [0]
+                              Fresh hybrid integer split atoms per solve (default 0: unlimited)
           --lia-gomory-cut-limit UINT:INT in [0 - 100000000] [100]
                               QF_LIA Gomory-cut round cap, run before branch-and-bound on every
                               candidate model: caps how many cut-and-recheck rounds are

@@ -14,6 +14,9 @@ enum class LiaRoute { QfLia, QfUflia };
 // LIA settings a user requested explicitly, for example on the command line.
 // An unset field leaves the route's default in place.
 struct LiaSettingOverrides {
+  std::optional<bool> hybrid_branching;
+  std::optional<std::size_t> private_branch_factor;
+  std::optional<std::size_t> split_atom_limit;
   std::optional<std::size_t> branch_limit;
   std::optional<std::size_t> gomory_cut_limit;
   std::optional<std::size_t> patch_limit;

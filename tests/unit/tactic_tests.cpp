@@ -1259,6 +1259,9 @@ void lia_settings_policy_resolves_route_defaults_and_overrides() {
     // Every override wins, in the direction opposite to the route default.
     primo::smt::LiaSettingOverrides overrides;
     overrides.branch_limit = 7;
+    overrides.hybrid_branching = true;
+    overrides.private_branch_factor = 0;
+    overrides.split_atom_limit = 3;
     overrides.gomory_cut_limit = 0;
     overrides.patch_limit = 3;
     overrides.conflict_generalization = !defaults.conflict_generalization;
@@ -1268,6 +1271,10 @@ void lia_settings_policy_resolves_route_defaults_and_overrides() {
     overrides.patch_integral_moves = !defaults.patch_integral_moves;
     const LiaSettings resolved = primo::smt::resolve_lia_settings(route, overrides);
     check(resolved.branch_limit == 7);
+    check(!defaults.hybrid_branching && defaults.private_branch_factor == 1 &&
+          defaults.split_atom_limit == 0);
+    check(resolved.hybrid_branching && resolved.private_branch_factor == 0 &&
+          resolved.split_atom_limit == 3);
     check(resolved.gomory_cut_limit == 0);
     check(resolved.patch_limit == 3);
     check(resolved.conflict_generalization == !defaults.conflict_generalization);
@@ -1377,13 +1384,16 @@ void production_solver_strategy_has_stable_typed_identity() {
   check(strategy.leaf_id() == "solver-dispatch");
   // QF_LIA defaults the four integrality switches on, QF_UFLIA off.
   const auto lia = [](std::string_view integrality) {
-    return "(\"branch-limit\" \"100000\") (\"conflict-generalization\" \"true\") "
+    return "(\"branch-limit\" \"100000\") (\"branching\" \"private\") "
+           "(\"conflict-generalization\" \"true\") "
            "(\"cube\" \"off\") (\"cube-steps\" \"1000\") (\"gomory-cut-limit\" \"100\") "
            "(\"integer-slacks\" \"" +
            std::string(integrality) + "\") (\"patch-integral-moves\" \"" +
            std::string(integrality) + "\") (\"patch-limit\" \"100\") (\"primitive-int-rows\" \"" +
-           std::string(integrality) + "\") (\"round-integer-bounds\" \"" +
-           std::string(integrality) + "\")";
+           std::string(integrality) +
+           "\") (\"private-branch-factor\" \"1\") "
+           "(\"round-integer-bounds\" \"" +
+           std::string(integrality) + "\") (\"split-atom-limit\" \"0\")";
   };
   const auto route = [](std::string_view prefix, std::string rendered) {
     for (std::size_t at = rendered.find("(\""); at != std::string::npos;

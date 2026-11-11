@@ -3,6 +3,302 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-12-lia-hybrid-qualified-gates",
+      "date": "2026-11-12",
+      "kind": "Current-source correctness qualification and paired performance evaluation",
+      "evidence_status": "correctness gates complete; paired timing and separate SAT-model coverage in progress; no performance acceptance yet",
+      "source_git": "9e01197e5656b0be4a13f074d2ee1b5a1260f9a8",
+      "native_sha256": "677347f140488e419acc72db0a938c4542be5dafa39ce8b55529a3654d6456c6",
+      "baseline_git": "c49585a09710eca76f10ce081923c1bcb3765a7c",
+      "baseline_native_sha256": "b01b82a6f3ec4d44791836b234776f9b79c704723635ddec7e62198a33e6ac41",
+      "source_equivalence": "All current tracked src/ files byte-identical to9e01197e before implementation commit. Solver/theory/SAT production sources byte-identical tod2ec5c7c and736bf97a; only CLI branch-limit help text changed afterward. Two unused include removals affect a test and a documentation example. No changed algorithm after the4000-case development gate.",
+      "defaults": "--lia-branching=private; --lia-private-branch-factor=1; --lia-split-atom-limit=0. Hybrid remains opt-in.",
+      "jobs": {
+        "fresh_generated": "383792",
+        "opfuzz_lia": "383789",
+        "opfuzz_uflia": "383790",
+        "cli_examples": "383801",
+        "timing": "383804",
+        "models": "383996"
+      },
+      "generated_gate": {
+        "array": "8-15%8",
+        "seed": "2026111200+slot",
+        "count_per_shard": 250,
+        "command": "scripts/qualification/lia_hybrid/fuzz.sbatch: --lia-branching=hybrid --lia-private-branch-factor=1, existing patch/cut defaults; QF_LIA FuzzSMT, QF_UFLIA qf_uflia_fuzz.py mixed depth3",
+        "reference": "Z3 5.1.0, z3",
+        "timeout_seconds": 5,
+        "model_timeout_seconds": 20,
+        "dolmen_timeout_seconds": 20,
+        "Dolmen": "0.10 --strict=false; every successful native SAT row selected",
+        "profiles": {
+          "QF_LIA/factor-1": {
+            "cases": 1000,
+            "outcomes": {
+              "PASS": 982,
+              "TIMEOUT": 18
+            },
+            "sat_models": 875
+          },
+          "QF_UFLIA/factor-1": {
+            "cases": 1000,
+            "outcomes": {
+              "PASS": 1000
+            },
+            "sat_models": 519
+          }
+        },
+        "counts": {
+          "total": 2000,
+          "pass": 1982,
+          "timeout": 18,
+          "wrong_answer": 0,
+          "signal_crash": 0,
+          "parser_type_error": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "selected_sat_direct_dolmen": 1394
+        },
+        "relationship": "Fresh current-binary rerun of the factor1 seeds; do not count as2000 additional distinct inputs beyond the4000 development inputs."
+      },
+      "real_seed_mutations": {
+        "script": "scripts/qualification/lia_hybrid/mutations.sbatch",
+        "generator": "existing scripts/seeded_opfuzz.py invoking installed YinYang OpFuzz",
+        "config": "scripts/fuzz_configs/model_linear_ops.txt",
+        "seed": 2026111217,
+        "wall_seconds": 180,
+        "iterations_per_seed": 20,
+        "per_solver_seconds": 5,
+        "replay_timeout_seconds": 10,
+        "model_and_dolmen_timeout_seconds": 20,
+        "reference_command": "z3 model_validate=true during generation; z3 during replay",
+        "native_flags": [
+          "--quiet",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0",
+          "--check-model"
+        ],
+        "seeds": "12 per logic, content-pinned from the existing selections: QF_LIA easy controls, family round-robin and size order; QF_UFLIA family round-robin and size order. Retain seeds.json in raw artifacts; wall cutoff does not establish coverage of every seed.",
+        "logic_summaries": {
+          "QF_LIA": {
+            "cases": 240,
+            "outcomes": {
+              "PASS": 240
+            },
+            "native": {
+              "sat": 165,
+              "unsat": 75
+            },
+            "reference": {
+              "sat": 165,
+              "unsat": 75
+            },
+            "selected_sat": 165
+          },
+          "QF_UFLIA": {
+            "cases": 58,
+            "outcomes": {
+              "PASS": 41,
+              "INCOMPLETE": 17
+            },
+            "native": {
+              "unsat": 36,
+              "sat": 5,
+              "timeout": 17
+            },
+            "reference": {
+              "unsat": 36,
+              "sat": 5,
+              "timeout": 17
+            },
+            "selected_sat": 5
+          }
+        },
+        "SAT_model_coverage": "165 LIA and5UFLIA successful native SAT rows, all direct Dolmen passes; zero saved bug files; timeout-only incompleteness separately reported."
+      },
+      "mechanism_and_scope_probe": {
+        "job": "383785",
+        "input": "benchmarks/smoke/qf_lia/hybrid_multiple_splits.smt2",
+        "private": "unknown at branch-limit1 with patch/cuts/rounding disabled",
+        "hybrid": "sat with the same limits and private factor0",
+        "session": "benchmarks/smoke/qf_lia/hybrid_scopes.smt2:5 actual queries,4 SAT models checked against each scoped snapshot with Dolmen, reference Z3; no stale split restrictions after pop"
+      },
+      "cli": "12/12 check_doc_examples.py checks passed against an isolated documentation copy; captured help normalized to primo invocation path. Prior CLI job383791 failed only that invocation-path normalization and was retried correctly.",
+      "timing_plan": {
+        "selection": "benchmarks/lia-hybrid-20261111/selection.json",
+        "cases": 512,
+        "native_rows": 1024,
+        "groups": "200QF_LIA +300QF_UFLIA +4Certora*3rotated paired repetitions",
+        "timeout_seconds": 120,
+        "native_address_space_bytes": 8589934592,
+        "slurm_memory": "10GiB per task",
+        "cpu": "one physical CPU per pair; at most48concurrent tasks",
+        "profiles": {
+          "private": [
+            "--quiet",
+            "--stats"
+          ],
+          "hybrid": [
+            "--quiet",
+            "--stats",
+            "--lia-branching=hybrid"
+          ]
+        },
+        "Certora_extra_both_profiles": [
+          "--qf-uflia-lia-equality-producer=model-unit",
+          "--qf-uflia-tableau-equalities=all"
+        ],
+        "model_barrier": "afterok entire timing array383804 before model array383996;180s native model production and60s Dolmen; same frozen binaries, exact input hashes and argument vectors",
+        "reference_provenance": "Reused pinned reference-answer/selection metadata where decisive; each timed input hash checked. Fall back to declared status for unknown/error metadata. No fresh reference speed claims.",
+        "config_sha256": "8c186c4732c489f2ba1305736048939c8dad1142be36366beec1f4145c9deae1",
+        "baseline_and_candidate": "Both binaries frozen separately before timing; configuration paths remain private/untracked."
+      },
+      "artifacts": {
+        "local": "results/lia-hybrid-20261111",
+        "current_cluster": "primo-hybrid-qualified-20261111/results/lia-hybrid-gates",
+        "paired": "primo-hybrid-qualified-20261111/results/lia-hybrid-paired",
+        "storage": "raw artifacts retained locally/SLURM; metadata and workflows tracked"
+      },
+      "remaining": [
+        "complete1024timingrows and decide gains/losses",
+        "validate every successful timing SAT row separately",
+        "investigate material regressions with additional paired runs",
+        "summarize evidence, independent review and render docs",
+        "commit acceptance or clean rejection"
+      ]
+    },
+    {
+      "id": "2026-11-11-lia-hybrid-development",
+      "date": "2026-11-11",
+      "kind": "Opt-in hybrid integer branching implementation and development correctness gates",
+      "evidence_status": "implementation qualification in progress; no performance or completion claim",
+      "baseline_git": "c49585a09710eca76f10ce081923c1bcb3765a7c",
+      "source_git": "736bf97ad68e79da69a99d8df1abe480169b7a54",
+      "native_sha256": "416fa728e7de63a25e706f726f59ad7ea062082033296e3b9ffb35e834b79dda",
+      "paper_basis": "Griggio JSAT2012 Sections5-5.2 and Barrett et al LPAR2006 Sections2.2-2.3 read; docs/leads/lia-hybrid-branching.md is the original implementation checklist",
+      "scope": "ordinary existing-coordinate splits only; default private; no proof-derived combination splits or termination claim",
+      "execution": "SLURM for every build, solver/test, fuzz and model process; local edits, Git, syntax/lint, docs, metadata analysis only",
+      "jobs": {
+        "protocol_check": "383747",
+        "protocol_static": "383748",
+        "development_fuzz": "383757",
+        "integrated_check": "383780",
+        "integrated_asan": "383778",
+        "integrated_static": "383781",
+        "scoped_and_mechanism_probes": "383785",
+        "unrestricted_mutations_rejected": [
+          "383775",
+          "383776"
+        ],
+        "unrestricted_triage": "383782",
+        "restricted_typefuzz_attempts": [
+          "383783",
+          "383784"
+        ]
+      },
+      "verification": {
+        "protocol_check": "47 CTest and335 Python tests pass",
+        "integrated_check": "47 CTest and335 Python tests pass on d2ec5c7c; retry corrects validation-copy loss of run.py executable mode",
+        "integrated_asan": "47/47 CTest pass with detect_leaks=1:strict_init_order=1",
+        "static": "135 tracked C++ translation units scanned with clang-tidy and separate include-cleaner; zero tidy tool errors; advisory example include-cleaner exit1 exposed a real unused include, removed together with one new unused test include. Paired self-includes retained. Existing missing-direct-header, enum-size and other baseline advisories retained; std::to_string(size_t) is always valid Rational::parse input, so the new unchecked-optional diagnostic is a documented false positive.",
+        "docs": "make docs; make docs-history; assemble_docs.py; assembled-site check_doc_links.py:293pages,zero failures; independent documentation review accepted with source pin736bf97a",
+        "known_diagnostic_attempts": "Initial CMake provisioning jobs383740/383742 canceled to use existing CMake; baseline383741 inadvertently canceled and rebuilt in383744; first candidate test compile corrected a range-loop copy warning; an overly strict UFLIA counter assertion and tactic parameter snapshot were corrected; GDB383773 timed out downloading separate debug info, not solver execution."
+      },
+      "generated_gate": {
+        "script": "scripts/qualification/lia_hybrid/fuzz.sbatch",
+        "script_sha256": "6c8a6e2dc5cd03c6272541736fc955cdfb743f5da9979594d293a9c61e2f5b31",
+        "array": "0-15%16",
+        "cases_per_slot": 250,
+        "seed": "2026111200+slot",
+        "reference": "Z3 5.1.0, command z3",
+        "generator": "FuzzSMT for QF_LIA; qf_uflia_fuzz.py mixed depth3 for QF_UFLIA",
+        "fuzzsmt_args": "-ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4",
+        "solver_args": [
+          "--quiet",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor={0|1}"
+        ],
+        "factor_zero_extra_args": [
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0"
+        ],
+        "timeout_seconds": 5,
+        "model_timeout_seconds": 20,
+        "dolmen_timeout_seconds": 20,
+        "validator": "Dolmen0.10 --strict=false; validate_model.py --check-model --expect-sat --require-dolmen-pass",
+        "profiles": {
+          "QF_LIA/factor-0": {
+            "cases": 1000,
+            "outcomes": {
+              "PASS": 988,
+              "TIMEOUT": 12
+            },
+            "sat_models": 886
+          },
+          "QF_UFLIA/factor-0": {
+            "cases": 1000,
+            "outcomes": {
+              "PASS": 999,
+              "TIMEOUT": 1
+            },
+            "sat_models": 519
+          },
+          "QF_LIA/factor-1": {
+            "cases": 1000,
+            "outcomes": {
+              "PASS": 982,
+              "TIMEOUT": 18
+            },
+            "sat_models": 875
+          },
+          "QF_UFLIA/factor-1": {
+            "cases": 1000,
+            "outcomes": {
+              "PASS": 1000
+            },
+            "sat_models": 519
+          }
+        },
+        "counts": {
+          "total": 4000,
+          "pass": 3969,
+          "timeout": 31,
+          "wrong_answer": 0,
+          "crash": 0,
+          "parser_type_error": 0,
+          "unsupported": 0,
+          "reference_disagreement": 0,
+          "direct_dolmen_sat_pass": 2799
+        },
+        "saved_failures": "31 timeout-only saved inputs, classified by their summary rows; no old bugs directory used"
+      },
+      "rejected_mutation_attempts": {
+        "status": "diagnostic only, not gate evidence",
+        "reason": "initial unrestricted TypeFuzz lacked the linear signature config; restricted TypeFuzz can also replace existing literal coefficients with nonlinear terms. Both native baseline and hybrid have identical diagnostics on all232 unrestricted mutants:221 input rejections,6 timeouts,5 decisive answers. No signal crash. QF_LIA Z3 explicitly rejected nonlinear arithmetic on167 cases in the bounded triage; remaining reference runs include timeouts. Fresh campaigns use the existing seeded OpFuzz operator-only profile model_linear_ops.txt.",
+        "remaining": "Finish operator-only real-seed mutations, replay successful native SAT rows with Dolmen, and classify restricted TypeFuzz artifacts before claiming completion."
+      },
+      "artifacts": {
+        "local": "results/lia-hybrid-20261111",
+        "protocol": "results/lia-hybrid-20261111/protocol-verification.tar.gz",
+        "integrated": "results/lia-hybrid-20261111/integrated-verification.tar.gz",
+        "generated_gate_audit": "results/lia-hybrid-20261111/development-fuzz-audit.json",
+        "unrestricted_triage": "results/lia-hybrid-20261111/unrestricted-mutation-triage.json",
+        "raw_cluster_gate": "primo-hybrid-candidate-20261111/results/lia-hybrid-gates",
+        "storage": "raw logs and generated cases are local/SLURM artifacts, not tracked implementation files"
+      },
+      "remaining_acceptance": [
+        "operator-only seed mutations and any remaining triage",
+        "current CLI capture/example check",
+        "paired200LIA/300UFLIA120s evaluation",
+        "four Certora diagnostics with3pairedrepetitions",
+        "all successful timing SAT rows separately Dolmen-validated",
+        "regression followups and acceptance/rejection decision",
+        "independent evidence review, final docs and metadata commits"
+      ]
+    },
+    {
       "id": "2026-11-11-certora-paper-investigation",
       "date": "2026-11-11",
       "kind": "Paper/data audit and focused Certora diagnostics",

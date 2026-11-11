@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <vector>
 
+#include "theory/arithmetic/lia_branch_and_bound.hpp"
 #include "theory/arithmetic/lia_cube.hpp"
 #include "theory/arithmetic/lia_explanation.hpp"
 #include "theory/arithmetic/lia_patching.hpp"
@@ -19,10 +20,12 @@ struct LiaCompletionLimits {
   bool integral_patch_moves = false;
   LiaCubeMode cube_mode = LiaCubeMode::Off;
   std::size_t cube_steps = 1000;
+  bool hybrid = false;
+  std::size_t private_branch_factor = 1;
 };
 
 struct LiaCompletionResult {
-  enum class Status { Sat, Unsat, ResourceLimit };
+  enum class Status { Sat, Unsat, ResourceLimit, Split };
   Status status = Status::ResourceLimit;
   LiaExplanation explanation;
   LiaPatchingStats patch_stats;
@@ -31,6 +34,10 @@ struct LiaCompletionResult {
   bool cube_called = false;
   std::size_t branch_nodes = 0;
   std::uint64_t cube_microseconds = 0;
+  std::size_t branch_conflicts = 0;
+  bool branch_budget_exit = false;
+  std::optional<LraVarId> split_variable;
+  util::Rational split_floor;
 };
 
 // Primo waterfall (docs/implementation/lia.md): patch, GCD, optional cube
@@ -40,9 +47,9 @@ struct LiaCompletionResult {
 // checked integer model. SAT retains the winning assignment; other results retain cuts but no
 // speculative branch bounds, as in branch_and_bound. One explanation spans all refutation stages so
 // later branches retain cut antecedents. SMT integration owns translation to a blocking clause.
-LiaCompletionResult complete_integer_assignment(LraTableau& tableau,
-                                                const std::vector<LraVarId>& integer_vars,
-                                                LiaCompletionLimits limits,
-                                                const LiaCubeProblem* cube_problem = nullptr);
+LiaCompletionResult complete_integer_assignment(
+    LraTableau& tableau, const std::vector<LraVarId>& integer_vars, LiaCompletionLimits limits,
+    const LiaCubeProblem* cube_problem = nullptr, LiaBranchHistory* history = nullptr,
+    const std::vector<LraVarId>* original_vars = nullptr);
 
 }  // namespace primo::theory::arithmetic

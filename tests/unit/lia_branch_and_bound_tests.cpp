@@ -3,6 +3,7 @@
 #endif
 
 #include <cassert>
+#include <limits>
 #include <vector>
 
 #include "sat/lit.hpp"
@@ -113,6 +114,7 @@ void unbounded_polytope_hits_the_node_limit() {
   assert(!tableau.lower_bound(x).has_value());
   assert(!tableau.upper_bound(y).has_value());
   assert(!tableau.lower_bound(y).has_value());
+  assert(!tableau.check());  // Restored root bounds admit a rational repair.
 }
 
 // A declared Int variable can become basic in a row whose value inherits a
@@ -146,6 +148,36 @@ void delta_only_basic_variable_does_not_exhaust_the_node_limit() {
 }  // namespace
 
 int main() {
+  using primo::theory::arithmetic::lia_private_branch_budget;
+  using primo::theory::arithmetic::LiaBranchHistory;
+  assert(lia_private_branch_budget(10, 0, 3) == 0);
+  assert(lia_private_branch_budget(10, 1, 3) == 3);
+  assert(lia_private_branch_budget(10, 4, 3) == 10);
+  assert(lia_private_branch_budget(10, std::numeric_limits<std::size_t>::max(), 3) == 10);
+  assert(lia_private_branch_budget(10, 7, 0) == 0);
+  {
+    LraTableau tableau;
+    const auto x = tableau.add_variable();
+    const auto y = tableau.add_variable();
+    const auto half = DeltaRational::from_rational(Rational(1, 2));
+    assert(!tableau.assert_lower(x, half, Lit{1}));
+    assert(!tableau.assert_lower(y, half, Lit{2}));
+    assert(!tableau.check());
+    LiaBranchHistory history;
+    assert(history.select(tableau, {y, x}) == x);
+    history.observe(x, true, 2);
+    assert(history.select(tableau, {y, x}) == x);  // Unobserved upper scores zero.
+    history.observe(x, false, 3);
+    assert(history.select(tableau, {x, y}) == y);
+    history.observe(y, true, 4);
+    history.observe(y, false, 5);
+    assert(history.select(tableau, {y, x}) == x);
+    history.observe(y, true, 0);  // Lower mean becomes 2, exact tie with x.
+    assert(history.select(tableau, {y, x}) == x);
+    history.observe(y, true, 0);
+    assert(history.select(tableau, {y, x}) == y);
+    assert(!history.select(tableau, {}));
+  }
   no_branching_needed_when_already_integer();
   single_branch_reaches_an_integer_solution();
   every_branch_is_infeasible_returns_unsat();

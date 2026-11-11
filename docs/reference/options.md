@@ -27,6 +27,9 @@ below supplies accepted values and defaults.
 | `--lia-cube=MODE` | `off` | Experimental pure QF_LIA model attempt: `off`, `uniform`, or `difference`. QF_UFLIA is unaffected. See {ref}`lia-cubes`. |
 | `--lia-cube-steps=N` | `1000` | Repair-step cap for the optional cube LP; exhaustion resumes existing integer search. |
 | `--lia-branch-limit=N` | `100000` | Bound integer branch-and-bound nodes; reaching the bound can return `unknown`. See [](../implementation/lia.md). |
+| `--lia-branching=MODE` | `private` | Opt-in `hybrid` hands bounded private integer exploration to SAT; see {ref}`lia-hybrid-branching`. Applies to QF_LIA and QF_UFLIA. |
+| `--lia-private-branch-factor=N` | `1` | Hybrid private-node factor per original Int term; zero hands off after the preceding integer stages. |
+| `--lia-split-atom-limit=N` | `0` | Fresh hybrid SAT-bound cap per solve; zero is unlimited, exhaustion returns `unknown`. |
 | `--cancel-grace-seconds=N` | `1` | Cooperative cancellation grace period after SIGINT/SIGTERM, from 1 to 3600 seconds. This is not a solve-time limit. |
 
 For example:

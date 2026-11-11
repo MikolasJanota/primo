@@ -278,6 +278,9 @@ int run_main(int argc, char** argv) {
   // otherwise the solver route's policy (lia_settings_policy.hpp) decides.
   const primo::smt::LiaSettings lia_defaults;
   std::size_t lia_branch_limit = lia_defaults.branch_limit;
+  std::string lia_branching = "private";
+  std::size_t lia_private_branch_factor = 1;
+  std::size_t lia_split_atom_limit = 0;
   std::size_t lia_gomory_cut_limit = lia_defaults.gomory_cut_limit;
   std::size_t lia_patch_limit = lia_defaults.patch_limit;
   std::string lia_cube = "off";
@@ -604,11 +607,20 @@ int run_main(int argc, char** argv) {
       "Enable experimental primitive-integer canonicalization of proportional Real "
       "comparisons and equalities before clausification");
   app.add_option("--lia-branch-limit", lia_branch_limit,
-                 "QF_LIA branch-and-bound node cap: plain branch-and-bound alone has no "
-                 "completeness argument (an unbounded integer-infeasible polytope can branch "
-                 "forever), so once this many nodes have been explored the search reports "
-                 "Unknown instead of continuing")
+                 "Private integer branch-and-bound node cap for QF_LIA/QF_UFLIA: private mode "
+                 "reports Unknown at the cap; hybrid mode restores private bounds and hands "
+                 "off to SAT. Plain branching has no completeness guarantee on unbounded inputs")
       ->check(CLI::Range(1, 100000000));
+  app.add_option("--lia-branching", lia_branching,
+                 "Integer branching policy: private or hybrid (default private)")
+      ->check(CLI::IsMember({"private", "hybrid"}));
+  app.add_option(
+         "--lia-private-branch-factor", lia_private_branch_factor,
+         "Hybrid private nodes per original Int term (default 1; zero hands off immediately)")
+      ->check(CLI::Range(0, 100000000));
+  app.add_option("--lia-split-atom-limit", lia_split_atom_limit,
+                 "Fresh hybrid integer split atoms per solve (default 0: unlimited)")
+      ->check(CLI::Range(0, 100000000));
   app.add_option("--lia-gomory-cut-limit", lia_gomory_cut_limit,
                  "QF_LIA Gomory-cut round cap, run before branch-and-bound on every candidate "
                  "model: caps how many cut-and-recheck rounds are attempted before falling "
@@ -1089,6 +1101,12 @@ int run_main(int argc, char** argv) {
   // policy keeps every other LIA setting. A --no- form wins over its pair.
   primo::smt::LiaSettingOverrides& lia = solver_options.lia;
   if (app.get_option("--lia-branch-limit")->count() != 0) lia.branch_limit = lia_branch_limit;
+  if (app.get_option("--lia-branching")->count() != 0)
+    lia.hybrid_branching = lia_branching == "hybrid";
+  if (app.get_option("--lia-private-branch-factor")->count() != 0)
+    lia.private_branch_factor = lia_private_branch_factor;
+  if (app.get_option("--lia-split-atom-limit")->count() != 0)
+    lia.split_atom_limit = lia_split_atom_limit;
   if (app.get_option("--lia-gomory-cut-limit")->count() != 0) {
     lia.gomory_cut_limit = lia_gomory_cut_limit;
   }

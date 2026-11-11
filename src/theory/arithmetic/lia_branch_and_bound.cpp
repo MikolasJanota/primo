@@ -1,6 +1,8 @@
 #include "theory/arithmetic/lia_branch_and_bound.hpp"
 
+#include <algorithm>
 #include <optional>
+#include <string>
 
 #include "sat/lit.hpp"
 #include "theory/arithmetic/lia_integer_values.hpp"
@@ -58,9 +60,46 @@ bool try_branch(LraTableau& tableau, LraVarId var, const util::Rational& floor_v
 
 }  // namespace
 
+void LiaBranchHistory::observe(LraVarId variable, bool lower_branch, std::size_t fractional_count) {
+  if (entries_.size() <= variable) entries_.resize(static_cast<std::size_t>(variable) + 1);
+  auto& side = lower_branch ? entries_[variable].lower : entries_[variable].upper;
+  side.count += util::Rational(1);
+  side.total += *util::Rational::parse(std::to_string(fractional_count));
+}
+
+util::Rational LiaBranchHistory::score(LraVarId variable) const {
+  if (variable >= entries_.size()) return {};
+  const auto& entry = entries_[variable];
+  if (entry.lower.count.is_zero() || entry.upper.count.is_zero()) return {};
+  return std::min(entry.lower.total / entry.lower.count, entry.upper.total / entry.upper.count);
+}
+
+std::optional<LraVarId> LiaBranchHistory::select(const LraTableau& tableau,
+                                                 const std::vector<LraVarId>& candidates) const {
+  std::optional<LraVarId> selected;
+  util::Rational best;
+  for (const auto variable : candidates) {
+    if (is_integer_valued(tableau.assignment(variable))) continue;
+    const auto current = score(variable);
+    if (!selected || current < best || (current == best && variable < *selected)) {
+      selected = variable;
+      best = current;
+    }
+  }
+  return selected;
+}
+
+std::size_t lia_private_branch_budget(std::size_t node_limit, std::size_t factor,
+                                      std::size_t original_terms) {
+  if (original_terms == 0 || factor == 0) return 0;
+  if (factor > node_limit / original_terms) return node_limit;
+  return std::min(node_limit, factor * original_terms);
+}
+
 LiaBranchAndBoundResult branch_and_bound(LraTableau& tableau,
                                          const std::vector<LraVarId>& integer_vars,
-                                         std::size_t node_limit, LiaExplanation* explanation) {
+                                         std::size_t node_limit, LiaExplanation* explanation,
+                                         LiaBranchHistory* history) {
   struct Frame {
     LraVarId var = 0;
     util::Rational floor_value;
@@ -70,15 +109,32 @@ LiaBranchAndBoundResult branch_and_bound(LraTableau& tableau,
   std::vector<Frame> stack;
   const std::size_t entry_checkpoint = tableau.push();
   std::size_t nodes = 0;
+  std::size_t conflicts = 0;
+  const auto attempt = [&](LraVarId variable, const util::Rational& floor, bool lower) {
+    if (!try_branch(tableau, variable, floor, lower, explanation)) {
+      ++conflicts;
+      return false;
+    }
+    if (history) {
+      const auto fractional = std::ranges::count_if(integer_vars, [&](LraVarId candidate) {
+        return !is_integer_valued(tableau.assignment(candidate));
+      });
+      history->observe(variable, lower, static_cast<std::size_t>(fractional));
+    }
+    return true;
+  };
 
   while (true) {
-    const std::optional<LraVarId> fractional = find_fractional_variable(tableau, integer_vars);
+    const std::optional<LraVarId> fractional =
+        history ? history->select(tableau, integer_vars)
+                : find_fractional_variable(tableau, integer_vars);
     if (!fractional.has_value()) {
-      return LiaBranchAndBoundResult{LiaBranchAndBoundResult::Status::Sat, nodes};
+      return LiaBranchAndBoundResult{LiaBranchAndBoundResult::Status::Sat, nodes, conflicts};
     }
     if (nodes >= node_limit) {
       tableau.pop(entry_checkpoint);
-      return LiaBranchAndBoundResult{LiaBranchAndBoundResult::Status::LimitReached, nodes};
+      return LiaBranchAndBoundResult{LiaBranchAndBoundResult::Status::LimitReached, nodes,
+                                     conflicts};
     }
     ++nodes;
 
@@ -88,7 +144,7 @@ LiaBranchAndBoundResult branch_and_bound(LraTableau& tableau,
     frame.checkpoint = tableau.push();
     stack.push_back(frame);
 
-    if (try_branch(tableau, frame.var, frame.floor_value, /*low_side=*/true, explanation)) {
+    if (attempt(frame.var, frame.floor_value, /*lower=*/true)) {
       continue;  // Descend: re-scan for the next fractional variable.
     }
 
@@ -102,7 +158,7 @@ LiaBranchAndBoundResult branch_and_bound(LraTableau& tableau,
         tableau.pop(top.checkpoint);
         top.checkpoint = tableau.push();
         top.tried_high = true;
-        if (try_branch(tableau, top.var, top.floor_value, /*low_side=*/false, explanation)) {
+        if (attempt(top.var, top.floor_value, /*lower=*/false)) {
           resumed = true;
           break;
         }
@@ -111,7 +167,7 @@ LiaBranchAndBoundResult branch_and_bound(LraTableau& tableau,
       stack.pop_back();
     }
     if (!resumed) {
-      return LiaBranchAndBoundResult{LiaBranchAndBoundResult::Status::Unsat, nodes};
+      return LiaBranchAndBoundResult{LiaBranchAndBoundResult::Status::Unsat, nodes, conflicts};
     }
   }
 }

@@ -695,6 +695,7 @@ void integer_model_coincidences_do_not_become_equality_facts() {
         CheckSatOptions options;
         options.qf_uflia_lia_equality_producer = producer;
         options.qf_uflia_tableau_equalities = true;
+        options.qf_uflia_tableau_equalities = true;
         options.qf_uflia_model_combination = guided;
         options.qf_uflia_online_components = online;
         options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
@@ -835,6 +836,37 @@ void integer_model_unit_selector_does_not_run_on_pure_lia() {
 }  // namespace
 
 int main() {
+  for (const bool online : {false, true}) {
+    for (const bool guided : {false, true}) {
+      for (const auto producer :
+           {QfUfliaEqualityProducer::Legacy, QfUfliaEqualityProducer::ModelUnit}) {
+        CheckSatOptions options;
+        options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+        options.lia.hybrid_branching = true;
+        options.lia.private_branch_factor = 0;
+        options.lia.patch_limit = 0;
+        options.lia.gomory_cut_limit = 0;
+        options.qf_uflia_online_components = online;
+        options.qf_uflia_model_combination = guided;
+        options.qf_uflia_lia_equality_producer = producer;
+        options.check_model = true;
+        options.produce_model = true;
+        const auto result = check_sat_smtlib(R"(
+          (set-logic QF_UFLIA)
+          (declare-const x Int) (declare-const y Int) (declare-const z Int)
+          (declare-fun f (Int) Int)
+          (assert (<= 1 (* 2 x))) (assert (<= (* 2 x) 5))
+          (assert (<= 1 (* 2 y))) (assert (<= (* 2 y) 5))
+          (assert (<= 1 (* 2 z))) (assert (<= (* 2 z) 5))
+          (assert (distinct (f x) (f y)))
+          (check-sat)
+        )",
+                                             options);
+        assert(result.result == CheckSatResult::Sat);
+        assert(result.statistics.get(":lia.branching.unique-atoms") >= 1);
+      }
+    }
+  }
   model_unit_discovery_keeps_nonunit_arrangement_search_and_models();
   integer_model_unit_selector_does_not_run_on_pure_lia();
   tableau_equality_export_is_opt_in();

@@ -46,8 +46,9 @@ $\delta$ a positive infinitesimal used to represent strict inequalities.
 
 `LraVarId` is an index within a tableau and its matching copies, not a core
 `TermId` or a SAT variable. Appending a cut gives it a new ID without changing
-existing IDs. Neither the temporary cut variable nor a branch bound creates
-a core term or a new SAT atom. The working copy is discarded when its Boolean
+existing IDs. Temporary cuts and private branch bounds create neither
+core terms nor SAT atoms. Hybrid handoff instead names an original semantic
+term in a SAT bound, as described below. The working copy is discarded when its Boolean
 candidate is rejected; a winning copy supplies the integer model.
 
 An auxiliary variable for a normalized polynomial need not be integer-valued.
@@ -183,7 +184,7 @@ not the validity of the theory clauses.
 <src/smt/solver_engines.cpp#L8455-L8476>`. Its
 {migrationsource}`LIA component adapter <src/smt/solver_engines.cpp#L9502-L9645>`
 keeps the winning tableau, exports shared integer values, or returns a learned
-clause/resource-limit result to the general combination driver. Rational
+clause/resource-limit result, or a hybrid split request, to the general combination driver. Rational
 online propagation and final integer completion have separate responsibilities.
 {migrationsource}`LiaTheoryComponent <src/smt/solver_engines.cpp#L9900-L10037>` owns this adapter and the optional online rational
 execution state. {migrationsource}`ComponentAdapterSupport <src/smt/solver_engines.cpp#L9651-L9757>` owns the assignment view, registered
@@ -198,7 +199,7 @@ The combined recipe retains its check, rational, and integer timer keys; empty
 keys disable timer sampling. Both rebuilt rational checks and completion of an
 online tableau use {migrationsource}`LiaComponentAdapter::translate
 <src/smt/solver_engines.cpp#L9588-L9635>` to replace the retained
-model and return a consistent, learned-clause, or resource-limit result. If
+model and return a consistent, learned-clause, resource-limit, or hybrid split result. If
 requested projection omits a shared Int term, translation returns `Unknown`
 with that diagnostic. Shared
 model projection is produced only when the recipe requests it. The shared-sort
@@ -207,15 +208,18 @@ contract is Int-only.
 The {ref}`combination chapter <the-component-collection-route>`
 explains the remaining equality arrangements and model-agreement checks.
 
-{integersource}`LiaCompletionResult <src/theory/arithmetic/lia_completion.hpp>` returns a typed `Sat`, `Unsat`, or `ResourceLimit`,
+{hybridsource}`LiaCompletionResult <src/theory/arithmetic/lia_completion.hpp>` returns a typed `Sat`, `Unsat`, `ResourceLimit`, or hybrid `Split`,
 one accumulated `LiaExplanation`, the number of patched variables, and
 `LiaPatchingStats`. The completion operation does not copy or prepare the
-tableau and preserves the supplied integer-variable ordering. On success the
+tableau. Private mode preserves the supplied selection order; hybrid mode
+uses history scoring. On success the
 caller reads the winning assignment directly; after a failed or limited branch
 search, cuts remain but speculative branch bounds are removed. It does not
 restore the entry basis or assignment. The caller discards unsuccessful working
 copies. A zero branch
 budget permits an already integral assignment but no branch node.
+Hybrid budget exit repairs rational feasibility and rescans integrality before
+returning a model or split request; see {ref}`lia-hybrid-branching`.
 
 Both routes use SMT integration's
 {migrationsource}`integer_conflict_clause <src/smt/solver_engines.cpp#L8382-L8396>` to collect blocking
@@ -227,13 +231,13 @@ The {integersource}`patcher's fully_integral statistic
 <src/theory/arithmetic/lia_patching.hpp>` uses its maintained remaining-variable
 count, avoiding another scan. {migrationsource}`Both routes publish it <src/smt/solver_engines.cpp#L8372-L8380>` when patching is enabled.
 
-With the cube test disabled, the completion boundary preserves the existing
+With cubes disabled in private mode, the completion boundary preserves the existing
 stage order, variable order, limits, winning assignment, and antecedents from
 cuts used by later branching. Enabling cubes inserts one private model attempt
 between the basic GCD screen and cuts. It adds sparse preparation, a separate
 LP and candidate validation; the other stages keep their existing contracts.
 
-This design keeps integer branch choices inside the theory procedure. SAT
+Private mode keeps integer branch choices inside the theory procedure. SAT
 learns the resulting conflict clause, but does not see individual integer
 splits as CDCL decisions. That simplifies the boundary and the lifetime of
 temporary rows; it also means that internal branch choices and cuts are not
@@ -765,7 +769,7 @@ temporary handling of large-coefficient cuts.
 ## Branching and backtracking
 
 {source}`branch_and_bound <src/theory/arithmetic/lia_branch_and_bound.cpp>`
-starts from a rationally feasible tableau. It scans `integer_vars` for the
+starts from a rationally feasible tableau. In default private mode it scans `integer_vars` for the
 first nonintegral assignment $v$ and splits on
 
 $$x\le\lfloor v\rfloor\quad\lor\quad x\ge\lfloor v\rfloor+1.$$
@@ -775,8 +779,8 @@ neither. At $v=7/3$, for example, the branches are $x\le2$ and $x\ge3$.
 Each side is asserted as an ordinary tableau bound and checked by simplex.
 A feasible side is searched further; a conflict closes that side. After both
 sides close, the search backtracks to the previous frame. It tries the lower
-side first and uses the caller's variable order, without a nearest-fraction
-or activity heuristic.
+side first. Private mode uses the caller's variable order; hybrid mode uses
+the history score described below.
 
 The explicit stack stores checkpoints rather than tableau copies per node.
 On `Sat`, the tableau stays at the winning leaf, including the successful
@@ -794,6 +798,91 @@ limit, so an already integral assignment succeeds even with a zero node
 budget. The search stack grows with depth; the node cap bounds the number
 of splits in this call but is not a wall-clock or bit-complexity bound on
 the intervening exact arithmetic.
+
+(lia-hybrid-branching)=
+### Opt-in hybrid handoff
+
+`--lia-branching=hybrid` enables a partial implementation of Griggio's
+*A Practical Approach to Satisfiability Modulo Linear Integer Arithmetic*,
+§5. It runs the existing patch/GCD/cube/cut stages, then limits private split
+nodes to `min(branch_limit, private_branch_factor * N)`. Multiplication
+saturates safely at the existing limit. Here `N` counts the distinct mapped
+original Int terms, including purified terms used by UF, before split atoms
+are generated. Integer slack obligations do not contribute to `N`.
+`--lia-private-branch-factor` defaults to `1`; zero requests immediate handoff
+after the preceding stages. This factor and the zero convention are Primo
+engineering choices. The default policy remains `private`.
+
+The solve-scoped {hybridsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>` owns a
+{hybridsource}`LiaBranchHistory <src/theory/arithmetic/lia_branch_and_bound.hpp>`.
+For each stable numerical variable it records separate left/right observation
+counts and exact sums of the number of fractional integer obligations after
+feasible branch checks. The selection score is the smaller side's mean;
+an unobserved side scores zero and ties use the smallest variable ID.
+Immediately infeasible sides increment a conflict counter without supplying
+an observation. History survives SAT backtracking and atom registration but
+starts empty in a new solving invocation. Both scoring and counting scan
+the integer obligations linearly. The default private policy keeps its
+original variable order.
+
+On private budget exhaustion,
+{hybridsource}`complete_integer_assignment <src/theory/arithmetic/lia_completion.cpp>`
+removes all speculative branch bounds and checks rational feasibility again.
+If the repaired assignment satisfies every integer obligation, completion
+succeeds. Otherwise it selects a fractional original Int term with the same
+score, and returns `Split` with its numerical variable and an owning exact
+floor threshold. Private integer slacks remain checked; they cannot be exported.
+Integral original coordinates with a fractional integer slack diagnose a
+preparation invariant failure. Gomory rows stay in the private working tableau
+and are discarded at handoff. No persistent row-insertion contract changes.
+
+The adapter translates that request into
+{hybridsource}`IntegerSplitRequest <src/theory/theory_solver.hpp>`, which owns a
+semantic `TermId` and exact threshold. `TheoryCheckStatus::IntegerSplit` and
+`ModelBasedCombinationStatus::IntegerSplit` carry it through the coordinator;
+neither denotes a conflict or an entailed bound. The
+{hybridsource}`component driver <src/smt/component_solver.cpp>` installs
+one SAT atom $p\leftrightarrow(x\le k)$ at its detached growth boundary.
+False means $x\ge k+1$. For example, at $x=-3-\delta$, the exact floor is
+$-4$: the choices are $x\le-4$ and $x\ge-3$.
+
+The registry keys bounds by semantic term and exact integer threshold and
+also indexes compatible exact integer input bounds. Fractional input thresholds
+left unrounded by configuration are excluded from that index. An already
+assigned requested bound diagnoses missing arithmetic progress rather than
+retrying indefinitely. Ordinary bounds bind existing variables through
+`PreparedLraTheory::append_atom`; the component checks that registration
+allocated no arithmetic variable, and the single-variable preparation path
+adds no row. Registration rebuilds online assignment/query state and invalidates
+model tokens. The history remains in the full-model adapter. Term construction
+uses owned IDs and values across allocation boundaries.
+
+The driver prefers $p$ using its managed SAT-choice assumptions. If SAT rejects
+the assumed choices, failed-assumption analysis learns their blocking clause,
+removes failed choices and resumes search. Failure under a preferred branch
+alone never becomes global UNSAT. Arithmetic conflicts retain generated SAT
+bound literals as real premises. Only a fully closed private search permits
+discarding synthetic private split premises. A pending split prevents acceptance
+of the candidate model, in online/offline UFLIA and standalone LIA alike.
+
+`--lia-split-atom-limit` caps fresh generated bound atoms per solve; its default
+`0` is unlimited. Exhaustion returns `unknown` with a resource-limit reason.
+Cancellation and existing limits still apply. Statistics under `:lia.branching.`
+count private nodes/conflicts, budget exits, split requests, unique/reused bound
+atoms, generated-atom peak, SAT resumes, rejected assumption batches containing a failed arithmetic choice, and split-cap
+exhaustions. Existing-coordinate registrations record ordinary bounds added
+without arithmetic variables. Reuse counts currently diagnose a nonprogress
+request; ordinary successful handoffs introduce a fresh threshold.
+`:time.lia.branching.private-completion-us` covers the private waterfall and
+cube-problem preparation, excluding the incoming tableau copy, while
+`:time.lia.branching.resumed-sat-us` sums SAT calls after the first handoff.
+These elapsed timers are nested in route timers and must not be added to them.
+
+Griggio §5.1's proof-derived linear-combination splits are not implemented.
+Neither this ordinary-split subset nor its optional atom cap establishes
+termination or completeness on unbounded integer problems; §5.2 and the
+[implementation checklist](../leads/lia-hybrid-branching.md) explain the boundary.
+The feature remains experimental and opt-in pending its qualification record.
 
 (lia-explanations)=
 ## Explaining integer conflicts to SAT
@@ -859,7 +948,10 @@ Each route resolves its own values, as described in {ref}`lia-settings`.
 | `--lia-cube-steps` | `1000` | Optional LP repair-step cap; zero allows only an already feasible center. |
 | `--lia-patch-limit` | `100` | Maximum accepted patch moves; zero disables patching. |
 | `--lia-gomory-cut-limit` | `100` | Maximum cut-and-recheck iterations; zero disables cuts. Exhaustion falls through to branching. |
-| `--lia-branch-limit` | `100000` | Maximum new split nodes. Exhaustion before finding a model or refuting the tree returns a resource-limit result. |
+| `--lia-branch-limit` | `100000` | Maximum private split nodes. Private-mode exhaustion returns a resource-limit result; hybrid mode repairs and hands off to SAT. |
+| `--lia-branching` | `private` | `hybrid` enables the optional handoff described in {ref}`lia-hybrid-branching`. |
+| `--lia-private-branch-factor` | `1` | Hybrid private-node factor per original Int term; zero skips private split nodes. |
+| `--lia-split-atom-limit` | `0` | Fresh hybrid bound atoms per solve; zero is unlimited and exhaustion returns a resource-limit result. |
 | `--no-lia-conflict-generalization` | Generalization on | Disables the default attempt to replace coarse clauses with accumulated explanations. |
 | `--lia-round-integer-bounds` | On for QF_LIA, off for QF_UFLIA | Rounds non-strict thresholds on integer-valued tableau variables inward. Preparation-time, not a per-completion budget. |
 | `--lia-primitive-int-rows` | On for QF_LIA, off for QF_UFLIA | Stores `Int` rows with coprime integer coefficients, making every `Int` slack integer-valued. Preparation-time. |
@@ -875,7 +967,7 @@ The current `--arithmetic-model-phase=on|off|auto` form rejects mixing with
 those legacy flags; see [option compatibility](../reference/options.md#phase-option-names-and-compatibility).
 
 These are finite operational limits, not empirically optimal settings.
-Both routes report typed `ResourceLimit` to the shared driver, producing
+In private mode, both routes report typed `ResourceLimit` to the shared driver, producing
 `unknown` with the diagnostic `integer branch-and-bound node limit`. An
 unfinished search must not become `unsat`. Cancellation and the aggregate
 theory-conflict budget remain SMT-driver outcomes, independent of internal
@@ -1069,9 +1161,9 @@ measurements to results for the current source revision.
 (lia-sources)=
 ## Sources and implementation status
 
-The [hybrid branching checklist](../leads/lia-hybrid-branching.md) specifies
-planned bounded private exploration followed by SAT-visible integer bounds.
-It does not describe current behavior or change the defaults below.
+The [hybrid branching checklist](../leads/lia-hybrid-branching.md) records the
+preimplementation contract and qualification obligations. The optional
+[ordinary-split policy](#lia-hybrid-branching) preserves private-mode defaults.
 
 The local paper-to-code checklist is the stage order, guards, derivations,
 state contracts and regression obligations above. The primary sections used
