@@ -50,9 +50,14 @@ def valid(premises, weights):
     return not polynomial and (bound < 0 or (bound == 0 and strict))
 
 
-def better(candidate, incumbent):
+def better(candidate, incumbent, objective="size"):
     new, old = cost(candidate), cost(incumbent)
-    return new[0] <= old[0] and new[1] <= old[1] and new < old
+    order = (2, 0, 1) if objective == "support" else (0, 1, 2)
+    return (
+        new[0] <= old[0]
+        and new[1] <= old[1]
+        and tuple(new[i] for i in order) < tuple(old[i] for i in order)
+    )
 
 
 def integers(values, bits=4096):
@@ -69,7 +74,7 @@ def integers(values, bits=4096):
     return result if all(abs(v).bit_length() <= bits for v in result) else None
 
 
-def cheap(premises, weights, bits=4096):
+def cheap(premises, weights, bits=4096, objective="size"):
     """Bounded exact-checked heuristics; never increase bit height or printed bytes."""
     if not valid(premises, weights):
         raise ValueError("original weighted conflict is invalid")
@@ -79,7 +84,7 @@ def cheap(premises, weights, bits=4096):
         nonlocal best
         if candidate is not None:
             candidate = list(map(Fraction, candidate))
-            if better(candidate, best) and valid(premises, candidate):
+            if better(candidate, best, objective) and valid(premises, candidate):
                 best = candidate
 
     propose(integers(best, bits))
@@ -143,7 +148,14 @@ def linear(values):
     )
 
 
-def optimization_problem(premises, incumbent, bits=4096):
+def support_objective(count):
+    """Beautiful Interpolants, Appendix B.3: prefer zero Farkas multipliers."""
+    return (
+        "(minimize (+ " + " ".join(f"(ite (> w{i} 0) 1 0)" for i in range(count)) + "))"
+    )
+
+
+def optimization_problem(premises, incumbent, bits=4096, objective="size"):
     """Our bounded integer min-max/L1 model; all matrix entries are constants."""
     height = cost(incumbent)[0]
     if height > bits:
@@ -175,8 +187,12 @@ def optimization_problem(premises, incumbent, bits=4096):
         return None
     constant = linear(bounds)
     strict = linear([int(s) for _, _, s in premises])
+    lines.append(
+        f"(assert (or (<= {constant} (- 1)) (and (= {constant} 0) (>= {strict} 1))))"
+    )
+    if objective == "support":
+        lines.append(support_objective(len(premises)))
     lines += [
-        f"(assert (or (<= {constant} (- 1)) (and (= {constant} 0) (>= {strict} 1))))",
         "(minimize max_weight)",
         f"(minimize {linear([1] * len(premises))})",
         "(check-sat)",
@@ -185,7 +201,7 @@ def optimization_problem(premises, incumbent, bits=4096):
     return "\n".join(lines) + "\n"
 
 
-def model_weights(output, count):
+def model_values(output, names):
     """Accept a complete integer get-value response, never a partial/unknown model."""
     head, separator, body = output.strip().partition("\n")
     if not separator or head.strip() != "sat":
@@ -202,6 +218,10 @@ def model_weights(output, count):
         ):
             raise ValueError("invalid optimizer assignment")
         values[pair[0]] = Fraction(int(pair[1]))
-    if set(values) != {f"w{i}" for i in range(count)}:
+    if set(values) != set(names):
         raise ValueError("incomplete optimizer assignments")
-    return [values[f"w{i}"] for i in range(count)]
+    return [values[name] for name in names]
+
+
+def model_weights(output, count):
+    return model_values(output, [f"w{i}" for i in range(count)])

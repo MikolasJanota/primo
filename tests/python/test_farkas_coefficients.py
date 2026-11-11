@@ -35,6 +35,7 @@ def args(**changes):
         "total_seconds": 30,
         "call_seconds": 1,
         "optimizer_arg": [],
+        "objective": "size",
     }
     values.update(changes)
     return argparse.Namespace(**values)
@@ -104,6 +105,13 @@ class CoefficientTests(unittest.TestCase):
         ):
             with self.assertRaises(ValueError):
                 model_weights(text, 2)
+
+    def test_support_objective_is_explicit_and_precedes_size(self):
+        program = optimization_problem(self.premises, [F(10)] * 2, objective="support")
+        self.assertLess(
+            program.index("(minimize (+ (ite"), program.index("(minimize max_weight)")
+        )
+        self.assertNotIn("(ite (> w0", optimization_problem(self.premises, [F(10)] * 2))
 
     def test_interruption_reaps_external_process(self):
         process = Mock(pid=1234)
