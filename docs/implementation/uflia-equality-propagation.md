@@ -4,13 +4,72 @@
 
 This implements the integration proposed by the
 [active-equality investigation](../leads/arithmetic-equality-exploitation.md).
-It reuses Primo's four existing explained tableau rules, rather than adding a
-new equality-discovery algorithm or integer equation solver.
+The legacy producer reuses Primo's four explained tableau rules. The selectable
+model-unit producer reuses the CAV 2024 §3.2 implementation already available
+on the Real route; it adds no integer equation solver. Its integer integration
+is undergoing separate qualification below.
 
 Enable it with `--qf-uflia-tableau-equalities`. The initial unconditional
 candidate passed correctness gates but substantially regressed native search
 on the 44-case development comparison below. The flag controls arithmetic
 proof export; existing model-guided arrangement search remains separate.
+
+## CAV 2024 model-unit discovery: integration checklist
+
+The supplied primary source is Bjørner and Nachmanson, *Arithmetic Solving in
+Z3*, CAV 2024, §3.2 {cite:p}`BjornerN24`. It restricts candidate pairs to
+variables with equal values in the current feasible rational assignment, then
+uses one-row and same-sign two-row unit-coefficient shapes whose remaining
+variables are fixed. Equal model values alone never prove equality.
+
+This integration reuses the existing
+`LraTableau::model_filtered_unit_equalities` implementation. Its checklist is:
+
+1. `LiaComponentAdapter` owns the selected producer for one component lifetime.
+   `--qf-uflia-lia-equality-producer=legacy|model-unit` selects discovery;
+   `--qf-uflia-tableau-equalities` independently enables delivery. Legacy and
+   disabled export remain the defaults during qualification.
+2. Query only the rationally feasible tableau before integer completion, for
+   both rebuilt and online components. Internal integer branch/cut assumptions
+   cannot enter these proofs.
+3. Pass mapped shared Int variable IDs. The existing query groups exact
+   `DeltaRational` values, inspects nonsingleton classes and recognizes fixed
+   equalities, `x = y + fixed`, or `x = ±z + fixed`, `y = ±z + fixed` with the
+   same unit sign. It avoids constructing fixed-offset sums and indexes.
+4. Each query owns its result vectors and explanation literals. The adapter
+   owns its variable-to-term map. No model/tableau borrow survives atom growth.
+   Each fixing bound supplies its blocking literal; the adapter negates it
+   once and rejects zero or inactive antecedents using the existing checks.
+5. Deterministic spanning output avoids enumerating every class pair. Current
+   model grouping uses exact values; candidate-pair counts describe potential
+   pairs, not a quadratic enumeration by the unit-row query. Row work scales
+   with inspected nonzeros; integer numerals can still make exact grouping
+   costly. This is not an allocation-free or incremental discovery algorithm.
+6. Preserve `all`, `fixed`, `scan` and `names` delivery policies, complete
+   arithmetic bridges, false-equality conflicts, finite progress and the full
+   arrangement fallback. Discovery may miss non-unit/general-row equalities;
+   that is incompleteness of the optional producer, not permission to accept
+   incompatible component models.
+7. Record model-unit selection, classes, class terms, potential candidate pairs,
+   rows/nonzeros inspected, fixed/one-row/two-row matches, rejected non-unit or
+   multi-unfixed rows and reason literals. Record skipped legacy scans and a
+   discovery-only timer separately from the existing scan/translation timer.
+8. Regressions cover shared Int fixed/one-row/two-row consequences before
+   completion, equal-valued but unconstrained terms, non-unit fallback, both
+   online/rebuild execution, disabled selection, all delivery policies and
+   original-model reconstruction. Existing tableau tests exercise large fixed
+   offsets, both connector signs, deterministic spanning and bound rollback.
+9. Compare legacy and model-unit with identical delivery policies and arithmetic
+   settings. First require fresh differential/model gates; preserve baseline
+   default behavior. Performance and default acceptance require separate
+   measured evidence, not merely the availability of this selector.
+
+For example, `x = z + d`, `y = z + e`, with both `d` and `e` fixed and
+`beta(x) = beta(y)`, proves `x = y` using the fixing bounds without computing
+and hashing their exact offsets. In integer problems the proof follows from
+the rational relaxation, so it holds in every integer solution as well.
+The existing `FixedEq` rule is retained alongside the two §3.2 row shapes.
+No integer-specific or complete equality algorithm is claimed.
 
 ## State and ownership
 
@@ -20,8 +79,8 @@ assignment and shared arrangement. It copies the option into
 The LIA component advertises opportunistic equality propagation only while
 this option is enabled. Its rational check builds or receives a
 feasible tableau whose bounds have SAT antecedents. Before calling integer
-completion, it queries `LraTableau::entailed_equalities` for the registered
-shared Int variables. The input-to-tableau map translates variable IDs back
+completion, it queries `LraTableau::entailed_equalities` (legacy) or
+`model_filtered_unit_equalities` (model-unit) for the registered shared Int variables. The input-to-tableau map translates variable IDs back
 to copied `TermId` values; terms remain owned by the term manager. No tableau or term-storage reference crosses a
 term-creation boundary.
 
@@ -43,7 +102,7 @@ and coincident values in that model do not justify this propagation.
 
 1. Assert the candidate's arithmetic literals and restore rational feasibility,
    or reuse the online route's checked rational tableau.
-2. With a nonempty shared interface, run the existing equality scan. Row
+2. With a nonempty shared interface, run the selected equality scan. Row
    identities and both reasons fixing each required remainder justify every
    candidate. Map only in-scope, same-sort shared endpoints.
 3. If new consequences exist, return their batch without integer completion.

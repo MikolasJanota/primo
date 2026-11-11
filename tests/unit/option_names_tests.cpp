@@ -113,6 +113,7 @@ int main() {
   check_table(kLraSoiMinimizationOrderNames);
   check_table(kMixedDispatchNames);
   check_table(kQfUflraLraEqualityProducerNames);
+  check_table(kQfUfliaLiaEqualityProducerNames);
   check_table(kModelEqualityMutationScopeNames);
   check_table(kNelsonOppenPropagationNames);
   check_table(kModelEqualityBranchPolicyNames);

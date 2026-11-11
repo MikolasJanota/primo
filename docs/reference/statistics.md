@@ -64,6 +64,26 @@ clauses. QF_UFLIA's `:time.qf-uflia.*` timers remain attached to its recipe and
 are not emitted by standalone QF_LIA. Scheduling and diagnostic search counts
 need not match the old standalone loop even when results and limits agree.
 
+## QF_UFLIA equality discovery
+
+When pre-integer equality delivery is enabled, `:lia.equality.scans` counts
+adapter queries and `:time.lia.equality-scan-us` covers discovery plus owning
+proof translation. `:time.lia.equality-discovery-us` isolates the query and
+its mechanism-stat publication. `:lia.equality.legacy-producer-selected` and
+`:lia.equality.legacy-scans-skipped` distinguish discovery paths.
+
+The `:lia.equality.model-unit.*` family records `selected`, `classes`,
+`class-terms`, `candidate-pairs`, `rows-inspected`, `nonzeros-inspected`,
+`fixed-matches`, `one-row-matches`, `two-row-matches`, `nonunit-rejections`,
+`nonfixed-row-rejections` and `reason-lits`. These copy the existing tableau
+query's work counters; potential candidate pairs are not enumerated pairs.
+Matches precede delivery-policy filtering and already-true/named suppression.
+`:lia.equality.candidates` and the existing rule counters describe returned
+proofs and their retained translation, respectively. The model-unit producer
+skips general `EqRows`; incomplete discovery retains arrangement fallback.
+Selecting a producer while equality export is off runs neither query.
+See the [paper mapping and ownership checklist](../implementation/uflia-equality-propagation.md#cav-2024-model-unit-discovery-integration-checklist).
+
 ## Session counters
 
 The session interpreter reports `:session.queries` (completed queries) and

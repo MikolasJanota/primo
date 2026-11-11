@@ -24,6 +24,7 @@ enum class IncrementalMode { Rebuild, Assumptions };
 // Experimental filters/delivery controls for the existing QF_UFLIA producer.
 // The separate enable Boolean stays off by default; see uflia-equality-ablation.md.
 enum class QfUfliaEqualityPolicy { All, Scan, Names, Fixed };
+enum class QfUfliaEqualityProducer { Legacy, ModelUnit };
 
 enum class PreprocessingMode {
   Off,
@@ -402,6 +403,10 @@ struct CheckSatOptions {
   // the initial paired evaluation regresses native QF_UFLIA search strongly.
   bool qf_uflia_tableau_equalities = false;
   QfUfliaEqualityPolicy qf_uflia_equality_policy = QfUfliaEqualityPolicy::All;
+  // Discovery is independent of delivery policy. ModelUnit reuses CAV 2024
+  // Section 3.2 on the rationally feasible tableau before integer completion.
+  // Selecting a producer alone does not enable equality export.
+  QfUfliaEqualityProducer qf_uflia_lia_equality_producer = QfUfliaEqualityProducer::Legacy;
   std::size_t qf_uflia_model_decision_budget = 512;
   bool qf_uflra_online_euf = false;
   bool top_level_or_tseitin = false;

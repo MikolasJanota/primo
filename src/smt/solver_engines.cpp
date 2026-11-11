@@ -9816,6 +9816,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
         produce_model_projection_(produce_model_projection),
         propagate_equalities_(options.qf_uflia_tableau_equalities),
         equality_policy_(options.qf_uflia_equality_policy),
+        equality_producer_(options.qf_uflia_lia_equality_producer),
         prepared_(terms_, atoms_, lra_pivoting_rule_from_options(options.lra_pivoting_rule),
                   options.lra_sparse_leaving, options.lra_fixed_elimination,
                   /*collect_model_variables=*/true, options.lra_least_violated_leaving,
@@ -9939,7 +9940,41 @@ class LiaComponentAdapter final : public theory::TheorySolver {
       active.insert(atom.value ? atom.lit.value : -atom.lit.value);
     theory::TheoryCheckResult result;
     result.status = theory::TheoryCheckStatus::EntailedEqualities;
-    for (const auto& equality : tableau.entailed_equalities(variables)) {
+    std::vector<theory::arithmetic::LraTableau::EntailedEquality> equalities;
+    {
+      ScopedStatisticsTimer discovery_timer(statistics_, ":time.lia.equality-discovery-us");
+      if (equality_producer_ == QfUfliaEqualityProducer::ModelUnit) {
+        // Bjorner/Nachmanson, CAV 2024 Section 3.2. Equal model values only
+        // filter candidates; fixed/unit-row identities justify every proof.
+        // The same rational entailments hold in the subset of integer models.
+        auto query = tableau.model_filtered_unit_equalities(variables);
+        statistics_.increment(":lia.equality.model-unit.selected");
+        statistics_.increment(":lia.equality.model-unit.classes", query.stats.model_classes);
+        statistics_.increment(":lia.equality.model-unit.class-terms", query.stats.class_terms);
+        statistics_.increment(":lia.equality.model-unit.candidate-pairs",
+                              query.stats.candidate_pairs);
+        statistics_.increment(":lia.equality.model-unit.rows-inspected",
+                              query.stats.rows_inspected);
+        statistics_.increment(":lia.equality.model-unit.nonzeros-inspected",
+                              query.stats.nonzeros_inspected);
+        statistics_.increment(":lia.equality.model-unit.fixed-matches", query.stats.fixed_matches);
+        statistics_.increment(":lia.equality.model-unit.one-row-matches",
+                              query.stats.one_row_matches);
+        statistics_.increment(":lia.equality.model-unit.two-row-matches",
+                              query.stats.two_row_matches);
+        statistics_.increment(":lia.equality.model-unit.nonunit-rejections",
+                              query.stats.nonunit_rejections);
+        statistics_.increment(":lia.equality.model-unit.nonfixed-row-rejections",
+                              query.stats.nonfixed_row_rejections);
+        statistics_.increment(":lia.equality.model-unit.reason-lits", query.stats.reason_literals);
+        statistics_.increment(":lia.equality.legacy-scans-skipped");
+        equalities = std::move(query.equalities);
+      } else {
+        statistics_.increment(":lia.equality.legacy-producer-selected");
+        equalities = tableau.entailed_equalities(variables);
+      }
+    }
+    for (const auto& equality : equalities) {
       statistics_.increment(":lia.equality.candidates");
       using Rule = theory::arithmetic::LraTableau::EntailedEqualityRule;
       if (equality_policy_ == QfUfliaEqualityPolicy::Fixed && equality.rule != Rule::FixedEq) {
@@ -10074,6 +10109,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
   bool produce_model_projection_ = false;
   bool propagate_equalities_ = false;
   QfUfliaEqualityPolicy equality_policy_ = QfUfliaEqualityPolicy::All;
+  QfUfliaEqualityProducer equality_producer_ = QfUfliaEqualityProducer::Legacy;
   PreparedLraTheory prepared_;
   std::vector<theory::arithmetic::LraVarId> integer_input_vars_;
   std::vector<theory::arithmetic::LraVarId> integer_vars_;

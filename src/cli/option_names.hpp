@@ -118,6 +118,12 @@ inline constexpr auto kMixedDispatchNames = std::to_array<EnumName<smt::MixedDis
     {"wide", smt::MixedDispatchMode::Wide},
 });
 
+inline constexpr auto kQfUfliaLiaEqualityProducerNames =
+    std::to_array<EnumName<smt::QfUfliaEqualityProducer>>({
+        {"legacy", smt::QfUfliaEqualityProducer::Legacy},
+        {"model-unit", smt::QfUfliaEqualityProducer::ModelUnit},
+    });
+
 inline constexpr auto kQfUflraLraEqualityProducerNames =
     std::to_array<EnumName<smt::QfUflraLraEqualityProducer>>({
         {"legacy", smt::QfUflraLraEqualityProducer::Legacy},

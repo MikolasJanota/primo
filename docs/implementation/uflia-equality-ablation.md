@@ -19,6 +19,11 @@ The four existing tableau rules and their original paper mapping remain in
 {ref}`the combination chapter <lra-default-equality-rules>`.
 The following policy filters and their tests are an original design.
 
+The table below records the original legacy-discovery ablation. The later
+[model-unit selector](uflia-equality-propagation.md#cav-2024-model-unit-discovery-integration-checklist)
+changes discovery independently of these delivery policies. The earlier timing
+results do not qualify the new producer or its combinations.
+
 ## Representation and operations
 
 Keep one CLI switch, `--qf-uflia-tableau-equalities`, accepting an optional
@@ -26,7 +31,7 @@ explicit mode. Absence remains off; the existing bare flag remains all.
 The C++ Boolean enable field remains compatible. A separate owned enum in
 {ufliaablationsource}`CheckSatOptions <src/smt/check_sat.hpp>` selects one of four
 enabled policies; no second CLI flag is
-introduced. {ufliaablationsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>` copies that
+introduced by that original ablation. {ufliaablationsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>` copies that
 policy for a query's lifetime. The source links pin the ablation implementation at `4a0c6bee`;
 qualification remains a separate stage, tracked in the {download}`run ledger <../run-log.json>`.
 

@@ -557,6 +557,11 @@ int run_main(int argc, char** argv) {
       "Reuse trail-synchronized EUF and rational-arithmetic state during QF_UFLIA SAT search");
   add_flag_with_default(app, "--no-qf-uflia-online-components", no_qf_uflia_online_components,
                         "Disable trail-synchronized QF_UFLIA components");
+  add_enum_option(app, "--qf-uflia-lia-equality-producer",
+                  solver_options.qf_uflia_lia_equality_producer,
+                  primo::cli::kQfUfliaLiaEqualityProducerNames,
+                  "QF_UFLIA equality discovery: legacy exact-offset rules or model-unit "
+                  "current-model-filtered unit rows; requires --qf-uflia-tableau-equalities");
   app.add_option_function<std::string>(
          "--qf-uflia-tableau-equalities",
          [&solver_options](const std::string& mode) {

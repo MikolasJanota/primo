@@ -16,6 +16,7 @@ using primo::smt::check_sat_smtlib;
 using primo::smt::CheckSatOptions;
 using primo::smt::CheckSatResult;
 using primo::smt::QfUfliaEqualityPolicy;
+using primo::smt::QfUfliaEqualityProducer;
 
 namespace {
 
@@ -603,12 +604,15 @@ void rejects_real_symbols() {
 }
 
 void tableau_equality_export_is_opt_in() {
-  for (const bool online : {false, true}) {
-    CheckSatOptions options;
-    assert(!options.qf_uflia_tableau_equalities);
-    options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
-    options.qf_uflia_online_components = online;
-    const auto result = check_sat_smtlib(R"(
+  for (const auto producer :
+       {QfUfliaEqualityProducer::Legacy, QfUfliaEqualityProducer::ModelUnit}) {
+    for (const bool online : {false, true}) {
+      CheckSatOptions options;
+      options.qf_uflia_lia_equality_producer = producer;
+      assert(!options.qf_uflia_tableau_equalities);
+      options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+      options.qf_uflia_online_components = online;
+      const auto result = check_sat_smtlib(R"(
       (set-logic QF_UFLIA)
       (declare-fun x () Int) (declare-fun y () Int)
       (declare-fun p (Int) Bool)
@@ -617,70 +621,86 @@ void tableau_equality_export_is_opt_in() {
       (assert (p x)) (assert (not (p y)))
       (check-sat)
     )",
-                                         options);
-    assert(result.result == CheckSatResult::Unsat);
-    assert(result.statistics.get(":lia.equality.scans") == 0);
-    assert(result.statistics.get(":combination.equality.batches") == 0);
+                                           options);
+      assert(result.result == CheckSatResult::Unsat);
+      assert(result.statistics.get(":lia.equality.scans") == 0);
+      assert(result.statistics.get(":combination.equality.batches") == 0);
+    }
   }
 }
 
 void explained_tableau_equalities_precede_integer_completion() {
-  const std::string declarations =
-      "(set-logic QF_UFLIA)\n(declare-fun x () Int)\n(declare-fun y () Int)\n"
-      "(declare-fun z () Int)\n(declare-fun w () Int)\n(declare-fun t () Int)\n"
-      "(declare-fun p (Int) Bool)\n";
-  const std::array<std::pair<std::string, std::string>, 4> rules{
-      {{"(assert (<= x 0))(assert (<= 0 x))(assert (<= y 0))(assert (<= 0 y))",
-        ":lia.equality.fixed-eq"},
-       {"(assert (<= 1 x))(assert (<= x y))(assert (<= y x))", ":lia.equality.eq-row"},
-       {"(assert (<= 0 z))(assert (<= (- x z) 1))(assert (<= 1 (- x z)))"
-        "(assert (<= (- y z) 1))(assert (<= 1 (- y z)))",
-        ":lia.equality.eq-offset-rows"},
-       {"(assert (<= 0 z))(assert (<= 0 w))"
-        "(assert (<= (- x (+ z w)) 1))(assert (<= 1 (- x (+ z w))))"
-        "(assert (<= (- y (+ z w)) 1))(assert (<= 1 (- y (+ z w))))",
-        ":lia.equality.eq-rows"}}};
-  for (const bool online : {false, true}) {
-    for (const bool no_integer_search : {false, true}) {
-      for (const auto& [bounds, counter] : rules) {
-        CheckSatOptions options;
-        options.qf_uflia_tableau_equalities = true;
-        options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
-        options.qf_uflia_online_components = online;
-        if (no_integer_search) {
-          options.lia.patch_limit = 0;
-          options.lia.gomory_cut_limit = 0;
-          options.lia.branch_limit = 0;
+  for (const auto producer :
+       {QfUfliaEqualityProducer::Legacy, QfUfliaEqualityProducer::ModelUnit}) {
+    const std::string declarations =
+        "(set-logic QF_UFLIA)\n(declare-fun x () Int)\n(declare-fun y () Int)\n"
+        "(declare-fun z () Int)\n(declare-fun w () Int)\n(declare-fun t () Int)\n"
+        "(declare-fun p (Int) Bool)\n";
+    const std::array<std::pair<std::string, std::string>, 4> rules{
+        {{"(assert (<= x 0))(assert (<= 0 x))(assert (<= y 0))(assert (<= 0 y))",
+          ":lia.equality.fixed-eq"},
+         {"(assert (<= 1 x))(assert (<= x y))(assert (<= y x))", ":lia.equality.eq-row"},
+         {"(assert (<= 0 z))(assert (<= (- x z) 1))(assert (<= 1 (- x z)))"
+          "(assert (<= (- y z) 1))(assert (<= 1 (- y z)))",
+          ":lia.equality.eq-offset-rows"},
+         {"(assert (<= 0 z))(assert (<= 0 w))"
+          "(assert (<= (- x (+ z w)) 1))(assert (<= 1 (- x (+ z w))))"
+          "(assert (<= (- y (+ z w)) 1))(assert (<= 1 (- y (+ z w))))",
+          ":lia.equality.eq-rows"}}};
+    for (const bool online : {false, true}) {
+      for (const bool no_integer_search : {false, true}) {
+        for (const auto& [bounds, counter] : rules) {
+          // General matching rows are intentionally outside the unit-row subset.
+          if (producer == QfUfliaEqualityProducer::ModelUnit && counter == ":lia.equality.eq-rows")
+            continue;
+          CheckSatOptions options;
+          options.qf_uflia_lia_equality_producer = producer;
+          options.qf_uflia_tableau_equalities = true;
+          options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+          options.qf_uflia_online_components = online;
+          if (no_integer_search) {
+            options.lia.patch_limit = 0;
+            options.lia.gomory_cut_limit = 0;
+            options.lia.branch_limit = 0;
+          }
+          options.lia.round_integer_bounds = false;
+          const auto result = check_sat_smtlib(declarations + bounds +
+                                                   "(assert (<= 1 (* 2 t)))(assert (<= t 1))"
+                                                   "(assert (p x))(assert (not (p y)))(check-sat)",
+                                               options);
+          // Rebuild mode checks LIA completion before EUF on the next round.
+          // Even when that hits the zero budget, the proved batch came first.
+          const bool limited = no_integer_search && !online;
+          assert(result.result == (limited ? CheckSatResult::Unknown : CheckSatResult::Unsat));
+          if (limited) assert(result.reason == primo::smt::InconclusiveReason::ResourceLimit);
+          assert(result.statistics.get(counter) > 0);
+          if (producer == QfUfliaEqualityProducer::ModelUnit) {
+            assert(result.statistics.get(":lia.equality.model-unit.selected") > 0);
+            assert(result.statistics.get(":lia.equality.legacy-scans-skipped") > 0);
+            assert(result.statistics.get(":lia.equality.legacy-producer-selected") == 0);
+          }
+          assert(result.statistics.get(":combination.equality.fresh-pairs") > 0);
+          assert(result.statistics.get(":combination.equality.clauses") > 0);
         }
-        options.lia.round_integer_bounds = false;
-        const auto result = check_sat_smtlib(declarations + bounds +
-                                                 "(assert (<= 1 (* 2 t)))(assert (<= t 1))"
-                                                 "(assert (p x))(assert (not (p y)))(check-sat)",
-                                             options);
-        // Rebuild mode checks LIA completion before EUF on the next round.
-        // Even when that hits the zero budget, the proved batch came first.
-        const bool limited = no_integer_search && !online;
-        assert(result.result == (limited ? CheckSatResult::Unknown : CheckSatResult::Unsat));
-        if (limited) assert(result.reason == primo::smt::InconclusiveReason::ResourceLimit);
-        assert(result.statistics.get(counter) > 0);
-        assert(result.statistics.get(":combination.equality.fresh-pairs") > 0);
-        assert(result.statistics.get(":combination.equality.clauses") > 0);
       }
     }
   }
 }
 
 void integer_model_coincidences_do_not_become_equality_facts() {
-  for (const bool guided : {false, true}) {
-    for (const bool online : {false, true}) {
-      CheckSatOptions options;
-      options.qf_uflia_tableau_equalities = true;
-      options.qf_uflia_model_combination = guided;
-      options.qf_uflia_online_components = online;
-      options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
-      options.produce_model = true;
-      options.check_model = true;
-      const auto result = check_sat_smtlib(R"(
+  for (const auto producer :
+       {QfUfliaEqualityProducer::Legacy, QfUfliaEqualityProducer::ModelUnit}) {
+    for (const bool guided : {false, true}) {
+      for (const bool online : {false, true}) {
+        CheckSatOptions options;
+        options.qf_uflia_lia_equality_producer = producer;
+        options.qf_uflia_tableau_equalities = true;
+        options.qf_uflia_model_combination = guided;
+        options.qf_uflia_online_components = online;
+        options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+        options.produce_model = true;
+        options.check_model = true;
+        const auto result = check_sat_smtlib(R"(
         (set-logic QF_UFLIA)
         (declare-fun x () Int) (declare-fun y () Int)
         (declare-fun p (Int) Bool)
@@ -689,9 +709,10 @@ void integer_model_coincidences_do_not_become_equality_facts() {
         (assert (p x)) (assert (not (p y)))
         (check-sat)
       )",
-                                           options);
-      assert(result.result == CheckSatResult::Sat);
-      assert(result.statistics.get(":lia.equality.proposed") == 0);
+                                             options);
+        assert(result.result == CheckSatResult::Sat);
+        assert(result.statistics.get(":lia.equality.proposed") == 0);
+      }
     }
   }
 }
@@ -699,69 +720,118 @@ void integer_model_coincidences_do_not_become_equality_facts() {
 // Original ablation checklist: separate discovery/definitions/proof delivery
 // while preserving SAT models, both equality polarities and finite progress.
 void equality_delivery_policies_preserve_semantics_and_progress() {
-  const std::string prefix =
-      "(set-logic QF_UFLIA)(declare-fun x () Int)(declare-fun y () Int)"
-      "(declare-fun p (Int) Bool)"
-      "(assert (<= 0 x))(assert (<= x 0))(assert (<= 0 y))(assert (<= y 0))";
-  for (const bool online : {false, true}) {
-    CheckSatOptions off;
-    off.preprocessing_mode = primo::smt::PreprocessingMode::Off;
-    off.qf_uflia_online_components = online;
-    const std::string conflict = prefix + "(assert (p x))(assert (not (p y)))(check-sat)";
-    const auto baseline = check_sat_smtlib(conflict, off);
-    assert(baseline.result == CheckSatResult::Unsat);
-    for (const auto policy : {QfUfliaEqualityPolicy::Scan, QfUfliaEqualityPolicy::Names,
-                              QfUfliaEqualityPolicy::Fixed}) {
-      auto options = off;
-      options.qf_uflia_tableau_equalities = true;
-      options.qf_uflia_equality_policy = policy;
-      const auto checked = check_sat_smtlib(conflict, options);
-      assert(checked.result == CheckSatResult::Unsat);
-      assert(checked.statistics.get(":lia.equality.scans") > 0);
-      if (policy == QfUfliaEqualityPolicy::Scan) {
-        assert(checked.statistics.get(":lia.equality.scan-only-proofs") > 0);
-        assert(checked.statistics.get(":combination.equality.batches") == 0);
-        for (const auto* key : {":sat.decisions", ":sat.solve-calls", ":lra.pivots",
-                                ":combination.model.materialized-pairs"}) {
-          assert(checked.statistics.get(key) == baseline.statistics.get(key));
+  for (const auto producer :
+       {QfUfliaEqualityProducer::Legacy, QfUfliaEqualityProducer::ModelUnit}) {
+    const std::string prefix =
+        "(set-logic QF_UFLIA)(declare-fun x () Int)(declare-fun y () Int)"
+        "(declare-fun p (Int) Bool)"
+        "(assert (<= 0 x))(assert (<= x 0))(assert (<= 0 y))(assert (<= y 0))";
+    for (const bool online : {false, true}) {
+      CheckSatOptions off;
+      off.qf_uflia_lia_equality_producer = producer;
+      off.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+      off.qf_uflia_online_components = online;
+      const std::string conflict = prefix + "(assert (p x))(assert (not (p y)))(check-sat)";
+      const auto baseline = check_sat_smtlib(conflict, off);
+      assert(baseline.result == CheckSatResult::Unsat);
+      for (const auto policy : {QfUfliaEqualityPolicy::Scan, QfUfliaEqualityPolicy::Names,
+                                QfUfliaEqualityPolicy::Fixed}) {
+        auto options = off;
+        options.qf_uflia_tableau_equalities = true;
+        options.qf_uflia_equality_policy = policy;
+        const auto checked = check_sat_smtlib(conflict, options);
+        assert(checked.result == CheckSatResult::Unsat);
+        assert(checked.statistics.get(":lia.equality.scans") > 0);
+        if (policy == QfUfliaEqualityPolicy::Scan) {
+          assert(checked.statistics.get(":lia.equality.scan-only-proofs") > 0);
+          assert(checked.statistics.get(":combination.equality.batches") == 0);
+          for (const auto* key : {":sat.decisions", ":sat.solve-calls", ":lra.pivots",
+                                  ":combination.model.materialized-pairs"}) {
+            assert(checked.statistics.get(key) == baseline.statistics.get(key));
+          }
+        } else if (policy == QfUfliaEqualityPolicy::Names) {
+          assert(checked.statistics.get(":combination.equality.named-without-proof") > 0);
+          assert(checked.statistics.get(":combination.equality.clauses") == 0);
+        } else {
+          assert(checked.statistics.get(":lia.equality.fixed-eq") > 0);
+          assert(checked.statistics.get(":combination.equality.clauses") > 0);
         }
-      } else if (policy == QfUfliaEqualityPolicy::Names) {
-        assert(checked.statistics.get(":combination.equality.named-without-proof") > 0);
-        assert(checked.statistics.get(":combination.equality.clauses") == 0);
-      } else {
-        assert(checked.statistics.get(":lia.equality.fixed-eq") > 0);
-        assert(checked.statistics.get(":combination.equality.clauses") > 0);
+        options.produce_model = true;
+        options.check_model = true;
+        const auto sat = check_sat_smtlib(prefix + "(assert (or (p x) (p y)))(check-sat)", options);
+        assert(sat.result == CheckSatResult::Sat);
+        options.qf_uflia_model_combination = false;
+        const auto complete =
+            check_sat_smtlib(prefix + "(assert (or (p x) (p y)))(check-sat)", options);
+        assert(complete.result == CheckSatResult::Sat);
+        if (policy == QfUfliaEqualityPolicy::Names) {
+          assert(complete.statistics.get(":combination.equality.batches") == 0);
+          assert(complete.statistics.get(":lia.equality.already-named") > 0);
+        }
       }
+      auto fixed = off;
+      fixed.qf_uflia_tableau_equalities = true;
+      fixed.qf_uflia_equality_policy = QfUfliaEqualityPolicy::Fixed;
+      const auto row_only = check_sat_smtlib(
+          "(set-logic QF_UFLIA)(declare-fun x () Int)(declare-fun y () Int)"
+          "(declare-fun p (Int) Bool)(assert (<= 1 x))(assert (<= x y))(assert (<= y x))"
+          "(assert (p x))(assert (not (p y)))(check-sat)",
+          fixed);
+      assert(row_only.result == CheckSatResult::Unsat);
+      assert(row_only.statistics.get(":lia.equality.filtered-rule") > 0);
+      assert(row_only.statistics.get(":combination.equality.batches") == 0);
+    }
+  }
+}
+
+void model_unit_discovery_keeps_nonunit_arrangement_search_and_models() {
+  for (const bool online : {false, true}) {
+    for (const bool guided : {false, true}) {
+      CheckSatOptions options;
+      options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+      options.qf_uflia_tableau_equalities = true;
+      options.qf_uflia_lia_equality_producer = QfUfliaEqualityProducer::ModelUnit;
+      options.qf_uflia_online_components = online;
+      options.qf_uflia_model_combination = guided;
+      options.lra_fixed_elimination = false;
       options.produce_model = true;
       options.check_model = true;
-      const auto sat = check_sat_smtlib(prefix + "(assert (or (p x) (p y)))(check-sat)", options);
-      assert(sat.result == CheckSatResult::Sat);
-      options.qf_uflia_model_combination = false;
-      const auto complete =
-          check_sat_smtlib(prefix + "(assert (or (p x) (p y)))(check-sat)", options);
-      assert(complete.result == CheckSatResult::Sat);
-      if (policy == QfUfliaEqualityPolicy::Names) {
-        assert(complete.statistics.get(":combination.equality.batches") == 0);
-        assert(complete.statistics.get(":lia.equality.already-named") > 0);
+      const std::string prefix =
+          "(set-logic QF_UFLIA)(declare-fun x () Int)(declare-fun y () Int)"
+          "(declare-fun z () Int)(declare-fun p (Int) Bool)"
+          "(assert (= x (* 2 z)))(assert (= y (* 2 z)))";
+      const auto unsat =
+          check_sat_smtlib(prefix + "(assert (p x))(assert (not (p y)))(check-sat)", options);
+      assert(unsat.result == CheckSatResult::Unsat);
+      assert(unsat.statistics.get(":lia.equality.legacy-producer-selected") == 0);
+      if (guided) {
+        assert(unsat.statistics.get(":lia.equality.model-unit.selected") > 0);
+        assert(unsat.statistics.get(":lia.equality.model-unit.nonunit-rejections") > 0);
       }
+      const auto sat =
+          check_sat_smtlib(prefix + "(assert (p x))(assert (p y))(check-sat)", options);
+      assert(sat.result == CheckSatResult::Sat);
+      assert(sat.typed_model);
+      assert(!sat.model.empty());
     }
-    auto fixed = off;
-    fixed.qf_uflia_tableau_equalities = true;
-    fixed.qf_uflia_equality_policy = QfUfliaEqualityPolicy::Fixed;
-    const auto row_only = check_sat_smtlib(
-        "(set-logic QF_UFLIA)(declare-fun x () Int)(declare-fun y () Int)"
-        "(declare-fun p (Int) Bool)(assert (<= 1 x))(assert (<= x y))(assert (<= y x))"
-        "(assert (p x))(assert (not (p y)))(check-sat)",
-        fixed);
-    assert(row_only.result == CheckSatResult::Unsat);
-    assert(row_only.statistics.get(":lia.equality.filtered-rule") > 0);
-    assert(row_only.statistics.get(":combination.equality.batches") == 0);
   }
+}
+
+void integer_model_unit_selector_does_not_run_on_pure_lia() {
+  CheckSatOptions options;
+  options.qf_uflia_tableau_equalities = true;
+  options.qf_uflia_lia_equality_producer = QfUfliaEqualityProducer::ModelUnit;
+  const auto result = check_sat_smtlib(
+      "(set-logic QF_LIA)(declare-fun x () Int)(assert (<= 0 x))(check-sat)", options);
+  assert(result.result == CheckSatResult::Sat);
+  assert(result.statistics.get(":lia.equality.model-unit.selected") == 0);
 }
 
 }  // namespace
 
 int main() {
+  model_unit_discovery_keeps_nonunit_arrangement_search_and_models();
+  integer_model_unit_selector_does_not_run_on_pure_lia();
   tableau_equality_export_is_opt_in();
   explained_tableau_equalities_precede_integer_completion();
   integer_model_coincidences_do_not_become_equality_facts();
