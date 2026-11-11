@@ -3,12 +3,18 @@
 import copy
 import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
 from replay_checker_handoff import pipeline_status
-from replay_checker_medium import cost_band, validate_selection
+from replay_checker_medium import (
+    adapter_command,
+    cost_band,
+    integer_envelope,
+    validate_selection,
+)
 
 
 class MediumSelectionTests(unittest.TestCase):
@@ -30,6 +36,35 @@ class MediumSelectionTests(unittest.TestCase):
             [cost_band(x) for x in (0, 9.99, 10, 90, 90.01)],
             ["short", "short", "medium", "medium", "near_limit"],
         )
+
+    def test_comparison_adapter_commands_separate_objectives_and_budget_threshold(self):
+        root = Path("/example")
+        for profile in ("cheap", "size", "support"):
+            command = adapter_command(
+                root, root / "input", root / profile, profile, root / "z3", 8
+            )
+            self.assertIn("--report", command)
+            if profile == "cheap":
+                self.assertNotIn("--optimizer", command)
+            else:
+                self.assertEqual(command[command.index("--objective") + 1], profile)
+                self.assertEqual(command[command.index("--min-bits") + 1], "8")
+                self.assertIn("--problems-dir", command)
+        with self.assertRaises(ValueError):
+            adapter_command(root, root / "input", root / "output", "original", None, 8)
+
+    def test_integer_compatibility_copy_preserves_all_body_bytes(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            native = root / "native.sexp"
+            adapted = root / "v2.sexp"
+            data = (
+                b"(primo-conflicts\n  (version 3)\n  (logic QF_LIA)\n"
+                + b"; keep body\n" * 100000
+            )
+            native.write_bytes(data)
+            integer_envelope(native, adapted)
+            self.assertEqual(adapted.read_bytes(), data[:28] + b"2" + data[29:])
 
     def test_selection_rejects_bad_paths_duplicates_and_failed_inputs(self):
         for field, value in (

@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-11",
+  "purpose": "Bounded original/cheap/size/support comparison on Rings, LassoRanker and Clock7 main invariant.",
+  "selection_policy": {
+    "known_verified_proof_seconds": [
+      10,
+      90
+    ],
+    "max_native_bytes": 25000000,
+    "require_retained_lemmas": true,
+    "diversity": "Nine distinct top-level benchmark families, chosen from saved positive results; latest replay supersedes older status.",
+    "excluded_focus": "Large NEC cases dominated by input/SAT work, including zero arithmetic proof steps, are not coefficient targets."
+  },
+  "sources": {
+    "docs/coverage/full-arithmetic-certificates-20261108.json": "ca5e326bd61eb23b03502e00b2ab2cfc299f47f4fb35707f1d0a76eec4c7a5bc",
+    "docs/coverage/remaining-checker-replay-20261110.json": "560c1f90c8deffc0f8c6089c21fa7fe9c2167c5184e85cf51ca30511d2a5065e"
+  },
+  "native_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "target_checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+  "primary_array": "365550",
+  "rows": [
+    {
+      "logic": "QF_LIA",
+      "file": "rings/ring_2exp14_4vars_3ite_unsat.smt2",
+      "family": "rings",
+      "input_sha256": "001f346fef84c391bf48db45c04212b4b642b39ea359e515f23fa827d02803a6",
+      "native_sha256": "a6d19ebabff27f7b5fb14c43651e3b1a49292e9564f8a1932373f63f2264011b",
+      "native_bytes": 2455983,
+      "statement_sha256": "4d3b13a44d4f617fc41f045dce0417f8526ff8ef89989d850cff91189c46cadd",
+      "statement_bytes": 18289,
+      "cnf_clauses": 180,
+      "collected_lemmas": 1631,
+      "retained_lemmas": 1567,
+      "primary_case": "QF_LIA/shard-32/run/007",
+      "previous": {
+        "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+        "job": "365550",
+        "status": "verified",
+        "proof_seconds": 47.365713258011965,
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_steps": null
+      },
+      "historical_export_seconds": 7.232234069990227
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "LassoRanker/Ultimate/Braverman-2006CAV-Ex1-int.bpl_Iteration1_Lasso_4-pieceTemplate.smt2",
+      "family": "LassoRanker",
+      "input_sha256": "c9d03400f49d2408dc01e275d995d6edf8f95d30150c56498da765d1fd40972a",
+      "native_sha256": "4653f0aeaf1d96e3f9d062d8dcfe72f38d8f85e767e8e84ff002ed2ccfa344af",
+      "native_bytes": 3470664,
+      "statement_sha256": "d9ef64f57a18042a3ae537110e24bde6e03398842d264dd34b992e00cfd7d841",
+      "statement_bytes": 441585,
+      "cnf_clauses": 2411,
+      "collected_lemmas": 5096,
+      "retained_lemmas": 1691,
+      "primary_case": "QF_LRA/shard-24/run/018",
+      "previous": {
+        "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+        "job": "365550",
+        "status": "verified",
+        "proof_seconds": 68.50790986602078,
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_steps": null
+      },
+      "historical_export_seconds": 10.843420897988835
+    },
+    {
+      "logic": "QF_LRA",
+      "file": "clock_synchro/clocksynchro_7clocks.main_invar.induct.smt2",
+      "family": "clock_synchro",
+      "input_sha256": "b66bda92b20a70cff5b9c2c15d4cc5922a6511cb8e826cdf34fbef19c81924fa",
+      "native_sha256": "ab7b76542a499ec950b1847cdd2c456a9532a3ad1b00e67b54a8ca8b6a727075",
+      "native_bytes": 1024372,
+      "statement_sha256": "3d6b5a7320005494488be7e486f8b12612542e447688bca831ca64b1a90f25b2",
+      "statement_bytes": 243200,
+      "cnf_clauses": 2600,
+      "collected_lemmas": 1386,
+      "retained_lemmas": 988,
+      "primary_case": "QF_LRA/shard-4/run/016",
+      "previous": {
+        "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+        "job": "382354_0..7",
+        "status": "verified",
+        "proof_seconds": 69.64601245499216,
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_steps": {
+          "Library preparation": 634219,
+          "Source conversion": 73417,
+          "LRA checking": 160508527,
+          "SAT checking": 1386437
+        }
+      },
+      "historical_export_seconds": 6.835354514012579
+    }
+  ],
+  "parent_selection": {
+    "path": "benchmarks/checker-regressions/checker-medium-20261111/selection.json",
+    "sha256": "816ae15284cd7136cd0b8bfe9fd110d0a749cef8c50640b9c76086668bb96a81",
+    "indices": [
+      2,
+      6,
+      8
+    ]
+  },
+  "comparison": {
+    "profiles": [
+      "original",
+      "cheap",
+      "size",
+      "support"
+    ],
+    "min_bits": 8,
+    "max_queries": 32,
+    "call_seconds": 1,
+    "total_call_seconds": 30,
+    "repeats": 1,
+    "repeat_policy": "Repeat promising candidates only if arithmetic steps and end-to-end timings suggest a gain."
+  }
+}
