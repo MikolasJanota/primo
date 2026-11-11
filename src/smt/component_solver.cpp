@@ -521,6 +521,7 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
           continue;
         }
         [[fallthrough]];
+      case ModelBasedCombinationStatus::IntegerSplit:
       case ModelBasedCombinationStatus::Unsupported:
         if (guided) return fallback(":combination.model.fallback-unsupported");
         return {CheckSatResult::Unsupported, combined.diagnostic, statistics, "",

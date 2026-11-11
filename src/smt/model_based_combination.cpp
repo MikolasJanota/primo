@@ -257,6 +257,7 @@ ModelBasedCombinationResult ModelBasedCombinationCoordinator::reconcile(
       case theory::TheoryCheckStatus::Unknown:
         return stop_result(check.status, std::move(check.diagnostic));
       case theory::TheoryCheckStatus::LemmasPending:
+      case theory::TheoryCheckStatus::IntegerSplit:
       case theory::TheoryCheckStatus::EntailedEqualities:
         // Queued lemmas are drained only by the online component driver.
         return stop_result(theory::TheoryCheckStatus::Unsupported,

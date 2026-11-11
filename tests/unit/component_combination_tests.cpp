@@ -1223,9 +1223,30 @@ void explained_batches_materialize_before_learning_without_model_queries() {
   }
 }
 
+void integer_split_is_forwarded_without_model_acceptance() {
+  Fixture f;
+  const auto x = f.variable("private_int", f.symbols.int_sort());
+  auto& producer = f.add({});
+  const smt::TheoryCombinationPlan plan(f.terms, f.components, f.atoms, false);
+  theory::TheoryCheckResult request;
+  request.status = theory::TheoryCheckStatus::IntegerSplit;
+  request.integer_split = {x, util::Rational(-4)};
+  producer.pending_equalities = request;
+  smt::ComponentModelCoordinator coordinator;
+  const auto result =
+      coordinator.reconcile(plan, 1, f.components, {},
+                            [](const theory::InterfacePair&) { return std::optional<sat::Lit>{}; });
+  assert(result.status == smt::ModelBasedCombinationStatus::IntegerSplit);
+  assert(result.integer_split.term == x);
+  assert(result.integer_split.floor == util::Rational(-4));
+  assert(result.clause.empty() && result.equalities.empty());
+  assert(coordinator.model_tokens()[0].component.empty());
+}
+
 }  // namespace
 
 int main() {
+  integer_split_is_forwarded_without_model_acceptance();
   explained_batches_validate_scope_reasons_and_progress();
   explained_batches_materialize_before_learning_without_model_queries();
 

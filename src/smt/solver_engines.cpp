@@ -12187,6 +12187,7 @@ CheckSatOutcome solve_qf_uflra_engine_impl(core::TermManager& terms,
                   return CheckSatOutcome{CheckSatResult::Unknown, generic_result.diagnostic,
                                          statistics, "", InconclusiveReason::Unknown};
                 case ModelBasedCombinationStatus::PropagateEqualities:
+                case ModelBasedCombinationStatus::IntegerSplit:
                   throw std::logic_error("legacy QF_UFLRA coordinator returned a fresh equality");
                 case ModelBasedCombinationStatus::FreshDecision:
                   throw std::logic_error("convex QF_UFLRA component requested a fresh split");

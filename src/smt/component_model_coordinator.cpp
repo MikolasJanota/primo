@@ -123,6 +123,10 @@ ModelBasedCombinationResult check_result(theory::TheoryCheckResult checked) {
       result.status = ModelBasedCombinationStatus::FreshDecision;
       result.decision = std::move(checked.decision);
       break;
+    case theory::TheoryCheckStatus::IntegerSplit:
+      result.status = ModelBasedCombinationStatus::IntegerSplit;
+      result.integer_split = std::move(checked.integer_split);
+      break;
     case theory::TheoryCheckStatus::LemmasPending:
       // Queued lemmas are drained only at the online driver's growth boundary.
       result.status = ModelBasedCombinationStatus::Unsupported;

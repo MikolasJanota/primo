@@ -30,6 +30,7 @@ enum class ModelBasedCombinationStatus {
   PropagateEqualities,
   DecideEquality,
   FreshDecision,
+  IntegerSplit,
   ResourceLimit,
   Unsupported,
   Cancelled,
@@ -46,6 +47,7 @@ struct ModelBasedCombinationResult {
   // Only for PropagateEqualities. These are proved consequences whose SAT
   // atoms may not exist yet; they must never become assumed model decisions.
   std::vector<theory::ExplainedEquality> equalities = {};
+  theory::IntegerSplitRequest integer_split = {};
 };
 
 struct ModelBasedCombinationStatistics {

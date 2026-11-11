@@ -10,6 +10,7 @@
 #include "core/ids.hpp"
 #include "sat/clause.hpp"
 #include "sat/lit.hpp"
+#include "util/rational.hpp"
 
 namespace primo::theory {
 
@@ -106,12 +107,21 @@ struct ExplainedEquality {
   std::vector<sat::Lit> reasons;
 };
 
+// Ordinary integer split: choose x <= floor or its integer complement x >= floor+1.
+// Own the threshold; only a stable semantic term may cross the private-tableau boundary.
+// This is a decision request, never an entailment. See docs/leads/lia-hybrid-branching.md.
+struct IntegerSplitRequest {
+  core::TermId term = core::kInvalidTermId;
+  util::Rational floor;
+};
+
 enum class TheoryCheckStatus {
   Consistent,
   LearnedClause,
   EntailedLiteral,
   EntailedEqualities,
   FreshDecision,
+  IntegerSplit,
   ResourceLimit,
   Unsupported,
   Cancelled,
@@ -134,6 +144,7 @@ struct TheoryCheckResult {
   TheoryDecisionRequest decision;
   std::string diagnostic;
   std::vector<ExplainedEquality> equalities = {};
+  IntegerSplitRequest integer_split = {};
 };
 
 struct TheoryMutationRequest {
