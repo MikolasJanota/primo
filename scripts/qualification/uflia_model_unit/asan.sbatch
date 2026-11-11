@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+#SBATCH --job-name=primo-uflia-model-unit-asan
+#SBATCH --partition=compute
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=24G
+#SBATCH --time=00:40:00
+#SBATCH --output=logs/%x-%j.out
+#SBATCH --error=logs/%x-%j.err
+set -euo pipefail
+[[ -n ${SLURM_JOB_ID:-} ]]
+cd "${PRIMO_WORKDIR:?}"
+export PATH="$PWD/.venv-build/bin:$PWD/contrib/local/clang-tools-env/bin:$PWD/contrib/local/bin:$PATH"
+export CMAKE_BUILD_PARALLEL_LEVEL=4 CTEST_PARALLEL_LEVEL=4
+out=${PRIMO_UNIT_ASAN_OUT:?}
+mkdir -p "$out"
+exec > >(tee "$out/asan.log") 2>&1
+CXXFLAGS=$(python3 - "$PRIMO_CXX_HEADER_MANIFEST" <<'PY'
+from pathlib import Path
+import sys
+print(' '.join('-isystem '+line for line in Path(sys.argv[1]).read_text().splitlines() if line))
+PY
+)
+export CXXFLAGS
+export LD_LIBRARY_PATH="${PRIMO_ASAN_RUNTIME_LIBDIR:?}${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+cmake -S . -B build-asan -DCMAKE_EXE_LINKER_FLAGS="-L$PRIMO_ASAN_RUNTIME_LIBDIR -Wl,-rpath,$PRIMO_ASAN_RUNTIME_LIBDIR" \
+ -DPRIMO_GIT_REVISION_OVERRIDE="${PRIMO_EXPECTED_GIT:?}"
+make -o contrib-required asan-test
+build-asan/primo --version > "$out/version.txt"
+grep -Fx "git: ${PRIMO_EXPECTED_GIT:?}" "$out/version.txt"
+sha256sum build-asan/primo > "$out/binary.sha256"
+for policy in all fixed names; do
+ ASAN_OPTIONS=detect_leaks=1:strict_init_order=1 python3 scripts/qf_uflia_fuzz.py \
+  --solver build-asan/primo --solver-arg=--quiet --solver-arg=--qf-uflia-lia-equality-producer=model-unit \
+  --solver-arg=--qf-uflia-tableau-equalities="$policy" --ref contrib/local/bin/z3 \
+  --count 100 --seed 2026111190 --shape mixed --depth 3 --timeout 10 --out "$out/fuzz-$policy"
+done

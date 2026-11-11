@@ -1,0 +1,229 @@
+{
+  "status": "complete",
+  "generated": [
+    {
+      "profile": "model-all",
+      "inputs": 1000,
+      "answers": {
+        "unsat": 478,
+        "sat": 522
+      },
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 522,
+      "selected_sat_direct_dolmen": 522,
+      "model_outcomes": {
+        "pass": 522
+      }
+    },
+    {
+      "profile": "model-rebuild",
+      "inputs": 1000,
+      "answers": {
+        "unsat": 495,
+        "sat": 505
+      },
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 505,
+      "selected_sat_direct_dolmen": 505,
+      "model_outcomes": {
+        "pass": 505
+      }
+    },
+    {
+      "profile": "model-complete",
+      "inputs": 1000,
+      "answers": {
+        "unsat": 487,
+        "sat": 513
+      },
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 513,
+      "selected_sat_direct_dolmen": 513,
+      "model_outcomes": {
+        "pass": 513
+      }
+    },
+    {
+      "profile": "model-fixed",
+      "inputs": 1000,
+      "answers": {
+        "unsat": 496,
+        "sat": 504
+      },
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 504,
+      "selected_sat_direct_dolmen": 504,
+      "model_outcomes": {
+        "pass": 504
+      }
+    },
+    {
+      "profile": "model-names",
+      "inputs": 1000,
+      "answers": {
+        "unsat": 491,
+        "sat": 509
+      },
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 509,
+      "selected_sat_direct_dolmen": 509,
+      "model_outcomes": {
+        "pass": 509
+      }
+    },
+    {
+      "profile": "model-scan",
+      "inputs": 1000,
+      "answers": {
+        "unsat": 489,
+        "sat": 511
+      },
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 511,
+      "selected_sat_direct_dolmen": 511,
+      "model_outcomes": {
+        "pass": 511
+      }
+    },
+    {
+      "profile": "disabled",
+      "inputs": 1000,
+      "answers": {
+        "unsat": 504,
+        "sat": 496
+      },
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 496,
+      "selected_sat_direct_dolmen": 496,
+      "model_outcomes": {
+        "pass": 496
+      }
+    },
+    {
+      "profile": "model-strong",
+      "inputs": 1000,
+      "answers": {
+        "unsat": 490,
+        "sat": 510
+      },
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 510,
+      "selected_sat_direct_dolmen": 510,
+      "model_outcomes": {
+        "pass": 510
+      }
+    }
+  ],
+  "inputs": 8000,
+  "selected_sat": 4070,
+  "selected_sat_direct_dolmen": 4070,
+  "mutations": {
+    "all": {
+      "inputs": 160,
+      "answers": {
+        "PASS": 160
+      },
+      "models": {
+        "pass": 157,
+        "not-sat": 3
+      },
+      "selected_sat": 157,
+      "selected_sat_direct_dolmen": 157
+    },
+    "fixed": {
+      "inputs": 160,
+      "answers": {
+        "PASS": 160
+      },
+      "models": {
+        "pass": 157,
+        "not-sat": 3
+      },
+      "selected_sat": 157,
+      "selected_sat_direct_dolmen": 157
+    }
+  },
+  "summary_sha256": {
+    "fuzz/slot-0/answers/summary.csv": "2cc65a6f8875cd81a09e23d392fcf4cfc13d5f0970cc343aade8cefeac24b424",
+    "fuzz/slot-0/models/summary.csv": "15175c7b02080f46bf52d655c04943ca8566bc6d1afb789e7b87257a4ac09f8e",
+    "fuzz/slot-1/answers/summary.csv": "52934a565265bff9dba632180e51fbdf36e406c26d3e269416f460be4a23af24",
+    "fuzz/slot-1/models/summary.csv": "c4abcc36f30030da5134e7b28cd7762e6ab3e543b09339cc11c19010b475b866",
+    "fuzz/slot-2/answers/summary.csv": "ed04921ce88512d943979a0dcb22b643d07cf2daa94dd2d864c27a0e23e628ec",
+    "fuzz/slot-2/models/summary.csv": "435c0070251a5895b6f3c71c6e5d06db8b5b8766b36bcbe4f1288bfc6ac3dd4d",
+    "fuzz/slot-3/answers/summary.csv": "a3e5122bcddd7b736576e86802fc8aa5b7fb08b13b7f8fb08aa8cc1daba36461",
+    "fuzz/slot-3/models/summary.csv": "48ee01a44845724b2c2c1c33d1d77eb564e7b6af81b4d271a510b62982b143d4",
+    "fuzz/slot-4/answers/summary.csv": "d29f934b47d909c1eeea06605ecaf584162e07ba94dd0c18a56fb82083ae9dba",
+    "fuzz/slot-4/models/summary.csv": "fe9f27a5bd1be637074c31350e20facd33d7ed290de5d54cb6ef8d88e1626943",
+    "fuzz/slot-5/answers/summary.csv": "6d1b7907cb0ec7773b6412034540ec969290eea3a06d19910264484b54ead3f6",
+    "fuzz/slot-5/models/summary.csv": "376e5fd692042d6941247b6814ac5343d96417a5b137a12906ff2915f86a92dc",
+    "fuzz/slot-6/answers/summary.csv": "e5af8108d7c3c85f1f625663e1c0d353d60b57fe5c9ecbe119b358884454cc31",
+    "fuzz/slot-6/models/summary.csv": "d313ace90d950bb977208e590de4fb9ad59b478826911fb61c7ee2cce6804bcf",
+    "fuzz/slot-7/answers/summary.csv": "66bd9e86a645c745b9a56d8085d27f4cb020b481bbdd206384e16bbe24b61c47",
+    "fuzz/slot-7/models/summary.csv": "3a601051cae794fdd36ffa64792ec7bf316e0a28b1110197f022f6054a31ed38",
+    "fuzz/slot-8/answers/summary.csv": "04150cc8a2f07dfdaeb3af41c7d1c968ef3e62f9138f423f132fd254d6c3812b",
+    "fuzz/slot-8/models/summary.csv": "742ccc48aa38f1029b253f0fb9556fe6c61cb29c377be3a5863564a79e700d15",
+    "fuzz/slot-9/answers/summary.csv": "e8cf76548981cc43035a10f1136820bb78fc78e3b46e33f3dd53fbf85c1ae4bb",
+    "fuzz/slot-9/models/summary.csv": "67982db02f5968636c2f88d60eceaa1ae647d535691f0c7a673fff2ee1042c63",
+    "fuzz/slot-10/answers/summary.csv": "2a933194d935c7f251361cd875c98ff0c13edbbe7d1119c8c1cfffbbad4cc54b",
+    "fuzz/slot-10/models/summary.csv": "ece88758694861ee8d72548a6bf00e75691717c388fc4287457e5d92d273ffcc",
+    "fuzz/slot-11/answers/summary.csv": "4d60e356ce4289b29a8b2994f52ca0cf36b89c9e825da33dc1db366a2e771f41",
+    "fuzz/slot-11/models/summary.csv": "fa034c4999472a8d834169a9f4414d0ce8201074bcc6a624a85ec89a8a823881",
+    "fuzz/slot-12/answers/summary.csv": "066e249de0ba6962e2337f7a351eb9f18a2ed23518ce2eed9a5f93e951e98d19",
+    "fuzz/slot-12/models/summary.csv": "31be55e052244eae8d26b3c09a2f6133a1a38e228e753261204a91a9387a223d",
+    "fuzz/slot-13/answers/summary.csv": "1489b09495f4b65ca91fe75cbea040e7944387c8aed3ab7d4df1a7fbed30b4ec",
+    "fuzz/slot-13/models/summary.csv": "8449c27e0989c8c9e52cc56391cd85603768e9aca026d74dae9e7240e26ec9bf",
+    "fuzz/slot-14/answers/summary.csv": "ef1f1544fac3c3533477cfa195d8de4d6f47efeaea597ba331fcd2bb14fdf42c",
+    "fuzz/slot-14/models/summary.csv": "f4c7ebc001cba3176fd4296f7cc8ee37e5595a0621d17c8733170c34b882fff6",
+    "fuzz/slot-15/answers/summary.csv": "c05ae25e134eff7ef95911d058774717ce4ad62a2e246b2cb0ae6b759c31bd21",
+    "fuzz/slot-15/models/summary.csv": "c31747c06385eaebfb4ec28a9508d4f765a9b488cd1b8a029127d0be537bd08c",
+    "fuzz/slot-16/answers/summary.csv": "9cd8061f7c57f5d2a9d9c42c2b73a2c6bf2a4fe784fd87c04a50672944930a4e",
+    "fuzz/slot-16/models/summary.csv": "6c8476d3f32686c6621e5c1da6c4574765e9603db67c6d80932bef293ae38107",
+    "fuzz/slot-17/answers/summary.csv": "a2b2fc90e5ae03e4c17581d50a259419621d2201b905eb31cd5b65ecf91bba5e",
+    "fuzz/slot-17/models/summary.csv": "f7dbf4282d1dd5f4745e9b7cec639f064761c1aee0f9d247aadb283868e03e53",
+    "fuzz/slot-18/answers/summary.csv": "15e0d498292e93a5f695b9707c3c8e3b46b6e4df300f17d98508d62ecdbe3049",
+    "fuzz/slot-18/models/summary.csv": "290d9c993ccdb9cfbbe0b0a83c0710c5d0743cb03d479733909fccce90390132",
+    "fuzz/slot-19/answers/summary.csv": "1d7d2ceb0889dea4f3cc80f0c5b2f740e6d11e6d2d468e666585543db9988271",
+    "fuzz/slot-19/models/summary.csv": "d3ff7aa721251c03f0fe859c6cee3dabcbd88e0dd381a32661c4b471ceed0c25",
+    "fuzz/slot-20/answers/summary.csv": "840ea7ba1b2584ae9d81c0d727fc32855537c1fa1d2b95cc4437e2d721b70752",
+    "fuzz/slot-20/models/summary.csv": "b78a9ceb1931a0368ee8a2dff7f425c75c9392be6af768a10e039383f6ab4c4f",
+    "fuzz/slot-21/answers/summary.csv": "406d89e8f8dbcd6188249173eaff48c5df11947ffdab6a92e072fd36481a4278",
+    "fuzz/slot-21/models/summary.csv": "26d762611616cdf9eb0aa74881deec6b4ca901536967ff85f00bdd6d0b49b90b",
+    "fuzz/slot-22/answers/summary.csv": "f4c12b1fe21b9fc6feab51f886916b93a145b882ae0d3e72179a94ece993ceb7",
+    "fuzz/slot-22/models/summary.csv": "d28c98849ccf02f9f70952a01b1a8f1a4c1d01f02f8e955b5c953d271b7f146f",
+    "fuzz/slot-23/answers/summary.csv": "8939a5a9e116f997b6b65dda2f0cfa2f59758eb56ade619a224730b8671fbd33",
+    "fuzz/slot-23/models/summary.csv": "24470a50805ed90725f8b5c7a0f528ff3bcff9ee121e329dffafaa6d79f1ff0b",
+    "fuzz/slot-24/answers/summary.csv": "f703bcb672d0b047f5e93f1665cd6ebd971aa283a1e5901e85569377e13efa68",
+    "fuzz/slot-24/models/summary.csv": "a813168f9af5d1c5201ad82763f8502e2c86ada41e4e7324b6c95324eb7a9ecf",
+    "fuzz/slot-25/answers/summary.csv": "f6793909c3dcc517ee9f1c8b4510f8348f0df67bd99853eaba1ed20e5469a753",
+    "fuzz/slot-25/models/summary.csv": "3178ff9f11f4eb9d62d14bf923c6b613e25a722abffdf93b5529147542e6e8b3",
+    "fuzz/slot-26/answers/summary.csv": "d1539a1c2314d4a2edc92a2eb89e54f61ddf71baf8a34d47f62222341e780939",
+    "fuzz/slot-26/models/summary.csv": "c92c983087e537b50c5b0c5e96ed858972fd90a0aff8f6b77aaf014d875397bd",
+    "fuzz/slot-27/answers/summary.csv": "a11ee1ea5b1c64b9c9dcd594036e38b6a7f7c50ae253a958c9d71486ed0a0bff",
+    "fuzz/slot-27/models/summary.csv": "8cb43c3864116c4082d7b5e31f8feac5ab9db2d2c45d9ad71c8d3ce4efbeccd9",
+    "fuzz/slot-28/answers/summary.csv": "87c484336bd2275d14b76a7865509d914c60f0c64c7fd5231341a860a7fdcdd2",
+    "fuzz/slot-28/models/summary.csv": "3256a9ddbadf3dd0555e3b2dc8a4c797de7c16380d746155c8d67567f9460de4",
+    "fuzz/slot-29/answers/summary.csv": "cc39bdb19fb18104d46d60fc90694b3c3a5a642e2936164317763f49a0bc68e1",
+    "fuzz/slot-29/models/summary.csv": "4c88675c15be8b9a63fa4f255d136f5630350d463f21f489794ab714e20d015b",
+    "fuzz/slot-30/answers/summary.csv": "a78c6790f5ccab5942dec9d578d0c67115b846c9403ba96d3fb81c0b97ac317f",
+    "fuzz/slot-30/models/summary.csv": "f5d2cf7fa1fbaa5e71d7b9e4ced595c532508042cc921d21550adc6935255d2b",
+    "fuzz/slot-31/answers/summary.csv": "956d7615b0fab25d42100d47c693d4c847c7538104c431d5074dd061b0794a51",
+    "fuzz/slot-31/models/summary.csv": "6802a20baedf99db84f6a2b38b983c00f09657d888059aaeb9c862f62db3bbee"
+  },
+  "failures": []
+}

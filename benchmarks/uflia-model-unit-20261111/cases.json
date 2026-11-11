@@ -1,0 +1,119 @@
+{
+  "scope": "12 diagnostic cases; not a corpus performance estimate",
+  "timeout_seconds": 120,
+  "repetitions": 3,
+  "reference_policy": "Reuse byte-matched archived cvc5 rows; no reference timing rerun",
+  "cases": [
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium13.smt2",
+      "sha256": "a7bf9b5b53f8edd829d0d5c3db912dcb67137888b6e5a90f85bbacc1fb740731",
+      "family": "mathsat",
+      "reference_status": "ok",
+      "reference_answer": "unsat",
+      "reference_seconds": 0.049008,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium12.smt2",
+      "sha256": "a868174d7f2c1c706d082dad4b15f5d63be79ac42c0703c861b6573ac608fe8d",
+      "family": "mathsat",
+      "reference_status": "ok",
+      "reference_answer": "unsat",
+      "reference_seconds": 0.042395,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_10_19.smt2",
+      "sha256": "675fb32a7b7d5156f66f81fe2cfb38a3dfc6723e6df21376ccc310cfa1789c9d",
+      "family": "mathsat",
+      "reference_status": "ok",
+      "reference_answer": "sat",
+      "reference_seconds": 1.313523,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_58_QF_UFLIA.smt2",
+      "sha256": "47f6d84bcf95f569f885d5d8987cd849df0e9598d8e07b11c6154d6816cab6c7",
+      "family": "20230314-Jaroslav-Bendik-Certora",
+      "reference_status": "ok",
+      "reference_answer": "sat",
+      "reference_seconds": 1.050987,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+      "sha256": "936f197c41d37113cb50d53fa0e57f4926941c1a03d048e77d6cbcc1e0db7825",
+      "family": "20230314-Jaroslav-Bendik-Certora",
+      "reference_status": "ok",
+      "reference_answer": "sat",
+      "reference_seconds": 1.107532,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "mathsat/Wisa/xs-09-06-1-5-3-2.smt2",
+      "sha256": "7da9a70e945efdedb640870e4042b3b665eee8f0d2923b7082c5885df51f651a",
+      "family": "mathsat",
+      "reference_status": "ok",
+      "reference_answer": "sat",
+      "reference_seconds": 0.026282,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+      "sha256": "c68e77db3bc6cd15daebe8fcffb9d445bca654c6b2fcc47a8b65d27c3074e182",
+      "family": "20230314-Jaroslav-Bendik-Certora",
+      "reference_status": "ok",
+      "reference_answer": "sat",
+      "reference_seconds": 9.498542,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "wisas/xs_37_57.smt2",
+      "sha256": "5c70a76d2c4f181502c3dd51966f39ddec4fd9eac378d543f4e52d603eca3a56",
+      "family": "wisas",
+      "reference_status": "ok",
+      "reference_answer": "sat",
+      "reference_seconds": 1.176018,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "wisas/xs_19_29.smt2",
+      "sha256": "2a40d194b1434fc475d8f6732efdef25cf16046f110316421ffdea64a8086a71",
+      "family": "wisas",
+      "reference_status": "ok",
+      "reference_answer": "sat",
+      "reference_seconds": 0.206544,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "wisas/xs_29_49.smt2",
+      "sha256": "94394f43319b4ff04fb06328203beff260dfeb41b07ba44052463579342e57a1",
+      "family": "wisas",
+      "reference_status": "ok",
+      "reference_answer": "sat",
+      "reference_seconds": 7.283983,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "TwoSquares/smtlib.602033.smt2",
+      "sha256": "abe8450239127cf2813765863db8c5560683f993e981fabf7eb7d1acbc8eb5c0",
+      "family": "TwoSquares",
+      "reference_status": "ok",
+      "reference_answer": "unsat",
+      "reference_seconds": 0.009509,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard16.smt2",
+      "sha256": "6c1ba9baa1edfc22a9dc55ea32979228633f6e188e3dd8b627031b76cfe4af27",
+      "family": "mathsat",
+      "reference_status": "ok",
+      "reference_answer": "unsat",
+      "reference_seconds": 1.070468,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    }
+  ],
+  "baseline_binary_sha256": "e754c446c81caeb6fb277f41dc843071bea719e6625571bceafb93a4618248af",
+  "baseline_expected_git": "5d7d4fe0",
+  "native_address_space_bytes": 8589934592
+}

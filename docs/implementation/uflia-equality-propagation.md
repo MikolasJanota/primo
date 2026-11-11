@@ -1,13 +1,13 @@
 # QF_UFLIA equality propagation before integer completion
 
-**Legacy integration correctness-qualified; model-unit integration undergoing qualification. Equality export remains default off.**
+**Both integrations are correctness-qualified. Equality export remains default off; legacy remains the producer default.**
 
 This implements the integration proposed by the
 [active-equality investigation](../leads/arithmetic-equality-exploitation.md).
 The legacy producer reuses Primo's four explained tableau rules. The selectable
 model-unit producer reuses the CAV 2024 §3.2 implementation already available
 on the Real route; it adds no integer equation solver. Its integer integration
-is undergoing separate qualification below.
+has passed the [separate qualification](../evidence/uflia-model-unit-20261111.md); its mixed diagnostic results do not justify default promotion.
 
 Enable it with `--qf-uflia-tableau-equalities`. The initial unconditional
 candidate passed correctness gates but substantially regressed native search
@@ -28,7 +28,7 @@ This integration reuses the existing
 1. {ufliamodelunitsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>` owns the selected producer for one component lifetime.
    `--qf-uflia-lia-equality-producer=legacy|model-unit` selects discovery;
    `--qf-uflia-tableau-equalities` independently enables delivery. Legacy and
-   disabled export remain the defaults during qualification.
+   disabled export remain the defaults.
 2. Query only the rationally feasible tableau before integer completion. The
    rebuilt/model-projection path already repairs its own tableau. The model-unit
    online path without model projection (complete arrangement) copies the
@@ -117,7 +117,7 @@ and coincident values in that model do not justify this propagation.
 4. {ufliaeqsource}`ComponentModelCoordinator <src/smt/component_model_coordinator.cpp>` validates the producer capability, pair scopes,
    nonzero antecedent literals, uniqueness and progress. It returns a typed equality
    batch to the SMT driver rather than a model-based decision request.
-5. {ufliaeqsource}`solve_component_recipe <src/smt/component_solver.cpp>` snapshots conflict classification before any atom
+5. {ufliamodelunitsource}`solve_component_recipe <src/smt/component_solver.cpp>` snapshots conflict classification before any atom
    growth, materializes all required equality literals through its existing
    shared-pair registration boundary. Proof-delivery modes add one clause
    `not r1 or ... or not rk or equality` for each explanation; `names` retains

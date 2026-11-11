@@ -1,0 +1,90 @@
+{
+  "status": "READY; no required findings remain",
+  "writer": "root",
+  "independent_read_only_reviewer": "uflia_model_unit_docs_review",
+  "basis": "skills/documentation/SKILL.md writer-reviewer loop; bounded delegation authorized by AGENTS.md",
+  "baseline": "6c8d1278",
+  "production_source": "183dce9a",
+  "qualified_snapshot": "44eee3c1",
+  "accepted_files_sha256": {
+    "docs/evidence/uflia-model-unit-20261111.md": "23b719c1f73591e864cc385df016946d3f22305ffca02f458e5a1992fa8c34a8",
+    "docs/implementation/uflia-equality-propagation.md": "c1cd3afc7bd449c0f0442ad2eafe6dac999476d1d3d5b751d72486be504d15c0",
+    "docs/implementation/uflia-equality-ablation.md": "334d79acc908f990f18092dc3f4e21bbf33b5a0b5086fec58ebba90dc14b2cda",
+    "docs/implementation/lra.md": "045ff47bfd64d725a6c2da1a2241dad51ada5f599d331e1caa63fb2b378f86f7",
+    "docs/implementation/combination.md": "6dce434309f4db8bef8f24379ec84a86d33dd23936541e73a955382d6eb85367",
+    "docs/leads/arithmetic-equality-exploitation.md": "dde606526b172df4a0ed3b6ac51556378f683fab175b0fe21e8e41d41a436160",
+    "docs/reference/options.md": "7626ec385c3e60654f4058e142eb0d0ce0ba83520379add5d47d0be42cf209c3",
+    "docs/reference/statistics.md": "0cc5c13253b86353378832280ef37e7a2ea1a9531d7c84cfacf29a8a1bca536d",
+    "docs/_config.yml": "23959d980dae83a253cceefda197dff43b722683d866b5abf929f413cbd96677",
+    "docs/_toc.yml": "0f7d46fd71ea5dbbf3852d42eb6da3af94b2736ba28142c947619139b06d8abb",
+    "docs/run-log.json": "7440aaa3102399b65a1b8762a3e9e0f6082cca694c663c1b5008207a2d56c070",
+    "benchmarks/uflia-model-unit-20261111/qualification.json": "4d580447c33f4273ee5daedf4184d53363d89c3748f863ba2f010ec6842ae83b",
+    "benchmarks/uflia-model-unit-20261111/source-review.md": "edf5932b6602af59820c02517f68b2bdec9b96ebf74255162ba4b5691bc7257e",
+    "benchmarks/uflia-model-unit-20261111/static-review.json": "11ef0477d6f72d776242704f4ad70b06325a6fd8efcd6a82342acf05d7425cb0"
+  },
+  "scope": "Initial integration checklist/options/stats/source links;3 cross-reference paragraphs; final evidence/status/metadata/new ledger entry. Acceptance applies to the assigned changes and immediate context, not all historical text on those pages.",
+  "findings": [
+    {
+      "id": "UMD01",
+      "resolution": "Distinguish qualified legacy and pending model-unit while gates run; final headline now links completed correctness qualification, with mixed performance and legacy/export-off defaults."
+    },
+    {
+      "id": "UMD02",
+      "resolution": "Four-rule inventory explicitly legacy; model-unit excludes general EqRows."
+    },
+    {
+      "id": "UMD03",
+      "resolution": "Scan returns no equality batch; names suppresses optional proof clauses while retaining bridges."
+    },
+    {
+      "id": "UMD04",
+      "resolution": "New source role pins actual adapter production source."
+    },
+    {
+      "id": "UMD05",
+      "resolution": "Driver source link also pins current production source for names suppression."
+    },
+    {
+      "id": "UMD-S01",
+      "resolution": "Clarifies nonsingleton classes and matching counters preceding spanning-forest suppression."
+    },
+    {
+      "id": "UME-01",
+      "resolution": "160 retained mutant files contain141 content-distinct inputs. Page,qualification and ledger distinguish file/trial counts from SHA uniqueness; generated8000trials/5320contents and ASan100trials/74contents also disclosed."
+    }
+  ],
+  "independent_checks": [
+    "Exact primary SAT-to-Dolmen coverage across32shards:8000PASS and4070SAT models",
+    "Both mutation and original seed policy summaries;160files/141contents,157SAT+3UNSAT each,4seed models each",
+    "216compressed archive rows equal raw JSONL; all90timing-artifact and64fuzz-summary hashes",
+    "114primary+9followupSAT models; paired medians,PAR2,geometric ratios,gain/loss sets and mechanism examples",
+    "All12archivedcvc5 metadata/answers/input hashes and36native provenances",
+    "47C++groups,329Python and47ASan group log endings",
+    "135CPP inventory;2292\u21922326static warnings;407unchanged include-cleaner occurrences",
+    "Workflow/artifact hashes; prior ledger suffix/top-levelmetadata unchanged; new entry matches qualification counts"
+  ],
+  "writer_validation": {
+    "commands": [
+      "make lint",
+      "make docs",
+      "make docs-full",
+      "python3 scripts/assemble_docs.py",
+      "python3 scripts/check_doc_links.py docs/_build/site",
+      "git diff --check"
+    ],
+    "final_link_check": "290 pages; 41150 local links; 1232 unique Git links; 0 failures\n490 external URLs deferred to Sphinx linkcheck",
+    "rendered_inspection": [
+      "results/uflia-model-unit-20261111/integration-checklist.png",
+      "results/uflia-model-unit-20261111/evidence-correctness.png",
+      "results/uflia-model-unit-20261111/evidence-timings.png"
+    ],
+    "render_result": "Headless Chrome screenshots inspected; lists,mathematics,links,tables and counting notes legible without content overlap. New evidence qualification-download bytes exactly match the accepted source JSON.",
+    "strict_full_build": "make docs-full passed with warnings as errors; final counting-note correction rebuilt incrementally and site reassembled."
+  },
+  "unchecked": [
+    "No independent solver/model re-execution",
+    "Remote payload contents beyond collected summaries,logs and hash manifests",
+    "Full-tree source correctness",
+    "Reviewer did not independently render or check final commit state; writer performed render/link checks."
+  ]
+}

@@ -1,0 +1,364 @@
+{
+  "schema_version": 1,
+  "status": "correctness-qualified selectable experiment; default promotion rejected",
+  "scope": "CAV2024\u00a73.2 model-unit discovery integration for QF_UFLIA;12 selected diagnostics, not a corpus performance estimate",
+  "source": {
+    "baseline": "6c8d1278d13440f1cbd9ba8f76b56eb9f41b8861",
+    "production": "183dce9a22229f0de9ba7eebd03291260672c17e",
+    "qualified_snapshot": "44eee3c1c018e84c062f35601dc29a7b5431f294",
+    "later_changes": "Documentation, evidence and reproducibility scripts only; no production C++ changes after183dce9a or test changes after44eee3c1"
+  },
+  "paper": {
+    "file": "_external/papers/arithmetic-reimplemented.pdf",
+    "sha256": "76102fdd6a18549af26a81691b71b419713814cbdb00dda6a1bea6f1978130e9",
+    "reference": "Nikolaj Bj\u00f8rner and Lev Nachmanson, Arithmetic Solving in Z3, CAV2024, Section3.2",
+    "checklist": "docs/implementation/uflia-equality-propagation.md#cav-2024-model-unit-discovery-integration-checklist",
+    "basis": "Supplied primary PDF read before implementation. Reuses Primo query, no external solver source."
+  },
+  "native": {
+    "version": "Primo0.2.0;Release;git44eee3c1;CaDiCaL3.0.0-7b99c07",
+    "binary_sha256": "1f7db885abdb8e8ee01ac7daf0d2113cb892416b0f0c65d8e75a3c67717b78c5",
+    "asan_sha256": "165812b9bcb070fefa5a7d68aeee95c3854c28a08f49ebedf52f6dcee8835890",
+    "compiler": "GCC11.4.1",
+    "cmake": "4.4.0",
+    "native_build_jobs": [
+      "382590",
+      "382601",
+      "382606",
+      "382610"
+    ],
+    "final_build_job": "382610",
+    "frozen_baseline_version": "git5d7d4fe0; production source equivalent to6c8d1278",
+    "frozen_baseline_sha256": "e754c446c81caeb6fb277f41dc843071bea719e6625571bceafb93a4618248af",
+    "frozen_binary_locations": "Retained private SLURM results/frozen-44eee3c1/primo and accepted repair results/frozen-5d7d4fe0/primo"
+  },
+  "tools": {
+    "reference": "Z3 5.1.0",
+    "reference_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "model_validator": "Dolmen0.10",
+    "dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+    "clang_tidy": "18.1.8",
+    "mutator": "YinYang0.3.0 + repository seeded_opfuzz.py; Python z3-solver5.0.0.0",
+    "mutation_cli_oracle": "Explicit contrib/local/bin/z3 5.1.0 for both generation and recheck, rather than PATH resolution"
+  },
+  "execution": {
+    "location": "SLURM compute allocations only; Rocky Linux9.4; SSH route/workspaces/header manifest retained privately",
+    "preparation": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --jobs 8 --cmake CMAKE --cxx-header-manifest HEADER_MANIFEST [private route/workspace args]",
+    "preflight": "Same helper --check-only --no-sync --require-tool contrib/local/bin/z3 --require-tool contrib/local/bin/dolmen immediately before each sbatch",
+    "jobs": {
+      "check1": "382594",
+      "check3": "382609",
+      "check4": "382611",
+      "cli": "382612",
+      "asan": "382613",
+      "static": "382614",
+      "fuzz": "382615",
+      "mutations": "382628",
+      "timing": "382629",
+      "models": "382630",
+      "followup": "382721",
+      "followup_models": "382728"
+    },
+    "limits": {
+      "native_build": {
+        "cpus": 8,
+        "SLURM_GiB": 8,
+        "job_seconds": 1800
+      },
+      "check": {
+        "cpus": 4,
+        "SLURM_GiB": 16,
+        "job_seconds": 1200
+      },
+      "cli": {
+        "physical_cpus_requested": 1,
+        "SLURM_GiB": 8,
+        "job_seconds": 480,
+        "per_process_seconds": 30
+      },
+      "asan": {
+        "cpus": 4,
+        "SLURM_GiB": 24,
+        "job_seconds": 2400,
+        "differential_process_seconds": 10
+      },
+      "static": {
+        "cpus": 4,
+        "SLURM_GiB": 12,
+        "job_seconds": 1800
+      },
+      "generated": {
+        "array": "0-31%12",
+        "physical_cpus_requested_per_task": 1,
+        "SLURM_GiB": 8,
+        "job_seconds": 3600,
+        "answer_process_seconds": 5,
+        "model_solver_seconds": 20,
+        "Dolmen_seconds": 20,
+        "Dolmen_size": "1G"
+      },
+      "mutations": {
+        "physical_cpus_requested": 1,
+        "SLURM_GiB": 8,
+        "job_seconds": 2400,
+        "generation_campaign_seconds": 300,
+        "generation_process_seconds": 5,
+        "recheck_process_seconds": 10,
+        "model_solver_seconds": 20,
+        "Dolmen_seconds": 20,
+        "seed_solver_Dolmen_seconds": 30,
+        "Dolmen_size": "1G"
+      },
+      "timing": {
+        "array": "0-35%12",
+        "physical_cpus_requested_per_task": 1,
+        "SLURM_GiB": 8,
+        "native_RLIMIT_AS_bytes": 8589934592,
+        "job_seconds": 1800,
+        "solver_seconds": 120
+      },
+      "timing_models": {
+        "array": "0-35%12",
+        "dependency": "afterok entire timing array, so no validation/timing overlap",
+        "physical_cpus_requested_per_task": 1,
+        "SLURM_GiB": 8,
+        "job_seconds": 1800,
+        "solver_seconds": 180,
+        "Dolmen_seconds": 60,
+        "Dolmen_size": "1G"
+      },
+      "followup": {
+        "array": "0-8%6",
+        "same_limits_as": "timing / timing_models; models afterok complete followup array"
+      },
+      "allocation_note": "SLURM accounting charges2 logical CPUs for the1physical-CPU requests with --hint=nomultithread."
+    }
+  },
+  "commands": {
+    "check": "make -o contrib-required check (check.sbatch in scripts/qualification/uflia_equality_ablation)",
+    "asan": "scripts/qualification/uflia_model_unit/asan.sbatch: make -o contrib-required asan-test, then3x100 qf_uflia_fuzz.py comparisons",
+    "static": "scripts/qualification/uflia_equalities/static.sbatch; all131 src/tests CPP plus4 docs/examples",
+    "generated": "scripts/qualification/uflia_model_unit/fuzz.sbatch; qf_uflia_fuzz.py --count250 --seed(2026111100+slot) --shape mixed --depth3 --timeout5, flags from profiles.py; --ref contrib/local/bin/z3",
+    "mutations": "scripts/qualification/uflia_model_unit/mutations.sbatch; seeded_opfuzz model_linear_ops; --iterations40 per seed --random-seed2026111199 --keep-logic --hoist-declarations --keep-mutants --file-size-limit2000000; --ref explicitZ3 model_validate=true",
+    "timings": "scripts/qualification/uflia_model_unit/compare.sbatch phase=timing; compare.py --slot0..35, profiles.py; flags and parsed stats preserved per row",
+    "models": "same compare.sbatch phase=models; successful timedSAT argv plus --check-model; validate_model.py --expect-sat --require-dolmen-pass --dolmen-arg=--strict=false",
+    "followup": "followup.sbatch and followup.py, slots0..8; additional3 rotations of medium13/all, MathSAT Wisa/all, Certora_48/fixed; same original compare runner",
+    "analysis": "python3 scripts/qualification/uflia_model_unit/audit.py --root COLLECTED/results/uflia-model-unit --out benchmarks/uflia-model-unit-20261111/correctness.json; summarize.py --root same --manifest cases.json --out timing-summary.json --followup",
+    "local_checks": [
+      "make lint",
+      "python3 scripts/slurm_validate_sbatch.py scripts/qualification/uflia_model_unit/*.sbatch",
+      "python3 -m py_compile scripts/qualification/uflia_model_unit/*.py",
+      "git diff --check",
+      "make docs",
+      "python3 scripts/check_doc_links.py docs/_build/site"
+    ]
+  },
+  "correctness": {
+    "check": "47C++groups +329Python passed",
+    "asan": "47C++groups +300matching comparisons; seed2026111190,100generated trials repeated3policies;74byte-distinct inputs",
+    "generated": {
+      "seed": "2026111100+slot,32shards250each,4shards/profile",
+      "profile_inputs": 1000,
+      "profiles": [
+        "model-all",
+        "model-rebuild",
+        "model-complete",
+        "model-fixed",
+        "model-names",
+        "model-scan",
+        "disabled",
+        "model-strong"
+      ],
+      "matching": 8000,
+      "wrong_answer": 0,
+      "crash": 0,
+      "parser_type_error": 0,
+      "timeout": 0,
+      "unsupported": 0,
+      "reference_disagreement": 0,
+      "invalid_model": 0,
+      "selected_sat_direct_dolmen": 4070,
+      "counting_note": "8000 generated trial paths,5320 distinct byte contents across8profiles. Per-profile1000 is a trial count, not a uniqueness guarantee."
+    },
+    "mutations": {
+      "distinct_seeds": 4,
+      "seed_manifest": "benchmarks/model-repair-20261110/mutation-seeds.json",
+      "retained_mutant_files": 160,
+      "content_distinct_mutants": 141,
+      "seed": 2026111199,
+      "all": {
+        "matching": 160,
+        "sat": 157,
+        "unsat": 3,
+        "sat_direct_dolmen": 157,
+        "original_seed_models": 4
+      },
+      "fixed": {
+        "matching": 160,
+        "sat": 157,
+        "unsat": 3,
+        "sat_direct_dolmen": 157,
+        "original_seed_models": 4
+      },
+      "wrong_answer": 0,
+      "crash": 0,
+      "parser_type_error": 0,
+      "timeout": 0,
+      "unsupported": 0,
+      "reference_disagreement": 0,
+      "invalid_model": 0
+    },
+    "cli": "10producer/delivery combinations pass; adaptive and unknown rejected",
+    "test_attempt_triage": {
+      "382594": "Fixture asserted counter activation after direct-equality route already refuted input; rewritten as paired arithmetic bounds",
+      "382609": "Fixture incorrectly required complete-online snapshot counter in model-guided route, where the ordinary full-copy check already restores feasibility; scoped to complete-online",
+      "final": "382611 passes; no wrong solver answer in either failed assertion attempt"
+    },
+    "input_identity_counts": {
+      "fuzz/": {
+        "paths": 8000,
+        "content_distinct_sha256": 5320
+      },
+      "asan/": {
+        "paths": 300,
+        "content_distinct_sha256": 74
+      },
+      "mutations/scratch/": {
+        "paths": 160,
+        "content_distinct_sha256": 141
+      },
+      "mutations/seeds/": {
+        "paths": 4,
+        "content_distinct_sha256": 4
+      }
+    }
+  },
+  "performance": {
+    "cases": 12,
+    "rotated_repetitions": 3,
+    "native_rows": 216,
+    "successful": 174,
+    "timeouts": 42,
+    "wrong_answers_errors": 0,
+    "selected_sat_direct_dolmen": 114,
+    "reference": "archived cvc5 timing/answers from benchmarks/uniform120-20261109/report/timing.csv.gz; SHA-identical inputs; no reference timings rerun",
+    "profiles": {
+      "baseline-off": {
+        "timing_rows": 36,
+        "solved": 27,
+        "par2_sum": 2496.64428
+      },
+      "off": {
+        "timing_rows": 36,
+        "solved": 27,
+        "par2_sum": 2497.971185
+      },
+      "legacy-all": {
+        "timing_rows": 36,
+        "solved": 30,
+        "par2_sum": 2066.810597
+      },
+      "model-all": {
+        "timing_rows": 36,
+        "solved": 33,
+        "par2_sum": 1043.901974
+      },
+      "legacy-fixed": {
+        "timing_rows": 36,
+        "solved": 30,
+        "par2_sum": 1806.6320090000002
+      },
+      "model-fixed": {
+        "timing_rows": 36,
+        "solved": 27,
+        "par2_sum": 2376.372461
+      }
+    },
+    "par2": "Sum over36rows per profile; unsolved=240s",
+    "default_counter_differences": [],
+    "followup": {
+      "native_rows": 18,
+      "selected_sat_direct_dolmen": 9,
+      "medians": {
+        "mathsat/EufLaArithmetic/medium/medium13.smt2": {
+          "legacy-all": {
+            "solved": 3,
+            "attempts": 3,
+            "median_success_seconds": 0.964217
+          },
+          "model-all": {
+            "solved": 3,
+            "attempts": 3,
+            "median_success_seconds": 1.146206
+          }
+        },
+        "mathsat/Wisa/xs-09-06-1-5-3-2.smt2": {
+          "model-all": {
+            "solved": 3,
+            "attempts": 3,
+            "median_success_seconds": 7.26879
+          },
+          "legacy-all": {
+            "solved": 3,
+            "attempts": 3,
+            "median_success_seconds": 0.186148
+          }
+        },
+        "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2": {
+          "legacy-fixed": {
+            "solved": 3,
+            "attempts": 3,
+            "median_success_seconds": 46.587996
+          },
+          "model-fixed": {
+            "solved": 0,
+            "attempts": 3,
+            "median_success_seconds": null
+          }
+        }
+      },
+      "result": "All3regressions repeat; model-all slows medium13 and MathSAT Wisa; model-fixed loses Certora_48 in all3repeats"
+    },
+    "interpretation": "Model-all gains1case (3rows), no losses vslegacy-all; model-fixed loses1case (3rows) vslegacy-fixed. Exact grouping/forest/proof differences alter search; not pure discovery-cost subtraction. Keep research option, reject default promotion. No full corpus or M124 claim."
+  },
+  "reviews": {
+    "source": "benchmarks/uflia-model-unit-20261111/source-review.md",
+    "static": "benchmarks/uflia-model-unit-20261111/static-review.json",
+    "documentation": "benchmarks/uflia-model-unit-20261111/documentation-review.json"
+  },
+  "artifacts": {
+    "root": "benchmarks/uflia-model-unit-20261111",
+    "raw": "results/uflia-model-unit-20261111/collected/results/uflia-model-unit; full retained private SLURM workspace includes generated cases, logs and model payloads",
+    "input_manifest_paths": 8464,
+    "input_manifest_note": "8000generated +300ASan paths +160mutants +4originalseeds;ASan inputs repeat across3policies",
+    "metadata": "Only corpus metadata/hashes tracked, not downloaded benchmark contents or models",
+    "workflow_sha256": {
+      "scripts/qualification/uflia_model_unit/asan.sbatch": "129cfd692b7a7216951ed3a2bad75ea482c081eca9afd6ea730c1ace181eca55",
+      "scripts/qualification/uflia_model_unit/audit.py": "2011b618fb351d66ed4d601d682e6133b54b1fa10299b124a6de3040494f2a0e",
+      "scripts/qualification/uflia_model_unit/check_mutations.py": "79b6e7fddcec00a909726099584395739119b10b5cb19d87dc4d6e94cfdce746",
+      "scripts/qualification/uflia_model_unit/cli.sbatch": "29bf03f7aad16bea495c35697ff83adb495cc0f8dd8cfd6f742684835cddd11e",
+      "scripts/qualification/uflia_model_unit/compare.py": "cd342991ad6d801a47799c9979c19572cf917728c2d7a5ac5ef088c80dec3ada",
+      "scripts/qualification/uflia_model_unit/compare.sbatch": "80d9ee45bf0a690d04da65206ad9bbe9112142facdd553705e3fcd60f9bb2352",
+      "scripts/qualification/uflia_model_unit/followup.py": "784a4f553695c8d8ee62fe829271bf84dd8ab20cb319725dcc18e76abe86baab",
+      "scripts/qualification/uflia_model_unit/followup.sbatch": "4471938aa68c5bff8963ec1cd5c2ca118ce384dbbae1c13c176283e28072cb63",
+      "scripts/qualification/uflia_model_unit/fuzz.sbatch": "340679ed903393b24865df5849245321464509416c8fea0ddfef8d18f60f9e84",
+      "scripts/qualification/uflia_model_unit/mutations.sbatch": "43f8e8e776cfe5c9e5af0bab5d9cabf2018a675375e605c0dcd15e90563ca49d",
+      "scripts/qualification/uflia_model_unit/profile_args.py": "78235eee87dad9228e9ad02e48c12de9e5369a6bfbcffdb3cfeba7ddf15c570e",
+      "scripts/qualification/uflia_model_unit/profiles.py": "d8fa5c2d2c332a0cc27c54b2b29b397e8307dc77347d9e22fae67c033f6dd968",
+      "scripts/qualification/uflia_model_unit/summarize.py": "4bf31c33d297b4689ec05d3095ad68ff54b830ddbb3b98ca1cfe8d8154ecd156"
+    },
+    "source_inventory_count": 1532,
+    "source_inventory_sha256": "c1bbadfb675b85c818b3cabb676b961fd6f5ebb09bce455dcc69dac7c2da77e4",
+    "files_sha256": {
+      "benchmarks/uflia-model-unit-20261111/cases.json": "adf250fa0de61d69081c1587a6c15c13f94fe678dad19883cfc87ea5d577c3a4",
+      "benchmarks/uflia-model-unit-20261111/correctness.json": "724a7ee31286267a1466379f35c7dd01dec35ffe90f7abfa14e18f8aa5637eea",
+      "benchmarks/uflia-model-unit-20261111/followup-cases.json": "80f570585149b370ac790b61da5a5555ad2661739ad00a6ce898e36870a4da4a",
+      "benchmarks/uflia-model-unit-20261111/input-sha256.csv": "367e83269ac246179207010da0212d2df79777132a409d6d9baeb1d4da2d9742",
+      "benchmarks/uflia-model-unit-20261111/source-review.md": "edf5932b6602af59820c02517f68b2bdec9b96ebf74255162ba4b5691bc7257e",
+      "benchmarks/uflia-model-unit-20261111/static-review.json": "11ef0477d6f72d776242704f4ad70b06325a6fd8efcd6a82342acf05d7425cb0",
+      "benchmarks/uflia-model-unit-20261111/timing-summary.json": "c1084daada5738047a89b5eddfad0bfdb9ce3f9ff1e84ad487eed94b1fa29cfa",
+      "benchmarks/uflia-model-unit-20261111/timings.jsonl.gz": "61e750ce8ac9740ad36d0540a2cd3abd8cb6193aacd12e83257063d7ad8ab141"
+    }
+  },
+  "decision": "Include the requested correctness-qualified model-unit producer as an explicitly selectable/default-off experiment. Legacy producer and export-off defaults unchanged. Performance/default promotion rejected; diagnostic regressions recorded and repeated."
+}

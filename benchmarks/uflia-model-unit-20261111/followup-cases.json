@@ -1,0 +1,38 @@
+{
+  "scope": "Additional three rotated pairs for the medium13/all, Wisa xs-09-06/all and Certora _48/fixed regressions; no default promotion.",
+  "timeout_seconds": 120,
+  "repetitions": 3,
+  "reference_policy": "Reuse byte-matched archived cvc5 rows; no reference timing rerun",
+  "cases": [
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium13.smt2",
+      "sha256": "a7bf9b5b53f8edd829d0d5c3db912dcb67137888b6e5a90f85bbacc1fb740731",
+      "family": "mathsat",
+      "reference_status": "ok",
+      "reference_answer": "unsat",
+      "reference_seconds": 0.049008,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "mathsat/Wisa/xs-09-06-1-5-3-2.smt2",
+      "sha256": "7da9a70e945efdedb640870e4042b3b665eee8f0d2923b7082c5885df51f651a",
+      "family": "mathsat",
+      "reference_status": "ok",
+      "reference_answer": "sat",
+      "reference_seconds": 0.026282,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+      "sha256": "936f197c41d37113cb50d53fa0e57f4926941c1a03d048e77d6cbcc1e0db7825",
+      "family": "20230314-Jaroslav-Bendik-Certora",
+      "reference_status": "ok",
+      "reference_answer": "sat",
+      "reference_seconds": 1.107532,
+      "selection_reason": "Previously profiled gap or equality-sharing regression/control"
+    }
+  ],
+  "baseline_binary_sha256": "e754c446c81caeb6fb277f41dc843071bea719e6625571bceafb93a4618248af",
+  "baseline_expected_git": "5d7d4fe0",
+  "native_address_space_bytes": 8589934592
+}

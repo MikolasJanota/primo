@@ -1,0 +1,73 @@
+{
+  "job": "382614",
+  "status": "COMPLETED 0:0; advisory warnings reviewed",
+  "tool": "clang-tidy18.1.8; clang-analyzer-*,misc-include-cleaner plus repository defaults",
+  "translation_units": 135,
+  "translation_unit_inventory_sha256": "1043bf502294c39f8defaecfda94203ba2e91555e7bb1336a0617ba659503afb",
+  "log_sha256": "27b35b31f41f22581ff4eb913d0a0a3c4f0aef95e28567babff8db6a5a8bd2b8",
+  "baseline_log_sha256": "dbaf3b3a24bc0c898565762f0adc8533da9b03a1fee32915f14992c4e68c21d0",
+  "baseline_source": "qualified preprocessing repair6c8d1278, production C++5d7d4fe0",
+  "baseline_warnings": 2292,
+  "current_warnings": 2326,
+  "errors": 0,
+  "counts_by_check": {
+    "bugprone-assert-side-effect": 6,
+    "bugprone-branch-clone": 5,
+    "bugprone-easily-swappable-parameters": 40,
+    "bugprone-exception-escape": 11,
+    "bugprone-implicit-widening-of-multiplication-result": 4,
+    "bugprone-optional-value-conversion": 2,
+    "bugprone-unchecked-optional-access": 112,
+    "clang-analyzer-cplusplus.NewDeleteLeaks": 2,
+    "clang-analyzer-optin.core.EnumCastOutOfRange": 18,
+    "clang-analyzer-optin.performance.Padding": 32,
+    "misc-include-cleaner": 407,
+    "performance-enum-size": 1601,
+    "performance-faster-string-find": 3,
+    "performance-inefficient-string-concatenation": 11,
+    "performance-inefficient-vector-operation": 6,
+    "performance-move-const-arg": 23,
+    "performance-no-automatic-move": 1,
+    "performance-unnecessary-copy-initialization": 3,
+    "performance-unnecessary-value-param": 39
+  },
+  "comparison": "Normalize roots and ignore source-line shifts; compare (file,message,check) occurrence counts.",
+  "additional_diagnostics": [
+    {
+      "file": "src/smt/check_sat.hpp",
+      "message": "enum 'QfUfliaEqualityProducer' uses a larger base type ('int', size: 4 bytes) than necessary for its value set, consider using 'std::uint8_t' (1 byte) as the base type to reduce its size",
+      "check": "performance-enum-size",
+      "occurrences": 32
+    },
+    {
+      "file": "src/smt/check_sat.hpp",
+      "message": "Excessive padding in 'struct primo::smt::CheckSatOptions' (62 padding bytes, where 6 is optimal). Optimal fields order: experimental_split_bools, extended_simplification_rounds, qf_uflia_model_decision_budget, euf_propagation_interval, euf_propagation_assign_threshold, euf_diseq_ackermann_max_width, euf_diseq_ackermann_queue_budget, euf_diseq_ackermann_per_symbol, nelson_oppen_model_equality_branch_budget, boolean_flatten_threshold, boolean_flatten_post_threshold, preprocessing_passes, preprocessing_adaptive_extra_passes, preprocessing_adaptive_shrink_percent, finite_domain_eqdefs_auto_domain_limit, finite_domain_eqdefs_auto_clause_limit, finite_domain_eqdefs_auto_term_limit, quantifier_instances_per_round, quantifier_stall_tuples, quantifier_max_instances, quantifier_deepening_increment, quantifier_random_seed, qf_uf_portfolio_conflicts, euf_propagation_budget, euf_propagation_delivery, nelson_oppen_arrangement_probe_limit, max_theory_conflicts, cadical_options, lra_row_propagation_limits, lra_tuning, quantifier_export_pools, cancelled, auto_preprocess_tuning, lia, incremental_mode, preprocessing_mode, euf_engine, euf_propagation, pure_theory_filter, theory_phase, euf_explain_search, nelson_oppen_model_equality_mutation_scope, nelson_oppen_model_equality_branch_policy, nelson_oppen_propagation, lra_pivoting_rule, mixed_dispatch, qf_uflra_lra_equality_producer, qf_uflia_equality_policy, qf_uflia_lia_equality_producer, auto_preprocess_selector, boolean_implies_rewrite, qf_uf_portfolio, quantifier_tuple_order, euf_proof_forest_diagnostics, euf_diseq_propagation_diagnostics, euf_ackermann_diagnostics, nelson_oppen_diagnostics, nelson_oppen_model_equality_branching, nelson_oppen_model_equality_mutation, euf_dynamic_ackermann_shadow, euf_diseq_ackermann, lra_propagation, lra_equality_propagation, lra_row_propagation, lra_bidirectional_row_propagation, lra_theory_decisions, lra_sparse_leaving, lra_least_violated_leaving, lra_fixed_elimination, qf_uflra_fixed_elimination, uf_symmetry_breaking, finite_domain_value_precedence, finite_domain_equality_definitions, finite_domain_post_amo, auto_finite_domain_equality_definitions, eq_bridge, ground_congruence, ground_unit_substitution, guarded_ground_unit_substitution, guarded_real_equality_lowering, arithmetic_atom_canonicalization, extended_simplification, ite_equality_distribution, cite_simplification, solved_constant_substitution, gaussian_elimination, qf_uflra_candidate_final_scan, qf_uflra_model_reconciliation, experimental_generic_model_combination, qf_uflia_model_combination, qf_uflia_online_components, qf_uflia_tableau_equalities, qf_uflra_online_euf, top_level_or_tseitin, auto_top_level_or_tseitin, auto_basic_single_preprocessing, auto_basic_single_predicate_polarity, auto_basic_multi_preprocessing, auto_basic_multi_polarity, preprocess_only, quantifier_instance_simplification, produce_model, check_model, lra_model_phase, monotone_elimination, consider reordering the fields or adding explicit padding members",
+      "check": "clang-analyzer-optin.performance.Padding",
+      "occurrences": 32
+    },
+    {
+      "file": "tests/unit/option_names_tests.cpp",
+      "message": "The value '2' provided to the cast expression is not in the valid range of values for 'QfUfliaEqualityProducer'",
+      "check": "clang-analyzer-optin.core.EnumCastOutOfRange",
+      "occurrences": 1
+    },
+    {
+      "file": "tests/unit/option_names_tests.cpp",
+      "message": "The value '3' provided to the cast expression is not in the valid range of values for 'QfUfliaEqualityProducer'",
+      "check": "clang-analyzer-optin.core.EnumCastOutOfRange",
+      "occurrences": 1
+    }
+  ],
+  "removed_diagnostics": [
+    {
+      "file": "src/smt/check_sat.hpp",
+      "message": "Excessive padding in 'struct primo::smt::CheckSatOptions' (58 padding bytes, where 2 is optimal). Optimal fields order: experimental_split_bools, extended_simplification_rounds, qf_uflia_model_decision_budget, euf_propagation_interval, euf_propagation_assign_threshold, euf_diseq_ackermann_max_width, euf_diseq_ackermann_queue_budget, euf_diseq_ackermann_per_symbol, nelson_oppen_model_equality_branch_budget, boolean_flatten_threshold, boolean_flatten_post_threshold, preprocessing_passes, preprocessing_adaptive_extra_passes, preprocessing_adaptive_shrink_percent, finite_domain_eqdefs_auto_domain_limit, finite_domain_eqdefs_auto_clause_limit, finite_domain_eqdefs_auto_term_limit, quantifier_instances_per_round, quantifier_stall_tuples, quantifier_max_instances, quantifier_deepening_increment, quantifier_random_seed, qf_uf_portfolio_conflicts, euf_propagation_budget, euf_propagation_delivery, nelson_oppen_arrangement_probe_limit, max_theory_conflicts, cadical_options, lra_row_propagation_limits, lra_tuning, quantifier_export_pools, cancelled, auto_preprocess_tuning, lia, incremental_mode, preprocessing_mode, euf_engine, euf_propagation, pure_theory_filter, theory_phase, euf_explain_search, nelson_oppen_model_equality_mutation_scope, nelson_oppen_model_equality_branch_policy, nelson_oppen_propagation, lra_pivoting_rule, mixed_dispatch, qf_uflra_lra_equality_producer, qf_uflia_equality_policy, auto_preprocess_selector, boolean_implies_rewrite, qf_uf_portfolio, quantifier_tuple_order, euf_proof_forest_diagnostics, euf_diseq_propagation_diagnostics, euf_ackermann_diagnostics, nelson_oppen_diagnostics, nelson_oppen_model_equality_branching, nelson_oppen_model_equality_mutation, euf_dynamic_ackermann_shadow, euf_diseq_ackermann, lra_propagation, lra_equality_propagation, lra_row_propagation, lra_bidirectional_row_propagation, lra_theory_decisions, lra_sparse_leaving, lra_least_violated_leaving, lra_fixed_elimination, qf_uflra_fixed_elimination, uf_symmetry_breaking, finite_domain_value_precedence, finite_domain_equality_definitions, finite_domain_post_amo, auto_finite_domain_equality_definitions, eq_bridge, ground_congruence, ground_unit_substitution, guarded_ground_unit_substitution, guarded_real_equality_lowering, arithmetic_atom_canonicalization, extended_simplification, ite_equality_distribution, cite_simplification, solved_constant_substitution, gaussian_elimination, qf_uflra_candidate_final_scan, qf_uflra_model_reconciliation, experimental_generic_model_combination, qf_uflia_model_combination, qf_uflia_online_components, qf_uflia_tableau_equalities, qf_uflra_online_euf, top_level_or_tseitin, auto_top_level_or_tseitin, auto_basic_single_preprocessing, auto_basic_single_predicate_polarity, auto_basic_multi_preprocessing, auto_basic_multi_polarity, preprocess_only, quantifier_instance_simplification, produce_model, check_model, lra_model_phase, monotone_elimination, consider reordering the fields or adding explicit padding members",
+      "check": "clang-analyzer-optin.performance.Padding",
+      "occurrences": 32
+    }
+  ],
+  "raw": "results/uflia-model-unit-20261111/collected/results/uflia-model-unit/static/clang-tidy.log",
+  "additional_disposition": "32 enum-width advisories for the new selector,32 updated pre-existing CheckSatOptions padding advisories replacing32 previous messages, and2 intentional out-of-range enum test diagnostics. No new operational analyzer safety finding. Keep the same scoped-enum representation as neighboring selectors; broad options-layout changes are outside this integration.",
+  "include_cleaner_disposition": "407 occurrences; identical file/message/check counts to the accepted repair baseline. Paired self-includes are not removed automatically.",
+  "preexisting_analyzer_disposition": "The2 existing leak reports (external CLI.hpp and tactic.cpp) remain. There are18 enum-cast reports,2 new intentional negative-selector tests and16 existing. ASan passed; this is not a warning-free-tree claim."
+}

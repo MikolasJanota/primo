@@ -476,7 +476,9 @@ lemma-preparation hook for newly generated instances.
 
 With `--qf-uflia-tableau-equalities` (default off), the QF_UFLIA LIA adapter
 scans the repaired rational tableau for explained shared equalities before
-integer completion. The
+integer completion. `--qf-uflia-lia-equality-producer=legacy|model-unit`
+selects the existing exact-offset rules or CAV 2024 §3.2 unit-row discovery
+independently of delivery policy. Legacy remains the discovery default. The
 [pre-completion integration](uflia-equality-propagation.md) describes batched
 delivery, registration, explanation conventions and qualification status.
 

@@ -1098,7 +1098,11 @@ dedicated Real route attempts scratch diversification before its final
 equality-exchange passes and model reconciliation.
 
 Bjørner and Nachmanson's *Arithmetic Solving in Z3*, §3.2, also informs an
-optional equality producer for QF_UFLRA. Starting from a feasible tableau,
+optional equality producer for QF_UFLRA. The same query is selectable for
+shared Int terms through `--qf-uflia-lia-equality-producer=model-unit`, with
+equality export enabled separately. The [integer integration](uflia-equality-propagation.md)
+retains nonconvex arrangement/integer search; the Real-route exact fallback
+described here remains separate. Starting from a feasible tableau,
 {source}`model_filtered_unit_equalities <src/theory/arithmetic/lra_tableau.cpp#L1265-L1460>`
 groups shared variables by their exact current value. It then looks for
 equalities justified by bounds and equations. Two variables fixed to the same
