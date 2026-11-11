@@ -52,6 +52,13 @@ coefficient optimization below. The objectives, cheap candidate sequence and
 acceptance policy are our design, not an implementation of an optimized
 SMTInterpol algorithm. We do not copy its implementation or change its format.
 
+The [expanded primary-source survey](../papers/arithmetic-certificate-optimization.md)
+adds interpolation-directed constraint solving, sparsity, decomposition and
+integer-certificate lifetime management. In particular, *Beautiful Interpolants*
+§4/Appendix B.3 is relevant prior art for constraining Farkas witnesses and
+separator simplicity. Our implemented objective remains a bounded min-max/L1
+baseline; interpolation-directed and LIA cut optimization are not implemented.
+
 ## Proof obligation
 
 Normalize each original signed fact to $a_i x\le b_i$ or $a_i x<b_i$.

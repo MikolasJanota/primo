@@ -56,6 +56,7 @@ parts:
       - file: papers/primo-qflra-results
       - file: papers/bromberger-linear-arithmetic
       - file: papers/cuts-from-proofs
+      - file: papers/arithmetic-certificate-optimization
       - file: papers/cooperating-proof-calculus
       - file: papers/lia-primal-heuristics
       - file: papers/yices

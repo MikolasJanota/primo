@@ -1,0 +1,201 @@
+{
+  "date": "2026-11-11",
+  "kind": "focused-primary-source-reading-register",
+  "scope": "Arithmetic proof witnesses, interpolation-directed coefficient/sparsity objectives, LIA rounding, certificate checking/storage; not an exhaustive interpolation survey.",
+  "start_url": "https://ultimate.informatik.uni-freiburg.de/smtinterpol/",
+  "papers": [
+    {
+      "citation_key": "christ2012smtinterpol",
+      "url": "https://jhoenicke.de/docs/chn12-spin.pdf",
+      "sha256": "cd865a648debe4aff5c64611b710fe9fda636fc43e2996fa4487f6b3f47ad529",
+      "bytes": 231785,
+      "pages": 6,
+      "sections_read": [
+        "2",
+        "3",
+        "4"
+      ],
+      "reading_status": "earlier selected reading; revisited"
+    },
+    {
+      "citation_key": "christ2017proof",
+      "url": "https://arxiv.org/pdf/1705.05309",
+      "sha256": "ad721dcda1a193db478e56395e70a0f8c3e6444f263d2dd91e51a21aa024e1f5",
+      "bytes": 449578,
+      "pages": 27,
+      "sections_read": [
+        "5"
+      ],
+      "reading_status": "earlier selected reading; revisited"
+    },
+    {
+      "citation_key": "hoenicke2022simple",
+      "url": "https://ultimate.informatik.uni-freiburg.de/smtinterpol/smt2022.pdf",
+      "sha256": "62ff03fc87cfee76ea6082d0f5b9179a76f9d8079c758cfd9b39038877778874",
+      "bytes": 626527,
+      "pages": 17,
+      "sections_read": [
+        "4.1 / Figure 3",
+        "5",
+        "6"
+      ],
+      "reading_status": "earlier selected reading; revisited"
+    },
+    {
+      "citation_key": "hoenicke2022competition",
+      "url": "https://smt-comp.github.io/2022/system-descriptions/smtinterpol.pdf",
+      "sha256": "ffc3235535815d1520f38b97801c34a08bcc7f55549f2091f0be732426b47402",
+      "bytes": 215887,
+      "pages": 4,
+      "sections_read": [
+        "Description",
+        "Proof Format",
+        "Proof Checker"
+      ],
+      "reading_status": "new"
+    },
+    {
+      "citation_key": "christ2016tree",
+      "url": "https://link.springer.com/content/pdf/10.1007/s10817-016-9365-5.pdf",
+      "sha256": "02f434a7c5f95b58df5a82aa8b289a24b32111b6d28a245961abbe3d61d7c926",
+      "bytes": 704675,
+      "pages": 29,
+      "sections_read": [
+        "7.1",
+        "7.2",
+        "7.3",
+        "7.4"
+      ],
+      "reading_status": "new"
+    },
+    {
+      "citation_key": "christ2015mix",
+      "url": "https://link.springer.com/content/pdf/10.1007/978-3-319-21668-3_3.pdf",
+      "sha256": "8f0a2043d4b7c23e7adb0aa6f327f090e2148492679132508db18efd660c2682",
+      "bytes": 708174,
+      "pages": 16,
+      "sections_read": [
+        "1",
+        "4: constraint-order discussion",
+        "5: construction overview"
+      ],
+      "reading_status": "new"
+    },
+    {
+      "citation_key": "albarghouthi2013beautiful",
+      "url": "https://pages.cs.wisc.edu/~aws/papers/cav13b.pdf",
+      "sha256": "f2fe319216670da6ae57a13c13f6181e507f3091788e850b5cdd5db1838c7cbf",
+      "bytes": 444777,
+      "pages": 19,
+      "sections_read": [
+        "4",
+        "Appendix B.2",
+        "Appendix B.3"
+      ],
+      "reading_status": "new"
+    },
+    {
+      "citation_key": "scholl2014simple",
+      "url": "https://abs.informatik.uni-freiburg.de/papers/2014/SPDA_2014.pdf",
+      "sha256": "7639b6b0fd10d4eb92a50f7494644d103c81bc9da0b1863d763206ef5c10baee",
+      "bytes": 167013,
+      "pages": 6,
+      "sections_read": [
+        "II",
+        "III.A",
+        "III.B",
+        "III.C",
+        "III.D"
+      ],
+      "reading_status": "new"
+    },
+    {
+      "citation_key": "alt2017land",
+      "url": "https://link.springer.com/content/pdf/10.1007/978-3-319-70389-3_13.pdf",
+      "sha256": "26565edeb6ee6b8b9f9b20b6ec8fa65d6ca4238745cf66d4f88b0ea836cd562d",
+      "bytes": 361070,
+      "pages": 16,
+      "sections_read": [
+        "1",
+        "2",
+        "3",
+        "3.1"
+      ],
+      "reading_status": "new"
+    },
+    {
+      "citation_key": "blicha2019decomposing",
+      "url": "https://link.springer.com/content/pdf/10.1007/978-3-030-17462-0_1.pdf",
+      "sha256": "782cd63b65d9a4e831fad27d4b6a39aa79d7a0f2dd798f0fb8f186b6f636f424",
+      "bytes": 3672528,
+      "pages": 18,
+      "sections_read": [
+        "3",
+        "4",
+        "4.1",
+        "4.2",
+        "5",
+        "5.1",
+        "5.2 / Algorithm 1"
+      ],
+      "reading_status": "new"
+    },
+    {
+      "citation_key": "cheung2017verifying",
+      "url": "https://arxiv.org/pdf/1611.08832",
+      "sha256": "cf8a312d1cb31da661286b243708100c45e9cee7d70d8202b4516b543c526870",
+      "bytes": 415683,
+      "pages": 13,
+      "sections_read": [
+        "2",
+        "3",
+        "4",
+        "5"
+      ],
+      "reading_status": "new"
+    },
+    {
+      "citation_key": "schurr2021reconstruction",
+      "url": "https://schurr.io/pubs/cade2021.pdf",
+      "sha256": "fb0d8822af5bfc67320ce8349f9250d33ff1a70d118358fcbe9a6d3dcac63ac9",
+      "bytes": 353665,
+      "pages": 21,
+      "sections_read": [
+        "4.3",
+        "4.5"
+      ],
+      "reading_status": "new"
+    },
+    {
+      "citation_key": "barbosa2023arithmetic",
+      "url": "https://hanielbarbosa.com/papers/sc2-2023.pdf",
+      "sha256": "5947f80132f46f4243473c73342c01203eade9176ef092f77154a195f51cdfb7",
+      "bytes": 697966,
+      "pages": 9,
+      "sections_read": [
+        "2.1",
+        "2.1.1"
+      ],
+      "reading_status": "new"
+    }
+  ],
+  "format_documentation": {
+    "url": "https://ultimate.informatik.uni-freiburg.de/smtinterpol/proof-format.html",
+    "sha256": "47ce87e9e9faad5482160d12761d9180a330c52736921d12ad8fc374aa5378d6",
+    "sections": [
+      "Arithmetic",
+      "proof and subterm sharing"
+    ]
+  },
+  "access_notes": [
+    "The two guessed author PDF paths for Cutting the Mix and the JAR tree paper returned404; publisher PDF URLs succeeded.",
+    "Browser fetch of the 2023 arithmetic paper timed out; the author PDF downloaded successfully via the standard library."
+  ],
+  "exclusions": [
+    "No solver implementation or checker implementation inspected.",
+    "No reproduction of published experiments; no new solver/checker run.",
+    "No implementation of interpolation synthesis, Farkas decomposition or LIA coefficient minimization.",
+    "No claim that the bounded min-max/L1 multiplier objective implements an SMTInterpol optimized algorithm.",
+    "Source-to-CNF proof and partition/propositional-proof provenance remain separate requirements."
+  ]
+}
