@@ -115,6 +115,7 @@ parts:
       - file: evidence/assignment
       - file: evidence/arithmetic
       - file: evidence/checker-replay-20261110
+      - file: evidence/arithmetic-coefficients-20261111
       - file: evidence/lra-regressions
       - file: evidence/quantifiers
       - file: evidence/archive

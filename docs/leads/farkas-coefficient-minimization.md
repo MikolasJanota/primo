@@ -1,6 +1,6 @@
 # Smaller arithmetic certificate coefficients
 
-**Status: experimental standalone adapter; LRA baseline qualified below, LIA/support extension qualification pending.**
+**Status: experimental standalone LRA/LIA adapter with bounded SLURM qualification.**
 This is a separate post-processing problem on a completed version-2 QF_LRA
 or version-3 QF_LIA certificate. It preserves the selected theory clauses,
 premise/reference order, derived integer inequalities, CNF and certificate
@@ -146,8 +146,10 @@ reorder the proof. Lifetime bookkeeping follows VIPR §5, without adding any
 last-use field to the certificate.
 
 The lexer has the existing 1 MiB token and 64 MiB expression limits; LIA also
-limits each source conflict to 64 MiB. It holds label/last-use metadata, the row table and transient per-instruction
-operand/result rows, not all derived arithmetic rows or the whole proof text.
+limits each source conflict to 64 MiB. Proof-token reads enforce that bound
+during reference indexing and replay, before accumulating additional references. It holds label/last-use metadata, the row table and transient per-instruction
+operand/result rows, without retaining the whole proof text or rows past their
+last use. A wide dependency graph can still require many rows concurrently.
 The operand list is dropped before table entries are retired; transient result
 maps have bounded per-instruction lifetime. Two scans
 cost linear parsing work in proof bytes, in addition to exact arithmetic and
@@ -367,3 +369,22 @@ largest adapter input reaches its separate processing cap. The 448 optimizer
 queries in completed outputs adopt no candidate. This strengthens the reason
 to keep optimization optional; the authored step reduction is not evidence of
 routine benefit on real certificates.
+
+
+## LIA and support qualification, 11 November 2026
+
+The [final extension qualification](../evidence/arithmetic-coefficients-20261111.md)
+pins implementation `9b4b490f`. Fresh SLURM jobs `382370_0..3` passed 1,000
+source/reference cases per logic (750 valid witnesses and 250 SAT controls
+for each), all 80 independent Micromath profiles and all 29 focused tests.
+The [ledger](../coverage/arithmetic-coefficients-20261111.json) and compact
+[replay archive](../../benchmarks/checker-regressions/arithmetic-coefficients-20261111/results.tar.gz)
+retain hashes, commands, inputs, optimization problems/models and diagnostics.
+
+The authored LIA example reduces arithmetic kernel steps from 26,808 to 15,198
+by changing weights and divisor while preserving the exact final inequality.
+A separate authored probe makes `support` select three premises while `size`
+uses four with smaller numerals; the latter needs fewer arithmetic steps on
+that example. These observations justify keeping both objectives explicit and
+`size` as default. All representative originals already verify; this is not
+full-corpus coverage, a general speed result or interpolation evaluation.

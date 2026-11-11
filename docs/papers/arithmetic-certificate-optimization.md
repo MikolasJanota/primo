@@ -156,7 +156,9 @@ interval is exactly $\lfloor\sum_i w_i b_i/d\rfloor=b$, including negative
 bounds. Products with $d$ remain linear because $a,b$ are fixed constants.
 Dividing the weights **and divisor** by a common positive integer factor
 preserves the quotient and floor. An unreferenced terminal contradiction can
-use the looser requirement of zero left side and any negative bound.
+use the looser requirement of zero left side and any negative bound. The
+current adapter preserves even the terminal conclusion exactly; that relaxation
+is deferred.
 
 This model is our derivation from Primo's cut contract; the survey did not
 identify it as a named SMTInterpol coefficient-minimization algorithm. It is

@@ -3,6 +3,152 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-11-sparse-and-lia-coefficient-adapter",
+      "kind": "proof-postprocessor-generated-reference-gate-and-kernel-replay",
+      "evidence_status": "complete",
+      "date": "2026-11-11",
+      "status": "complete",
+      "finished": true,
+      "implementation_git": "9b4b490fe14fe17d42fb13fd0a97ac30df42f590",
+      "probe_workflow_git": "9b4b490fe14fe17d42fb13fd0a97ac30df42f590",
+      "native_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "native_changed": false,
+      "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+      "jobs": {
+        "generated_lra": "382370_0",
+        "generated_lia": "382370_1",
+        "kernel": "382370_2",
+        "sparse_probe": "382370_3",
+        "archive": "382374"
+      },
+      "allocation": {
+        "main_cpus_per_task": 2,
+        "main_memory_gib_per_task": 8,
+        "main_wall_minutes": 15,
+        "supplement_wall_minutes": 15,
+        "maximum_concurrent_tasks": 4,
+        "archive_cpus": 1,
+        "archive_memory_gib": 3,
+        "archive_wall_minutes": 5
+      },
+      "limits": {
+        "reference_seconds": 5,
+        "adapter_seconds": 150,
+        "proof_kernel_seconds": 120,
+        "challenge_seconds": 60,
+        "axioms_seconds": 30,
+        "child_address_bytes": 3221225472,
+        "child_file_bytes": 268435456,
+        "optimizer_file_bytes": 16777216,
+        "optimizer_call_seconds": 1,
+        "optimizer_sum_seconds": 30,
+        "optimizer_queries": 32,
+        "optimizer_premises": 256,
+        "optimizer_encoding_bits": 4096
+      },
+      "generator_seed": 20261111,
+      "generated_cases": 2000,
+      "generated_counts": {
+        "QF_LRA": {
+          "sat_control_rejected": 250,
+          "valid_witness_pass": 750
+        },
+        "QF_LIA": {
+          "sat_control_rejected": 250,
+          "valid_witness_pass": 750
+        }
+      },
+      "wrong_answer": 0,
+      "crash": 0,
+      "unexpected_parser_type_errors": 0,
+      "timeout": 0,
+      "unsupported": 0,
+      "reference_disagreement": 0,
+      "reference_command": "${Z3} input.smt2",
+      "reference_version": "Z3 version 5.1.0 - 64 bit",
+      "propositional_reference": "${CADICAL} on certificate CNF plus validated theory clauses",
+      "kernel_profiles_verified": 80,
+      "scope": "18 representative certificates x4 profiles plus 2 authored support alternatives x4; exported-CNF boundary; no native solver rerun or interpolation claim.",
+      "artifact_directory": "benchmarks/checker-regressions/arithmetic-coefficients-20261111",
+      "archive": {
+        "path": "benchmarks/checker-regressions/arithmetic-coefficients-20261111/results.tar.gz",
+        "bytes": 2274901,
+        "sha256": "2f29e6832d806b46e759f429c84c75393ddc4cc7f2093d2710ee7cd90fbc7318",
+        "files": 17097,
+        "members": 17098
+      },
+      "manifest": "docs/coverage/arithmetic-coefficients-20261111.json",
+      "report": "docs/evidence/arithmetic-coefficients-20261111.md",
+      "result": "Accepted optional extension: exact integer cut conclusions, explicit support objective and last-use row retirement. Authored sparsity/size tradeoff measured; no default or general checker-speed promotion.",
+      "generator": "scripts/qualify_arithmetic_coefficients.py --mode generated",
+      "generator_filters": [
+        "--logic QF_LRA",
+        "--logic QF_LIA"
+      ]
+    },
+    {
+      "id": "2026-11-11-initial-sparse-lia-coefficient-gate",
+      "kind": "proof-postprocessor-generated-reference-gate-and-kernel-replay",
+      "date": "2026-11-11",
+      "evidence_status": "superseded-by-final-resource-guard-revision",
+      "status": "complete",
+      "finished": true,
+      "implementation_git": "19ae8819ed11cb5824d489e6a79e9967c925a47a",
+      "probe_workflow_git": "8db6a2c8e8817ea64640d0a4f9a24b160ed7c818",
+      "native_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+      "jobs": {
+        "generated": "382366_0",
+        "kernel": "382366_1",
+        "sparse_probe": "382368",
+        "archive": "382369"
+      },
+      "generator_seed": 20261111,
+      "generated_cases": 2000,
+      "valid_witness_pass": 1500,
+      "sat_control_rejected": 500,
+      "kernel_verified": 80,
+      "unexpected_failures": 0,
+      "limits": {
+        "reference_seconds": 5,
+        "adapter_seconds": 150,
+        "proof_kernel_seconds": 120,
+        "challenge_seconds": 60,
+        "axioms_seconds": 30,
+        "child_address_bytes": 3221225472,
+        "child_file_bytes": 268435456,
+        "optimizer_file_bytes": 16777216,
+        "optimizer_call_seconds": 1,
+        "optimizer_sum_seconds": 30,
+        "optimizer_queries": 32,
+        "optimizer_premises": 256,
+        "optimizer_encoding_bits": 4096
+      },
+      "reference_command": "${Z3} input.smt2",
+      "reference_version": "Z3 version 5.1.0 - 64 bit",
+      "artifact_status": "retained remotely, not current qualification",
+      "artifact_directory": "${PRIMO_WORKDIR}/results/coefficient-extension-package-382369",
+      "archive": {
+        "files": 17111,
+        "members": 17112,
+        "bytes": 2300216,
+        "sha256": "e16c54422e5ed594fedccb5cd91ad0e1f01a2895288996f7f440236c56ec1236"
+      },
+      "superseded_by": "2026-11-11-sparse-and-lia-coefficient-adapter",
+      "reason": "Arithmetic qualification passed; final review moved proof byte-limit enforcement into token reading to bound reference-index growth. Final revision has a fresh generated and kernel gate.",
+      "generator": "scripts/qualify_arithmetic_coefficients.py --mode generated",
+      "native_changed": false,
+      "allocation": {
+        "main_cpus_per_task": 2,
+        "main_memory_gib_per_task": 8,
+        "main_wall_minutes": 15,
+        "sparse_probe_wall_minutes": 5,
+        "archive_cpus": 1,
+        "archive_memory_gib": 3,
+        "archive_wall_minutes": 5
+      }
+    },
+    {
       "id": "2026-11-10-complete-checker-failure-replay",
       "kind": "saved-export-checker-replay-with-bounded-lra-coefficient-comparison",
       "evidence_status": "complete",
