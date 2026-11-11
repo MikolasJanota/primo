@@ -388,3 +388,10 @@ uses four with smaller numerals; the latter needs fewer arithmetic steps on
 that example. These observations justify keeping both objectives explicit and
 `size` as default. All representative originals already verify; this is not
 full-corpus coverage, a general speed result or interpolation evaluation.
+
+
+The [medium-cost success set](../evidence/checker-medium-20261111.md) adds eight
+real CORE-selected cases that currently verify in 28–74 seconds, plus one
+98-second reserve. It retains inputs and witness metrics from nine benchmark
+families for future paired experiments. These discovery runs check the original
+certificates; they do not measure a coefficient-optimization speedup.

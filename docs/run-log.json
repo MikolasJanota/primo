@@ -3,6 +3,78 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-11-medium-successful-checker-discovery",
+      "kind": "saved-positive-arithmetic-checker-baselines-with-coefficient-statistics",
+      "evidence_status": "complete",
+      "date": "2026-11-11",
+      "status": "complete",
+      "finished": true,
+      "workflow_git": "05a51f9000c6f3f71a6414c9f9f9dc243028bd56",
+      "native_export_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+      "jobs": {
+        "replay": "382375_0..3",
+        "archive": "382379"
+      },
+      "allocation": {
+        "workers": 4,
+        "cpus_per_worker": 2,
+        "memory_gib_per_worker": 8,
+        "wall_minutes": 15,
+        "archive_cpus": 1,
+        "archive_memory_gib": 3,
+        "archive_wall_minutes": 5
+      },
+      "limits": {
+        "axioms_seconds": 30,
+        "challenge_seconds": 60,
+        "proof_pipeline_seconds": 120,
+        "coefficient_scan_seconds": 180,
+        "child_address_bytes": 3221225472,
+        "child_file_bytes": 268435456
+      },
+      "selection": {
+        "path": "benchmarks/checker-regressions/checker-medium-20261111/selection.json",
+        "sha256": "816ae15284cd7136cd0b8bfe9fd110d0a749cef8c50640b9c76086668bb96a81"
+      },
+      "counts": {
+        "selected": 9,
+        "kernel_verified": 9,
+        "medium": 8,
+        "near_limit_reserve": 1,
+        "proof_timeout": 0,
+        "proof_error": 0,
+        "input_or_workflow_error": 0,
+        "coefficient_scans_completed": 9,
+        "optimizer_calls": 0
+      },
+      "commands": {
+        "submit": "sbatch scripts/slurm_checker_medium.sbatch (required environment in wrapper)",
+        "replay": "python3 scripts/replay_checker_medium.py --selection SELECTION --saved SAVED --micromath CHECKER --micromath-git REV --build-report BUILD --cadical CADICAL --workflow-git COMMIT --shard INDEX --shards 4 --coefficient-statistics",
+        "coefficient_scan": "python3 scripts/minimize_lra_coefficients.py native.sexp cheap.sexp --report coefficients.json"
+      },
+      "scope": "Nine real CORE-minimized saved exports from nine families. Original certificates only are kernel-checked; no native solve/export or optimizer invocation.",
+      "medium_proof_seconds_range": [
+        27.76506193098612,
+        74.33617647300707
+      ],
+      "near_limit_reserve_seconds": 98.22627814701991,
+      "archive": {
+        "path": "benchmarks/checker-regressions/checker-medium-20261111/results.tar.gz",
+        "bytes": 5366233,
+        "sha256": "e9c3ac8bc880d2d52213dd16665f86df404caabbb31953d73e74effcb33b4bd1",
+        "payload_files": 176,
+        "regular_files": 177
+      },
+      "report": "docs/evidence/checker-medium-20261111.md",
+      "manifest": "docs/coverage/checker-medium-20261111.json",
+      "result": "Eight medium-cost successes (28-74s), one98s reserve; diverse candidate set retained for future paired coefficient experiments. No coefficient speedup claim.",
+      "post_archive_accounting": {
+        "path": "benchmarks/checker-regressions/checker-medium-20261111/accounting.tsv",
+        "sha256": "505c1da8934fe066cda99a0730718f0f86296cc6f443b6d6a731ce6f011f2602"
+      }
+    },
+    {
       "id": "2026-11-11-sparse-and-lia-coefficient-adapter",
       "kind": "proof-postprocessor-generated-reference-gate-and-kernel-replay",
       "evidence_status": "complete",
