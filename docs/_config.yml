@@ -39,7 +39,7 @@ sphinx:
         - "https://github.com/primo-solver/primo/blob/98a5fd8bf18c3c18fda495454b42204cd033c458/%s"
         - "%s"
       ufliamodelunitsource:
-        - "https://github.com/primo-solver/primo/blob/e93ef78cb26b394039b2fd86b886376d0d36cb08/%s"
+        - "https://github.com/primo-solver/primo/blob/183dce9a22229f0de9ba7eebd03291260672c17e/%s"
         - "%s"
       modelrepairsource:
         - "https://github.com/primo-solver/primo/blob/e209d59f4c0d1526aba227f180fd2a40a86e15bf/%s"

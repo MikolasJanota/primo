@@ -30,8 +30,9 @@ This integration reuses the existing
    `--qf-uflia-tableau-equalities` independently enables delivery. Legacy and
    disabled export remain the defaults during qualification.
 2. Query only the rationally feasible tableau before integer completion. The
-   rebuilt path already repairs its own tableau. The model-unit online path
-   copies the callback tableau, explicitly repairs the owned snapshot, and
+   rebuilt/model-projection path already repairs its own tableau. The model-unit
+   online path without model projection (complete arrangement) copies the
+   callback tableau, explicitly repairs the owned snapshot, and
    moves that snapshot into integer completion when no batch is delivered.
    This guards bounds-only rollback, which can retain an infeasible assignment
    after a failed branch. Internal integer branch/cut assumptions cannot enter

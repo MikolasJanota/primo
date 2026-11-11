@@ -83,7 +83,8 @@ already-true/named suppression, so matches may exceed returned proofs.
 `:lia.equality.candidates` and the existing rule counters describe returned
 proofs and their retained translation, respectively. The model-unit producer
 skips general `EqRows`; incomplete discovery retains arrangement fallback.
-The model-unit online boundary also counts `feasibility-checks` and
+The model-unit online boundary without model projection (complete arrangement)
+also counts `feasibility-checks` and
 `feasibility-pivots`; `:time.lia.equality-feasibility-us` covers the owned
 snapshot copy and its explicit repair. It is outside the discovery timer.
 Selecting a producer while equality export is off runs neither query.

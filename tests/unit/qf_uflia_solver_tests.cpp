@@ -678,9 +678,6 @@ void explained_tableau_equalities_precede_integer_completion() {
             assert(result.statistics.get(":lia.equality.model-unit.selected") > 0);
             assert(result.statistics.get(":lia.equality.legacy-scans-skipped") > 0);
             assert(result.statistics.get(":lia.equality.legacy-producer-selected") == 0);
-            if (online) {
-              assert(result.statistics.get(":lia.equality.model-unit.feasibility-checks") > 0);
-            }
           }
           assert(result.statistics.get(":combination.equality.fresh-pairs") > 0);
           assert(result.statistics.get(":combination.equality.clauses") > 0);
@@ -818,6 +815,9 @@ void model_unit_discovery_keeps_nonunit_arrangement_search_and_models() {
       assert(sat.result == CheckSatResult::Sat);
       assert(sat.typed_model);
       assert(!sat.model.empty());
+      if (online && !guided) {
+        assert(sat.statistics.get(":lia.equality.model-unit.feasibility-checks") > 0);
+      }
     }
   }
 }
