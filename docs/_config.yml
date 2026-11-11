@@ -38,6 +38,9 @@ sphinx:
       remainingcheckersource:
         - "https://github.com/primo-solver/primo/blob/ca01855c15da908d1ee0aba65bbd5ba0f9ca52f0/%s"
         - "%s"
+      mediumcomparesource:
+        - "https://github.com/primo-solver/primo/blob/e815385323cb65efdaa56522a4525868e5e3a441/%s"
+        - "%s"
       mediumcheckersource:
         - "https://github.com/primo-solver/primo/blob/05a51f9000c6f3f71a6414c9f9f9dc243028bd56/%s"
         - "%s"

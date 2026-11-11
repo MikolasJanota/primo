@@ -17,6 +17,10 @@ after collection. Private metadata prefixes are normalized; input bytes are
 unchanged. The bundle omits raw proof streams, executable binaries and external
 solver/checker implementations.
 
+The subsequent [three-case comparison](checker-medium-comparison-20261111.md)
+checks original, cheap, size-first and support-first profiles. All verify, with
+unchanged arithmetic proof counts and no optimizer gain under the stated budget.
+
 ## Fresh measurements
 
 | Case | Logic | Proof + kernel seconds | Cheap scan seconds | Witness bits: original → cheap |

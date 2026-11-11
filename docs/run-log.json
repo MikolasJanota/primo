@@ -3,6 +3,80 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "date": "2026-11-11",
+      "status": "complete",
+      "scope": "Three saved CORE successes, original/cheap/size/support; no improvement.",
+      "workflow_git": "e815385323cb65efdaa56522a4525868e5e3a441",
+      "native_export_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "native_solving_rerun": false,
+      "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+      "checker_sha256": {
+        "build-axioms": "2e65ed67555c1997bab373556c1090f6ea22bab379e5c76603979c709cafbc21",
+        "smt/build-lra-challenge": "4c342a98ca1ef5da81b3d8592a935608d54c24cbb6e5dac5d9e944acb4524f0b",
+        "smt/build-lia-challenge": "eb092a4b9b04506ac9cfef65190f7c553a098141c6d0f80008d1583fe9dcb0b8",
+        "smt/prove-lra": "c08d0fff84d2012b307a05e9a2fb16f6b39f6750dc2da290d2acd514fda7a3fb",
+        "smt/prove-lia": "8bb91aab9b71b59a74b9c522a93ccb7ad38922ba1fb1a2418574b0522274ad09",
+        "check-solution": "4acea307cb92eb5ef1ba3469135a90621877c73d93bce0095064f3aaf5185cd5"
+      },
+      "optimizer_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+      "optimizer_version": "Z3 version 5.1.0 - 64 bit",
+      "selection": {
+        "path": "benchmarks/checker-regressions/checker-medium-comparison-20261111/selection.json",
+        "sha256": "f0252197921255c77ff05a5f640171844daf720e8f0c648c3da6b777a23ebab9"
+      },
+      "jobs": {
+        "replay": "382392_0..2",
+        "archive": "382558"
+      },
+      "allocation": {
+        "workers": 3,
+        "cpus_per_worker": 2,
+        "memory_gib_per_worker": 8,
+        "wall_minutes": 20
+      },
+      "limits": {
+        "proof_seconds": 120,
+        "adapter_seconds": 150,
+        "child_address_bytes": 3221225472,
+        "child_file_bytes": 268435456,
+        "max_queries_per_profile": 32,
+        "optimizer_call_seconds": 1,
+        "optimizer_total_call_seconds": 30,
+        "max_premises": 256,
+        "max_encoding_bits": 4096,
+        "min_bits": 8
+      },
+      "counts": {
+        "selected": 3,
+        "profiles": 12,
+        "kernel_verified": 12,
+        "proof_timeout": 0,
+        "proof_error": 0,
+        "optimizer_calls": 192,
+        "optimizer_ok_not_better": 150,
+        "optimizer_error_fallback": 42,
+        "optimizer_candidates_adopted": 0
+      },
+      "result": "All arithmetic proof counts unchanged. Size/support outputs byte-identical to cheap; no repeats or promotion justified.",
+      "optimizer_diagnostic": "42 bounded LassoRanker calls print unsat then model unavailable and exit nonzero; adapter rejects and retains incumbent. Not checker failures or global minimality evidence.",
+      "bundle": {
+        "path": "benchmarks/checker-regressions/checker-medium-comparison-20261111/results.tar.gz",
+        "bytes": 2572034,
+        "sha256": "d05e0e00de6d020100fcdad1792b6d7ae67c068ed1c6356e8882ab854197258c",
+        "payload_files": 736
+      },
+      "id": "2026-11-11-medium-checker-coefficient-comparison",
+      "kind": "bounded-original-cheap-size-support-saved-core-comparison",
+      "evidence_status": "complete",
+      "finished": true,
+      "ledger": "docs/coverage/checker-medium-comparison-20261111.json",
+      "report": "docs/evidence/checker-medium-comparison-20261111.md",
+      "commands": {
+        "submit": "sbatch scripts/slurm_checker_medium_comparison.sbatch (environment in wrapper)",
+        "replay": "python3 scripts/replay_checker_medium.py --selection SELECTION --saved SAVED --micromath CHECKER --micromath-git REV --build-report BUILD --cadical CADICAL --workflow-git COMMIT --shard INDEX --shards 3 --profiles original cheap size support --optimizer Z3 --min-bits 8 --out OUT"
+      }
+    },
+    {
       "id": "2026-11-11-medium-successful-checker-discovery",
       "kind": "saved-positive-arithmetic-checker-baselines-with-coefficient-statistics",
       "evidence_status": "complete",

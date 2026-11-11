@@ -117,6 +117,7 @@ parts:
       - file: evidence/checker-replay-20261110
       - file: evidence/arithmetic-coefficients-20261111
       - file: evidence/checker-medium-20261111
+      - file: evidence/checker-medium-comparison-20261111
       - file: evidence/lra-regressions
       - file: evidence/quantifiers
       - file: evidence/archive

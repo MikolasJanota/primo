@@ -395,3 +395,9 @@ real CORE-selected cases that currently verify in 28–74 seconds, plus one
 98-second reserve. It retains inputs and witness metrics from nine benchmark
 families for future paired experiments. These discovery runs check the original
 certificates; they do not measure a coefficient-optimization speedup.
+
+The [three-case medium comparison](../evidence/checker-medium-comparison-20261111.md)
+now checks those profiles on Rings, LassoRanker and Clock7 main invariant. All
+12 pipelines verify, but arithmetic steps are unchanged and size/support return
+the same bytes as the cheap pass. The 12–24 second size/support adapter overhead gives no
+checking gain here. Profiling precedes further optimization work.

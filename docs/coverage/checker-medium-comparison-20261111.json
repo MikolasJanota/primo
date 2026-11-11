@@ -1,0 +1,1163 @@
+{
+  "date": "2026-11-11",
+  "status": "complete",
+  "scope": "Three saved CORE successes, original/cheap/size/support; no improvement.",
+  "workflow_git": "e815385323cb65efdaa56522a4525868e5e3a441",
+  "native_export_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "native_solving_rerun": false,
+  "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+  "checker_sha256": {
+    "build-axioms": "2e65ed67555c1997bab373556c1090f6ea22bab379e5c76603979c709cafbc21",
+    "smt/build-lra-challenge": "4c342a98ca1ef5da81b3d8592a935608d54c24cbb6e5dac5d9e944acb4524f0b",
+    "smt/build-lia-challenge": "eb092a4b9b04506ac9cfef65190f7c553a098141c6d0f80008d1583fe9dcb0b8",
+    "smt/prove-lra": "c08d0fff84d2012b307a05e9a2fb16f6b39f6750dc2da290d2acd514fda7a3fb",
+    "smt/prove-lia": "8bb91aab9b71b59a74b9c522a93ccb7ad38922ba1fb1a2418574b0522274ad09",
+    "check-solution": "4acea307cb92eb5ef1ba3469135a90621877c73d93bce0095064f3aaf5185cd5"
+  },
+  "optimizer_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+  "optimizer_version": "Z3 version 5.1.0 - 64 bit",
+  "selection": {
+    "path": "benchmarks/checker-regressions/checker-medium-comparison-20261111/selection.json",
+    "sha256": "f0252197921255c77ff05a5f640171844daf720e8f0c648c3da6b777a23ebab9"
+  },
+  "jobs": {
+    "replay": "382392_0..2",
+    "archive": "382558"
+  },
+  "allocation": {
+    "workers": 3,
+    "cpus_per_worker": 2,
+    "memory_gib_per_worker": 8,
+    "wall_minutes": 20
+  },
+  "limits": {
+    "proof_seconds": 120,
+    "adapter_seconds": 150,
+    "child_address_bytes": 3221225472,
+    "child_file_bytes": 268435456,
+    "max_queries_per_profile": 32,
+    "optimizer_call_seconds": 1,
+    "optimizer_total_call_seconds": 30,
+    "max_premises": 256,
+    "max_encoding_bits": 4096,
+    "min_bits": 8
+  },
+  "counts": {
+    "selected": 3,
+    "profiles": 12,
+    "kernel_verified": 12,
+    "proof_timeout": 0,
+    "proof_error": 0,
+    "optimizer_calls": 192,
+    "optimizer_ok_not_better": 150,
+    "optimizer_error_fallback": 42,
+    "optimizer_candidates_adopted": 0
+  },
+  "result": "All arithmetic proof counts unchanged. Size/support outputs byte-identical to cheap; no repeats or promotion justified.",
+  "optimizer_diagnostic": "42 bounded LassoRanker calls print unsat then model unavailable and exit nonzero; adapter rejects and retains incumbent. Not checker failures or global minimality evidence.",
+  "bundle": {
+    "path": "benchmarks/checker-regressions/checker-medium-comparison-20261111/results.tar.gz",
+    "bytes": 2572034,
+    "sha256": "d05e0e00de6d020100fcdad1792b6d7ae67c068ed1c6356e8882ab854197258c",
+    "payload_files": 736
+  },
+  "rows": [
+    {
+      "index": 0,
+      "case": {
+        "logic": "QF_LIA",
+        "file": "rings/ring_2exp14_4vars_3ite_unsat.smt2",
+        "family": "rings",
+        "input_sha256": "001f346fef84c391bf48db45c04212b4b642b39ea359e515f23fa827d02803a6",
+        "native_sha256": "a6d19ebabff27f7b5fb14c43651e3b1a49292e9564f8a1932373f63f2264011b",
+        "native_bytes": 2455983,
+        "statement_sha256": "4d3b13a44d4f617fc41f045dce0417f8526ff8ef89989d850cff91189c46cadd",
+        "statement_bytes": 18289,
+        "cnf_clauses": 180,
+        "collected_lemmas": 1631,
+        "retained_lemmas": 1567,
+        "primary_case": "QF_LIA/shard-32/run/007",
+        "previous": {
+          "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+          "job": "365550",
+          "status": "verified",
+          "proof_seconds": 47.365713258011965,
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_steps": null
+        },
+        "historical_export_seconds": 7.232234069990227
+      },
+      "status": "verified",
+      "compatibility_sha256": "4d5fa4f7f73d1e22bc2f9161f0bd4b8dab6c1f9826fa5192f011bdeffcf9d152",
+      "challenge": {
+        "command": [
+          "prlimit",
+          "--as=3221225472",
+          "--fsize=268435456",
+          "--",
+          "${MICROMATH_DIR}/smt/build-lia-challenge",
+          "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/axioms.umd",
+          "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LIA/shard-32/run/007/exported-cnf.smt2",
+          "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/challenge.umd"
+        ],
+        "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/challenge.out",
+        "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/challenge.err",
+        "state": "ok",
+        "seconds": 0.02208888897439465,
+        "exit_code": 0
+      },
+      "profiles": {
+        "original": {
+          "status": "verified",
+          "profile": "original",
+          "certificate_sha256": "4d5fa4f7f73d1e22bc2f9161f0bd4b8dab6c1f9826fa5192f011bdeffcf9d152",
+          "certificate_bytes": 2455983,
+          "pipeline": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "medium-coefficient-comparison",
+              "${MICROMATH_DIR}/smt/prove-lia",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/challenge.umd",
+              "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LIA/shard-32/run/007/micromath-v2.sexp",
+              "${CADICAL}",
+              "${MICROMATH_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/original/pipe",
+              ""
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/original/pipeline.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/original/pipeline.err",
+            "state": "ok",
+            "seconds": 44.88889973802725,
+            "exit_code": 0
+          },
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_result": "challenge proven\n",
+          "producer_diagnostic": "LRAT inputs proved: 132/180 source clauses, 1/1 gate clauses, 1557/1567 theory conflicts\nLibrary preparation: 363551 kernel steps\nSource conversion: 73050 kernel steps (encoding terms 0, witness terms 1778, arithmetic bridges 0, SAT input clauses 71272)\nLIA checking: 88826359 kernel steps (1557 conflicts, 21933 cuts)\nLIA normalization cache: 8867 hits, 13082 proofs, 13018 evictions, 64/64 entries\nLIA chains: 39833 -> 39662 bounds, 171 paths, 171 links, 52 bulk joins; 16593 conversion / 49640 joining steps\nSAT checking: 1154820 kernel steps (5709 RUP clause additions, 17871 unit hints, 5630 contradiction hints)\nProof: 90417780 exported / 90417780 generated steps\n",
+          "kernel_steps": {
+            "Library preparation": 363551,
+            "Source conversion": 73050,
+            "LIA checking": 88826359,
+            "SAT checking": 1154820
+          }
+        },
+        "cheap": {
+          "status": "verified",
+          "profile": "cheap",
+          "adapter": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-workflow-20261111/scripts/minimize_lra_coefficients.py",
+              "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LIA/shard-32/run/007/native.sexp",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/cheap/native.sexp",
+              "--report",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/cheap/coefficients.json"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/cheap/adapter.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/cheap/adapter.err",
+            "state": "ok",
+            "seconds": 11.789182108012028,
+            "exit_code": 0
+          },
+          "coefficients": {
+            "conflicts": 1567,
+            "changed_conflicts": 0,
+            "entries": 44012,
+            "cuts": 21956,
+            "changed_cuts": 0,
+            "peak_live_rows": 37,
+            "released_rows": 51078,
+            "before_max_bits": 17,
+            "after_max_bits": 17,
+            "before_weight_bytes": 79340,
+            "after_weight_bytes": 79340,
+            "before_nonzeros": 44012,
+            "after_nonzeros": 44012,
+            "before_divisor_bytes": 28144,
+            "after_divisor_bytes": 28144,
+            "logic": "QF_LIA",
+            "optimizer": {},
+            "objective": "size",
+            "optimizer_seconds": 0.0,
+            "seconds": 11.494332612026483,
+            "input_sha256": "a6d19ebabff27f7b5fb14c43651e3b1a49292e9564f8a1932373f63f2264011b",
+            "output_sha256": "a6d19ebabff27f7b5fb14c43651e3b1a49292e9564f8a1932373f63f2264011b",
+            "input_bytes": 2455983,
+            "output_bytes": 2455983
+          },
+          "compatibility_sha256": "4d5fa4f7f73d1e22bc2f9161f0bd4b8dab6c1f9826fa5192f011bdeffcf9d152",
+          "certificate_sha256": "4d5fa4f7f73d1e22bc2f9161f0bd4b8dab6c1f9826fa5192f011bdeffcf9d152",
+          "certificate_bytes": 2455983,
+          "pipeline": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "medium-coefficient-comparison",
+              "${MICROMATH_DIR}/smt/prove-lia",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/challenge.umd",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/cheap/micromath-v2.sexp",
+              "${CADICAL}",
+              "${MICROMATH_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/cheap/pipe",
+              ""
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/cheap/pipeline.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/cheap/pipeline.err",
+            "state": "ok",
+            "seconds": 44.93853277998278,
+            "exit_code": 0
+          },
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_result": "challenge proven\n",
+          "producer_diagnostic": "LRAT inputs proved: 132/180 source clauses, 1/1 gate clauses, 1557/1567 theory conflicts\nLibrary preparation: 363551 kernel steps\nSource conversion: 73050 kernel steps (encoding terms 0, witness terms 1778, arithmetic bridges 0, SAT input clauses 71272)\nLIA checking: 88826359 kernel steps (1557 conflicts, 21933 cuts)\nLIA normalization cache: 8867 hits, 13082 proofs, 13018 evictions, 64/64 entries\nLIA chains: 39833 -> 39662 bounds, 171 paths, 171 links, 52 bulk joins; 16593 conversion / 49640 joining steps\nSAT checking: 1154820 kernel steps (5709 RUP clause additions, 17871 unit hints, 5630 contradiction hints)\nProof: 90417780 exported / 90417780 generated steps\n",
+          "kernel_steps": {
+            "Library preparation": 363551,
+            "Source conversion": 73050,
+            "LIA checking": 88826359,
+            "SAT checking": 1154820
+          }
+        },
+        "size": {
+          "status": "verified",
+          "profile": "size",
+          "adapter": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-workflow-20261111/scripts/minimize_lra_coefficients.py",
+              "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LIA/shard-32/run/007/native.sexp",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/size/native.sexp",
+              "--report",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/size/coefficients.json",
+              "--objective",
+              "size",
+              "--optimizer",
+              "${PRIMO_WORKDIR}/contrib/local/bin/z3",
+              "--min-bits",
+              "8",
+              "--problems-dir",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/size/problems"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/size/adapter.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/size/adapter.err",
+            "state": "ok",
+            "seconds": 12.942779819015414,
+            "exit_code": 0
+          },
+          "coefficients": {
+            "conflicts": 1567,
+            "changed_conflicts": 0,
+            "entries": 44012,
+            "cuts": 21956,
+            "changed_cuts": 0,
+            "peak_live_rows": 37,
+            "released_rows": 51078,
+            "before_max_bits": 17,
+            "after_max_bits": 17,
+            "before_weight_bytes": 79340,
+            "after_weight_bytes": 79340,
+            "before_nonzeros": 44012,
+            "after_nonzeros": 44012,
+            "before_divisor_bytes": 28144,
+            "after_divisor_bytes": 28144,
+            "logic": "QF_LIA",
+            "optimizer": {
+              "skipped": 21924,
+              "queries": 32,
+              "ok": 32,
+              "not_better": 32
+            },
+            "objective": "size",
+            "optimizer_seconds": 0.6922488458803855,
+            "seconds": 12.698947738972493,
+            "input_sha256": "a6d19ebabff27f7b5fb14c43651e3b1a49292e9564f8a1932373f63f2264011b",
+            "output_sha256": "a6d19ebabff27f7b5fb14c43651e3b1a49292e9564f8a1932373f63f2264011b",
+            "input_bytes": 2455983,
+            "output_bytes": 2455983
+          },
+          "compatibility_sha256": "4d5fa4f7f73d1e22bc2f9161f0bd4b8dab6c1f9826fa5192f011bdeffcf9d152",
+          "certificate_sha256": "4d5fa4f7f73d1e22bc2f9161f0bd4b8dab6c1f9826fa5192f011bdeffcf9d152",
+          "certificate_bytes": 2455983,
+          "pipeline": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "medium-coefficient-comparison",
+              "${MICROMATH_DIR}/smt/prove-lia",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/challenge.umd",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/size/micromath-v2.sexp",
+              "${CADICAL}",
+              "${MICROMATH_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/size/pipe",
+              ""
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/size/pipeline.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/size/pipeline.err",
+            "state": "ok",
+            "seconds": 45.14181387599092,
+            "exit_code": 0
+          },
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_result": "challenge proven\n",
+          "producer_diagnostic": "LRAT inputs proved: 132/180 source clauses, 1/1 gate clauses, 1557/1567 theory conflicts\nLibrary preparation: 363551 kernel steps\nSource conversion: 73050 kernel steps (encoding terms 0, witness terms 1778, arithmetic bridges 0, SAT input clauses 71272)\nLIA checking: 88826359 kernel steps (1557 conflicts, 21933 cuts)\nLIA normalization cache: 8867 hits, 13082 proofs, 13018 evictions, 64/64 entries\nLIA chains: 39833 -> 39662 bounds, 171 paths, 171 links, 52 bulk joins; 16593 conversion / 49640 joining steps\nSAT checking: 1154820 kernel steps (5709 RUP clause additions, 17871 unit hints, 5630 contradiction hints)\nProof: 90417780 exported / 90417780 generated steps\n",
+          "kernel_steps": {
+            "Library preparation": 363551,
+            "Source conversion": 73050,
+            "LIA checking": 88826359,
+            "SAT checking": 1154820
+          }
+        },
+        "support": {
+          "status": "verified",
+          "profile": "support",
+          "adapter": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-workflow-20261111/scripts/minimize_lra_coefficients.py",
+              "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LIA/shard-32/run/007/native.sexp",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/support/native.sexp",
+              "--report",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/support/coefficients.json",
+              "--objective",
+              "support",
+              "--optimizer",
+              "${PRIMO_WORKDIR}/contrib/local/bin/z3",
+              "--min-bits",
+              "8",
+              "--problems-dir",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/support/problems"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/support/adapter.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/support/adapter.err",
+            "state": "ok",
+            "seconds": 13.544068839983083,
+            "exit_code": 0
+          },
+          "coefficients": {
+            "conflicts": 1567,
+            "changed_conflicts": 0,
+            "entries": 44012,
+            "cuts": 21956,
+            "changed_cuts": 0,
+            "peak_live_rows": 37,
+            "released_rows": 51078,
+            "before_max_bits": 17,
+            "after_max_bits": 17,
+            "before_weight_bytes": 79340,
+            "after_weight_bytes": 79340,
+            "before_nonzeros": 44012,
+            "after_nonzeros": 44012,
+            "before_divisor_bytes": 28144,
+            "after_divisor_bytes": 28144,
+            "logic": "QF_LIA",
+            "optimizer": {
+              "skipped": 21924,
+              "queries": 32,
+              "ok": 32,
+              "not_better": 32
+            },
+            "objective": "support",
+            "optimizer_seconds": 1.0910998668405227,
+            "seconds": 13.307026822003536,
+            "input_sha256": "a6d19ebabff27f7b5fb14c43651e3b1a49292e9564f8a1932373f63f2264011b",
+            "output_sha256": "a6d19ebabff27f7b5fb14c43651e3b1a49292e9564f8a1932373f63f2264011b",
+            "input_bytes": 2455983,
+            "output_bytes": 2455983
+          },
+          "compatibility_sha256": "4d5fa4f7f73d1e22bc2f9161f0bd4b8dab6c1f9826fa5192f011bdeffcf9d152",
+          "certificate_sha256": "4d5fa4f7f73d1e22bc2f9161f0bd4b8dab6c1f9826fa5192f011bdeffcf9d152",
+          "certificate_bytes": 2455983,
+          "pipeline": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "medium-coefficient-comparison",
+              "${MICROMATH_DIR}/smt/prove-lia",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/challenge.umd",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/support/micromath-v2.sexp",
+              "${CADICAL}",
+              "${MICROMATH_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/support/pipe",
+              ""
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/support/pipeline.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-0/case-000/support/pipeline.err",
+            "state": "ok",
+            "seconds": 46.15441064100014,
+            "exit_code": 0
+          },
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_result": "challenge proven\n",
+          "producer_diagnostic": "LRAT inputs proved: 132/180 source clauses, 1/1 gate clauses, 1557/1567 theory conflicts\nLibrary preparation: 363551 kernel steps\nSource conversion: 73050 kernel steps (encoding terms 0, witness terms 1778, arithmetic bridges 0, SAT input clauses 71272)\nLIA checking: 88826359 kernel steps (1557 conflicts, 21933 cuts)\nLIA normalization cache: 8867 hits, 13082 proofs, 13018 evictions, 64/64 entries\nLIA chains: 39833 -> 39662 bounds, 171 paths, 171 links, 52 bulk joins; 16593 conversion / 49640 joining steps\nSAT checking: 1154820 kernel steps (5709 RUP clause additions, 17871 unit hints, 5630 contradiction hints)\nProof: 90417780 exported / 90417780 generated steps\n",
+          "kernel_steps": {
+            "Library preparation": 363551,
+            "Source conversion": 73050,
+            "LIA checking": 88826359,
+            "SAT checking": 1154820
+          }
+        }
+      }
+    },
+    {
+      "index": 1,
+      "case": {
+        "logic": "QF_LRA",
+        "file": "LassoRanker/Ultimate/Braverman-2006CAV-Ex1-int.bpl_Iteration1_Lasso_4-pieceTemplate.smt2",
+        "family": "LassoRanker",
+        "input_sha256": "c9d03400f49d2408dc01e275d995d6edf8f95d30150c56498da765d1fd40972a",
+        "native_sha256": "4653f0aeaf1d96e3f9d062d8dcfe72f38d8f85e767e8e84ff002ed2ccfa344af",
+        "native_bytes": 3470664,
+        "statement_sha256": "d9ef64f57a18042a3ae537110e24bde6e03398842d264dd34b992e00cfd7d841",
+        "statement_bytes": 441585,
+        "cnf_clauses": 2411,
+        "collected_lemmas": 5096,
+        "retained_lemmas": 1691,
+        "primary_case": "QF_LRA/shard-24/run/018",
+        "previous": {
+          "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+          "job": "365550",
+          "status": "verified",
+          "proof_seconds": 68.50790986602078,
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_steps": null
+        },
+        "historical_export_seconds": 10.843420897988835
+      },
+      "status": "verified",
+      "challenge": {
+        "command": [
+          "prlimit",
+          "--as=3221225472",
+          "--fsize=268435456",
+          "--",
+          "${MICROMATH_DIR}/smt/build-lra-challenge",
+          "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/axioms.umd",
+          "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-24/run/018/exported-cnf.smt2",
+          "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/challenge.umd"
+        ],
+        "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/challenge.out",
+        "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/challenge.err",
+        "state": "ok",
+        "seconds": 0.06987239001318812,
+        "exit_code": 0
+      },
+      "profiles": {
+        "original": {
+          "status": "verified",
+          "profile": "original",
+          "certificate_sha256": "4653f0aeaf1d96e3f9d062d8dcfe72f38d8f85e767e8e84ff002ed2ccfa344af",
+          "certificate_bytes": 3470664,
+          "pipeline": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "medium-coefficient-comparison",
+              "${MICROMATH_DIR}/smt/prove-lra",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/challenge.umd",
+              "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-24/run/018/native.sexp",
+              "${CADICAL}",
+              "${MICROMATH_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/original/pipe",
+              ""
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/original/pipeline.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/original/pipeline.err",
+            "state": "ok",
+            "seconds": 73.98619389999658,
+            "exit_code": 0
+          },
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_result": "challenge proven\n",
+          "producer_diagnostic": "LRAT inputs proved: 1046/2411 source clauses, 24/603 gate clauses, 1456/1691 theory conflicts\nLibrary preparation: 634024 kernel steps\nSource conversion: 91764 kernel steps (encoding terms 918, witness terms 0, arithmetic bridges 0, SAT input clauses 90846)\nLRA checking: 162989173 kernel steps (1456 conflicts)\nSAT checking: 1910521 kernel steps (7838 RUP clause additions, 52644 unit hints, 7090 contradiction hints)\nProof: 165625482 exported / 165625482 generated steps\n",
+          "kernel_steps": {
+            "Library preparation": 634024,
+            "Source conversion": 91764,
+            "LRA checking": 162989173,
+            "SAT checking": 1910521
+          }
+        },
+        "cheap": {
+          "status": "verified",
+          "profile": "cheap",
+          "adapter": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-workflow-20261111/scripts/minimize_lra_coefficients.py",
+              "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-24/run/018/native.sexp",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/cheap/native.sexp",
+              "--report",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/cheap/coefficients.json"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/cheap/adapter.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/cheap/adapter.err",
+            "state": "ok",
+            "seconds": 22.10440650698729,
+            "exit_code": 0
+          },
+          "coefficients": {
+            "conflicts": 1691,
+            "changed_conflicts": 619,
+            "entries": 32501,
+            "cuts": 0,
+            "changed_cuts": 0,
+            "peak_live_rows": 0,
+            "released_rows": 0,
+            "before_max_bits": 22,
+            "after_max_bits": 19,
+            "before_weight_bytes": 288163,
+            "after_weight_bytes": 211340,
+            "before_nonzeros": 32501,
+            "after_nonzeros": 32501,
+            "before_divisor_bytes": 0,
+            "after_divisor_bytes": 0,
+            "logic": "QF_LRA",
+            "optimizer": {},
+            "objective": "size",
+            "optimizer_seconds": 0.0,
+            "seconds": 21.830341048014816,
+            "input_sha256": "4653f0aeaf1d96e3f9d062d8dcfe72f38d8f85e767e8e84ff002ed2ccfa344af",
+            "output_sha256": "856a94f3515b57c2be2c77baf7aa984b422d5d748e5e22422e9d192b59b07dbd",
+            "input_bytes": 3470664,
+            "output_bytes": 3393841
+          },
+          "certificate_sha256": "856a94f3515b57c2be2c77baf7aa984b422d5d748e5e22422e9d192b59b07dbd",
+          "certificate_bytes": 3393841,
+          "pipeline": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "medium-coefficient-comparison",
+              "${MICROMATH_DIR}/smt/prove-lra",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/challenge.umd",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/cheap/native.sexp",
+              "${CADICAL}",
+              "${MICROMATH_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/cheap/pipe",
+              ""
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/cheap/pipeline.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/cheap/pipeline.err",
+            "state": "ok",
+            "seconds": 74.1384670669795,
+            "exit_code": 0
+          },
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_result": "challenge proven\n",
+          "producer_diagnostic": "LRAT inputs proved: 1046/2411 source clauses, 24/603 gate clauses, 1456/1691 theory conflicts\nLibrary preparation: 634024 kernel steps\nSource conversion: 91764 kernel steps (encoding terms 918, witness terms 0, arithmetic bridges 0, SAT input clauses 90846)\nLRA checking: 162989173 kernel steps (1456 conflicts)\nSAT checking: 1910521 kernel steps (7838 RUP clause additions, 52644 unit hints, 7090 contradiction hints)\nProof: 165625482 exported / 165625482 generated steps\n",
+          "kernel_steps": {
+            "Library preparation": 634024,
+            "Source conversion": 91764,
+            "LRA checking": 162989173,
+            "SAT checking": 1910521
+          }
+        },
+        "size": {
+          "status": "verified",
+          "profile": "size",
+          "adapter": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-workflow-20261111/scripts/minimize_lra_coefficients.py",
+              "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-24/run/018/native.sexp",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/size/native.sexp",
+              "--report",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/size/coefficients.json",
+              "--objective",
+              "size",
+              "--optimizer",
+              "${PRIMO_WORKDIR}/contrib/local/bin/z3",
+              "--min-bits",
+              "8",
+              "--problems-dir",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/size/problems"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/size/adapter.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/size/adapter.err",
+            "state": "ok",
+            "seconds": 23.86781735299155,
+            "exit_code": 0
+          },
+          "coefficients": {
+            "conflicts": 1691,
+            "changed_conflicts": 619,
+            "entries": 32501,
+            "cuts": 0,
+            "changed_cuts": 0,
+            "peak_live_rows": 0,
+            "released_rows": 0,
+            "before_max_bits": 22,
+            "after_max_bits": 19,
+            "before_weight_bytes": 288163,
+            "after_weight_bytes": 211340,
+            "before_nonzeros": 32501,
+            "after_nonzeros": 32501,
+            "before_divisor_bytes": 0,
+            "after_divisor_bytes": 0,
+            "logic": "QF_LRA",
+            "optimizer": {
+              "skipped": 1659,
+              "queries": 32,
+              "error": 21,
+              "ok": 11,
+              "not_better": 11
+            },
+            "objective": "size",
+            "optimizer_seconds": 1.0751328510814346,
+            "seconds": 23.610546995012555,
+            "input_sha256": "4653f0aeaf1d96e3f9d062d8dcfe72f38d8f85e767e8e84ff002ed2ccfa344af",
+            "output_sha256": "856a94f3515b57c2be2c77baf7aa984b422d5d748e5e22422e9d192b59b07dbd",
+            "input_bytes": 3470664,
+            "output_bytes": 3393841
+          },
+          "certificate_sha256": "856a94f3515b57c2be2c77baf7aa984b422d5d748e5e22422e9d192b59b07dbd",
+          "certificate_bytes": 3393841,
+          "pipeline": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "medium-coefficient-comparison",
+              "${MICROMATH_DIR}/smt/prove-lra",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/challenge.umd",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/size/native.sexp",
+              "${CADICAL}",
+              "${MICROMATH_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/size/pipe",
+              ""
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/size/pipeline.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/size/pipeline.err",
+            "state": "ok",
+            "seconds": 76.26924876699923,
+            "exit_code": 0
+          },
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_result": "challenge proven\n",
+          "producer_diagnostic": "LRAT inputs proved: 1046/2411 source clauses, 24/603 gate clauses, 1456/1691 theory conflicts\nLibrary preparation: 634024 kernel steps\nSource conversion: 91764 kernel steps (encoding terms 918, witness terms 0, arithmetic bridges 0, SAT input clauses 90846)\nLRA checking: 162989173 kernel steps (1456 conflicts)\nSAT checking: 1910521 kernel steps (7838 RUP clause additions, 52644 unit hints, 7090 contradiction hints)\nProof: 165625482 exported / 165625482 generated steps\n",
+          "kernel_steps": {
+            "Library preparation": 634024,
+            "Source conversion": 91764,
+            "LRA checking": 162989173,
+            "SAT checking": 1910521
+          }
+        },
+        "support": {
+          "status": "verified",
+          "profile": "support",
+          "adapter": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-workflow-20261111/scripts/minimize_lra_coefficients.py",
+              "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-24/run/018/native.sexp",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/support/native.sexp",
+              "--report",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/support/coefficients.json",
+              "--objective",
+              "support",
+              "--optimizer",
+              "${PRIMO_WORKDIR}/contrib/local/bin/z3",
+              "--min-bits",
+              "8",
+              "--problems-dir",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/support/problems"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/support/adapter.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/support/adapter.err",
+            "state": "ok",
+            "seconds": 23.7177839219803,
+            "exit_code": 0
+          },
+          "coefficients": {
+            "conflicts": 1691,
+            "changed_conflicts": 619,
+            "entries": 32501,
+            "cuts": 0,
+            "changed_cuts": 0,
+            "peak_live_rows": 0,
+            "released_rows": 0,
+            "before_max_bits": 22,
+            "after_max_bits": 19,
+            "before_weight_bytes": 288163,
+            "after_weight_bytes": 211340,
+            "before_nonzeros": 32501,
+            "after_nonzeros": 32501,
+            "before_divisor_bytes": 0,
+            "after_divisor_bytes": 0,
+            "logic": "QF_LRA",
+            "optimizer": {
+              "skipped": 1659,
+              "queries": 32,
+              "error": 21,
+              "ok": 11,
+              "not_better": 11
+            },
+            "objective": "support",
+            "optimizer_seconds": 1.169643694825936,
+            "seconds": 23.449910607014317,
+            "input_sha256": "4653f0aeaf1d96e3f9d062d8dcfe72f38d8f85e767e8e84ff002ed2ccfa344af",
+            "output_sha256": "856a94f3515b57c2be2c77baf7aa984b422d5d748e5e22422e9d192b59b07dbd",
+            "input_bytes": 3470664,
+            "output_bytes": 3393841
+          },
+          "certificate_sha256": "856a94f3515b57c2be2c77baf7aa984b422d5d748e5e22422e9d192b59b07dbd",
+          "certificate_bytes": 3393841,
+          "pipeline": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "medium-coefficient-comparison",
+              "${MICROMATH_DIR}/smt/prove-lra",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/challenge.umd",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/support/native.sexp",
+              "${CADICAL}",
+              "${MICROMATH_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/support/pipe",
+              ""
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/support/pipeline.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-1/case-001/support/pipeline.err",
+            "state": "ok",
+            "seconds": 75.87567266798578,
+            "exit_code": 0
+          },
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_result": "challenge proven\n",
+          "producer_diagnostic": "LRAT inputs proved: 1046/2411 source clauses, 24/603 gate clauses, 1456/1691 theory conflicts\nLibrary preparation: 634024 kernel steps\nSource conversion: 91764 kernel steps (encoding terms 918, witness terms 0, arithmetic bridges 0, SAT input clauses 90846)\nLRA checking: 162989173 kernel steps (1456 conflicts)\nSAT checking: 1910521 kernel steps (7838 RUP clause additions, 52644 unit hints, 7090 contradiction hints)\nProof: 165625482 exported / 165625482 generated steps\n",
+          "kernel_steps": {
+            "Library preparation": 634024,
+            "Source conversion": 91764,
+            "LRA checking": 162989173,
+            "SAT checking": 1910521
+          }
+        }
+      }
+    },
+    {
+      "index": 2,
+      "case": {
+        "logic": "QF_LRA",
+        "file": "clock_synchro/clocksynchro_7clocks.main_invar.induct.smt2",
+        "family": "clock_synchro",
+        "input_sha256": "b66bda92b20a70cff5b9c2c15d4cc5922a6511cb8e826cdf34fbef19c81924fa",
+        "native_sha256": "ab7b76542a499ec950b1847cdd2c456a9532a3ad1b00e67b54a8ca8b6a727075",
+        "native_bytes": 1024372,
+        "statement_sha256": "3d6b5a7320005494488be7e486f8b12612542e447688bca831ca64b1a90f25b2",
+        "statement_bytes": 243200,
+        "cnf_clauses": 2600,
+        "collected_lemmas": 1386,
+        "retained_lemmas": 988,
+        "primary_case": "QF_LRA/shard-4/run/016",
+        "previous": {
+          "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+          "job": "382354_0..7",
+          "status": "verified",
+          "proof_seconds": 69.64601245499216,
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_steps": {
+            "Library preparation": 634219,
+            "Source conversion": 73417,
+            "LRA checking": 160508527,
+            "SAT checking": 1386437
+          }
+        },
+        "historical_export_seconds": 6.835354514012579
+      },
+      "status": "verified",
+      "challenge": {
+        "command": [
+          "prlimit",
+          "--as=3221225472",
+          "--fsize=268435456",
+          "--",
+          "${MICROMATH_DIR}/smt/build-lra-challenge",
+          "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/axioms.umd",
+          "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-4/run/016/exported-cnf.smt2",
+          "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/challenge.umd"
+        ],
+        "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/challenge.out",
+        "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/challenge.err",
+        "state": "ok",
+        "seconds": 0.0704004910076037,
+        "exit_code": 0
+      },
+      "profiles": {
+        "original": {
+          "status": "verified",
+          "profile": "original",
+          "certificate_sha256": "ab7b76542a499ec950b1847cdd2c456a9532a3ad1b00e67b54a8ca8b6a727075",
+          "certificate_bytes": 1024372,
+          "pipeline": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "medium-coefficient-comparison",
+              "${MICROMATH_DIR}/smt/prove-lra",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/challenge.umd",
+              "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-4/run/016/native.sexp",
+              "${CADICAL}",
+              "${MICROMATH_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/original/pipe",
+              ""
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/original/pipeline.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/original/pipeline.err",
+            "state": "ok",
+            "seconds": 68.72733316000085,
+            "exit_code": 0
+          },
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_result": "challenge proven\n",
+          "producer_diagnostic": "LRAT inputs proved: 2035/2600 source clauses, 11/268 gate clauses, 965/988 theory conflicts\nLibrary preparation: 634219 kernel steps\nSource conversion: 73417 kernel steps (encoding terms 439, witness terms 0, arithmetic bridges 0, SAT input clauses 72978)\nLRA checking: 160508527 kernel steps (965 conflicts)\nSAT checking: 1386437 kernel steps (6932 RUP clause additions, 35421 unit hints, 6497 contradiction hints)\nProof: 162602600 exported / 162602600 generated steps\n",
+          "kernel_steps": {
+            "Library preparation": 634219,
+            "Source conversion": 73417,
+            "LRA checking": 160508527,
+            "SAT checking": 1386437
+          }
+        },
+        "cheap": {
+          "status": "verified",
+          "profile": "cheap",
+          "adapter": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-workflow-20261111/scripts/minimize_lra_coefficients.py",
+              "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-4/run/016/native.sexp",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/cheap/native.sexp",
+              "--report",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/cheap/coefficients.json"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/cheap/adapter.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/cheap/adapter.err",
+            "state": "ok",
+            "seconds": 10.536734768014867,
+            "exit_code": 0
+          },
+          "coefficients": {
+            "conflicts": 988,
+            "changed_conflicts": 586,
+            "entries": 14252,
+            "cuts": 0,
+            "changed_cuts": 0,
+            "peak_live_rows": 0,
+            "released_rows": 0,
+            "before_max_bits": 57,
+            "after_max_bits": 50,
+            "before_weight_bytes": 208804,
+            "after_weight_bytes": 113869,
+            "before_nonzeros": 14252,
+            "after_nonzeros": 14252,
+            "before_divisor_bytes": 0,
+            "after_divisor_bytes": 0,
+            "logic": "QF_LRA",
+            "optimizer": {},
+            "objective": "size",
+            "optimizer_seconds": 0.0,
+            "seconds": 10.272332034015562,
+            "input_sha256": "ab7b76542a499ec950b1847cdd2c456a9532a3ad1b00e67b54a8ca8b6a727075",
+            "output_sha256": "2fcb512005abf2284a0e2408ba18bb4e1c4612548b3ec8cda4a205e6eef1ae22",
+            "input_bytes": 1024372,
+            "output_bytes": 929437
+          },
+          "certificate_sha256": "2fcb512005abf2284a0e2408ba18bb4e1c4612548b3ec8cda4a205e6eef1ae22",
+          "certificate_bytes": 929437,
+          "pipeline": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "medium-coefficient-comparison",
+              "${MICROMATH_DIR}/smt/prove-lra",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/challenge.umd",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/cheap/native.sexp",
+              "${CADICAL}",
+              "${MICROMATH_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/cheap/pipe",
+              ""
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/cheap/pipeline.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/cheap/pipeline.err",
+            "state": "ok",
+            "seconds": 68.72603099996923,
+            "exit_code": 0
+          },
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_result": "challenge proven\n",
+          "producer_diagnostic": "LRAT inputs proved: 2035/2600 source clauses, 11/268 gate clauses, 965/988 theory conflicts\nLibrary preparation: 634219 kernel steps\nSource conversion: 73417 kernel steps (encoding terms 439, witness terms 0, arithmetic bridges 0, SAT input clauses 72978)\nLRA checking: 160508527 kernel steps (965 conflicts)\nSAT checking: 1386437 kernel steps (6932 RUP clause additions, 35421 unit hints, 6497 contradiction hints)\nProof: 162602600 exported / 162602600 generated steps\n",
+          "kernel_steps": {
+            "Library preparation": 634219,
+            "Source conversion": 73417,
+            "LRA checking": 160508527,
+            "SAT checking": 1386437
+          }
+        },
+        "size": {
+          "status": "verified",
+          "profile": "size",
+          "adapter": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-workflow-20261111/scripts/minimize_lra_coefficients.py",
+              "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-4/run/016/native.sexp",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/size/native.sexp",
+              "--report",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/size/coefficients.json",
+              "--objective",
+              "size",
+              "--optimizer",
+              "${PRIMO_WORKDIR}/contrib/local/bin/z3",
+              "--min-bits",
+              "8",
+              "--problems-dir",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/size/problems"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/size/adapter.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/size/adapter.err",
+            "state": "ok",
+            "seconds": 12.09125531394966,
+            "exit_code": 0
+          },
+          "coefficients": {
+            "conflicts": 988,
+            "changed_conflicts": 586,
+            "entries": 14252,
+            "cuts": 0,
+            "changed_cuts": 0,
+            "peak_live_rows": 0,
+            "released_rows": 0,
+            "before_max_bits": 57,
+            "after_max_bits": 50,
+            "before_weight_bytes": 208804,
+            "after_weight_bytes": 113869,
+            "before_nonzeros": 14252,
+            "after_nonzeros": 14252,
+            "before_divisor_bytes": 0,
+            "after_divisor_bytes": 0,
+            "logic": "QF_LRA",
+            "optimizer": {
+              "skipped": 956,
+              "queries": 32,
+              "ok": 32,
+              "not_better": 32
+            },
+            "objective": "size",
+            "optimizer_seconds": 1.2303646967629902,
+            "seconds": 11.859607576974668,
+            "input_sha256": "ab7b76542a499ec950b1847cdd2c456a9532a3ad1b00e67b54a8ca8b6a727075",
+            "output_sha256": "2fcb512005abf2284a0e2408ba18bb4e1c4612548b3ec8cda4a205e6eef1ae22",
+            "input_bytes": 1024372,
+            "output_bytes": 929437
+          },
+          "certificate_sha256": "2fcb512005abf2284a0e2408ba18bb4e1c4612548b3ec8cda4a205e6eef1ae22",
+          "certificate_bytes": 929437,
+          "pipeline": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "medium-coefficient-comparison",
+              "${MICROMATH_DIR}/smt/prove-lra",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/challenge.umd",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/size/native.sexp",
+              "${CADICAL}",
+              "${MICROMATH_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/size/pipe",
+              ""
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/size/pipeline.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/size/pipeline.err",
+            "state": "ok",
+            "seconds": 69.65062316303374,
+            "exit_code": 0
+          },
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_result": "challenge proven\n",
+          "producer_diagnostic": "LRAT inputs proved: 2035/2600 source clauses, 11/268 gate clauses, 965/988 theory conflicts\nLibrary preparation: 634219 kernel steps\nSource conversion: 73417 kernel steps (encoding terms 439, witness terms 0, arithmetic bridges 0, SAT input clauses 72978)\nLRA checking: 160508527 kernel steps (965 conflicts)\nSAT checking: 1386437 kernel steps (6932 RUP clause additions, 35421 unit hints, 6497 contradiction hints)\nProof: 162602600 exported / 162602600 generated steps\n",
+          "kernel_steps": {
+            "Library preparation": 634219,
+            "Source conversion": 73417,
+            "LRA checking": 160508527,
+            "SAT checking": 1386437
+          }
+        },
+        "support": {
+          "status": "verified",
+          "profile": "support",
+          "adapter": {
+            "command": [
+              "prlimit",
+              "--as=3221225472",
+              "--fsize=268435456",
+              "--",
+              "/usr/bin/python3",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-workflow-20261111/scripts/minimize_lra_coefficients.py",
+              "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-4/run/016/native.sexp",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/support/native.sexp",
+              "--report",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/support/coefficients.json",
+              "--objective",
+              "support",
+              "--optimizer",
+              "${PRIMO_WORKDIR}/contrib/local/bin/z3",
+              "--min-bits",
+              "8",
+              "--problems-dir",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/support/problems"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/support/adapter.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/support/adapter.err",
+            "state": "ok",
+            "seconds": 12.295171312987804,
+            "exit_code": 0
+          },
+          "coefficients": {
+            "conflicts": 988,
+            "changed_conflicts": 586,
+            "entries": 14252,
+            "cuts": 0,
+            "changed_cuts": 0,
+            "peak_live_rows": 0,
+            "released_rows": 0,
+            "before_max_bits": 57,
+            "after_max_bits": 50,
+            "before_weight_bytes": 208804,
+            "after_weight_bytes": 113869,
+            "before_nonzeros": 14252,
+            "after_nonzeros": 14252,
+            "before_divisor_bytes": 0,
+            "after_divisor_bytes": 0,
+            "logic": "QF_LRA",
+            "optimizer": {
+              "skipped": 956,
+              "queries": 32,
+              "ok": 32,
+              "not_better": 32
+            },
+            "objective": "support",
+            "optimizer_seconds": 1.2248969800421037,
+            "seconds": 12.02945648500463,
+            "input_sha256": "ab7b76542a499ec950b1847cdd2c456a9532a3ad1b00e67b54a8ca8b6a727075",
+            "output_sha256": "2fcb512005abf2284a0e2408ba18bb4e1c4612548b3ec8cda4a205e6eef1ae22",
+            "input_bytes": 1024372,
+            "output_bytes": 929437
+          },
+          "certificate_sha256": "2fcb512005abf2284a0e2408ba18bb4e1c4612548b3ec8cda4a205e6eef1ae22",
+          "certificate_bytes": 929437,
+          "pipeline": {
+            "command": [
+              "bash",
+              "-c",
+              "\nset -uo pipefail\nsave=()\nif [[ -n $7 ]]; then save=(--save \"$7\"); fi\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" \"${save[@]}\" \\\n  2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+              "medium-coefficient-comparison",
+              "${MICROMATH_DIR}/smt/prove-lra",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/challenge.umd",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/support/native.sexp",
+              "${CADICAL}",
+              "${MICROMATH_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/support/pipe",
+              ""
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/support/pipeline.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-medium-comparison-382392/shard-2/case-002/support/pipeline.err",
+            "state": "ok",
+            "seconds": 69.64796098798979,
+            "exit_code": 0
+          },
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_result": "challenge proven\n",
+          "producer_diagnostic": "LRAT inputs proved: 2035/2600 source clauses, 11/268 gate clauses, 965/988 theory conflicts\nLibrary preparation: 634219 kernel steps\nSource conversion: 73417 kernel steps (encoding terms 439, witness terms 0, arithmetic bridges 0, SAT input clauses 72978)\nLRA checking: 160508527 kernel steps (965 conflicts)\nSAT checking: 1386437 kernel steps (6932 RUP clause additions, 35421 unit hints, 6497 contradiction hints)\nProof: 162602600 exported / 162602600 generated steps\n",
+          "kernel_steps": {
+            "Library preparation": 634219,
+            "Source conversion": 73417,
+            "LRA checking": 160508527,
+            "SAT checking": 1386437
+          }
+        }
+      }
+    }
+  ]
+}
