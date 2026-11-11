@@ -143,9 +143,11 @@ class IntegerStreamingTests(unittest.TestCase):
         # The malformed tail must not be reached after exceeding the byte budget.
         pairs = b" (high 0)" * 100
         data = CERTIFICATE.replace(b"(high 100))", b"(high 100)" + pairs + b" BROKEN))")
-        with patch("minimize_lra_coefficients.INTEGER_CONFLICT_BYTES", 800):
-            with self.assertRaisesRegex(ValueError, "byte limit"):
-                self.rewrite(data)
+        with (
+            patch("minimize_lra_coefficients.INTEGER_CONFLICT_BYTES", 800),
+            self.assertRaisesRegex(ValueError, "byte limit"),
+        ):
+            self.rewrite(data)
 
     def test_failed_late_cut_preserves_existing_output(self):
         source, output = self.root / "input.sexp", self.root / "output.sexp"
