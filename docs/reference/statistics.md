@@ -76,11 +76,16 @@ The `:lia.equality.model-unit.*` family records `selected`, `classes`,
 `class-terms`, `candidate-pairs`, `rows-inspected`, `nonzeros-inspected`,
 `fixed-matches`, `one-row-matches`, `two-row-matches`, `nonunit-rejections`,
 `nonfixed-row-rejections` and `reason-lits`. These copy the existing tableau
-query's work counters; potential candidate pairs are not enumerated pairs.
-Matches precede delivery-policy filtering and already-true/named suppression.
+query's work counters. `classes` and `class-terms` exclude singleton model
+classes; potential candidate pairs are not enumerated pairs. Shape matches
+precede spanning-forest suppression, delivery-policy filtering and
+already-true/named suppression, so matches may exceed returned proofs.
 `:lia.equality.candidates` and the existing rule counters describe returned
 proofs and their retained translation, respectively. The model-unit producer
 skips general `EqRows`; incomplete discovery retains arrangement fallback.
+The model-unit online boundary also counts `feasibility-checks` and
+`feasibility-pivots`; `:time.lia.equality-feasibility-us` covers the owned
+snapshot copy and its explicit repair. It is outside the discovery timer.
 Selecting a producer while equality export is off runs neither query.
 See the [paper mapping and ownership checklist](../implementation/uflia-equality-propagation.md#cav-2024-model-unit-discovery-integration-checklist).
 

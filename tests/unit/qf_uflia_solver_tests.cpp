@@ -678,6 +678,9 @@ void explained_tableau_equalities_precede_integer_completion() {
             assert(result.statistics.get(":lia.equality.model-unit.selected") > 0);
             assert(result.statistics.get(":lia.equality.legacy-scans-skipped") > 0);
             assert(result.statistics.get(":lia.equality.legacy-producer-selected") == 0);
+            if (online) {
+              assert(result.statistics.get(":lia.equality.model-unit.feasibility-checks") > 0);
+            }
           }
           assert(result.statistics.get(":combination.equality.fresh-pairs") > 0);
           assert(result.statistics.get(":combination.equality.clauses") > 0);

@@ -9894,6 +9894,35 @@ class LiaComponentAdapter final : public theory::TheorySolver {
     if (assignment.size() != atoms_.size()) {
       throw std::logic_error("LIA component assignment size mismatch");
     }
+    if (propagate_equalities_ && equality_producer_ == QfUfliaEqualityProducer::ModelUnit &&
+        !shared_terms_.empty()) {
+      // Section 3.2's model-value filter assumes a feasible assignment.
+      // A sparse bounds-only pop need not restore the old assignment/basis;
+      // repair an owned snapshot rather than relying on callback history.
+      // This same snapshot is moved into completion if discovery returns none.
+      auto feasible = [&] {
+        ScopedStatisticsTimer repair_timer(statistics_, ":time.lia.equality-feasibility-us");
+        return theory::arithmetic::LraTableau(rational_model);
+      }();
+      std::optional<sat::Clause> conflict;
+      {
+        ScopedStatisticsTimer repair_timer(statistics_, ":time.lia.equality-feasibility-us");
+        const auto pivots_before = feasible.pivot_count();
+        conflict = feasible.check();
+        statistics_.increment(":lia.equality.model-unit.feasibility-checks");
+        statistics_.increment(":lia.equality.model-unit.feasibility-pivots",
+                              feasible.pivot_count() - pivots_before);
+      }
+      if (conflict) {
+        return translate({LiaComponentCheck::Status::Unsat, std::move(*conflict), std::nullopt});
+      }
+      if (auto propagated = explained_equalities(feasible, assignment, arrangement)) {
+        return std::move(*propagated);
+      }
+      statistics_.increment(":combination.online-components.integer-completions");
+      return translate(complete_lia_integer_model(std::move(feasible), prepared_, assignment,
+                                                  integer_vars_, settings_, statistics_, timing_));
+    }
     if (auto propagated = explained_equalities(rational_model, assignment, arrangement)) {
       return std::move(*propagated);
     }

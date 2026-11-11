@@ -1,6 +1,6 @@
 # QF_UFLIA equality propagation before integer completion
 
-**Implemented and correctness-qualified experiment; default off.**
+**Legacy integration correctness-qualified; model-unit integration undergoing qualification. Equality export remains default off.**
 
 This implements the integration proposed by the
 [active-equality investigation](../leads/arithmetic-equality-exploitation.md).
@@ -23,15 +23,19 @@ uses one-row and same-sign two-row unit-coefficient shapes whose remaining
 variables are fixed. Equal model values alone never prove equality.
 
 This integration reuses the existing
-`LraTableau::model_filtered_unit_equalities` implementation. Its checklist is:
+{ufliamodelunitsource}`LraTableau::model_filtered_unit_equalities <src/theory/arithmetic/lra_tableau.cpp>` implementation. Its checklist is:
 
-1. `LiaComponentAdapter` owns the selected producer for one component lifetime.
+1. {ufliamodelunitsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>` owns the selected producer for one component lifetime.
    `--qf-uflia-lia-equality-producer=legacy|model-unit` selects discovery;
    `--qf-uflia-tableau-equalities` independently enables delivery. Legacy and
    disabled export remain the defaults during qualification.
-2. Query only the rationally feasible tableau before integer completion, for
-   both rebuilt and online components. Internal integer branch/cut assumptions
-   cannot enter these proofs.
+2. Query only the rationally feasible tableau before integer completion. The
+   rebuilt path already repairs its own tableau. The model-unit online path
+   copies the callback tableau, explicitly repairs the owned snapshot, and
+   moves that snapshot into integer completion when no batch is delivered.
+   This guards bounds-only rollback, which can retain an infeasible assignment
+   after a failed branch. Internal integer branch/cut assumptions cannot enter
+   these proofs. The legacy online schedule remains unchanged.
 3. Pass mapped shared Int variable IDs. The existing query groups exact
    `DeltaRational` values, inspects nonsingleton classes and recognizes fixed
    equalities, `x = y + fixed`, or `x = ±z + fixed`, `y = ±z + fixed` with the
@@ -73,7 +77,7 @@ No integer-specific or complete equality algorithm is claimed.
 
 ## State and ownership
 
-The {ufliaeqsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>` owns prepared arithmetic state and receives the current
+The {ufliamodelunitsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>` owns prepared arithmetic state and receives the current
 assignment and shared arrangement. It copies the option into
 `propagate_equalities_` for its lifetime; a disabled scan returns immediately.
 The LIA component advertises opportunistic equality propagation only while
@@ -105,15 +109,18 @@ and coincident values in that model do not justify this propagation.
 2. With a nonempty shared interface, run the selected equality scan. Row
    identities and both reasons fixing each required remainder justify every
    candidate. Map only in-scope, same-sort shared endpoints.
-3. If new consequences exist, return their batch without integer completion.
-   Otherwise continue through the unchanged completion pipeline.
+3. In proof-delivery modes (`all`, `fixed`), return new retained consequences
+   before integer completion. `scan` records discoveries and returns no batch;
+   `names` returns only previously unregistered pairs. With no deliverable
+   result, continue through the unchanged completion pipeline.
 4. {ufliaeqsource}`ComponentModelCoordinator <src/smt/component_model_coordinator.cpp>` validates the producer capability, pair scopes,
    nonzero antecedent literals, uniqueness and progress. It returns a typed equality
    batch to the SMT driver rather than a model-based decision request.
 5. {ufliaeqsource}`solve_component_recipe <src/smt/component_solver.cpp>` snapshots conflict classification before any atom
    growth, materializes all required equality literals through its existing
-   shared-pair registration boundary, and adds one clause
-   `not r1 or ... or not rk or equality` for each explanation. SAT is solved
+   shared-pair registration boundary. Proof-delivery modes add one clause
+   `not r1 or ... or not rk or equality` for each explanation; `names` retains
+   bridges and suppresses these optional proof clauses. SAT is solved
    again after registration; no new assumption is introduced.
 
 Every learned clause remains valid after backtracking because its premises
@@ -142,11 +149,13 @@ limitation is described below.
 
 ## Algorithmic basis and limitations
 
-The mathematical discovery rules remain `FixedEq`, `EqRow`, `EqOffsetRows` and
-`EqRows`, described with their paper mapping in
+Legacy discovery uses `FixedEq`, `EqRow`, `EqOffsetRows` and `EqRows`, described
+with their paper mapping in
 {ref}`the combination chapter <lra-default-equality-rules>`. This document is
 the original design basis for the new adapter/coordinator integration. The
-rules use identities and fixed bounds, so their rational consequences also
+model-unit subset retains fixed equalities and the unit one-row/two-row
+shapes; it never emits the general `EqRows` rule. Both producers use identities
+and fixed bounds, so their rational consequences also
 hold for integer solutions. Their basis-dependent incompleteness remains;
 the nonshared `s = x-y` example in the lead is not repaired by this integration.
 
@@ -163,7 +172,8 @@ The integration does not change that component scheduling policy.
 
 ## Verification checklist
 
-- Exercise all four rules through QF_UFLIA, including a multi-pair batch,
+- Exercise all four legacy rules and the narrower model-unit fixed/unit-row
+  subset through QF_UFLIA, including a multi-pair batch,
   newly registered and already-false equality literals, and both online and
   rebuild/complete-arrangement routes.
 - Check guarded activation/deactivation and negative equality behavior, with
