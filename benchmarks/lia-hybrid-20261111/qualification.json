@@ -1,0 +1,154 @@
+{
+  "status": "accepted as an opt-in ordinary-split policy; no default promotion",
+  "implementation_commit": "cd258f6ae4f690609132a402bb6454ddb40335b7",
+  "qualified_snapshot": "9e01197e5656b0be4a13f074d2ee1b5a1260f9a8",
+  "source_equivalence": "All tracked src/ files in the implementation commit are byte-identical to the qualified snapshot; production solver/theory/SAT sources are unchanged since the 736bf97a development gate. Only CLI help changed between those snapshots. Subsequent evidence/example changes do not affect the solver.",
+  "baseline_commit": "c49585a09710eca76f10ce081923c1bcb3765a7c",
+  "binaries": {
+    "private": "b01b82a6f3ec4d44791836b234776f9b79c704723635ddec7e62198a33e6ac41",
+    "hybrid": "677347f140488e419acc72db0a938c4542be5dafa39ce8b55529a3654d6456c6"
+  },
+  "environment": {
+    "scheduler": "SLURM",
+    "compute_nodes": [
+      "node-01.ciircluster",
+      "node-02.ciircluster",
+      "node-03.ciircluster"
+    ],
+    "build": "Release, C++20, CaDiCaL cadical-3.0.0-7b99c07, preparation helper --build-via-slurm",
+    "pair_cpu": "one requested physical CPU (--hint=nomultithread); logical sibling IDs may both appear in the affinity mask",
+    "slurm_memory_gib": 10,
+    "native_address_space_bytes": 8589934592,
+    "native_timeout_seconds": 120,
+    "timeout_cleanup": "harness SIGTERM/SIGKILL grace can produce elapsed rows slightly above 120 seconds; PAR2 uses 240 for every unsolved row"
+  },
+  "jobs": {
+    "protocol_check": "383747",
+    "protocol_static": "383748",
+    "development_fuzz": "383757",
+    "full_check": "383780",
+    "asan": "383778",
+    "whole_tree_static": "383781",
+    "current_generated": "383792",
+    "real_seed_lia": "383789",
+    "real_seed_uflia": "383790",
+    "scoped_models_and_mechanism": "383785",
+    "cli_examples": "383801",
+    "main_timing": "383804",
+    "regression_timing": "384321",
+    "main_models": "383996",
+    "regression_models": "384331",
+    "example_and_bounded_profiles": "384852",
+    "restricted_mutation_classification": "384853"
+  },
+  "checks": {
+    "make_check": "47 CTest groups and 335 Python tests pass",
+    "make_asan_test": "47 CTest groups pass, detect_leaks=1:strict_init_order=1",
+    "make_lint": "pass; final evidence scripts checked before commit",
+    "whole_tree_static": "135 tracked non-generated C++ translation units: zero clang-tidy tool errors, 771 unique advisory diagnostics. Include-cleaner exit1 on the example was an analysis artifact of -DNDEBUG: restore its direct enum header and explicitly execute assertions in Release. One genuinely unused new LIA-test header was removed. Baseline missing-direct-header, enum-width, leak and optional advisories retained; no warning-free-tree claim.",
+    "source_review": "whole tracked non-generated tree self-review before implementation commit, including borrow/mutation/use, reasons, caches, bounds restoration and managed-choice recovery; final changes reviewed separately",
+    "manual_examples": "12/12 CLI examples pass; executable Boolean-abstraction companion separately compiled with strict Release warnings and ran 24 assignments plus retired-selector UNSAT",
+    "documentation": "independent writer/reviewer loop plus docs build, assembled-site links and rendered inspection; final review receipt adjacent"
+  },
+  "timing": {
+    "selection": "selection.json",
+    "pairs": 512,
+    "native_rows": 1024,
+    "rotation": "profile order alternates by slot; four Certora diagnostics each have three paired repetitions",
+    "profile_args": {
+      "private": [
+        "--quiet",
+        "--stats"
+      ],
+      "hybrid": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid"
+      ]
+    },
+    "certora_extra_both": [
+      "--qf-uflia-lia-equality-producer=model-unit",
+      "--qf-uflia-tableau-equalities=all"
+    ],
+    "reference": "archived answers reused only for content-pinned selections; declared status fallback when archived metadata unknown/error; no reference speed claim",
+    "summary": "paired/summary.json",
+    "rows": "paired/timing-rows.jsonl",
+    "coverage": "paired/coverage.json"
+  },
+  "models": {
+    "barrier": "Both timing arrays completed globally before main/followup validation; main model job was held and redependent on followup timing384321 to avoid overlap.",
+    "main_sat_rows": 557,
+    "main_Dolmen_pass": 557,
+    "followup_sat_rows": 4,
+    "followup_Dolmen_pass": 4,
+    "native_seconds": 180,
+    "dolmen_seconds": 60,
+    "validator": "Dolmen0.10 direct --strict=false, every successful native SAT timing row with --check-model and --expect-sat; validation time excluded from timing"
+  },
+  "regressions": {
+    "criterion": "every lost solve, or both-solved hybrid/private >1.2 with >0.1-second absolute increase",
+    "selection": "followup-selection.json",
+    "pairs": 10,
+    "additional_repetitions_per_input": 2,
+    "summary": "followups/summary.json",
+    "result": "All five main-run regressions reproduce. The two cut-lemma losses time out in all three hybrid repetitions. No favorable repeats replace original rows."
+  },
+  "mechanism": {
+    "LIA_gain_count": 32,
+    "LIA_net_gain": 30,
+    "LIA_previous_clean_node_limit_unknowns_recovered": 29,
+    "LIA_previous_timeouts_recovered": 3,
+    "LIA_gains_with_external_splits": 19,
+    "explanation": "Remaining LIA gains close during history-based private search. These results compare the combined history/budget/SAT policy, not an ablation isolating SAT handoff. The UFLIA gain uses two generated bounds. The tiny mechanism probe explicitly changes private unknown to hybrid SAT with identical work limits.",
+    "counter_coverage": "Stats are emitted on normal exits, not killed runs; aggregate counters are partial observations, never total work over the corpus. Peak-generated-atoms is a maximum, other counters are sums. Timers overlap route timers."
+  },
+  "correctness": {
+    "development_inputs": 4000,
+    "development_pass": 3969,
+    "development_timeout": 31,
+    "development_SAT_Dolmen_pass": 2799,
+    "current_snapshot_inputs": 2000,
+    "current_pass": 1982,
+    "current_timeout": 18,
+    "current_SAT_Dolmen_pass": 1394,
+    "deduplication": "The current factor1 gate regenerates/reruns development factor1 seeds, not 2000 additional distinct inputs.",
+    "real_seed_inputs": 298,
+    "real_seed_pass": 281,
+    "real_seed_both_timeout": 17,
+    "real_seed_SAT_Dolmen_pass": 170,
+    "wrong_answers": 0,
+    "signal_crashes": 0,
+    "invalid_models": 0,
+    "unexplained_disagreements": 0,
+    "valid_input_parser_type_errors": 0,
+    "rejected_diagnostics": "TypeFuzz attempts producing nonlinear multipliers were rejected as gate evidence; all232 unrestricted saved mutants were triaged against frozen baseline/current, identical outputs. See run-log for jobs383775/383776/383782/383783/383784 and classifications. All56 restricted scratch mutants classified in384853, zero saved bug files; see restricted-typefuzz-triage.json. Positive nonlinear-input error exits are not signal crashes; all decisive answers agree, timeout-only incompleteness remains separate."
+  },
+  "artifacts": {
+    "portable": "benchmarks/lia-hybrid-20261111",
+    "local_raw": "results/lia-hybrid-20261111",
+    "SLURM_raw": "primo-hybrid-qualified-20261111/results/{lia-hybrid-paired,lia-hybrid-followups,lia-hybrid-gates,lia-hybrid-diagnostics}; earlier gates in primo-hybrid-candidate-20261111 and primo-hybrid-final-20261111",
+    "storage": "Raw logs/models are SLURM-backed and copied locally for paired/diagnostics evidence; portable manifests, summaries, counter rows and content hashes are tracked. SSH routes and absolute deployment paths remain untracked."
+  },
+  "limitations": [
+    "Experimental opt-in; private remains default.",
+    "Only ordinary splits on existing semantic integer coordinates; no proof-derived combination splits from Griggio5.1 and no new termination/completeness claim.",
+    "Severe repeated cut-lemma/tight-rhombus regressions; no general UFLIA or Certora superiority claim.",
+    "No factor ablation or full-corpus promotion; fixed requested selections only."
+  ],
+  "artifact_sha256": {
+    "development-fuzz-audit.json": "1bf60890983f5c1bb1ed14b9212b6acea09ba84e005a4bf9c48b01f56f58e8c5",
+    "followup-selection.json": "a0ec5ee3dfc1c9f24ad3cc7189b927b300ed1ec8720e4696470be1a9b4bde56d",
+    "followups/coverage.json": "da5becbf61dab3c9404e4f1f71a00a020d7ca059a8f9e96eeb998ee7638f3bcf",
+    "followups/summary.json": "62f730407d70610d14b61a2044c7ef605be9754a1521c46d53708010e70d936a",
+    "followups/timing-rows.jsonl": "c2431737c4a2c619c63f28d4f32bee7d549103481561eb6e38a5d568a0511c9e",
+    "opfuzz-QF_LIA-audit.json": "99b9b8e3ed8561c4982c5f5ee38c4043138a24c2762604296bfe592f25462995",
+    "opfuzz-QF_UFLIA-audit.json": "28916fc24746cc6e40e9e3e4ab7a9ddea7a6eae006f233317b596a0b22ce165c",
+    "paired/coverage.json": "378da8aa48598ed49a1f2e733d9e2a3717d8826020b5f37f8676375bd06e5984",
+    "paired/summary.json": "b544062425a3176a03f4389642d08bcaa091c6412752abb82613c7a9741d6e0e",
+    "paired/timing-rows.jsonl": "cd547b9c07e0b3df7433e2f2e4020222c1b0b6a20ba5f658780f40a731c23df3",
+    "profiles.json": "d4fc5f2f4a24ecd91598228c4bb4451d4fa16397c4a5f9d8616c7cba51ceebe7",
+    "qualified-fuzz-audit.json": "96c105bb3d4997fe6ab6f2ca0d5a7328fd004050abdf1bdf92f1623fcfe65060",
+    "selection.json": "ea28dccda6f0a114d2fdcc7c483c146de361ccae260d82cd72d1c0e88ec4e6f9",
+    "restricted-typefuzz-triage.json": "513971cca88e43e6249faf15918f300f6c1a48e0d6aacd9bd38a1c90fc20f637"
+  }
+}

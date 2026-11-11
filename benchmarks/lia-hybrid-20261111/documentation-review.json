@@ -1,0 +1,95 @@
+{
+  "status": "independent read-only review accepted; no required findings remain",
+  "reviewer": "separate docs_review agent under skills/documentation/SKILL.md writer-reviewer loop",
+  "baseline_git": "cd258f6ae4f690609132a402bb6454ddb40335b7",
+  "scope": "hybrid evidence page, status links, bibliography, first three hybrid run-log entries, portable benchmark/fuzz/profile records, final evidence scripts and documentation companion repair; source inspected for agreement. Acceptance does not extend to the entire manual or constitute an independent solver soundness proof.",
+  "reviewed_manifest_sha256": "6b17c67cd2f952e38d73201b72a8ad1668beb004b5190844377b6bbf1d2333f1",
+  "reviewed_files": {
+    "benchmarks/lia-hybrid-20261111/development-fuzz-audit.json": "1bf60890983f5c1bb1ed14b9212b6acea09ba84e005a4bf9c48b01f56f58e8c5",
+    "benchmarks/lia-hybrid-20261111/followup-selection.json": "a0ec5ee3dfc1c9f24ad3cc7189b927b300ed1ec8720e4696470be1a9b4bde56d",
+    "benchmarks/lia-hybrid-20261111/followups/coverage.json": "da5becbf61dab3c9404e4f1f71a00a020d7ca059a8f9e96eeb998ee7638f3bcf",
+    "benchmarks/lia-hybrid-20261111/followups/summary.json": "62f730407d70610d14b61a2044c7ef605be9754a1521c46d53708010e70d936a",
+    "benchmarks/lia-hybrid-20261111/followups/timing-rows.jsonl": "c2431737c4a2c619c63f28d4f32bee7d549103481561eb6e38a5d568a0511c9e",
+    "benchmarks/lia-hybrid-20261111/opfuzz-QF_LIA-audit.json": "99b9b8e3ed8561c4982c5f5ee38c4043138a24c2762604296bfe592f25462995",
+    "benchmarks/lia-hybrid-20261111/opfuzz-QF_UFLIA-audit.json": "28916fc24746cc6e40e9e3e4ab7a9ddea7a6eae006f233317b596a0b22ce165c",
+    "benchmarks/lia-hybrid-20261111/paired/coverage.json": "378da8aa48598ed49a1f2e733d9e2a3717d8826020b5f37f8676375bd06e5984",
+    "benchmarks/lia-hybrid-20261111/paired/summary.json": "b544062425a3176a03f4389642d08bcaa091c6412752abb82613c7a9741d6e0e",
+    "benchmarks/lia-hybrid-20261111/paired/timing-rows.jsonl": "cd547b9c07e0b3df7433e2f2e4020222c1b0b6a20ba5f658780f40a731c23df3",
+    "benchmarks/lia-hybrid-20261111/profiles.json": "d4fc5f2f4a24ecd91598228c4bb4451d4fa16397c4a5f9d8616c7cba51ceebe7",
+    "benchmarks/lia-hybrid-20261111/qualification.json": "f7b1792ed487f460896946bdea933b79fa2ea976abc0801b8dd2a96557fd72f2",
+    "benchmarks/lia-hybrid-20261111/qualified-fuzz-audit.json": "96c105bb3d4997fe6ab6f2ca0d5a7328fd004050abdf1bdf92f1623fcfe65060",
+    "benchmarks/lia-hybrid-20261111/restricted-typefuzz-triage.json": "513971cca88e43e6249faf15918f300f6c1a48e0d6aacd9bd38a1c90fc20f637",
+    "benchmarks/lia-hybrid-20261111/selection.json": "ea28dccda6f0a114d2fdcc7c483c146de361ccae260d82cd72d1c0e88ec4e6f9",
+    "docs/_config.yml": "273d413da82c6949814bad9ecc229518d9f4b6bdc59d0f0dd6af2d2990942d48",
+    "docs/_toc.yml": "e7b3c2d0ef93127eba68123db4c2e4f503ee4daf41c159a8d06e3c6f6561d79f",
+    "docs/evidence/lia-hybrid-20261111.md": "1536b29a8aff4ecae24044b318b32ed5de9f43779fa9a1ac8ff356d582c5f90b",
+    "docs/examples/boolean-abstraction.cpp": "5eea94e2fc03921feeb75ee37376099676586a8a6b5b55b18d8b7be222be41ca",
+    "docs/implementation/lia.md": "d60427077707b915f20bcf95ca5a0c81b0f9b03512b6af699d524c3b2b3b424c",
+    "docs/leads/lia-hybrid-branching.md": "1828de7a2ddd3876cc6be14bf31e481eb22e5fa1c08d9d638e03c84e616f3e45",
+    "docs/references.bib": "9352e120a2039f65da52ac4c012754b23a5bfbd9a8f2b71d0b2b3fbdaea4dcc3",
+    "docs/run-log.json": "bab1a04206a2d564edc65b5a22878c1ef9f315e0e9362add5f34173999770247",
+    "scripts/qualification/lia_hybrid/diagnostics.sbatch": "10949dba950b870cefd687c49244bd8c6e5189301d881d7e1abe5500f2dd7ddc",
+    "scripts/qualification/lia_hybrid/export.py": "98bee3631a147b7765f586d78328ab25a291d63d4c75758b5bfa12b1b0df7c6b",
+    "scripts/qualification/lia_hybrid/summarize.py": "0ec4cde6a1ab113217482628e0c923ec72b9726effb31fb1fc6f2cc9236b98fd"
+  },
+  "findings": {
+    "HB-EVID-1": {
+      "finding": "cut-lemma original timings mislabeled as three-run medians",
+      "repair": "Use9.602 and2.631 seconds; independently recomputed and rechecked",
+      "status": "resolved"
+    },
+    "HB-EVID-2": {
+      "finding": "node-03 omitted from environment metadata",
+      "repair": "Include all three nodes from per-slot provenance",
+      "status": "resolved"
+    },
+    "HB-EVID-3": {
+      "finding": "restricted-TypeFuzz classification pending in development ledger",
+      "repair": "SLURM384853 replayed all56mutants; per-input receipt and empty saved-bug inventory distinguish nonlinear positive error exits from signals, decisive agreements and timeout-only incompleteness; ledger reconciled",
+      "status": "resolved"
+    },
+    "command_spacing": {
+      "repair": "Restore spaces in described git diff and profiling arguments",
+      "status": "resolved"
+    }
+  },
+  "independently_verified": [
+    "headline solved/PAR2/ratios",
+    "all34family summaries",
+    "five regression selections and repetitions",
+    "mechanism counter totals and profile samples",
+    "source equivalence and artifact hashes",
+    "all48 generated answer/model CSV hashes and exact2799/1394 SAT coverage sets",
+    "OpFuzz outcomes and170SAT models",
+    "all561timing-model summary hashes and matching profile arguments",
+    "restricted mutation classification"
+  ],
+  "verdict": "Evidence supports retaining ordinary-coordinate hybrid splits opt-in; does not support default promotion, full Griggio algorithm, general performance superiority, or broader completeness claims.",
+  "independent_unchecked": [
+    "scheduler accounting and dependency execution",
+    "remote Git availability",
+    "raw mutant/input blob contents",
+    "rendering",
+    "final commit cleanliness"
+  ],
+  "writer_verification": {
+    "lint": "make lint passed after executable mode repair for export.py",
+    "documentation": "strict make docs; make docs-history; assemble_docs.py; check_doc_links.py docs/_build/site:294pages,42405local links,1248unique Git links,0failures; external URLs deferred to Sphinx network linkcheck",
+    "rendering": "Chrome renders of evidence introduction, main results, family/regression tables, mechanism/correctness sections and isolated current implementation section inspected; corrected medians visible. Screenshots under/tmp/primo-hybrid-*.png.",
+    "SLURM_accounting": "All1046 tasks in main/followup timing/model arrays and diagnostics384852/triage384853 are COMPLETED0:0; final-accounting.txt retained locally.",
+    "example": "Strict Release compilation and24assignments+retired-selector UNSAT passed384852; source hash matches final file after removing one explanatory comment.",
+    "source": "git diff 9e01197e -- src is empty; no production behavior changes after qualification."
+  },
+  "prior_implementation_documentation_review": {
+    "baseline": "430ff142",
+    "accepted_patch_sha256": "da3dc2d25d168fca8528076366ca67af442df3c24308fe4079bc754184d75466",
+    "resolved_findings": [
+      "HB-DOC-1 source pin",
+      "HB-DOC-2 integral repaired success",
+      "HB-IMPL-1 private result contracts",
+      "HB-IMPL-2 source role pins",
+      "HB-IMPL-3 rejected assumption batch counter meaning"
+    ],
+    "scope": "paper checklist and implementation representation/ownership/policy docs; mechanical source repin to equal production milestone allowed"
+  }
+}

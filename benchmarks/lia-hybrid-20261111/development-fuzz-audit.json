@@ -1,0 +1,70 @@
+{
+  "status": "complete",
+  "profiles": {
+    "QF_LIA/factor-0": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 988,
+        "TIMEOUT": 12
+      },
+      "sat_models": 886
+    },
+    "QF_UFLIA/factor-0": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 999,
+        "TIMEOUT": 1
+      },
+      "sat_models": 519
+    },
+    "QF_LIA/factor-1": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 982,
+        "TIMEOUT": 18
+      },
+      "sat_models": 875
+    },
+    "QF_UFLIA/factor-1": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "sat_models": 519
+    }
+  },
+  "artifacts": {
+    "fuzz/slot-0/answers/summary.csv": "e02d3fbe576e0a354486db9ce17926dd3d4d0fd5cb0223c3e6d6837ef4fc4ab0",
+    "fuzz/slot-0/models/summary.csv": "23d80cfbbd9b068e6ef2c4b1d3d0d3fa4a8acc363c21b3f85065838bfafaf125",
+    "fuzz/slot-1/answers/summary.csv": "963a4184cc25ce453dd667de6c63d6d5fdb1c9e1020fdf241c2711f0dd1d61ee",
+    "fuzz/slot-1/models/summary.csv": "8e19f32e10b2549c2478cb3d0de8b0c4697a609f2180b97906dea4f6e9c063ab",
+    "fuzz/slot-2/answers/summary.csv": "44df80171e1bf0e48d331f8c5afab973e09d7910c923796c363232b4c0280928",
+    "fuzz/slot-2/models/summary.csv": "2d8ef2746445bc7d4358335564738bf4c6319317f39de282d37e49c379d21694",
+    "fuzz/slot-3/answers/summary.csv": "ed75e0e72af6599da3e1a769ad22b62d8a413f97a8bd2591f7ae9c6fb6eccef1",
+    "fuzz/slot-3/models/summary.csv": "99cafa96a7a3c8149856c2929701818af42d20a04364fb4c4f93fdc0c85bf1b5",
+    "fuzz/slot-4/answers/summary.csv": "e929852d9d81dc6ca2602f07245edc67c65a18991096aa83629584f9f0f276bd",
+    "fuzz/slot-4/models/summary.csv": "070291852042326dff7bf3918ad3253401ff26664d480291ca3844b01f3228c2",
+    "fuzz/slot-5/answers/summary.csv": "8cd07f5bd7d27652ec45717247ce172efb9f5c1974568e4a2e6e5e74702af7af",
+    "fuzz/slot-5/models/summary.csv": "eb9a82f9e57102ec771d762291740a3571e97e6553297d74f42001d130fb6874",
+    "fuzz/slot-6/answers/summary.csv": "2d3ee3b07df8ce9b92a338b8146e6522bc9c0a65d7477b5bc47e7c772612a749",
+    "fuzz/slot-6/models/summary.csv": "a5e27caf3b81b9168ca8950a513f0b2f5cf9781a469734ec87d45fae39403f9a",
+    "fuzz/slot-7/answers/summary.csv": "e19e89a76baf492e4926168c9a9270740f176f2bf8c62fc46b0e273a66083112",
+    "fuzz/slot-7/models/summary.csv": "2460bc4f48c48bb7b9a72b005c88a6459a945c3d82bcd6184780016a1ba74dbb",
+    "fuzz/slot-8/answers/summary.csv": "4f8023b03cea38e1e261e9e2f875a76fb89b009a8cceb8afc247fb5595bd1d60",
+    "fuzz/slot-8/models/summary.csv": "614663cfaa4986ee1c10c1117eb2083fe7e484689f4b3c08d0bc43927f25adbb",
+    "fuzz/slot-9/answers/summary.csv": "31e3abad9b66191d12e5f0b68b2a30c76ac440cc0c9416e5b9536767f833f168",
+    "fuzz/slot-9/models/summary.csv": "0b4fe6b4a50e139410796ec180cb163c433494317e4b5079253de18f822e6f5f",
+    "fuzz/slot-10/answers/summary.csv": "2238f27acd9e1adb67d1a363146caf4a6c5e9a9ca7af217c36ab8b152ee1c547",
+    "fuzz/slot-10/models/summary.csv": "412f6e9262d37fccf0fff4967e133eda4ac394fab03ded1098111a4204527df0",
+    "fuzz/slot-11/answers/summary.csv": "4adf770d0df9c7b1a0740e257f26c8d6c90a43534b0c0db907732db297a9099f",
+    "fuzz/slot-11/models/summary.csv": "1c7e926beea1b9df94b4f97af1f921559789e6ee98448569b75054def4510d33",
+    "fuzz/slot-12/answers/summary.csv": "2be016cb883be62b54f35249318914b4537ff2695addd1a8fc7ba110b74ef3fe",
+    "fuzz/slot-12/models/summary.csv": "5290f38c6f267a27f3fa991f14211eafd8d041381367c11b76fe2770885055fd",
+    "fuzz/slot-13/answers/summary.csv": "c1bc7864b7ac29b7a1c2f17bfe4d817f47fd50dd426c0b159b3ecd1a476100ba",
+    "fuzz/slot-13/models/summary.csv": "6082fbcfd0f2ba88f501e7bb2e9c3b16051b7f245d3ccfaa86e0ef92c31ffeb2",
+    "fuzz/slot-14/answers/summary.csv": "e81d32eaf593cab7bd63a3fd2f90f4c9e2396d1c7dbe2084ce52b8b2958a9889",
+    "fuzz/slot-14/models/summary.csv": "21fcf004606da633f7072902926d73739da8c676af354d3f873c60ed8de5133d",
+    "fuzz/slot-15/answers/summary.csv": "ba7070edf2fb2b3de5dd7932efbe4cb36a123db7b8ec6cf82b249d6c3cb4dac3",
+    "fuzz/slot-15/models/summary.csv": "4d20f36c5eb306389520f614fb5cbb5686ef14e18ed1a7581c796d3b1fb02d8d"
+  }
+}

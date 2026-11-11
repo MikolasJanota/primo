@@ -3,15 +3,125 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-12-lia-hybrid-accepted-evidence",
+      "date": "2026-11-12",
+      "kind": "Qualified opt-in policy acceptance and complete requested paired comparison",
+      "evidence_status": "accepted opt-in; requested evaluation and SAT coverage complete; private defaults unchanged",
+      "implementation_git": "cd258f6ae4f690609132a402bb6454ddb40335b7",
+      "qualified_source_git": "9e01197e5656b0be4a13f074d2ee1b5a1260f9a8",
+      "baseline_git": "c49585a09710eca76f10ce081923c1bcb3765a7c",
+      "source_equivalence": "git diff 9e01197e -- src is empty at implementation commit and evidence preparation. Only a documentation companion is repaired afterward: keep assertions active under-DNDEBUG and restore the enum header. The tested companion differs from final prose by one explanatory comment only; no solver source changed.",
+      "record": "benchmarks/lia-hybrid-20261111/qualification.json",
+      "page": "docs/evidence/lia-hybrid-20261111.md",
+      "jobs": {
+        "timing": "383804",
+        "regression_timing": "384321",
+        "models": "383996",
+        "regression_models": "384331",
+        "regression_profiles_and_executable_example": "384852",
+        "restricted_mutation_classification": "384853"
+      },
+      "command": "scripts/qualification/lia_hybrid/run.sbatch, run.py timing/models --config PRIVATE_CONFIG --slot SLURM_ARRAY_TASK_ID; --quiet --stats in both profiles, hybrid additionally --lia-branching=hybrid; Certora adds model-unit equality producer and all delivery in both profiles",
+      "resources": {
+        "native_seconds": 120,
+        "native_address_space_bytes": 8589934592,
+        "slurm_memory_gib": 10,
+        "physical_cpus_per_pair": 1,
+        "maximum_timing_concurrency": 48,
+        "model_native_seconds": 180,
+        "Dolmen_seconds": 60,
+        "model_barrier": "Both timing arrays finish before replay. Job383996 held, redependent on afterok384321 and released."
+      },
+      "summary": {
+        "LIA": {
+          "inputs": 200,
+          "private_solved": 104,
+          "hybrid_solved": 134,
+          "gains": 32,
+          "losses": 2,
+          "private_PAR2_sum_s": 24115.410381,
+          "hybrid_PAR2_sum_s": 17037.368425,
+          "private_unknown": 63,
+          "hybrid_unknown": 0,
+          "private_timeout": 31,
+          "hybrid_timeout": 65,
+          "private_memory_out": 2,
+          "hybrid_memory_out": 1
+        },
+        "UFLIA": {
+          "inputs": 300,
+          "private_solved": 259,
+          "hybrid_solved": 260,
+          "gains": 1,
+          "losses": 0,
+          "private_PAR2_sum_s": 10615.575496,
+          "hybrid_PAR2_sum_s": 10343.965527,
+          "private_timeout": 41,
+          "hybrid_timeout": 40
+        },
+        "Certora": {
+          "unique_inputs": 4,
+          "repetitions": 3,
+          "private_solved_rows": 6,
+          "hybrid_solved_rows": 6,
+          "private_PAR2_sum_s": 1694.002731,
+          "hybrid_PAR2_sum_s": 1694.179789,
+          "timeouts_each": 6
+        },
+        "wrong_answer": 0,
+        "signal_crash": 0,
+        "unexplained_error": 0,
+        "unsupported": 0,
+        "paired_disagreement": 0,
+        "SAT_timing_rows_Dolmen_validated": 557,
+        "followup_SAT_timing_rows_Dolmen_validated": 4
+      },
+      "regressions": {
+        "criterion": "lost solve or hybrid/private>1.2 and absolute increase>0.1s",
+        "cases": 5,
+        "extra_paired_repetitions_each": 2,
+        "result": "all reproduce; both15-variable cut-lemma losses remain hybrid timeouts in all3repetitions; PB slowdown~4.77x; larger rhombus~734x. Details and all pairs tracked, no selective replacement."
+      },
+      "profiles": {
+        "command": "diagnostics.sbatch invokes profile_gdb_samples.py --timeout 12 --interval 0.15 --seed 20261112 -- FROZEN_HYBRID --quiet --stats --lia-branching=hybrid INPUT; DEBUGINFOD_URLS empty",
+        "slots": [
+          39,
+          85,
+          95,
+          198
+        ],
+        "samples": [
+          77,
+          76,
+          76,
+          77
+        ],
+        "status": "bounded prefixes intentionally stop at deadline and reap inferiors; sampler summary failed/deadline is expected, not a solver crash",
+        "finding": "cut-lemma prefixes contain apply_gomory_cuts in76/76 and74/76 stacks; larger rhombus67/77; PB branch_and_bound50/77 and pivot66/77. These are overlapping inclusive GDB wall-stack observations, not CPU percentages or proof of general causality. No new algorithm tuning based on these prefixes."
+      },
+      "mechanism": "19 of32LIA gains use external splits;13 close during history-based private exploration.29clean node-limit unknowns and3timeouts recovered. UFLIA gain uses2bounds. Counters only cover normal exits (hybrid143LIA/280UFLIA/8Certora rows), not killed work. Choice-conflicts counts rejected managed-choice batches. Peak generated atoms is a maximum.",
+      "restricted_mutation_classification": "SLURM384853 replays all56scratch mutants from jobs383783/383784 using triage_mutations.sbatch (2s per solver,one CPU,8GiB). Seven native exit2 input rejections match Z3 nonlinear-input errors; one further Z3 nonlinear rejection times out in native. All decisive baseline/hybrid/reference answers agree; remaining incompleteness is timeout-only, including all6UFLIA cases. No signal crash and no saved bug files. Original generic crash labels are positive diagnostic exits. Full per-input hashes/outputs and both original/replay counts: benchmarks/lia-hybrid-20261111/restricted-typefuzz-triage.json. Rejected gate evidence, not a performance comparison.",
+      "static_correction": "The earlier implementation commit message incorrectly called the Boolean-example header unused. -DNDEBUG hid all assert-only uses and even solver calls. Restore the direct enum header and undefine NDEBUG in this executable check. SLURM384852 compiles with strict Release flags and verifies24assignments plus retired-selector UNSAT. No solver behavior changed.",
+      "correctness": "Fresh generated and real-seed gates in preceding entries: no wrong answers, invalid models, signal crashes, valid-input parser/type errors or untriaged disagreements; timeout-only incompleteness separately recorded. All557main and4followup successful native SAT rows independently pass Dolmen0.10 direct--strict=false with exact binaries/inputs/args; validation time excluded from speed results.",
+      "documentation": "Independent evidence review, lint, docs build, assembled-site links and rendered inspection recorded in the adjacent review receipt before evidence commit.",
+      "artifacts": {
+        "portable": "benchmarks/lia-hybrid-20261111/{qualification.json,paired,followups,profiles.json,*audit.json}",
+        "local_raw": "results/lia-hybrid-20261111/{paired-evidence.tar.gz,diagnostics.tar.gz}",
+        "SLURM_raw": "primo-hybrid-qualified-20261111/results/{lia-hybrid-paired,lia-hybrid-followups,lia-hybrid-gates,lia-hybrid-diagnostics}",
+        "storage": "SLURM-backed raw logs/models; tracked compact evidence and reproduction scripts. Absolute deployment/SSH details untracked."
+      },
+      "decision": "Retain hybrid opt-in: demonstrated recovery of private exploration exhaustion and net+30LIA/+1UFLIA with lower PAR2; severe repeated family regressions preclude default promotion. Four Certora diagnostics neutral. Ordinary-coordinate subset only, no proof-derived combination splits or new termination claim."
+    },
+    {
       "id": "2026-11-12-lia-hybrid-qualified-gates",
       "date": "2026-11-12",
       "kind": "Current-source correctness qualification and paired performance evaluation",
-      "evidence_status": "correctness gates complete; paired timing and separate SAT-model coverage in progress; no performance acceptance yet",
+      "evidence_status": "correctness gates complete; timing plan subsequently completed and accepted as opt-in in entry2026-11-12-lia-hybrid-accepted-evidence",
       "source_git": "9e01197e5656b0be4a13f074d2ee1b5a1260f9a8",
       "native_sha256": "677347f140488e419acc72db0a938c4542be5dafa39ce8b55529a3654d6456c6",
       "baseline_git": "c49585a09710eca76f10ce081923c1bcb3765a7c",
       "baseline_native_sha256": "b01b82a6f3ec4d44791836b234776f9b79c704723635ddec7e62198a33e6ac41",
-      "source_equivalence": "All current tracked src/ files byte-identical to9e01197e before implementation commit. Solver/theory/SAT production sources byte-identical tod2ec5c7c and736bf97a; only CLI branch-limit help text changed afterward. Two unused include removals affect a test and a documentation example. No changed algorithm after the4000-case development gate.",
+      "source_equivalence": "All current tracked src/ files byte-identical to9e01197e before implementation commit. Solver/theory/SAT production sources byte-identical tod2ec5c7c and736bf97a; only CLI branch-limit help text changed afterward. One unused include removal affects a test. The documentation example header was restored after inspecting the -DNDEBUG analysis artifact; the adjacent evidence entry records the Release assertion fix. No changed algorithm after the4000-case development gate.",
       "defaults": "--lia-branching=private; --lia-private-branch-factor=1; --lia-split-atom-limit=0. Hybrid remains opt-in.",
       "jobs": {
         "fresh_generated": "383792",
@@ -150,7 +260,7 @@
           "--qf-uflia-lia-equality-producer=model-unit",
           "--qf-uflia-tableau-equalities=all"
         ],
-        "model_barrier": "afterok entire timing array383804 before model array383996;180s native model production and60s Dolmen; same frozen binaries, exact input hashes and argument vectors",
+        "model_barrier": "afterok entire timing array383804 and regression timings384321 before model array383996;180s native model production and60s Dolmen; same frozen binaries, exact input hashes and argument vectors",
         "reference_provenance": "Reused pinned reference-answer/selection metadata where decisive; each timed input hash checked. Fall back to declared status for unknown/error metadata. No fresh reference speed claims.",
         "config_sha256": "8c186c4732c489f2ba1305736048939c8dad1142be36366beec1f4145c9deae1",
         "baseline_and_candidate": "Both binaries frozen separately before timing; configuration paths remain private/untracked."
@@ -161,6 +271,7 @@
         "paired": "primo-hybrid-qualified-20261111/results/lia-hybrid-paired",
         "storage": "raw artifacts retained locally/SLURM; metadata and workflows tracked"
       },
+      "subsequent_disposition": "All listed remaining items completed in2026-11-12-lia-hybrid-accepted-evidence; the list below records the original pending scope.",
       "remaining": [
         "complete1024timingrows and decide gains/losses",
         "validate every successful timing SAT row separately",
@@ -202,7 +313,7 @@
         "protocol_check": "47 CTest and335 Python tests pass",
         "integrated_check": "47 CTest and335 Python tests pass on d2ec5c7c; retry corrects validation-copy loss of run.py executable mode",
         "integrated_asan": "47/47 CTest pass with detect_leaks=1:strict_init_order=1",
-        "static": "135 tracked C++ translation units scanned with clang-tidy and separate include-cleaner; zero tidy tool errors; advisory example include-cleaner exit1 exposed a real unused include, removed together with one new unused test include. Paired self-includes retained. Existing missing-direct-header, enum-size and other baseline advisories retained; std::to_string(size_t) is always valid Rational::parse input, so the new unchecked-optional diagnostic is a documented false positive.",
+        "static": "135 tracked C++ translation units scanned with clang-tidy and separate include-cleaner; zero tidy tool errors; advisory example include-cleaner exit1 was initially misclassified as a real unused include. Later inspection found that -DNDEBUG removed assertions containing enum references and solver calls; the header is restored and example assertions remain active in Release. One genuinely unused new test include was removed. Paired self-includes retained. Existing missing-direct-header, enum-size and other baseline advisories retained; std::to_string(size_t) is always valid Rational::parse input, so the new unchecked-optional diagnostic is a documented false positive.",
         "docs": "make docs; make docs-history; assemble_docs.py; assembled-site check_doc_links.py:293pages,zero failures; independent documentation review accepted with source pin736bf97a",
         "known_diagnostic_attempts": "Initial CMake provisioning jobs383740/383742 canceled to use existing CMake; baseline383741 inadvertently canceled and rebuilt in383744; first candidate test compile corrected a range-loop copy warning; an overly strict UFLIA counter assertion and tactic parameter snapshot were corrected; GDB383773 timed out downloading separate debug info, not solver execution."
       },
@@ -277,7 +388,7 @@
       "rejected_mutation_attempts": {
         "status": "diagnostic only, not gate evidence",
         "reason": "initial unrestricted TypeFuzz lacked the linear signature config; restricted TypeFuzz can also replace existing literal coefficients with nonlinear terms. Both native baseline and hybrid have identical diagnostics on all232 unrestricted mutants:221 input rejections,6 timeouts,5 decisive answers. No signal crash. QF_LIA Z3 explicitly rejected nonlinear arithmetic on167 cases in the bounded triage; remaining reference runs include timeouts. Fresh campaigns use the existing seeded OpFuzz operator-only profile model_linear_ops.txt.",
-        "remaining": "Finish operator-only real-seed mutations, replay successful native SAT rows with Dolmen, and classify restricted TypeFuzz artifacts before claiming completion."
+        "subsequent_disposition": "Operator-only mutations/model replay completed in the following qualification entry. All56 restricted TypeFuzz mutants classified in SLURM384853; see accepted-evidence entry and tracked restricted-typefuzz-triage.json. Zero saved bug files; original crash labels were positive nonlinear-input rejection exits; no untriaged failure remains."
       },
       "artifacts": {
         "local": "results/lia-hybrid-20261111",
@@ -288,7 +399,8 @@
         "raw_cluster_gate": "primo-hybrid-candidate-20261111/results/lia-hybrid-gates",
         "storage": "raw logs and generated cases are local/SLURM artifacts, not tracked implementation files"
       },
-      "remaining_acceptance": [
+      "subsequent_disposition": "Original remaining scope below was completed in2026-11-12-lia-hybrid-accepted-evidence, including restricted-TypeFuzz classification384853.",
+      "original_remaining_acceptance": [
         "operator-only seed mutations and any remaining triage",
         "current CLI capture/example check",
         "paired200LIA/300UFLIA120s evaluation",

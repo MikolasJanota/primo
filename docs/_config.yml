@@ -75,7 +75,7 @@ sphinx:
         - "https://github.com/primo-solver/primo/blob/c944fa790c2043ebac93b8d6f63c7b02b0c2c235/%s"
         - "%s"
       hybridsource:
-        - "https://github.com/primo-solver/primo/blob/736bf97a/%s"
+        - "https://github.com/primo-solver/primo/blob/cd258f6ae4f690609132a402bb6454ddb40335b7/%s"
         - "%s"
       hybridbaselinesource:
         - "https://github.com/primo-solver/primo/blob/c49585a09710eca76f10ce081923c1bcb3765a7c/%s"

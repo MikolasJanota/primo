@@ -1,0 +1,1175 @@
+{
+  "status": "all56 saved scratch mutants classified; no saved bug files; rejected as gate evidence",
+  "jobs": {
+    "generation_and_initial_replay": [
+      "383783",
+      "383784"
+    ],
+    "fresh_classification": "384853"
+  },
+  "source": "9e01197e5656b0be4a13f074d2ee1b5a1260f9a8",
+  "baseline": "c49585a09710eca76f10ce081923c1bcb3765a7c",
+  "script": "scripts/qualification/lia_hybrid/triage_mutations.sbatch",
+  "timeout_seconds_each": 2,
+  "profiles": {
+    "private": [
+      "--quiet"
+    ],
+    "hybrid": [
+      "--quiet",
+      "--lia-branching=hybrid",
+      "--lia-private-branch-factor=0",
+      "--lia-patch-limit=0",
+      "--lia-gomory-cut-limit=0"
+    ],
+    "reference": [
+      "z3"
+    ]
+  },
+  "resources": "one SLURM CPU,8GiB allocation; diagnostic timeout2s per solver, no native address-space cap",
+  "original": {
+    "QF_LIA": {
+      "summary_sha256": "fc7cbc20da7a9cb8fd10805f2f0b81b0649ad677569fb317dac97fdd97694752",
+      "outcome_pairs": {
+        "unsat/unsat/PASS": 14,
+        "sat/sat/PASS": 19,
+        "timeout/sat/INCOMPLETE": 9,
+        "crash/crash/INCOMPLETE": 7,
+        "timeout/crash/INCOMPLETE": 1
+      }
+    },
+    "QF_UFLIA": {
+      "summary_sha256": "a64dcf76a62266dc3c6608384d64efcba0f28758815cbfbe281f88adb06620af",
+      "outcome_pairs": {
+        "timeout/timeout/INCOMPLETE": 6
+      }
+    }
+  },
+  "replay": {
+    "QF_LIA": {
+      "private": {
+        "unsat": 14,
+        "sat": 14,
+        "timeout": 15,
+        "nonlinear_input_rejection": 7
+      },
+      "hybrid": {
+        "unsat": 14,
+        "sat": 16,
+        "timeout": 13,
+        "nonlinear_input_rejection": 7
+      },
+      "z3": {
+        "unsat": 14,
+        "sat": 23,
+        "timeout": 5,
+        "nonlinear_input_rejection": 8
+      }
+    },
+    "QF_UFLIA": {
+      "private": {
+        "timeout": 6
+      },
+      "hybrid": {
+        "timeout": 6
+      },
+      "z3": {
+        "timeout": 6
+      }
+    }
+  },
+  "classification": "Initial restricted LIA replay:33PASS,9native-timeout/reference-sat,7native exit2/reference exit1 input rejections,1native-timeout/reference exit1 nonlinear rejection. The generic harness crash labels refer to positive error exits, not signal crashes. Fresh replay explicitly confirms all7native input rejections are rejected by Z3 as nonlinear; the eighth reference-rejected mutant times out in native at2s. All decisive baseline/hybrid/reference outputs agree. Two native SAT answers cross this shorter timeout boundary differently; no identical-all-outcomes claim. All6UFLIA mutants time out in all3solvers. This rejected run is neither a successful merge gate nor speed/model evidence.",
+  "signal_crashes": 0,
+  "decisive_disagreements": 0,
+  "saved_bug_files": 0,
+  "inventory": {
+    "QF_LIA": {
+      "scratch": {
+        "011-Gf7k8-NCwyQ.smt2": "d9d97002547b8edb0cda2cde45e8807ad24e5133622a7b993efc64dfbcf7ffec",
+        "002-Gf7k8-QTLvg.smt2": "2ac4ec1f7dc09f5b3bdf9e4071c8b3a32b7ac356f12f13f8bf5b56273c1e595b",
+        "002-Gf7k8-XiTj6.smt2": "6195d9af1d02b67bf5f30e8973a8e92ec43fc82c11f52d031c8aa5bcbe1fd53f",
+        "001-Gf7k8-Qu5I6.smt2": "efaa4c4d85c7ba6f3b5186c33dc28e93b8ae8ee5744fa757ea93ef6f2b0583b5",
+        "006-Gf7k8-kLGKh.smt2": "8cc4544a9be3b685f458a453b2d825f87d0ad8186af17f98355b20781ede2409",
+        "002-Gf7k8-zioYv.smt2": "48d38e28bf8e556b30e4055326c461a5a32b7efb151c7882288eb79a10dc7930",
+        "001-Gf7k8-M4VJ7.smt2": "d4b24f5a3b114f4603b3a477436c3849f595a37ede9bbe20431797d8f8e3f7c0",
+        "009-Gf7k8-3kXx1.smt2": "46ee16b918c01f51c5abb6958400ddc7bce00c3f4b11af59457a9d3a36b277db",
+        "001-Gf7k8-yq3l9.smt2": "9c4f2cfe11b095fc740565404da9b769c1bbc83b46faba5b9de4b665f985da37",
+        "011-Gf7k8-3OeV0.smt2": "ee76c26407445dedb707c23615efac087676bdb7c196543bb51854503a55b0eb",
+        "009-Gf7k8-X86HD.smt2": "d47a594f1dabdbbdaa26ee4fa3c9939b2f591efc6c7b212bb2fdef188e81ca99",
+        "011-Gf7k8-OigIR.smt2": "0da1ce8717982b9f0b6d9dafc82e49c6cac52ebbeeffc6afcc0a1013e589156f",
+        "002-Gf7k8-y75C3.smt2": "10f575c08db9641ab0807bff0bccc7fc2ecbfd985b1a94ddec69e5827f392fe7",
+        "006-Gf7k8-lhxKO.smt2": "7282eced0f36b4246c6fc8c9366f1759429583ee2dc1cffb5ffb1c969f5674d2",
+        "006-Gf7k8-QCFV5.smt2": "d9e80ba3260fca0dbb5397d89ccebcc4c0800cde7becf388a03c45a9be605f32",
+        "009-Gf7k8-mhNXa.smt2": "ec4c03d598e06d9b2d7e65e1ebe59418cae15dcb2be09a6e3eeff988bc61a996",
+        "009-Gf7k8-bxdjk.smt2": "77aa6f8fb4c8c427324f7b6011617a1256aaff4457a9fa1e47da86298ed7a28c",
+        "006-Gf7k8-qWwUl.smt2": "6d10741e91fc75a2b452110a159c2e59c53286ce2d084606506b285e085a034c",
+        "002-Gf7k8-8Yn3E.smt2": "a02620e200db166ef7ddf85f6123c55b1b749eb984d7d71d9bfa211eb8d70614",
+        "011-Gf7k8-uxF9o.smt2": "54ab91ef0e8b92a51bc4b0e9db3e4e11ab12d4ecee4f6298256c512875638ff3",
+        "001-Gf7k8-UhsEy.smt2": "37b3872487f1006249ea35395c6d502a569c458368d9924c7de781d5daff69f7",
+        "009-Gf7k8-OTXjV.smt2": "8047969aee73481eabd98d64ceb6b7ebd3adf4be2683a5773fe9fbbc33a6ccbd",
+        "002-Gf7k8-oCrAa.smt2": "704419f78a4a41b85d7cad3b02883a991bad8c29fd5ff7650bbf4d9c3fc9c402",
+        "011-Gf7k8-T1tuO.smt2": "7409e7ff0be647ba99bfd2db4f69e21fe0abc14dbf4884ffe0d5e4e46d576176",
+        "006-Gf7k8-K1uXL.smt2": "4d6d24e9d28f57804fa3ee04cfca75f1cd8f49468cfa7371c13c1e20db5302a7",
+        "002-Gf7k8-3hUeP.smt2": "8a36b26f4ca8a8f8774077d104917b693d10b36931f6d078310351ccbe6bb8f3",
+        "006-Gf7k8-qxSlM.smt2": "ed54fc559cd1e61812b34949448bb5b21e59e8c83b64bc49e132ccef1e1a3f48",
+        "002-Gf7k8-E9Gio.smt2": "370d67f052585c4d28fe5bb7c0fa003ebb5901268e38250e0c6b98e59e5a86fa",
+        "009-Gf7k8-LCowj.smt2": "17cddcd67490fdafad0426ab077094074fb09003969a01afb5d853c0ffd0621b",
+        "001-Gf7k8-t4bnL.smt2": "c75ff1061b35344fb2aeda4454fe777c54e6324a020f0b2e29b8bedf88bb1ae3",
+        "001-Gf7k8-OlGtW.smt2": "8f096c9241be8d9f121be2d6ac35b6dabd175bcbe305bad403289fa3ee5407c3",
+        "009-Gf7k8-VFtz7.smt2": "c0a3061834aa7847f70b6b210ae582c753b09bd14a94f1264c772eae032c686f",
+        "011-Gf7k8-AaV1O.smt2": "9dd392a6b7cd9c20eb2d6741239332920c23e8c5636f231f97b2f0196f50afbe",
+        "001-Gf7k8-J3T8H.smt2": "35d93a85a0b5ad6940b381a6c9a956ef0e7560bc907afaa9eea8a295188f5fc2",
+        "001-Gf7k8-Ljrq3.smt2": "392ae2453b21eba06a0889d47fa34e5a397476673f7cebaed8072303b38504be",
+        "011-Gf7k8-mkgzu.smt2": "45f08ccf55e605e357e6b5732dd6d25eed1324ac77ac081b754d3cdba3269ef8",
+        "009-Gf7k8-Rdc51.smt2": "a2a175a4c1b49816eab080708980aa50d3d3a743964561d93131032cdf0f8009",
+        "002-Gf7k8-5yTxR.smt2": "a6a1530d756259bd4880e6529a56af3d191e9b5ef2540c7582b382faf1976828",
+        "006-Gf7k8-XKCUW.smt2": "0ae599b4c89709faa705b1544094bf0fe0de7b0be74034afe3054d6d56130a65",
+        "006-Gf7k8-6gbro.smt2": "75b7bc524f7743717b1aaa4b662d9405fbbe14b9db1e3f0bbd50516a33b6602b",
+        "011-Gf7k8-zEn81.smt2": "fc87a734092872740dec30fd6dd4985529bd2725e01382f127f67c2bb082c533",
+        "011-Gf7k8-OobJT.smt2": "d4773b6e3b4837c18ac9a297ea83f2cbbccb15bc147d27314a97321c8035eea1",
+        "002-Gf7k8-qokc1.smt2": "7ee172d3ddb91c3309870b23fb785a8940f55724afdf054bd714b9635010b7f6",
+        "001-Gf7k8-AY2SD.smt2": "bf380d5248d2ccd438aa8bcbaaddd24e29f01f4baac412f37ec376ceff423105",
+        "011-Gf7k8-RlIXe.smt2": "848e073aecbd62d454c27f76043b396bc36f11570733fb086d57d01980d39df4",
+        "006-Gf7k8-rU8HY.smt2": "88c6279fe70fe666698338cc10316b50b7df4cd31cb1fa07bd5085ac1f16d3b0",
+        "006-Gf7k8-AYkbt.smt2": "1dd69b8b99b57755f655ed05ca1fefe20ca6a794d9886b84ba4942ebd87b3b21",
+        "009-Gf7k8-Fdfv0.smt2": "cec56a9c2bbaaa99f3b987fdfbb9b70a61feeba9a53857623be924e3033de1b9",
+        "009-Gf7k8-SPLpW.smt2": "50fb2485cd865d4d9078466a5fdfcbf54d63b2da5f542ccf741ef9afc32d6941",
+        "001-Gf7k8-BqUKO.smt2": "922fa9482a24ab8a2cddd9fc236748ebb14f3cb87fc0f8858ed36494fa415a8e"
+      },
+      "bugs": {},
+      "unmatched_bug_hashes": []
+    },
+    "QF_UFLIA": {
+      "scratch": {
+        "009-Gf7k8-k6RFP.smt2": "a6b706c3142bbb410175ea2ea37380143669fd3249852d84c8c9c13860c104e5",
+        "009-Gf7k8-5CmhN.smt2": "51f1f53f3871ebee3da62acc9a70e7c341862b76075629ecb22b1cb26817cecf",
+        "009-Gf7k8-Xx1fs.smt2": "7ace9d7f056c7426e6b31bf23967d22a6a5499e8c782fd5b51165c40188017f2",
+        "009-Gf7k8-7CcjF.smt2": "9c4b0b2964af9cc9ad94565f233510f10412eab49f5d1b6ba6881c818caf0379",
+        "009-Gf7k8-0q7B6.smt2": "e7b474a5c3f5da84daa9ee8202868397533029ecb374453b0fd011aff08dfb93",
+        "009-Gf7k8-wjqcJ.smt2": "56da4fd8156f681fb8c180add2ef1066b4bcd113f7e282b7163e62113a884491"
+      },
+      "bugs": {},
+      "unmatched_bug_hashes": []
+    }
+  },
+  "rows": [
+    {
+      "logic": "QF_LIA",
+      "file": "001-Gf7k8-AY2SD.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "bf380d5248d2ccd438aa8bcbaaddd24e29f01f4baac412f37ec376ceff423105"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "001-Gf7k8-BqUKO.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "922fa9482a24ab8a2cddd9fc236748ebb14f3cb87fc0f8858ed36494fa415a8e"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "001-Gf7k8-J3T8H.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "35d93a85a0b5ad6940b381a6c9a956ef0e7560bc907afaa9eea8a295188f5fc2"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "001-Gf7k8-Ljrq3.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "392ae2453b21eba06a0889d47fa34e5a397476673f7cebaed8072303b38504be"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "001-Gf7k8-M4VJ7.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "d4b24f5a3b114f4603b3a477436c3849f595a37ede9bbe20431797d8f8e3f7c0"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "001-Gf7k8-OlGtW.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "8f096c9241be8d9f121be2d6ac35b6dabd175bcbe305bad403289fa3ee5407c3"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "001-Gf7k8-Qu5I6.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "efaa4c4d85c7ba6f3b5186c33dc28e93b8ae8ee5744fa757ea93ef6f2b0583b5"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "001-Gf7k8-UhsEy.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "37b3872487f1006249ea35395c6d502a569c458368d9924c7de781d5daff69f7"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "001-Gf7k8-t4bnL.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "c75ff1061b35344fb2aeda4454fe777c54e6324a020f0b2e29b8bedf88bb1ae3"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "001-Gf7k8-yq3l9.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "9c4f2cfe11b095fc740565404da9b769c1bbc83b46faba5b9de4b665f985da37"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "002-Gf7k8-3hUeP.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "timeout": true
+      },
+      "sha256": "8a36b26f4ca8a8f8774077d104917b693d10b36931f6d078310351ccbe6bb8f3"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "002-Gf7k8-5yTxR.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "timeout": true
+      },
+      "sha256": "a6a1530d756259bd4880e6529a56af3d191e9b5ef2540c7582b382faf1976828"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "002-Gf7k8-8Yn3E.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "timeout": true
+      },
+      "sha256": "a02620e200db166ef7ddf85f6123c55b1b749eb984d7d71d9bfa211eb8d70614"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "002-Gf7k8-E9Gio.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "timeout": true
+      },
+      "sha256": "370d67f052585c4d28fe5bb7c0fa003ebb5901268e38250e0c6b98e59e5a86fa"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "002-Gf7k8-QTLvg.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "2ac4ec1f7dc09f5b3bdf9e4071c8b3a32b7ac356f12f13f8bf5b56273c1e595b"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "002-Gf7k8-XiTj6.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "6195d9af1d02b67bf5f30e8973a8e92ec43fc82c11f52d031c8aa5bcbe1fd53f"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "002-Gf7k8-oCrAa.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "704419f78a4a41b85d7cad3b02883a991bad8c29fd5ff7650bbf4d9c3fc9c402"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "002-Gf7k8-qokc1.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "timeout": true
+      },
+      "sha256": "7ee172d3ddb91c3309870b23fb785a8940f55724afdf054bd714b9635010b7f6"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "002-Gf7k8-y75C3.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "10f575c08db9641ab0807bff0bccc7fc2ecbfd985b1a94ddec69e5827f392fe7"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "002-Gf7k8-zioYv.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "48d38e28bf8e556b30e4055326c461a5a32b7efb151c7882288eb79a10dc7930"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "006-Gf7k8-6gbro.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "75b7bc524f7743717b1aaa4b662d9405fbbe14b9db1e3f0bbd50516a33b6602b"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "006-Gf7k8-AYkbt.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "1dd69b8b99b57755f655ed05ca1fefe20ca6a794d9886b84ba4942ebd87b3b21"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "006-Gf7k8-K1uXL.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "4d6d24e9d28f57804fa3ee04cfca75f1cd8f49468cfa7371c13c1e20db5302a7"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "006-Gf7k8-QCFV5.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "d9e80ba3260fca0dbb5397d89ccebcc4c0800cde7becf388a03c45a9be605f32"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "006-Gf7k8-XKCUW.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "0ae599b4c89709faa705b1544094bf0fe0de7b0be74034afe3054d6d56130a65"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "006-Gf7k8-kLGKh.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "8cc4544a9be3b685f458a453b2d825f87d0ad8186af17f98355b20781ede2409"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "006-Gf7k8-lhxKO.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "7282eced0f36b4246c6fc8c9366f1759429583ee2dc1cffb5ffb1c969f5674d2"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "006-Gf7k8-qWwUl.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "6d10741e91fc75a2b452110a159c2e59c53286ce2d084606506b285e085a034c"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "006-Gf7k8-qxSlM.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "ed54fc559cd1e61812b34949448bb5b21e59e8c83b64bc49e132ccef1e1a3f48"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "006-Gf7k8-rU8HY.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "88c6279fe70fe666698338cc10316b50b7df4cd31cb1fa07bd5085ac1f16d3b0"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "009-Gf7k8-3kXx1.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "46ee16b918c01f51c5abb6958400ddc7bce00c3f4b11af59457a9d3a36b277db"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "009-Gf7k8-Fdfv0.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "cec56a9c2bbaaa99f3b987fdfbb9b70a61feeba9a53857623be924e3033de1b9"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "009-Gf7k8-LCowj.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "17cddcd67490fdafad0426ab077094074fb09003969a01afb5d853c0ffd0621b"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "009-Gf7k8-OTXjV.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "8047969aee73481eabd98d64ceb6b7ebd3adf4be2683a5773fe9fbbc33a6ccbd"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "009-Gf7k8-Rdc51.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "a2a175a4c1b49816eab080708980aa50d3d3a743964561d93131032cdf0f8009"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "009-Gf7k8-SPLpW.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "50fb2485cd865d4d9078466a5fdfcbf54d63b2da5f542ccf741ef9afc32d6941"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "009-Gf7k8-VFtz7.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "c0a3061834aa7847f70b6b210ae582c753b09bd14a94f1264c772eae032c686f"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "009-Gf7k8-X86HD.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "d47a594f1dabdbbdaa26ee4fa3c9939b2f591efc6c7b212bb2fdef188e81ca99"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "009-Gf7k8-bxdjk.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "77aa6f8fb4c8c427324f7b6011617a1256aaff4457a9fa1e47da86298ed7a28c"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "009-Gf7k8-mhNXa.smt2",
+      "private": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "hybrid": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "unsat\n",
+        "stderr": ""
+      },
+      "sha256": "ec4c03d598e06d9b2d7e65e1ebe59418cae15dcb2be09a6e3eeff988bc61a996"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "011-Gf7k8-3OeV0.smt2",
+      "private": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "hybrid": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "z3": {
+        "exit": 1,
+        "stdout": "(error \"line 12 column 2853: logic does not support nonlinear arithmetic\")\nsat\n",
+        "stderr": ""
+      },
+      "sha256": "ee76c26407445dedb707c23615efac087676bdb7c196543bb51854503a55b0eb"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "011-Gf7k8-AaV1O.smt2",
+      "private": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "hybrid": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "z3": {
+        "exit": 1,
+        "stdout": "(error \"line 12 column 2871: logic does not support nonlinear arithmetic\")\nsat\n",
+        "stderr": ""
+      },
+      "sha256": "9dd392a6b7cd9c20eb2d6741239332920c23e8c5636f231f97b2f0196f50afbe"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "011-Gf7k8-NCwyQ.smt2",
+      "private": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "hybrid": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "z3": {
+        "exit": 1,
+        "stdout": "(error \"line 12 column 2984: logic does not support nonlinear arithmetic\")\nsat\n",
+        "stderr": ""
+      },
+      "sha256": "d9d97002547b8edb0cda2cde45e8807ad24e5133622a7b993efc64dfbcf7ffec"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "011-Gf7k8-OigIR.smt2",
+      "private": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "hybrid": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "z3": {
+        "exit": 1,
+        "stdout": "(error \"line 12 column 2907: logic does not support nonlinear arithmetic\")\nsat\n",
+        "stderr": ""
+      },
+      "sha256": "0da1ce8717982b9f0b6d9dafc82e49c6cac52ebbeeffc6afcc0a1013e589156f"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "011-Gf7k8-OobJT.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "d4773b6e3b4837c18ac9a297ea83f2cbbccb15bc147d27314a97321c8035eea1"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "011-Gf7k8-RlIXe.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "exit": 1,
+        "stdout": "(error \"line 12 column 2833: logic does not support nonlinear arithmetic\")\nsat\n",
+        "stderr": ""
+      },
+      "sha256": "848e073aecbd62d454c27f76043b396bc36f11570733fb086d57d01980d39df4"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "011-Gf7k8-T1tuO.smt2",
+      "private": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "hybrid": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "z3": {
+        "exit": 1,
+        "stdout": "(error \"line 12 column 2907: logic does not support nonlinear arithmetic\")\nsat\n",
+        "stderr": ""
+      },
+      "sha256": "7409e7ff0be647ba99bfd2db4f69e21fe0abc14dbf4884ffe0d5e4e46d576176"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "011-Gf7k8-mkgzu.smt2",
+      "private": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "hybrid": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "z3": {
+        "exit": 1,
+        "stdout": "(error \"line 12 column 2991: logic does not support nonlinear arithmetic\")\nsat\n",
+        "stderr": ""
+      },
+      "sha256": "45f08ccf55e605e357e6b5732dd6d25eed1324ac77ac081b754d3cdba3269ef8"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "011-Gf7k8-uxF9o.smt2",
+      "private": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "hybrid": {
+        "exit": 2,
+        "stdout": "(error \"* requires a literal rational coefficient operand (QF_LRA)\")\n",
+        "stderr": "* requires a literal rational coefficient operand (QF_LRA)\n"
+      },
+      "z3": {
+        "exit": 1,
+        "stdout": "(error \"line 12 column 2851: logic does not support nonlinear arithmetic\")\nsat\n",
+        "stderr": ""
+      },
+      "sha256": "54ab91ef0e8b92a51bc4b0e9db3e4e11ab12d4ecee4f6298256c512875638ff3"
+    },
+    {
+      "logic": "QF_LIA",
+      "file": "011-Gf7k8-zEn81.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "exit": 0,
+        "stdout": "sat\n",
+        "stderr": ""
+      },
+      "sha256": "fc87a734092872740dec30fd6dd4985529bd2725e01382f127f67c2bb082c533"
+    },
+    {
+      "logic": "QF_UFLIA",
+      "file": "009-Gf7k8-0q7B6.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "timeout": true
+      },
+      "sha256": "e7b474a5c3f5da84daa9ee8202868397533029ecb374453b0fd011aff08dfb93"
+    },
+    {
+      "logic": "QF_UFLIA",
+      "file": "009-Gf7k8-5CmhN.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "timeout": true
+      },
+      "sha256": "51f1f53f3871ebee3da62acc9a70e7c341862b76075629ecb22b1cb26817cecf"
+    },
+    {
+      "logic": "QF_UFLIA",
+      "file": "009-Gf7k8-7CcjF.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "timeout": true
+      },
+      "sha256": "9c4b0b2964af9cc9ad94565f233510f10412eab49f5d1b6ba6881c818caf0379"
+    },
+    {
+      "logic": "QF_UFLIA",
+      "file": "009-Gf7k8-Xx1fs.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "timeout": true
+      },
+      "sha256": "7ace9d7f056c7426e6b31bf23967d22a6a5499e8c782fd5b51165c40188017f2"
+    },
+    {
+      "logic": "QF_UFLIA",
+      "file": "009-Gf7k8-k6RFP.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "timeout": true
+      },
+      "sha256": "a6b706c3142bbb410175ea2ea37380143669fd3249852d84c8c9c13860c104e5"
+    },
+    {
+      "logic": "QF_UFLIA",
+      "file": "009-Gf7k8-wjqcJ.smt2",
+      "private": {
+        "timeout": true
+      },
+      "hybrid": {
+        "timeout": true
+      },
+      "z3": {
+        "timeout": true
+      },
+      "sha256": "56da4fd8156f681fb8c180add2ef1066b4bcd113f7e282b7163e62113a884491"
+    }
+  ]
+}

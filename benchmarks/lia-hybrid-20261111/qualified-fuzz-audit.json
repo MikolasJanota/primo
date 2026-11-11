@@ -1,0 +1,38 @@
+{
+  "status": "complete",
+  "profiles": {
+    "QF_LIA/factor-1": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 982,
+        "TIMEOUT": 18
+      },
+      "sat_models": 875
+    },
+    "QF_UFLIA/factor-1": {
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "sat_models": 519
+    }
+  },
+  "artifacts": {
+    "fuzz/slot-8/answers/summary.csv": "13941837ebb7ec444250d6c53ae020a0da08849c3da1c6e66cf6073c7f35ed11",
+    "fuzz/slot-8/models/summary.csv": "ed1e38f7e764b7ad621d8a18fcb97e6925857b57129275a6acf3f173e1a305c4",
+    "fuzz/slot-9/answers/summary.csv": "de027adf9434d0d283a19de4f104ce7a4597dc728a196689f25725653661ac9e",
+    "fuzz/slot-9/models/summary.csv": "04a354fc5479d7f312588b75599aafcb92c1a09ae2df68c7768cf140fdae7e98",
+    "fuzz/slot-10/answers/summary.csv": "f5e90ab9c55fad7f421231cfdb0245a66c09b97051b3f9b4eb74d5a92df626b6",
+    "fuzz/slot-10/models/summary.csv": "5773c0da946718100e8251e13fa1e432ed78172c11fba93a8f8b8f0276633399",
+    "fuzz/slot-11/answers/summary.csv": "d4a981f484d528ac7af0f7fc1145454ac67ad2d6f816f7050da414a162ebfe5f",
+    "fuzz/slot-11/models/summary.csv": "7f4eee8cda1f5a9fcb585db0a2b41daeda33b7b6c4ef2dcae7740915bc44ee72",
+    "fuzz/slot-12/answers/summary.csv": "d078320b2c0c3884d444e5ddd6b025cc703564e87f3d5850469e32b991721972",
+    "fuzz/slot-12/models/summary.csv": "f03d00386250f254ce574cfb2b7060e43d18a0f7ed5a1d2ff923462a3091c7a1",
+    "fuzz/slot-13/answers/summary.csv": "845f2447a5e7544c2d9052d55412dc36e15eca9af00cc163a43d8f19767737d8",
+    "fuzz/slot-13/models/summary.csv": "9cf2692ee7c3fdf73385640acc6905071cfc7c6f8939419d2949b0014177b719",
+    "fuzz/slot-14/answers/summary.csv": "52e2b81729c53d0688477348ecac9fffa16260080d9b16bfbf986f6ebe79cac8",
+    "fuzz/slot-14/models/summary.csv": "758b8abc42472afd9c81249474413200f839538f7149319fc8f9b705ef4d0b10",
+    "fuzz/slot-15/answers/summary.csv": "b1c433940fda14822b32f61ec98725dba6d5e83a6d9939bc241bfe5466a64e7e",
+    "fuzz/slot-15/models/summary.csv": "6c20456931189b2c655a5ce3acc64a202fffb11a1cf49d50b27e8fd4cf1df8f2"
+  }
+}

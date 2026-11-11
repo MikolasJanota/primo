@@ -28,6 +28,7 @@ def main() -> None:
     args = parser.parse_args()
     config = json.loads(args.config.read_text())
     groups = {}
+    families = {}
     regressions = []
     incomplete_models = []
     comparisons = []
@@ -66,9 +67,11 @@ def main() -> None:
                     "par2_sum": 0.0,
                     "peak_rss_kib": 0,
                     "counters": Counter(),
+                    "statistics_rows": 0,
                 },
             )
             data["inputs"] += 1
+            data["statistics_rows"] += int(bool(row.get("stats")))
             data["statuses"][row["status"]] += 1
             data["solved"] += int(solved(row))
             data["sat"] += int(solved(row) and row["answer"] == "sat")
@@ -87,6 +90,30 @@ def main() -> None:
                         data["counters"][key] = max(data["counters"][key], int(value))
                     else:
                         data["counters"][key] += int(value)
+            family = families.setdefault(
+                case["group"] + "/" + case["file"].split("/")[0], {}
+            )
+            family_data = family.setdefault(
+                label,
+                {
+                    "inputs": 0,
+                    "solved": 0,
+                    "unknown": 0,
+                    "timeouts": 0,
+                    "memory_out": 0,
+                    "par2_sum": 0.0,
+                },
+            )
+            family_data["inputs"] += 1
+            family_data["solved"] += int(solved(row))
+            family_data["unknown"] += int(
+                row["status"] == "ok" and row["answer"] == "unknown"
+            )
+            family_data["timeouts"] += int(row["status"] == "timeout")
+            family_data["memory_out"] += int(row.get("memory_out", False))
+            family_data["par2_sum"] += (
+                float(row["seconds"]) if solved(row) else 2 * config["timeout"]
+            )
         private, hybrid = profiles["private"], profiles["hybrid"]
         ratio = (
             float(hybrid["seconds"]) / float(private["seconds"])
@@ -144,6 +171,7 @@ def main() -> None:
         else "complete and all successful SAT rows Dolmen-validated",
         "config_sha256": hashlib.sha256(args.config.read_bytes()).hexdigest(),
         "groups": groups,
+        "families": families,
         "model_coverage_incomplete_slots": incomplete_models,
         "regressions": regressions,
         "comparisons": comparisons,

@@ -1,0 +1,107 @@
+{
+  "reason": "Repeat each loss and each >1.2x slowdown with >0.1s absolute increase; retain original timing rows unchanged. Two additional rotated pairs per selected input.",
+  "parent_selection": "benchmarks/lia-hybrid-20261111/selection.json",
+  "profiles": {
+    "private": [
+      "--quiet",
+      "--stats"
+    ],
+    "hybrid": [
+      "--quiet",
+      "--stats",
+      "--lia-branching=hybrid"
+    ]
+  },
+  "cases": [
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "pb2010/normalized-j3031_7-sat.smt2",
+      "sha256": "e9a83a676f1173608f1d90f36fe8dc25aa202a35ed3b36a88ff2b2a4f77c2135",
+      "expected": "sat",
+      "repetition": 1,
+      "parent_slot": 39
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "pb2010/normalized-j3031_7-sat.smt2",
+      "sha256": "e9a83a676f1173608f1d90f36fe8dc25aa202a35ed3b36a88ff2b2a4f77c2135",
+      "expected": "sat",
+      "repetition": 2,
+      "parent_slot": 39
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_005.smt2",
+      "sha256": "06195c12bc59be27657308ce6211a76928fcc3f5b7a5ab5cbc7d43396e9a0208",
+      "expected": "unsat",
+      "repetition": 1,
+      "parent_slot": 85
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_005.smt2",
+      "sha256": "06195c12bc59be27657308ce6211a76928fcc3f5b7a5ab5cbc7d43396e9a0208",
+      "expected": "unsat",
+      "repetition": 2,
+      "parent_slot": 85
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_010.smt2",
+      "sha256": "5f48a250bcf6bfc3ce26c178451d529a3ffd827f54f1877088b3195e8159d508",
+      "expected": "unsat",
+      "repetition": 1,
+      "parent_slot": 95
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_010.smt2",
+      "sha256": "5f48a250bcf6bfc3ce26c178451d529a3ffd827f54f1877088b3195e8159d508",
+      "expected": "unsat",
+      "repetition": 2,
+      "parent_slot": 95
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "tightrhombus/tightrhombus-273-245-0.smt2",
+      "sha256": "35b8b99ce47ffd69b7fc624b7addd8091c04b3b9ef01db701e2e34632acc00c4",
+      "expected": "unsat",
+      "repetition": 1,
+      "parent_slot": 175
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "tightrhombus/tightrhombus-273-245-0.smt2",
+      "sha256": "35b8b99ce47ffd69b7fc624b7addd8091c04b3b9ef01db701e2e34632acc00c4",
+      "expected": "unsat",
+      "repetition": 2,
+      "parent_slot": 175
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "tightrhombus/tightrhombus-273-245-1.smt2",
+      "sha256": "fe2182879fa99c16ba90e5407b7326e861f7361971a1441ff24210b561a959ed",
+      "expected": "unsat",
+      "repetition": 1,
+      "parent_slot": 198
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "tightrhombus/tightrhombus-273-245-1.smt2",
+      "sha256": "fe2182879fa99c16ba90e5407b7326e861f7361971a1441ff24210b561a959ed",
+      "expected": "unsat",
+      "repetition": 2,
+      "parent_slot": 198
+    }
+  ]
+}

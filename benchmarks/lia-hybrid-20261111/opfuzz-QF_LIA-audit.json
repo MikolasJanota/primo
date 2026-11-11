@@ -1,0 +1,15 @@
+{
+  "cases": 240,
+  "outcomes": {
+    "PASS": 240
+  },
+  "native": {
+    "sat": 165,
+    "unsat": 75
+  },
+  "reference": {
+    "sat": 165,
+    "unsat": 75
+  },
+  "selected_sat": 165
+}

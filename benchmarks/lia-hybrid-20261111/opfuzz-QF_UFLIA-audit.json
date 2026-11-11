@@ -1,0 +1,18 @@
+{
+  "cases": 58,
+  "outcomes": {
+    "PASS": 41,
+    "INCOMPLETE": 17
+  },
+  "native": {
+    "unsat": 36,
+    "sat": 5,
+    "timeout": 17
+  },
+  "reference": {
+    "unsat": 36,
+    "sat": 5,
+    "timeout": 17
+  },
+  "selected_sat": 5
+}

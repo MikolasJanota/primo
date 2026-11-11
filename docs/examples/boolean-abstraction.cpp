@@ -1,5 +1,10 @@
 // Executable companion to implementation/sat.md. This uses Primo's internal
 // interfaces to isolate clausification from frontend and preprocessing passes.
+// Assertions execute solver calls, so keep them active in Release examples too.
+#ifdef NDEBUG
+#undef NDEBUG
+#endif
+
 #include <array>
 #include <cassert>
 #include <cstddef>
@@ -8,6 +13,7 @@
 #include "core/symbol_table.hpp"
 #include "core/term_manager.hpp"
 #include "sat/cadical_backend.hpp"
+#include "sat/ipasir_up.hpp"
 #include "sat/lit.hpp"
 #include "smt/clausifier.hpp"
 

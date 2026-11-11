@@ -1,7 +1,8 @@
 # Hybrid integer branching
 
-**Status: original implementation checklist; opt-in implementation under
-qualification.** See {ref}`the current representation <lia-hybrid-branching>`.
+**Status: original implementation checklist; the ordinary-split subset is now
+qualified as an opt-in policy.** See {ref}`the current representation <lia-hybrid-branching>`
+and {ref}`the gains, regressions and verification evidence <lia-hybrid-evidence>`.
 Baseline:
 `c49585a0`. Preserve private branching as the default for QF_LIA and QF_UFLIA.
 The intended outcome is bounded private exploration followed by a SAT-visible

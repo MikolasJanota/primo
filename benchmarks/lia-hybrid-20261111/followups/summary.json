@@ -1,0 +1,542 @@
+{
+  "status": "complete and all successful SAT rows Dolmen-validated",
+  "config_sha256": "96d4f255200db4b750675fc06b305c524489801020a6644584f03c598dc8e53a",
+  "groups": {
+    "lia": {
+      "private": {
+        "inputs": 10,
+        "solved": 10,
+        "sat": 2,
+        "unsat": 8,
+        "statuses": {
+          "ok": 10
+        },
+        "unknown": 0,
+        "memory_out": 0,
+        "par2_sum": 33.251505,
+        "peak_rss_kib": 171812,
+        "counters": {
+          ":lia.branch-nodes": 188022
+        },
+        "statistics_rows": 10
+      },
+      "hybrid": {
+        "inputs": 10,
+        "solved": 6,
+        "sat": 2,
+        "unsat": 4,
+        "statuses": {
+          "ok": 6,
+          "timeout": 4
+        },
+        "unknown": 0,
+        "memory_out": 0,
+        "par2_sum": 1028.629136,
+        "peak_rss_kib": 255704,
+        "counters": {
+          ":lia.branch-nodes": 900,
+          ":lia.branching.private-nodes": 900,
+          ":lia.branching.private-conflicts": 650,
+          ":lia.branching.budget-exits": 154,
+          ":time.lia.branching.private-completion-us": 66808305,
+          ":lia.branching.split-requests": 154,
+          ":lia.branching.unique-atoms": 154,
+          ":lia.branching.peak-generated-atoms": 74,
+          ":lia.branching.existing-coordinate-registrations": 154,
+          ":lia.branching.sat-resumes": 154,
+          ":time.lia.branching.resumed-sat-us": 7916,
+          ":lia.branching.choice-conflicts": 154
+        },
+        "statistics_rows": 6
+      },
+      "paired": {
+        "both_solved": 6,
+        "median_hybrid_over_private": 17.47828570419057,
+        "geomean_hybrid_over_private": 39.289923747751615,
+        "gains": 0,
+        "losses": 4
+      }
+    }
+  },
+  "families": {
+    "lia/pb2010": {
+      "private": {
+        "inputs": 2,
+        "solved": 2,
+        "unknown": 0,
+        "timeouts": 0,
+        "memory_out": 0,
+        "par2_sum": 8.723006
+      },
+      "hybrid": {
+        "inputs": 2,
+        "solved": 2,
+        "unknown": 0,
+        "timeouts": 0,
+        "memory_out": 0,
+        "par2_sum": 41.583615
+      }
+    },
+    "lia/cut_lemmas": {
+      "private": {
+        "inputs": 4,
+        "solved": 4,
+        "unknown": 0,
+        "timeouts": 0,
+        "memory_out": 0,
+        "par2_sum": 24.474705
+      },
+      "hybrid": {
+        "inputs": 4,
+        "solved": 0,
+        "unknown": 0,
+        "timeouts": 4,
+        "memory_out": 0,
+        "par2_sum": 960.0
+      }
+    },
+    "lia/tightrhombus": {
+      "private": {
+        "inputs": 4,
+        "solved": 4,
+        "unknown": 0,
+        "timeouts": 0,
+        "memory_out": 0,
+        "par2_sum": 0.053794
+      },
+      "hybrid": {
+        "inputs": 4,
+        "solved": 4,
+        "unknown": 0,
+        "timeouts": 0,
+        "memory_out": 0,
+        "par2_sum": 27.045521
+      }
+    }
+  },
+  "model_coverage_incomplete_slots": [],
+  "regressions": [
+    {
+      "slot": 0,
+      "group": "lia",
+      "file": "pb2010/normalized-j3031_7-sat.smt2",
+      "repetition": 1,
+      "private": {
+        "status": "ok",
+        "answer": "sat",
+        "seconds": "4.343438",
+        "peak_rss_kib": 170972
+      },
+      "hybrid": {
+        "status": "ok",
+        "answer": "sat",
+        "seconds": "20.768228",
+        "peak_rss_kib": 254948
+      },
+      "ratio": 4.781518235093952,
+      "gain": false,
+      "loss": false
+    },
+    {
+      "slot": 1,
+      "group": "lia",
+      "file": "pb2010/normalized-j3031_7-sat.smt2",
+      "repetition": 2,
+      "private": {
+        "status": "ok",
+        "answer": "sat",
+        "seconds": "4.379568",
+        "peak_rss_kib": 171812
+      },
+      "hybrid": {
+        "status": "ok",
+        "answer": "sat",
+        "seconds": "20.815387",
+        "peak_rss_kib": 255704
+      },
+      "ratio": 4.752840234470614,
+      "gain": false,
+      "loss": false
+    },
+    {
+      "slot": 2,
+      "group": "lia",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_005.smt2",
+      "repetition": 1,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "9.610996",
+        "peak_rss_kib": 10740
+      },
+      "hybrid": {
+        "status": "timeout",
+        "answer": "unknown",
+        "seconds": "121.103960",
+        "peak_rss_kib": 31628
+      },
+      "ratio": null,
+      "gain": false,
+      "loss": true
+    },
+    {
+      "slot": 3,
+      "group": "lia",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_005.smt2",
+      "repetition": 2,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "9.602063",
+        "peak_rss_kib": 10744
+      },
+      "hybrid": {
+        "status": "timeout",
+        "answer": "unknown",
+        "seconds": "121.097643",
+        "peak_rss_kib": 31916
+      },
+      "ratio": null,
+      "gain": false,
+      "loss": true
+    },
+    {
+      "slot": 4,
+      "group": "lia",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_010.smt2",
+      "repetition": 1,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "2.630344",
+        "peak_rss_kib": 10740
+      },
+      "hybrid": {
+        "status": "timeout",
+        "answer": "unknown",
+        "seconds": "121.108105",
+        "peak_rss_kib": 104464
+      },
+      "ratio": null,
+      "gain": false,
+      "loss": true
+    },
+    {
+      "slot": 5,
+      "group": "lia",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_010.smt2",
+      "repetition": 2,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "2.631302",
+        "peak_rss_kib": 10744
+      },
+      "hybrid": {
+        "status": "timeout",
+        "answer": "unknown",
+        "seconds": "121.109094",
+        "peak_rss_kib": 103596
+      },
+      "ratio": null,
+      "gain": false,
+      "loss": true
+    },
+    {
+      "slot": 6,
+      "group": "lia",
+      "file": "tightrhombus/tightrhombus-273-245-0.smt2",
+      "repetition": 1,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "0.008639",
+        "peak_rss_kib": 10740
+      },
+      "hybrid": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "0.148750",
+        "peak_rss_kib": 10756
+      },
+      "ratio": 17.2184280588031,
+      "gain": false,
+      "loss": false
+    },
+    {
+      "slot": 7,
+      "group": "lia",
+      "file": "tightrhombus/tightrhombus-273-245-0.smt2",
+      "repetition": 2,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "0.008413",
+        "peak_rss_kib": 10760
+      },
+      "hybrid": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "0.149231",
+        "peak_rss_kib": 10740
+      },
+      "ratio": 17.738143349578035,
+      "gain": false,
+      "loss": false
+    },
+    {
+      "slot": 8,
+      "group": "lia",
+      "file": "tightrhombus/tightrhombus-273-245-1.smt2",
+      "repetition": 1,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "0.018509",
+        "peak_rss_kib": 10740
+      },
+      "hybrid": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "13.364929",
+        "peak_rss_kib": 10756
+      },
+      "ratio": 722.077313739262,
+      "gain": false,
+      "loss": false
+    },
+    {
+      "slot": 9,
+      "group": "lia",
+      "file": "tightrhombus/tightrhombus-273-245-1.smt2",
+      "repetition": 2,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "0.018233",
+        "peak_rss_kib": 10764
+      },
+      "hybrid": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "13.382611",
+        "peak_rss_kib": 10740
+      },
+      "ratio": 733.9774584544508,
+      "gain": false,
+      "loss": false
+    }
+  ],
+  "comparisons": [
+    {
+      "slot": 0,
+      "group": "lia",
+      "file": "pb2010/normalized-j3031_7-sat.smt2",
+      "repetition": 1,
+      "private": {
+        "status": "ok",
+        "answer": "sat",
+        "seconds": "4.343438",
+        "peak_rss_kib": 170972
+      },
+      "hybrid": {
+        "status": "ok",
+        "answer": "sat",
+        "seconds": "20.768228",
+        "peak_rss_kib": 254948
+      },
+      "ratio": 4.781518235093952,
+      "gain": false,
+      "loss": false
+    },
+    {
+      "slot": 1,
+      "group": "lia",
+      "file": "pb2010/normalized-j3031_7-sat.smt2",
+      "repetition": 2,
+      "private": {
+        "status": "ok",
+        "answer": "sat",
+        "seconds": "4.379568",
+        "peak_rss_kib": 171812
+      },
+      "hybrid": {
+        "status": "ok",
+        "answer": "sat",
+        "seconds": "20.815387",
+        "peak_rss_kib": 255704
+      },
+      "ratio": 4.752840234470614,
+      "gain": false,
+      "loss": false
+    },
+    {
+      "slot": 2,
+      "group": "lia",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_005.smt2",
+      "repetition": 1,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "9.610996",
+        "peak_rss_kib": 10740
+      },
+      "hybrid": {
+        "status": "timeout",
+        "answer": "unknown",
+        "seconds": "121.103960",
+        "peak_rss_kib": 31628
+      },
+      "ratio": null,
+      "gain": false,
+      "loss": true
+    },
+    {
+      "slot": 3,
+      "group": "lia",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_005.smt2",
+      "repetition": 2,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "9.602063",
+        "peak_rss_kib": 10744
+      },
+      "hybrid": {
+        "status": "timeout",
+        "answer": "unknown",
+        "seconds": "121.097643",
+        "peak_rss_kib": 31916
+      },
+      "ratio": null,
+      "gain": false,
+      "loss": true
+    },
+    {
+      "slot": 4,
+      "group": "lia",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_010.smt2",
+      "repetition": 1,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "2.630344",
+        "peak_rss_kib": 10740
+      },
+      "hybrid": {
+        "status": "timeout",
+        "answer": "unknown",
+        "seconds": "121.108105",
+        "peak_rss_kib": 104464
+      },
+      "ratio": null,
+      "gain": false,
+      "loss": true
+    },
+    {
+      "slot": 5,
+      "group": "lia",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_010.smt2",
+      "repetition": 2,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "2.631302",
+        "peak_rss_kib": 10744
+      },
+      "hybrid": {
+        "status": "timeout",
+        "answer": "unknown",
+        "seconds": "121.109094",
+        "peak_rss_kib": 103596
+      },
+      "ratio": null,
+      "gain": false,
+      "loss": true
+    },
+    {
+      "slot": 6,
+      "group": "lia",
+      "file": "tightrhombus/tightrhombus-273-245-0.smt2",
+      "repetition": 1,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "0.008639",
+        "peak_rss_kib": 10740
+      },
+      "hybrid": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "0.148750",
+        "peak_rss_kib": 10756
+      },
+      "ratio": 17.2184280588031,
+      "gain": false,
+      "loss": false
+    },
+    {
+      "slot": 7,
+      "group": "lia",
+      "file": "tightrhombus/tightrhombus-273-245-0.smt2",
+      "repetition": 2,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "0.008413",
+        "peak_rss_kib": 10760
+      },
+      "hybrid": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "0.149231",
+        "peak_rss_kib": 10740
+      },
+      "ratio": 17.738143349578035,
+      "gain": false,
+      "loss": false
+    },
+    {
+      "slot": 8,
+      "group": "lia",
+      "file": "tightrhombus/tightrhombus-273-245-1.smt2",
+      "repetition": 1,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "0.018509",
+        "peak_rss_kib": 10740
+      },
+      "hybrid": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "13.364929",
+        "peak_rss_kib": 10756
+      },
+      "ratio": 722.077313739262,
+      "gain": false,
+      "loss": false
+    },
+    {
+      "slot": 9,
+      "group": "lia",
+      "file": "tightrhombus/tightrhombus-273-245-1.smt2",
+      "repetition": 2,
+      "private": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "0.018233",
+        "peak_rss_kib": 10764
+      },
+      "hybrid": {
+        "status": "ok",
+        "answer": "unsat",
+        "seconds": "13.382611",
+        "peak_rss_kib": 10740
+      },
+      "ratio": 733.9774584544508,
+      "gain": false,
+      "loss": false
+    }
+  ]
+}

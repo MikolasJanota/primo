@@ -882,7 +882,9 @@ Griggio §5.1's proof-derived linear-combination splits are not implemented.
 Neither this ordinary-split subset nor its optional atom cap establishes
 termination or completeness on unbounded integer problems; §5.2 and the
 [implementation checklist](../leads/lia-hybrid-branching.md) explain the boundary.
-The feature remains experimental and opt-in pending its qualification record.
+The feature remains experimental and opt-in. The
+[qualification record](../evidence/lia-hybrid-20261111.md) reports the requested
+LIA/UFLIA comparisons, independently validated models and repeated regressions.
 
 (lia-explanations)=
 ## Explaining integer conflicts to SAT
