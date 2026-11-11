@@ -1,17 +1,17 @@
-# Smaller Farkas coefficients
+# Smaller arithmetic certificate coefficients
 
-**Status: experimental standalone adapter with bounded SLURM qualification.**
+**Status: experimental standalone adapter; LRA baseline qualified below, LIA/support extension qualification pending.**
 This is a separate post-processing problem on a completed version-2 QF_LRA
-certificate. It does not change the solver, the selected theory clauses, their
-premise order, the original CNF, or the certificate format. LIA cut derivations
-are outside this first adapter: changing the sum behind an intermediate cut
-requires preserving its conclusion, not merely finding any contradiction.
+or version-3 QF_LIA certificate. It preserves the selected theory clauses,
+premise/reference order, derived integer inequalities, CNF and certificate
+format. The native solver is unchanged. The historical CLI name is retained
+for both logics; only arithmetic weight/divisor spans can change.
 
-The {farkassource}`CLI and streaming transformer <scripts/minimize_lra_coefficients.py>`
+The {coefficientextensionsource}`CLI and streaming transformer <scripts/minimize_lra_coefficients.py>`
 own parsing, byte copying, external calls and publication. The pure
-{farkassource}`arithmetic helper <scripts/farkas_coefficients.py>` owns candidate
+{coefficientextensionsource}`arithmetic helper <scripts/farkas_coefficients.py>` owns candidate
 generation, exact validation and the optimization encoding. The
-{farkassource}`qualification driver <scripts/qualify_farkas_coefficients.py>`
+{coefficientextensionsource}`extension qualification driver <scripts/qualify_arithmetic_coefficients.py>`
 compares the resulting certificates with the retained inputs and independent
 checker. These are Python utilities; native C++ search and reconstruction are
 unchanged.
@@ -20,6 +20,8 @@ unchanged.
 python3 scripts/minimize_lra_coefficients.py original.sexp smaller.sexp --report metrics.json
 python3 scripts/minimize_lra_coefficients.py original.sexp optimized.sexp \
   --optimizer /path/to/z3 --problems-dir coefficient-problems --report metrics.json
+python3 scripts/minimize_lra_coefficients.py integer-v3.sexp smaller-v3.sexp \
+  --objective support --optimizer /path/to/z3 --report integer-metrics.json
 ```
 
 The default is cheap exact candidate generation only. `--optimizer` enables
@@ -27,8 +29,8 @@ the separate Optimize-compatible executable; its arguments precede the appended
 `.smt2` path. `--problems-dir` without a backend only saves standalone problems.
 The authored example below needs `--min-bits 0` to override the default policy
 of skipping optimization when the cheap incumbent's bit height is below eight.
-Here bit height is the maximum bit length of any nonzero reduced weight's
-numerator or denominator.
+For LRA, bit height is the maximum bit length of any nonzero reduced weight's
+numerator or denominator; for LIA it also includes the integer divisor.
 
 ## Reading scope and attribution
 
@@ -57,9 +59,108 @@ adds interpolation-directed constraint solving, sparsity, decomposition and
 integer-certificate lifetime management. In particular, *Beautiful Interpolants*
 §4/Appendix B.3 is relevant prior art for constraining Farkas witnesses and
 separator simplicity. Our implemented objective remains a bounded min-max/L1
-baseline; interpolation-directed and LIA cut optimization are not implemented.
+baseline. The extension below adds sparse objectives and fixed-conclusion LIA
+optimization; interpolation-directed synthesis remains unimplemented.
 
-## Proof obligation
+## Support and fixed integer cuts
+
+The adapter extension uses *Beautiful Interpolants*, Appendix B.3,
+only for the sparse-witness objective: minimize the number of positive
+multipliers before numerical magnitude. It does not implement that paper's
+separator synthesis, sample merging or interpolation algorithm. The exact
+integer-cut constraints are derived in the
+[survey](../papers/arithmetic-certificate-optimization.md#lia-preserving-a-cut-versus-choosing-an-interpolant),
+from our version-3 cut contract rather than another solver's implementation.
+
+- Keep `size` as the default objective. An explicit `support` objective counts
+  positive weights, then minimizes the largest numeral and their sum. Candidate
+  adoption must still increase neither maximum bit height nor numeral bytes.
+- `transform_integer` owns its row table. `lia_coefficients.py` provides exact
+  cut replay, joint weight/divisor
+  GCD reduction and the fixed-conclusion integer optimization problem. Every
+  replacement must reproduce both the original coefficient map and floored
+  bound; divisors and weights remain integers with positive divisor and at
+  least one positive weight.
+- The streaming CLI keeps premise/reference positions, names, ordering and CNF
+  bytes. Only weight/divisor spans may change. External model failure keeps
+  the checked incumbent; invalid original arithmetic aborts atomic publication.
+- For LIA, scan each proof's references before replay, retain last-use indices,
+  and retire row-table entries after their last dependency. This adopts the
+  lifetime idea in VIPR §5, not its full certificate conversion algorithm.
+  State comprises the label index, row table and current-instruction rows, with a
+  source-byte limit per conflict; no file-sized syntax tree is retained.
+- Test nontrivial support alternatives, negative floors, exact divisibility,
+  joint GCD, duplicate references, zero-weight references, downstream cut
+  preservation, malformed models and publication rollback. Qualify freshly
+  generated LRA/LIA cases and unchanged real certificates in SLURM against
+  exact replay, a propositional backend, a source reference and Micromath.
+  Report support, numeral sizes, released/live rows and query outcomes; no
+  checker-speed claim follows merely from smaller coefficients.
+
+### Representation and exact integer encoding
+
+{coefficientextensionsource}`transform_integer <scripts/minimize_lra_coefficients.py>`
+owns a table of `(dict[str, int], int)` rows. The arithmetic helpers receive
+references to operand rows, never mutate them, and return fresh result maps.
+{coefficientextensionsource}`replay_cut <scripts/lia_coefficients.py>` sums integer rows, checks positive divisor/nonnegative weights
+and exact coefficient division, then uses Python floor division on the bound.
+{coefficientextensionsource}`cheap_cut <scripts/lia_coefficients.py>` tries joint GCD reduction, unit weights, divisor one and duplicate-row
+weight merging. Every candidate must reproduce the exact original row and
+floored bound. All-zero cut weights are rejected, matching Micromath's rule.
+
+{coefficientextensionsource}`cut_optimization_problem <scripts/lia_coefficients.py>` fixes the original conclusion $a x\le b$ and
+introduces integer weights $w_i\ge0$ and divisor $d\ge1$ satisfying
+
+$$
+\sum_i w_i a_i=d a,\qquad
+ d b\le\sum_i w_i b_i<d(b+1),\qquad\sum_i w_i\ge1.
+$$
+
+The strict upper bound is over integers, hence equivalent to the survey's
+upper bound $d(b+1)-1$. Minimize a maximum $t$ bounding both weights and divisor,
+then $d+\sum_iw_i$. With `--objective support`, first minimize
+$\sum_i\operatorname{ite}(w_i>0,1,0)$; the divisor is not a support position.
+Constants and the incumbent maximum numeral height must fit `--max-bits`.
+{coefficientextensionsource}`Optimizer.improve_cut <scripts/minimize_lra_coefficients.py>` exact-checks every model and keeps the checked incumbent
+on any failure. The support objective uses the same numeral guards as `size`:
+maximum bit height and combined serialized weight/divisor bytes cannot grow.
+The guards also apply to cheap passes; this is bounded heuristic simplification,
+not minimum support, minimum numerals or a cut-reconstruction algorithm.
+
+For example, $-2x\le-1$ with weight 100 and divisor 200 derives
+$-x\le-1$. Reducing **both** to weight 1/divisor 2 preserves the negative floor.
+The {download}`authored four-row example <../examples/lia-coefficient-choice.sexp>`
+uses weights $(11,7,5,9)$ and divisor 9 to derive $0\le-1$; weights
+$(2,3,4,1)$ and divisor 1 derive the same conclusion. Unit weights and joint GCD
+alone cannot find that change. These are authored examples, not performance
+claims about native outputs.
+
+`transform_integer` parses premises,
+then scans proof references to record last-use instruction indices. A second
+scan replays all cuts, emits numeral replacements immediately, and retires
+row-table entries after their last use (including syntactic zero-weight references). Duplicate
+references are summed and released once; forward references and duplicate
+labels are rejected. The final named row must be a contradiction. Unused cuts
+are still validated and retained in the output. The adapter does not prune or
+reorder the proof. Lifetime bookkeeping follows VIPR §5, without adding any
+last-use field to the certificate.
+
+The lexer has the existing 1 MiB token and 64 MiB expression limits; LIA also
+limits each source conflict to 64 MiB. It holds label/last-use metadata, the row table and transient per-instruction
+operand/result rows, not all derived arithmetic rows or the whole proof text.
+The operand list is dropped before table entries are retired; transient result
+maps have bounded per-instruction lifetime. Two scans
+cost linear parsing work in proof bytes, in addition to exact arithmetic and
+bounded optional optimization. Big-integer arithmetic costs depend on numeral
+sizes; these bounds are not a total processing-time guarantee. Reports add
+`cuts`, `changed_cuts`, `peak_live_rows`, `released_rows`, and separate divisor
+bytes. `peak_live_rows` samples row-table occupancy, including all initial
+premises before unused ones are retired; it is not a count of all physically
+live Python row objects. `released_rows` counts retired rows, including unused
+cuts whose result is never inserted; it excludes the terminal contradiction row. Maximum bit height includes divisors for LIA, and nonzero counts include
+weights only. LRA reports retain their previous interpretation.
+
+## LRA proof obligation
 
 Normalize each original signed fact to $a_i x\le b_i$ or $a_i x<b_i$.
 For a candidate weight vector $w$, require
@@ -72,17 +173,17 @@ B:=\sum_i w_i b_i<0
 $$
 
 The strictness test ignores zero weights. The all-zero vector is invalid.
-The helper's {farkassource}`valid <scripts/farkas_coefficients.py#L38>` operation
+The helper's {coefficientextensionsource}`valid <scripts/farkas_coefficients.py>` operation
 implements this predicate. Every original and replacement vector must pass
 exact rational replay before
 publication; optimizer status/model text alone never establishes validity.
-Only weight spans may change. Zero-weight premise positions remain present,
+Only weight spans may change for LRA. Zero-weight premise positions remain present,
 so the complemented theory clause and any propositional clause references are
 unchanged. This is coefficient simplification, not MUS or literal deletion.
 
 ## Cheap candidates before optimization
 
-The {farkassource}`cheap <scripts/farkas_coefficients.py#L72>` operation tries
+The {coefficientextensionsource}`cheap <scripts/farkas_coefficients.py>` operation tries
 the following bounded candidates.
 
 1. Clear common denominators and divide the resulting integers by their GCD.
@@ -103,10 +204,13 @@ the following bounded candidates.
 These are bounded heuristics. They neither shrink the input theory clause nor
 promise a minimum-support witness. Sparse maps own rational coefficients;
 there are no term-manager, SAT, tableau or parser-node borrows across records.
-An initial cost measures the largest numerator/denominator bit length, total
-serialized weight bytes and positive-weight count. Accept only a strict
-lexicographic improvement that increases neither the largest bit length nor
-serialized weight bytes. These are cost proxies, not a proof of faster checking.
+An adoption cost measures the largest numerator/denominator bit length, total
+serialized weight bytes and positive-weight count. The default `size` adoption
+order is `(bits, bytes, support)`; `support` adoption orders these proxies as
+`(support, bits, bytes)`. Both require a strict improvement and neither size
+guard may grow. For LIA, size includes the divisor, while support counts only
+weights. These adoption orders differ from the external solver objectives
+`(maximum integer, integer sum)` or `(support, maximum integer, integer sum)`. These are cost proxies, not a proof of faster checking.
 
 ## A separate integer optimization problem
 
@@ -121,7 +225,8 @@ $$
 $$
 
 Introduce $t$ with $z_i\le t$, then minimize $t$ and, lexicographically,
-$\sum_i z_i$. This is QF_LIA with optimization commands, not nonlinear
+$\sum_i z_i$. `--objective support` prepends the positive-weight count to
+that solver objective order. It does not delete premise positions. This is QF_LIA with optimization commands, not nonlinear
 arithmetic. Homogeneity explains why integer candidates are sufficient to
 represent some witness whenever a rational witness exists: multiply by the
 LCM of denominators. It does not make every primitive integer vector smaller
@@ -133,8 +238,8 @@ that proxy; bounded infeasibility is not evidence that the original lemma is
 satisfiable. General integer optimization can be expensive. Per-call time,
 total time, record/premise size and query-count limits are required.
 
-The helper's {farkassource}`optimization_problem <scripts/farkas_coefficients.py#L146>`
-builds this encoding; {farkassource}`Optimizer.improve <scripts/minimize_lra_coefficients.py#L174>`
+The helper's {coefficientextensionsource}`optimization_problem <scripts/farkas_coefficients.py>`
+builds this encoding; {coefficientextensionsource}`Optimizer.improve <scripts/minimize_lra_coefficients.py>`
 owns external calls and fallback. The external backend accepts an SMT-LIB file
 and returns `sat` plus integer
 `get-value` assignments. The first supported backend is Z3's Optimize protocol;
@@ -168,7 +273,7 @@ it is not an original solver output or evidence of a general performance gain.
 
 ## Ownership, streaming and publication checklist
 
-The CLI's {farkassource}`transform <scripts/minimize_lra_coefficients.py#L238>`
+The CLI's {coefficientextensionsource}`transform <scripts/minimize_lra_coefficients.py>`
 operation owns the streaming pass; `main` owns temporary files and final publication.
 
 - Read declarations once; keep the sort map and one weighted conflict at a time.
@@ -188,8 +293,8 @@ operation owns the streaming pass; `main` owns temporary files and final publica
   a fallback, whereas malformed original witnesses are fatal.
 - Record input/final maximum bit size, serialized bytes, nonzeros,
   changed lemma count, query counts/status/time and fallback reasons.
-- Keep the CLI optional. No native option/default, solver search, CORE/MUS
-  selection, or QF_LIA proof step is changed.
+- Keep the CLI optional. No native option/default, solver search or CORE/MUS
+  selection changes. LIA cut conclusions remain exact.
 
 ## Qualification checklist
 
@@ -201,7 +306,7 @@ Use fresh generated exact witness cases and saved real CORE certificates in
 SLURM. Replay original and simplified certificates in Micromath with fixed
 limits, recording coefficient statistics and kernel steps/times separately
 from adapter/optimizer time. Coefficient reduction alone is not a checker-speed
-claim. No source-to-CNF proof or complete LIA coefficient optimization follows.
+claim. No source-to-CNF proof or complete interpolation procedure follows.
 
 ## Bounded qualification, 10 November 2026
 
@@ -213,7 +318,9 @@ and logs, not expanded proof streams. Private absolute paths in metadata are
 replaced with environment names. The canonical entry is in
 {download}`the run log <../run-log.json>`.
 
-The adapter and arithmetic helper are pinned to implementation `180dcaa8`.
+The following historical LRA measurements qualify
+{farkassource}`implementation 180dcaa8 <scripts/minimize_lra_coefficients.py>`,
+not the later LIA/support extension.
 SLURM job `382321_0` checked 1,000 newly generated cases with seed `20261110`:
 750 valid witnesses passed exact, structure-preservation and CaDiCaL checks;
 all 250 SAT negative controls were rejected without publishing a certificate.

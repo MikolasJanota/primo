@@ -25,6 +25,22 @@ command, source and independent check. The normal
 preparation path lowers equalities and extended integer terms; disabling
 optional preprocessing makes the example's arithmetic conflicts observable.
 
+## Optional coefficient simplification
+
+The [experimental standalone adapter](../leads/farkas-coefficient-minimization.md)
+accepts native version-3 files using the historical CLI name:
+
+```sh
+python3 scripts/minimize_lra_coefficients.py native-v3.sexp smaller-v3.sexp \
+  --objective support --optimizer /path/to/z3 --report coefficients.json
+```
+
+Without `--optimizer`, it uses cheap exact candidate passes only. It may change
+weights and divisors while preserving every cut's exact derived inequality,
+including its floored bound. Names, references, premise positions, CNF and the
+native solver remain unchanged. Support prioritization is optional; the default
+is numerical size. This is not interpolation or source-to-CNF certification.
+
 ## Integer rule and supported fragment
 
 Declarations are `Int` or Boolean constants. Arithmetic premises are signed

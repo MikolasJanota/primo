@@ -38,6 +38,9 @@ sphinx:
       remainingcheckersource:
         - "https://github.com/primo-solver/primo/blob/ca01855c15da908d1ee0aba65bbd5ba0f9ca52f0/%s"
         - "%s"
+      coefficientextensionsource:
+        - "https://github.com/primo-solver/primo/blob/19ae8819ed11cb5824d489e6a79e9967c925a47a/%s"
+        - "%s"
       farkassource:
         - "https://github.com/primo-solver/primo/blob/180dcaa8fcb360d4e2ac8edca513fab718ea335a/%s"
         - "%s"

@@ -1,6 +1,6 @@
 # Arithmetic certificate coefficients and interpolation
 
-**Status: focused primary-source survey, 11 November 2026; no solver changes.**
+**Status: focused primary-source survey, 11 November 2026; native solver unchanged.**
 Earlier work read selected sections of the SMTInterpol SPIN 2012 description,
 *Proof Tree Preserving Interpolation* (2013/2017), and the SMT 2022 proof-format
 paper. That was a proof-contract reading, not a broad survey of coefficient
@@ -160,7 +160,8 @@ use the looser requirement of zero left side and any negative bound.
 
 This model is our derivation from Primo's cut contract; the survey did not
 identify it as a named SMTInterpol coefficient-minimization algorithm. It is
-**planned, not implemented** in the adapter. Allowing both $d$ and the target
+**implemented experimentally** in {coefficientextensionsource}`scripts/lia_coefficients.py <scripts/lia_coefficients.py>` and the
+streaming CLI; see the [adapter contract](../leads/farkas-coefficient-minimization.md#representation-and-exact-integer-encoding). Allowing both $d$ and the target
 coefficients $a,b$ to vary would introduce products of unknowns; the linearity
 claim does not extend to that different problem. Integer rounding and mixed
 literals also mean the pure-LRA scaling argument above is not a complete LIA
@@ -177,8 +178,9 @@ address proof volume and live state as well as numeral representation.
 
 Primo's LIA reconstructor already [keeps only ancestors of the final
 contradiction](../reference/qf-lia-certificates.md#reconstruction-ownership-and-limits).
-That is not last-use scheduling or RESOLUTE-style term sharing. Those remain
-separate possible format/workflow changes, to be coordinated with the checker.
+The optional coefficient adapter now releases arithmetic rows after their last
+use while replaying LIA cuts. It does not add last-use annotations to the output,
+change checker storage or implement RESOLUTE-style term sharing.
 The [109-case replay](../evidence/checker-replay-20261110.md) is evidence about
 bounded outcomes; allocation diagnostics do not establish their internal cause.
 This literature survey neither inspects the checker implementation nor claims
@@ -188,10 +190,10 @@ that a particular mechanism fixes those diagnostics.
 
 | Mechanism | Primo status and owner |
 | --- | --- |
-| Exact witness validation and simple candidate passes | Implemented in {farkassource}`valid and cheap <scripts/farkas_coefficients.py>`. No A/B partition is consumed. |
-| Bounded integer min-max then L1 objective | Implemented in {farkassource}`optimization_problem <scripts/farkas_coefficients.py#L146>`. It does not optimize the derived interpolant, count nonzero multipliers as its solver objective, or synthesize shared separators. |
-| Streamed weight replacement and atomic publication | {farkassource}`transform <scripts/minimize_lra_coefficients.py#L238>` streams version-2 QF_LRA; the CLI {farkassource}`main <scripts/minimize_lra_coefficients.py#L396>` owns temporary output, flush/fsync and atomic replacement. |
-| Fixed-conclusion LIA cut optimization | Derived above; not implemented. Existing integer export and checking rules remain unchanged. |
+| Exact witness validation and simple candidate passes | Implemented in {coefficientextensionsource}`valid and cheap <scripts/farkas_coefficients.py>`. No A/B partition is consumed. |
+| Bounded integer min-max then L1 objective | Implemented in {coefficientextensionsource}`optimization_problem <scripts/farkas_coefficients.py>`. It does not optimize the derived interpolant or synthesize shared separators. The optional `support` objective now prepends the positive-weight count. |
+| Streamed weight replacement and atomic publication | {coefficientextensionsource}`transform <scripts/minimize_lra_coefficients.py>` streams version-2 QF_LRA; the CLI {coefficientextensionsource}`main <scripts/minimize_lra_coefficients.py>` owns temporary output, flush/fsync and atomic replacement. |
+| Fixed-conclusion LIA cut optimization | Implemented experimentally by `cut_optimization_problem`, `cheap_cut` and `replay_cut` in {coefficientextensionsource}`scripts/lia_coefficients.py <scripts/lia_coefficients.py>`; CLI {coefficientextensionsource}`Optimizer.improve_cut <scripts/minimize_lra_coefficients.py>` checks conclusion preservation. Native export and checking rules are unchanged. |
 | Interpolation-directed synthesis, decomposition and strength control | Literature-backed future work; no claim that the certificate postprocessor implements these algorithms. |
 
 Before implementing an interpolation-directed option:
