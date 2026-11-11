@@ -1,0 +1,128 @@
+[
+  {
+    "file": "benchmark-submission.no-big-cuts.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-big-cuts.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/67c9225906f4e6384e41049a9108534e9a1cab10",
+    "git_blob_sha": "67c9225906f4e6384e41049a9108534e9a1cab10",
+    "sha256": "41e243c775d37332ea6e0cad4fba1789fb33bb9202a2d6597db18b92ee23d538"
+  },
+  {
+    "file": "benchmark-submission.no-bounded-nra.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-bounded-nra.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/88754cb123637d15773e299f8433de78e40829a9",
+    "git_blob_sha": "88754cb123637d15773e299f8433de78e40829a9",
+    "sha256": "6dc4dc536bc4270cca1f6750f1e0a588e193651fea17b2b5bcda6e6f0eef911e"
+  },
+  {
+    "file": "benchmark-submission.no-branching.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-branching.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/660ac4c4cce3cd3eff3f47446821dfd42ecb2aff",
+    "git_blob_sha": "660ac4c4cce3cd3eff3f47446821dfd42ecb2aff",
+    "sha256": "b28605717d5caa0882b4f3c3ea19f154191d3059faa077daab6bba6fb6c99672"
+  },
+  {
+    "file": "benchmark-submission.no-closest-int.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-closest-int.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/d2bac8adc67e5258aab5271855b05a6c0e0c546f",
+    "git_blob_sha": "d2bac8adc67e5258aab5271855b05a6c0e0c546f",
+    "sha256": "06f40c8ede8ec0f8e98e997b8a6b919f0fb704c9e32e777d6f812a319f6b333e"
+  },
+  {
+    "file": "benchmark-submission.no-divisions.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-divisions.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/acc12bcae08fbe3074493e7ed8f419c24d5aac7b",
+    "git_blob_sha": "acc12bcae08fbe3074493e7ed8f419c24d5aac7b",
+    "sha256": "1afc3ad06bae0c00cef2698cb3c76e747ffc97ca87760eee048d56382b91dd66"
+  },
+  {
+    "file": "benchmark-submission.no-gcd.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-gcd.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/41e946ff0052afa7c25a72a42c8ede46b5ec6a1b",
+    "git_blob_sha": "41e946ff0052afa7c25a72a42c8ede46b5ec6a1b",
+    "sha256": "92510558a6ca401e6888485bce134262749177d613686b664db72cf6b497243e"
+  },
+  {
+    "file": "benchmark-submission.no-grobner-factorization.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-grobner-factorization.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/c1846371c856835285c624d25ef2a4582ed93fa3",
+    "git_blob_sha": "c1846371c856835285c624d25ef2a4582ed93fa3",
+    "sha256": "fb1e2b734fa3e1954b7ad38c60a76d6e274cfda0bbb3afd655733a6b727c7d02"
+  },
+  {
+    "file": "benchmark-submission.no-grobner-propagat-eqs.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-grobner-propagat-eqs.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/100928c4b92befa96c8c89d20188b8984bdefc22",
+    "git_blob_sha": "100928c4b92befa96c8c89d20188b8984bdefc22",
+    "sha256": "1a33422b8fc10b99e127d9cae32584dd4bf72fbefae70a6fc0387d902b417a7e"
+  },
+  {
+    "file": "benchmark-submission.no-grobner-propagate-linear.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-grobner-propagate-linear.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/91491a66169f1b61f3deb35614f63d30628705a9",
+    "git_blob_sha": "91491a66169f1b61f3deb35614f63d30628705a9",
+    "sha256": "ded6cf36bfa1de6782399b91f2d9c48c732d7a8eb2dca389fc836a5618bd1fcd"
+  },
+  {
+    "file": "benchmark-submission.no-grobner.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-grobner.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/f54afbc6dd984d839d9b5cfd09a4f7055fa5ae25",
+    "git_blob_sha": "f54afbc6dd984d839d9b5cfd09a4f7055fa5ae25",
+    "sha256": "22788d9293e1c15435b9756fdb78b4ae452dafe6a88bb5f021fd20ff1111da5a"
+  },
+  {
+    "file": "benchmark-submission.no-horner.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-horner.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/1b959927b77203d3fa38fc16732d6cf6d91416ec",
+    "git_blob_sha": "1b959927b77203d3fa38fc16732d6cf6d91416ec",
+    "sha256": "440440eb560ccf2427ebe17d83d8fa5de922707964521782e322eb7b3d6f2ad8"
+  },
+  {
+    "file": "benchmark-submission.no-incremental-linearization.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-incremental-linearization.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/1fbf0a202b79331138d5e6fc62a9f8746bc535db",
+    "git_blob_sha": "1fbf0a202b79331138d5e6fc62a9f8746bc535db",
+    "sha256": "83d16c41421564d04d0b932ca24de1d2f34d9ccaccf95492254b6273bdb17757"
+  },
+  {
+    "file": "benchmark-submission.no-patch-monomials.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-patch-monomials.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/f7b8b8b5009aae706fd6652c9dfae60783f2a2df",
+    "git_blob_sha": "f7b8b8b5009aae706fd6652c9dfae60783f2a2df",
+    "sha256": "c86c581fc3218b1feea0bb7ce4ebfe07dce42edb9b102fef60afdf403b5e9f69"
+  },
+  {
+    "file": "benchmark-submission.no-polarity.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-polarity.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/b9fa57e9a2bce9f2c562af24adc1ab7a98b70c9f",
+    "git_blob_sha": "b9fa57e9a2bce9f2c562af24adc1ab7a98b70c9f",
+    "sha256": "80384a833c3d67271889024a12403274fc49daa026acd4d336cbdf219e9bcee4"
+  },
+  {
+    "file": "benchmark-submission.no-propagate-monomial-bounds.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-propagate-monomial-bounds.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/086a0c0f88484300315832107469bd629ebc151d",
+    "git_blob_sha": "086a0c0f88484300315832107469bd629ebc151d",
+    "sha256": "ec74e933b5acf8b2c9a55435070c2e09d95f9117a1361eedb6a7be0df51366fe"
+  },
+  {
+    "file": "benchmark-submission.no-propagate.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-propagate.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/49016e5eb4315b08f4fb4b4130f46eed6ecc29b5",
+    "git_blob_sha": "49016e5eb4315b08f4fb4b4130f46eed6ecc29b5",
+    "sha256": "26337c2d037cd034fd6a648d9e6758c5bc4e104f5a74e6687e625a687c30d90a"
+  },
+  {
+    "file": "compare-z3-benchmark-submission.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/compare-z3-benchmark-submission.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/55f4d53a0d215b58b17c67f7eb08e8216a825121",
+    "git_blob_sha": "55f4d53a0d215b58b17c67f7eb08e8216a825121",
+    "sha256": "a0d0cd66990f0b061935e97925df94b7ca83b32dabb4bba0a06652d8becc818c"
+  },
+  {
+    "file": "compare-z3legacy-benchmark-submission.csv",
+    "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/compare-z3legacy-benchmark-submission.csv",
+    "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/f950f3f50d33e2fbbdcc3d261bc304bd647d6b2a",
+    "git_blob_sha": "f950f3f50d33e2fbbdcc3d261bc304bd647d6b2a",
+    "sha256": "b3c05661c4aa69426b8c3a2ff5dd0a7c15c0506b6e93365e5c553ab255dcb883"
+  }
+]

@@ -1,0 +1,142 @@
+{
+  "status": "paper audit and focused diagnostic investigation complete; no solver/default change",
+  "source_git": "44eee3c1c018e84c062f35601dc29a7b5431f294",
+  "native_sha256": "1f7db885abdb8e8ee01ac7daf0d2113cb892416b0f0c65d8e75a3c67717b78c5",
+  "current_head_production_equivalence": "Production C++ identical to44eee3c1 through7a6d7285; frozen helper-built binary reused. No new C++ implementation in this investigation.",
+  "parent_qualification": "benchmarks/uflia-model-unit-20261111/qualification.json",
+  "current_parent_benchmark": "benchmarks/uflia-smtcomp2026-20261111/qualification.json",
+  "paper": {
+    "title": "Arithmetic Solving in Z3",
+    "authors": [
+      "Nikolaj Bj\u00f8rner",
+      "Lev Nachmanson"
+    ],
+    "year": 2024,
+    "doi": "10.1007/978-3-031-65627-9_2",
+    "file": "_external/papers/arithmetic-reimplemented.pdf",
+    "sha256": "76102fdd6a18549af26a81691b71b419713814cbdb00dda6a1bea6f1978130e9",
+    "read_sections": [
+      "2",
+      "3.2\u20133.3",
+      "4.1\u20134.5",
+      "5.4\u20135.6",
+      "6",
+      "7/Figure3"
+    ],
+    "supplement": "https://github.com/z3prover/doc/tree/master/arithmetic/data",
+    "source_pins": "benchmarks/certora-paper-20261111/paper-sources.json",
+    "audit": "benchmarks/certora-paper-20261111/paper-ablation.json",
+    "audit_semantics": "RV0 plusSAT/UNSAT flag andT_wc<=600; not T_norm. Reproduces217default/168legacy. AuthorsCSV has no input hashes; counts are not content-matched2026 runtime comparisons."
+  },
+  "execution": {
+    "location": "SLURM for every solver/timing/profile/model process; local metadata/CSV/docs analysis only",
+    "preflight": "scripts/slurm_prepare_benchmark_workspace.py --check-only --no-sync immediately before each sbatch, using clean44eee3c1 source worktree; frozen binary originally --build-via-slurm",
+    "jobs": {
+      "timing": "383664",
+      "profile": "383673",
+      "models": "383674"
+    },
+    "tasks": 36,
+    "accounting": "All36phase tasks completed0:0",
+    "barriers": "timing16tasks ->afterok profile4tasks ->afterok models16tasks",
+    "limits": {
+      "native_solver_seconds": 120,
+      "native_RLIMIT_AS_bytes": 8589934592,
+      "GDB_seconds": 35,
+      "GDB_interval_seconds": 0.15,
+      "GDB_seed": "2026111110+case_index",
+      "Callgrind_seconds": 35,
+      "Callgrind_memory": "12GiB SLURM only; no native RLIMIT_AS under instrumentation",
+      "SLURM_GiB": 12,
+      "physical_cpu_per_task": 1,
+      "SLURM_job_seconds": 480,
+      "model_solver_seconds": 180,
+      "Dolmen_seconds": 60,
+      "Dolmen_size": "1G"
+    }
+  },
+  "profiles": {
+    "model-all": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=model-unit",
+      "--qf-uflia-tableau-equalities=all",
+      "--stats"
+    ],
+    "row-forward": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=model-unit",
+      "--qf-uflia-tableau-equalities=all",
+      "--stats",
+      "--lra-row-propagation"
+    ],
+    "row-both": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=model-unit",
+      "--qf-uflia-tableau-equalities=all",
+      "--stats",
+      "--lra-row-propagation",
+      "--lra-bidirectional-row-propagation"
+    ],
+    "no-bound-propagation": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=model-unit",
+      "--qf-uflia-tableau-equalities=all",
+      "--stats",
+      "--no-lra-propagation"
+    ]
+  },
+  "correctness": {
+    "timing_rows": 16,
+    "successful_SAT": 6,
+    "direct_Dolmen_pass": 6,
+    "wrong_answer": 0,
+    "unexplained_error": 0,
+    "invalid_model": 0,
+    "SAT_model_missing": 0,
+    "Dolmen_version": "0.10",
+    "Dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+    "boundary": "Existing-option controls, single observations. No new merge-grade fuzz gate for these combinations; no default/profile promotion."
+  },
+  "profilers": {
+    "gdb": "GNU gdb (GDB) Rocky Linux 10.2-13.el9",
+    "callgrind": "3.22.0 as raw callgrind.out creator fields",
+    "boundary": [
+      "GDB stack counts are overlapping wall-clock observations, not CPU fractions.",
+      "Callgrind prefixes are instrumented and can emphasize preprocessing; not full native solve attribution.",
+      "The new option combinations have diagnostic/model evidence only, without a new merge-grade fuzz gate."
+    ]
+  },
+  "reference_policy": "No reference corpus execution; selected archived byte-matchedcvc5 rows and preceding current-binary timings are contextual comparison. Authors2024 data is historical.",
+  "commands": {
+    "native_and_profile": "scripts/qualification/certora_paper/run.sbatch; PRIMO_CERT_PHASE timing/profile/models; case config and worker flags are recorded exactly",
+    "paper_audit": "python3 scripts/qualification/certora_paper/paper.py --sources benchmarks/certora-paper-20261111/paper-sources.json --data DATA_DIR --out benchmarks/certora-paper-20261111/paper-ablation.json [--fetch for pinned missingGitblobs]",
+    "diagnostic_audit": "python3 scripts/qualification/certora_paper/summarize.py --root COLLECTED/results/certora-paper-20261111 --config benchmarks/certora-paper-20261111/cases.json --out benchmarks/certora-paper-20261111/diagnostics.json",
+    "tests": "python3 -m unittest tests.python.test_certora_paper -v",
+    "local_checks": [
+      "make lint",
+      "python3 scripts/slurm_validate_sbatch.py scripts/qualification/certora_paper/run.sbatch",
+      "make docs",
+      "make docs-full",
+      "python3 scripts/check_doc_links.py docs/_build/site"
+    ]
+  },
+  "artifacts": {
+    "root": "benchmarks/certora-paper-20261111",
+    "raw": "results/certora-paper-20261111; collected SLURM metadata plus locally downloaded pinned primaryCSVdata. Full profiler logs/model payloads retained on SLURM.",
+    "diagnostics": "benchmarks/certora-paper-20261111/diagnostics.json",
+    "review": "benchmarks/certora-paper-20261111/documentation-review.json",
+    "workflow_sha256": {
+      "scripts/qualification/certora_paper/paper.py": "6dc336053896bc840d87b8800ccfd4b3ed26d7aeb39b460844ad74f140765b01",
+      "scripts/qualification/certora_paper/run.py": "e92c7641f741ce170a62c3996b3ded165e23aa14a4870cb90986ff5a2a705f62",
+      "scripts/qualification/certora_paper/run.sbatch": "49c57e7b49d10e39b64f85c5237d0e3e7f0b8df1f4912864be5e70515cc12509",
+      "scripts/qualification/certora_paper/summarize.py": "568d0be76057ca51753c9d31fdd22db4d601dbbdbb5a3a0b51f903196a6891a1"
+    },
+    "data_sha256": {
+      "benchmarks/certora-paper-20261111/cases.json": "da20bc6e7b50141a5fe18bab202d2b349c1ef0fa33de9908ebbe76c8a153a24f",
+      "benchmarks/certora-paper-20261111/diagnostics.json": "02311fc5b54996a0ee6ef409f892215172151b6259c5682f85fa23644f48a774",
+      "benchmarks/certora-paper-20261111/paper-ablation.json": "73823c3e2240e69f1982057b1fbefbcbe7e9bbb067fb55d94bead7df9146f0e6",
+      "benchmarks/certora-paper-20261111/paper-sources.json": "10e40fc68b987fe08039778ef8140e085c0e11e2876439c3b63c7f425f81572a"
+    }
+  },
+  "conclusion": "Paper headline Certora gain isnet48nonlinear+net1linear. One current case has private branch-and-bound in164/220samples; three others have0/1integer-completion observations. Propagation controls trade cases. Prioritize measured scheduling/rational bottlenecks, not nonlinear algebra on arbitraryUFterms."
+}

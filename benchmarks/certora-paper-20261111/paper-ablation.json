@@ -1,0 +1,916 @@
+{
+  "basis": "Authors supplementary CSVs; RV0 and SAT/UNSAT flag, T_wc<=600. T_norm is separate and unused.",
+  "source": "https://github.com/z3prover/doc/tree/master/arithmetic/data",
+  "source_relation": "308paths across8logics,77named verification conditions with4encodings each. Authors files have no input SHA, so this is not a content-identity comparison with2026 inputs.",
+  "published_default_legacy_totals_reproduced": [
+    217,
+    168
+  ],
+  "comparisons": {
+    "QF_UFDTLIA": {
+      "gains": [
+        "benchmark-submission/non-incremental/QF_UFDTLIA/20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_56_QF_UFDTLIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTLIA/20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_3_UFDTLIA.smt2"
+      ],
+      "losses": [
+        "benchmark-submission/non-incremental/QF_UFDTLIA/20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_57_QF_UFDTLIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTLIA/20230314-Jaroslav-Bendik-Certora/940_590f27b1c3c800d3243e_31_QF_UFDTLIA.smt2"
+      ]
+    },
+    "QF_UFDTNIA": {
+      "gains": [
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/11775_ad46e5b8db4748c51973_42_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/11775_ad46e5b8db4748c51973_43_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/17512_5c1021b0faa6b6e1791b_20_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/25959_5dee2e2f6ef44465a2bea4b085818948_69_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/39657_1c7158801cd59dc13f05_44_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/41958_32933c5a1384696720a2_61_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/44289_b077fc096b3d41cba49f8628caff7fa5_16_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/44788_1965f0d6d94d5d8054ba_34_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/52759_bec3a2272267494faeecb6bfaf253e3b_10_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_7_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_8_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_0_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_1_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_2_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_3_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_4_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/93493_1fdb6cc8eb9c4363b5838af9eb8c7f1f_53_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/93493_5990a6bf5f2740164f77_50_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/940_590f27b1c3c800d3243e_29_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/940_590f27b1c3c800d3243e_30_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/940_590f27b1c3c800d3243e_31_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/940_590f27b1c3c800d3243e_33_QF_UFDTNIA.smt2"
+      ],
+      "losses": [
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/3106_1c933134166dbad31f79_39_QF_UFDTNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFDTNIA/20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_57_QF_UFDTNIA.smt2"
+      ]
+    },
+    "QF_UFLIA": {
+      "gains": [
+        "benchmark-submission/non-incremental/QF_UFLIA/20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_56_QF_UFLIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFLIA/20230314-Jaroslav-Bendik-Certora/41958_32933c5a1384696720a2_61_QF_UFLIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFLIA/20230314-Jaroslav-Bendik-Certora/44289_4066055e0f64d96da11a_15_QF_UFLIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFLIA/20230314-Jaroslav-Bendik-Certora/52759_bec3a2272267494faeecb6bfaf253e3b_11_QF_UFLIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFLIA/20230314-Jaroslav-Bendik-Certora/63058_64ab9a7ef7b6c3492507_23_QF_UFLIA.smt2"
+      ],
+      "losses": [
+        "benchmark-submission/non-incremental/QF_UFLIA/20230314-Jaroslav-Bendik-Certora/3106_afb7bc55417e43d7a22790c3576f04fc_37_QF_UFLIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFLIA/20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_55_QF_UFLIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFLIA/20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_57_QF_UFLIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFLIA/20230314-Jaroslav-Bendik-Certora/44289_b077fc096b3d41cba49f8628caff7fa5_16_QF_UFLIA.smt2"
+      ]
+    },
+    "QF_UFNIA": {
+      "gains": [
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/11775_ad46e5b8db4748c51973_43_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/17512_5c1021b0faa6b6e1791b_19_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/17512_5c1021b0faa6b6e1791b_20_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/25959_5dee2e2f6ef44465a2bea4b085818948_65_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/25959_5dee2e2f6ef44465a2bea4b085818948_66_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/25959_5dee2e2f6ef44465a2bea4b085818948_68_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/25959_5dee2e2f6ef44465a2bea4b085818948_69_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/3106_afb7bc55417e43d7a22790c3576f04fc_37_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_56_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/39657_1c7158801cd59dc13f05_44_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/39657_1c7158801cd59dc13f05_45_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/41958_32933c5a1384696720a2_62_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/41958_32933c5a1384696720a2_63_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/44289_b077fc096b3d41cba49f8628caff7fa5_16_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/44788_1965f0d6d94d5d8054ba_34_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/52759_bec3a2272267494faeecb6bfaf253e3b_10_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/63058_64ab9a7ef7b6c3492507_22_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_7_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_8_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/72658_63104dadde9c6026353f_70_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_0_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_1_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_2_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_3_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_4_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/93493_1fdb6cc8eb9c4363b5838af9eb8c7f1f_53_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/940_590f27b1c3c800d3243e_29_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/940_590f27b1c3c800d3243e_30_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/940_590f27b1c3c800d3243e_31_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/940_590f27b1c3c800d3243e_32_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/940_590f27b1c3c800d3243e_33_QF_UFNIA.smt2"
+      ],
+      "losses": [
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_57_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/44289_4066055e0f64d96da11a_15_QF_UFNIA.smt2",
+        "benchmark-submission/non-incremental/QF_UFNIA/20230314-Jaroslav-Bendik-Certora/93493_5990a6bf5f2740164f77_50_QF_UFNIA.smt2"
+      ]
+    },
+    "UFDTLIA": {
+      "gains": [],
+      "losses": []
+    },
+    "UFDTNIA": {
+      "gains": [],
+      "losses": []
+    },
+    "UFLIA": {
+      "gains": [],
+      "losses": []
+    },
+    "UFNIA": {
+      "gains": [],
+      "losses": []
+    }
+  },
+  "records": [
+    {
+      "file": "benchmark-submission.no-big-cuts.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-big-cuts.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/67c9225906f4e6384e41049a9108534e9a1cab10",
+      "git_blob_sha": "67c9225906f4e6384e41049a9108534e9a1cab10",
+      "sha256": "41e243c775d37332ea6e0cad4fba1789fb33bb9202a2d6597db18b92ee23d538",
+      "option_or_solver": "smt.arith.gomory_use_big_cuts=false",
+      "rows": 308,
+      "solved_600_wall": 204,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 55
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 51
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 43
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 53
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-bounded-nra.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-bounded-nra.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/88754cb123637d15773e299f8433de78e40829a9",
+      "git_blob_sha": "88754cb123637d15773e299f8433de78e40829a9",
+      "sha256": "6dc4dc536bc4270cca1f6750f1e0a588e193651fea17b2b5bcda6e6f0eef911e",
+      "option_or_solver": "smt.arith.nl.bounded_nra=false",
+      "rows": 308,
+      "solved_600_wall": 212,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 55
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 55
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-branching.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-branching.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/660ac4c4cce3cd3eff3f47446821dfd42ecb2aff",
+      "git_blob_sha": "660ac4c4cce3cd3eff3f47446821dfd42ecb2aff",
+      "sha256": "b28605717d5caa0882b4f3c3ea19f154191d3059faa077daab6bba6fb6c99672",
+      "option_or_solver": "smt.arith.nl.branching=false",
+      "rows": 308,
+      "solved_600_wall": 214,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 57
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 55
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-closest-int.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-closest-int.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/d2bac8adc67e5258aab5271855b05a6c0e0c546f",
+      "git_blob_sha": "d2bac8adc67e5258aab5271855b05a6c0e0c546f",
+      "sha256": "06f40c8ede8ec0f8e98e997b8a6b919f0fb704c9e32e777d6f812a319f6b333e",
+      "option_or_solver": "smt.arith.gomory_use_closest_int=false",
+      "rows": 308,
+      "solved_600_wall": 215,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 54
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 59
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 43
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-divisions.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-divisions.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/acc12bcae08fbe3074493e7ed8f419c24d5aac7b",
+      "git_blob_sha": "acc12bcae08fbe3074493e7ed8f419c24d5aac7b",
+      "sha256": "1afc3ad06bae0c00cef2698cb3c76e747ffc97ca87760eee048d56382b91dd66",
+      "option_or_solver": "smt.arith.nl.divisions_check=false",
+      "rows": 308,
+      "solved_600_wall": 217,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 59
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-gcd.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-gcd.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/41e946ff0052afa7c25a72a42c8ede46b5ec6a1b",
+      "git_blob_sha": "41e946ff0052afa7c25a72a42c8ede46b5ec6a1b",
+      "sha256": "92510558a6ca401e6888485bce134262749177d613686b664db72cf6b497243e",
+      "option_or_solver": "smt.arith.enable_gcd=false",
+      "rows": 308,
+      "solved_600_wall": 221,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 57
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 58
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 60
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-grobner-factorization.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-grobner-factorization.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/c1846371c856835285c624d25ef2a4582ed93fa3",
+      "git_blob_sha": "c1846371c856835285c624d25ef2a4582ed93fa3",
+      "sha256": "fb1e2b734fa3e1954b7ad38c60a76d6e274cfda0bbb3afd655733a6b727c7d02",
+      "option_or_solver": "smt.arith.nl.grobner.factorization=false",
+      "rows": 308,
+      "solved_600_wall": 218,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 57
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 59
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-grobner-propagat-eqs.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-grobner-propagat-eqs.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/100928c4b92befa96c8c89d20188b8984bdefc22",
+      "git_blob_sha": "100928c4b92befa96c8c89d20188b8984bdefc22",
+      "sha256": "1a33422b8fc10b99e127d9cae32584dd4bf72fbefae70a6fc0387d902b417a7e",
+      "option_or_solver": "smt.arith.nl.grobner.propagate_eqs=false",
+      "rows": 308,
+      "solved_600_wall": 219,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 60
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-grobner-propagate-linear.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-grobner-propagate-linear.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/91491a66169f1b61f3deb35614f63d30628705a9",
+      "git_blob_sha": "91491a66169f1b61f3deb35614f63d30628705a9",
+      "sha256": "ded6cf36bfa1de6782399b91f2d9c48c732d7a8eb2dca389fc836a5618bd1fcd",
+      "option_or_solver": "smt.arith.nl.grobner.propagate_linear=false",
+      "rows": 308,
+      "solved_600_wall": 216,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 55
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 59
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-grobner.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-grobner.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/f54afbc6dd984d839d9b5cfd09a4f7055fa5ae25",
+      "git_blob_sha": "f54afbc6dd984d839d9b5cfd09a4f7055fa5ae25",
+      "sha256": "22788d9293e1c15435b9756fdb78b4ae452dafe6a88bb5f021fd20ff1111da5a",
+      "option_or_solver": "smt.arith.nl.grobner=false",
+      "rows": 308,
+      "solved_600_wall": 214,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-horner.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-horner.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/1b959927b77203d3fa38fc16732d6cf6d91416ec",
+      "git_blob_sha": "1b959927b77203d3fa38fc16732d6cf6d91416ec",
+      "sha256": "440440eb560ccf2427ebe17d83d8fa5de922707964521782e322eb7b3d6f2ad8",
+      "option_or_solver": "smt.arith.nl.horner=false",
+      "rows": 308,
+      "solved_600_wall": 213,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 55
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-incremental-linearization.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-incremental-linearization.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/1fbf0a202b79331138d5e6fc62a9f8746bc535db",
+      "git_blob_sha": "1fbf0a202b79331138d5e6fc62a9f8746bc535db",
+      "sha256": "83d16c41421564d04d0b932ca24de1d2f34d9ccaccf95492254b6273bdb17757",
+      "option_or_solver": "smt.arith.nl.incremental_linearization=false",
+      "rows": 308,
+      "solved_600_wall": 183,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 41
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 40
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-patch-monomials.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-patch-monomials.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/f7b8b8b5009aae706fd6652c9dfae60783f2a2df",
+      "git_blob_sha": "f7b8b8b5009aae706fd6652c9dfae60783f2a2df",
+      "sha256": "c86c581fc3218b1feea0bb7ce4ebfe07dce42edb9b102fef60afdf403b5e9f69",
+      "option_or_solver": "smt.arith.nl.patch_monomials=false",
+      "rows": 308,
+      "solved_600_wall": 207,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 54
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 51
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-polarity.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-polarity.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/b9fa57e9a2bce9f2c562af24adc1ab7a98b70c9f",
+      "git_blob_sha": "b9fa57e9a2bce9f2c562af24adc1ab7a98b70c9f",
+      "sha256": "80384a833c3d67271889024a12403274fc49daa026acd4d336cbdf219e9bcee4",
+      "option_or_solver": "smt.arith.gomory_polarity=false",
+      "rows": 308,
+      "solved_600_wall": 210,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 42
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 54
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-propagate-monomial-bounds.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-propagate-monomial-bounds.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/086a0c0f88484300315832107469bd629ebc151d",
+      "git_blob_sha": "086a0c0f88484300315832107469bd629ebc151d",
+      "sha256": "ec74e933b5acf8b2c9a55435070c2e09d95f9117a1361eedb6a7be0df51366fe",
+      "option_or_solver": "smt.arith.nl.propagate_monomial_bounds=false",
+      "rows": 308,
+      "solved_600_wall": 214,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 57
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 55
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "benchmark-submission.no-propagate.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/benchmark-submission.no-propagate.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/49016e5eb4315b08f4fb4b4130f46eed6ecc29b5",
+      "git_blob_sha": "49016e5eb4315b08f4fb4b4130f46eed6ecc29b5",
+      "sha256": "26337c2d037cd034fd6a648d9e6758c5bc4e104f5a74e6687e625a687c30d90a",
+      "option_or_solver": "smt.arith.nl.propagate=false",
+      "rows": 308,
+      "solved_600_wall": 171,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 37
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 32
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "compare-z3-benchmark-submission.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/compare-z3-benchmark-submission.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/55f4d53a0d215b58b17c67f7eb08e8216a825121",
+      "git_blob_sha": "55f4d53a0d215b58b17c67f7eb08e8216a825121",
+      "sha256": "a0d0cd66990f0b061935e97925df94b7ca83b32dabb4bba0a06652d8becc818c",
+      "option_or_solver": "z3",
+      "rows": 308,
+      "solved_600_wall": 217,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 55
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 44
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 60
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    },
+    {
+      "file": "compare-z3legacy-benchmark-submission.csv",
+      "download_url": "https://raw.githubusercontent.com/Z3Prover/doc/master/arithmetic/data/compare-z3legacy-benchmark-submission.csv",
+      "blob_url": "https://api.github.com/repos/Z3Prover/doc/git/blobs/f950f3f50d33e2fbbdcc3d261bc304bd647d6b2a",
+      "git_blob_sha": "f950f3f50d33e2fbbdcc3d261bc304bd647d6b2a",
+      "sha256": "b3c05661c4aa69426b8c3a2ff5dd0a7c15c0506b6e93365e5c553ab255dcb883",
+      "option_or_solver": "z3legacy",
+      "rows": 308,
+      "solved_600_wall": 168,
+      "by_logic": {
+        "QF_UFDTLIA": {
+          "inputs": 76,
+          "solved": 56
+        },
+        "QF_UFDTNIA": {
+          "inputs": 76,
+          "solved": 35
+        },
+        "QF_UFLIA": {
+          "inputs": 76,
+          "solved": 43
+        },
+        "QF_UFNIA": {
+          "inputs": 76,
+          "solved": 32
+        },
+        "UFDTLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFDTNIA": {
+          "inputs": 1,
+          "solved": 0
+        },
+        "UFLIA": {
+          "inputs": 1,
+          "solved": 1
+        },
+        "UFNIA": {
+          "inputs": 1,
+          "solved": 0
+        }
+      }
+    }
+  ]
+}

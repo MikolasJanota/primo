@@ -1,0 +1,77 @@
+{
+  "status": "READY; no required findings remain",
+  "writer": "root",
+  "independent_read_only_reviewer": "certora_paper_docs_review",
+  "baseline": "7a6d7285",
+  "review_basis": "skills/documentation/SKILL.md and references/review.md; bounded delegation explicitly authorized byAGENTS.md",
+  "accepted_sha256": {
+    "docs/evidence/certora-paper-20261111.md": "403de54ac867badf95882b88ea496bf2b2073f8fabfc9d9a3ac1191ddaa09358",
+    "docs/_toc.yml": "e608ab82971a15f636d4666abca805ac95f5a1eef422773c169d29709613416e",
+    "docs/run-log.json": "7aa3acffa856052490e64690e7d1cbeae8a35862d85c6942c4b1b0846a4f9d9d",
+    "benchmarks/certora-paper-20261111/cases.json": "da20bc6e7b50141a5fe18bab202d2b349c1ef0fa33de9908ebbe76c8a153a24f",
+    "benchmarks/certora-paper-20261111/diagnostics.json": "02311fc5b54996a0ee6ef409f892215172151b6259c5682f85fa23644f48a774",
+    "benchmarks/certora-paper-20261111/paper-ablation.json": "73823c3e2240e69f1982057b1fbefbcbe7e9bbb067fb55d94bead7df9146f0e6",
+    "benchmarks/certora-paper-20261111/paper-sources.json": "10e40fc68b987fe08039778ef8140e085c0e11e2876439c3b63c7f425f81572a",
+    "benchmarks/certora-paper-20261111/qualification.json": "ad8d4ce5761939873575aaae074c32ba75aef5af6b5c5480142d91354bfc80f1"
+  },
+  "scope": "New Certora paper/data/diagnostic evidence page, metadata, source-status mapping, mathematical example and UF counterexample, new ledger entry and TOC entry. No new solver implementation.",
+  "findings": [
+    {
+      "id": "CPD-01",
+      "required": true,
+      "resolution": "Added direct source links to the unit query/pre-completion adapter, fixed-only GCD checker, first-eligible cut selector/cut helper, and private branching. Targets checked at production183dce9a, matching44eee3c1."
+    },
+    {
+      "id": "CPD-02",
+      "required": false,
+      "resolution": "Changed Two\u2192Three ablations."
+    },
+    {
+      "id": "CPD-03",
+      "required": false,
+      "resolution": "Explicitly defined T as timeout at120s."
+    },
+    {
+      "id": "writer-math-render",
+      "required": false,
+      "resolution": "Rendered inspection caught literal TeX display delimiters; switched to repository-standard$$blocks. Independent reviewer confirmed unchanged accepted mathematics and updated page identity."
+    }
+  ],
+  "independent_checks": [
+    "Paper\u00a75.4/Example6 supports nonlinear-to-linear transfer; toy derivation and UF witness are sound",
+    "All18CSV SHA256/Gitblob pins match retained primary index; all per-logic counts and77four-encoding IDs recomputed",
+    "All recorded diagnostic artifact hashes verified; GDB category counts recomputed from frames",
+    "Six successful SAT rows each join exact directDolmen coverage and passing successful-exit summaries",
+    "Archivedcvc5 times and four input hashes match",
+    "Owned source confirms implementation boundaries and production src/unchanged44eee3c1",
+    "Terminology distinguishes entailment/model choices, nonlinear propagation/linear control, and stack observations/CPU attribution"
+  ],
+  "writer_validation": {
+    "commands": [
+      "python3 -m unittest tests.python.test_certora_paper -v",
+      "make lint",
+      "python3 scripts/slurm_validate_sbatch.py scripts/qualification/certora_paper/run.sbatch",
+      "make docs",
+      "make docs-full",
+      "python3 scripts/assemble_docs.py",
+      "python3 scripts/check_doc_links.py docs/_build/site",
+      "git diff --check"
+    ],
+    "metadata_tests": "2pass; wall-vs-normalized cutoff and abnormal/unknown process outcomes",
+    "links": "292 pages; 41772 local links; 1238 unique Git links; 0 failures\n496 external URLs deferred to Sphinx linkcheck",
+    "rendered_inspection": [
+      "results/certora-paper-20261111/paper-table.png",
+      "results/certora-paper-20261111/profiles-page.png",
+      "results/certora-paper-20261111/math-page-final.png"
+    ],
+    "render_result": "Paper/ablation/profile tables and source links inspected. Final displayed mathematics checked after delimiter repair.",
+    "source_hygiene": "No blocking issue found in new workflow/metadata scripts. Standard-library imports used, argv passed without shell interpolation, solver phases require SLURM, outputs are durable and model replay separate. No C++ edits, so prior135-TU static/ASan/fuzz qualification remains tied to the unchanged frozen binary. No new fuzz/default promotion claimed."
+  },
+  "unchecked": [
+    "Remote full Callgrind/model payloads beyond collected summaries and hashes",
+    "UNSAT proof certification",
+    "Independent solver/profile re-execution",
+    "Wider performance/fuzz qualification beyond the four selected diagnostic inputs",
+    "Reviewer did not perform final rendering/build/commit checks; writer handles these."
+  ]
+}

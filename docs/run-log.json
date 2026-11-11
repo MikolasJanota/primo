@@ -3,6 +3,109 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-11-certora-paper-investigation",
+      "date": "2026-11-11",
+      "kind": "Paper/data audit and focused Certora diagnostics",
+      "evidence_status": "paper audit and focused diagnostic investigation complete; no solver/default change",
+      "source_git": "44eee3c1c018e84c062f35601dc29a7b5431f294",
+      "native_sha256": "1f7db885abdb8e8ee01ac7daf0d2113cb892416b0f0c65d8e75a3c67717b78c5",
+      "user_scope": "Explain Bj\u00f8rner/Nachmanson Certora improvements and relate to current QF_UFLIA gaps; no new solver algorithm or default promotion",
+      "paper": "_external/papers/arithmetic-reimplemented.pdf;\u00a7\u00a73.3,4.3,4.5,5.4Example6,5.5,6,7/Fig3 reread",
+      "paper_data": "benchmarks/certora-paper-20261111/paper-sources.json pins18authorsCSVs byGitblob andSHA256; paper.py reproduces600s T_wc counts217/168, QF_UFLIA44/43, nonlinear net+48 ofnet49",
+      "selection": "benchmarks/certora-paper-20261111/cases.json",
+      "jobs": {
+        "timing": "383664",
+        "profile": "383673",
+        "models": "383674"
+      },
+      "execution": "All solver runs on SLURM. Frozen previously helper-built44eee3c1 reused; fresh --check-only --no-sync preflight before every sbatch. Timing -> profile -> models global dependencies.",
+      "limits": {
+        "native_wall_seconds": 120,
+        "native_RLIMIT_AS_GiB": 8,
+        "SLURM_GiB": 12,
+        "physical_CPU_per_task": 1,
+        "job_seconds": 480,
+        "timing_array": "0-15%8",
+        "profile_array": "0-3%4",
+        "model_array": "0-15%8",
+        "GDB_seconds": 35,
+        "Callgrind_seconds": 35,
+        "model_solver_seconds": 180,
+        "Dolmen_seconds": 60,
+        "Dolmen_size": "1G"
+      },
+      "profiles": {
+        "model-all": [
+          "--quiet",
+          "--qf-uflia-lia-equality-producer=model-unit",
+          "--qf-uflia-tableau-equalities=all",
+          "--stats"
+        ],
+        "row-forward": [
+          "--quiet",
+          "--qf-uflia-lia-equality-producer=model-unit",
+          "--qf-uflia-tableau-equalities=all",
+          "--stats",
+          "--lra-row-propagation"
+        ],
+        "row-both": [
+          "--quiet",
+          "--qf-uflia-lia-equality-producer=model-unit",
+          "--qf-uflia-tableau-equalities=all",
+          "--stats",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation"
+        ],
+        "no-bound-propagation": [
+          "--quiet",
+          "--qf-uflia-lia-equality-producer=model-unit",
+          "--qf-uflia-tableau-equalities=all",
+          "--stats",
+          "--no-lra-propagation"
+        ]
+      },
+      "reference_policy": "Reuse byte-matched archived cvc5 and native300-input timings; no reference solver corpus rerun. Supplemental authors results are historical2024/600s/2GB and not a native comparison.",
+      "artifacts": "benchmarks/certora-paper-20261111; raw results/certora-paper-20261111 and retained SLURM workspace",
+      "profile_interpretation": "Inclusive stack categories overlap; GDB wall-clock observations are not CPU shares. Callgrind instrumented prefixes are not complete native timings.",
+      "qualification": "benchmarks/certora-paper-20261111/qualification.json",
+      "diagnostics": "benchmarks/certora-paper-20261111/diagnostics.json",
+      "correctness": {
+        "timing_rows": 16,
+        "successful_SAT": 6,
+        "direct_Dolmen_pass": 6,
+        "wrong_answer": 0,
+        "unexplained_error": 0,
+        "invalid_model": 0,
+        "SAT_model_missing": 0,
+        "Dolmen_version": "0.10",
+        "Dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+        "boundary": "Existing-option controls, single observations. No new merge-grade fuzz gate for these combinations; no default/profile promotion."
+      },
+      "profilers": {
+        "gdb": "GNU gdb (GDB) Rocky Linux 10.2-13.el9",
+        "callgrind": "3.22.0 as raw callgrind.out creator fields",
+        "boundary": [
+          "GDB stack counts are overlapping wall-clock observations, not CPU fractions.",
+          "Callgrind prefixes are instrumented and can emphasize preprocessing; not full native solve attribution.",
+          "The new option combinations have diagnostic/model evidence only, without a new merge-grade fuzz gate."
+        ]
+      },
+      "commands": {
+        "native_and_profile": "scripts/qualification/certora_paper/run.sbatch; PRIMO_CERT_PHASE timing/profile/models; case config and worker flags are recorded exactly",
+        "paper_audit": "python3 scripts/qualification/certora_paper/paper.py --sources benchmarks/certora-paper-20261111/paper-sources.json --data DATA_DIR --out benchmarks/certora-paper-20261111/paper-ablation.json [--fetch for pinned missingGitblobs]",
+        "diagnostic_audit": "python3 scripts/qualification/certora_paper/summarize.py --root COLLECTED/results/certora-paper-20261111 --config benchmarks/certora-paper-20261111/cases.json --out benchmarks/certora-paper-20261111/diagnostics.json",
+        "tests": "python3 -m unittest tests.python.test_certora_paper -v",
+        "local_checks": [
+          "make lint",
+          "python3 scripts/slurm_validate_sbatch.py scripts/qualification/certora_paper/run.sbatch",
+          "make docs",
+          "make docs-full",
+          "python3 scripts/check_doc_links.py docs/_build/site"
+        ]
+      },
+      "conclusion": "Paper headline Certora gain isnet48nonlinear+net1linear. One current case has private branch-and-bound in164/220samples; three others have0/1integer-completion observations. Propagation controls trade cases. Prioritize measured scheduling/rational bottlenecks, not nonlinear algebra on arbitraryUFterms."
+    },
+    {
       "id": "2026-11-11-uflia-smtcomp2026-model-unit",
       "date": "2026-11-11",
       "kind": "Official SMT-COMP2026 QF_UFLIA selection replay at120seconds",

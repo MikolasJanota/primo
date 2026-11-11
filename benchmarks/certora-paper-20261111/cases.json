@@ -1,0 +1,72 @@
+{
+  "cases": [
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/44788_1965f0d6d94d5d8054ba_35_QF_UFLIA.smt2",
+      "sha256": "bc2200ca50bf59ea91570e663e393eab2dd872cd29fbb27faf78992121e3e74b",
+      "bytes": 495711,
+      "expected": "unsat",
+      "family": "20230314-Jaroslav-Bendik-Certora",
+      "answer": "unsat"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+      "sha256": "c68e77db3bc6cd15daebe8fcffb9d445bca654c6b2fcc47a8b65d27c3074e182",
+      "bytes": 102743,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora",
+      "answer": "sat"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+      "sha256": "936f197c41d37113cb50d53fa0e57f4926941c1a03d048e77d6cbcc1e0db7825",
+      "bytes": 210392,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora",
+      "answer": "sat"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/72771_f9d228efc97cf1458e38_64_QF_UFLIA.smt2",
+      "sha256": "fccb035a47c2138d5cc7fcfd9cfcfce94404633242328cf0014c95508d22953e",
+      "bytes": 238077,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora",
+      "answer": "sat"
+    }
+  ],
+  "source_commit": "44eee3c1c018e84c062f35601dc29a7b5431f294",
+  "expected_git": "44eee3c1",
+  "binary_sha256": "1f7db885abdb8e8ee01ac7daf0d2113cb892416b0f0c65d8e75a3c67717b78c5",
+  "timeout": 120,
+  "address_space_bytes": 8589934592,
+  "profiles": {
+    "model-all": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=model-unit",
+      "--qf-uflia-tableau-equalities=all",
+      "--stats"
+    ],
+    "row-forward": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=model-unit",
+      "--qf-uflia-tableau-equalities=all",
+      "--stats",
+      "--lra-row-propagation"
+    ],
+    "row-both": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=model-unit",
+      "--qf-uflia-tableau-equalities=all",
+      "--stats",
+      "--lra-row-propagation",
+      "--lra-bidirectional-row-propagation"
+    ],
+    "no-bound-propagation": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=model-unit",
+      "--qf-uflia-tableau-equalities=all",
+      "--stats",
+      "--no-lra-propagation"
+    ]
+  },
+  "scope": "Four selected Certora diagnostics using existing options; no new solver implementation or default qualification"
+}

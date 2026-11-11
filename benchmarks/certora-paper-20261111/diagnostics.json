@@ -1,0 +1,704 @@
+{
+  "status": "complete",
+  "scope": "Four existing-option diagnostics; single timing observations, not default qualification",
+  "timings": [
+    {
+      "case": 0,
+      "file": "20230314-Jaroslav-Bendik-Certora/44788_1965f0d6d94d5d8054ba_35_QF_UFLIA.smt2",
+      "profile": "model-all",
+      "status": "timeout",
+      "answer": "unknown",
+      "seconds": 121.139073,
+      "exit_code": "0",
+      "timeout": "true"
+    },
+    {
+      "case": 0,
+      "file": "20230314-Jaroslav-Bendik-Certora/44788_1965f0d6d94d5d8054ba_35_QF_UFLIA.smt2",
+      "profile": "row-forward",
+      "status": "timeout",
+      "answer": "unknown",
+      "seconds": 120.185806,
+      "exit_code": "0",
+      "timeout": "true"
+    },
+    {
+      "case": 0,
+      "file": "20230314-Jaroslav-Bendik-Certora/44788_1965f0d6d94d5d8054ba_35_QF_UFLIA.smt2",
+      "profile": "row-both",
+      "status": "timeout",
+      "answer": "unknown",
+      "seconds": 120.320635,
+      "exit_code": "0",
+      "timeout": "true"
+    },
+    {
+      "case": 0,
+      "file": "20230314-Jaroslav-Bendik-Certora/44788_1965f0d6d94d5d8054ba_35_QF_UFLIA.smt2",
+      "profile": "no-bound-propagation",
+      "status": "timeout",
+      "answer": "unknown",
+      "seconds": 121.140366,
+      "exit_code": "0",
+      "timeout": "true"
+    },
+    {
+      "case": 1,
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+      "profile": "row-forward",
+      "status": "timeout",
+      "answer": "unknown",
+      "seconds": 121.107158,
+      "exit_code": "0",
+      "timeout": "true"
+    },
+    {
+      "case": 1,
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+      "profile": "row-both",
+      "status": "timeout",
+      "answer": "unknown",
+      "seconds": 121.105247,
+      "exit_code": "0",
+      "timeout": "true"
+    },
+    {
+      "case": 1,
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+      "profile": "no-bound-propagation",
+      "status": "ok",
+      "answer": "sat",
+      "seconds": 13.583429,
+      "exit_code": "0",
+      "timeout": "false"
+    },
+    {
+      "case": 1,
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+      "profile": "model-all",
+      "status": "timeout",
+      "answer": "unknown",
+      "seconds": 121.105563,
+      "exit_code": "0",
+      "timeout": "true"
+    },
+    {
+      "case": 2,
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+      "profile": "row-both",
+      "status": "ok",
+      "answer": "sat",
+      "seconds": 25.152378,
+      "exit_code": "0",
+      "timeout": "false"
+    },
+    {
+      "case": 2,
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+      "profile": "no-bound-propagation",
+      "status": "ok",
+      "answer": "sat",
+      "seconds": 9.415931,
+      "exit_code": "0",
+      "timeout": "false"
+    },
+    {
+      "case": 2,
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+      "profile": "model-all",
+      "status": "ok",
+      "answer": "sat",
+      "seconds": 22.821391,
+      "exit_code": "0",
+      "timeout": "false"
+    },
+    {
+      "case": 2,
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+      "profile": "row-forward",
+      "status": "ok",
+      "answer": "sat",
+      "seconds": 46.756497,
+      "exit_code": "0",
+      "timeout": "false"
+    },
+    {
+      "case": 3,
+      "file": "20230314-Jaroslav-Bendik-Certora/72771_f9d228efc97cf1458e38_64_QF_UFLIA.smt2",
+      "profile": "no-bound-propagation",
+      "status": "timeout",
+      "answer": "unknown",
+      "seconds": 121.106187,
+      "exit_code": "0",
+      "timeout": "true"
+    },
+    {
+      "case": 3,
+      "file": "20230314-Jaroslav-Bendik-Certora/72771_f9d228efc97cf1458e38_64_QF_UFLIA.smt2",
+      "profile": "model-all",
+      "status": "ok",
+      "answer": "sat",
+      "seconds": 57.191006,
+      "exit_code": "0",
+      "timeout": "false"
+    },
+    {
+      "case": 3,
+      "file": "20230314-Jaroslav-Bendik-Certora/72771_f9d228efc97cf1458e38_64_QF_UFLIA.smt2",
+      "profile": "row-forward",
+      "status": "timeout",
+      "answer": "unknown",
+      "seconds": 121.106079,
+      "exit_code": "0",
+      "timeout": "true"
+    },
+    {
+      "case": 3,
+      "file": "20230314-Jaroslav-Bendik-Certora/72771_f9d228efc97cf1458e38_64_QF_UFLIA.smt2",
+      "profile": "row-both",
+      "status": "timeout",
+      "answer": "unknown",
+      "seconds": 121.079911,
+      "exit_code": "0",
+      "timeout": "true"
+    }
+  ],
+  "profiles": [
+    {
+      "case": 0,
+      "samples": 223,
+      "sample_categories": {
+        "integer_completion": 0,
+        "branch_and_bound": 0,
+        "patching": 0,
+        "cuts": 0,
+        "pivot": 21,
+        "rational_check": 83,
+        "care_pairs": 1,
+        "model_grouping": 0,
+        "unit_equality_query": 1,
+        "GMP": 48,
+        "SAT": 141
+      },
+      "callgrind_instructions": 3211726607,
+      "top_self_functions": [
+        {
+          "function": "???:_int_free",
+          "instructions": 473081772,
+          "percent_of_instructions": 14.73
+        },
+        {
+          "function": "???:_int_malloc",
+          "instructions": 421733151,
+          "percent_of_instructions": 13.13
+        },
+        {
+          "function": "???:malloc",
+          "instructions": 292394549,
+          "percent_of_instructions": 9.1
+        },
+        {
+          "function": "???:free",
+          "instructions": 164193733,
+          "percent_of_instructions": 5.11
+        },
+        {
+          "function": "???:malloc_consolidate",
+          "instructions": 114058782,
+          "percent_of_instructions": 3.55
+        },
+        {
+          "function": "???:operator new(unsigned long)",
+          "instructions": 82279032,
+          "percent_of_instructions": 2.56
+        },
+        {
+          "function": "???:primo::smt::(anonymous namespace)::subtree_occurrences(primo::core::TermManager const&, unsigned int, std::unordered_set<unsigned int, std::hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<unsigned int> > const&, std::unordered_map<unsigned int, std::vector<std::pair<unsigned int, unsigned long>, std::allocator<std::pair<unsigned int, unsigned long> > >, std::hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<unsigned int const, std::vector<std::pair<unsigned int, unsigned long>, std::allocator<std::pair<unsigned int, unsigned long> > > > > >&)",
+          "instructions": 74529886,
+          "percent_of_instructions": 2.32
+        },
+        {
+          "function": "???:__memset_avx2_unaligned_erms",
+          "instructions": 70296965,
+          "percent_of_instructions": 2.19
+        },
+        {
+          "function": "???:primo::smt::substitute_solved_constants(primo::core::TermManager&, std::vector<unsigned int, std::allocator<unsigned int> > const&, bool)",
+          "instructions": 64837808,
+          "percent_of_instructions": 2.02
+        },
+        {
+          "function": "???:primo::core::TermManager::get(unsigned int) const",
+          "instructions": 50738796,
+          "percent_of_instructions": 1.58
+        },
+        {
+          "function": "???:primo::core::TermManager::KeyHash::operator()(primo::core::TermManager::Key const&) const",
+          "instructions": 50543099,
+          "percent_of_instructions": 1.57
+        },
+        {
+          "function": "???:void std::vector<primo::smtlib::SExpr, std::allocator<primo::smtlib::SExpr> >::_M_realloc_insert<primo::smtlib::SExpr>(__gnu_cxx::__normal_iterator<primo::smtlib::SExpr*, std::vector<primo::smtlib::SExpr, std::allocator<primo::smtlib::SExpr> > >, primo::smtlib::SExpr&&)",
+          "instructions": 40780083,
+          "percent_of_instructions": 1.27
+        },
+        {
+          "function": "???:primo::smt::propagate_unit_equalities(primo::core::TermManager&, std::vector<unsigned int, std::allocator<unsigned int> > const&, primo::smt::UnitEqualityPropagationStats*)",
+          "instructions": 40039505,
+          "percent_of_instructions": 1.25
+        },
+        {
+          "function": "???:std::_Hashtable<primo::core::TermManager::Key, std::pair<primo::core::TermManager::Key const, unsigned int>, std::allocator<std::pair<primo::core::TermManager::Key const, unsigned int> >, std::__detail::_Select1st, std::equal_to<primo::core::TermManager::Key>, primo::core::TermManager::KeyHash, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_find_before_node(unsigned long, primo::core::TermManager::Key const&, unsigned long) const",
+          "instructions": 39217276,
+          "percent_of_instructions": 1.22
+        },
+        {
+          "function": "???:unlink_chunk.constprop.0",
+          "instructions": 38343086,
+          "percent_of_instructions": 1.19
+        }
+      ],
+      "selected_inclusive": [
+        {
+          "function": "???:primo::smt::substitute_solved_constants(primo::core::TermManager&, std::vector<unsigned int, std::allocator<unsigned int> > const&, bool)",
+          "instructions": 831646447,
+          "percent_of_instructions": 25.89
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "samples": 220,
+      "sample_categories": {
+        "integer_completion": 176,
+        "branch_and_bound": 164,
+        "patching": 1,
+        "cuts": 11,
+        "pivot": 115,
+        "rational_check": 182,
+        "care_pairs": 3,
+        "model_grouping": 0,
+        "unit_equality_query": 1,
+        "GMP": 88,
+        "SAT": 15
+      },
+      "callgrind_instructions": 3201791804,
+      "top_self_functions": [
+        {
+          "function": "???:_int_free",
+          "instructions": 449544349,
+          "percent_of_instructions": 14.04
+        },
+        {
+          "function": "???:malloc",
+          "instructions": 268306873,
+          "percent_of_instructions": 8.38
+        },
+        {
+          "function": "???:_int_malloc",
+          "instructions": 213376278,
+          "percent_of_instructions": 6.66
+        },
+        {
+          "function": "???:free",
+          "instructions": 161023686,
+          "percent_of_instructions": 5.03
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::update_violation_status(unsigned long)",
+          "instructions": 87712667,
+          "percent_of_instructions": 2.74
+        },
+        {
+          "function": "???:CaDiCaL::Internal::copy_phases(std::vector<signed char, std::allocator<signed char> >&)",
+          "instructions": 65039916,
+          "percent_of_instructions": 2.03
+        },
+        {
+          "function": "???:malloc_consolidate",
+          "instructions": 56426027,
+          "percent_of_instructions": 1.76
+        },
+        {
+          "function": "???:__gmpz_init_set",
+          "instructions": 49174680,
+          "percent_of_instructions": 1.54
+        },
+        {
+          "function": "???:primo::util::Rational::operator+(primo::util::Rational const&) const",
+          "instructions": 47345540,
+          "percent_of_instructions": 1.48
+        },
+        {
+          "function": "???:primo::util::Rational::operator<(primo::util::Rational const&) const",
+          "instructions": 46324599,
+          "percent_of_instructions": 1.45
+        },
+        {
+          "function": "???:__memset_avx2_unaligned_erms",
+          "instructions": 45026725,
+          "percent_of_instructions": 1.41
+        },
+        {
+          "function": "???:primo::util::Rational::operator*(primo::util::Rational const&) const",
+          "instructions": 37562117,
+          "percent_of_instructions": 1.17
+        },
+        {
+          "function": "???:primo::smt::(anonymous namespace)::euf_care_pair_diagnostics(primo::smt::(anonymous namespace)::FlatEufModelView const&, std::vector<unsigned int, std::allocator<unsigned int> > const&)",
+          "instructions": 37153162,
+          "percent_of_instructions": 1.16
+        },
+        {
+          "function": "???:primo::util::Rational::from_int128_reduced(__int128, __int128)",
+          "instructions": 37130084,
+          "percent_of_instructions": 1.16
+        },
+        {
+          "function": "???:__gmpq_clear",
+          "instructions": 35873358,
+          "percent_of_instructions": 1.12
+        }
+      ],
+      "selected_inclusive": [
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::check()",
+          "instructions": 466315250,
+          "percent_of_instructions": 14.56
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::check_impl(std::optional<unsigned long>, bool&)",
+          "instructions": 466156793,
+          "percent_of_instructions": 14.56
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "samples": 147,
+      "sample_categories": {
+        "integer_completion": 1,
+        "branch_and_bound": 0,
+        "patching": 0,
+        "cuts": 0,
+        "pivot": 26,
+        "rational_check": 72,
+        "care_pairs": 8,
+        "model_grouping": 0,
+        "unit_equality_query": 1,
+        "GMP": 38,
+        "SAT": 59
+      },
+      "callgrind_instructions": 3435261209,
+      "top_self_functions": [
+        {
+          "function": "???:_int_free",
+          "instructions": 313087682,
+          "percent_of_instructions": 9.11
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::pivot(unsigned long, unsigned long)",
+          "instructions": 245326402,
+          "percent_of_instructions": 7.14
+        },
+        {
+          "function": "???:primo::util::Rational::operator*(primo::util::Rational const&) const",
+          "instructions": 228384611,
+          "percent_of_instructions": 6.65
+        },
+        {
+          "function": "???:_int_malloc",
+          "instructions": 208258422,
+          "percent_of_instructions": 6.06
+        },
+        {
+          "function": "???:malloc",
+          "instructions": 182646645,
+          "percent_of_instructions": 5.32
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::update_violation_status(unsigned long)",
+          "instructions": 155592237,
+          "percent_of_instructions": 4.53
+        },
+        {
+          "function": "???:primo::util::Rational::from_int128_reduced(__int128, __int128)",
+          "instructions": 149256068,
+          "percent_of_instructions": 4.34
+        },
+        {
+          "function": "???:CaDiCaL::Internal::copy_phases(std::vector<signed char, std::allocator<signed char> >&)",
+          "instructions": 132973560,
+          "percent_of_instructions": 3.87
+        },
+        {
+          "function": "???:free",
+          "instructions": 109251601,
+          "percent_of_instructions": 3.18
+        },
+        {
+          "function": "???:primo::util::Rational::operator+(primo::util::Rational const&) const",
+          "instructions": 101936445,
+          "percent_of_instructions": 2.97
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::unlink_occurrence(unsigned long, unsigned int)",
+          "instructions": 56762387,
+          "percent_of_instructions": 1.65
+        },
+        {
+          "function": "???:primo::util::(anonymous namespace)::gcd_u64(unsigned long, unsigned long) [clone .part.0]",
+          "instructions": 56505694,
+          "percent_of_instructions": 1.64
+        },
+        {
+          "function": "???:malloc_consolidate",
+          "instructions": 52613149,
+          "percent_of_instructions": 1.53
+        },
+        {
+          "function": "???:__memset_avx2_unaligned_erms",
+          "instructions": 44327303,
+          "percent_of_instructions": 1.29
+        },
+        {
+          "function": "???:primo::util::Rational::Rational(primo::util::Rational const&)",
+          "instructions": 43610756,
+          "percent_of_instructions": 1.27
+        }
+      ],
+      "selected_inclusive": [
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::check()",
+          "instructions": 1075508657,
+          "percent_of_instructions": 31.31
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::check_impl(std::optional<unsigned long>, bool&)",
+          "instructions": 1075375875,
+          "percent_of_instructions": 31.3
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::pivot(unsigned long, unsigned long)",
+          "instructions": 850849658,
+          "percent_of_instructions": 24.77
+        },
+        {
+          "function": "???:primo::smt::substitute_solved_constants(primo::core::TermManager&, std::vector<unsigned int, std::allocator<unsigned int> > const&, bool)",
+          "instructions": 270197514,
+          "percent_of_instructions": 7.87
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "samples": 226,
+      "sample_categories": {
+        "integer_completion": 0,
+        "branch_and_bound": 0,
+        "patching": 0,
+        "cuts": 0,
+        "pivot": 35,
+        "rational_check": 130,
+        "care_pairs": 4,
+        "model_grouping": 0,
+        "unit_equality_query": 2,
+        "GMP": 82,
+        "SAT": 108
+      },
+      "callgrind_instructions": 3346164112,
+      "top_self_functions": [
+        {
+          "function": "???:_int_free",
+          "instructions": 379209285,
+          "percent_of_instructions": 11.33
+        },
+        {
+          "function": "???:malloc",
+          "instructions": 224775951,
+          "percent_of_instructions": 6.72
+        },
+        {
+          "function": "???:CaDiCaL::Internal::copy_phases(std::vector<signed char, std::allocator<signed char> >&)",
+          "instructions": 217681492,
+          "percent_of_instructions": 6.51
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::update_violation_status(unsigned long)",
+          "instructions": 208748373,
+          "percent_of_instructions": 6.24
+        },
+        {
+          "function": "???:_int_malloc",
+          "instructions": 205109041,
+          "percent_of_instructions": 6.13
+        },
+        {
+          "function": "???:free",
+          "instructions": 135447345,
+          "percent_of_instructions": 4.05
+        },
+        {
+          "function": "???:CaDiCaL::Internal::explain_external_propagations()",
+          "instructions": 70462902,
+          "percent_of_instructions": 2.11
+        },
+        {
+          "function": "???:std::_Rb_tree<unsigned long, unsigned long, std::_Identity<unsigned long>, std::less<unsigned long>, std::allocator<unsigned long> >::_M_erase(std::_Rb_tree_node<unsigned long>*) [clone .isra.0]",
+          "instructions": 69975958,
+          "percent_of_instructions": 2.09
+        },
+        {
+          "function": "???:primo::util::Rational::operator<(primo::util::Rational const&) const",
+          "instructions": 62058739,
+          "percent_of_instructions": 1.85
+        },
+        {
+          "function": "???:malloc_consolidate",
+          "instructions": 60362982,
+          "percent_of_instructions": 1.8
+        },
+        {
+          "function": "???:__memset_avx2_unaligned_erms",
+          "instructions": 56069586,
+          "percent_of_instructions": 1.68
+        },
+        {
+          "function": "???:operator new(unsigned long)",
+          "instructions": 41477544,
+          "percent_of_instructions": 1.24
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::pop(unsigned long)",
+          "instructions": 41420171,
+          "percent_of_instructions": 1.24
+        },
+        {
+          "function": "???:primo::util::Rational::operator*(primo::util::Rational const&) const",
+          "instructions": 39536930,
+          "percent_of_instructions": 1.18
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::pivot(unsigned long, unsigned long)",
+          "instructions": 35647429,
+          "percent_of_instructions": 1.07
+        }
+      ],
+      "selected_inclusive": [
+        {
+          "function": "???:primo::smt::substitute_solved_constants(primo::core::TermManager&, std::vector<unsigned int, std::allocator<unsigned int> > const&, bool)",
+          "instructions": 308896309,
+          "percent_of_instructions": 9.23
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::check()",
+          "instructions": 246779447,
+          "percent_of_instructions": 7.37
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::check_impl(std::optional<unsigned long>, bool&)",
+          "instructions": 246524478,
+          "percent_of_instructions": 7.37
+        },
+        {
+          "function": "???:primo::theory::arithmetic::LraTableau::pivot(unsigned long, unsigned long)",
+          "instructions": 171029482,
+          "percent_of_instructions": 5.11
+        }
+      ]
+    }
+  ],
+  "native_sat": 6,
+  "direct_dolmen": 6,
+  "artifact_sha256": {
+    "timing/slot-0/identity.json": "2d96d1a9ab30942fe1c4c96ff63c59dc26fdf493c329164b57f0c9f651f5a9f3",
+    "timing/slot-0/normal/answers.csv": "9a86d36e9a4cf1bab25e609110cdd2e3e9808ae7d515d62e5038d7e129c57bc5",
+    "timing/slot-0/normal/provenance.json": "1f12e519fac898b683d64cfa950cca5fdb56c3e7ddffa265cf1c4a5babaaf34b",
+    "timing/slot-0/normal/model-validation/coverage.json": "40a9282e1f1afc9011790b9df4e7c6e45146128f26b34cc465075e06b50d5b8f",
+    "timing/slot-1/identity.json": "7d894282b53244f31d36ee52ac8e222e8d16f9fa08ced1835f90fd02db99182c",
+    "timing/slot-1/normal/answers.csv": "4a11b54791854608062eac4328a95a698a25acbf41a43ee700710e3e018bc3c7",
+    "timing/slot-1/normal/provenance.json": "9511ab684e0863dd181f575292593148a92d720a3291ea00fde58bdefa25a5ee",
+    "timing/slot-1/normal/model-validation/coverage.json": "d09cf1ee7347c920ba3bd769ac59e12106e8ca1f6734fcb49ae7990846e28168",
+    "timing/slot-2/identity.json": "2e5832355f27e72f4e4b9a9b821643df6313bd576b165daa2980c1f681f2d115",
+    "timing/slot-2/normal/answers.csv": "9b98d221ca0950566f9a0134699732d082a048b4e22b017eebef490368238898",
+    "timing/slot-2/normal/provenance.json": "aa2df9788ac6c8f014a543aa16686eaa044ade4c569353cfb195aa8380a8b75b",
+    "timing/slot-2/normal/model-validation/coverage.json": "148104bd5c5e532bc0e40f6b7cb3d04504ecdbb1ec300917dd0e2ca0c959dd1d",
+    "timing/slot-3/identity.json": "e74ff564f58c1ed761382a3210bca2e80544481dd5e114616376144ec2776df1",
+    "timing/slot-3/normal/answers.csv": "6f904f30622e0a7034b665f79e7ee965502ec0c3d4612c3518c1df9b8dda017f",
+    "timing/slot-3/normal/provenance.json": "7cf2d33b5ce4e1dcf7c2e6fc2213d93387e2ff1f0ef9e0824a03fda43d89b6af",
+    "timing/slot-3/normal/model-validation/coverage.json": "ac63c0ef8bf42faef8078652cc29d9d9759c72bbab62cc4ab391fa0886095fc6",
+    "timing/slot-4/identity.json": "be796e523af76a03f49846a996c0cc6e5aca2326df849991977e797429372dfc",
+    "timing/slot-4/normal/answers.csv": "fa64a5f57db2ae71be14303fb28f3cde5f0751fc8ec54d7115edf90399db535e",
+    "timing/slot-4/normal/provenance.json": "a8a0e90cd36dca51e0f4014720a72eea6831b78fcb0d8325a8a319d867af6288",
+    "timing/slot-4/normal/model-validation/coverage.json": "bd8f2b83b2ce2939d94d71856706719a459361e25aa3ef3815e14375c2e862bf",
+    "timing/slot-5/identity.json": "78d6eaeb9d2ec1a9b65924789eceedb121a92528dc07010ea81c4018ad59883f",
+    "timing/slot-5/normal/answers.csv": "15fafa06572650d4583a809d6bf4590246e823a9e0d5da474aa97ec8cd987ddc",
+    "timing/slot-5/normal/provenance.json": "d823c3074ac31bf2b8602ef1c458ee4169cc97c669c37143762e8a2acc389737",
+    "timing/slot-5/normal/model-validation/coverage.json": "05c1868fd81faeafba4aa500224a0f3cdaca9056cef1fca83deffdb709d70737",
+    "timing/slot-6/identity.json": "a44a6faf16ea102fff3f72db0d22f6bf491e63e7a05c11d35bd0e9c29971be79",
+    "timing/slot-6/normal/answers.csv": "eba52e214b36cfef007926859fd09b17ed3b3b91755278e0ba7ce9c5737a4990",
+    "timing/slot-6/normal/provenance.json": "78ac04ca84233b7a5d8510814e83c7baa0a68dbeea818422e09f23a2672b561d",
+    "timing/slot-6/normal/model-validation/coverage.json": "d56f9e91133e0507be69c9de5efbdcf595596d3871e305de944a5c8ba534290f",
+    "timing/slot-7/identity.json": "8e0ff9c54784baaaecfaa0e327232912de5bc95fad366f193ce6690ecee95969",
+    "timing/slot-7/normal/answers.csv": "1a631c9215850faa61d1e3dee2ae84f873ca8437de37563b6d6ab2817f91b64e",
+    "timing/slot-7/normal/provenance.json": "b1d63ed39f13081876c78aa6ef5358658e609d8d3455f85d730ef2fccd3e08d3",
+    "timing/slot-7/normal/model-validation/coverage.json": "03f6d20545de00faa36ec9afea956dfa0d517aa794ea008598df9dbfe14c0143",
+    "timing/slot-8/identity.json": "2622e218532d0add3ef6c3497d92429392a6024b335ae3a33d29e7b4e0d12eb4",
+    "timing/slot-8/normal/answers.csv": "d8b7fc4e807669598147619fd7667e1a5300510cda547c681955fcd90570e90b",
+    "timing/slot-8/normal/provenance.json": "c1fa6f3b3f31118b62e265bd64c60df7fdbe78c7be81505b54b363aa824e2991",
+    "timing/slot-8/normal/model-validation/coverage.json": "693c9fb1ce814976da12da962a7e0278c8e54442cb27497e4a4d65d449c5239a",
+    "timing/slot-9/identity.json": "a12a75985b1c870f5aa158d3c64cfb0dbf9cd00d3051338f8d47732f5a0d3046",
+    "timing/slot-9/normal/answers.csv": "7ce17d0c36e76410ef2a485da0c540e83f30a5d39789538cd0208da3cdf31862",
+    "timing/slot-9/normal/provenance.json": "cf9d3839099be5cdd9f83ad8f14e43e3f73d0b73a2940a83223ea57cd0806fc0",
+    "timing/slot-9/normal/model-validation/coverage.json": "aa6a8da624c4b55382b176ab26672770124ffd2b1dc8afbfe583d44f50c04d70",
+    "timing/slot-10/identity.json": "e6ac34f8f19f9a787f1fdb386bc7872be943d15244dd8aa608384e2fe8c7acd9",
+    "timing/slot-10/normal/answers.csv": "5bd374a36101ed921ed08ce9c6809e2e8d4ecf16a80bf3712315644addc10a43",
+    "timing/slot-10/normal/provenance.json": "8332917eff8902daa452ccbf2f7d36c7cb6a0fe69567f4296ad52d14548f5184",
+    "timing/slot-10/normal/model-validation/coverage.json": "a9571a286def92e6c076c9c77504934be6e077c399c413b0ebf0f1ebe050bb85",
+    "timing/slot-11/identity.json": "5386e56202647fac8d086b56d7283eea3cb8a4c06fcca2316263e1be50b4e969",
+    "timing/slot-11/normal/answers.csv": "a1cdae6fb4de80d1df19c8fd05abec31163a61d50e28cdc5b8ad342b8a7b8a79",
+    "timing/slot-11/normal/provenance.json": "a0ad1a3212f47371567c74cae2e496e15750bc3ada7b675812851621d41676bc",
+    "timing/slot-11/normal/model-validation/coverage.json": "813b8b6d1dc9d297056d0288d5f7a0e03af605e361a94adae192db6f0b6bb5d7",
+    "timing/slot-12/identity.json": "057f0647793f41913526f3c623bce1c68e5dcedaf143119deac20a6d0b3e6f83",
+    "timing/slot-12/normal/answers.csv": "c3ad6aa397208252dc2f4d30322fdb660af551c3672b4e6da08948063fd3c03a",
+    "timing/slot-12/normal/provenance.json": "e9f41f35d5115b575471093425fde24ab2887f4bf337883dad50ebbc9c452fd8",
+    "timing/slot-12/normal/model-validation/coverage.json": "5cce4a0e436165d0304461042df358120020dfb7804074134f4aa84dd7b79716",
+    "timing/slot-13/identity.json": "bca764c663b10644207aa4c270d78fa5878c96ce4b6a43475e35dd242e366a97",
+    "timing/slot-13/normal/answers.csv": "7edab969e01fb257b952afb13fc75a00357954f6796eeeb0d547036079d324e6",
+    "timing/slot-13/normal/provenance.json": "4313d832d405dea1d59046c00571e1022305a6fe701e75a865c8053151690bfb",
+    "timing/slot-13/normal/model-validation/coverage.json": "575fda263423f393bb9c4d08133d71e4e969ef682b2d7b22dcb6807523d1ec94",
+    "timing/slot-14/identity.json": "0b6575b3acd9c87196e8296d1dfabb627e39b4ebc3a8c5149afe513e8eca5139",
+    "timing/slot-14/normal/answers.csv": "f6f63b9401967f99dfb0fdacb5ee437155d84037c536a6ed55d36cafe31ea76d",
+    "timing/slot-14/normal/provenance.json": "52c11682a10c20b1703a4214b5b6c669491311875aade0481a9b86112b941cb7",
+    "timing/slot-14/normal/model-validation/coverage.json": "5c09d7ad460c448b38209e9e7c8bbe6a79d1ac88bcaeaf566534b80b4e84b28d",
+    "timing/slot-15/identity.json": "637d9a42548d9462b5d4e40bc7ab2bdc4fd6c874701a1cb63654bec92822c2b6",
+    "timing/slot-15/normal/answers.csv": "1c6453f6957bded753543c70d08f97fe2e70bf39390df0bd1f4419dd042abae5",
+    "timing/slot-15/normal/provenance.json": "3a2831427804706a16048edeee09fcc655e0dc8f002fdb9d1513bf449597e0b1",
+    "timing/slot-15/normal/model-validation/coverage.json": "332b59d790d143078bfc27f4866dd24be09e76848f99db1c3231ca1b1ccf70fa",
+    "profile/case-0/identity.json": "fb11702c04634db1855abe0910a6ddb1fd2300cd6e35a54759f0479cb3baeeae",
+    "profile/case-0/gdb/summary.json": "680fbb8aaece9fff6995fccccb7c2504c7d5655f5eb522ba6938e3db3197ff19",
+    "profile/case-0/gdb/samples.jsonl": "f29de8b02993884a668396430266f39e4bdaf83fccb69dfb17f70079173e529e",
+    "profile/case-0/callgrind-self.txt": "afacdcdd74b3a5dde4cda9cdbe53b77d750a1a9525c6bd59fc16c99918fcba35",
+    "profile/case-0/callgrind-inclusive.txt": "287e239622ff780a7e13324a9b6b44b522ff79b44ec3dde57da3e97e069cd91b",
+    "profile/case-1/identity.json": "2d564f0c1d2b40fdfd934334913d66bcf6835fa3c2c6b3830534f9c938e2b9d9",
+    "profile/case-1/gdb/summary.json": "ec68eb1fcbff945d59fa83c2c921d3c51bfc3f95c86e1d9ec7a201e5f5480793",
+    "profile/case-1/gdb/samples.jsonl": "05832a3689159cc7a4f7cac8140930b688e1f9d8c9208c578b87725a27b6f57b",
+    "profile/case-1/callgrind-self.txt": "ab1f960c35c17eadf3934dd293c1398ba0787d8e31b57039bc292877ab476454",
+    "profile/case-1/callgrind-inclusive.txt": "193ba0c5eeb0a34a3ebc5c511349c0d579a7a28299ead594461c5eb19a431eff",
+    "profile/case-2/identity.json": "51c221078f44ef133e1d758ebacc30d084b7d8a8c330380919c98a92d4938bc3",
+    "profile/case-2/gdb/summary.json": "fd8d89b207b7cebf57aad36344c3806a7f80614be7f924b26d6c6dd93ebd64bc",
+    "profile/case-2/gdb/samples.jsonl": "ad4f095c44746c734d2c00838f68a4d6dd63120140462c5ffd3b64b69f58942d",
+    "profile/case-2/callgrind-self.txt": "991e19c3497ed06e549e5143175b2e723bee84a766a1597115e533de5f75fb23",
+    "profile/case-2/callgrind-inclusive.txt": "8daa33f527f92f5f607f9063cb620a30ff2d80c37a22a0e03e43054e21e8d82d",
+    "profile/case-3/identity.json": "9794c2b3123c59238f4bd594c863a12658cd018e2c4d74cca92a61e3c59b1c95",
+    "profile/case-3/gdb/summary.json": "d7dc0fbe616d1db78cbbbbbcabe2c891d10168fb1500cecc3d7652453b74af19",
+    "profile/case-3/gdb/samples.jsonl": "869f6053dbb400181527fe75c62fda462d910e62a6f3acf670c2c0211513357a",
+    "profile/case-3/callgrind-self.txt": "835b9aab70f58503de1be4965d1677efbe65fabda9b8cca88f5a1ecfdf7dec9d",
+    "profile/case-3/callgrind-inclusive.txt": "086c9ccf96b42ae4841ed47c8c8c71b4a94bcd859a7dc1ee4e073559bea874f2"
+  },
+  "limitations": [
+    "GDB stack counts are overlapping wall-clock observations, not CPU fractions.",
+    "Callgrind prefixes are instrumented and can emphasize preprocessing; not full native solve attribution.",
+    "The new option combinations have diagnostic/model evidence only, without a new merge-grade fuzz gate."
+  ]
+}
