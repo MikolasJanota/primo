@@ -1069,6 +1069,10 @@ measurements to results for the current source revision.
 (lia-sources)=
 ## Sources and implementation status
 
+The [hybrid branching checklist](../leads/lia-hybrid-branching.md) specifies
+planned bounded private exploration followed by SAT-visible integer bounds.
+It does not describe current behavior or change the defaults below.
+
 The local paper-to-code checklist is the stage order, guards, derivations,
 state contracts and regression obligations above. The primary sections used
 for this chapter are identified in the bibliography; the table records the
