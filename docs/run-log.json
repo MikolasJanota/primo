@@ -3,6 +3,65 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-11-uflia-smtcomp2026-model-unit",
+      "date": "2026-11-11",
+      "kind": "Official SMT-COMP2026 QF_UFLIA selection replay at120seconds",
+      "evidence_status": "running; performance conclusions and SAT coverage pending",
+      "source_git": "44eee3c1c018e84c062f35601dc29a7b5431f294",
+      "current_source_equivalence": "No src/ or tests/ C++ changes between44eee3c1 qualified snapshot and80f8dc88; frozen qualified binary reused, not rebuilt",
+      "binary_sha256": "1f7db885abdb8e8ee01ac7daf0d2113cb892416b0f0c65d8e75a3c67717b78c5",
+      "selection": "benchmarks/uflia-smtcomp2026-20261111/selection.json",
+      "instances": 300,
+      "source_url": "https://raw.githubusercontent.com/SMT-COMP/smt-comp.github.io/master/data/results-sq-2026.json.gz",
+      "source_sha256": "7abe5cadf800cc84db00506f85176378f714cdaa8c02a0e491059835f5039c58",
+      "replay_boundary": "Original SMT-LIB inputs, without competition scrambling. This is a replay of the official selection, not competition-machine runtimes.",
+      "profiles": {
+        "off": [
+          "--quiet",
+          "--qf-uflia-lia-equality-producer=legacy",
+          "--qf-uflia-tableau-equalities=off",
+          "--stats"
+        ],
+        "legacy-all": [
+          "--quiet",
+          "--qf-uflia-lia-equality-producer=legacy",
+          "--qf-uflia-tableau-equalities=all",
+          "--stats"
+        ],
+        "model-all": [
+          "--quiet",
+          "--qf-uflia-lia-equality-producer=model-unit",
+          "--qf-uflia-tableau-equalities=all",
+          "--stats"
+        ],
+        "legacy-fixed": [
+          "--quiet",
+          "--qf-uflia-lia-equality-producer=legacy",
+          "--qf-uflia-tableau-equalities=fixed",
+          "--stats"
+        ],
+        "model-fixed": [
+          "--quiet",
+          "--qf-uflia-lia-equality-producer=model-unit",
+          "--qf-uflia-tableau-equalities=fixed",
+          "--stats"
+        ]
+      },
+      "timeout_seconds": 120,
+      "RLIMIT_AS_bytes": 8589934592,
+      "SLURM": "300tasks per phase,one requestedphysicalCPU,8GiB,25minutes,32concurrent; timings -> resource classification -> model replay global barriers",
+      "jobs": {
+        "timing": "382746",
+        "resources": "382780",
+        "models": "382782"
+      },
+      "execution": "All solver work on SLURM; prior helper --build-via-slurm builds frozen binary; --check-only --no-sync immediately before each new sbatch",
+      "correctness_basis": "benchmarks/uflia-model-unit-20261111/qualification.json; fresh1000model-all and1000model-fixed trials plus sixotherprofiles,real-seed mutants,ASan; exact newproducer flags qualified. Legacy controls preserve previously qualified discovery.",
+      "reference_policy": "1200archived rows from uniform120, four solvers x300 byte-matched inputs. No reference corpus execution. Use uncensored successful original answers to detect contradictions.",
+      "artifacts": "benchmarks/uflia-smtcomp2026-20261111; raw results/uflia-smtcomp2026-20261111/collected/results/uflia-smtcomp2026-20261111 and retained SLURM workspace",
+      "presentation": "Choose one whole-selection Primo profile by solves thenPAR2; label onlyPrimo; uniform axes/colours as previous theory plots. Full andcommon-easy-filtered views."
+    },
+    {
       "id": "2026-11-11-uflia-model-unit-discovery",
       "date": "2026-11-11",
       "kind": "CAV2024\u00a73.2 model-unit discovery integration for QF_UFLIA",

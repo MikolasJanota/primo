@@ -1,0 +1,26 @@
+{
+  "resources": {
+    "JobId": "382780",
+    "ArrayJobId": "382780",
+    "ArrayTaskId": "0-299%32",
+    "JobState": "PENDING",
+    "Dependency": "afterok:382746_*(unfulfilled)",
+    "NumCPUs": "1",
+    "MinMemoryNode": "8G",
+    "TimeLimit": "00:25:00",
+    "raw_receipt_sha256": "c9fbe9eab4c89788e5524cd40982ca405bf66dc6abb178e59ce20890ddaa4e26",
+    "submission": "sbatch --parsable --array=0-299%32 --dependency=afterok:382746 CAPSULE/run.sbatch"
+  },
+  "models": {
+    "JobId": "382782",
+    "ArrayJobId": "382782",
+    "ArrayTaskId": "0-299%32",
+    "JobState": "PENDING",
+    "Dependency": "afterok:382780_*(unfulfilled)",
+    "NumCPUs": "1",
+    "MinMemoryNode": "8G",
+    "TimeLimit": "00:25:00",
+    "raw_receipt_sha256": "dfdd404ebdfdf3930cd5499b41568a119137c7667fc4a6151889da2fa264fedc",
+    "submission": "sbatch --parsable --array=0-299%32 --dependency=afterok:382780 CAPSULE/run.sbatch"
+  }
+}

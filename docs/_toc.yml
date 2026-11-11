@@ -118,6 +118,7 @@ parts:
       - file: evidence/uflia-gaps-20261110
       - file: evidence/model-repair-20261110
       - file: evidence/uflia-model-unit-20261111
+      - file: evidence/uflia-smtcomp2026-20261111
       - file: evidence/qf-uflia-progress
       - file: evidence/qf-uflia-equality-sharing
       - file: evidence/qf-uflia-equality-ablation

@@ -1,0 +1,2156 @@
+{
+  "description": "Official SMT-COMP2026 SingleQuery QF_UFLIA selection, replayed on original SMT-LIB inputs without competition scrambling. Selection only, not official competition runtime reproduction.",
+  "source_url": "https://raw.githubusercontent.com/SMT-COMP/smt-comp.github.io/master/data/results-sq-2026.json.gz",
+  "source_sha256": "7abe5cadf800cc84db00506f85176378f714cdaa8c02a0e491059835f5039c58",
+  "logic": "QF_UFLIA",
+  "instances": 300,
+  "source_git": "44eee3c1c018e84c062f35601dc29a7b5431f294",
+  "production_same_as_head": "80f8dc886c951849be871b3ad98bab965cde1fce",
+  "native_sha256": "1f7db885abdb8e8ee01ac7daf0d2113cb892416b0f0c65d8e75a3c67717b78c5",
+  "timeout_seconds": 120,
+  "native_address_space_bytes": 8589934592,
+  "profiles": [
+    "off",
+    "legacy-all",
+    "model-all",
+    "legacy-fixed",
+    "model-fixed"
+  ],
+  "repetitions": 1,
+  "order": "Rotate profile order by selected instance index",
+  "references": "Reuse four archived uniform120 series, preserving original answers for correctness; zero reference executions",
+  "cases": [
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/11775_ad46e5b8db4748c51973_42_QF_UFLIA.smt2",
+      "sha256": "f4cc823860e071958e59b1afe722fd19470e6356a3850f5eb2c5a632ba45c86c",
+      "bytes": 221335,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/11775_ad46e5b8db4748c51973_43_QF_UFLIA.smt2",
+      "sha256": "7fd2f8cd8c2576817946803317849e4d2dbcdf362f829d5d098c5d6e5290f5db",
+      "bytes": 135207,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/17512_5c1021b0faa6b6e1791b_19_QF_UFLIA.smt2",
+      "sha256": "0bb659a31f8142a31083d1b5ec885e6d63404bbc14965819b531a191f5830622",
+      "bytes": 95538,
+      "expected": "unsat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/25959_5dee2e2f6ef44465a2bea4b085818948_68_QF_UFLIA.smt2",
+      "sha256": "b01958761d0f7093a66051e2fdefcfdae553166cbd7046c550b13ed74fb0e0dd",
+      "bytes": 390582,
+      "expected": "unknown",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/25959_5dee2e2f6ef44465a2bea4b085818948_69_QF_UFLIA.smt2",
+      "sha256": "6d2dadddaadc276c8fe9905039faa658ae7ca337aba6fa9193b23f6e172d801b",
+      "bytes": 269936,
+      "expected": "unknown",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/3106_1c933134166dbad31f79_39_QF_UFLIA.smt2",
+      "sha256": "c474d10ddc77c47197f2e8f02b2c8ef57ba0a78057d87c88c3553ae05c89f29b",
+      "bytes": 788826,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/3106_1c933134166dbad31f79_40_QF_UFLIA.smt2",
+      "sha256": "af5785ae63572a08110b92c4028e597b9c2abd44eeab05374e20e0fb1ad67859",
+      "bytes": 68190,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/3106_afb7bc55417e43d7a22790c3576f04fc_37_QF_UFLIA.smt2",
+      "sha256": "e64811b8004b5cc81ea3f0666c033952d7b948c53cc2dfb1bdc6114883981e12",
+      "bytes": 678991,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_55_QF_UFLIA.smt2",
+      "sha256": "e260c6a85d4afc553cfe1adc836a85fa6ad53c9fda0d7d57c8da47bf47cc21d0",
+      "bytes": 46150,
+      "expected": "unsat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_57_QF_UFLIA.smt2",
+      "sha256": "b5054a31b5ce191119c23a24ceb2e0b783a93c91e39d762e2dfc3cbf8178063a",
+      "bytes": 105954,
+      "expected": "unsat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_58_QF_UFLIA.smt2",
+      "sha256": "47f6d84bcf95f569f885d5d8987cd849df0e9598d8e07b11c6154d6816cab6c7",
+      "bytes": 142755,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/38347_525a1ca0331f2bcbf520_54_QF_UFLIA.smt2",
+      "sha256": "d554cc5c6531499ae35d97fe6e43d7bd01b7a92f178cadec632d374028766058",
+      "bytes": 1937601,
+      "expected": "unknown",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_1c7158801cd59dc13f05_46_QF_UFLIA.smt2",
+      "sha256": "12e1b63a48e6ac45f7276b747a1aaeb7f2729b9ac38efce99a73bd1b178f9a0f",
+      "bytes": 133472,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+      "sha256": "c68e77db3bc6cd15daebe8fcffb9d445bca654c6b2fcc47a8b65d27c3074e182",
+      "bytes": 102743,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+      "sha256": "936f197c41d37113cb50d53fa0e57f4926941c1a03d048e77d6cbcc1e0db7825",
+      "bytes": 210392,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/41958_32933c5a1384696720a2_61_QF_UFLIA.smt2",
+      "sha256": "ee71cb3cf78de89006874deaacf6a31b801d09f94b3cbb8531f2d9640ebba697",
+      "bytes": 102325,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/41958_45c688a4814eb926c254_60_QF_UFLIA.smt2",
+      "sha256": "dda858a8f778c637f7d34244643b4de5f9c6d3064cc63c1db77618d656d1438b",
+      "bytes": 232529,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/44289_4066055e0f64d96da11a_14_QF_UFLIA.smt2",
+      "sha256": "0843493b20bf1e97f728fa7d8285ecbc0c83742d5c052e343113d18495bdc036",
+      "bytes": 608493,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/44289_4066055e0f64d96da11a_15_QF_UFLIA.smt2",
+      "sha256": "a1631914d94d896a026a85c2647de5319152ee88bb382ca543dd3abead7807b0",
+      "bytes": 2442126,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/44289_b077fc096b3d41cba49f8628caff7fa5_16_QF_UFLIA.smt2",
+      "sha256": "c0a83a2a03e670ee63cecb6c6498be219d7dc1dd92bc1952a6fa49b907bde6b8",
+      "bytes": 719325,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/44788_1965f0d6d94d5d8054ba_35_QF_UFLIA.smt2",
+      "sha256": "bc2200ca50bf59ea91570e663e393eab2dd872cd29fbb27faf78992121e3e74b",
+      "bytes": 495711,
+      "expected": "unsat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/44788_1965f0d6d94d5d8054ba_36_QF_UFLIA.smt2",
+      "sha256": "c382b7f2431288a54dc3269f1ba9d1ec9a14c7e97460e9847d2c8772b6bb53cb",
+      "bytes": 178243,
+      "expected": "unsat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/52759_af0c476fe3b544b9a8507f3e42472c43_12_QF_UFLIA.smt2",
+      "sha256": "9aa110e44599b3f6a8d1917128c9260eb9d6e7aebde31bb4539f2928b8f87158",
+      "bytes": 688839,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/52759_af0c476fe3b544b9a8507f3e42472c43_13_QF_UFLIA.smt2",
+      "sha256": "f0de739ee441256da7d87ce75d7208c980f011cbf07c558dd9bbe1f406ac8d84",
+      "bytes": 559319,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/52759_bec3a2272267494faeecb6bfaf253e3b_10_QF_UFLIA.smt2",
+      "sha256": "7f366d4fea6aa0a5240c10333a719a28d8775f20085936bdf6c84ee0bb6abd7c",
+      "bytes": 1150351,
+      "expected": "unknown",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/52759_bec3a2272267494faeecb6bfaf253e3b_11_QF_UFLIA.smt2",
+      "sha256": "364a034db86beb7a2ada96956f82cfc4a19f71c4b6c08d22daec9b6d5d427de2",
+      "bytes": 4652673,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/63058_64ab9a7ef7b6c3492507_24_QF_UFLIA.smt2",
+      "sha256": "752af8c98ae4c94969fd61deea0d2a5be30a75bfd2a19af3ea93df863a5d7bce",
+      "bytes": 1829503,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+      "sha256": "217dc9cacd1f312bf0fa58ba1cb25bfbf1f4d89629c8ea285a77298d4ccc02af",
+      "bytes": 68459,
+      "expected": "unsat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_6_QF_UFLIA.smt2",
+      "sha256": "96a8408ca44eb53bf21ea3adcfb740dc6122740da06cac7f87fb416125f2c304",
+      "bytes": 25605,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_8_QF_UFLIA.smt2",
+      "sha256": "48746a0b6a27dbb481e113f0a674e9d18793b7f76cb30132732c1222625d69f1",
+      "bytes": 61730,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/66603_accdadf23a1cf70ae043_76_QF_UFLIA.smt2",
+      "sha256": "efcbb32d6a7398b263cfab0dee253ec4c185e66de8ce9ed8b2eb708408d9ee68",
+      "bytes": 16749567,
+      "expected": "unsat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/72658_63104dadde9c6026353f_70_QF_UFLIA.smt2",
+      "sha256": "ed8f2e8ad5fcfe0b96f964ba94c91eaa2ac2b59a8354322401c2bb5096f8e8fc",
+      "bytes": 42170,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/72658_63104dadde9c6026353f_71_QF_UFLIA.smt2",
+      "sha256": "81a0f72cb15c076f4f0787ee752054acbf1a68471797b3b4c2a56ec82e68f3ac",
+      "bytes": 44985,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/72771_f9d228efc97cf1458e38_64_QF_UFLIA.smt2",
+      "sha256": "fccb035a47c2138d5cc7fcfd9cfcfce94404633242328cf0014c95508d22953e",
+      "bytes": 238077,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_1_UFLIA.smt2",
+      "sha256": "cc0c1a914787bc0033acf894e5ccd58bbdd7606c2bb837caebe261851e26a782",
+      "bytes": 181457,
+      "expected": "sat",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_4_UFLIA.smt2",
+      "sha256": "6dd90ca24cfc1078ebf7e02024b837d83445e93d3d208aefaafb5350e73b9701",
+      "bytes": 945210,
+      "expected": "unknown",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "20230314-Jaroslav-Bendik-Certora/940_590f27b1c3c800d3243e_30_QF_UFLIA.smt2",
+      "sha256": "0811e63f3f82e26e689e9d1142ef653cd98596c130d753f9fabc6e588800f0dd",
+      "bytes": 459533,
+      "expected": "unknown",
+      "family": "20230314-Jaroslav-Bendik-Certora"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard11.smt2",
+      "sha256": "9967bc1abcfd9ee2b6e53aa5fdb54c0046890b1296798e6049baa453754cc5c0",
+      "bytes": 4822,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard13.smt2",
+      "sha256": "1a5611fd1eca111c84fa3989c1a3f872ba9c629002b35c58076ea4040ee6b4e5",
+      "bytes": 6210,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard14.smt2",
+      "sha256": "fecb718a709581b7dbd3acc341d9fbe9d46f907b3386eccf2e179a28b81bf6c1",
+      "bytes": 6979,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard15.smt2",
+      "sha256": "13bf02dd0c0cee00bbf92e376d06b435eb49dae5b6ccbd0b8943392340b0431c",
+      "bytes": 7798,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard17.smt2",
+      "sha256": "77aa1d51b62c48d1fc70af6aa2bba15c67f7cd5c4d316101a00026b199f3e025",
+      "bytes": 9586,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard18.smt2",
+      "sha256": "d56cb93eb85e7e50aaa3a3831ee4d399c2f944e500a8b32a6913504c61fc59fb",
+      "bytes": 10555,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard19.smt2",
+      "sha256": "6ef7225d9c0b71b74de87049f6daca73ce7e8de5d56b4f158ecf15f3ea4e4cfb",
+      "bytes": 11574,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard20.smt2",
+      "sha256": "3de508604f008a7ad084d6331b6e659b1842674dac0246364fee8c28cf49471f",
+      "bytes": 12643,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard5.smt2",
+      "sha256": "062174f8cbd403a07224755b49db6a2386560bffa317218db93a6e404e4a4e9d",
+      "bytes": 1942,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard6.smt2",
+      "sha256": "a609d8447034d4a39b642489d2b0d713e45cc9cc6edfca0e572394a7758eb41a",
+      "bytes": 2296,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard7.smt2",
+      "sha256": "6658e48e4fab8159fbac9a2e75ba7bc966c86e8af28a5287d80c29580fa6fbe7",
+      "bytes": 2694,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard8.smt2",
+      "sha256": "95c2b5f1b16c08a169b0834c1c08d53c37e1fce1776cd3baecc55f51efbd4d7e",
+      "bytes": 3136,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/hard/hard9.smt2",
+      "sha256": "00e39686dc81a4882a72a14aa826d4fcf033cf0a19a143955024e1b16e8727d6",
+      "bytes": 3634,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium10.smt2",
+      "sha256": "3a4ed76c548922dd4e11204ac7031720a222bba2b5d69c34332dd267c1bf3988",
+      "bytes": 4270,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium11.smt2",
+      "sha256": "03f568be40c65a0f48761c530d531f68baec9fc6b5ea1b05a29840cc90c4058a",
+      "bytes": 4910,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium12.smt2",
+      "sha256": "a868174d7f2c1c706d082dad4b15f5d63be79ac42c0703c861b6573ac608fe8d",
+      "bytes": 5600,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium13.smt2",
+      "sha256": "a7bf9b5b53f8edd829d0d5c3db912dcb67137888b6e5a90f85bbacc1fb740731",
+      "bytes": 6340,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium15.smt2",
+      "sha256": "2ebe0472f740a037d4195a6e935ba3493050147185fc300d4377a7cee3025d6a",
+      "bytes": 7970,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium16.smt2",
+      "sha256": "c120db6ca94b1d0022698355f3b44a52ff1e8ac580d360422fafef5168d358fe",
+      "bytes": 8860,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium17.smt2",
+      "sha256": "628698bfaa09a77477575d548d08fa4c0e6b1c70d0700f10d2c9a84e243dbe5e",
+      "bytes": 9800,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium18.smt2",
+      "sha256": "637a36335763742e75ecdb371784ee8a943dcd63ee664afe7baf7d6eb1197dc6",
+      "bytes": 10790,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium19.smt2",
+      "sha256": "5a6b6080745a640977461eb5915eb0ca3377dde9d0bcbc6ba220d3869756aef8",
+      "bytes": 11830,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/EufLaArithmetic/medium/medium20.smt2",
+      "sha256": "a414fe92c62b55d971618840171d2d08c2d44f0351a61880ed2fd6a3235db2ea",
+      "bytes": 12920,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_05_18.smt2",
+      "sha256": "983ec0a8ec02c5bf338aa147e6f3a3ef155ce0d6a8e899068d34adee2f48f37d",
+      "bytes": 16557,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_06_05.smt2",
+      "sha256": "c2816f98262bec22ee47160fe9b58ff19c1817978d1a89023dd681a93e4c6b7f",
+      "bytes": 7083,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_06_15.smt2",
+      "sha256": "0ce07ed658b39293e51e16f5a4566b2cdefb5fedae1fc5ce6a6e70ff98bff377",
+      "bytes": 19527,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_06_17.smt2",
+      "sha256": "1a1934ab1cb752c3ace5482b94b790a766d47efd34d7a6b9b5801f3df8795989",
+      "bytes": 22051,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_06_19.smt2",
+      "sha256": "184184492be5b8613c19baa283a79f44f9f80a3471759e9a3573d7f042527f41",
+      "bytes": 24689,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_07_05.smt2",
+      "sha256": "c04728fb6148d9b298e686abb515b2824efa8cd4588cb6ae12eb587482662ea1",
+      "bytes": 9401,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_07_06.smt2",
+      "sha256": "d7ecde00650de60e0820562c082f9f49e832be7042386700632ea108976816bf",
+      "bytes": 11070,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_07_07.smt2",
+      "sha256": "378102f3bc2fd6caf866af8f7a461ab1ba756464f25426c7a2ec8d82554b5a0c",
+      "bytes": 12739,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_07_12.smt2",
+      "sha256": "6581ddd23ba6a6334a09cd1b6dfa16c1c55ea574d26cb42db35e75bafd8b39d0",
+      "bytes": 21110,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_07_13.smt2",
+      "sha256": "051e004eaf2aabc9cfa31a77c738baa009620e06aa908049ad5884c514c828d6",
+      "bytes": 22787,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_07_15.smt2",
+      "sha256": "378e37f0c64026f27b9abea166ebc6d2696ecfacb2d2ea0169c2f2e64552c45d",
+      "bytes": 26217,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_07_16.smt2",
+      "sha256": "f9940ecfafa0f517e4d8903561a8e4b46bfd78c3a93c6b46a50d72eb50ca0320",
+      "bytes": 27992,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_07_17.smt2",
+      "sha256": "505f3a17add04bdf7a735d7b091a0e8d10ce9737f1369e4493f3d26d311a99f4",
+      "bytes": 29767,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_07_18.smt2",
+      "sha256": "7e86877d15caef7eaabcef696271a57fb21025ed74b740482db67b3c65793154",
+      "bytes": 31542,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_07_19.smt2",
+      "sha256": "cbf6f30e769f80ede8d197f0ebaba319e13bdf74ceec40bfc3c90197b23ae3f0",
+      "bytes": 33317,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_07_20.smt2",
+      "sha256": "df33840f0b195ca5f52c26f1295eee2290a4d5f9749be5deb9c4469a6ddcff79",
+      "bytes": 35092,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_04.smt2",
+      "sha256": "5b9f33ec7a0677ce92507839807ea4834e45ee91e489fb4a77fc949958ba0ed2",
+      "bytes": 9904,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_05.smt2",
+      "sha256": "8e27b6ce994bd5aedb33173208e324db5b9e0f36cef453e88f13398fd9879398",
+      "bytes": 12067,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_06.smt2",
+      "sha256": "1c2643bb265dce349570f08d52f81151dfc3543acf9a9255b255a24dec9c2908",
+      "bytes": 14230,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_07.smt2",
+      "sha256": "772561f2e55c25152d55e760321eb9e3164e9b8158db92d7cbbf7bbe90f93cf1",
+      "bytes": 16393,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_08.smt2",
+      "sha256": "039360be4e18be4f818bb53184be1a5594117f813c9240e99ee85bb064c53dd0",
+      "bytes": 18556,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_09.smt2",
+      "sha256": "3148a66cc0735b3928172c983ffaa98a579e246d4006d2e2f5f6615561fc461a",
+      "bytes": 20719,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_10.smt2",
+      "sha256": "598bfee74b382c6bc9611c26d3a76501f6ede0c73d52d2b4b929baed4fb4e449",
+      "bytes": 22893,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_11.smt2",
+      "sha256": "e988505528a4cb3d0dd1b77649575adf835d452c49a205eed29605d48254a572",
+      "bytes": 25065,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_14.smt2",
+      "sha256": "caab36f85b59a766ea0f0eda53f006a3c576a2667a209e07531b28c04d04e960",
+      "bytes": 31779,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_15.smt2",
+      "sha256": "58f2725f503b29a98acfb769ddfadf652ab31edc879cb125a2408c0baf33a381",
+      "bytes": 34079,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_16.smt2",
+      "sha256": "327c8d3af55b469f7790e1c2fb10f545cf9a035ab6d929c12a1510b1fbdb7ad4",
+      "bytes": 36379,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_17.smt2",
+      "sha256": "d0d892f8b208f52df3339ca78666f5dcae7f710f19a0de6348b050f2a36fe9da",
+      "bytes": 38679,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_18.smt2",
+      "sha256": "e82e2da40f4d616c8da4d9281db64321d57245201edecfdfb15904d13a855394",
+      "bytes": 40979,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_19.smt2",
+      "sha256": "de1bf18a7d100092e6ec2586413ae6a33fc5c7585efec52a0a1d84a317451025",
+      "bytes": 43279,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_08_20.smt2",
+      "sha256": "d274bc167ac34d9e10d98b460252a5c93917f4d82622e653a873eafcd1efeb1e",
+      "bytes": 45579,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_09_05.smt2",
+      "sha256": "6bf5ae29d2ce9a67538406f406efba016586364762459c72adf4e5ea61052673",
+      "bytes": 15092,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_09_08.smt2",
+      "sha256": "fed12d9e2ef1c5df5b98d321075c6a2f61102f23fea47c75aca4dcff8608831a",
+      "bytes": 23258,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_09_09.smt2",
+      "sha256": "1de403245b0d77b8d652e98963260c7b7ccc6b321c115449a98466e841292233",
+      "bytes": 25980,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_09_12.smt2",
+      "sha256": "3f6a1c43989917a013a82682186c8df03ff00a8095d10a688fdd292863db1a6e",
+      "bytes": 34328,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_09_14.smt2",
+      "sha256": "2b095a722fb5485cab1d4a06a02735ecb507ddaff03ab6594b36fbf06bb769bb",
+      "bytes": 40116,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_09_18.smt2",
+      "sha256": "51629f15ca0d4ab435df42e195684b5e43ba45f13bf1c4eeacbbccc0df678095",
+      "bytes": 51692,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_09_19.smt2",
+      "sha256": "1b0b0d633785cb45c77c83e88d807d3d8b418d24b38346648c90ba8d1e09fd90",
+      "bytes": 54586,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_10_03.smt2",
+      "sha256": "12a1acad0c631754d5f1aaf5e34d99820939973fc2d0801736695d6235e2a231",
+      "bytes": 11809,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_10_04.smt2",
+      "sha256": "112b708c19b946f2fdc63467f2a9cb8bbc47e2facdac0123f8c1f103f25fa82e",
+      "bytes": 15166,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_10_06.smt2",
+      "sha256": "7ed085569956808042eac28d47a3bf4e98447732c4bcc2c21a0ff188d2d3cb61",
+      "bytes": 21880,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_10_09.smt2",
+      "sha256": "37c7f88fd7d01beb38e952c182a6bba402300eae81237e3ee0b7dd3f4f403b4e",
+      "bytes": 31951,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_10_10.smt2",
+      "sha256": "32c2f5953dd1af1c57859939c2ce70ae7b981550819d6bf1b7ebd5e72efb40bc",
+      "bytes": 35327,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_10_11.smt2",
+      "sha256": "a24b5ec993b01c961874c1a4974d4f43c180521401e2eb5b7a7ea599232bc4fb",
+      "bytes": 38895,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_10_12.smt2",
+      "sha256": "d149674ad9c5b45d26e5a9a6fa07258824705df99d847fa79bed78edddde1c1d",
+      "bytes": 42463,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_10_13.smt2",
+      "sha256": "d9ca2dfeb2394730d7601d8eeae56bbb480b677da281873dff8af1c2b81b3ff0",
+      "bytes": 46031,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_10_16.smt2",
+      "sha256": "70e5c60c34460f6d5b933e775ef9a315311680493fad2cbd13b29db4970c6494",
+      "bytes": 56735,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Hash/hash_sat_10_19.smt2",
+      "sha256": "675fb32a7b7d5156f66f81fe2cfb38a3dfc6723e6df21376ccc310cfa1789c9d",
+      "bytes": 67439,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-05-06-2-2-5-1.smt2",
+      "sha256": "713484b7f2c61e27f1303cde71e01f05cb58da2c89e95a5607d99d675601881e",
+      "bytes": 3627,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-05-09-5-1-2-5.smt2",
+      "sha256": "c4057f408a5c1edec67f56a9ef9af835fba3019e5d53809ddda60745e8825ea2",
+      "bytes": 3627,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-05-13-2-4-5-3.smt2",
+      "sha256": "d0173505c29a0ffe9fb75d934b126f4bcaba0d6c86303bf870bdc3464d792cd0",
+      "bytes": 3628,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-05-14-4-3-1-1.smt2",
+      "sha256": "13e95eb7ce9607029cef783c015f82560a910be724287de9d9e6ba0b1afa3694",
+      "bytes": 3628,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-05-18-1-3-1-3.smt2",
+      "sha256": "8954ebbaf0485225157a028c18ae98f55be7af8896887629559bf52fc2d98f35",
+      "bytes": 3628,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-06-05-5-2-5-5.smt2",
+      "sha256": "47973d5aa7b4d305f70003ecca1032452345113921b242f6827b87ccf470f3a5",
+      "bytes": 4104,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-06-08-5-1-5-3.smt2",
+      "sha256": "b84ea1aea4d464aef83f0df2143af024b5cacfaf4e6e8a312e5c5f648e6063f4",
+      "bytes": 4102,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-06-10-1-4-2-5.smt2",
+      "sha256": "9fc1d4afc8a98cd35086bca8937225bc854afa573b4dc991aa5be5f9f16ff2bf",
+      "bytes": 4105,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-06-13-5-3-5-5.smt2",
+      "sha256": "fdce7b57ab8d1fe721b398556a8a4b28468bc9a406730a8487e2ef6e425e1f5e",
+      "bytes": 4105,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-06-17-2-2-4-1.smt2",
+      "sha256": "5b736634e046ad51bd570b5696d37b883d52937f7dcd530546953ba7871502a4",
+      "bytes": 4105,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-06-18-1-2-1-5.smt2",
+      "sha256": "79320e4917db4e444d3d6aec267aee987524d4762351d8401073ba0696c7cdc3",
+      "bytes": 4105,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-06-19-3-3-4-4.smt2",
+      "sha256": "93948580bd4a007f84f7da2c0aaf8ec021d24696d6adacfba72ab241642a8294",
+      "bytes": 4105,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-06-20-5-1-5-1.smt2",
+      "sha256": "8b53eb97b2ca5b15e8aea4e0d27483a42496397d68471b0db7e9f976962b6d6e",
+      "bytes": 4105,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-07-05-5-2-3-5.smt2",
+      "sha256": "c45cec6a1ee52de8d8bc88eb66397ee85db075fad4eb3cfd080c075781f04ab5",
+      "bytes": 4579,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-07-08-4-4-4-2.smt2",
+      "sha256": "abf443ee222df4ea587a9dc1eb42cf1dea9bb1e81fd97634cd6ee2d3f30b3f96",
+      "bytes": 4577,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-07-09-3-4-4-3.smt2",
+      "sha256": "c423f140fd0fd558603cde1ca68ed145a76ff7af499e049432bdde9c3a846ac4",
+      "bytes": 4579,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-07-10-2-4-5-3.smt2",
+      "sha256": "3b5e107ffa2c0ca758497f06765dfa56b3ad0d329b8d244b08e48e92aaecad7d",
+      "bytes": 4580,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-07-15-4-4-1-5.smt2",
+      "sha256": "34a69d640ba5e479111e7887aedf4cd180cbcea6de3b113f87bae779b481dba5",
+      "bytes": 4580,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-07-18-1-1-4-1.smt2",
+      "sha256": "8cfee1abfcaedfd275d9c6acea2f1b6310e4430e3cffbe1946e8d93d077680f9",
+      "bytes": 4580,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-07-19-5-3-2-5.smt2",
+      "sha256": "855c8f026b9891859a9e1f5b876b26feaef8bb777e03cd92ad4e97b0b128c66d",
+      "bytes": 4580,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-07-20-2-5-1-4.smt2",
+      "sha256": "8941ae74a3a125679265edb99aaed6209bfcab2c59374aeb7dbe5389a706495d",
+      "bytes": 4580,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-08-09-4-5-5-4.smt2",
+      "sha256": "69445c23ed2a628943548be60ba994653110b37fc989c568d12ea9f56a48f5a0",
+      "bytes": 5053,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-08-10-5-2-5-3.smt2",
+      "sha256": "97ecc0d5f6fce24b5ebf114daf30adbc736d58cfaedd03ed1b46ad3ac90ed75d",
+      "bytes": 5054,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-08-14-2-3-3-5.smt2",
+      "sha256": "3005f31fd775ffb3bcbf72da5616dfdb2a995fa9050511af1ac6de28f3993b97",
+      "bytes": 5056,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-08-15-4-2-1-4.smt2",
+      "sha256": "723d8e38ce223563c6e5830803b86fb6177e14ae7752a41ff5c7ab40e639d877",
+      "bytes": 5056,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-08-16-4-4-5-1.smt2",
+      "sha256": "2173f836d9c8af3f1c8e07cbb36c1ce521866121b542499161924d6808f471b2",
+      "bytes": 5056,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-08-19-2-2-3-1.smt2",
+      "sha256": "2986604ebf87e39c755fdb90144ed0b48bc759a8a8597cf65987fc830545c639",
+      "bytes": 5056,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-08-20-3-2-4-5.smt2",
+      "sha256": "2472450372b25aeeb6d5d0ce9fca0b5bbe80d9e63f42e87dbba62430e4aa76e8",
+      "bytes": 5056,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-09-05-2-4-4-5.smt2",
+      "sha256": "183e9ab57dd42ca3aa75bce5eaa025fb1db22081bfc801950bd9483509ba7a1e",
+      "bytes": 5534,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-09-07-1-3-3-2.smt2",
+      "sha256": "b447fbefdfe0a8665d98d61c914a0d71cc1e7b49bef9e691a7f2be839bbda208",
+      "bytes": 5534,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-09-08-1-1-5-3.smt2",
+      "sha256": "0de260816cf12a3e02e10944972148faa85281202d61a4fd3ab4337101fbcf2a",
+      "bytes": 5534,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-09-12-5-2-1-5.smt2",
+      "sha256": "adf84124af607e78da86d91fe6df99273804e4b93bbd7e09bf398a441f5031ec",
+      "bytes": 5535,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-09-15-5-3-2-3.smt2",
+      "sha256": "0cc2fac1b260726006a7cc6c4198659bda521a4ac955c32766202d44286e5114",
+      "bytes": 5537,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-09-17-2-1-4-1.smt2",
+      "sha256": "e3c48fb78e9252b3e9702a2f5ac7c4a0a49c319e51a45607bd1b79311f5f3a3d",
+      "bytes": 5537,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-09-18-1-3-4-5.smt2",
+      "sha256": "ceade28189c042e5799311020f5a0df08dc538142072acf89aa2c105b544c4ba",
+      "bytes": 5537,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-09-20-5-5-1-5.smt2",
+      "sha256": "344f8f764793822d13f8f8d71a3b85fa108fae7241a02efa01e18cd18d902a83",
+      "bytes": 5537,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-10-06-1-1-5-2.smt2",
+      "sha256": "32d1b9b30110ec5311b28eac4e9d90d2b7bba5f4cfc26a66e633b624847e73c0",
+      "bytes": 6017,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-10-07-4-1-1-5.smt2",
+      "sha256": "3e3b1556112cfa82b22e973520d2a53dcc589078569771d2648955471d2d20bc",
+      "bytes": 6017,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-10-08-2-2-4-5.smt2",
+      "sha256": "b415ca641520d0a2d7a64b99600ebd19912c125558b861aecffd7692cf7cdd64",
+      "bytes": 6017,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-10-11-1-3-5-5.smt2",
+      "sha256": "689bf5f968455132739bc28edcc1dfdf9b178e564256b0ca884d4483d07b5504",
+      "bytes": 6018,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-10-12-4-1-1-4.smt2",
+      "sha256": "257e86f8fbc90398584d5dff205d8c270782536e13812173d722be58600cee83",
+      "bytes": 6018,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-10-13-5-5-4-5.smt2",
+      "sha256": "fd619f43c684a73d059230ba65550c746fe10f6fa8d7d441b98f41ab5e9cd261",
+      "bytes": 6018,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-10-16-3-5-2-4.smt2",
+      "sha256": "9a05dad5a81164f474d945f5399a7e5b1301bff1d82c5c8239abed54a1217262",
+      "bytes": 6018,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-10-17-5-2-2-5.smt2",
+      "sha256": "a143020c00d1b33a63ed92048a92da3097616091f2f0a9351bfd9333d958647f",
+      "bytes": 6020,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-10-19-3-4-2-4.smt2",
+      "sha256": "0d20e9da2587ef8f4a368a46b519bf18442329802501129222279ced1f622422",
+      "bytes": 6020,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-11-06-4-4-5-5.smt2",
+      "sha256": "1453bbc3593be800ff33066e3cd79a1489b82388c6723c415c439518e91ad384",
+      "bytes": 6502,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-11-08-3-4-3-5.smt2",
+      "sha256": "33ee8e3b9ab7c1e925ec806ed7da892798d518d74c2e8174bb7a4dfa3f4e2dc4",
+      "bytes": 6502,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-11-13-4-4-5-2.smt2",
+      "sha256": "20888887962a216eb64e63b585a43d614788a87f2ff1285d2382a183cb02f003",
+      "bytes": 6503,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-11-19-4-5-1-1.smt2",
+      "sha256": "1751c9104041bdf77bb37737723ff195d066731f2b57186b29a801a178c0133f",
+      "bytes": 6505,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-11-20-5-2-5-3.smt2",
+      "sha256": "c1c3f6abe638f583a1d3bc61eb8d0e8a0519aa2ec84a7729f9db732855ec8143",
+      "bytes": 6505,
+      "expected": "unsat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-12-06-3-4-5-1.smt2",
+      "sha256": "40551511f34afda3bae925265e29f7c9b8d40dc189d0c8c53074fa494f8b094c",
+      "bytes": 6987,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-12-07-3-4-1-2.smt2",
+      "sha256": "a90af7b55ee743851421f9738555017dff7ec9fb01f24d2e73c064850e71a36e",
+      "bytes": 6987,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-12-08-5-2-5-3.smt2",
+      "sha256": "8c9e84e0d9bed824426483a966b76a3ca676ec5ccc5431d4cafae7b00a75e9c5",
+      "bytes": 6987,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-12-13-3-4-2-3.smt2",
+      "sha256": "63472d5a51bb18db21c8dac53e4e4fdd6b7bcec20be74d7f135a2998b8332cc2",
+      "bytes": 6988,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-12-15-3-2-1-5.smt2",
+      "sha256": "d4cb523f1c7298343fafef0bf949923a643146bf8ac0670fba42c5a0c6bb6e2d",
+      "bytes": 6988,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-12-16-5-2-2-3.smt2",
+      "sha256": "29e4d26075e284a7e7213d91412f6640740d7ad4d163a63c9cbdb4ce3fa52748",
+      "bytes": 6988,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-12-18-1-3-1-2.smt2",
+      "sha256": "0dee18f0e51bce94659f721a867672234b17be91d47e6a6a736b4fbba03d5546",
+      "bytes": 6988,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-12-20-1-1-5-2.smt2",
+      "sha256": "f3eb33033a5d1bdf323bdeb4be5bee535b266f5035703084f7536e52e50e373f",
+      "bytes": 6988,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-13-06-1-1-2-4.smt2",
+      "sha256": "9fb27c54d21ec528a1973bb331cb0deb784c049a2f36fcb1dbadbd3c9a5b3478",
+      "bytes": 7472,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-13-09-3-2-3-2.smt2",
+      "sha256": "811ff0a4a61c286e3c9a551a05b37c0cdcdfdec1a0b6a96f9253ccf600eb594d",
+      "bytes": 7472,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-13-10-4-3-1-3.smt2",
+      "sha256": "fe539c5ebb7e409139b6cb992a55459304a585874d41f225602e3ced672c7795",
+      "bytes": 7473,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-13-11-5-3-5-3.smt2",
+      "sha256": "a12dc913f4349a8801f1f4bf14da17b5835a36579036632fa651ca2ed0656bd8",
+      "bytes": 7473,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-13-12-5-3-4-4.smt2",
+      "sha256": "023f0ddaf5a2c86b40d5b2647ffd09cf429f2943e3b14f39a9036f538129837e",
+      "bytes": 7473,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-13-14-4-5-4-2.smt2",
+      "sha256": "6b038d9ecbe1151ae0882f8c658bed83e9286e5ab1ca31e4197cee6610e0adc0",
+      "bytes": 7473,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-13-15-5-3-4-1.smt2",
+      "sha256": "37322b8f03014e241d7416008a88e11a7ba956329209f05e94f8710bd8d2e990",
+      "bytes": 7473,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-13-19-4-5-5-5.smt2",
+      "sha256": "268d0f92278d6845724cc6a1a140ac8d6359922e7a8e2cd530afe92b899523d0",
+      "bytes": 7473,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-13-20-2-2-4-4.smt2",
+      "sha256": "c0c097d654fe4e4d4f6b7d5b6722f5421d6df0775ef0e1c8286e0767b5c6e6d1",
+      "bytes": 7473,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-14-08-5-1-1-4.smt2",
+      "sha256": "c24e3f0857d62d15556d79d56a47472596ce37ebbd001c5f973754f8a3f3fe64",
+      "bytes": 7957,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-14-09-3-3-4-4.smt2",
+      "sha256": "79bdac97ff433fc9cec718584d1ebe692e1611591aed0d8434e9746ec6105e29",
+      "bytes": 7957,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-14-13-4-2-1-3.smt2",
+      "sha256": "83f55ccca034c309820c19bc10fbb1f2d4964f45e5de7496cfc52628d2d8a168",
+      "bytes": 7958,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-14-15-1-1-3-3.smt2",
+      "sha256": "6bb25a9da819ca312e3cd37ec8be046e09b2bc3daebc2042efae76ed88fc5e3d",
+      "bytes": 7958,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-14-16-4-1-1-5.smt2",
+      "sha256": "1e1198d7821eae01a8ecc353ee90acd99f823d3da205e4327d275600f7295887",
+      "bytes": 7958,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-15-05-2-1-2-3.smt2",
+      "sha256": "10d963c3ed0503d7211bb4ca251246d3335fb3982b2798cbda9db7e9d00fcfb4",
+      "bytes": 8451,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-15-09-3-5-5-3.smt2",
+      "sha256": "df9de3415f13edf9845ba54f085a9037eacd143495f202be787b61a8e612cf9b",
+      "bytes": 8451,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-15-10-1-3-5-1.smt2",
+      "sha256": "b406b692dedff1237efb1de85d8a0395300bd63c8d5e41d33a95393b658efe5d",
+      "bytes": 8452,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-15-11-5-2-2-2.smt2",
+      "sha256": "4b90115ebeec7d6e459961b45efb032caefb1d7db26c8d19b65c6125c7ac7acc",
+      "bytes": 8452,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-15-13-4-5-2-4.smt2",
+      "sha256": "ea2b044bb864e54295bf1fce98a1cb1000222730dd30faeae1be960e7c4388d2",
+      "bytes": 8452,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-15-16-2-4-2-5.smt2",
+      "sha256": "89417d07990b8b0c5b5a528c96bb0fbab6263fd51cff9a9dc888966bad728bfd",
+      "bytes": 8452,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-15-17-2-1-1-4.smt2",
+      "sha256": "9fd685bdd97e950411d0cf3f1eebea90cd807274a187d3b3d6abfbabb3520ea9",
+      "bytes": 8452,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-16-05-5-3-1-1.smt2",
+      "sha256": "4d19290f83ebb436dce70960f0e0864b70311a39dfaca0a3d4098f9a131b73e5",
+      "bytes": 8957,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-16-06-4-1-3-5.smt2",
+      "sha256": "04f2d8ff52b60a4066f7a18974c7b0f445d89526e992c7f21ee209bdad17e80e",
+      "bytes": 8957,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-16-07-1-1-4-2.smt2",
+      "sha256": "229ed9f726b8d9905e720fb57ba4b4495d56863ce9e1c0a52ba6febb96ca0ed7",
+      "bytes": 8957,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-16-09-4-2-1-5.smt2",
+      "sha256": "b7925d4efb3ceabffac616255bbe3f35465fb943d2c427982f85da902d8c56f6",
+      "bytes": 8957,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-16-13-4-1-4-5.smt2",
+      "sha256": "cf5332795546f1e733b57898d2f0f8029571c41caee3a39deba1fbd8b6a1919b",
+      "bytes": 8958,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-16-14-2-4-1-4.smt2",
+      "sha256": "4420c5553b3ba9971464fe1fe2a2fe3fd72c406a1cac87a990af23e888182307",
+      "bytes": 8958,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-16-15-2-3-4-4.smt2",
+      "sha256": "6d8055f6f9bfa8edb145085800b6b4872ce11e284b6647c881bd2c127176ffea",
+      "bytes": 8958,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-16-17-5-5-3-5.smt2",
+      "sha256": "7c074186f41c87b47ecf1c62820dd5db1af1cf08c572521bceb9d376df538a52",
+      "bytes": 8958,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-16-18-1-4-4-3.smt2",
+      "sha256": "ebe1bfb534115dd0bf3aa94b2f447d23068913e3f2ff34abaa64aff4e1a98dec",
+      "bytes": 8958,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-16-20-5-1-4-4.smt2",
+      "sha256": "fef17efab4e42fb96cac16611b6f15276030f84343f692f83ff37d5a5c1bf643",
+      "bytes": 8958,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-17-05-2-1-1-2.smt2",
+      "sha256": "623f56d1d48bee21959694deff04af0e9dbf8e93a75f7c6037f27744196a9346",
+      "bytes": 9466,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-17-06-5-5-4-1.smt2",
+      "sha256": "7c8090d1a9c4b055e17bf97213f86fdd2e45b3445a030d5746df48077f6805dc",
+      "bytes": 9466,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-17-07-3-4-4-3.smt2",
+      "sha256": "92c7f08edc87c9cf93be632455ad1098bc09656603c32b2489485eccb886f035",
+      "bytes": 9466,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-17-08-5-3-2-5.smt2",
+      "sha256": "9c72bf2abaeb995d94107f51fca3f205ed4137ed39c1dd8d332f3126f37c59b0",
+      "bytes": 9466,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-17-09-4-3-5-5.smt2",
+      "sha256": "0f64bd7a43433bbd96a00e40579c9e97e0502c66a8d12e2c47df71de9fe9622b",
+      "bytes": 9466,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-17-12-3-4-4-1.smt2",
+      "sha256": "75d18504689202dd75f35657eb44c4c67c212929125876026a98f77455012213",
+      "bytes": 9467,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-17-13-4-4-2-1.smt2",
+      "sha256": "2dacbf67aee13bccfaf10f717e7af3b2ef68e96b8e4053aeb5eaebad3a66f05a",
+      "bytes": 9467,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-17-14-2-4-3-1.smt2",
+      "sha256": "2c733cc588090f79c7ace1ecff9fa86852f77566d6afbdeed4b006d9ee12ca75",
+      "bytes": 9467,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-17-16-4-4-1-4.smt2",
+      "sha256": "e58ab82101345273d9f87cb7a0d359aa3269e251db45625a6dc2dbab785f3a82",
+      "bytes": 9467,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-17-18-4-2-3-1.smt2",
+      "sha256": "f3a85a2c135931a5718a82aeae9e842191c69045d22e073ac3bad10dcbdd9911",
+      "bytes": 9467,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-17-20-5-1-5-4.smt2",
+      "sha256": "5c90b8050f38bf00275ef61f1da60ee5017606d500e2d2a22406ff35c94eac7d",
+      "bytes": 9467,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-06-4-2-1-1.smt2",
+      "sha256": "b834a9355e96745bd4114a28bf8805b8c198e1ddd82042f88c9ee262eeab5d95",
+      "bytes": 9978,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-08-4-5-2-5.smt2",
+      "sha256": "5439bfda6e497eb47d18c10b9d7c26b8a5afbe2e1bdb126b455dfddad8c2df3d",
+      "bytes": 9978,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-09-1-5-4-4.smt2",
+      "sha256": "2055ebf7b9d683ff00addcd8e76098c6e5da879292a9f3ec5383a11d63f944dd",
+      "bytes": 9978,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-10-4-5-2-3.smt2",
+      "sha256": "426b56f75f6f758ddb81db81a1460f9eea3ab61f208f1babbf3945e1b3c903fa",
+      "bytes": 9979,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-11-5-3-1-1.smt2",
+      "sha256": "65a22629b4ffbb1d4c21b0a68156dd4e333032f4733c38ae2c6173536bb9fc82",
+      "bytes": 9979,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-12-3-4-4-3.smt2",
+      "sha256": "09c1009dde1e320f7dcaebcdd6e8aac3456df7f816827625019c97a44b71209d",
+      "bytes": 9979,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-13-5-4-1-2.smt2",
+      "sha256": "918338265ede408d7cd15b7255ec6def35ace272421ec307fc21df7c7cd17258",
+      "bytes": 9979,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-14-3-5-2-3.smt2",
+      "sha256": "e601f7b1c1f6a6c47945fa1d29fdb2c4a790bd3b82c7d3cae3cee7fc24247f59",
+      "bytes": 9979,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-15-4-1-3-1.smt2",
+      "sha256": "dd19126f8099ad66a1402f68b5549990ce7983e001747a35f07cc322744bc26e",
+      "bytes": 9979,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-16-2-2-1-4.smt2",
+      "sha256": "6a83de1254c12728a46f7b342db45a2dbe96587d93906999ff7a5f31d6ae7bd5",
+      "bytes": 9979,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-17-4-5-2-4.smt2",
+      "sha256": "4ad1cbd2ab059ef4c33438b6aa444c87174e5c732b344dcbd6fb48f1f36b37a5",
+      "bytes": 9979,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-19-4-1-1-5.smt2",
+      "sha256": "3a30c8b57430901063df752011a9637d922037b035b5d93b640125bd2ce6cf4e",
+      "bytes": 9979,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-18-20-1-4-2-1.smt2",
+      "sha256": "cce5a040d2eaf94906645f640595c5c113efefbc79d96f34d2f2be692e0608da",
+      "bytes": 9979,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-19-06-4-3-2-1.smt2",
+      "sha256": "b44a85e09dcae536fa577566ff78dd2359de0861ad57be23804c75ef7301fd6e",
+      "bytes": 10490,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-19-07-4-2-4-4.smt2",
+      "sha256": "ed83d2ffa41b8cd8cad25abf047d83b35ee43a2f6dfaa68c83da45a3e40f2556",
+      "bytes": 10490,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-19-09-4-2-3-5.smt2",
+      "sha256": "19f0b68bf1844f7c750cbaa5b32a3696225959050ff280335aa91229bed13ef0",
+      "bytes": 10490,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-19-11-4-4-1-3.smt2",
+      "sha256": "388e01be609794ad439d9976cd3e414cd7b5262334e1ae4262e3317be56c0d17",
+      "bytes": 10491,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-19-13-2-1-3-1.smt2",
+      "sha256": "e88f8c76727a270adad549550f4dc155281f9d0cc751701a1a67dc79fb8a1b63",
+      "bytes": 10491,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-19-14-3-3-5-3.smt2",
+      "sha256": "81d3c1d0aaef82a6f9302c378680c6525bf06a87d6737a188f3c34c53d969c8f",
+      "bytes": 10491,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-19-17-2-2-5-1.smt2",
+      "sha256": "6a9ed438b1af7db174e831c9ec00c03befa4017c09a808ad361da5fa661cb344",
+      "bytes": 10491,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-19-18-2-2-2-5.smt2",
+      "sha256": "487146c2ade7051c0e1bafec1a0a4bc19a268844f8069c4ade037dd4908fd2f6",
+      "bytes": 10491,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-20-07-5-1-2-1.smt2",
+      "sha256": "1a79070a1c997a1a6f9e1af98c45316ccd88f2790f856419bb6aebd09a0dc6ea",
+      "bytes": 11002,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-20-08-5-3-1-5.smt2",
+      "sha256": "c1a4b50e71e5999247e2c006694a77d18a8800f1fff1b08ec65de0df09eda857",
+      "bytes": 11002,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-20-09-1-5-4-2.smt2",
+      "sha256": "9e46a05773c3a12c81e2ccf5a0b2dbe4a83832cda756e2bc9e6a01ae42d807a9",
+      "bytes": 11002,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-20-10-5-5-5-4.smt2",
+      "sha256": "e1ca054fab29c33db5644f89b8aa959689d4174c06eaf97c9b4ec00db61cb3e5",
+      "bytes": 11003,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-20-13-2-5-2-3.smt2",
+      "sha256": "24b9f5a37f3e6ad6fb33211c48af123721835b4e9a7f5e8110b80e30e9476e9f",
+      "bytes": 11003,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-20-14-2-3-3-3.smt2",
+      "sha256": "f32cbee82c85593ddb35ffee5367cb69010211f52e88fc0f3dd55350358d95a1",
+      "bytes": 11003,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-20-16-4-4-4-1.smt2",
+      "sha256": "eef9edc1b5153a6b21dc203f046b1545213f406fe0c612abfc2e29d8d37966e9",
+      "bytes": 11003,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-20-17-5-4-5-4.smt2",
+      "sha256": "b0713f0ff505aa617257d373ef1639e7648f984ecb7d934c3ab67d06297c357d",
+      "bytes": 11003,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-20-18-3-4-5-4.smt2",
+      "sha256": "aed518b53f32a84e4d549c542588d58258a09798912c01c36e6169bb9eaeb82a",
+      "bytes": 11003,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "mathsat/Wisa/xs-20-19-2-2-2-5.smt2",
+      "sha256": "dc612413e1f78373ae8461db6cd99f86961c4d493cd9f7c421714edf453fb9d8",
+      "bytes": 11003,
+      "expected": "sat",
+      "family": "mathsat"
+    },
+    {
+      "file": "wisas/xs_10_15.smt2",
+      "sha256": "69464841b781fc72d9018d72508e41d51efb581f5117175c65dd379fbc26122a",
+      "bytes": 6493,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_10_20.smt2",
+      "sha256": "5328d4402bb86583b8eb11c092dadd15350b063022f7f2699a0a301192b746b0",
+      "bytes": 6495,
+      "expected": "unsat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_11_11.smt2",
+      "sha256": "136234cd3f708e879692872432a16e7d5f38c4fbc8e3ac4bf04372482c498d3e",
+      "bytes": 7024,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_11_16.smt2",
+      "sha256": "ff88b0901adf6bd10b768763a55e84edcb5c9b3e3400b121537892c4c2fde2c3",
+      "bytes": 7024,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_12_17.smt2",
+      "sha256": "d7543778885fc4f929bc27e868ccc6e00043084e8102bfa467c56cbb0ca71b91",
+      "bytes": 7572,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_12_22.smt2",
+      "sha256": "957d3e91c11e8c9e51c7e075d0549005fbe8b58637d89d143a54b8e4d060d8ac",
+      "bytes": 7574,
+      "expected": "unsat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_13_13.smt2",
+      "sha256": "79bc628201e189fea8bf3ce976b57859a2ae018600db870d4561e1c8d2cbc247",
+      "bytes": 8130,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_14_19.smt2",
+      "sha256": "be3571282fd94e83d9c7775e17a0e0df4bf2fc28e2674f4bf88c46f7d919a2c4",
+      "bytes": 8688,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_14_24.smt2",
+      "sha256": "47929afe8ff752079ea9673ad1eea06859bac1e181d0655b37cba550b605d7d4",
+      "bytes": 8688,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_15_20.smt2",
+      "sha256": "8cbc0dc43cf427e58547c69fc3460f60c7738d05e1b6fe86e0c11005874ddea3",
+      "bytes": 9246,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_16_16.smt2",
+      "sha256": "d541a98fc17647aea32872c5ab028e1250f749410ce3efc4ba32720a273a128a",
+      "bytes": 9804,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_17_17.smt2",
+      "sha256": "8a6ae9c3fbe600ea19a02c705b937adb5a943d2d8bb9876c6165bf1dea0cb693",
+      "bytes": 10362,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_17_27.smt2",
+      "sha256": "20ee6d03f3aa3dadf04fa5ef43280417fb22d4d331e346d7a809749d30ea1ee2",
+      "bytes": 10362,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_18_28.smt2",
+      "sha256": "fa34440056a4edce478c8ea0a6650d31eb47889849da4aba9a41cbfb719d92a5",
+      "bytes": 10919,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_18_38.smt2",
+      "sha256": "6202b5ddb33565ed3cf4847fca6a3726603b8554d10447ee674e40470adcf3f7",
+      "bytes": 10921,
+      "expected": "unsat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_19_19.smt2",
+      "sha256": "61788f0c69f55be6ee93e3412b39d14f96ffe5ae52bf16a25a8654d07543511e",
+      "bytes": 11477,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_20_20.smt2",
+      "sha256": "6b99f3a9e7353fa9b401bc29554cab4d56f8959fbce4d27b8180a2bd1808534b",
+      "bytes": 12036,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_20_30.smt2",
+      "sha256": "8a82b95142cb0bcf613aa54456e9e3ee7ca0a2443b4413e509c3de2ad7e8cfa8",
+      "bytes": 12036,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_21_31.smt2",
+      "sha256": "f22c4c52159cb9be48e75ccd2600fb275ea85a5759a45c035e0c4a8300eccc80",
+      "bytes": 12594,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_21_41.smt2",
+      "sha256": "f0a0de44d386eb4e3bbe105511f037075239a0fcca4990e2087e2bed7e6ada0f",
+      "bytes": 12596,
+      "expected": "unsat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_22_32.smt2",
+      "sha256": "d338056b3b310b83d7c49a1d27951febd2a9456b8eff4ce168a2eb73264f812e",
+      "bytes": 13153,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_23_43.smt2",
+      "sha256": "f8cc3c756811c7e0e3bd843c2f426647615674edde1db27e26d76e21f6340743",
+      "bytes": 13713,
+      "expected": "unsat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_24_44.smt2",
+      "sha256": "8f45e31163fef6ba6af7f197d8a8ccdd932f38140ca86035f3e0cf032b9c440e",
+      "bytes": 14270,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_25_25.smt2",
+      "sha256": "1a5d7413fac4732f97bb99213c82d3080021068b1cf836585b6578d3d3c0e010",
+      "bytes": 14828,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_25_35.smt2",
+      "sha256": "5690f67a2e02051ff2dc9551f95562aec690b35550cad1bb2b5471772a780335",
+      "bytes": 14828,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_26_46.smt2",
+      "sha256": "ba46fd580314ed8a12a76fc14dc75ad1fba8c998f630cbd558e34b581ec65442",
+      "bytes": 15387,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_27_37.smt2",
+      "sha256": "7666ebc0bf999be2872cdd5eb86e5da10007bd7226d9798be03d4dab8f7ca14f",
+      "bytes": 15945,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_27_47.smt2",
+      "sha256": "3e0ad654e08a68996ea025d4d53838e9717bd08f1ecd4b0a67059df6d88202a5",
+      "bytes": 15945,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_28_28.smt2",
+      "sha256": "a33717f40d074a269be11d2a1500009319e379c548f9dfc6eaec4eaacbd80f52",
+      "bytes": 16504,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_28_38.smt2",
+      "sha256": "cd31505828dc50b6f3f0fc82a28073e350392c7159ad48d75bf976e16ee9a8e2",
+      "bytes": 16504,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_28_48.smt2",
+      "sha256": "35a7d5e684256f6534c855297725eee577bd445d3fcb1fdc0fd8bd5a70472b78",
+      "bytes": 16504,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_29_29.smt2",
+      "sha256": "ae86889ae4a2e2db1c6240b48999e476ad320b37173edcff7b83f59d4f761c36",
+      "bytes": 17062,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_30_40.smt2",
+      "sha256": "53430d2438157046de3ea347f76a99c4a322ffc9b7a4a2219635442f55d2f009",
+      "bytes": 17621,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_31_31.smt2",
+      "sha256": "142e202bc5c42cfcecf99cceafc853c17c081f1e9ead7ec42a2a1775dc2c56fa",
+      "bytes": 18179,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_32_32.smt2",
+      "sha256": "dc6f52e52745da81ae3755db2ca544163e9f17469bb0abdeefa570af26882ba6",
+      "bytes": 18738,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_32_42.smt2",
+      "sha256": "93d7d5a3313f31f30ca3beff0d192de0f421cd0f1234f5c8095f75ae45d17743",
+      "bytes": 18738,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_32_52.smt2",
+      "sha256": "7cb8ce693218c1bb2d691dab6289e1067d10da0b853c4099a48e465f70e46169",
+      "bytes": 18738,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_33_43.smt2",
+      "sha256": "2917e473aa98b3eeccb5fd00ef7db60e6f4296a0c0883c1e190beffda154333f",
+      "bytes": 19296,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_33_53.smt2",
+      "sha256": "1ff68fd4cfd297d1e9e93ee8451af735ffe173e5c959fd5fc9ae64391d77ab53",
+      "bytes": 19296,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_34_34.smt2",
+      "sha256": "6ea3849147d57ff43f5386e24d2f97fa6583baa03e4db230a83248cff4b306da",
+      "bytes": 19855,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_34_54.smt2",
+      "sha256": "c416634fbb11c230ca39df2f3d4748c1c317005e2611126533dfced02efbc0c8",
+      "bytes": 19855,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_35_35.smt2",
+      "sha256": "e6404957d26e6e3594aabd764211b25529d3eceff81565f3d9857dde43991159",
+      "bytes": 20413,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_36_36.smt2",
+      "sha256": "ac84ab3ea631847f2ed5b37ac89e308e4c0d1c070f2d2919dbcf97a2db173a59",
+      "bytes": 20972,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_36_46.smt2",
+      "sha256": "a0d10b5001f3ebb2eb1fb4e24635aee07f3b8ed59ad2450a65b190e87724ce39",
+      "bytes": 20972,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_36_56.smt2",
+      "sha256": "7a89f2ab135048b798ab660b5153a4189413aaf9d986e3c77e6e620b72431382",
+      "bytes": 20972,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_37_37.smt2",
+      "sha256": "3cdf2e00509115f2cbf6bc29ed9c12f13f34b19bccfefba68be6574576f17198",
+      "bytes": 21530,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_38_38.smt2",
+      "sha256": "14f230ccbca918959e04f6004ac27f06ea67127c00dc269432376ad5ed0fccc2",
+      "bytes": 22089,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_38_58.smt2",
+      "sha256": "24470c72b0d806b8c7700e5f48b142b742d8dde53fac4d23971cf43dc447bb97",
+      "bytes": 22089,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_39_39.smt2",
+      "sha256": "72b438a8e7b704cb2f09b10ede08b62e3f485e0b0bd918b749770536459ac6e2",
+      "bytes": 22647,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_39_59.smt2",
+      "sha256": "3ca156dede687955b9e6111c6a4114541e4653cd61e08a7969d4532b7cc519e8",
+      "bytes": 22647,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_40_40.smt2",
+      "sha256": "7450eab248d10fe2249b66f6738190cbbd00c1b998c27de4920e5d762516e5e7",
+      "bytes": 23206,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_40_50.smt2",
+      "sha256": "af9ecc874a0afc078e8875f73ad172f362782d387c1c69b0e59bdc2e9e9fe421",
+      "bytes": 23206,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_40_60.smt2",
+      "sha256": "fa124901569f60ea66d681caf79e6c5caec2563eb74343f7aa57a37ba857c312",
+      "bytes": 23206,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_5_10.smt2",
+      "sha256": "a06f70dc6091c80a6fad804d6de87c316308a87bb9200ce04c2e385ca955e795",
+      "bytes": 3869,
+      "expected": "unsat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_6_11.smt2",
+      "sha256": "35c994342c1f6512d7924042bbc942dbb2da86cf5c7be39a5383de70adee6708",
+      "bytes": 4385,
+      "expected": "unsat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_6_6.smt2",
+      "sha256": "d2cb37ec22d3c74bc001afbec16ba71eec84215775328972614a0305d820243a",
+      "bytes": 4384,
+      "expected": "unsat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_7_17.smt2",
+      "sha256": "391a8cea4ddc0442e0981356b2d3686544290d395c011133275d77426806e1de",
+      "bytes": 4912,
+      "expected": "unsat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_8_8.smt2",
+      "sha256": "cad3a158240e69802daa0fbbf8bca94088ba24837a216fc03f0c248441185828",
+      "bytes": 5436,
+      "expected": "sat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_9_14.smt2",
+      "sha256": "ee1976c22e65cd50abd9f0bedacfc5af3f9786531f4b90b62b1f1a084d4c091d",
+      "bytes": 5966,
+      "expected": "unsat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_9_19.smt2",
+      "sha256": "16d0c78d09b3229c2010369e42b31c897879cc26fc4a769b9f770c2493e54786",
+      "bytes": 5966,
+      "expected": "unsat",
+      "family": "wisas"
+    },
+    {
+      "file": "wisas/xs_9_9.smt2",
+      "sha256": "fb2be7c416ea11d6ddd1b88041b285cc30fd13f7af1b850ae0eab1822e6b2712",
+      "bytes": 5963,
+      "expected": "sat",
+      "family": "wisas"
+    }
+  ],
+  "profile_args": {
+    "off": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=legacy",
+      "--qf-uflia-tableau-equalities=off",
+      "--stats"
+    ],
+    "legacy-all": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=legacy",
+      "--qf-uflia-tableau-equalities=all",
+      "--stats"
+    ],
+    "model-all": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=model-unit",
+      "--qf-uflia-tableau-equalities=all",
+      "--stats"
+    ],
+    "legacy-fixed": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=legacy",
+      "--qf-uflia-tableau-equalities=fixed",
+      "--stats"
+    ],
+    "model-fixed": [
+      "--quiet",
+      "--qf-uflia-lia-equality-producer=model-unit",
+      "--qf-uflia-tableau-equalities=fixed",
+      "--stats"
+    ]
+  }
+}

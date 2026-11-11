@@ -1,0 +1,39 @@
+{
+  "status": "READY methods only; campaign results pending",
+  "reviewer": "Independent read-only uflia_model_unit_docs_review",
+  "baseline": "80f8dc88",
+  "accepted_sha256": {
+    "docs/evidence/uflia-smtcomp2026-20261111.md": "ecb7bf8fc19ca901454f1c055d056fb03859eafc1c34626b994584e16392d387",
+    "benchmarks/uflia-smtcomp2026-20261111/selection.json": "2ea21ae16aba731a79596981f3b5122a60149418bfc674754561cef02c68cb83",
+    "benchmarks/uflia-smtcomp2026-20261111/references.csv": "1edb27bdd2d942182801d9eacd359e712bcebb84b522206bc4237a9a868a852e",
+    "benchmarks/uflia-smtcomp2026-20261111/dependencies.json": "9b5287b1d72f333ccaa9bc177d52d538bfcd580bf88ecf99e0e0993bb65736fa",
+    "scripts/qualification/uflia_smtcomp2026/run.py": "93600df8a1fbe313a902fc30563f11ee7a103431c269af14dc298e22628072a3",
+    "scripts/qualification/uflia_smtcomp2026/run.sbatch": "b5ee8ab782638cf9a32bd1d751300678a0536c02d897db6aa51ffc97a6659d33",
+    "scripts/qualification/uflia_smtcomp2026/report.py": "3e80c0cb8139c0b6829645bfa675c50283e6bfa622bd78043c76d149d8d8cc66"
+  },
+  "findings": [
+    {
+      "id": "SMC-M01",
+      "resolution": "Linked reused reference rows/upstream archive and worker/wrapper/auditor; retained external scheduler dependencies establish both global barriers."
+    }
+  ],
+  "suggestion": "Explicit original-reference-answer gate added to report.py and rechecked.",
+  "independent_checks": [
+    "Official gzipSHA,300names and family counts",
+    "All selected input hashes vs prior inventory and1200reused rows exact vs archive",
+    "Five ordered option sets match preceding qualification; production C++44eee3c1\u219280f8dc88 unchanged",
+    "Timing/resource/model limits and retained scontrol dependencies",
+    "One whole-selection Primo profile, shared full/filtered choice, uniform axes/colours and no per-input portfolio"
+  ],
+  "unchecked": [
+    "Campaign outcomes and completed model coverage",
+    "Plots/rendering and links",
+    "Remote payload content beyond retained hashes"
+  ],
+  "writer_checks": [
+    "Four metadata/fake-executable unit tests passed; no real solver executed locally",
+    "Ruff and batch syntax passed",
+    "make lint and docs build passed;291pages/41344local links/1232Git links/0failures",
+    "Rendered methods table/limits/links inspected in results/uflia-smtcomp2026-20261111/methods.png; no overlap or clipping."
+  ]
+}
