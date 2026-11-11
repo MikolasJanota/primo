@@ -401,3 +401,10 @@ now checks those profiles on Rings, LassoRanker and Clock7 main invariant. All
 12 pipelines verify, but arithmetic steps are unchanged and size/support return
 the same bytes as the cheap pass. The 12–24 second size/support adapter overhead gives no
 checking gain here. Profiling precedes further optimization work.
+
+The [gprof follow-up](../evidence/checker-gprof-20261111.md) puts 71–74% of
+combined baseline CPU in the producer command, including waited-for external
+SAT, on those three cases. Kernel
+samples concentrate on number decoding and replay; native certificates expand
+to 90–166 million primitive proof steps. Profiles and replay inputs are retained
+for the checker author. No checker optimization is implemented.

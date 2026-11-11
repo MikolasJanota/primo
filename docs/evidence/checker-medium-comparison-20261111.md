@@ -5,7 +5,8 @@ On Rings, LassoRanker and Clock7 main invariant, size-first and support-first
 produce exactly the cheap pass's certificate bytes. Arithmetic proof-step
 counts are identical even to the originals. The size/support adapters add 12–24 seconds
 without reducing checking cost, so these trials justify neither repetition
-nor a default change. Profiling is the next step before further optimization.
+nor a default change. The subsequent [gprof experiment](checker-gprof-20261111.md) separates producer
+and kernel CPU before further optimization.
 
 ## Results
 

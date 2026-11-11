@@ -118,6 +118,7 @@ parts:
       - file: evidence/arithmetic-coefficients-20261111
       - file: evidence/checker-medium-20261111
       - file: evidence/checker-medium-comparison-20261111
+      - file: evidence/checker-gprof-20261111
       - file: evidence/lra-regressions
       - file: evidence/quantifiers
       - file: evidence/archive

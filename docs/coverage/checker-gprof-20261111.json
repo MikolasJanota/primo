@@ -1,0 +1,1423 @@
+{
+  "date": "2026-11-11",
+  "status": "complete",
+  "scope": "Gprof function profiles and separate GNU time accounting for three original saved CORE successes.",
+  "workflow_base_git": "e815385323cb65efdaa56522a4525868e5e3a441",
+  "workflow_source_git": "3c5f48fa6e3b07985d9120adae9d506fd4e02b88",
+  "workflow_sha256": {
+    "profile_checker_medium.py": "24ae7075e486f3cbdff8f593499d97d60008a1d340e2f990644ed67357f5ce40",
+    "replay_checker_handoff.py": "77ab805dcebc41643a1efa7b6c9ca2ef046a5d13b50400811cf3ef58a3e0b0bd",
+    "replay_micromath_lra.py": "ed5f08cacb655f42b4ee940c82796ab369cdd40660e18c20cee5c1e6653e2c04",
+    "replay_checker_medium.py": "2796d4ee6b654cfa73cbb9deb91d20924d80a09a4ada3a5031c93846fd309f57",
+    "replay_remaining_checker_failures.py": "d0f9fb5ee6505f1423bbe72e2b9ccc94afc45455b1bb949ecb631276bc622b25",
+    "micromath_stress.py": "4bc25d2a41e4cdcb1822b9b91a6bb3063966e365d55143ef9c48560db8b8af6a",
+    "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+  },
+  "native_export_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+  "native_solving_rerun": false,
+  "optimizer_called": false,
+  "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+  "checker_sha256": {
+    "baseline": {
+      "build-axioms": "2e65ed67555c1997bab373556c1090f6ea22bab379e5c76603979c709cafbc21",
+      "smt/build-lra-challenge": "4c342a98ca1ef5da81b3d8592a935608d54c24cbb6e5dac5d9e944acb4524f0b",
+      "smt/build-lia-challenge": "eb092a4b9b04506ac9cfef65190f7c553a098141c6d0f80008d1583fe9dcb0b8",
+      "smt/prove-lra": "c08d0fff84d2012b307a05e9a2fb16f6b39f6750dc2da290d2acd514fda7a3fb",
+      "smt/prove-lia": "8bb91aab9b71b59a74b9c522a93ccb7ad38922ba1fb1a2418574b0522274ad09",
+      "check-solution": "4acea307cb92eb5ef1ba3469135a90621877c73d93bce0095064f3aaf5185cd5"
+    },
+    "gprof": {
+      "build-axioms": "deeba00260390ff28b8c7c30268e295800e41972be00d401b1eafa4021f1b4e5",
+      "smt/build-lra-challenge": "94e230424ad787103dffe1f5fcd174631f372d7977bbd32715bcf1dd3f2b669c",
+      "smt/build-lia-challenge": "973459387e74150d1e979dca25a8c364b580988dd48e09106b76b5e4968bdb9c",
+      "smt/prove-lra": "3d921986c4c96d8bf241c1e40c845dd11effb28d965a9efba83ea2e4bd306f30",
+      "smt/prove-lia": "46afb25e0f1e0994923e86bdfdcded21b7a30b8c90837173d6fc6e45489a3b2f",
+      "check-solution": "6aeb81388e28b569bcff222dfe3ee7f47bb812301c27705a4ad0c4f088dc8993"
+    }
+  },
+  "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+  "time_tool_sha256": "db73dfb29414b2a3c9ba7bb85bf10c1e32644c51f2918813398f75eaccbb45a6",
+  "selection": {
+    "path": "benchmarks/checker-regressions/checker-medium-comparison-20261111/selection.json",
+    "sha256": "f0252197921255c77ff05a5f640171844daf720e8f0c648c3da6b777a23ebab9"
+  },
+  "jobs": {
+    "build": "382587",
+    "setup_missing_import": "382591_0..2",
+    "setup_missing_time": "382595_0..2",
+    "initial": "382598_0..2",
+    "cancelled_archive_dependency": "382602",
+    "clock_retry": "382605_2",
+    "archive": "382608"
+  },
+  "allocation": {
+    "build_cpus": 4,
+    "build_memory_gib": 8,
+    "build_minutes": 20,
+    "workers": 3,
+    "cpus_per_worker": 2,
+    "memory_gib_per_worker": 8,
+    "wall_minutes": 15,
+    "clock_retry_wall_minutes": 6,
+    "archive_cpus": 1,
+    "archive_memory_gib": 3,
+    "archive_minutes": 5
+  },
+  "limits": {
+    "axioms_seconds": 30,
+    "challenge_seconds": 60,
+    "baseline_pipeline_seconds": 120,
+    "instrumented_pipeline_seconds": 600,
+    "gprof_report_seconds": 30,
+    "child_address_bytes": 3221225472,
+    "child_file_bytes": 268435456
+  },
+  "counts": {
+    "distinct_cases": 3,
+    "baseline_proofs_verified": 4,
+    "instrumented_proofs_verified": 4,
+    "selected_complete_producer_profiles": 3,
+    "selected_complete_kernel_profiles": 3,
+    "checker_timeout": 0,
+    "checker_error": 0,
+    "setup_failed_tasks": 6,
+    "initial_missing_producer_gmon": 1,
+    "profiling_recovered": 1
+  },
+  "profiling": {
+    "compiler": "gcc (GCC) 11.4.1 20231218 (Red Hat 11.4.1-3)",
+    "flags": "-O2 -g -Wall -Wextra -pg (compile and link)",
+    "clock_retry_GLIBC_TUNABLES": "glibc.gmon.minarcs=1000000:glibc.gmon.maxarcs=1000000",
+    "gprof_command": "gprof -b EXECUTABLE GMON",
+    "coverage": "Function-level sampled self time and instrumented call counts; no source annotation. External SAT uninstrumented; dependency/shared-library coverage incomplete; child times estimated."
+  },
+  "initial_clock_profiling_failure": {
+    "worker_status": "workflow_error",
+    "error": "expected one gmon file per instrumented executable",
+    "proof_status": "verified",
+    "proof_exit_codes": [
+      0,
+      0
+    ],
+    "diagnostic": "mcount: call graph buffer size limit exceeded, gmon.out will not be generated",
+    "initial_instrumented_metrics": {
+      "producer": {
+        "user_seconds": 175.41,
+        "system_seconds": 1.0,
+        "elapsed_seconds": 177.5,
+        "max_rss_kib": 96960.0,
+        "voluntary_switches": 18.0,
+        "involuntary_switches": 222.0,
+        "filesystem_inputs": 0.0,
+        "filesystem_outputs": 8.0,
+        "exit_status": 0.0
+      },
+      "kernel": {
+        "user_seconds": 55.99,
+        "system_seconds": 1.71,
+        "elapsed_seconds": 177.5,
+        "max_rss_kib": 12088.0,
+        "voluntary_switches": 469540.0,
+        "involuntary_switches": 1204.0,
+        "filesystem_inputs": 0.0,
+        "filesystem_outputs": 24.0,
+        "exit_status": 0.0
+      }
+    }
+  },
+  "bundle": {
+    "path": "benchmarks/checker-regressions/checker-gprof-20261111/results.tar.gz",
+    "bytes": 2234594,
+    "sha256": "268a0c15688e507d8dc252b514740630d16cbfd592df48655034f51e605bfdb1",
+    "payload_files": 180
+  },
+  "result": "Producer accounts for about 71-74% of combined baseline CPU. Kernel samples mainly number decoding and replay. Large primitive proof volumes and busy definition/stream symbols motivate author investigation; no checker optimization implemented.",
+  "rows": [
+    {
+      "index": 0,
+      "case": {
+        "logic": "QF_LIA",
+        "file": "rings/ring_2exp14_4vars_3ite_unsat.smt2",
+        "family": "rings",
+        "input_sha256": "001f346fef84c391bf48db45c04212b4b642b39ea359e515f23fa827d02803a6",
+        "native_sha256": "a6d19ebabff27f7b5fb14c43651e3b1a49292e9564f8a1932373f63f2264011b",
+        "native_bytes": 2455983,
+        "statement_sha256": "4d3b13a44d4f617fc41f045dce0417f8526ff8ef89989d850cff91189c46cadd",
+        "statement_bytes": 18289,
+        "cnf_clauses": 180,
+        "collected_lemmas": 1631,
+        "retained_lemmas": 1567,
+        "primary_case": "QF_LIA/shard-32/run/007",
+        "previous": {
+          "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+          "job": "365550",
+          "status": "verified",
+          "proof_seconds": 47.365713258011965,
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_steps": null
+        },
+        "historical_export_seconds": 7.232234069990227
+      },
+      "certificate_sha256": "4d5fa4f7f73d1e22bc2f9161f0bd4b8dab6c1f9826fa5192f011bdeffcf9d152",
+      "initial_challenge_sha256": "a483caf9e43e717a6a4757fd1cbbed1550aed40b3ba2fefd004a1073c90e0fc5",
+      "baseline": {
+        "status": "verified",
+        "pipeline": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nexport TIME=\"$8\"\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$9\" -o \"$6/producer.time\" \\\n  env GMON_OUT_PREFIX=\"$6/producer.gmon\" \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" 2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$9\" -o \"$6/kernel.time\" \\\n  env GMON_OUT_PREFIX=\"$6/kernel.gmon\" \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+            "profile-checker",
+            "${MICROMATH_DIR}/smt/prove-lia",
+            "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/challenge.umd",
+            "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LIA/shard-32/run/007/micromath-v2.sexp",
+            "${CADICAL}",
+            "${MICROMATH_DIR}/check-solution",
+            "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/baseline",
+            "",
+            "user_seconds=%U\nsystem_seconds=%S\nelapsed_seconds=%e\nmax_rss_kib=%M\nvoluntary_switches=%w\ninvoluntary_switches=%c\nfilesystem_inputs=%I\nfilesystem_outputs=%O\nexit_status=%x",
+            "${PRIMO_WORKDIR}/results/checker-gprof-tools/time"
+          ],
+          "stdout": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/baseline/pipeline.out",
+          "stderr": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/baseline/pipeline.err",
+          "state": "ok",
+          "seconds": 45.80403379094787,
+          "exit_code": 0
+        },
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_result": "challenge proven\n",
+        "kernel_steps": {
+          "Library preparation": 363551,
+          "Source conversion": 73050,
+          "LIA checking": 88826359,
+          "SAT checking": 1154820
+        },
+        "process_time": {
+          "producer": {
+            "user_seconds": 44.9,
+            "system_seconds": 0.52,
+            "elapsed_seconds": 45.72,
+            "max_rss_kib": 92332.0,
+            "voluntary_switches": 10.0,
+            "involuntary_switches": 88.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 8.0,
+            "exit_status": 0.0
+          },
+          "kernel": {
+            "user_seconds": 15.29,
+            "system_seconds": 0.85,
+            "elapsed_seconds": 45.72,
+            "max_rss_kib": 12980.0,
+            "voluntary_switches": 261384.0,
+            "involuntary_switches": 393.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 8.0,
+            "exit_status": 0.0
+          }
+        }
+      },
+      "gprof": {
+        "status": "verified",
+        "pipeline": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nexport TIME=\"$8\"\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$9\" -o \"$6/producer.time\" \\\n  env GMON_OUT_PREFIX=\"$6/producer.gmon\" \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" 2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$9\" -o \"$6/kernel.time\" \\\n  env GMON_OUT_PREFIX=\"$6/kernel.gmon\" \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+            "profile-checker",
+            "${MICROMATH_PROFILE_DIR}/smt/prove-lia",
+            "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/challenge.umd",
+            "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LIA/shard-32/run/007/micromath-v2.sexp",
+            "${CADICAL}",
+            "${MICROMATH_PROFILE_DIR}/check-solution",
+            "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/gprof",
+            "",
+            "user_seconds=%U\nsystem_seconds=%S\nelapsed_seconds=%e\nmax_rss_kib=%M\nvoluntary_switches=%w\ninvoluntary_switches=%c\nfilesystem_inputs=%I\nfilesystem_outputs=%O\nexit_status=%x",
+            "${PRIMO_WORKDIR}/results/checker-gprof-tools/time"
+          ],
+          "stdout": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/gprof/pipeline.out",
+          "stderr": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/gprof/pipeline.err",
+          "state": "ok",
+          "seconds": 111.83540381299099,
+          "exit_code": 0
+        },
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_result": "challenge proven\n",
+        "kernel_steps": {
+          "Library preparation": 363551,
+          "Source conversion": 73050,
+          "LIA checking": 88826359,
+          "SAT checking": 1154820
+        },
+        "process_time": {
+          "producer": {
+            "user_seconds": 110.42,
+            "system_seconds": 0.62,
+            "elapsed_seconds": 111.76,
+            "max_rss_kib": 93576.0,
+            "voluntary_switches": 60.0,
+            "involuntary_switches": 235.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 2112.0,
+            "exit_status": 0.0
+          },
+          "kernel": {
+            "user_seconds": 28.88,
+            "system_seconds": 1.03,
+            "elapsed_seconds": 111.76,
+            "max_rss_kib": 13192.0,
+            "voluntary_switches": 261465.0,
+            "involuntary_switches": 720.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 24.0,
+            "exit_status": 0.0
+          }
+        },
+        "gprof": {
+          "producer": {
+            "command": [
+              "gprof",
+              "-b",
+              "${MICROMATH_PROFILE_DIR}/smt/prove-lia",
+              "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/gprof/producer.gmon.1831951"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/gprof/producer-gprof.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/gprof/producer-gprof.err",
+            "state": "ok",
+            "seconds": 0.17027777101611719,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "gprof",
+              "-b",
+              "${MICROMATH_PROFILE_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/gprof/kernel.gmon.1831952"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/gprof/kernel-gprof.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-0/gprof/kernel-gprof.err",
+            "state": "ok",
+            "seconds": 0.013125452969688922,
+            "exit_code": 0
+          }
+        }
+      },
+      "gprof_source": "replay/case-0/gprof/",
+      "proof_steps": 90417780,
+      "top_sampled_self": {
+        "producer": [
+          {
+            "function": "theory_define",
+            "sampled_self_percent": 10.59,
+            "sampled_self_seconds": 3.06,
+            "calls": 67935386
+          },
+          {
+            "function": "numeral_prove_mul",
+            "sampled_self_percent": 8.1,
+            "sampled_self_seconds": 2.34,
+            "calls": 293629
+          },
+          {
+            "function": "match_boundary",
+            "sampled_self_percent": 5.22,
+            "sampled_self_seconds": 1.51,
+            "calls": 46128410
+          },
+          {
+            "function": "proof_stream_write",
+            "sampled_self_percent": 5.05,
+            "sampled_self_seconds": 1.46,
+            "calls": 90417781
+          },
+          {
+            "function": "theory_node",
+            "sampled_self_percent": 4.78,
+            "sampled_self_seconds": 1.38,
+            "calls": 288225355
+          },
+          {
+            "function": "_init",
+            "sampled_self_percent": 4.46,
+            "sampled_self_seconds": 1.29,
+            "calls": null
+          },
+          {
+            "function": "grow_definitions",
+            "sampled_self_percent": 3.77,
+            "sampled_self_seconds": 1.09,
+            "calls": 72750686
+          },
+          {
+            "function": "release_scratch",
+            "sampled_self_percent": 3.11,
+            "sampled_self_seconds": 0.9,
+            "calls": 70291112
+          },
+          {
+            "function": "name_slot",
+            "sampled_self_percent": 2.73,
+            "sampled_self_seconds": 0.79,
+            "calls": 21657802
+          },
+          {
+            "function": "get_thm",
+            "sampled_self_percent": 2.32,
+            "sampled_self_seconds": 0.67,
+            "calls": 360972603
+          },
+          {
+            "function": "release_slots",
+            "sampled_self_percent": 2.25,
+            "sampled_self_seconds": 0.65,
+            "calls": 91276663
+          },
+          {
+            "function": "planned_equal",
+            "sampled_self_percent": 2.08,
+            "sampled_self_seconds": 0.6,
+            "calls": 379369
+          },
+          {
+            "function": "link_free",
+            "sampled_self_percent": 2.04,
+            "sampled_self_seconds": 0.59,
+            "calls": 123864867
+          },
+          {
+            "function": "apply_recipe",
+            "sampled_self_percent": 2.04,
+            "sampled_self_seconds": 0.59,
+            "calls": 936494
+          },
+          {
+            "function": "unlink_free",
+            "sampled_self_percent": 1.8,
+            "sampled_self_seconds": 0.52,
+            "calls": 123836944
+          },
+          {
+            "function": "application_body",
+            "sampled_self_percent": 1.76,
+            "sampled_self_seconds": 0.51,
+            "calls": 58630185
+          },
+          {
+            "function": "definition_bucket",
+            "sampled_self_percent": 1.59,
+            "sampled_self_seconds": 0.46,
+            "calls": 74493346
+          },
+          {
+            "function": "substitute",
+            "sampled_self_percent": 1.59,
+            "sampled_self_seconds": 0.46,
+            "calls": 9472967
+          },
+          {
+            "function": "theory_scratch_return",
+            "sampled_self_percent": 1.49,
+            "sampled_self_seconds": 0.43,
+            "calls": 70012771
+          },
+          {
+            "function": "theory_scratch_reserve",
+            "sampled_self_percent": 1.42,
+            "sampled_self_seconds": 0.41,
+            "calls": 69489514
+          }
+        ],
+        "kernel": [
+          {
+            "function": "proof_stream_read_number",
+            "sampled_self_percent": 48.23,
+            "sampled_self_seconds": 4.35,
+            "calls": 355863560
+          },
+          {
+            "function": "proof_stream_replay",
+            "sampled_self_percent": 21.4,
+            "sampled_self_seconds": 1.93,
+            "calls": 1
+          },
+          {
+            "function": "rule_substitute2",
+            "sampled_self_percent": 12.31,
+            "sampled_self_seconds": 1.11,
+            "calls": 37900638
+          },
+          {
+            "function": "_set_thm",
+            "sampled_self_percent": 5.88,
+            "sampled_self_seconds": 0.53,
+            "calls": 90417780
+          },
+          {
+            "function": "_init",
+            "sampled_self_percent": 5.88,
+            "sampled_self_seconds": 0.53,
+            "calls": null
+          },
+          {
+            "function": "rule_substitute1",
+            "sampled_self_percent": 3.1,
+            "sampled_self_seconds": 0.28,
+            "calls": 13823798
+          },
+          {
+            "function": "get_thm",
+            "sampled_self_percent": 2.22,
+            "sampled_self_seconds": 0.2,
+            "calls": 90419136
+          },
+          {
+            "function": "new_node_def",
+            "sampled_self_percent": 0.55,
+            "sampled_self_seconds": 0.05,
+            "calls": 3258577
+          },
+          {
+            "function": "rule_refl",
+            "sampled_self_percent": 0.44,
+            "sampled_self_seconds": 0.04,
+            "calls": 25355806
+          },
+          {
+            "function": "rule_proj1",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 5234547
+          },
+          {
+            "function": "rule_proj2",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 4844414
+          },
+          {
+            "function": "get_thm_used_space",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1357
+          },
+          {
+            "function": "load_theorem",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1356
+          },
+          {
+            "function": "load_symbol",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 4
+          },
+          {
+            "function": "get_last_const",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 3
+          },
+          {
+            "function": "load_theorems",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          },
+          {
+            "function": "open_file",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          },
+          {
+            "function": "proof_file_close",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          },
+          {
+            "function": "proof_file_open",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          },
+          {
+            "function": "proof_stream_header",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          }
+        ]
+      }
+    },
+    {
+      "index": 1,
+      "case": {
+        "logic": "QF_LRA",
+        "file": "LassoRanker/Ultimate/Braverman-2006CAV-Ex1-int.bpl_Iteration1_Lasso_4-pieceTemplate.smt2",
+        "family": "LassoRanker",
+        "input_sha256": "c9d03400f49d2408dc01e275d995d6edf8f95d30150c56498da765d1fd40972a",
+        "native_sha256": "4653f0aeaf1d96e3f9d062d8dcfe72f38d8f85e767e8e84ff002ed2ccfa344af",
+        "native_bytes": 3470664,
+        "statement_sha256": "d9ef64f57a18042a3ae537110e24bde6e03398842d264dd34b992e00cfd7d841",
+        "statement_bytes": 441585,
+        "cnf_clauses": 2411,
+        "collected_lemmas": 5096,
+        "retained_lemmas": 1691,
+        "primary_case": "QF_LRA/shard-24/run/018",
+        "previous": {
+          "checker_git": "cfd36f46e756f080295d469753c9f2989dab1fee",
+          "job": "365550",
+          "status": "verified",
+          "proof_seconds": 68.50790986602078,
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_steps": null
+        },
+        "historical_export_seconds": 10.843420897988835
+      },
+      "certificate_sha256": "4653f0aeaf1d96e3f9d062d8dcfe72f38d8f85e767e8e84ff002ed2ccfa344af",
+      "initial_challenge_sha256": "3f75006a131f91c962c759e806cd490f612c18346a1fa7f09d46886f727816e5",
+      "baseline": {
+        "status": "verified",
+        "pipeline": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nexport TIME=\"$8\"\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$9\" -o \"$6/producer.time\" \\\n  env GMON_OUT_PREFIX=\"$6/producer.gmon\" \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" 2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$9\" -o \"$6/kernel.time\" \\\n  env GMON_OUT_PREFIX=\"$6/kernel.gmon\" \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+            "profile-checker",
+            "${MICROMATH_DIR}/smt/prove-lra",
+            "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/challenge.umd",
+            "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-24/run/018/native.sexp",
+            "${CADICAL}",
+            "${MICROMATH_DIR}/check-solution",
+            "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/baseline",
+            "",
+            "user_seconds=%U\nsystem_seconds=%S\nelapsed_seconds=%e\nmax_rss_kib=%M\nvoluntary_switches=%w\ninvoluntary_switches=%c\nfilesystem_inputs=%I\nfilesystem_outputs=%O\nexit_status=%x",
+            "${PRIMO_WORKDIR}/results/checker-gprof-tools/time"
+          ],
+          "stdout": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/baseline/pipeline.out",
+          "stderr": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/baseline/pipeline.err",
+          "state": "ok",
+          "seconds": 76.77803313499317,
+          "exit_code": 0
+        },
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_result": "challenge proven\n",
+        "kernel_steps": {
+          "Library preparation": 634024,
+          "Source conversion": 91764,
+          "LRA checking": 162989173,
+          "SAT checking": 1910521
+        },
+        "process_time": {
+          "producer": {
+            "user_seconds": 75.2,
+            "system_seconds": 0.99,
+            "elapsed_seconds": 76.71,
+            "max_rss_kib": 119620.0,
+            "voluntary_switches": 8.0,
+            "involuntary_switches": 164.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 8.0,
+            "exit_status": 0.0
+          },
+          "kernel": {
+            "user_seconds": 28.86,
+            "system_seconds": 1.48,
+            "elapsed_seconds": 76.71,
+            "max_rss_kib": 12708.0,
+            "voluntary_switches": 495734.0,
+            "involuntary_switches": 609.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 8.0,
+            "exit_status": 0.0
+          }
+        }
+      },
+      "gprof": {
+        "status": "verified",
+        "pipeline": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nexport TIME=\"$8\"\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$9\" -o \"$6/producer.time\" \\\n  env GMON_OUT_PREFIX=\"$6/producer.gmon\" \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" 2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$9\" -o \"$6/kernel.time\" \\\n  env GMON_OUT_PREFIX=\"$6/kernel.gmon\" \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+            "profile-checker",
+            "${MICROMATH_PROFILE_DIR}/smt/prove-lra",
+            "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/challenge.umd",
+            "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-24/run/018/native.sexp",
+            "${CADICAL}",
+            "${MICROMATH_PROFILE_DIR}/check-solution",
+            "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/gprof",
+            "",
+            "user_seconds=%U\nsystem_seconds=%S\nelapsed_seconds=%e\nmax_rss_kib=%M\nvoluntary_switches=%w\ninvoluntary_switches=%c\nfilesystem_inputs=%I\nfilesystem_outputs=%O\nexit_status=%x",
+            "${PRIMO_WORKDIR}/results/checker-gprof-tools/time"
+          ],
+          "stdout": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/gprof/pipeline.out",
+          "stderr": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/gprof/pipeline.err",
+          "state": "ok",
+          "seconds": 186.19291979598347,
+          "exit_code": 0
+        },
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_result": "challenge proven\n",
+        "kernel_steps": {
+          "Library preparation": 634024,
+          "Source conversion": 91764,
+          "LRA checking": 162989173,
+          "SAT checking": 1910521
+        },
+        "process_time": {
+          "producer": {
+            "user_seconds": 183.79,
+            "system_seconds": 1.15,
+            "elapsed_seconds": 186.14,
+            "max_rss_kib": 120720.0,
+            "voluntary_switches": 67.0,
+            "involuntary_switches": 219.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 2648.0,
+            "exit_status": 0.0
+          },
+          "kernel": {
+            "user_seconds": 53.63,
+            "system_seconds": 1.77,
+            "elapsed_seconds": 186.14,
+            "max_rss_kib": 13160.0,
+            "voluntary_switches": 495938.0,
+            "involuntary_switches": 1143.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 24.0,
+            "exit_status": 0.0
+          }
+        },
+        "gprof": {
+          "producer": {
+            "command": [
+              "gprof",
+              "-b",
+              "${MICROMATH_PROFILE_DIR}/smt/prove-lra",
+              "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/gprof/producer.gmon.1831983"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/gprof/producer-gprof.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/gprof/producer-gprof.err",
+            "state": "ok",
+            "seconds": 0.21954704402014613,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "gprof",
+              "-b",
+              "${MICROMATH_PROFILE_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/gprof/kernel.gmon.1831984"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/gprof/kernel-gprof.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-1/gprof/kernel-gprof.err",
+            "state": "ok",
+            "seconds": 0.013259121973533183,
+            "exit_code": 0
+          }
+        }
+      },
+      "gprof_source": "replay/case-1/gprof/",
+      "proof_steps": 165625482,
+      "top_sampled_self": {
+        "producer": [
+          {
+            "function": "theory_define",
+            "sampled_self_percent": 11.75,
+            "sampled_self_seconds": 5.58,
+            "calls": 104396498
+          },
+          {
+            "function": "proof_stream_write",
+            "sampled_self_percent": 5.73,
+            "sampled_self_seconds": 2.72,
+            "calls": 165625483
+          },
+          {
+            "function": "_init",
+            "sampled_self_percent": 4.97,
+            "sampled_self_seconds": 2.36,
+            "calls": null
+          },
+          {
+            "function": "grow_definitions",
+            "sampled_self_percent": 4.95,
+            "sampled_self_seconds": 2.35,
+            "calls": 131703162
+          },
+          {
+            "function": "theory_node",
+            "sampled_self_percent": 4.32,
+            "sampled_self_seconds": 2.05,
+            "calls": 437433657
+          },
+          {
+            "function": "match_boundary",
+            "sampled_self_percent": 4.23,
+            "sampled_self_seconds": 2.01,
+            "calls": 73498692
+          },
+          {
+            "function": "release_scratch",
+            "sampled_self_percent": 3.41,
+            "sampled_self_seconds": 1.62,
+            "calls": 124880874
+          },
+          {
+            "function": "apply_recipe",
+            "sampled_self_percent": 3.12,
+            "sampled_self_seconds": 1.48,
+            "calls": 2394581
+          },
+          {
+            "function": "planned_equal",
+            "sampled_self_percent": 2.76,
+            "sampled_self_seconds": 1.31,
+            "calls": 1107245
+          },
+          {
+            "function": "release_slots",
+            "sampled_self_percent": 2.53,
+            "sampled_self_seconds": 1.2,
+            "calls": 167486889
+          },
+          {
+            "function": "unlink_free",
+            "sampled_self_percent": 2.13,
+            "sampled_self_seconds": 1.01,
+            "calls": 225499890
+          },
+          {
+            "function": "theory_collect_definitions",
+            "sampled_self_percent": 2.0,
+            "sampled_self_seconds": 0.95,
+            "calls": 16075
+          },
+          {
+            "function": "link_free",
+            "sampled_self_percent": 1.94,
+            "sampled_self_seconds": 0.92,
+            "calls": 225545373
+          },
+          {
+            "function": "emit",
+            "sampled_self_percent": 1.83,
+            "sampled_self_seconds": 0.87,
+            "calls": 165625482
+          },
+          {
+            "function": "get_thm",
+            "sampled_self_percent": 1.71,
+            "sampled_self_seconds": 0.81,
+            "calls": 588582965
+          },
+          {
+            "function": "theory_scratch_return",
+            "sampled_self_percent": 1.68,
+            "sampled_self_seconds": 0.8,
+            "calls": 124711420
+          },
+          {
+            "function": "_set_thm",
+            "sampled_self_percent": 1.66,
+            "sampled_self_seconds": 0.79,
+            "calls": 165625482
+          },
+          {
+            "function": "theory_scratch_reserve",
+            "sampled_self_percent": 1.66,
+            "sampled_self_seconds": 0.79,
+            "calls": 122629205
+          },
+          {
+            "function": "definition_bucket",
+            "sampled_self_percent": 1.64,
+            "sampled_self_seconds": 0.78,
+            "calls": 121867428
+          },
+          {
+            "function": "application_body",
+            "sampled_self_percent": 1.39,
+            "sampled_self_seconds": 0.66,
+            "calls": 101406897
+          }
+        ],
+        "kernel": [
+          {
+            "function": "proof_stream_read_number",
+            "sampled_self_percent": 51.87,
+            "sampled_self_seconds": 9.14,
+            "calls": 652177185
+          },
+          {
+            "function": "proof_stream_replay",
+            "sampled_self_percent": 17.82,
+            "sampled_self_seconds": 3.14,
+            "calls": 1
+          },
+          {
+            "function": "rule_substitute2",
+            "sampled_self_percent": 10.1,
+            "sampled_self_seconds": 1.78,
+            "calls": 63826388
+          },
+          {
+            "function": "_init",
+            "sampled_self_percent": 6.92,
+            "sampled_self_seconds": 1.22,
+            "calls": null
+          },
+          {
+            "function": "_set_thm",
+            "sampled_self_percent": 6.36,
+            "sampled_self_seconds": 1.12,
+            "calls": 165625482
+          },
+          {
+            "function": "rule_substitute1",
+            "sampled_self_percent": 3.01,
+            "sampled_self_seconds": 0.53,
+            "calls": 26909253
+          },
+          {
+            "function": "get_thm",
+            "sampled_self_percent": 2.16,
+            "sampled_self_seconds": 0.38,
+            "calls": 165640121
+          },
+          {
+            "function": "rule_refl",
+            "sampled_self_percent": 1.08,
+            "sampled_self_seconds": 0.19,
+            "calls": 44308593
+          },
+          {
+            "function": "rule_proj1",
+            "sampled_self_percent": 0.34,
+            "sampled_self_seconds": 0.06,
+            "calls": 11674837
+          },
+          {
+            "function": "rule_proj2",
+            "sampled_self_percent": 0.17,
+            "sampled_self_seconds": 0.03,
+            "calls": 9837386
+          },
+          {
+            "function": "new_node_def",
+            "sampled_self_percent": 0.17,
+            "sampled_self_seconds": 0.03,
+            "calls": 9069025
+          },
+          {
+            "function": "get_thm_used_space",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 14640
+          },
+          {
+            "function": "load_theorem",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 14639
+          },
+          {
+            "function": "load_symbol",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 4
+          },
+          {
+            "function": "get_last_const",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 3
+          },
+          {
+            "function": "load_theorems",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          },
+          {
+            "function": "open_file",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          },
+          {
+            "function": "proof_file_close",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          },
+          {
+            "function": "proof_file_open",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          },
+          {
+            "function": "proof_stream_header",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          }
+        ]
+      }
+    },
+    {
+      "index": 2,
+      "case": {
+        "logic": "QF_LRA",
+        "file": "clock_synchro/clocksynchro_7clocks.main_invar.induct.smt2",
+        "family": "clock_synchro",
+        "input_sha256": "b66bda92b20a70cff5b9c2c15d4cc5922a6511cb8e826cdf34fbef19c81924fa",
+        "native_sha256": "ab7b76542a499ec950b1847cdd2c456a9532a3ad1b00e67b54a8ca8b6a727075",
+        "native_bytes": 1024372,
+        "statement_sha256": "3d6b5a7320005494488be7e486f8b12612542e447688bca831ca64b1a90f25b2",
+        "statement_bytes": 243200,
+        "cnf_clauses": 2600,
+        "collected_lemmas": 1386,
+        "retained_lemmas": 988,
+        "primary_case": "QF_LRA/shard-4/run/016",
+        "previous": {
+          "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+          "job": "382354_0..7",
+          "status": "verified",
+          "proof_seconds": 69.64601245499216,
+          "pipeline_exit_codes": [
+            0,
+            0
+          ],
+          "kernel_steps": {
+            "Library preparation": 634219,
+            "Source conversion": 73417,
+            "LRA checking": 160508527,
+            "SAT checking": 1386437
+          }
+        },
+        "historical_export_seconds": 6.835354514012579
+      },
+      "certificate_sha256": "ab7b76542a499ec950b1847cdd2c456a9532a3ad1b00e67b54a8ca8b6a727075",
+      "initial_challenge_sha256": "6d4ffb68d3fb488b90f94c16af86262efa5e57dc9b1b784f6d945ae0f49394c1",
+      "baseline": {
+        "status": "verified",
+        "pipeline": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nexport TIME=\"$8\"\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$9\" -o \"$6/producer.time\" \\\n  env GMON_OUT_PREFIX=\"$6/producer.gmon\" \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" 2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$9\" -o \"$6/kernel.time\" \\\n  env GMON_OUT_PREFIX=\"$6/kernel.gmon\" \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+            "profile-checker",
+            "${MICROMATH_DIR}/smt/prove-lra",
+            "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-2/challenge.umd",
+            "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-4/run/016/native.sexp",
+            "${CADICAL}",
+            "${MICROMATH_DIR}/check-solution",
+            "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-2/baseline",
+            "",
+            "user_seconds=%U\nsystem_seconds=%S\nelapsed_seconds=%e\nmax_rss_kib=%M\nvoluntary_switches=%w\ninvoluntary_switches=%c\nfilesystem_inputs=%I\nfilesystem_outputs=%O\nexit_status=%x",
+            "${PRIMO_WORKDIR}/results/checker-gprof-tools/time"
+          ],
+          "stdout": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-2/baseline/pipeline.out",
+          "stderr": "${PRIMO_WORKDIR}/results/checker-gprof-382598/case-2/baseline/pipeline.err",
+          "state": "ok",
+          "seconds": 69.90585747198202,
+          "exit_code": 0
+        },
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_result": "challenge proven\n",
+        "kernel_steps": {
+          "Library preparation": 634219,
+          "Source conversion": 73417,
+          "LRA checking": 160508527,
+          "SAT checking": 1386437
+        },
+        "process_time": {
+          "producer": {
+            "user_seconds": 68.56,
+            "system_seconds": 0.83,
+            "elapsed_seconds": 69.84,
+            "max_rss_kib": 95732.0,
+            "voluntary_switches": 8.0,
+            "involuntary_switches": 124.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 8.0,
+            "exit_status": 0.0
+          },
+          "kernel": {
+            "user_seconds": 27.22,
+            "system_seconds": 1.41,
+            "elapsed_seconds": 69.84,
+            "max_rss_kib": 11912.0,
+            "voluntary_switches": 469305.0,
+            "involuntary_switches": 585.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 8.0,
+            "exit_status": 0.0
+          }
+        }
+      },
+      "gprof": {
+        "status": "verified",
+        "pipeline": {
+          "command": [
+            "bash",
+            "-c",
+            "\nset -uo pipefail\nexport TIME=\"$8\"\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$9\" -o \"$6/producer.time\" \\\n  env GMON_OUT_PREFIX=\"$6/producer.gmon\" \\\n  \"$1\" \"$2\" \"$3\" - --raw --cadical \"$4\" 2> \"$6/producer.err\" |\nprlimit --as=3221225472 --fsize=268435456 -- \\\n  \"$9\" -o \"$6/kernel.time\" \\\n  env GMON_OUT_PREFIX=\"$6/kernel.gmon\" \\\n  \"$5\" \"$2\" - > \"$6/kernel.out\" 2> \"$6/kernel.err\"\nstatuses=(\"${PIPESTATUS[@]}\")\nprintf '%s %s\\n' \"${statuses[0]}\" \"${statuses[1]}\" > \"$6/exit-status.txt\"\nif (( statuses[0] != 0 || statuses[1] != 0 )); then exit 1; fi\ngrep -Fxq 'challenge proven' \"$6/kernel.out\"\n! grep -Fxq 'Inconsistency proven!' \"$6/kernel.out\"\n",
+            "profile-checker",
+            "${MICROMATH_PROFILE_DIR}/smt/prove-lra",
+            "${PRIMO_WORKDIR}/results/checker-gprof-382605/case-2/challenge.umd",
+            "${PRIMO_WORKDIR}/results/full-arithmetic-certificates-365550/QF_LRA/shard-4/run/016/native.sexp",
+            "${CADICAL}",
+            "${MICROMATH_PROFILE_DIR}/check-solution",
+            "${PRIMO_WORKDIR}/results/checker-gprof-382605/case-2/gprof",
+            "",
+            "user_seconds=%U\nsystem_seconds=%S\nelapsed_seconds=%e\nmax_rss_kib=%M\nvoluntary_switches=%w\ninvoluntary_switches=%c\nfilesystem_inputs=%I\nfilesystem_outputs=%O\nexit_status=%x",
+            "${PRIMO_WORKDIR}/results/checker-gprof-tools/time"
+          ],
+          "stdout": "${PRIMO_WORKDIR}/results/checker-gprof-382605/case-2/gprof/pipeline.out",
+          "stderr": "${PRIMO_WORKDIR}/results/checker-gprof-382605/case-2/gprof/pipeline.err",
+          "state": "ok",
+          "seconds": 176.58117418002803,
+          "exit_code": 0
+        },
+        "pipeline_exit_codes": [
+          0,
+          0
+        ],
+        "kernel_result": "challenge proven\n",
+        "kernel_steps": {
+          "Library preparation": 634219,
+          "Source conversion": 73417,
+          "LRA checking": 160508527,
+          "SAT checking": 1386437
+        },
+        "process_time": {
+          "producer": {
+            "user_seconds": 174.48,
+            "system_seconds": 1.02,
+            "elapsed_seconds": 176.5,
+            "max_rss_kib": 98888.0,
+            "voluntary_switches": 83.0,
+            "involuntary_switches": 384.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 2704.0,
+            "exit_status": 0.0
+          },
+          "kernel": {
+            "user_seconds": 50.31,
+            "system_seconds": 1.74,
+            "elapsed_seconds": 176.51,
+            "max_rss_kib": 12084.0,
+            "voluntary_switches": 469528.0,
+            "involuntary_switches": 1304.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 24.0,
+            "exit_status": 0.0
+          }
+        },
+        "gprof": {
+          "producer": {
+            "command": [
+              "gprof",
+              "-b",
+              "${MICROMATH_PROFILE_DIR}/smt/prove-lra",
+              "${PRIMO_WORKDIR}/results/checker-gprof-382605/case-2/gprof/producer.gmon.1832119"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-gprof-382605/case-2/gprof/producer-gprof.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-gprof-382605/case-2/gprof/producer-gprof.err",
+            "state": "ok",
+            "seconds": 0.2194331199862063,
+            "exit_code": 0
+          },
+          "kernel": {
+            "command": [
+              "gprof",
+              "-b",
+              "${MICROMATH_PROFILE_DIR}/check-solution",
+              "${PRIMO_WORKDIR}/results/checker-gprof-382605/case-2/gprof/kernel.gmon.1832120"
+            ],
+            "stdout": "${PRIMO_WORKDIR}/results/checker-gprof-382605/case-2/gprof/kernel-gprof.out",
+            "stderr": "${PRIMO_WORKDIR}/results/checker-gprof-382605/case-2/gprof/kernel-gprof.err",
+            "state": "ok",
+            "seconds": 0.014911252015735954,
+            "exit_code": 0
+          }
+        }
+      },
+      "gprof_source": "retry/gprof/",
+      "proof_steps": 162602600,
+      "top_sampled_self": {
+        "producer": [
+          {
+            "function": "theory_define",
+            "sampled_self_percent": 9.25,
+            "sampled_self_seconds": 4.03,
+            "calls": 99565346
+          },
+          {
+            "function": "proof_stream_write",
+            "sampled_self_percent": 5.53,
+            "sampled_self_seconds": 2.41,
+            "calls": 162602601
+          },
+          {
+            "function": "apply_recipe",
+            "sampled_self_percent": 4.84,
+            "sampled_self_seconds": 2.11,
+            "calls": 2928476
+          },
+          {
+            "function": "_init",
+            "sampled_self_percent": 4.71,
+            "sampled_self_seconds": 2.05,
+            "calls": null
+          },
+          {
+            "function": "release_scratch",
+            "sampled_self_percent": 4.25,
+            "sampled_self_seconds": 1.85,
+            "calls": 115489188
+          },
+          {
+            "function": "theory_node",
+            "sampled_self_percent": 4.06,
+            "sampled_self_seconds": 1.77,
+            "calls": 436384682
+          },
+          {
+            "function": "match_boundary",
+            "sampled_self_percent": 3.7,
+            "sampled_self_seconds": 1.61,
+            "calls": 58468385
+          },
+          {
+            "function": "grow_definitions",
+            "sampled_self_percent": 3.6,
+            "sampled_self_seconds": 1.57,
+            "calls": 132135952
+          },
+          {
+            "function": "release_slots",
+            "sampled_self_percent": 3.21,
+            "sampled_self_seconds": 1.4,
+            "calls": 165575499
+          },
+          {
+            "function": "link_free",
+            "sampled_self_percent": 2.59,
+            "sampled_self_seconds": 1.13,
+            "calls": 220841539
+          },
+          {
+            "function": "planned_equal",
+            "sampled_self_percent": 2.25,
+            "sampled_self_seconds": 0.98,
+            "calls": 790084
+          },
+          {
+            "function": "name_slot",
+            "sampled_self_percent": 2.23,
+            "sampled_self_seconds": 0.97,
+            "calls": 25673421
+          },
+          {
+            "function": "unlink_free",
+            "sampled_self_percent": 2.16,
+            "sampled_self_seconds": 0.94,
+            "calls": 220790358
+          },
+          {
+            "function": "application_body",
+            "sampled_self_percent": 2.0,
+            "sampled_self_seconds": 0.87,
+            "calls": 103267203
+          },
+          {
+            "function": "theory_scratch_reserve",
+            "sampled_self_percent": 1.95,
+            "sampled_self_seconds": 0.85,
+            "calls": 129385217
+          },
+          {
+            "function": "emit",
+            "sampled_self_percent": 1.9,
+            "sampled_self_seconds": 0.83,
+            "calls": 162602600
+          },
+          {
+            "function": "_set_thm",
+            "sampled_self_percent": 1.74,
+            "sampled_self_seconds": 0.76,
+            "calls": 162602600
+          },
+          {
+            "function": "get_thm",
+            "sampled_self_percent": 1.58,
+            "sampled_self_seconds": 0.69,
+            "calls": 532331728
+          },
+          {
+            "function": "substitute",
+            "sampled_self_percent": 1.56,
+            "sampled_self_seconds": 0.68,
+            "calls": 17680667
+          },
+          {
+            "function": "numeral_prove_mul",
+            "sampled_self_percent": 1.56,
+            "sampled_self_seconds": 0.68,
+            "calls": 83386
+          }
+        ],
+        "kernel": [
+          {
+            "function": "proof_stream_read_number",
+            "sampled_self_percent": 50.48,
+            "sampled_self_seconds": 8.9,
+            "calls": 636654061
+          },
+          {
+            "function": "proof_stream_replay",
+            "sampled_self_percent": 19.17,
+            "sampled_self_seconds": 3.38,
+            "calls": 1
+          },
+          {
+            "function": "rule_substitute2",
+            "sampled_self_percent": 10.72,
+            "sampled_self_seconds": 1.89,
+            "calls": 64837090
+          },
+          {
+            "function": "_init",
+            "sampled_self_percent": 8.05,
+            "sampled_self_seconds": 1.42,
+            "calls": null
+          },
+          {
+            "function": "_set_thm",
+            "sampled_self_percent": 5.9,
+            "sampled_self_seconds": 1.04,
+            "calls": 162602600
+          },
+          {
+            "function": "rule_substitute1",
+            "sampled_self_percent": 3.01,
+            "sampled_self_seconds": 0.53,
+            "calls": 28265112
+          },
+          {
+            "function": "get_thm",
+            "sampled_self_percent": 1.36,
+            "sampled_self_seconds": 0.24,
+            "calls": 162616995
+          },
+          {
+            "function": "rule_refl",
+            "sampled_self_percent": 0.68,
+            "sampled_self_seconds": 0.12,
+            "calls": 42849901
+          },
+          {
+            "function": "rule_proj1",
+            "sampled_self_percent": 0.34,
+            "sampled_self_seconds": 0.06,
+            "calls": 12759101
+          },
+          {
+            "function": "rule_proj2",
+            "sampled_self_percent": 0.17,
+            "sampled_self_seconds": 0.03,
+            "calls": 11145517
+          },
+          {
+            "function": "new_node_def",
+            "sampled_self_percent": 0.11,
+            "sampled_self_seconds": 0.02,
+            "calls": 2745879
+          },
+          {
+            "function": "get_thm_used_space",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 14396
+          },
+          {
+            "function": "load_theorem",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 14395
+          },
+          {
+            "function": "load_symbol",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 4
+          },
+          {
+            "function": "get_last_const",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 3
+          },
+          {
+            "function": "load_theorems",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          },
+          {
+            "function": "open_file",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          },
+          {
+            "function": "proof_file_close",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          },
+          {
+            "function": "proof_file_open",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          },
+          {
+            "function": "proof_stream_header",
+            "sampled_self_percent": 0.0,
+            "sampled_self_seconds": 0.0,
+            "calls": 1
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -5,6 +5,153 @@
     {
       "date": "2026-11-11",
       "status": "complete",
+      "scope": "Gprof function profiles and separate GNU time accounting for three original saved CORE successes.",
+      "workflow_base_git": "e815385323cb65efdaa56522a4525868e5e3a441",
+      "workflow_source_git": "3c5f48fa6e3b07985d9120adae9d506fd4e02b88",
+      "workflow_sha256": {
+        "profile_checker_medium.py": "24ae7075e486f3cbdff8f593499d97d60008a1d340e2f990644ed67357f5ce40",
+        "replay_checker_handoff.py": "77ab805dcebc41643a1efa7b6c9ca2ef046a5d13b50400811cf3ef58a3e0b0bd",
+        "replay_micromath_lra.py": "ed5f08cacb655f42b4ee940c82796ab369cdd40660e18c20cee5c1e6653e2c04",
+        "replay_checker_medium.py": "2796d4ee6b654cfa73cbb9deb91d20924d80a09a4ada3a5031c93846fd309f57",
+        "replay_remaining_checker_failures.py": "d0f9fb5ee6505f1423bbe72e2b9ccc94afc45455b1bb949ecb631276bc622b25",
+        "micromath_stress.py": "4bc25d2a41e4cdcb1822b9b91a6bb3063966e365d55143ef9c48560db8b8af6a",
+        "check_lra_certificate.py": "45006b3c03bb9faa13c9b79627cb0ad534033307be9dd360d25c5eb63e89782a"
+      },
+      "native_export_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
+      "native_solving_rerun": false,
+      "optimizer_called": false,
+      "checker_git": "62353d2da3035fdc544c374156bd616b44fb8640",
+      "checker_sha256": {
+        "baseline": {
+          "build-axioms": "2e65ed67555c1997bab373556c1090f6ea22bab379e5c76603979c709cafbc21",
+          "smt/build-lra-challenge": "4c342a98ca1ef5da81b3d8592a935608d54c24cbb6e5dac5d9e944acb4524f0b",
+          "smt/build-lia-challenge": "eb092a4b9b04506ac9cfef65190f7c553a098141c6d0f80008d1583fe9dcb0b8",
+          "smt/prove-lra": "c08d0fff84d2012b307a05e9a2fb16f6b39f6750dc2da290d2acd514fda7a3fb",
+          "smt/prove-lia": "8bb91aab9b71b59a74b9c522a93ccb7ad38922ba1fb1a2418574b0522274ad09",
+          "check-solution": "4acea307cb92eb5ef1ba3469135a90621877c73d93bce0095064f3aaf5185cd5"
+        },
+        "gprof": {
+          "build-axioms": "deeba00260390ff28b8c7c30268e295800e41972be00d401b1eafa4021f1b4e5",
+          "smt/build-lra-challenge": "94e230424ad787103dffe1f5fcd174631f372d7977bbd32715bcf1dd3f2b669c",
+          "smt/build-lia-challenge": "973459387e74150d1e979dca25a8c364b580988dd48e09106b76b5e4968bdb9c",
+          "smt/prove-lra": "3d921986c4c96d8bf241c1e40c845dd11effb28d965a9efba83ea2e4bd306f30",
+          "smt/prove-lia": "46afb25e0f1e0994923e86bdfdcded21b7a30b8c90837173d6fc6e45489a3b2f",
+          "check-solution": "6aeb81388e28b569bcff222dfe3ee7f47bb812301c27705a4ad0c4f088dc8993"
+        }
+      },
+      "cadical_sha256": "678b51caea85af331086fc5838a0f76e1da72d04a58f52fac79ce9481980c107",
+      "time_tool_sha256": "db73dfb29414b2a3c9ba7bb85bf10c1e32644c51f2918813398f75eaccbb45a6",
+      "selection": {
+        "path": "benchmarks/checker-regressions/checker-medium-comparison-20261111/selection.json",
+        "sha256": "f0252197921255c77ff05a5f640171844daf720e8f0c648c3da6b777a23ebab9"
+      },
+      "jobs": {
+        "build": "382587",
+        "setup_missing_import": "382591_0..2",
+        "setup_missing_time": "382595_0..2",
+        "initial": "382598_0..2",
+        "cancelled_archive_dependency": "382602",
+        "clock_retry": "382605_2",
+        "archive": "382608"
+      },
+      "allocation": {
+        "build_cpus": 4,
+        "build_memory_gib": 8,
+        "build_minutes": 20,
+        "workers": 3,
+        "cpus_per_worker": 2,
+        "memory_gib_per_worker": 8,
+        "wall_minutes": 15,
+        "clock_retry_wall_minutes": 6,
+        "archive_cpus": 1,
+        "archive_memory_gib": 3,
+        "archive_minutes": 5
+      },
+      "limits": {
+        "axioms_seconds": 30,
+        "challenge_seconds": 60,
+        "baseline_pipeline_seconds": 120,
+        "instrumented_pipeline_seconds": 600,
+        "gprof_report_seconds": 30,
+        "child_address_bytes": 3221225472,
+        "child_file_bytes": 268435456
+      },
+      "counts": {
+        "distinct_cases": 3,
+        "baseline_proofs_verified": 4,
+        "instrumented_proofs_verified": 4,
+        "selected_complete_producer_profiles": 3,
+        "selected_complete_kernel_profiles": 3,
+        "checker_timeout": 0,
+        "checker_error": 0,
+        "setup_failed_tasks": 6,
+        "initial_missing_producer_gmon": 1,
+        "profiling_recovered": 1
+      },
+      "profiling": {
+        "compiler": "gcc (GCC) 11.4.1 20231218 (Red Hat 11.4.1-3)",
+        "flags": "-O2 -g -Wall -Wextra -pg (compile and link)",
+        "clock_retry_GLIBC_TUNABLES": "glibc.gmon.minarcs=1000000:glibc.gmon.maxarcs=1000000",
+        "gprof_command": "gprof -b EXECUTABLE GMON",
+        "coverage": "Function-level sampled self time and instrumented call counts; no source annotation. External SAT uninstrumented; dependency/shared-library coverage incomplete; child times estimated."
+      },
+      "initial_clock_profiling_failure": {
+        "worker_status": "workflow_error",
+        "error": "expected one gmon file per instrumented executable",
+        "proof_status": "verified",
+        "proof_exit_codes": [
+          0,
+          0
+        ],
+        "diagnostic": "mcount: call graph buffer size limit exceeded, gmon.out will not be generated",
+        "initial_instrumented_metrics": {
+          "producer": {
+            "user_seconds": 175.41,
+            "system_seconds": 1.0,
+            "elapsed_seconds": 177.5,
+            "max_rss_kib": 96960.0,
+            "voluntary_switches": 18.0,
+            "involuntary_switches": 222.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 8.0,
+            "exit_status": 0.0
+          },
+          "kernel": {
+            "user_seconds": 55.99,
+            "system_seconds": 1.71,
+            "elapsed_seconds": 177.5,
+            "max_rss_kib": 12088.0,
+            "voluntary_switches": 469540.0,
+            "involuntary_switches": 1204.0,
+            "filesystem_inputs": 0.0,
+            "filesystem_outputs": 24.0,
+            "exit_status": 0.0
+          }
+        }
+      },
+      "bundle": {
+        "path": "benchmarks/checker-regressions/checker-gprof-20261111/results.tar.gz",
+        "bytes": 2234594,
+        "sha256": "268a0c15688e507d8dc252b514740630d16cbfd592df48655034f51e605bfdb1",
+        "payload_files": 180
+      },
+      "result": "Producer accounts for about 71-74% of combined baseline CPU. Kernel samples mainly number decoding and replay. Large primitive proof volumes and busy definition/stream symbols motivate author investigation; no checker optimization implemented.",
+      "id": "2026-11-11-medium-checker-gprof",
+      "kind": "separate-producer-kernel-gprof-and-resource-accounting",
+      "evidence_status": "complete",
+      "finished": true,
+      "ledger": "docs/coverage/checker-gprof-20261111.json",
+      "report": "docs/evidence/checker-gprof-20261111.md",
+      "commands": {
+        "build": "sbatch scripts/slurm_build_micromath_gprof.sbatch (isolated worktree; environment in wrapper)",
+        "profile": "sbatch scripts/slurm_profile_checker_medium.sbatch (environment in wrapper)",
+        "driver": "python3 scripts/profile_checker_medium.py --selection SELECTION --saved SAVED --checker QUALIFIED --build-report BUILD --profile-checker PG --profile-build-report PG_BUILD --checker-git REV --workflow-git BASE --cadical CADICAL --time-tool TIME --index INDEX --out OUT",
+        "clock_retry": "sbatch bundle/workflow/retry.sbatch (Clock7 only; GLIBC_TUNABLES=glibc.gmon.minarcs=1000000:glibc.gmon.maxarcs=1000000)"
+      }
+    },
+    {
+      "date": "2026-11-11",
+      "status": "complete",
       "scope": "Three saved CORE successes, original/cheap/size/support; no improvement.",
       "workflow_git": "e815385323cb65efdaa56522a4525868e5e3a441",
       "native_export_git": "a512315901c56ba95c555935a0bd3a7f092c9c00",
