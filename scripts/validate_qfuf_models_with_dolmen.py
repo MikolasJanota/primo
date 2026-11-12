@@ -219,6 +219,7 @@ def has_solver_error(stdout: str, stderr: str) -> bool:
 RESOURCE_LIMIT_UNKNOWN_REASONS = frozenset(
     {
         "integer branch-and-bound node limit",
+        "integer split atom limit",
         "theory conflict limit reached",
         "quantifier instantiation budget reached",
     }

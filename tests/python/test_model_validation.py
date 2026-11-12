@@ -295,6 +295,31 @@ class ModelValidationTests(unittest.TestCase):
                 if suffix is not None:
                     self.assertTrue(row["message"].endswith(suffix), row["message"])
 
+    def test_hybrid_split_atom_limit_preserves_resource_unknown(self) -> None:
+        stdout = 'unknown\n(error "get-model requires a current SAT model")\n'
+        stderr = (
+            "integer split atom limit\n"
+            "get-model requires a current SAT model\n"
+        )
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            case = root / "case.smt2"
+            self.write_case(case)
+            result, out = self.run_main(
+                ["--out", str(root / "out"), str(case)],
+                [("done", 2, stdout, stderr, 0.01)],
+            )
+            self.assertEqual(result, 1)
+            with (out / "summary.csv").open() as stream:
+                row = next(csv.DictReader(stream))
+            self.assertEqual(row["answer"], "unknown")
+            self.assertEqual(row["outcome"], "solver-unknown")
+            self.assertEqual(row["solver_exit"], "2")
+            self.assertTrue(
+                row["message"].endswith("; reason: integer split atom limit"),
+                row["message"],
+            )
+
     def test_unsupported_query_is_recorded_without_launching_solver(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)

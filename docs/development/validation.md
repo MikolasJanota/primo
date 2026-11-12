@@ -19,7 +19,8 @@ process exit. It records UNSAT as `not-sat` with the message
 `no model expected; get-model refused`. UNKNOWN stays `solver-unknown`.
 After UNKNOWN, stderr may also hold one reason line, printed before the
 refusal, if it names an exhausted budget: the branch-and-bound node limit,
-the theory conflict limit or the quantifier instantiation budget
+the hybrid integer split atom limit (`--lia-split-atom-limit`), the theory
+conflict limit or the quantifier instantiation budget
 (`RESOURCE_LIMIT_UNKNOWN_REASONS`). The row's message then ends with
 `; reason: <line>`. Any other reason, such as a stale or incomplete theory
 model, makes the run a `solver-error`. A gate that accepts `solver-unknown`
