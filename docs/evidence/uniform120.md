@@ -1,6 +1,9 @@
 (uniform120-evaluation)=
 # Uniform 120-second theory comparisons
 
+[Open the consolidated comparison page](ground-comparison.md) for this
+full-corpus archive alongside the newer hybrid integer selections.
+
 **Status: complete and correctness-qualified.** The 120-second campaign finished
 38,470 native profile/input timing rows. All 20,351 successful native SAT timing
 rows have separate direct Dolmen validation. The four archived reference solvers

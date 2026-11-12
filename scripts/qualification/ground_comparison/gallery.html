@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Primo versus reference solvers · ground theories</title>
+  <style>
+    :root { --canvas:#f4f6fa; --surface:#ffffff; --soft:#edf1f7; --text:#1f2937;
+      --muted:#526174; --line:#d5dce6; --control:#68778c; --accent:#0057b8; }
+    * { box-sizing:border-box; }
+    [hidden] { display:none !important; }
+    html { scroll-padding-top:7rem; }
+    body { margin:0; background:var(--canvas); color:var(--text); font:16px/1.55 system-ui,sans-serif; }
+    main { max-width:1120px; margin:auto; padding:32px 24px 56px; }
+    h1 { max-width:26ch; margin:8px 0 16px; font-size:clamp(2rem,4vw,3rem); line-height:1.12; letter-spacing:-.025em; }
+    h2 { margin:0; font-size:1.4rem; line-height:1.3; }
+    p { max-width:88ch; margin:12px 0; }
+    a { color:var(--accent); text-underline-offset:3px; }
+    a:hover { text-decoration-thickness:2px; }
+    :is(a,select,summary,[tabindex]):focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
+    .eyebrow { color:var(--muted); font-size:.8rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
+    .intro { font-size:1.12rem; max-width:78ch; }
+    .muted { color:var(--muted); }
+    .facts,.links,.chart-links { display:flex; flex-wrap:wrap; gap:8px 20px; }
+    .facts { margin:20px 0; }
+    .facts span,.badge { background:var(--soft); color:var(--text); border-radius:5px; padding:4px 10px; font-size:.88rem; font-weight:600; }
+    .controls { display:flex; flex-wrap:wrap; align-items:end; gap:12px 24px; position:sticky; top:0;
+      z-index:2; margin:28px 0 18px; padding:16px; background:var(--surface); border:1px solid var(--line); border-radius:8px; box-shadow:0 3px 9px #1f29370a; }
+    label { display:grid; gap:5px; color:var(--muted); font-size:.88rem; font-weight:650; }
+    select { max-width:100%; min-height:42px; border:1px solid var(--control); border-radius:5px; padding:6px 32px 6px 10px; color:var(--text); background:var(--surface); font:inherit; font-weight:500; }
+    .cohort-note { min-height:5em; padding-left:15px; border-left:3px solid var(--control); }
+    .overview,.panel,.method { margin:24px 0; padding:24px; border:1px solid var(--line); border-radius:10px; background:var(--surface); }
+    .overview h2 { margin-bottom:16px; }
+    .panel-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .chart,.table-scroll { overflow-x:auto; max-width:100%; }
+    .chart { margin:20px 0 4px; }
+    .chart img { display:block; width:900px; max-width:none; height:auto; }
+    .chart-links { font-size:.9rem; margin:8px 0 18px; }
+    table { border-collapse:collapse; width:100%; font-size:.92rem; font-variant-numeric:tabular-nums; }
+    th,td { padding:10px 12px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap; }
+    th:first-child,td:first-child { text-align:left; }
+    thead th { background:var(--soft); color:var(--text); font-weight:650; }
+    tbody tr:nth-child(even) { background:#f8f9fc; }
+    tbody tr:hover { background:var(--soft); }
+    tr.native th { font-weight:750; }
+    details { margin:10px 0; }
+    summary { cursor:pointer; font-weight:650; color:var(--text); }
+    code { overflow-wrap:anywhere; font-size:.84rem; }
+    .method ul { padding-left:22px; }
+    .method li { margin:8px 0; }
+    footer { margin:28px 0 0; color:var(--muted); font-size:.88rem; }
+    @media(min-width:1000px) { .chart img { margin:auto; } }
+    @media(max-width:600px) {
+      main { padding:20px 12px 36px; } .overview,.panel,.method { padding:16px 12px; }
+      .controls { position:static; padding:12px; } label { width:100%; } select { width:100%; }
+      html { scroll-padding-top:16px; } .cohort-note { min-height:0; } th,td { padding:9px; }
+    }
+    @media print { body { background:white; } .controls { position:static; } .chart { overflow:visible; }
+      .chart img { max-width:100%; } .panel { break-inside:avoid; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Primo · benchmark evidence</div>
+    <h1>Ground theories, compared.</h1>
+    <p class="intro">Primo against Z3, cvc5, Yices and OpenSMT across all five supported ground divisions.
+      Explore the qualified full corpora or the latest hybrid integer selections.</p>
+    <div class="facts"><span>120 seconds per input</span><span>8 GiB address-space cap</span>
+      <span>One physical CPU</span><span>Native SAT models checked separately</span></div>
+    <p class="muted">Existing SLURM measurements, with exact input hashes matched across solvers.
+      Native dates are 9 or 12 November 2026; reference runs are archived from 24 October.
+      This page redraws the evidence without running solvers.</p>
+    <nav class="links" aria-label="Evidence links"><a href="../../evidence/ground-comparison.html">Methods and provenance</a>
+      <a href="summary.json">Results JSON</a><a href="provenance.json">Source hashes</a></nav>
+  </header>
+
+  <div class="controls" aria-label="Comparison controls">
+    <label for="cohort">Comparison
+      <select id="cohort"><option value="full">Full corpora · 9 Nov 2026</option>
+        <option value="hybrid">Hybrid integer selections · 12 Nov 2026</option></select>
+    </label>
+    <label for="view">Input view
+      <select id="view"><option value="all">All inputs</option>
+        <option value="hard">Remove shared easy inputs (&lt;1s)</option></select>
+    </label>
+  </div>
+  <div class="cohort-note" aria-live="polite">
+    <p id="scope">Full-corpus archive: one fixed Primo profile per logic, chosen by most full-corpus solves,
+      then lowest PAR2. QF_LIA uses the optional integer profile; the other divisions use defaults.
+      This is an archived comparison, not a rerun of current HEAD.</p>
+    <p id="filter" class="muted">All inputs are included. Higher curves mean more solved within the time budget.</p>
+  </div>
+  <noscript><p>Enable JavaScript to switch cohorts and input views. The full-corpus comparison is displayed below.</p></noscript>
+
+  @@OVERVIEW@@
+  @@PANELS@@
+
+  <section class="method" aria-labelledby="reading">
+    <h2 id="reading">Reading the comparison</h2>
+    <ul>
+      <li>The x-axis is the per-instance time budget on a log scale. The y-axis is the percentage of the
+        displayed cohort solved. Higher is better; times below 10 ms share the left edge.</li>
+      <li>A solve requires a successful <code>sat</code> or <code>unsat</code> answer and exit status zero.
+        Unknown, timeout, memory-out, unsupported and error rows remain unsolved. Archived reference errors remain in the totals.</li>
+      <li>The filtered view removes only inputs every displayed solver solves in under one second.
+        Both the chart and all table metrics are recomputed for that same cohort.</li>
+      <li>PAR2 assigns 240 seconds to every unsolved input; the tables show its mean per input.
+        Model validation time is excluded from native timings.</li>
+      <li>The latest hybrid comparison has 200 selected QF_LIA and 300 SMT-COMP 2026 QF_UFLIA inputs.
+        It excludes Certora diagnostic repetitions and regression repeats. Hybrid remains opt-in;
+        it has repeated regressions as well as gains. Selections do not determine full-corpus rankings.</li>
+      <li>Reference 1200-second runs are censored at 120 seconds. Identical inputs and nominal limits
+        permit comparison, but different dates and builds make this an archived comparison rather than a controlled fresh speedup experiment.</li>
+    </ul>
+    <p><strong>Reference versions:</strong> Z3 5.1.0 · cvc5 1.3.4 · Yices 2.7.0 · OpenSMT 2.9.2.</p>
+    <nav class="links" aria-label="Detailed reports"><a href="../../evidence/uniform120.html">Full-corpus qualification</a>
+      <a href="../../evidence/lia-hybrid-20261111.html">Hybrid gains and regressions</a>
+      <a href="../uniform120-20261109/index.html">Original full-corpus gallery</a></nav>
+  </section>
+  <footer>Ground here means quantifier-free: QF_UF, QF_LRA, QF_LIA, QF_UFLRA and QF_UFLIA.
+    Results retain the measured configurations; no per-input Primo portfolio is used.</footer>
+</main>
+<script>
+  const cohort = document.getElementById('cohort');
+  const view = document.getElementById('view');
+  const scope = document.getElementById('scope');
+  const filter = document.getElementById('filter');
+  const notes = {
+    full: 'Full-corpus archive: one fixed Primo profile per logic, chosen by most full-corpus solves, then lowest PAR2. QF_LIA uses the optional integer profile; the other divisions use defaults. This is an archived comparison, not a rerun of current HEAD.',
+    hybrid: 'Latest integer selections: 200 QF_LIA and 300 QF_UFLIA inputs. Primo hybrid (opt-in) and the frozen private baseline are shown with the same four reference solvers. These selected-input results are separate from the full-corpus archive.'
+  };
+  function apply(updateHash) {
+    for (const element of document.querySelectorAll('[data-group][data-view]')) {
+      element.hidden = element.dataset.group !== cohort.value || element.dataset.view !== view.value;
+    }
+    scope.textContent = notes[cohort.value];
+    filter.textContent = view.value === 'all'
+      ? 'All inputs are included. Higher curves mean more solved within the time budget.'
+      : 'Inputs solved by every displayed solver in under 1s are removed. Charts and tables use the same remaining inputs; higher is better.';
+    if (updateHash) history.replaceState(null, '', '#' + cohort.value + '-' + view.value);
+  }
+  function fromHash() {
+    const parts = location.hash.slice(1).split('-');
+    if (['full', 'hybrid'].includes(parts[0]) && ['all', 'hard'].includes(parts[1])) {
+      cohort.value = parts[0]; view.value = parts[1];
+    }
+    apply(false);
+  }
+  cohort.addEventListener('change', () => apply(true));
+  view.addEventListener('change', () => apply(true));
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+</script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+{
+  "status": "pass",
+  "checks": [
+    {
+      "group": "full",
+      "view": "all",
+      "panels": [
+        "full-all-QF_UF",
+        "full-all-QF_LRA",
+        "full-all-QF_LIA",
+        "full-all-QF_UFLRA",
+        "full-all-QF_UFLIA"
+      ],
+      "rows": [
+        [
+          "QF_UF",
+          "7,503",
+          "7,501",
+          "7,496",
+          "7,484",
+          "7,501",
+          "7,484"
+        ],
+        [
+          "QF_LRA",
+          "1,753",
+          "1,642",
+          "1,516",
+          "1,394",
+          "1,605",
+          "1,623"
+        ],
+        [
+          "QF_LIA",
+          "13,306",
+          "11,302",
+          "12,420",
+          "9,397",
+          "12,157",
+          "11,264"
+        ],
+        [
+          "QF_UFLRA",
+          "1,284",
+          "1,271",
+          "1,253",
+          "1,273",
+          "1,276",
+          "1,265"
+        ],
+        [
+          "QF_UFLIA",
+          "659",
+          "577",
+          "620",
+          "607",
+          "615",
+          "605"
+        ]
+      ],
+      "overviews": 1,
+      "overflow": false,
+      "scope": "Full-corpus archive: one fixed Primo profile per logic, chosen by most full-corpus solves, then lowest PAR2. QF_LIA uses the optional integer profile; the other divisions use defaults. This is an archived comparison, not a rerun of current HEAD."
+    },
+    {
+      "group": "full",
+      "view": "hard",
+      "panels": [
+        "full-hard-QF_UF",
+        "full-hard-QF_LRA",
+        "full-hard-QF_LIA",
+        "full-hard-QF_UFLRA",
+        "full-hard-QF_UFLIA"
+      ],
+      "rows": [
+        [
+          "QF_UF",
+          "1,090",
+          "1,088",
+          "1,083",
+          "1,071",
+          "1,088",
+          "1,071"
+        ],
+        [
+          "QF_LRA",
+          "827",
+          "716",
+          "590",
+          "468",
+          "679",
+          "697"
+        ],
+        [
+          "QF_LIA",
+          "6,377",
+          "4,373",
+          "5,491",
+          "2,468",
+          "5,228",
+          "4,335"
+        ],
+        [
+          "QF_UFLRA",
+          "159",
+          "146",
+          "128",
+          "148",
+          "151",
+          "140"
+        ],
+        [
+          "QF_UFLIA",
+          "365",
+          "283",
+          "326",
+          "313",
+          "321",
+          "311"
+        ]
+      ],
+      "overviews": 1,
+      "overflow": false,
+      "scope": "Full-corpus archive: one fixed Primo profile per logic, chosen by most full-corpus solves, then lowest PAR2. QF_LIA uses the optional integer profile; the other divisions use defaults. This is an archived comparison, not a rerun of current HEAD."
+    },
+    {
+      "group": "hybrid",
+      "view": "all",
+      "panels": [
+        "hybrid-all-QF_LIA",
+        "hybrid-all-QF_UFLIA"
+      ],
+      "rows": [
+        [
+          "QF_LIA",
+          "200",
+          "134",
+          "199",
+          "164",
+          "170",
+          "193",
+          "104"
+        ],
+        [
+          "QF_UFLIA",
+          "300",
+          "260",
+          "282",
+          "276",
+          "284",
+          "277",
+          "259"
+        ]
+      ],
+      "overviews": 1,
+      "overflow": false,
+      "scope": "Latest integer selections: 200 QF_LIA and 300 QF_UFLIA inputs. Primo hybrid (opt-in) and the frozen private baseline are shown with the same four reference solvers. These selected-input results are separate from the full-corpus archive."
+    },
+    {
+      "group": "hybrid",
+      "view": "hard",
+      "panels": [
+        "hybrid-hard-QF_LIA",
+        "hybrid-hard-QF_UFLIA"
+      ],
+      "rows": [
+        [
+          "QF_LIA",
+          "149",
+          "83",
+          "148",
+          "113",
+          "119",
+          "142",
+          "53"
+        ],
+        [
+          "QF_UFLIA",
+          "208",
+          "168",
+          "190",
+          "184",
+          "192",
+          "185",
+          "167"
+        ]
+      ],
+      "overviews": 1,
+      "overflow": false,
+      "scope": "Latest integer selections: 200 QF_LIA and 300 QF_UFLIA inputs. Primo hybrid (opt-in) and the frozen private baseline are shown with the same four reference solvers. These selected-input results are separate from the full-corpus archive."
+    }
+  ],
+  "mobile_width": 390,
+  "javascript_errors": []
+}

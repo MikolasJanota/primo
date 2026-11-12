@@ -1,6 +1,9 @@
 (lia-hybrid-evidence)=
 # Hybrid integer branching: qualification and tradeoffs
 
+[Compare all ground divisions and reference solvers](ground-comparison.md).
+The gallery includes both these hybrid selections and the full-corpus archive.
+
 **Accepted as an opt-in policy. Private branching remains the default.**
 On the requested 200-input QF_LIA selection, hybrid solves 134 inputs versus
 104 for frozen pre-change HEAD. On the 300-input QF_UFLIA selection it solves

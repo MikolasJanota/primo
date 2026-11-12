@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Primo versus reference solvers · ground theories</title>
+  <style>
+    :root { --canvas:#f4f6fa; --surface:#ffffff; --soft:#edf1f7; --text:#1f2937;
+      --muted:#526174; --line:#d5dce6; --control:#68778c; --accent:#0057b8; }
+    * { box-sizing:border-box; }
+    [hidden] { display:none !important; }
+    html { scroll-padding-top:7rem; }
+    body { margin:0; background:var(--canvas); color:var(--text); font:16px/1.55 system-ui,sans-serif; }
+    main { max-width:1120px; margin:auto; padding:32px 24px 56px; }
+    h1 { max-width:26ch; margin:8px 0 16px; font-size:clamp(2rem,4vw,3rem); line-height:1.12; letter-spacing:-.025em; }
+    h2 { margin:0; font-size:1.4rem; line-height:1.3; }
+    p { max-width:88ch; margin:12px 0; }
+    a { color:var(--accent); text-underline-offset:3px; }
+    a:hover { text-decoration-thickness:2px; }
+    :is(a,select,summary,[tabindex]):focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
+    .eyebrow { color:var(--muted); font-size:.8rem; font-weight:700; letter-spacing:.09em; text-transform:uppercase; }
+    .intro { font-size:1.12rem; max-width:78ch; }
+    .muted { color:var(--muted); }
+    .facts,.links,.chart-links { display:flex; flex-wrap:wrap; gap:8px 20px; }
+    .facts { margin:20px 0; }
+    .facts span,.badge { background:var(--soft); color:var(--text); border-radius:5px; padding:4px 10px; font-size:.88rem; font-weight:600; }
+    .controls { display:flex; flex-wrap:wrap; align-items:end; gap:12px 24px; position:sticky; top:0;
+      z-index:2; margin:28px 0 18px; padding:16px; background:var(--surface); border:1px solid var(--line); border-radius:8px; box-shadow:0 3px 9px #1f29370a; }
+    label { display:grid; gap:5px; color:var(--muted); font-size:.88rem; font-weight:650; }
+    select { max-width:100%; min-height:42px; border:1px solid var(--control); border-radius:5px; padding:6px 32px 6px 10px; color:var(--text); background:var(--surface); font:inherit; font-weight:500; }
+    .cohort-note { min-height:5em; padding-left:15px; border-left:3px solid var(--control); }
+    .overview,.panel,.method { margin:24px 0; padding:24px; border:1px solid var(--line); border-radius:10px; background:var(--surface); }
+    .overview h2 { margin-bottom:16px; }
+    .panel-heading { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .chart,.table-scroll { overflow-x:auto; max-width:100%; }
+    .chart { margin:20px 0 4px; }
+    .chart img { display:block; width:900px; max-width:none; height:auto; }
+    .chart-links { font-size:.9rem; margin:8px 0 18px; }
+    table { border-collapse:collapse; width:100%; font-size:.92rem; font-variant-numeric:tabular-nums; }
+    th,td { padding:10px 12px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap; }
+    th:first-child,td:first-child { text-align:left; }
+    thead th { background:var(--soft); color:var(--text); font-weight:650; }
+    tbody tr:nth-child(even) { background:#f8f9fc; }
+    tbody tr:hover { background:var(--soft); }
+    tr.native th { font-weight:750; }
+    details { margin:10px 0; }
+    summary { cursor:pointer; font-weight:650; color:var(--text); }
+    code { overflow-wrap:anywhere; font-size:.84rem; }
+    .method ul { padding-left:22px; }
+    .method li { margin:8px 0; }
+    footer { margin:28px 0 0; color:var(--muted); font-size:.88rem; }
+    @media(min-width:1000px) { .chart img { margin:auto; } }
+    @media(max-width:600px) {
+      main { padding:20px 12px 36px; } .overview,.panel,.method { padding:16px 12px; }
+      .controls { position:static; padding:12px; } label { width:100%; } select { width:100%; }
+      html { scroll-padding-top:16px; } .cohort-note { min-height:0; } th,td { padding:9px; }
+    }
+    @media print { body { background:white; } .controls { position:static; } .chart { overflow:visible; }
+      .chart img { max-width:100%; } .panel { break-inside:avoid; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <div class="eyebrow">Primo · benchmark evidence</div>
+    <h1>Ground theories, compared.</h1>
+    <p class="intro">Primo against Z3, cvc5, Yices and OpenSMT across all five supported ground divisions.
+      Explore the qualified full corpora or the latest hybrid integer selections.</p>
+    <div class="facts"><span>120 seconds per input</span><span>8 GiB address-space cap</span>
+      <span>One physical CPU</span><span>Native SAT models checked separately</span></div>
+    <p class="muted">Existing SLURM measurements, with exact input hashes matched across solvers.
+      Native dates are 9 or 12 November 2026; reference runs are archived from 24 October.
+      This page redraws the evidence without running solvers.</p>
+    <nav class="links" aria-label="Evidence links"><a href="../../evidence/ground-comparison.html">Methods and provenance</a>
+      <a href="summary.json">Results JSON</a><a href="provenance.json">Source hashes</a></nav>
+  </header>
+
+  <div class="controls" aria-label="Comparison controls">
+    <label for="cohort">Comparison
+      <select id="cohort"><option value="full">Full corpora · 9 Nov 2026</option>
+        <option value="hybrid">Hybrid integer selections · 12 Nov 2026</option></select>
+    </label>
+    <label for="view">Input view
+      <select id="view"><option value="all">All inputs</option>
+        <option value="hard">Remove shared easy inputs (&lt;1s)</option></select>
+    </label>
+  </div>
+  <div class="cohort-note" aria-live="polite">
+    <p id="scope">Full-corpus archive: one fixed Primo profile per logic, chosen by most full-corpus solves,
+      then lowest PAR2. QF_LIA uses the optional integer profile; the other divisions use defaults.
+      This is an archived comparison, not a rerun of current HEAD.</p>
+    <p id="filter" class="muted">All inputs are included. Higher curves mean more solved within the time budget.</p>
+  </div>
+  <noscript><p>Enable JavaScript to switch cohorts and input views. The full-corpus comparison is displayed below.</p></noscript>
+
+  <div class="overview" data-group="full" data-view="all"><h2>Solved inputs</h2><div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Logic</th><th scope="col">Inputs</th><th scope="col">Primo</th><th scope="col">Z3</th><th scope="col">cvc5</th><th scope="col">Yices</th><th scope="col">OpenSMT</th></tr></thead><tbody><tr><th scope="row"><a href="#full-all-QF_UF">QF_UF</a></th><td>7,503</td><td>7,501</td><td>7,496</td><td>7,484</td><td>7,501</td><td>7,484</td></tr><tr><th scope="row"><a href="#full-all-QF_LRA">QF_LRA</a></th><td>1,753</td><td>1,642</td><td>1,516</td><td>1,394</td><td>1,605</td><td>1,623</td></tr><tr><th scope="row"><a href="#full-all-QF_LIA">QF_LIA</a></th><td>13,306</td><td>11,302</td><td>12,420</td><td>9,397</td><td>12,157</td><td>11,264</td></tr><tr><th scope="row"><a href="#full-all-QF_UFLRA">QF_UFLRA</a></th><td>1,284</td><td>1,271</td><td>1,253</td><td>1,273</td><td>1,276</td><td>1,265</td></tr><tr><th scope="row"><a href="#full-all-QF_UFLIA">QF_UFLIA</a></th><td>659</td><td>577</td><td>620</td><td>607</td><td>615</td><td>605</td></tr></tbody></table></div></div>
+<div class="overview" data-group="full" data-view="hard" hidden><h2>Solved inputs</h2><div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Logic</th><th scope="col">Inputs</th><th scope="col">Primo</th><th scope="col">Z3</th><th scope="col">cvc5</th><th scope="col">Yices</th><th scope="col">OpenSMT</th></tr></thead><tbody><tr><th scope="row"><a href="#full-hard-QF_UF">QF_UF</a></th><td>1,090</td><td>1,088</td><td>1,083</td><td>1,071</td><td>1,088</td><td>1,071</td></tr><tr><th scope="row"><a href="#full-hard-QF_LRA">QF_LRA</a></th><td>827</td><td>716</td><td>590</td><td>468</td><td>679</td><td>697</td></tr><tr><th scope="row"><a href="#full-hard-QF_LIA">QF_LIA</a></th><td>6,377</td><td>4,373</td><td>5,491</td><td>2,468</td><td>5,228</td><td>4,335</td></tr><tr><th scope="row"><a href="#full-hard-QF_UFLRA">QF_UFLRA</a></th><td>159</td><td>146</td><td>128</td><td>148</td><td>151</td><td>140</td></tr><tr><th scope="row"><a href="#full-hard-QF_UFLIA">QF_UFLIA</a></th><td>365</td><td>283</td><td>326</td><td>313</td><td>321</td><td>311</td></tr></tbody></table></div></div>
+<div class="overview" data-group="hybrid" data-view="all" hidden><h2>Solved inputs</h2><div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Logic</th><th scope="col">Inputs</th><th scope="col">Primo hybrid</th><th scope="col">Z3</th><th scope="col">cvc5</th><th scope="col">Yices</th><th scope="col">OpenSMT</th><th scope=col>Primo private</th></tr></thead><tbody><tr><th scope="row"><a href="#hybrid-all-QF_LIA">QF_LIA</a></th><td>200</td><td>134</td><td>199</td><td>164</td><td>170</td><td>193</td><td>104</td></tr><tr><th scope="row"><a href="#hybrid-all-QF_UFLIA">QF_UFLIA</a></th><td>300</td><td>260</td><td>282</td><td>276</td><td>284</td><td>277</td><td>259</td></tr></tbody></table></div></div>
+<div class="overview" data-group="hybrid" data-view="hard" hidden><h2>Solved inputs</h2><div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Logic</th><th scope="col">Inputs</th><th scope="col">Primo hybrid</th><th scope="col">Z3</th><th scope="col">cvc5</th><th scope="col">Yices</th><th scope="col">OpenSMT</th><th scope=col>Primo private</th></tr></thead><tbody><tr><th scope="row"><a href="#hybrid-hard-QF_LIA">QF_LIA</a></th><td>149</td><td>83</td><td>148</td><td>113</td><td>119</td><td>142</td><td>53</td></tr><tr><th scope="row"><a href="#hybrid-hard-QF_UFLIA">QF_UFLIA</a></th><td>208</td><td>168</td><td>190</td><td>184</td><td>192</td><td>185</td><td>167</td></tr></tbody></table></div></div>
+  <section class="panel" id="full-all-QF_UF" data-group="full" data-view="all">
+<div class="panel-heading"><h2>QF_UF</h2><span class="badge">7,503 inputs</span></div>
+<p class="muted">Full corpus · native measured 9 Nov 2026 · Primo 7dd8874c (implementation cab1ebc4). Default profile.</p>
+<div class="chart" tabindex="0" aria-label="QF_UF cactus chart; scroll horizontally on small screens"><img src="full-all-qf_uf.svg" width="900" height="574" alt="QF_UF cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="full-all-qf_uf.svg">Open SVG</a><a href="full-all-qf_uf.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="reference"><th scope="row">Yices</th><td>7,501 / 7,503</td><td>0.141</td><td>3,142</td><td>4,359</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo</th><td>7,501 / 7,503</td><td>0.649</td><td>3,142</td><td>4,359</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Z3</th><td>7,496 / 7,503</td><td>0.489</td><td>3,142</td><td>4,354</td><td>7</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">cvc5</th><td>7,484 / 7,503</td><td>1.051</td><td>3,142</td><td>4,342</td><td>19</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>7,484 / 7,503</td><td>1.485</td><td>3,142</td><td>4,342</td><td>19</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>[&quot;--quiet&quot;]</code></p></details></section>
+<section class="panel" id="full-hard-QF_UF" data-group="full" data-view="hard" hidden>
+<div class="panel-heading"><h2>QF_UF</h2><span class="badge">1,090 inputs</span></div>
+<p class="muted">Full corpus · native measured 9 Nov 2026 · Primo 7dd8874c (implementation cab1ebc4). Default profile.</p>
+<div class="chart" tabindex="0" aria-label="QF_UF cactus chart; scroll horizontally on small screens"><img src="full-hard-qf_uf.svg" width="900" height="574" alt="QF_UF cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="full-hard-qf_uf.svg">Open SVG</a><a href="full-hard-qf_uf.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="reference"><th scope="row">Yices</th><td>1,088 / 1,090</td><td>0.878</td><td>180</td><td>908</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo</th><td>1,088 / 1,090</td><td>3.650</td><td>180</td><td>908</td><td>2</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Z3</th><td>1,083 / 1,090</td><td>3.022</td><td>180</td><td>903</td><td>7</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">cvc5</th><td>1,071 / 1,090</td><td>6.605</td><td>180</td><td>891</td><td>19</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>1,071 / 1,090</td><td>9.650</td><td>180</td><td>891</td><td>19</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>[&quot;--quiet&quot;]</code></p></details></section>
+<section class="panel" id="full-all-QF_LRA" data-group="full" data-view="all">
+<div class="panel-heading"><h2>QF_LRA</h2><span class="badge">1,753 inputs</span></div>
+<p class="muted">Full corpus · native measured 9 Nov 2026 · Primo 7dd8874c (implementation cab1ebc4). Default profile.</p>
+<div class="chart" tabindex="0" aria-label="QF_LRA cactus chart; scroll horizontally on small screens"><img src="full-all-qf_lra.svg" width="900" height="574" alt="QF_LRA cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="full-all-qf_lra.svg">Open SVG</a><a href="full-all-qf_lra.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="native"><th scope="row">Primo</th><td>1,642 / 1,753</td><td>21.130</td><td>983</td><td>659</td><td>111</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>1,623 / 1,753</td><td>23.487</td><td>948</td><td>675</td><td>130</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Yices</th><td>1,605 / 1,753</td><td>24.871</td><td>978</td><td>627</td><td>148</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Z3</th><td>1,516 / 1,753</td><td>40.316</td><td>927</td><td>589</td><td>237</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">cvc5</th><td>1,394 / 1,753</td><td>58.247</td><td>837</td><td>557</td><td>359</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>[&quot;--quiet&quot;]</code></p></details></section>
+<section class="panel" id="full-hard-QF_LRA" data-group="full" data-view="hard" hidden>
+<div class="panel-heading"><h2>QF_LRA</h2><span class="badge">827 inputs</span></div>
+<p class="muted">Full corpus · native measured 9 Nov 2026 · Primo 7dd8874c (implementation cab1ebc4). Default profile.</p>
+<div class="chart" tabindex="0" aria-label="QF_LRA cactus chart; scroll horizontally on small screens"><img src="full-hard-qf_lra.svg" width="900" height="574" alt="QF_LRA cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="full-hard-qf_lra.svg">Open SVG</a><a href="full-hard-qf_lra.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="native"><th scope="row">Primo</th><td>716 / 827</td><td>44.742</td><td>441</td><td>275</td><td>111</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>697 / 827</td><td>49.753</td><td>406</td><td>291</td><td>130</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Yices</th><td>679 / 827</td><td>52.708</td><td>436</td><td>243</td><td>148</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Z3</th><td>590 / 827</td><td>85.408</td><td>385</td><td>205</td><td>237</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">cvc5</th><td>468 / 827</td><td>123.363</td><td>295</td><td>173</td><td>359</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>[&quot;--quiet&quot;]</code></p></details></section>
+<section class="panel" id="full-all-QF_LIA" data-group="full" data-view="all">
+<div class="panel-heading"><h2>QF_LIA</h2><span class="badge">13,306 inputs</span></div>
+<p class="muted">Full corpus · native measured 9 Nov 2026 · Primo 7dd8874c (implementation cab1ebc4). Fixed integer profile.</p>
+<div class="chart" tabindex="0" aria-label="QF_LIA cactus chart; scroll horizontally on small screens"><img src="full-all-qf_lia.svg" width="900" height="574" alt="QF_LIA cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="full-all-qf_lia.svg">Open SVG</a><a href="full-all-qf_lia.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="reference"><th scope="row">Z3</th><td>12,420 / 13,306</td><td>20.392</td><td>7,977</td><td>4,443</td><td>886</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Yices</th><td>12,157 / 13,306</td><td>22.031</td><td>7,643</td><td>4,514</td><td>1,149</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo</th><td>11,302 / 13,306</td><td>44.594</td><td>7,656</td><td>3,646</td><td>1,288</td><td>328</td><td>388</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>11,264 / 13,306</td><td>43.451</td><td>7,070</td><td>4,194</td><td>2,021</td><td>0</td><td>0</td><td>0</td><td>21</td></tr><tr class="reference"><th scope="row">cvc5</th><td>9,397 / 13,306</td><td>73.131</td><td>6,620</td><td>2,777</td><td>3,848</td><td>0</td><td>27</td><td>0</td><td>34</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>[&quot;--quiet&quot;, &quot;--lia-round-integer-bounds&quot;, &quot;--lia-primitive-int-rows&quot;, &quot;--no-lia-integer-slacks&quot;, &quot;--lia-patch-integral-moves&quot;, &quot;--lia-cube=uniform&quot;]</code></p></details></section>
+<section class="panel" id="full-hard-QF_LIA" data-group="full" data-view="hard" hidden>
+<div class="panel-heading"><h2>QF_LIA</h2><span class="badge">6,377 inputs</span></div>
+<p class="muted">Full corpus · native measured 9 Nov 2026 · Primo 7dd8874c (implementation cab1ebc4). Fixed integer profile.</p>
+<div class="chart" tabindex="0" aria-label="QF_LIA cactus chart; scroll horizontally on small screens"><img src="full-hard-qf_lia.svg" width="900" height="574" alt="QF_LIA cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="full-hard-qf_lia.svg">Open SVG</a><a href="full-hard-qf_lia.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="reference"><th scope="row">Z3</th><td>5,491 / 6,377</td><td>42.478</td><td>3,205</td><td>2,286</td><td>886</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Yices</th><td>5,228 / 6,377</td><td>45.957</td><td>2,871</td><td>2,357</td><td>1,149</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo</th><td>4,373 / 6,377</td><td>92.994</td><td>2,884</td><td>1,489</td><td>1,288</td><td>328</td><td>388</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>4,335 / 6,377</td><td>90.632</td><td>2,298</td><td>2,037</td><td>2,021</td><td>0</td><td>0</td><td>0</td><td>21</td></tr><tr class="reference"><th scope="row">cvc5</th><td>2,468 / 6,377</td><td>152.472</td><td>1,848</td><td>620</td><td>3,848</td><td>0</td><td>27</td><td>0</td><td>34</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>[&quot;--quiet&quot;, &quot;--lia-round-integer-bounds&quot;, &quot;--lia-primitive-int-rows&quot;, &quot;--no-lia-integer-slacks&quot;, &quot;--lia-patch-integral-moves&quot;, &quot;--lia-cube=uniform&quot;]</code></p></details></section>
+<section class="panel" id="full-all-QF_UFLRA" data-group="full" data-view="all">
+<div class="panel-heading"><h2>QF_UFLRA</h2><span class="badge">1,284 inputs</span></div>
+<p class="muted">Full corpus · native measured 9 Nov 2026 · Primo 7dd8874c (implementation cab1ebc4). Default profile.</p>
+<div class="chart" tabindex="0" aria-label="QF_UFLRA cactus chart; scroll horizontally on small screens"><img src="full-all-qf_uflra.svg" width="900" height="574" alt="QF_UFLRA cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="full-all-qf_uflra.svg">Open SVG</a><a href="full-all-qf_uflra.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="reference"><th scope="row">Yices</th><td>1,276 / 1,284</td><td>1.556</td><td>765</td><td>511</td><td>8</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">cvc5</th><td>1,273 / 1,284</td><td>2.794</td><td>762</td><td>511</td><td>10</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo</th><td>1,271 / 1,284</td><td>3.092</td><td>760</td><td>511</td><td>7</td><td>0</td><td>6</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>1,265 / 1,284</td><td>4.748</td><td>754</td><td>511</td><td>18</td><td>0</td><td>0</td><td>0</td><td>1</td></tr><tr class="reference"><th scope="row">Z3</th><td>1,253 / 1,284</td><td>6.189</td><td>752</td><td>501</td><td>31</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>[&quot;--quiet&quot;]</code></p></details></section>
+<section class="panel" id="full-hard-QF_UFLRA" data-group="full" data-view="hard" hidden>
+<div class="panel-heading"><h2>QF_UFLRA</h2><span class="badge">159 inputs</span></div>
+<p class="muted">Full corpus · native measured 9 Nov 2026 · Primo 7dd8874c (implementation cab1ebc4). Default profile.</p>
+<div class="chart" tabindex="0" aria-label="QF_UFLRA cactus chart; scroll horizontally on small screens"><img src="full-hard-qf_uflra.svg" width="900" height="574" alt="QF_UFLRA cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="full-hard-qf_uflra.svg">Open SVG</a><a href="full-hard-qf_uflra.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="reference"><th scope="row">Yices</th><td>151 / 159</td><td>12.425</td><td>120</td><td>31</td><td>8</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">cvc5</th><td>148 / 159</td><td>22.066</td><td>117</td><td>31</td><td>10</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo</th><td>146 / 159</td><td>24.500</td><td>115</td><td>31</td><td>7</td><td>0</td><td>6</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>140 / 159</td><td>37.881</td><td>109</td><td>31</td><td>18</td><td>0</td><td>0</td><td>0</td><td>1</td></tr><tr class="reference"><th scope="row">Z3</th><td>128 / 159</td><td>49.383</td><td>107</td><td>21</td><td>31</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>[&quot;--quiet&quot;]</code></p></details></section>
+<section class="panel" id="full-all-QF_UFLIA" data-group="full" data-view="all">
+<div class="panel-heading"><h2>QF_UFLIA</h2><span class="badge">659 inputs</span></div>
+<p class="muted">Full corpus · native measured 9 Nov 2026 · Primo 7dd8874c (implementation cab1ebc4). Default profile.</p>
+<div class="chart" tabindex="0" aria-label="QF_UFLIA cactus chart; scroll horizontally on small screens"><img src="full-all-qf_uflia.svg" width="900" height="574" alt="QF_UFLIA cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="full-all-qf_uflia.svg">Open SVG</a><a href="full-all-qf_uflia.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="reference"><th scope="row">Z3</th><td>620 / 659</td><td>15.285</td><td>430</td><td>190</td><td>39</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Yices</th><td>615 / 659</td><td>16.929</td><td>422</td><td>193</td><td>44</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">cvc5</th><td>607 / 659</td><td>20.745</td><td>421</td><td>186</td><td>52</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>605 / 659</td><td>22.200</td><td>418</td><td>187</td><td>54</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo</th><td>577 / 659</td><td>32.022</td><td>407</td><td>170</td><td>82</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>[&quot;--quiet&quot;]</code></p></details></section>
+<section class="panel" id="full-hard-QF_UFLIA" data-group="full" data-view="hard" hidden>
+<div class="panel-heading"><h2>QF_UFLIA</h2><span class="badge">365 inputs</span></div>
+<p class="muted">Full corpus · native measured 9 Nov 2026 · Primo 7dd8874c (implementation cab1ebc4). Default profile.</p>
+<div class="chart" tabindex="0" aria-label="QF_UFLIA cactus chart; scroll horizontally on small screens"><img src="full-hard-qf_uflia.svg" width="900" height="574" alt="QF_UFLIA cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="full-hard-qf_uflia.svg">Open SVG</a><a href="full-hard-qf_uflia.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="reference"><th scope="row">Z3</th><td>326 / 365</td><td>27.578</td><td>273</td><td>53</td><td>39</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Yices</th><td>321 / 365</td><td>30.559</td><td>265</td><td>56</td><td>44</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">cvc5</th><td>313 / 365</td><td>37.385</td><td>264</td><td>49</td><td>52</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>311 / 365</td><td>39.937</td><td>261</td><td>50</td><td>54</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo</th><td>283 / 365</td><td>57.686</td><td>250</td><td>33</td><td>82</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>[&quot;--quiet&quot;]</code></p></details></section>
+<section class="panel" id="hybrid-all-QF_LIA" data-group="hybrid" data-view="all" hidden>
+<div class="panel-heading"><h2>QF_LIA</h2><span class="badge">200 inputs</span></div>
+<p class="muted">Selected inputs · native measured 12 Nov 2026 · hybrid 9e01197e vs private c49585a0. Hybrid is opt-in; factor 1, unlimited generated atoms.</p>
+<div class="chart" tabindex="0" aria-label="QF_LIA cactus chart; scroll horizontally on small screens"><img src="hybrid-all-qf_lia.svg" width="900" height="574" alt="QF_LIA cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="hybrid-all-qf_lia.svg">Open SVG</a><a href="hybrid-all-qf_lia.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="reference"><th scope="row">Z3</th><td>199 / 200</td><td>1.676</td><td>102</td><td>97</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>193 / 200</td><td>12.849</td><td>99</td><td>94</td><td>7</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Yices</th><td>170 / 200</td><td>37.102</td><td>84</td><td>86</td><td>30</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">cvc5</th><td>164 / 200</td><td>47.184</td><td>90</td><td>74</td><td>36</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo hybrid</th><td>134 / 200</td><td>85.187</td><td>83</td><td>51</td><td>65</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo private</th><td>104 / 200</td><td>120.577</td><td>55</td><td>49</td><td>31</td><td>63</td><td>2</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>{&quot;hybrid&quot;: [&quot;--quiet&quot;, &quot;--stats&quot;, &quot;--lia-branching=hybrid&quot;], &quot;private&quot;: [&quot;--quiet&quot;, &quot;--stats&quot;]}</code></p></details></section>
+<section class="panel" id="hybrid-hard-QF_LIA" data-group="hybrid" data-view="hard" hidden>
+<div class="panel-heading"><h2>QF_LIA</h2><span class="badge">149 inputs</span></div>
+<p class="muted">Selected inputs · native measured 12 Nov 2026 · hybrid 9e01197e vs private c49585a0. Hybrid is opt-in; factor 1, unlimited generated atoms.</p>
+<div class="chart" tabindex="0" aria-label="QF_LIA cactus chart; scroll horizontally on small screens"><img src="hybrid-hard-qf_lia.svg" width="900" height="574" alt="QF_LIA cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="hybrid-hard-qf_lia.svg">Open SVG</a><a href="hybrid-hard-qf_lia.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="reference"><th scope="row">Z3</th><td>148 / 149</td><td>2.239</td><td>74</td><td>74</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>142 / 149</td><td>17.238</td><td>71</td><td>71</td><td>7</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Yices</th><td>119 / 149</td><td>49.799</td><td>56</td><td>63</td><td>30</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">cvc5</th><td>113 / 149</td><td>63.303</td><td>62</td><td>51</td><td>36</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo hybrid</th><td>83 / 149</td><td>114.323</td><td>55</td><td>28</td><td>65</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo private</th><td>53 / 149</td><td>161.827</td><td>27</td><td>26</td><td>31</td><td>63</td><td>2</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>{&quot;hybrid&quot;: [&quot;--quiet&quot;, &quot;--stats&quot;, &quot;--lia-branching=hybrid&quot;], &quot;private&quot;: [&quot;--quiet&quot;, &quot;--stats&quot;]}</code></p></details></section>
+<section class="panel" id="hybrid-all-QF_UFLIA" data-group="hybrid" data-view="all" hidden>
+<div class="panel-heading"><h2>QF_UFLIA</h2><span class="badge">300 inputs</span></div>
+<p class="muted">Selected inputs · native measured 12 Nov 2026 · hybrid 9e01197e vs private c49585a0. Hybrid is opt-in; factor 1, unlimited generated atoms.</p>
+<div class="chart" tabindex="0" aria-label="QF_UFLIA cactus chart; scroll horizontally on small screens"><img src="hybrid-all-qf_uflia.svg" width="900" height="574" alt="QF_UFLIA cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="hybrid-all-qf_uflia.svg">Open SVG</a><a href="hybrid-all-qf_uflia.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="reference"><th scope="row">Yices</th><td>284 / 300</td><td>13.876</td><td>212</td><td>72</td><td>16</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Z3</th><td>282 / 300</td><td>15.310</td><td>213</td><td>69</td><td>18</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>277 / 300</td><td>21.632</td><td>207</td><td>70</td><td>23</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">cvc5</th><td>276 / 300</td><td>21.176</td><td>208</td><td>68</td><td>24</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo hybrid</th><td>260 / 300</td><td>34.480</td><td>204</td><td>56</td><td>40</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo private</th><td>259 / 300</td><td>35.385</td><td>203</td><td>56</td><td>41</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>{&quot;hybrid&quot;: [&quot;--quiet&quot;, &quot;--stats&quot;, &quot;--lia-branching=hybrid&quot;], &quot;private&quot;: [&quot;--quiet&quot;, &quot;--stats&quot;]}</code></p></details></section>
+<section class="panel" id="hybrid-hard-QF_UFLIA" data-group="hybrid" data-view="hard" hidden>
+<div class="panel-heading"><h2>QF_UFLIA</h2><span class="badge">208 inputs</span></div>
+<p class="muted">Selected inputs · native measured 12 Nov 2026 · hybrid 9e01197e vs private c49585a0. Hybrid is opt-in; factor 1, unlimited generated atoms.</p>
+<div class="chart" tabindex="0" aria-label="QF_UFLIA cactus chart; scroll horizontally on small screens"><img src="hybrid-hard-qf_uflia.svg" width="900" height="574" alt="QF_UFLIA cactus comparison; solved percentages versus per-instance time budget"></div>
+<div class="chart-links"><a href="hybrid-hard-qf_uflia.svg">Open SVG</a><a href="hybrid-hard-qf_uflia.svg" download>Download SVG</a></div>
+<details><summary>Results, resource outcomes and profile arguments</summary><p>All numbers below use the displayed input cohort. PAR2 mean is seconds per input; unsolved costs 240 seconds.</p>
+<div class="table-scroll" tabindex="0"><table><thead><tr><th scope="col">Solver</th><th scope="col">Solved</th><th scope="col">PAR2 mean (s)</th><th scope="col">SAT</th><th scope="col">UNSAT</th><th scope="col">Timeout</th><th scope="col">Unknown</th><th scope="col">Memory out</th><th scope="col">Unsupported</th><th scope="col">Other error</th></tr></thead><tbody><tr class="reference"><th scope="row">Yices</th><td>192 / 208</td><td>20.010</td><td>158</td><td>34</td><td>16</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">Z3</th><td>190 / 208</td><td>22.068</td><td>159</td><td>31</td><td>18</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">OpenSMT</th><td>185 / 208</td><td>31.060</td><td>153</td><td>32</td><td>23</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="reference"><th scope="row">cvc5</th><td>184 / 208</td><td>30.481</td><td>154</td><td>30</td><td>24</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo hybrid</th><td>168 / 208</td><td>49.645</td><td>150</td><td>18</td><td>40</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr class="native"><th scope="row">Primo private</th><td>167 / 208</td><td>50.952</td><td>149</td><td>18</td><td>41</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div>
+<p><strong>Primo arguments:</strong> <code>{&quot;hybrid&quot;: [&quot;--quiet&quot;, &quot;--stats&quot;, &quot;--lia-branching=hybrid&quot;], &quot;private&quot;: [&quot;--quiet&quot;, &quot;--stats&quot;]}</code></p></details></section>
+
+  <section class="method" aria-labelledby="reading">
+    <h2 id="reading">Reading the comparison</h2>
+    <ul>
+      <li>The x-axis is the per-instance time budget on a log scale. The y-axis is the percentage of the
+        displayed cohort solved. Higher is better; times below 10 ms share the left edge.</li>
+      <li>A solve requires a successful <code>sat</code> or <code>unsat</code> answer and exit status zero.
+        Unknown, timeout, memory-out, unsupported and error rows remain unsolved. Archived reference errors remain in the totals.</li>
+      <li>The filtered view removes only inputs every displayed solver solves in under one second.
+        Both the chart and all table metrics are recomputed for that same cohort.</li>
+      <li>PAR2 assigns 240 seconds to every unsolved input; the tables show its mean per input.
+        Model validation time is excluded from native timings.</li>
+      <li>The latest hybrid comparison has 200 selected QF_LIA and 300 SMT-COMP 2026 QF_UFLIA inputs.
+        It excludes Certora diagnostic repetitions and regression repeats. Hybrid remains opt-in;
+        it has repeated regressions as well as gains. Selections do not determine full-corpus rankings.</li>
+      <li>Reference 1200-second runs are censored at 120 seconds. Identical inputs and nominal limits
+        permit comparison, but different dates and builds make this an archived comparison rather than a controlled fresh speedup experiment.</li>
+    </ul>
+    <p><strong>Reference versions:</strong> Z3 5.1.0 · cvc5 1.3.4 · Yices 2.7.0 · OpenSMT 2.9.2.</p>
+    <nav class="links" aria-label="Detailed reports"><a href="../../evidence/uniform120.html">Full-corpus qualification</a>
+      <a href="../../evidence/lia-hybrid-20261111.html">Hybrid gains and regressions</a>
+      <a href="../uniform120-20261109/index.html">Original full-corpus gallery</a></nav>
+  </section>
+  <footer>Ground here means quantifier-free: QF_UF, QF_LRA, QF_LIA, QF_UFLRA and QF_UFLIA.
+    Results retain the measured configurations; no per-input Primo portfolio is used.</footer>
+</main>
+<script>
+  const cohort = document.getElementById('cohort');
+  const view = document.getElementById('view');
+  const scope = document.getElementById('scope');
+  const filter = document.getElementById('filter');
+  const notes = {
+    full: 'Full-corpus archive: one fixed Primo profile per logic, chosen by most full-corpus solves, then lowest PAR2. QF_LIA uses the optional integer profile; the other divisions use defaults. This is an archived comparison, not a rerun of current HEAD.',
+    hybrid: 'Latest integer selections: 200 QF_LIA and 300 QF_UFLIA inputs. Primo hybrid (opt-in) and the frozen private baseline are shown with the same four reference solvers. These selected-input results are separate from the full-corpus archive.'
+  };
+  function apply(updateHash) {
+    for (const element of document.querySelectorAll('[data-group][data-view]')) {
+      element.hidden = element.dataset.group !== cohort.value || element.dataset.view !== view.value;
+    }
+    scope.textContent = notes[cohort.value];
+    filter.textContent = view.value === 'all'
+      ? 'All inputs are included. Higher curves mean more solved within the time budget.'
+      : 'Inputs solved by every displayed solver in under 1s are removed. Charts and tables use the same remaining inputs; higher is better.';
+    if (updateHash) history.replaceState(null, '', '#' + cohort.value + '-' + view.value);
+  }
+  function fromHash() {
+    const parts = location.hash.slice(1).split('-');
+    if (['full', 'hybrid'].includes(parts[0]) && ['all', 'hard'].includes(parts[1])) {
+      cohort.value = parts[0]; view.value = parts[1];
+    }
+    apply(false);
+  }
+  cohort.addEventListener('change', () => apply(true));
+  view.addEventListener('change', () => apply(true));
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+</script>
+</body>
+</html>

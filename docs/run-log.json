@@ -3,6 +3,33 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-12-ground-comparison-gallery",
+      "date": "2026-11-12",
+      "kind": "Consolidated qualified ground-theory comparison page",
+      "evidence_status": "derived existing metadata; zero new solver runs or correctness claims",
+      "working_source_git": "833a936e",
+      "command": "python3 scripts/qualification/ground_comparison/report.py",
+      "scope": "Full-corpus archive:QF_UF7503,QF_LRA1753,QF_LIA13306,QF_UFLRA1284,QF_UFLIA659. Separate latest integer selections:LIA200,UFLIA300, hybrid/private plus all four references.",
+      "native_sources": {
+        "full": "7dd8874c, implementation cab1ebc4; measured9Nov2026",
+        "hybrid": "9e01197e, production-equivalent cd258f6a; measured12Nov2026",
+        "private_baseline": "c49585a0"
+      },
+      "references": "Archived24Oct2026 Z3 5.1.0,cvc5 1.3.4,Yices 2.7.0,OpenSMT 2.9.2; original1200s rows censored at120s. All selected/native input paths and hashes match.",
+      "resources": "120s cutoff,one physical CPU,8GiB per-process address-space cap. Rendering/metadata analysis local; solver data originally from SLURM. Original qualification records retain job IDs and exact binary/environment provenance.",
+      "sources": [
+        "benchmarks/uniform120-20261109/report/{timing.csv.gz,summary.json,provenance.json}",
+        "benchmarks/lia-hybrid-20261111/{selection.json,qualification.json,paired/timing-rows.jsonl,paired/summary.json}"
+      ],
+      "profile_policy": "Full archive: one best measured static Primo profile per logic by full-corpus solved count,then PAR2; fixed before filtering. Latest selections:hybrid opt-in and frozen private displayed explicitly. No per-input portfolio.",
+      "plots": "14panels:five full-corpus divisions and two hybrid selections,each all-input and shared-easy-removed views. Percentage solved vs per-instance timebudget; no aggregate ranking across cohorts.",
+      "filter": "Remove only inputs solved by every displayed solver in<1s; charts,tablecounts,resource outcomes and meanPAR2 recomputed for that exact cohort.",
+      "correctness": "Uniform export qualification/timing hashes and all original solved/resource/PAR2 totals checked; native model counts match SAT counts. Hybrid input/binary/coverage hashes checked, exact original totals reproduced. All decisive paired/reference answers agree; no wrong flag in source data. No new independent validation claim.",
+      "artifacts": "docs/_static/ground-comparison/{index.html,summary.json,provenance.json,*.svg}; methods docs/evidence/ground-comparison.md; tracked provenance benchmarks/ground-comparison-20261112/provenance.json",
+      "limitations": "Full-corpus native source is historical; hybrid is only selected inputs and remains opt-in. Different dates/builds are visible. Reference errors retained as unsolved. Original qualifiers and raw logs are unchanged.",
+      "verification": "Generator audit, contrast checks, lint, strict docs/link checks, desktop/mobile interactive rendering and independent source/figure/documentation review recorded with final commit."
+    },
+    {
       "id": "2026-11-12-lia-hybrid-cactus",
       "date": "2026-11-12",
       "kind": "Derived cactus plots from existing qualified paired timings",

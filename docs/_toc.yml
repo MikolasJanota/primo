@@ -109,6 +109,7 @@ parts:
       - file: work/results-storage
   - caption: Evidence and history
     chapters:
+      - file: evidence/ground-comparison
       - file: evidence/evaluation-refresh
       - file: evidence/long-limits
       - file: evidence/qf-lia-progress

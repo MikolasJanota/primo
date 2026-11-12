@@ -1,0 +1,46 @@
+{
+  "kind": "derived qualified metadata; zero new solver executions",
+  "command": "python3 scripts/qualification/ground_comparison/report.py",
+  "cohorts": "Full-corpus archive across all five supported ground divisions; separate latest hybrid selections for LIA/UFLIA. No per-input Primo portfolio.",
+  "native_dates": {
+    "full": "2026-11-09",
+    "hybrid": "2026-11-12"
+  },
+  "reference_date": "2026-10-24",
+  "reference_versions": {
+    "Z3": "Z3 version 5.1.0 - 64 bit",
+    "cvc5": "cvc5 1.3.4 [git f3b21c4 on branch HEAD]",
+    "Yices": "Yices 2.7.0",
+    "OpenSMT": "v2.9.2"
+  },
+  "source_sha256": {
+    "scripts/qualification/ground_comparison/report.py": "7b75cb71584e56ac43afa6d28febde811ffbcba5dad112d1a9ae87434550e3db",
+    "scripts/qualification/ground_comparison/gallery.html": "81697b12580a05259e89e409dd0dff05b214e14c0627d9768229fed96cad6ed3",
+    "scripts/plot_cactus.py": "4c1ed7fb4eb3e58d48dbf67ade963a9810c3927774c8b445deacebdd8e20cc56",
+    "benchmarks/uniform120-20261109/report/timing.csv.gz": "50a095267f0649fbaea10195a3d7e263b545ba7d1d821b727893e2652cad4b51",
+    "benchmarks/uniform120-20261109/report/summary.json": "02025b267fa5a23b28b0885f0e88cf50ced50973d3870c7df009a9cb90bd0019",
+    "benchmarks/uniform120-20261109/report/provenance.json": "347ad60b7c405be179387371faa097437e7cf2b42afa37b6168d1b9d6b65173a",
+    "benchmarks/lia-hybrid-20261111/qualification.json": "f7b1792ed487f460896946bdea933b79fa2ea976abc0801b8dd2a96557fd72f2",
+    "benchmarks/lia-hybrid-20261111/paired/timing-rows.jsonl": "cd547b9c07e0b3df7433e2f2e4020222c1b0b6a20ba5f658780f40a731c23df3",
+    "benchmarks/lia-hybrid-20261111/paired/summary.json": "b544062425a3176a03f4389642d08bcaa091c6412752abb82613c7a9741d6e0e",
+    "benchmarks/lia-hybrid-20261111/selection.json": "ea28dccda6f0a114d2fdcc7c483c146de361ccae260d82cd72d1c0e88ec4e6f9"
+  },
+  "output_sha256": {
+    "full-all-qf_lia.svg": "bd504dbb8c44617447209d7a421525530cf35ba0e595900ff6cbbc2d705656a3",
+    "full-all-qf_lra.svg": "062cf860f042dde3f0c6cccf388a91e3f29ea86e13c65e3a763c70b13a7c9cab",
+    "full-all-qf_uf.svg": "9cc901ed31cd1563d34e0149344b2f341e0de42c2b099a121ec810591bcd9cef",
+    "full-all-qf_uflia.svg": "ec48f23c956673d11f946d565c2f2ff084c57f0105f98685a2bae10625bf7cfa",
+    "full-all-qf_uflra.svg": "2e4dfee8577583e9ae05f77db2d4cee905e685a610eb14cbbf5d2ded51b19778",
+    "full-hard-qf_lia.svg": "5e1995a0b229d22c17312d03faad5a8bea728fb7bcda07fd717d4cd66d173001",
+    "full-hard-qf_lra.svg": "1fc98e935b1226bd589fdf3bba2f54baff7f9802489d863877af85a23fe7bcb9",
+    "full-hard-qf_uf.svg": "c2b785be0ce312b7ac82f28de0ce0d7691392d163c5893172e5fc15df1516d48",
+    "full-hard-qf_uflia.svg": "a697e838d7b7946369fa9056b5ce7b47cf62ebc302a373a861a55e9ac074ef86",
+    "full-hard-qf_uflra.svg": "14e4ab5c19b44093bd2176a26a252748fd5050b04ec7a951781a4f91fcf56a24",
+    "hybrid-all-qf_lia.svg": "036aa968f3b641f53d7eedac4894fc3a20cfbdb983d11eb96ec8247dc123996d",
+    "hybrid-all-qf_uflia.svg": "7b550954aa76504312d1b5d0a5deab5049578f56b6656bcb70aaee528e51a1ee",
+    "hybrid-hard-qf_lia.svg": "e6cd28bf4ccbb9240fd53ff908dd533483f3c5abbb84749d00593526c61f5ca0",
+    "hybrid-hard-qf_uflia.svg": "5990f3328e71389963bb149a09db2075c7d5986fb256df1534d634beab91da05",
+    "index.html": "176eee4a4ac754a1af32465a6ac6773b663528deff1caa73d83161ce64d593b7",
+    "summary.json": "b57ee4d33fe88246fbf811ea18076bc54c74564c80dcbfd275c88ae3ae4dfc4a"
+  }
+}

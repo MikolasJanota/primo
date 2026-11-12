@@ -1,0 +1,71 @@
+{
+  "status": "independent read-only report/documentation review accepted; no required findings remain",
+  "baseline_git": "833a936e",
+  "reviewer": "separate docs_review agent under skills/documentation/SKILL.md writer-reviewer loop",
+  "scope": "26files:metadata generator/template,14SVGs,HTML/JSON outputs,provenance,methods page,new documentation links and run-log entry. Unchanged solver behavior not rereviewed.",
+  "manifest_sha256": "b332e82d4c988dfe2a136155384b63a38d9a79ed134a30dfd271cd0863477bda",
+  "reviewed_files": {
+    "benchmarks/ground-comparison-20261112/provenance.json": "d1f28a260c18f98762ce0849f2be51594c81e050b31b7237b850b2525182e0a4",
+    "docs/_static/ground-comparison/full-all-qf_lia.svg": "bd504dbb8c44617447209d7a421525530cf35ba0e595900ff6cbbc2d705656a3",
+    "docs/_static/ground-comparison/full-all-qf_lra.svg": "062cf860f042dde3f0c6cccf388a91e3f29ea86e13c65e3a763c70b13a7c9cab",
+    "docs/_static/ground-comparison/full-all-qf_uf.svg": "9cc901ed31cd1563d34e0149344b2f341e0de42c2b099a121ec810591bcd9cef",
+    "docs/_static/ground-comparison/full-all-qf_uflia.svg": "ec48f23c956673d11f946d565c2f2ff084c57f0105f98685a2bae10625bf7cfa",
+    "docs/_static/ground-comparison/full-all-qf_uflra.svg": "2e4dfee8577583e9ae05f77db2d4cee905e685a610eb14cbbf5d2ded51b19778",
+    "docs/_static/ground-comparison/full-hard-qf_lia.svg": "5e1995a0b229d22c17312d03faad5a8bea728fb7bcda07fd717d4cd66d173001",
+    "docs/_static/ground-comparison/full-hard-qf_lra.svg": "1fc98e935b1226bd589fdf3bba2f54baff7f9802489d863877af85a23fe7bcb9",
+    "docs/_static/ground-comparison/full-hard-qf_uf.svg": "c2b785be0ce312b7ac82f28de0ce0d7691392d163c5893172e5fc15df1516d48",
+    "docs/_static/ground-comparison/full-hard-qf_uflia.svg": "a697e838d7b7946369fa9056b5ce7b47cf62ebc302a373a861a55e9ac074ef86",
+    "docs/_static/ground-comparison/full-hard-qf_uflra.svg": "14e4ab5c19b44093bd2176a26a252748fd5050b04ec7a951781a4f91fcf56a24",
+    "docs/_static/ground-comparison/hybrid-all-qf_lia.svg": "036aa968f3b641f53d7eedac4894fc3a20cfbdb983d11eb96ec8247dc123996d",
+    "docs/_static/ground-comparison/hybrid-all-qf_uflia.svg": "7b550954aa76504312d1b5d0a5deab5049578f56b6656bcb70aaee528e51a1ee",
+    "docs/_static/ground-comparison/hybrid-hard-qf_lia.svg": "e6cd28bf4ccbb9240fd53ff908dd533483f3c5abbb84749d00593526c61f5ca0",
+    "docs/_static/ground-comparison/hybrid-hard-qf_uflia.svg": "5990f3328e71389963bb149a09db2075c7d5986fb256df1534d634beab91da05",
+    "docs/_static/ground-comparison/index.html": "176eee4a4ac754a1af32465a6ac6773b663528deff1caa73d83161ce64d593b7",
+    "docs/_static/ground-comparison/provenance.json": "d1f28a260c18f98762ce0849f2be51594c81e050b31b7237b850b2525182e0a4",
+    "docs/_static/ground-comparison/summary.json": "b57ee4d33fe88246fbf811ea18076bc54c74564c80dcbfd275c88ae3ae4dfc4a",
+    "docs/_toc.yml": "b66f4d3547aa9a4465fb1cc65457ccff07bef9d8b8d7677502b1fed47666493a",
+    "docs/evidence/ground-comparison.md": "e650215873b12226a49ff2bf1beb87a17364455c59eed8d4ee8275266c0a63b1",
+    "docs/evidence/lia-hybrid-20261111.md": "4ede44691c252d2fc206473f20d3780f9e0ebeec4d83fcbf25dec6b78603ada4",
+    "docs/evidence/uniform120.md": "03ddad0aebd063c1d8cce5ee521ec897d519286dd51302816c35c7a5884eebc5",
+    "docs/index.md": "0337cda3593bd712556fe4fcf44bf9fbfb9fea2e990142ef2f24a5c68857ba6d",
+    "docs/run-log.json": "19d2cc8ef03c51f33d5319ab131c0ce8bd5b2240ddb6459e2ae7cef90c2a3940",
+    "scripts/qualification/ground_comparison/gallery.html": "81697b12580a05259e89e409dd0dff05b214e14c0627d9768229fed96cad6ed3",
+    "scripts/qualification/ground_comparison/report.py": "7b75cb71584e56ac43afa6d28febde811ffbcba5dad112d1a9ae87434550e3db"
+  },
+  "findings": {
+    "GC-DOC-1": {
+      "finding": "Generated-atom factor one confused private-branch budget with fresh-atom cap",
+      "repair": "Methods now says private-branch factor one and unlimited generated-atom cap",
+      "status": "resolved"
+    }
+  },
+  "final_hygiene": "Only two unused .print-note CSS declarations removed after initial acceptance; refreshed identities independently rechecked. No rendered/data/semantic change.",
+  "independently_verified": [
+    "all source/output hashes",
+    "all fixed profile choices",
+    "matching input names and content hashes in every series",
+    "all14SVG coordinate sets",
+    "all solved,SAT,UNSAT,timeout,unknown,memory,unsupported,error andPAR2 metrics",
+    "both all-input/shared-easy-removed masks",
+    "separation of historical full corpora and latest hybrid selections",
+    "desktop/mobile screenshots and interaction receipts",
+    "terminology and qualified scope"
+  ],
+  "independent_unchecked": [
+    "live browser interactions",
+    "original scheduler execution",
+    "raw corpus/binary contents",
+    "final commit cleanliness"
+  ],
+  "writer_checks": {
+    "lint": "make lint passes",
+    "docs": "make docs,assemble_docs.py and assembled-site check_doc_links.py pass:295pages,42613local links,1248Git links,zero failures; external URLs deferred to Sphinx linkcheck",
+    "browser": "Chrome CDP: all4cohort/filter combinations show expected panel counts and exact overview table metrics; noJavaScript exceptions;390px mobile no page overflow; wide charts/tables scroll within their containers. Individual details and final assembled page/methods rendered and inspected.",
+    "assembly": "Every built gallery asset is byte-identical to the reviewed source artifact.",
+    "contrast": "Body,muted,links and header/zebra text all meet4.5:1; meaningful controls and all6curve colours meet3:1. Minimum curve contrast4.94:1. All15pair checks pass.",
+    "self_review": "No blocking issues in metadata normalization,successful-exit classification,input joins,fixed profile policy,filter/table synchronization,template escaping,source lifetimes or ordinary hygiene. No C++/solver changes or solver experiments; native suites/ASan/fuzz/static reruns do not apply."
+  },
+  "browser_receipt": "benchmarks/ground-comparison-20261112/ui-checks.json",
+  "contrast_receipt": "benchmarks/ground-comparison-20261112/contrast.txt",
+  "rendered_artifacts": "results/ground-comparison-20261112/{desktop-full-overview,desktop-hybrid-lia,desktop-lra,desktop-lra-details,mobile-full-overview,mobile-hybrid-filtered,assembled-page,methods-page}.png"
+}

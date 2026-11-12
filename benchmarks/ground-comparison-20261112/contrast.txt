@@ -1,0 +1,15 @@
+body: 14.68:1 (minimum 4.50:1) PASS
+muted: 6.32:1 (minimum 4.50:1) PASS
+link: 6.87:1 (minimum 4.50:1) PASS
+control: 4.56:1 (minimum 3.00:1) PASS
+primo: 6.87:1 (minimum 3.00:1) PASS
+private: 6.72:1 (minimum 3.00:1) PASS
+z3: 5.25:1 (minimum 3.00:1) PASS
+cvc5: 4.94:1 (minimum 3.00:1) PASS
+yices: 5.33:1 (minimum 3.00:1) PASS
+opensmt: 4.99:1 (minimum 3.00:1) PASS
+canvas-text: 13.57:1 (minimum 4.50:1) PASS
+canvas-muted: 5.84:1 (minimum 4.50:1) PASS
+canvas-link: 6.35:1 (minimum 4.50:1) PASS
+header-text: 12.95:1 (minimum 4.50:1) PASS
+zebra-text: 13.94:1 (minimum 4.50:1) PASS

@@ -18,6 +18,7 @@ Its SMT implementation is original; propositional search is delegated to
 CaDiCaL through IPASIR-UP. Primo-owned code and documentation use the MIT license.
 
 **[Try Primo](guide/getting-started.md) ·
+[Ground-theory comparisons](evidence/ground-comparison.md) ·
 [Benchmark details](papers/primo-qflra-results.md) ·
 [Read the paper](https://easychair.org/publications/paper/rPZ9) ·
 [Source code](https://github.com/primo-solver/primo)**

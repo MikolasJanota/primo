@@ -1,0 +1,1080 @@
+{
+  "timeout_seconds": 120,
+  "memory_gib": 8,
+  "cohorts": {
+    "full": {
+      "QF_UF": {
+        "profile": "primo",
+        "arguments": [
+          "--quiet"
+        ],
+        "description": "Full corpus \u00b7 native measured 9 Nov 2026 \u00b7 Primo 7dd8874c (implementation cab1ebc4). Default profile.",
+        "views": {
+          "all": {
+            "inputs": 7503,
+            "removed_easy": 0,
+            "input_cohort_sha256": "d16ee226a75093e79fea6410cf62baf0b861d1e2fdbf826a865f56f8c6964dfd",
+            "series": {
+              "Primo": {
+                "inputs": 7503,
+                "solved": 7501,
+                "sat": 3142,
+                "unsat": 4359,
+                "timeouts": 2,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 4866.798781
+              },
+              "Z3": {
+                "inputs": 7503,
+                "solved": 7496,
+                "sat": 3142,
+                "unsat": 4354,
+                "timeouts": 7,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 3670.636154
+              },
+              "cvc5": {
+                "inputs": 7503,
+                "solved": 7484,
+                "sat": 3142,
+                "unsat": 4342,
+                "timeouts": 19,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 7886.631395
+              },
+              "Yices": {
+                "inputs": 7503,
+                "solved": 7501,
+                "sat": 3142,
+                "unsat": 4359,
+                "timeouts": 2,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 1054.400033
+              },
+              "OpenSMT": {
+                "inputs": 7503,
+                "solved": 7484,
+                "sat": 3142,
+                "unsat": 4342,
+                "timeouts": 19,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 11141.924323
+              }
+            }
+          },
+          "hard": {
+            "inputs": 1090,
+            "removed_easy": 6413,
+            "input_cohort_sha256": "13c0a245edbb5b66e2b9c8c10d0c184d443d256a511f591189c2887bfc4e457c",
+            "series": {
+              "Primo": {
+                "inputs": 1090,
+                "solved": 1088,
+                "sat": 180,
+                "unsat": 908,
+                "timeouts": 2,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 3978.536446
+              },
+              "Z3": {
+                "inputs": 1090,
+                "solved": 1083,
+                "sat": 180,
+                "unsat": 903,
+                "timeouts": 7,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 3293.972531
+              },
+              "cvc5": {
+                "inputs": 1090,
+                "solved": 1071,
+                "sat": 180,
+                "unsat": 891,
+                "timeouts": 19,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 7199.738832
+              },
+              "Yices": {
+                "inputs": 1090,
+                "solved": 1088,
+                "sat": 180,
+                "unsat": 908,
+                "timeouts": 2,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 957.109437
+              },
+              "OpenSMT": {
+                "inputs": 1090,
+                "solved": 1071,
+                "sat": 180,
+                "unsat": 891,
+                "timeouts": 19,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 10518.86456
+              }
+            }
+          }
+        }
+      },
+      "QF_LRA": {
+        "profile": "primo",
+        "arguments": [
+          "--quiet"
+        ],
+        "description": "Full corpus \u00b7 native measured 9 Nov 2026 \u00b7 Primo 7dd8874c (implementation cab1ebc4). Default profile.",
+        "views": {
+          "all": {
+            "inputs": 1753,
+            "removed_easy": 0,
+            "input_cohort_sha256": "5f34beb412133feb511cd23040501c7c82e93063e9455b7be3069b2cc4cb019f",
+            "series": {
+              "Primo": {
+                "inputs": 1753,
+                "solved": 1642,
+                "sat": 983,
+                "unsat": 659,
+                "timeouts": 111,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 37040.022621
+              },
+              "Z3": {
+                "inputs": 1753,
+                "solved": 1516,
+                "sat": 927,
+                "unsat": 589,
+                "timeouts": 237,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 70673.11778
+              },
+              "cvc5": {
+                "inputs": 1753,
+                "solved": 1394,
+                "sat": 837,
+                "unsat": 557,
+                "timeouts": 359,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 102107.014495
+              },
+              "Yices": {
+                "inputs": 1753,
+                "solved": 1605,
+                "sat": 978,
+                "unsat": 627,
+                "timeouts": 148,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 43599.67346
+              },
+              "OpenSMT": {
+                "inputs": 1753,
+                "solved": 1623,
+                "sat": 948,
+                "unsat": 675,
+                "timeouts": 130,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 41173.021873
+              }
+            }
+          },
+          "hard": {
+            "inputs": 827,
+            "removed_easy": 926,
+            "input_cohort_sha256": "5289a67f9d89e7a43388320e478f987c9c264b0c796a3caf673f87ee44b9d608",
+            "series": {
+              "Primo": {
+                "inputs": 827,
+                "solved": 716,
+                "sat": 441,
+                "unsat": 275,
+                "timeouts": 111,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 37001.834499
+              },
+              "Z3": {
+                "inputs": 827,
+                "solved": 590,
+                "sat": 385,
+                "unsat": 205,
+                "timeouts": 237,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 70632.788764
+              },
+              "cvc5": {
+                "inputs": 827,
+                "solved": 468,
+                "sat": 295,
+                "unsat": 173,
+                "timeouts": 359,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 102021.309047
+              },
+              "Yices": {
+                "inputs": 827,
+                "solved": 679,
+                "sat": 436,
+                "unsat": 243,
+                "timeouts": 148,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 43589.301786
+              },
+              "OpenSMT": {
+                "inputs": 827,
+                "solved": 697,
+                "sat": 406,
+                "unsat": 291,
+                "timeouts": 130,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 41146.017783
+              }
+            }
+          }
+        }
+      },
+      "QF_LIA": {
+        "profile": "primo-integer",
+        "arguments": [
+          "--quiet",
+          "--lia-round-integer-bounds",
+          "--lia-primitive-int-rows",
+          "--no-lia-integer-slacks",
+          "--lia-patch-integral-moves",
+          "--lia-cube=uniform"
+        ],
+        "description": "Full corpus \u00b7 native measured 9 Nov 2026 \u00b7 Primo 7dd8874c (implementation cab1ebc4). Fixed integer profile.",
+        "views": {
+          "all": {
+            "inputs": 13306,
+            "removed_easy": 0,
+            "input_cohort_sha256": "d8a864492fa272efa438a8a7922ed3492c3f9cb1dede14450f337cfa5763fa58",
+            "series": {
+              "Primo": {
+                "inputs": 13306,
+                "solved": 11302,
+                "sat": 7656,
+                "unsat": 3646,
+                "timeouts": 1288,
+                "unknown": 328,
+                "memory_out": 388,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 593372.507267
+              },
+              "Z3": {
+                "inputs": 13306,
+                "solved": 12420,
+                "sat": 7977,
+                "unsat": 4443,
+                "timeouts": 886,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 271334.950733
+              },
+              "cvc5": {
+                "inputs": 13306,
+                "solved": 9397,
+                "sat": 6620,
+                "unsat": 2777,
+                "timeouts": 3848,
+                "unknown": 0,
+                "memory_out": 27,
+                "unsupported": 0,
+                "errors": 34,
+                "par2_sum": 973085.158586
+              },
+              "Yices": {
+                "inputs": 13306,
+                "solved": 12157,
+                "sat": 7643,
+                "unsat": 4514,
+                "timeouts": 1149,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 293140.966654
+              },
+              "OpenSMT": {
+                "inputs": 13306,
+                "solved": 11264,
+                "sat": 7070,
+                "unsat": 4194,
+                "timeouts": 2021,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 21,
+                "par2_sum": 578159.469114
+              }
+            }
+          },
+          "hard": {
+            "inputs": 6377,
+            "removed_easy": 6929,
+            "input_cohort_sha256": "1b230f92d3e21b56d2ca0873ae75ab6c439f1c0cbfde803595f600fb4ff7e999",
+            "series": {
+              "Primo": {
+                "inputs": 6377,
+                "solved": 4373,
+                "sat": 2884,
+                "unsat": 1489,
+                "timeouts": 1288,
+                "unknown": 328,
+                "memory_out": 388,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 593024.451194
+              },
+              "Z3": {
+                "inputs": 6377,
+                "solved": 5491,
+                "sat": 3205,
+                "unsat": 2286,
+                "timeouts": 886,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 270881.142837
+              },
+              "cvc5": {
+                "inputs": 6377,
+                "solved": 2468,
+                "sat": 1848,
+                "unsat": 620,
+                "timeouts": 3848,
+                "unknown": 0,
+                "memory_out": 27,
+                "unsupported": 0,
+                "errors": 34,
+                "par2_sum": 972312.889573
+              },
+              "Yices": {
+                "inputs": 6377,
+                "solved": 5228,
+                "sat": 2871,
+                "unsat": 2357,
+                "timeouts": 1149,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 293068.934728
+              },
+              "OpenSMT": {
+                "inputs": 6377,
+                "solved": 4335,
+                "sat": 2298,
+                "unsat": 2037,
+                "timeouts": 2021,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 21,
+                "par2_sum": 577961.524494
+              }
+            }
+          }
+        }
+      },
+      "QF_UFLRA": {
+        "profile": "primo",
+        "arguments": [
+          "--quiet"
+        ],
+        "description": "Full corpus \u00b7 native measured 9 Nov 2026 \u00b7 Primo 7dd8874c (implementation cab1ebc4). Default profile.",
+        "views": {
+          "all": {
+            "inputs": 1284,
+            "removed_easy": 0,
+            "input_cohort_sha256": "d7b9ec4cd09c4f1c08d692e95beb33f8dcf7fcf6ef31f59c405fd1e4f3a87e08",
+            "series": {
+              "Primo": {
+                "inputs": 1284,
+                "solved": 1271,
+                "sat": 760,
+                "unsat": 511,
+                "timeouts": 7,
+                "unknown": 0,
+                "memory_out": 6,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 3969.971896
+              },
+              "Z3": {
+                "inputs": 1284,
+                "solved": 1253,
+                "sat": 752,
+                "unsat": 501,
+                "timeouts": 31,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 7946.208718
+              },
+              "cvc5": {
+                "inputs": 1284,
+                "solved": 1273,
+                "sat": 762,
+                "unsat": 511,
+                "timeouts": 10,
+                "unknown": 0,
+                "memory_out": 1,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 3587.9583039999998
+              },
+              "Yices": {
+                "inputs": 1284,
+                "solved": 1276,
+                "sat": 765,
+                "unsat": 511,
+                "timeouts": 8,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 1997.560219
+              },
+              "OpenSMT": {
+                "inputs": 1284,
+                "solved": 1265,
+                "sat": 754,
+                "unsat": 511,
+                "timeouts": 18,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 1,
+                "par2_sum": 6096.068951
+              }
+            }
+          },
+          "hard": {
+            "inputs": 159,
+            "removed_easy": 1125,
+            "input_cohort_sha256": "aa18ee32441b1e71634cdc02534dbe72cb5604db32d5a1018ed7ace8b3f14e11",
+            "series": {
+              "Primo": {
+                "inputs": 159,
+                "solved": 146,
+                "sat": 115,
+                "unsat": 31,
+                "timeouts": 7,
+                "unknown": 0,
+                "memory_out": 6,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 3895.445285
+              },
+              "Z3": {
+                "inputs": 159,
+                "solved": 128,
+                "sat": 107,
+                "unsat": 21,
+                "timeouts": 31,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 7851.925429
+              },
+              "cvc5": {
+                "inputs": 159,
+                "solved": 148,
+                "sat": 117,
+                "unsat": 31,
+                "timeouts": 10,
+                "unknown": 0,
+                "memory_out": 1,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 3508.503831
+              },
+              "Yices": {
+                "inputs": 159,
+                "solved": 151,
+                "sat": 120,
+                "unsat": 31,
+                "timeouts": 8,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 1975.641734
+              },
+              "OpenSMT": {
+                "inputs": 159,
+                "solved": 140,
+                "sat": 109,
+                "unsat": 31,
+                "timeouts": 18,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 1,
+                "par2_sum": 6023.068602
+              }
+            }
+          }
+        }
+      },
+      "QF_UFLIA": {
+        "profile": "primo",
+        "arguments": [
+          "--quiet"
+        ],
+        "description": "Full corpus \u00b7 native measured 9 Nov 2026 \u00b7 Primo 7dd8874c (implementation cab1ebc4). Default profile.",
+        "views": {
+          "all": {
+            "inputs": 659,
+            "removed_easy": 0,
+            "input_cohort_sha256": "d08be9d2b468fe59fc59f82b91ebc1a601c6a69fc5de0db880d7c5633f1dfe0a",
+            "series": {
+              "Primo": {
+                "inputs": 659,
+                "solved": 577,
+                "sat": 407,
+                "unsat": 170,
+                "timeouts": 82,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 21102.743715
+              },
+              "Z3": {
+                "inputs": 659,
+                "solved": 620,
+                "sat": 430,
+                "unsat": 190,
+                "timeouts": 39,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 10072.67995
+              },
+              "cvc5": {
+                "inputs": 659,
+                "solved": 607,
+                "sat": 421,
+                "unsat": 186,
+                "timeouts": 52,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 13671.169163
+              },
+              "Yices": {
+                "inputs": 659,
+                "solved": 615,
+                "sat": 422,
+                "unsat": 193,
+                "timeouts": 44,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 11155.946121
+              },
+              "OpenSMT": {
+                "inputs": 659,
+                "solved": 605,
+                "sat": 418,
+                "unsat": 187,
+                "timeouts": 54,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 14629.970226
+              }
+            }
+          },
+          "hard": {
+            "inputs": 365,
+            "removed_easy": 294,
+            "input_cohort_sha256": "63db62690e20207e2184e3ad402692037522f119af1f656bca73757773b5ad41",
+            "series": {
+              "Primo": {
+                "inputs": 365,
+                "solved": 283,
+                "sat": 250,
+                "unsat": 33,
+                "timeouts": 82,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 21055.26244
+              },
+              "Z3": {
+                "inputs": 365,
+                "solved": 326,
+                "sat": 273,
+                "unsat": 53,
+                "timeouts": 39,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 10065.823177
+              },
+              "cvc5": {
+                "inputs": 365,
+                "solved": 313,
+                "sat": 264,
+                "unsat": 49,
+                "timeouts": 52,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 13645.661676
+              },
+              "Yices": {
+                "inputs": 365,
+                "solved": 321,
+                "sat": 265,
+                "unsat": 56,
+                "timeouts": 44,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 11153.866416
+              },
+              "OpenSMT": {
+                "inputs": 365,
+                "solved": 311,
+                "sat": 261,
+                "unsat": 50,
+                "timeouts": 54,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 14577.173398
+              }
+            }
+          }
+        }
+      }
+    },
+    "hybrid": {
+      "QF_LIA": {
+        "profile": "hybrid + private",
+        "arguments": {
+          "hybrid": [
+            "--quiet",
+            "--stats",
+            "--lia-branching=hybrid"
+          ],
+          "private": [
+            "--quiet",
+            "--stats"
+          ]
+        },
+        "description": "Selected inputs \u00b7 native measured 12 Nov 2026 \u00b7 hybrid 9e01197e vs private c49585a0. Hybrid is opt-in; factor 1, unlimited generated atoms.",
+        "views": {
+          "all": {
+            "inputs": 200,
+            "removed_easy": 0,
+            "input_cohort_sha256": "d722df7796a293bb947482a2d8ab06482f5a8182c4a9a85ae99d244b16544e8c",
+            "series": {
+              "Primo hybrid": {
+                "inputs": 200,
+                "solved": 134,
+                "sat": 83,
+                "unsat": 51,
+                "timeouts": 65,
+                "unknown": 0,
+                "memory_out": 1,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 17037.368425
+              },
+              "Primo private": {
+                "inputs": 200,
+                "solved": 104,
+                "sat": 55,
+                "unsat": 49,
+                "timeouts": 31,
+                "unknown": 63,
+                "memory_out": 2,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 24115.410381
+              },
+              "Z3": {
+                "inputs": 200,
+                "solved": 199,
+                "sat": 102,
+                "unsat": 97,
+                "timeouts": 1,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 335.279863
+              },
+              "cvc5": {
+                "inputs": 200,
+                "solved": 164,
+                "sat": 90,
+                "unsat": 74,
+                "timeouts": 36,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 9436.865947
+              },
+              "Yices": {
+                "inputs": 200,
+                "solved": 170,
+                "sat": 84,
+                "unsat": 86,
+                "timeouts": 30,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 7420.333472
+              },
+              "OpenSMT": {
+                "inputs": 200,
+                "solved": 193,
+                "sat": 99,
+                "unsat": 94,
+                "timeouts": 7,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 2569.891357
+              }
+            }
+          },
+          "hard": {
+            "inputs": 149,
+            "removed_easy": 51,
+            "input_cohort_sha256": "f47ea8511108f43e15266e02d178bae7be9678a7f173f631131c0d4c1d36019e",
+            "series": {
+              "Primo hybrid": {
+                "inputs": 149,
+                "solved": 83,
+                "sat": 55,
+                "unsat": 28,
+                "timeouts": 65,
+                "unknown": 0,
+                "memory_out": 1,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 17034.081719
+              },
+              "Primo private": {
+                "inputs": 149,
+                "solved": 53,
+                "sat": 27,
+                "unsat": 26,
+                "timeouts": 31,
+                "unknown": 63,
+                "memory_out": 2,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 24112.265715
+              },
+              "Z3": {
+                "inputs": 149,
+                "solved": 148,
+                "sat": 74,
+                "unsat": 74,
+                "timeouts": 1,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 333.619994
+              },
+              "cvc5": {
+                "inputs": 149,
+                "solved": 113,
+                "sat": 62,
+                "unsat": 51,
+                "timeouts": 36,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 9432.211499000001
+              },
+              "Yices": {
+                "inputs": 149,
+                "solved": 119,
+                "sat": 56,
+                "unsat": 63,
+                "timeouts": 30,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 7419.979969
+              },
+              "OpenSMT": {
+                "inputs": 149,
+                "solved": 142,
+                "sat": 71,
+                "unsat": 71,
+                "timeouts": 7,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 2568.38777
+              }
+            }
+          }
+        }
+      },
+      "QF_UFLIA": {
+        "profile": "hybrid + private",
+        "arguments": {
+          "hybrid": [
+            "--quiet",
+            "--stats",
+            "--lia-branching=hybrid"
+          ],
+          "private": [
+            "--quiet",
+            "--stats"
+          ]
+        },
+        "description": "Selected inputs \u00b7 native measured 12 Nov 2026 \u00b7 hybrid 9e01197e vs private c49585a0. Hybrid is opt-in; factor 1, unlimited generated atoms.",
+        "views": {
+          "all": {
+            "inputs": 300,
+            "removed_easy": 0,
+            "input_cohort_sha256": "dc8dbba5562e0959bb19f79434bbb67b5a816c1ec2797b39cd0a7945530285b8",
+            "series": {
+              "Primo hybrid": {
+                "inputs": 300,
+                "solved": 260,
+                "sat": 204,
+                "unsat": 56,
+                "timeouts": 40,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 10343.965527
+              },
+              "Primo private": {
+                "inputs": 300,
+                "solved": 259,
+                "sat": 203,
+                "unsat": 56,
+                "timeouts": 41,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 10615.575496
+              },
+              "Z3": {
+                "inputs": 300,
+                "solved": 282,
+                "sat": 213,
+                "unsat": 69,
+                "timeouts": 18,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 4592.950739
+              },
+              "cvc5": {
+                "inputs": 300,
+                "solved": 276,
+                "sat": 208,
+                "unsat": 68,
+                "timeouts": 24,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 6352.799873
+              },
+              "Yices": {
+                "inputs": 300,
+                "solved": 284,
+                "sat": 212,
+                "unsat": 72,
+                "timeouts": 16,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 4162.684239
+              },
+              "OpenSMT": {
+                "inputs": 300,
+                "solved": 277,
+                "sat": 207,
+                "unsat": 70,
+                "timeouts": 23,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 6489.456739
+              }
+            }
+          },
+          "hard": {
+            "inputs": 208,
+            "removed_easy": 92,
+            "input_cohort_sha256": "d2930a3b2a38d6d5ad1538b547b5d62523bd0f1e21b3fc530324d03e80152200",
+            "series": {
+              "Primo hybrid": {
+                "inputs": 208,
+                "solved": 168,
+                "sat": 150,
+                "unsat": 18,
+                "timeouts": 40,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 10326.247592
+              },
+              "Primo private": {
+                "inputs": 208,
+                "solved": 167,
+                "sat": 149,
+                "unsat": 18,
+                "timeouts": 41,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 10597.948844
+              },
+              "Z3": {
+                "inputs": 208,
+                "solved": 190,
+                "sat": 159,
+                "unsat": 31,
+                "timeouts": 18,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 4590.059288
+              },
+              "cvc5": {
+                "inputs": 208,
+                "solved": 184,
+                "sat": 154,
+                "unsat": 30,
+                "timeouts": 24,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 6340.074253
+              },
+              "Yices": {
+                "inputs": 208,
+                "solved": 192,
+                "sat": 158,
+                "unsat": 34,
+                "timeouts": 16,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 4162.099881
+              },
+              "OpenSMT": {
+                "inputs": 208,
+                "solved": 185,
+                "sat": 153,
+                "unsat": 32,
+                "timeouts": 23,
+                "unknown": 0,
+                "memory_out": 0,
+                "unsupported": 0,
+                "errors": 0,
+                "par2_sum": 6460.470904
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
