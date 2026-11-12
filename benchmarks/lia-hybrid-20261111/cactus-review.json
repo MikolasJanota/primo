@@ -1,0 +1,37 @@
+{
+  "status": "independent read-only plot/caption review accepted; no findings",
+  "reviewer": "separate docs_review agent under skills/documentation/SKILL.md writer-reviewer loop",
+  "baseline_git": "c43515d0",
+  "manifest_sha256": "fe9e8aa2131b5538dcc515802c50f45dbb955293f2a795d024fee0c016170fe1",
+  "reviewed_files": {
+    "docs/_static/lia-hybrid-20261111/combined-120.svg": "6dba44759c694e6bc45990272649f988dcd6c047beb4b95ef192cfd7b95f102a",
+    "docs/_static/lia-hybrid-20261111/lia-120.svg": "d9d536fe296d96c9db38ade04ecbe941ab031838830227ca14ed14cbbbea2a00",
+    "docs/_static/lia-hybrid-20261111/plots.json": "74e5186e2e12ec5e841f941c476a6794eb1b06b866fdb1d4468df203dc6282d9",
+    "docs/_static/lia-hybrid-20261111/uflia-120.svg": "cccc12a145da9eb808579f40779680610844462733c4c8fe52cff1551fa8a5d6",
+    "docs/evidence/lia-hybrid-20261111.md": "e3a29e5fdd7974fea4bca033562fdf5825fcf0031dd9a3874e0ce255267321e1",
+    "docs/run-log.json": "e1c8dcd81c566b8f5b6b21331471779baaaaf5239d5b4886aad390e3d852a24a",
+    "scripts/qualification/lia_hybrid/plots.py": "923acf306778caa57921723e9f570a39556720363fcad1715dd9b03bbad30394"
+  },
+  "scope": "three cactus plots, generator/provenance, inserted evidence figure/caption and derived run-log entry; unchanged implementation/evidence not rereviewed",
+  "verified": [
+    "SVG coordinates match qualified solved timing rows",
+    "500 distinct combined input paths and hashes",
+    "successful-exit/SAT/UNSAT filtering",
+    "394/363combined;134/104LIA;260/259UFLIA",
+    "Certora diagnostic repetitions and followup exclusions",
+    "source/output provenance hashes",
+    "all three PNG renders",
+    "axes, legends, captions and selected-corpus scope"
+  ],
+  "unchecked_independently": [
+    "final assembled-page placement",
+    "lint/docs/link command execution",
+    "final commit cleanliness"
+  ],
+  "writer_checks": {
+    "lint": "make lint passes",
+    "docs": "make docs, assemble_docs.py and check_doc_links.py docs/_build/site pass:294pages,42410local links,1248Git links,zero failures",
+    "rendering": "all three standalone PNGs and final figure placement/caption in the assembled evidence page inspected",
+    "code_review": "no blocking issues in metadata-only generator; no solver behavior changed or solver experiment started"
+  }
+}

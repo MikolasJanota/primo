@@ -1,0 +1,58 @@
+{
+  "kind": "derived from existing qualified timings; no new solver execution",
+  "baseline_git": "c49585a09710eca76f10ce081923c1bcb3765a7c",
+  "implementation_git": "cd258f6ae4f690609132a402bb6454ddb40335b7",
+  "qualified_snapshot": "9e01197e5656b0be4a13f074d2ee1b5a1260f9a8",
+  "timing_job": "383804",
+  "models_job": "383996",
+  "timeout_seconds": 120,
+  "source_sha256": {
+    "selection.json": "ea28dccda6f0a114d2fdcc7c483c146de361ccae260d82cd72d1c0e88ec4e6f9",
+    "paired/timing-rows.jsonl": "cd547b9c07e0b3df7433e2f2e4020222c1b0b6a20ba5f658780f40a731c23df3",
+    "paired/summary.json": "b544062425a3176a03f4389642d08bcaa091c6412752abb82613c7a9741d6e0e",
+    "qualification.json": "f7b1792ed487f460896946bdea933b79fa2ea976abc0801b8dd2a96557fd72f2"
+  },
+  "script_sha256": "923acf306778caa57921723e9f570a39556720363fcad1715dd9b03bbad30394",
+  "plotter_sha256": "4c1ed7fb4eb3e58d48dbf67ade963a9810c3927774c8b445deacebdd8e20cc56",
+  "plots": {
+    "lia-120.svg": {
+      "sha256": "d9d536fe296d96c9db38ade04ecbe941ab031838830227ca14ed14cbbbea2a00",
+      "series": {
+        "hybrid": {
+          "inputs": 200,
+          "solved": 134
+        },
+        "private": {
+          "inputs": 200,
+          "solved": 104
+        }
+      }
+    },
+    "uflia-120.svg": {
+      "sha256": "cccc12a145da9eb808579f40779680610844462733c4c8fe52cff1551fa8a5d6",
+      "series": {
+        "hybrid": {
+          "inputs": 300,
+          "solved": 260
+        },
+        "private": {
+          "inputs": 300,
+          "solved": 259
+        }
+      }
+    },
+    "combined-120.svg": {
+      "sha256": "6dba44759c694e6bc45990272649f988dcd6c047beb4b95ef192cfd7b95f102a",
+      "series": {
+        "hybrid": {
+          "inputs": 500,
+          "solved": 394
+        },
+        "private": {
+          "inputs": 500,
+          "solved": 363
+        }
+      }
+    }
+  }
+}

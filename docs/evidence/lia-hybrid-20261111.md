@@ -62,6 +62,19 @@ in both arms, with three rotated paired repetitions per input.
 | Certora repetitions / private | 6/12 | 6 / 0 | 0 | 6 | 0 | 1,694.00 | 1,277.84 |
 | Certora repetitions / hybrid | 6/12 | 6 / 0 | 0 | 6 | 0 | 1,694.18 | 1,280.82 |
 
+```{figure} ../_static/lia-hybrid-20261111/combined-120.svg
+:alt: Cactus plot of the 500 selected LIA and UFLIA inputs, with hybrid solving 394 and private baseline solving 363
+
+Combined 200-input LIA and 300-input UFLIA selections at 120 seconds. Higher
+means more solved within that per-instance budget. This reuses the qualified
+timings; Certora diagnostic repetitions and regression repeats are excluded.
+```
+
+Separate curves: [QF_LIA](../_static/lia-hybrid-20261111/lia-120.svg) and
+[QF_UFLIA](../_static/lia-hybrid-20261111/uflia-120.svg).
+[Plot provenance](../_static/lia-hybrid-20261111/plots.json) pins the input rows,
+generator and output hashes.
+
 LIA has 32 gains and two losses, a net gain of 30 and a **29.35% PAR2 reduction**.
 Hybrid recovers 29 clean node-limit unknowns and three timeouts. Nineteen of
 those gains use external splits; the other thirteen close during history-based

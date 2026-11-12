@@ -3,6 +3,46 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-12-lia-hybrid-cactus",
+      "date": "2026-11-12",
+      "kind": "Derived cactus plots from existing qualified paired timings",
+      "evidence_status": "existing measurements only; no new solver execution or correctness claim",
+      "working_source_git": "c43515d0",
+      "baseline_git": "c49585a09710eca76f10ce081923c1bcb3765a7c",
+      "qualified_native_git": "9e01197e5656b0be4a13f074d2ee1b5a1260f9a8",
+      "implementation_git": "cd258f6ae4f690609132a402bb6454ddb40335b7",
+      "source_equivalence": "Native src/ files unchanged since the qualified snapshot; latest validator repair does not alter native solver behavior.",
+      "command": "python3 scripts/qualification/lia_hybrid/plots.py",
+      "location": "local read-only metadata processing and rendering; no solver build, batch, corpus replay or model-validation run",
+      "measurement_provenance": "Original SLURM timing383804 and model383996; resources, binaries, profiles and all outcomes in qualification.json. No native timing rows modified.",
+      "data": "benchmarks/lia-hybrid-20261111/paired/timing-rows.jsonl",
+      "selection": "benchmarks/lia-hybrid-20261111/selection.json",
+      "timeout_seconds": 120,
+      "plotted": "Successful exit0, statusok, SAT/UNSAT rows only; no easy-input filtering; combined excludes12Certora diagnostic repetitions and20followup timing rows. Times below0.01s share left edge; y-axis counts solved within the x-axis per-instance budget.",
+      "counts": {
+        "LIA": {
+          "inputs": 200,
+          "private": 104,
+          "hybrid": 134
+        },
+        "UFLIA": {
+          "inputs": 300,
+          "private": 259,
+          "hybrid": 260
+        },
+        "combined": {
+          "inputs": 500,
+          "private": 363,
+          "hybrid": 394
+        }
+      },
+      "correctness": "All plotted primary SAT rows already separately Dolmen-validated in accepted evidence; per-slot coverage and source/summary/binary hashes checked before plotting.",
+      "artifacts": "docs/_static/lia-hybrid-20261111/{combined-120.svg,lia-120.svg,uflia-120.svg,plots.json}; PNG previews under results/lia-hybrid-20261111/plots",
+      "provenance": "plots.json pins exact row/selection/summary/qualification hashes, generator and canonical SVG plotter hashes, output hashes and counts.",
+      "verification": "Generator assertions reproduce the frozen solved totals. Lint, docs/link checks, rendered inspection and independent figure/caption review recorded with the plot commit.",
+      "limitations": "Fixed selected500-input comparison, not a full-corpus cactus or fresh reference-solver comparison. Original regressions and unknown/timeout/memory classifications remain in the evidence report; cumulative curves do not establish per-input dominance."
+    },
+    {
       "id": "2026-11-12-lia-hybrid-accepted-evidence",
       "date": "2026-11-12",
       "kind": "Qualified opt-in policy acceptance and complete requested paired comparison",
