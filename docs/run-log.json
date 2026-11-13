@@ -6,12 +6,12 @@
       "id": "2026-11-13-bound-propagation-factorial",
       "date": "2026-11-13",
       "kind": "Three-repetition four-profile experiment for preprocessing bounds and online row propagation",
-      "evidence_status": "Qualification passed; restarted three repetitions active/pending with verified held-array parent dependencies; no performance result accepted.",
+      "evidence_status": "Complete conditional697input study:8364audited timing measurements and4524/4524selected SATreplays directDolmen pass. Modest mixed PAR2benefit; no default promotion;3prior abort cases remain quarantined/unqualified.",
       "source_base": "102307b1",
       "qualification_snapshot": "a4b5d75ff6c649f3fac94b629b4ee04e04e10c42",
       "protocol": "benchmarks/bound-propagation-20261113/protocol.json",
       "selection": "benchmarks/bound-propagation-20261113/selection.json",
-      "scope": "697instances from prior700selection;3predeclared shared-allocation-abort quarantines,explicitly not passes. Four profiles(default,pre,rows,both),3freshrepetitions,8364native timing rows planned. Same binary and unchanged defaults.",
+      "scope": "697inputs from prior700selection;3predeclared shared-allocation-abort quarantines,not passes. Four profiles(default,pre,rows,both),3fresh repetitions,8364native timing rows. Same binary and unchanged defaults.",
       "commands": {
         "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --extra-target primo_qf_lra_solver_tests --extra-target primo_qf_lia_solver_tests --extra-target primo_qf_uflia_solver_tests",
         "qualification": "scripts/qualification/bound_propagation/{qualify,seeds,canonical,unit}.sbatch",
@@ -79,7 +79,116 @@
         "config-1.json": "725669ef6ff023790cf72877e9ec39013a049d4e59b7ad19afb765627ca1a6ff",
         "config-2.json": "cabc5b8bb85e3930cf5e97fe9a2a824139a61d4eed1133e3489b9dbb8b1f3d73"
       },
-      "scheduling_guard": "All arrays submitted held,returned whole-array IDs checked via scontrol; parent dependencies verified before any release. Model arrays each depend on last whole timing array. Two focused metadata tests cover nonconsecutive IDs and rejecting a child-task dependency; no native solver invoked in local tests."
+      "scheduling_guard": "All arrays submitted held,returned whole-array IDs checked via scontrol; parent dependencies verified before any release. Model arrays each depend on last whole timing array. Two focused metadata tests cover nonconsecutive IDs and rejecting a child-task dependency; no native solver invoked in local tests.",
+      "analysis_driver": "scripts/qualification/bound_propagation/analyze.py atbee49ce9;independent audit BP-A01/A02/A03/AS01 resolved;seven focused metadata tests pass.",
+      "timing_summary": {
+        "default": {
+          "solved_counts": [
+            539,
+            539,
+            539
+          ],
+          "median_solved": 539,
+          "stable_solved_all_three": 539,
+          "intermittent_solved": 0,
+          "median_mean_par2_seconds": 58.40202058249641,
+          "range_mean_par2_seconds": [
+            58.37963898995696,
+            58.40750665279771
+          ]
+        },
+        "pre": {
+          "solved_counts": [
+            539,
+            539,
+            539
+          ],
+          "median_solved": 539,
+          "stable_solved_all_three": 539,
+          "intermittent_solved": 0,
+          "median_mean_par2_seconds": 58.17372776757532,
+          "range_mean_par2_seconds": [
+            58.17095274175036,
+            58.17380213342898
+          ]
+        },
+        "rows": {
+          "solved_counts": [
+            540,
+            540,
+            539
+          ],
+          "median_solved": 540,
+          "stable_solved_all_three": 539,
+          "intermittent_solved": 1,
+          "median_mean_par2_seconds": 58.58225549784792,
+          "range_mean_par2_seconds": [
+            58.58190762697274,
+            58.725162704447634
+          ]
+        },
+        "both": {
+          "solved_counts": [
+            542,
+            542,
+            541
+          ],
+          "median_solved": 542,
+          "stable_solved_all_three": 541,
+          "intermittent_solved": 1,
+          "median_mean_par2_seconds": 57.83330639885222,
+          "range_mean_par2_seconds": [
+            57.82841116642755,
+            57.982751529411765
+          ]
+        }
+      },
+      "model_validation": {
+        "complete": true,
+        "expected_sat": 4524,
+        "direct_dolmen_pass": 4524,
+        "by_profile": {
+          "both": 1137,
+          "default": 1128,
+          "pre": 1128,
+          "rows": 1131
+        },
+        "by_logic": {
+          "QF_LIA": 660,
+          "QF_UFLIA": 2430,
+          "QF_LRA": 534,
+          "QF_UFLRA": 900
+        },
+        "invalid": 0,
+        "changed_answers": 0,
+        "solver_errors": 0,
+        "timeouts": 0,
+        "unsupported": 0,
+        "missing": 0
+      },
+      "outcomes": {
+        "unknown": 756,
+        "solved": 6478,
+        "timeout": 1077,
+        "handled-memory-out": 53
+      },
+      "result_artifacts": {
+        "evaluation.json": {
+          "path": "benchmarks/bound-propagation-20261113/evaluation.json",
+          "sha256": "4d7a1c01e0797cd69c37284f1df0d647e6d693c288d24081c99185b17f8a8d00"
+        },
+        "measurements.csv": {
+          "path": "benchmarks/bound-propagation-20261113/measurements.csv",
+          "sha256": "f31db2d7141edca40b5d10d1a8165fab8e530bd2326c770b44e8e23424f6e1d4"
+        },
+        "accounting.psv": {
+          "path": "benchmarks/bound-propagation-20261113/accounting.psv",
+          "sha256": "e973f685ef7af4cf0c0667eb466d517fc0d51d64d50e83d387118cf03dcd4598"
+        }
+      },
+      "execution_metadata": "benchmarks/bound-propagation-20261113/execution.json",
+      "comparison": "rows->both:3stable gains/1stable loss(allLRA),PAR2 improves0.7486/0.7538/0.7424s perinput. default->both:5stable gains/2stable losses,third repetition additional UFLIA timeout. both lowers PAR2 by0.68-0.99% but common-solved geometric mean both/default=1.219. Retain existing settings opt-in; no general runtime/default claim.",
+      "verification_scope": "Fresh Release rebuild via preparation helper;3arithmetic CTestgroups;generated/seed/scoped gates in qualification.json;7focused metadata tests and make lint. Full make check,ASan,and clang-tidy not rerun for this experiment because all201tracked production sources are unchanged. Documentation review/build/render follows this data milestone."
     },
     {
       "id": "2026-11-13-preprocess-bound-tightening",

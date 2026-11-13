@@ -1,0 +1,214 @@
+{
+  "source_snapshot": "a4b5d75ff6c649f3fac94b629b4ee04e04e10c42",
+  "native": {
+    "version": "Primo 0.2.0",
+    "build": "Release; no sanitizers",
+    "cadical": "cadical-3.0.0-7b99c07",
+    "sha256": "1b43e6bdf394fa130483950c5d2a240f8b1667d25f4478e7ac6c244f74ba9cf5"
+  },
+  "references": {
+    "z3": {
+      "version": "5.1.0 - 64 bit",
+      "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0"
+    },
+    "cvc5": {
+      "version": "1.3.4; f3b21c4",
+      "sha256": "4a93548398445cf1a774655583f5465b156c26f63f2cdfb94f4728fdf7adde46",
+      "scope": "Tracked quoted-let seed rejected by Z3, and canonical finite-QF_UF/finite-QF_UFLRA reference answer comparisons; not a timed reference baseline."
+    }
+  },
+  "validator": {
+    "version": "Dolmen 0.10",
+    "entrypoint_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+    "args": [
+      "--strict=false"
+    ],
+    "size": "1G",
+    "native_timeout_seconds": 180,
+    "dolmen_timeout_seconds": 60,
+    "allocation_memory_gib": 10,
+    "separate_native_rlimit_as": false
+  },
+  "allocation_shape": {
+    "architecture": "x86_64",
+    "sockets": 2,
+    "cores_per_socket": 14,
+    "threads_per_core": 2,
+    "slurm_version": "23.11.6",
+    "os_kernel": "5.14.0-427.35.1.el9_4.x86_64",
+    "requested_cpus_per_task": 1,
+    "compute_hosts": 3,
+    "affinity_note": "Observed masks have two logical CPU IDs. CPU model and physical-core mapping/isolation were not established; no dedicated physical-core claim.",
+    "anonymous_host_task_counts_by_repetition": [
+      [
+        539,
+        150,
+        8
+      ],
+      [
+        526,
+        162,
+        9
+      ],
+      [
+        515,
+        113,
+        69
+      ]
+    ],
+    "anonymous_host_order": [
+      "A",
+      "B",
+      "C"
+    ]
+  },
+  "timing_arrays": [
+    "387737",
+    "387738",
+    "387739"
+  ],
+  "model_arrays": [
+    "387803",
+    "387804",
+    "387805"
+  ],
+  "model_dependency": "All model arrays depend on complete timing array387739;12cases per model array;36global;no timing overlap.",
+  "status": "Complete timing and independent selected-SAT validation on697predeclared retained inputs; no source/default changes or default promotion; three known abort quarantines remain unqualified.",
+  "accounting": {
+    "timezone": "CET +01:00, verified on cluster",
+    "arrays": {
+      "timing": [
+        {
+          "array": "387737",
+          "tasks": 697,
+          "state": "COMPLETED",
+          "exit": "0:0",
+          "start": "2026-11-13T19:37:34",
+          "end": "2026-11-13T20:13:29",
+          "elapsed_wall_seconds": 2155
+        },
+        {
+          "array": "387738",
+          "tasks": 697,
+          "state": "COMPLETED",
+          "exit": "0:0",
+          "start": "2026-11-13T20:13:29",
+          "end": "2026-11-13T20:49:23",
+          "elapsed_wall_seconds": 2154
+        },
+        {
+          "array": "387739",
+          "tasks": 697,
+          "state": "COMPLETED",
+          "exit": "0:0",
+          "start": "2026-11-13T20:49:23",
+          "end": "2026-11-13T21:25:14",
+          "elapsed_wall_seconds": 2151
+        }
+      ],
+      "models": [
+        {
+          "array": "387803",
+          "tasks": 697,
+          "state": "COMPLETED",
+          "exit": "0:0",
+          "start": "2026-11-13T21:25:14",
+          "end": "2026-11-13T21:39:28",
+          "elapsed_wall_seconds": 854
+        },
+        {
+          "array": "387804",
+          "tasks": 697,
+          "state": "COMPLETED",
+          "exit": "0:0",
+          "start": "2026-11-13T21:25:14",
+          "end": "2026-11-13T21:39:38",
+          "elapsed_wall_seconds": 864
+        },
+        {
+          "array": "387805",
+          "tasks": 697,
+          "state": "COMPLETED",
+          "exit": "0:0",
+          "start": "2026-11-13T21:25:14",
+          "end": "2026-11-13T21:39:32",
+          "elapsed_wall_seconds": 858
+        }
+      ]
+    },
+    "tasks": 4182,
+    "raw_artifact": "benchmarks/bound-propagation-20261113/accounting.psv",
+    "sha256": "e973f685ef7af4cf0c0667eb466d517fc0d51d64d50e83d387118cf03dcd4598",
+    "sequential_timing_arrays_verified": true,
+    "models_start_after_all_timing_verified": true
+  },
+  "models": {
+    "complete": true,
+    "expected_sat": 4524,
+    "direct_dolmen_pass": 4524,
+    "by_profile": {
+      "both": 1137,
+      "default": 1128,
+      "pre": 1128,
+      "rows": 1131
+    },
+    "by_logic": {
+      "QF_LIA": 660,
+      "QF_UFLIA": 2430,
+      "QF_LRA": 534,
+      "QF_UFLRA": 900
+    },
+    "invalid": 0,
+    "changed_answers": 0,
+    "solver_errors": 0,
+    "timeouts": 0,
+    "unsupported": 0,
+    "missing": 0
+  },
+  "native_timing_outcomes": {
+    "unknown": 756,
+    "solved": 6478,
+    "timeout": 1077,
+    "handled-memory-out": 53
+  },
+  "artifacts": {
+    "evaluation.json": {
+      "path": "benchmarks/bound-propagation-20261113/evaluation.json",
+      "sha256": "4d7a1c01e0797cd69c37284f1df0d647e6d693c288d24081c99185b17f8a8d00"
+    },
+    "measurements.csv": {
+      "path": "benchmarks/bound-propagation-20261113/measurements.csv",
+      "sha256": "f31db2d7141edca40b5d10d1a8165fab8e530bd2326c770b44e8e23424f6e1d4"
+    },
+    "accounting.psv": {
+      "path": "benchmarks/bound-propagation-20261113/accounting.psv",
+      "sha256": "e973f685ef7af4cf0c0667eb466d517fc0d51d64d50e83d387118cf03dcd4598"
+    },
+    "selection.json": {
+      "path": "benchmarks/bound-propagation-20261113/selection.json",
+      "sha256": "c76acbe0c55381a0e4db6a141427d5e8cc5daa59803fa0810af0b8e8640077c9"
+    },
+    "protocol.json": {
+      "path": "benchmarks/bound-propagation-20261113/protocol.json",
+      "sha256": "4905f2860c6c5ffb1c5c6fc95e346e13aaf01fcefe7c466682ac4ca929cc11a5"
+    },
+    "qualification.json": {
+      "path": "benchmarks/bound-propagation-20261113/qualification.json",
+      "sha256": "2242ba75ea05d71396cdaa32c9b006a4fa282e6d8f2844747ab351170eda2809"
+    }
+  },
+  "accepted_config_sha256": {
+    "0": "ae0150734a732af59aeb8b601599f4384b7b2b53bd77576673b9813c4999a61f",
+    "1": "725669ef6ff023790cf72877e9ec39013a049d4e59b7ad19afb765627ca1a6ff",
+    "2": "cabc5b8bb85e3930cf5e97fe9a2a824139a61d4eed1133e3489b9dbb8b1f3d73"
+  },
+  "historical_config_note": "qualification.json private_config_sha256 records the cancelled/rejected initial timing submission. Only accepted_config_sha256 here, the evaluation and ledger identify the restarted measurements.",
+  "analysis": {
+    "source": "scripts/qualification/bound_propagation/analyze.py",
+    "commit": "bee49ce9",
+    "sha256": "a107bff73f0affaf47fa2e7236ab8022e84a24a10bb0f6a37f240156acff3bd9",
+    "command": "python3 scripts/qualification/bound_propagation/analyze.py --configs <private-config-directory> --rows <collected-timing-qualified-directory> --out <analysis-directory>"
+  },
+  "collection": "Raw rows/provenance/stdout/stderr/model inputs/responses and validators retained in SLURM results/bound-propagation/timing-qualified. Local receipts at results/bound-propagation-20261113/timing-qualified; no private connection details tracked.",
+  "verification_scope": "Fresh Release rebuild via preparation helper;3arithmetic CTestgroups;generated/seed/scoped gates in qualification.json;7focused metadata tests and make lint. Full make check,ASan,and clang-tidy not rerun for this experiment because all201tracked production sources are unchanged. Documentation review/build/render follows this data milestone."
+}

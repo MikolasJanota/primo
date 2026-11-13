@@ -1,17 +1,20 @@
 {
-  "reviewer": "Independent read-only /root/propagation_docs_review",
-  "baseline": "102307b185aed18dc4bbd89e3263e5610eca6663",
-  "verdict": "Method/source-navigation ready; no required findings remain. Final timing/model evidence remains pending.",
-  "accepted_page_sha256": "98842c97a460a984ff30bd759be3b9fb55bebeb968d409e9f45a198112e32cf5",
-  "scope": "Method,source references,quarantine/profile/repetition semantics,qualification receipt hashes,submission guard and tests. Not final performance or default promotion.",
-  "findings": {
-    "BP-D01": "Resolved via pinned source links for integer wiring/defaults/protocol/selection/seeds/qualification/drivers/ledger",
-    "BP-S01": "Pure-LRA SAT-by-construction chain/fan generator distinguished from UNSATunit/regression coverage",
-    "BP-S02": "PAR2 defined; reverse\u2286row\u2286total arithmetic propagation counters not additive"
+  "status": "Independent method,analysis,timing and final data/ledger acceptance complete; final public prose/link/render review follows the data milestone.",
+  "historical_method_review": {
+    "reviewer": "Independent read-only /root/propagation_docs_review",
+    "baseline": "102307b185aed18dc4bbd89e3263e5610eca6663",
+    "verdict": "Method/source-navigation ready; no required findings remain. Final timing/model evidence remains pending.",
+    "accepted_page_sha256": "98842c97a460a984ff30bd759be3b9fb55bebeb968d409e9f45a198112e32cf5",
+    "scope": "Method,source references,quarantine/profile/repetition semantics,qualification receipt hashes,submission guard and tests. Not final performance or default promotion.",
+    "findings": {
+      "BP-D01": "Resolved via pinned source links for integer wiring/defaults/protocol/selection/seeds/qualification/drivers/ledger",
+      "BP-S01": "Pure-LRA SAT-by-construction chain/fan generator distinguished from UNSATunit/regression coverage",
+      "BP-S02": "PAR2 defined; reverse\u2286row\u2286total arithmetic propagation counters not additive"
+    },
+    "independent_checks": "91receipt hashes match;7972PASS/28TIMEOUT generated,6021Dolmen;2400PASSsupplemental,1329Dolmen;57seed inputs/profile,27singleSATmodels/profile,two scoped sessions/profile;3unit groupspass. Submission receipts show correct parent chain and model tail dependencies. Live SLURM not independently inspected.",
+    "writer_validation": "Strict make docs; assembled298pages,43655local links,1273Git links0failures; actual HTML rendered toChromePDF,profile table inspected;make lint and two focused metadata unit tests pass.",
+    "status": "Timing/model arrays active or pending. Three prior resource-abort cases remain quarantined,not passes; no source/default changes."
   },
-  "independent_checks": "91receipt hashes match;7972PASS/28TIMEOUT generated,6021Dolmen;2400PASSsupplemental,1329Dolmen;57seed inputs/profile,27singleSATmodels/profile,two scoped sessions/profile;3unit groupspass. Submission receipts show correct parent chain and model tail dependencies. Live SLURM not independently inspected.",
-  "writer_validation": "Strict make docs; assembled298pages,43655local links,1273Git links0failures; actual HTML rendered toChromePDF,profile table inspected;make lint and two focused metadata unit tests pass.",
-  "status": "Timing/model arrays active or pending. Three prior resource-abort cases remain quarantined,not passes; no source/default changes.",
   "analysis_audit": {
     "reviewer": "Independent read-only /root/propagation_docs_review",
     "baseline": "ff924ad87c021d2b3096143f74daf798d3002059",
@@ -28,5 +31,27 @@
     },
     "verdict": "All findings resolved; summary semantics ready. Final timing/model/render evidence remains pending.",
     "independent_validation": "Seven focused analysis/submission metadata tests pass; no solver invoked."
+  },
+  "timing_review": {
+    "reviewer": "Independent read-only /root/propagation_docs_review",
+    "analyzer": "bee49ce9",
+    "scope": "All8364measurements,2091provenance/marker sets,all59aggregate/logic/family summaries,paired calculations,available/matched counters,missing statistics,outcomes and actual accounting intervals",
+    "verdict": "No required findings. SATmodel completion and public prose were outside this stage."
+  },
+  "final_data_review": {
+    "reviewer": "Independent read-only /root/propagation_docs_review",
+    "scope": "Final evaluation,measurements,accounting,execution,first ledger entry,and all collected selected-SATcoverage/summary/metadata",
+    "findings": {
+      "BP-E01": "cvc5 scope includes canonical finite-domain reference comparisons",
+      "BP-E02": "Anonymous host matrix uses explicit repetition-major order"
+    },
+    "verdict": "No required findings remain; final data/ledger ready. Public prose/source links/rendering remain separate.",
+    "independent_checks": "4524/4524exact-input/profile selected SATreplays directDolmen pass;2091coverage and4524metadata hashes match;all4182accounting tasks complete0:0;allmodel tasks startafterlast timing at21:25:14CET. Timing CSV unchanged.",
+    "accepted_sha256": {
+      "evaluation.json": "4d7a1c01e0797cd69c37284f1df0d647e6d693c288d24081c99185b17f8a8d00",
+      "execution.json": "bdaad42ff3cc77f3859d0e2597ef785f70e0ad086f8a4ed8042c53e43614608e",
+      "measurements.csv": "f31db2d7141edca40b5d10d1a8165fab8e530bd2326c770b44e8e23424f6e1d4",
+      "accounting.psv": "e973f685ef7af4cf0c0667eb466d517fc0d51d64d50e83d387118cf03dcd4598"
+    }
   }
 }
