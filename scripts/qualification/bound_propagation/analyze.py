@@ -64,9 +64,75 @@ def penalty(row: dict, timeout: float) -> float:
 def outcome(row: dict) -> str:
     if solved(row):
         return row["answer"]
+    if row["status"] == "timeout":
+        return "timeout"
     if row.get("memory_out"):
         return "memory-out"
     return row["status"] if row["status"] != "ok" else row["answer"] or "missing-answer"
+
+
+def audit_configs(
+    configs: list[dict], selection: dict, protocol: dict, native: str
+) -> None:
+    assert len(configs) == protocol["repetitions"] == 3
+    assert len(selection["cases"]) == protocol["inputs"]
+    names = list(protocol["profiles"])
+    assert set(names) == set(LABELS)
+    for rep, config in enumerate(configs):
+        assert config["cases"] == [dict(c, repetition=rep) for c in selection["cases"]]
+        assert config["timeout"] == protocol["time_limit_seconds"]
+        assert config["address_space_bytes"] == protocol["address_space_bytes"]
+        assert config["roots"] == configs[0]["roots"]
+        assert list(config["profiles"]) == names[rep:] + names[:rep]
+        assert config["profiles"] == configs[0]["profiles"]
+        for label, profile in config["profiles"].items():
+            assert profile["args"] == protocol["profiles"][label]
+            assert profile["sha256"] == native
+
+
+def audit_row(row: dict) -> None:
+    # Allocation text can accompany a cleanup abort. Only handled exit 2 is
+    # resource exhaustion; a signal crash must still stop the campaign audit.
+    if row["status"] == "timeout":
+        assert row["exit_code"] in (0, 2, 124, -15), row
+    elif row["status"] == "error":
+        assert row.get("memory_out") and row["exit_code"] == 2, row
+    else:
+        assert row["status"] in ("ok", "unsupported") and row["exit_code"] == 0, row
+
+
+def audit_models(directory: Path, selected: dict, config: dict, case: dict):
+    coverage = directory / "coverage.json"
+    if not coverage.is_file():
+        return None
+    value = json.loads(coverage.read_text())
+    assert value["selected_sat"] == value["direct_dolmen_pass"] == len(selected)
+    assert len(value["rows"]) == len(selected)
+    assert {r["profile"] for r in value["rows"]} == set(selected)
+    metadata_hashes = {}
+    expected_source = str(Path(config["roots"][case["logic"]]) / case["file"])
+    for item in value["rows"]:
+        label = item["profile"]
+        target = directory / "models" / label
+        summary = target / "summary.csv"
+        assert sha(summary) == item["summary_sha256"]
+        with summary.open() as stream:
+            (model,) = csv.DictReader(stream)
+        assert model["file"] == expected_source and model["answer"] == "sat"
+        assert model["outcome"] == "pass" and model["validator"] == "dolmen"
+        assert model["solver_exit"] == model["dolmen_exit"] == "0"
+        metadata_path = target / "metadata.json"
+        metadata = json.loads(metadata_path.read_text())
+        assert metadata["status"] == "complete"
+        assert metadata["count"] == metadata["completed"] == 1
+        assert metadata["solver"] == config["profiles"][label]["solver"]
+        assert metadata["solver_args"] == selected[label]["args"] + ["--check-model"]
+        assert metadata["expect_sat"] and metadata["require_dolmen_pass"]
+        assert metadata["dolmen_args"] == ["--strict=false"]
+        assert metadata["outcomes"] == {"pass": 1}
+        assert metadata["validators"] == {"dolmen": 1}
+        metadata_hashes[label] = sha(metadata_path)
+    return metadata_hashes
 
 
 def summarize(indices: list[int], records: dict, timeout: float) -> dict:
@@ -91,6 +157,9 @@ def summarize(indices: list[int], records: dict, timeout: float) -> dict:
                     ),
                     "max_peak_rss_kib": max(r["peak_rss_kib"] for r in rows),
                     "rows_with_printed_statistics": sum(bool(r["stats"]) for r in rows),
+                    "rows_missing_statistics_by_outcome": dict(
+                        collections.Counter(outcome(r) for r in rows if not r["stats"])
+                    ),
                     "available_statistics_totals": totals,
                     "cases_delivering_row_propagations": sum(
                         int(r["stats"].get(":lra.row-propagations", 0)) > 0
@@ -260,11 +329,22 @@ def main() -> None:
     configs = [
         json.loads((args.configs / f"config-{r}.json").read_text()) for r in range(3)
     ]
+    evidence = ROOT / "benchmarks/bound-propagation-20261113"
+    protocol_path = evidence / "protocol.json"
+    selection_path = evidence / "selection.json"
+    qualification = json.loads((evidence / "qualification.json").read_text())
+    audit_configs(
+        configs,
+        json.loads(selection_path.read_text()),
+        json.loads(protocol_path.read_text()),
+        qualification["native_sha256"],
+    )
     cases = configs[0]["cases"]
     assert len(cases) == 697
     records = {}
     receipt_hashes = {}
     coverage_hashes = {}
+    replay_metadata_hashes = {}
     selected_sat = validated_sat = 0
     models_complete = True
     runner_sha256 = sha(ROOT / "scripts/qualification/lia_hybrid/run.py")
@@ -301,10 +381,7 @@ def main() -> None:
                 assert row["args"] == config["profiles"][row["profile"]][
                     "args"
                 ] + case.get("extra_args", [])
-                assert row["status"] in ("ok", "timeout", "unsupported") or row.get(
-                    "memory_out"
-                ), row
-                assert row["status"] != "ok" or row["exit_code"] == 0, row
+                audit_row(row)
                 if solved(row) and case.get("expected") in ("sat", "unsat"):
                     assert row["answer"] == case["expected"], row
                 if solved(row):
@@ -317,25 +394,18 @@ def main() -> None:
                 records[rep, slot, row["profile"]] = row
             receipt_hashes[f"{rep}/{slot}"] = sha(source)
             selected = {
-                r["profile"] for r in rows if solved(r) and r["answer"] == "sat"
+                r["profile"]: r for r in rows if solved(r) and r["answer"] == "sat"
             }
             selected_sat += len(selected)
-            coverage = directory / "coverage.json"
-            if not coverage.is_file():
+            metadata_hashes = audit_models(directory, selected, config, case)
+            if metadata_hashes is None:
                 models_complete = False
                 continue
-            value = json.loads(coverage.read_text())
-            assert value["selected_sat"] == value["direct_dolmen_pass"] == len(selected)
-            assert {r["profile"] for r in value["rows"]} == selected
-            for item in value["rows"]:
-                summary = directory / "models" / item["profile"] / "summary.csv"
-                assert sha(summary) == item["summary_sha256"]
-                with summary.open() as stream:
-                    (model,) = csv.DictReader(stream)
-                assert model["outcome"] == "pass" and model["validator"] == "dolmen"
-                assert model["solver_exit"] == model["dolmen_exit"] == "0"
+            replay_metadata_hashes.update(
+                {f"{rep}/{slot}/{label}": h for label, h in metadata_hashes.items()}
+            )
             validated_sat += len(selected)
-            coverage_hashes[f"{rep}/{slot}"] = sha(coverage)
+            coverage_hashes[f"{rep}/{slot}"] = sha(directory / "coverage.json")
     for slot in range(len(cases)):
         assert (
             len(
@@ -364,8 +434,11 @@ def main() -> None:
             str(r): sha(args.configs / f"config-{r}.json") for r in range(3)
         },
         "runner_sha256": runner_sha256,
+        "protocol_sha256": sha(protocol_path),
+        "selection_sha256": sha(selection_path),
         "timing_receipt_sha256": receipt_hashes,
         "model_coverage_sha256": coverage_hashes,
+        "model_replay_metadata_sha256": replay_metadata_hashes,
         "counter_semantics": "Available printed totals only. Reverse is a subset of row; row is a subset of total arithmetic propagations. Matched-counter comparisons use common solved cases in all3repetitions,with printed statistics; absent increment-only counters on these complete rows count as zero. No full bound-survival attribution.",
         "models": {
             "complete": models_complete,

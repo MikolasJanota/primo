@@ -11,5 +11,22 @@
   },
   "independent_checks": "91receipt hashes match;7972PASS/28TIMEOUT generated,6021Dolmen;2400PASSsupplemental,1329Dolmen;57seed inputs/profile,27singleSATmodels/profile,two scoped sessions/profile;3unit groupspass. Submission receipts show correct parent chain and model tail dependencies. Live SLURM not independently inspected.",
   "writer_validation": "Strict make docs; assembled298pages,43655local links,1273Git links0failures; actual HTML rendered toChromePDF,profile table inspected;make lint and two focused metadata unit tests pass.",
-  "status": "Timing/model arrays active or pending. Three prior resource-abort cases remain quarantined,not passes; no source/default changes."
+  "status": "Timing/model arrays active or pending. Three prior resource-abort cases remain quarantined,not passes; no source/default changes.",
+  "analysis_audit": {
+    "reviewer": "Independent read-only /root/propagation_docs_review",
+    "baseline": "ff924ad87c021d2b3096143f74daf798d3002059",
+    "accepted_patch_sha256": "bf898aefd5deb9c8da175774f31d254d96996aacb12b480dd6b90059f0e1dae8",
+    "reviewed_files": [
+      "scripts/qualification/bound_propagation/analyze.py",
+      "tests/python/test_bound_propagation_analysis.py"
+    ],
+    "findings": {
+      "BP-A01": "Exact frozen input selection, profile/order/binary and per-repetition resources enforced",
+      "BP-A02": "Replay input/SAT answer/completed metadata/exact arguments/direct-Dolmen options and selected coverage checked; metadata hashed",
+      "BP-A03": "Signal crashes rejected regardless of allocation diagnostic; handled exit-2 resource exhaustion retained",
+      "BP-AS01": "Missing statistics explicitly counted by outcome"
+    },
+    "verdict": "All findings resolved; summary semantics ready. Final timing/model/render evidence remains pending.",
+    "independent_validation": "Seven focused analysis/submission metadata tests pass; no solver invoked."
+  }
 }
