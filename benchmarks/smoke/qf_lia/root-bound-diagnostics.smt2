@@ -1,0 +1,8 @@
+(set-logic QF_LIA)
+(set-info :status sat)
+(declare-const x Int)
+(declare-const y Int)
+(assert (>= x 0))
+(assert (>= y 0))
+(assert (= (+ (* 3 x) (* 4 y)) 12))
+(check-sat)

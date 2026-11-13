@@ -1,0 +1,82 @@
+{
+  "job": "385508",
+  "solver_sha256": "7a2594618c71e4656cafc3b9131ee5481ac648500309291d0477284cb6ab91a6",
+  "selection_sha256": "ea28dccda6f0a114d2fdcc7c483c146de361ccae260d82cd72d1c0e88ec4e6f9",
+  "runner_sha256": "3e74f3af8bb94c9ba5fac752b885fd20af40ab8b14c5d98341e3b2f50628a19c",
+  "flags": [
+    "--quiet",
+    "--arithmetic-bound-diagnostics",
+    "--preprocess-only",
+    "--stats"
+  ],
+  "timeout_seconds": 5.0,
+  "rows_sha256": "93f9bdaf23d1f3b45f9b7078fa8037f39148f9b5f6f97b5be800e9f16ef5e535",
+  "summary": {
+    "QF_LIA": {
+      "selected": 200,
+      "complete": 188,
+      "statuses": {
+        "ok": 188,
+        "timeout": 12
+      },
+      "answers": {
+        "unknown": 186,
+        "unsat": 2
+      },
+      "instances_with_improvements": 61,
+      "counter_totals_complete_only": {
+        "atoms": 213758,
+        "supported-atoms": 213584,
+        "unsupported-atoms": 174,
+        "ignored-formulas": 120315,
+        "compound-rows": 98879,
+        "wide-rows-skipped": 51,
+        "explicit-bounds": 114793,
+        "variables": 78888,
+        "candidate-directions": 372495,
+        "missing-premises": 154805,
+        "rows-with-improvements": 3889,
+        "stronger-bounds": 4618,
+        "new-finite-bounds": 1935,
+        "improved-variables": 3737,
+        "integer-roundings": 31308,
+        "cancelled": 0,
+        "time-us": 975621
+      },
+      "median_detector_us": 298.5
+    },
+    "QF_UFLIA": {
+      "selected": 300,
+      "complete": 288,
+      "statuses": {
+        "ok": 288,
+        "timeout": 12
+      },
+      "answers": {
+        "unknown": 288
+      },
+      "instances_with_improvements": 156,
+      "counter_totals_complete_only": {
+        "atoms": 48715,
+        "supported-atoms": 42624,
+        "unsupported-atoms": 6091,
+        "ignored-formulas": 133861,
+        "compound-rows": 9766,
+        "wide-rows-skipped": 0,
+        "explicit-bounds": 47999,
+        "variables": 35381,
+        "candidate-directions": 46590,
+        "missing-premises": 34180,
+        "rows-with-improvements": 5975,
+        "stronger-bounds": 11468,
+        "new-finite-bounds": 11468,
+        "improved-variables": 5844,
+        "integer-roundings": 896,
+        "cancelled": 0,
+        "time-us": 216763
+      },
+      "median_detector_us": 87.0
+    }
+  },
+  "interpretation": "Counts only; no bounds installed. Not a speed comparison."
+}

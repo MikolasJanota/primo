@@ -1,6 +1,5 @@
 # Statistics reference
 
-
 Use `--stats` to print numeric counters to stderr while leaving stdout as the
 SMT result stream:
 
@@ -43,6 +42,41 @@ or `--check-model`. The assumptions engine also constructs a model when
 `--check-model` is set and records checking and printing together in
 `:time.model.check-and-print-us`. Dolmen replay is a separate process and is
 not included in these internal counters.
+
+(root-bound-opportunity-counters)=
+## Root-bound opportunity counters
+
+Enable `--arithmetic-bound-diagnostics --stats` to collect the following
+`:arithmetic.root-bounds.*` counters before preprocessing. The detector reads
+unconditional input literals only, and installs none of its conclusions.
+See [the design checklist](../leads/root-bound-detection.md).
+
+| Suffix | Meaning |
+| --- | --- |
+| `atoms`, `supported-atoms`, `unsupported-atoms` | Distinct signed arithmetic atoms inspected; those normalized successfully; those skipped for extended arithmetic such as `div` or `ite`. |
+| `ignored-formulas` | Distinct signed non-arithmetic or unsupported Boolean roots, including disjunctions and disequalities. Their children are not mined for facts. |
+| `compound-rows`, `wide-rows-skipped` | Normalized multi-term constraints; those exceeding the 64-term evaluation cap. Equality counts as one row. |
+| `explicit-bounds` | Finite lower/upper endpoints from single-term literals, keeping the strongest endpoint per term and direction. |
+| `variables` | Distinct terms represented by explicit bounds or evaluated multi-term rows. Skipped wide rows do not contribute new terms. |
+| `candidate-directions`, `missing-premises` | Target/direction calculations attempted; those missing a required explicit endpoint. Equality attempts both directions. |
+| `rows-with-improvements` | Evaluated constraints yielding any endpoint stronger than the explicit input bounds. Equivalent rows with different syntax may each count. |
+| `stronger-bounds`, `new-finite-bounds` | Distinct improved term/direction endpoints after keeping the strongest candidate; the subset previously unbounded in that direction. |
+| `improved-variables` | Distinct terms with at least one improved endpoint. |
+| `integer-roundings` | Computable multi-term target/direction calculations changed by integer rounding, including candidates that do not improve an explicit endpoint. |
+| `cancelled`, `time-us` | Whether cooperative cancellation interrupted detection, leaving partial counts; detector wall time in microseconds. |
+
+For `x,y >= 0` and `3*x+4*y=12`, the detector records two explicit bounds,
+two stronger bounds, two newly finite bounds and two improved variables.
+It does not recursively use those inferred endpoints. Real endpoint comparisons
+treat all positive multiples of the symbolic infinitesimal as the same
+strictness at a rational endpoint. Counts are query-local; repeated identical
+signed input atoms are visited once. With the option disabled these keys are
+absent. With `--preprocess-only`, no SAT search runs; preprocessing can still
+prove UNSAT, otherwise the result is `unknown`. Counts indicate opportunities,
+not missed solver deductions, a speedup, or a consistency verdict.
+The {rootboundsource}`SMT diagnostic helper
+<src/smt/root_bound_diagnostics.cpp>` records these keys in the ordinary
+`util::Statistics` owned by the current solving invocation.
 
 ## Shared integer route instrumentation
 

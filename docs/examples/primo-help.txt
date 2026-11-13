@@ -220,6 +220,9 @@ Preprocessing options:
                               Enable experimental primitive-integer canonicalization of
                               proportional Real comparisons and equalities before
                               clausification
+          --arithmetic-bound-diagnostics [default: off]
+                              Diagnostic: count root-level numeric bound opportunities before
+                              preprocessing; does not install bounds or change search
           --preprocessing-mode TEXT:{off,basic,strong,auto} [auto]
                               Preprocessing preset for all supported logics
           --incremental-mode TEXT:{rebuild,assumptions} [rebuild]

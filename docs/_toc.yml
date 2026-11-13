@@ -99,6 +99,7 @@ parts:
       - file: leads/quantifier-relevance
       - file: leads/compact-distinct
       - file: leads/incremental-equations
+      - file: leads/root-bound-detection
       - file: leads/shared-euf-structure
   - caption: Active work
     chapters:

@@ -88,6 +88,25 @@ and `unsat` if every alternative reduces to false. It does not print the
 transformed assertions. Quantified `UF` input stops after the frontend,
 without running these ground passes or entering the quantifier solver.
 
+`--arithmetic-bound-diagnostics` is a separate, default-off measurement before
+rewriting. It reads unconditional arithmetic literals in the original assertion
+conjunction and counts numeric bound improvements available from explicit
+single-term bounds and one multi-term constraint at a time. It does not install
+the inferred bounds or generate SAT atoms. Use it with `--preprocess-only
+--stats` to measure these opportunities without entering search. This remains
+independent of the optional basic/nonbasic tableau propagation described in
+{ref}`the arithmetic chapter <propagation-and-online-checking>`.
+
+The SMT helper {rootboundsource}`record_root_bound_diagnostics
+<src/smt/root_bound_diagnostics.cpp>` owns temporary polynomials and
+maps keyed by stable `TermId`; its const term-manager input is never mutated.
+All state is query-local, so rebuild sessions recompute it after push/pop.
+Assumptions sessions reject the option; quantified queries skip it. The
+[implementation checklist](../leads/root-bound-detection.md) gives the algebra,
+paper basis, strictness and integer rounding rules, 64-term row cap, cancellation
+behavior, tests, and limits. This is one-pass detection, not fixed-point bound
+tightening or complete arithmetic consequence discovery.
+
 (preprocessing-profiles)=
 ## Profiles and repetition
 

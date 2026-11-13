@@ -421,6 +421,8 @@ struct CheckSatOptions {
   QfUfPortfolioMode qf_uf_portfolio = QfUfPortfolioMode::Off;
   // Diagnostic: stop before search; quantified input stops after the frontend.
   bool preprocess_only = false;
+  // Detection only, on original unconditional input literals before rewriting.
+  bool arithmetic_bound_diagnostics = false;
   std::size_t euf_propagation_interval = 32;
   double euf_propagation_assign_threshold = 0.25;
   std::size_t euf_diseq_ackermann_max_width = 3;

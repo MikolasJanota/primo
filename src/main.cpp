@@ -690,6 +690,10 @@ int run_main(int argc, char** argv) {
       app, "--preprocess-only", solver_options.preprocess_only,
       "Diagnostic: stop before search; report unsat if preprocessing refutes, otherwise unknown. "
       "Quantified input stops after the frontend");
+  add_flag_with_default(
+      app, "--arithmetic-bound-diagnostics", solver_options.arithmetic_bound_diagnostics,
+      "Diagnostic: count root-level numeric bound opportunities before preprocessing; "
+      "does not install bounds or change search");
   app.add_option("--cancel-grace-seconds", cancel_grace_seconds,
                  "Seconds SIGTERM or SIGINT waits for the cooperative cancellation path, "
                  "which reports statistics, before answering unknown and exiting")
@@ -960,11 +964,12 @@ int run_main(int argc, char** argv) {
         starts_with(name, "--qf-uflia-") || starts_with(name, "--no-qf-uflia-")) {
       return kGroupLia;
     }
-    if (name == "--incremental-mode" || name == "--preprocessing-mode" ||
-        name == "--arithmetic-atom-canonicalization" || name == "--auto-preprocess-selector" ||
-        name == "--boolean-flatten-threshold" || name == "--boolean-flatten-post-threshold" ||
-        name == "--boolean-implies-rewrite" || starts_with(name, "--auto-preprocess-") ||
-        starts_with(name, "--preprocessing-") || starts_with(name, "--preprocess-passes") ||
+    if (name == "--arithmetic-bound-diagnostics" || name == "--incremental-mode" ||
+        name == "--preprocessing-mode" || name == "--arithmetic-atom-canonicalization" ||
+        name == "--auto-preprocess-selector" || name == "--boolean-flatten-threshold" ||
+        name == "--boolean-flatten-post-threshold" || name == "--boolean-implies-rewrite" ||
+        starts_with(name, "--auto-preprocess-") || starts_with(name, "--preprocessing-") ||
+        starts_with(name, "--preprocess-passes") ||
         starts_with(name, "--extended-simplification") ||
         starts_with(name, "--no-extended-simplification") ||
         starts_with(name, "--cite-simplification") ||

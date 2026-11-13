@@ -499,6 +499,12 @@ primo_enable_sanitizers(primo_lra_atom_tests)
 target_link_libraries(primo_lra_atom_tests PRIVATE primo_core)
 add_test(NAME primo_lra_atom_tests COMMAND primo_lra_atom_tests)
 
+add_executable(primo_root_bound_diagnostics_tests tests/unit/root_bound_diagnostics_tests.cpp)
+primo_enable_warnings(primo_root_bound_diagnostics_tests)
+primo_enable_sanitizers(primo_root_bound_diagnostics_tests)
+target_link_libraries(primo_root_bound_diagnostics_tests PRIVATE primo_core)
+add_test(NAME primo_root_bound_diagnostics_tests COMMAND primo_root_bound_diagnostics_tests)
+
 add_executable(primo_lra_tableau_tests tests/unit/lra_tableau_tests.cpp)
 primo_enable_warnings(primo_lra_tableau_tests)
 primo_enable_sanitizers(primo_lra_tableau_tests)

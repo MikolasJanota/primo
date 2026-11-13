@@ -89,6 +89,21 @@ frontend: ground preprocessing does not support binders, and neither
 instantiation nor SAT/theory search runs. Unsupported inputs remain unsupported.
 The option defaults off and is not accepted in assumptions mode.
 
+For numeric bound opportunities in the original unconditional arithmetic input,
+add `--arithmetic-bound-diagnostics` (also default off):
+
+```sh
+./build/primo --quiet --arithmetic-bound-diagnostics --preprocess-only --stats input.smt2
+```
+
+This reads explicit input bounds before rewriting and counts stronger bounds
+derivable from one constraint at a time, including integer rounding. It only
+records statistics; it does not add bounds or change solving decisions. See
+[the detector's scope](../implementation/preprocessing.md) and
+[counter definitions](statistics.md#root-bound-opportunity-counters).
+`--preprocess-only` avoids SAT search; `--max-theory-conflicts=N` instead allows
+search but limits reported theory conflicts, not all SAT conflicts or wall time.
+
 ## Output and exit status
 
 SMT-LIB answers, models and errors go to stdout. Diagnostics, startup information

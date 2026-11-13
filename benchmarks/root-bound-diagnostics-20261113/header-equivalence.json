@@ -1,0 +1,13 @@
+{
+  "rows": [
+    {
+      "source_sha256": "00045e36eb9bbc9e99464959e315e7255d5047bc32d0b6622736a65c5f986c94",
+      "preprocessed_sha256": "390dee80fe3b57ac75dac5639b5cd0383a2ee37067a9346e4249369e09fa8072"
+    },
+    {
+      "source_sha256": "ec3fa5b76a0aef55220c4f6e39c546b8d9110af7212ce8e780c75aa887dd8928",
+      "preprocessed_sha256": "390dee80fe3b57ac75dac5639b5cd0383a2ee37067a9346e4249369e09fa8072"
+    }
+  ],
+  "claim": "Identical preprocessed C++ after direct-header and ownership-comment cleanup; no semantic change."
+}

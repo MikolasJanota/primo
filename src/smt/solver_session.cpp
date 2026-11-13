@@ -20,6 +20,7 @@
 #include "smt/preprocessing.hpp"
 #include "smt/preprocessing_strategy.hpp"
 #include "smt/quantifiers/quantified_solver.hpp"
+#include "smt/root_bound_diagnostics.hpp"
 #include "smt/solver_engines.hpp"
 #include "smt/solver_error.hpp"
 #include "smt/solver_leaves.hpp"
@@ -652,6 +653,12 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
       statistics.set(kStatTimeTotalUs, elapsed_microseconds(total_start, PhaseClock::now()));
       outcome.statistics = statistics;
       return outcome;
+    }
+    if (options.arithmetic_bound_diagnostics) {
+      record_root_bound_diagnostics(frontend.terms(), assertions, statistics, options.cancelled);
+      if (options.cancelled && options.cancelled()) {
+        return finish(CheckSatResult::Unknown, "cancelled", InconclusiveReason::Cancelled);
+      }
     }
     const std::vector<core::TermId> original_assertions =
         options.produce_model ? assertions : std::vector<core::TermId>{};

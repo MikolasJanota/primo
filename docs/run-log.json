@@ -3,6 +3,121 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-13-root-bound-diagnostics",
+      "date": "2026-11-13",
+      "kind": "Opt-in original-input bound detection and detection-only selected-corpus scan",
+      "evidence_status": "qualified current calculation; detection only, no inferred bounds installed or search speedup claim",
+      "qualified_snapshot": "6032c0f18bf7062bdf971b2f52498c6ef9f7ba30",
+      "binary_sha256": "7a2594618c71e4656cafc3b9131ee5481ac648500309291d0477284cb6ab91a6",
+      "source_qualification": "All source identities and direct-header/comment equivalence proof are pinned in benchmarks/root-bound-diagnostics-20261113/qualification.json. Final helper preprocessed C++ identical to tested snapshot.",
+      "commands": {
+        "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies (clean detached qualified snapshot; routing supplied outside tracked files)",
+        "verification": "scripts/qualification/root_bounds/verify.sbatch slots0-6; source snapshot pins exact generator/reference commands",
+        "measurement": "scripts/qualification/root_bounds/report.sbatch: --quiet --arithmetic-bound-diagnostics --preprocess-only --stats; existing500content-pinned inputs"
+      },
+      "execution": {
+        "environment": "SLURM; no local solver batch or login-host compute",
+        "jobs": {
+          "build": "385499",
+          "focused": "385500",
+          "verification_array": "385501",
+          "measurement": "385508",
+          "header_equivalence": "385509",
+          "final_helper_static": "385510"
+        },
+        "measurement_limits": "One requestedCPU,10GiBallocation,5s subprocess deadline+2s termination grace; no SAT search"
+      },
+      "checks": {
+        "make_check": "48/48CTest groups and336Python tests pass",
+        "asan": "48/48groups pass; detect_leaks=1,strict_init_order=1",
+        "static": "137C++units clang-tidy and include-cleaner,all tool exits0;770distinct original advisories retained; three helper header advisories repaired; final helper rescan0include advisories; one captured-binding false positive independently reviewed",
+        "lint_docs": "make lint,strict make docs,assembled local/Git links,rendered section inspection pass; no warning-free-static claim"
+      },
+      "fresh_fuzz": {
+        "QF_LIA": {
+          "seed": 2026111301,
+          "count": 1000,
+          "outcomes": {
+            "PASS": 986,
+            "TIMEOUT": 14
+          },
+          "summary_sha256": "11e78c85de8c0226dc36fd4220df4a482f71702893c0d63162b9b04274c41b54",
+          "timeout_seconds": 5,
+          "wrong_answers": 0,
+          "crashes": 0,
+          "parser_type_errors": 0,
+          "reference_disagreements": 0
+        },
+        "QF_UFLIA": {
+          "seed": 2026111302,
+          "count": 1000,
+          "outcomes": {
+            "PASS": 1000
+          },
+          "summary_sha256": "108aa60eed216a222bac403996a0a553197920ef165c233e2dd3ff8104e21964",
+          "timeout_seconds": 5,
+          "wrong_answers": 0,
+          "crashes": 0,
+          "parser_type_errors": 0,
+          "reference_disagreements": 0
+        },
+        "QF_LRA": {
+          "seed": 2026111303,
+          "count": 1000,
+          "outcomes": {
+            "PASS": 1000
+          },
+          "summary_sha256": "a75cb6ec9ef7115dd34cfb8528769ca2ea5b8094cdd8a8f125cb22f9d7211791",
+          "timeout_seconds": 5,
+          "wrong_answers": 0,
+          "crashes": 0,
+          "parser_type_errors": 0,
+          "reference_disagreements": 0
+        },
+        "QF_UFLRA": {
+          "seed": 2026111304,
+          "count": 1000,
+          "outcomes": {
+            "PASS": 1000
+          },
+          "summary_sha256": "1ca35ae2a098c5af345a7003705a7994a5360df5980ea2f1e8ed1d4c27803f05",
+          "timeout_seconds": 5,
+          "wrong_answers": 0,
+          "crashes": 0,
+          "parser_type_errors": 0,
+          "reference_disagreements": 0
+        }
+      },
+      "fuzz_sat_validation": "1000/1000LRA SAT responses independently pass Dolmen; other arithmetic gates compare answers with Z3,without claiming separate model replays",
+      "selection": "benchmarks/lia-hybrid-20261111/selection.json,200QF_LIA+300QF_UFLIA; Certora repetitions excluded; input hashes checked",
+      "summary": {
+        "QF_LIA": {
+          "selected": 200,
+          "complete": 188,
+          "deadline": 12,
+          "inputs_with_improvements": 61,
+          "stronger_endpoints": 4618,
+          "new_finite_endpoints": 1935,
+          "median_detector_us": 298.5
+        },
+        "QF_UFLIA": {
+          "selected": 300,
+          "complete": 288,
+          "deadline": 12,
+          "inputs_with_improvements": 156,
+          "stronger_endpoints": 11468,
+          "new_finite_endpoints": 11468,
+          "median_detector_us": 87
+        }
+      },
+      "interpretation": "Opportunity counts only from completed invocations; excludes all24deadline rows. Detector timing excludes parse/frontend/later preprocessing. No whole-corpus, performance or promotion conclusion.",
+      "artifacts": [
+        "benchmarks/root-bound-diagnostics-20261113/{rows.jsonl,summary.json,qualification.json,header-equivalence.json}",
+        "results/root-bound-diagnostics-20261113/ (raw gate summaries/logs,static archive,scheduler receipt; ignored local copy and retained SLURM originals)",
+        "docs/leads/root-bound-detection.md"
+      ]
+    },
+    {
       "id": "2026-11-12-ground-comparison-gallery",
       "date": "2026-11-12",
       "kind": "Consolidated qualified ground-theory comparison page",
