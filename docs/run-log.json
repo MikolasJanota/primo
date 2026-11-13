@@ -3,6 +3,56 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-13-bound-propagation-factorial",
+      "date": "2026-11-13",
+      "kind": "Three-repetition four-profile experiment for preprocessing bounds and online row propagation",
+      "evidence_status": "Fresh propagation profile qualification passed; broad timing pending",
+      "source_base": "102307b1",
+      "qualification_snapshot": "a4b5d75ff6c649f3fac94b629b4ee04e04e10c42",
+      "protocol": "benchmarks/bound-propagation-20261113/protocol.json",
+      "selection": "benchmarks/bound-propagation-20261113/selection.json",
+      "scope": "697instances from prior700selection;3predeclared shared-allocation-abort quarantines,explicitly not passes. Four profiles(default,pre,rows,both),3freshrepetitions,8364native timing rows planned. Same binary and unchanged defaults.",
+      "commands": {
+        "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --extra-target primo_qf_lra_solver_tests --extra-target primo_qf_lia_solver_tests --extra-target primo_qf_uflia_solver_tests",
+        "qualification": "scripts/qualification/bound_propagation/{qualify,seeds,canonical,unit}.sbatch",
+        "timing_models": "scripts/qualification/bound_propagation/paired.sbatch using content-pinned configs; models after all timings; everysuccessfulSATrow directDolmen"
+      },
+      "limits": "120smeasurement,8GiBaddress space,oneCPU,10GiBallocation; private integer branching; existing64/64forward and32/32reverse propagation caps.3sequentialrotatedreplicationarrays.",
+      "correctness": "8x1000fresh cases across fourlogics,rows/both flags,plus tracked57seed sessions,canonicalUFLRAgate,arithmeticunits before broad timing; any new crash,wrong answer or invalidmodel stops.",
+      "artifacts": "SLURM new bound-propagation workspace results/bound-propagation; local results/bound-propagation-20261113; private connection/config paths outside tracked files.",
+      "defaults": "No solver algorithm or default changes; experimental tests only.",
+      "jobs": {
+        "build": "387583",
+        "fresh_generated": "387585",
+        "tracked_seeds": "387586",
+        "canonical_UFLRA": "387587",
+        "arithmetic_units": "387588",
+        "corrected_tracked_seed_gate": "387604"
+      },
+      "workflow_note": "Direct route timed out; supplied jump route succeeds. Initial build preflight required cvc5 under workspace contrib/local,where it is absent; corrected tool check uses existing preprovisioned cvc5 in reference prefix via private PATH. Build itself passed; no dependencies compiled on login host. Seed job387586 stopped on known Z3 quoted|let| parse error followed by unusable SAT(exit1); corrected387604 checks that unchanged original withcvc5andDolmen. Metadata audit tolerates current CTest success-summary spelling and independently verifies all three Passed lines.",
+      "native_sha256": "1b43e6bdf394fa130483950c5d2a240f8b1667d25f4478e7ac6c244f74ba9cf5",
+      "qualification_summary": {
+        "generated": {
+          "attempts": 8000,
+          "PASS": 7972,
+          "TIMEOUT": 28,
+          "direct_Dolmen_SAT_models": 6021
+        },
+        "supplemental": {
+          "cases": 2400,
+          "PASS": 2400,
+          "direct_Dolmen_SAT_models": 1329
+        },
+        "seeds": "57tracked original inputs per profile,complete answer sequences,scoped model replay and directDolmen for single-querySATseeds;all pass",
+        "units": "3/3arithmetic groups pass,including existing forward/reverse propagation regressions",
+        "wrong_answers": 0,
+        "invalid_models": 0,
+        "crashes": 0,
+        "untriaged_disagreements": 0
+      },
+      "qualification_artifact": "benchmarks/bound-propagation-20261113/qualification.json; collected local results/bound-propagation-20261113/gates"
+    },
+    {
       "id": "2026-11-13-preprocess-bound-tightening",
       "date": "2026-11-13",
       "kind": "Opt-in bounded preprocessing interval propagation",

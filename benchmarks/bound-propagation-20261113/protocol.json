@@ -1,0 +1,54 @@
+{
+  "status": "Correctness qualification passed; broad timing not yet executed",
+  "source_base": "102307b185aed18dc4bbd89e3263e5610eca6663",
+  "question": "Does unconditional preprocessing strengthening improve solving when forward and reverse tableau-row propagation are enabled?",
+  "profiles": {
+    "default": [
+      "--quiet",
+      "--stats",
+      "--lra-propagation"
+    ],
+    "pre": [
+      "--quiet",
+      "--stats",
+      "--lra-propagation",
+      "--preprocess-bound-tightening"
+    ],
+    "rows": [
+      "--quiet",
+      "--stats",
+      "--lra-propagation",
+      "--lra-row-propagation",
+      "--lra-bidirectional-row-propagation"
+    ],
+    "both": [
+      "--quiet",
+      "--stats",
+      "--lra-propagation",
+      "--preprocess-bound-tightening",
+      "--lra-row-propagation",
+      "--lra-bidirectional-row-propagation"
+    ]
+  },
+  "logics": [
+    "QF_LIA",
+    "QF_UFLIA",
+    "QF_LRA",
+    "QF_UFLRA"
+  ],
+  "inputs": 697,
+  "repetitions": 3,
+  "native_measurements": 8364,
+  "execution": "SLURM only; fresh same binary for all profiles; no default changes",
+  "time_limit_seconds": 120,
+  "address_space_bytes": 8589934592,
+  "allocation_memory_gib": 10,
+  "requested_cpus_per_task": 1,
+  "replication": "Three sequential arrays; rotate profile dictionary once per repetition plus runner rotation by instance index. Same instance/profiles run sequentially in each allocation.",
+  "propagation_limits": "Existing untuned default row/fanout caps,forward64/64,reverse32/32; existing registered-atom delivery,not unrestricted internal bound closure.",
+  "gates": "1000fresh cases each of four logics with rows and both(8000attempts),referenceZ3,printedSATmodelsDolmen; tracked57regression seeds with complete query sequence comparisons; canonical UFLRA gate with both profiles; relevant arithmetic unit tests. No broad timing until gates pass.",
+  "correctness_policy": "Any new crash,wrong answer,invalid model or untriaged reference disagreement stops broad measurement. Three predeclared quarantines are not passes. Timeout-only fuzz incompleteness reported separately.",
+  "model_policy": "After all timing arrays finish,validate every successful nativeSATtiming row independently with Dolmen; preserve per-profile/per-repetition identities; validationtime excluded from speed data.",
+  "analysis": "Report per-logic/family solved count,outcomes,PAR2,paired repetitions/runtime variation,peak RSS,propagations,row propagation,pivots,conflicts,decisions,private branch nodes and preprocessing counters. Count missing statistics explicitly; no tiny speedup claim without repeated evidence.",
+  "retention": "Test existing opt-in settings only. No solver algorithm/default change or default promotion requested."
+}
