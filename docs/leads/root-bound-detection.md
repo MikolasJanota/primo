@@ -84,6 +84,7 @@ The detection-only SLURM scan uses the same content-pinned 200 QF_LIA and
 Certora diagnostics. Its [summary and provenance](../../benchmarks/root-bound-diagnostics-20261113/summary.json)
 and [per-input counters](../../benchmarks/root-bound-diagnostics-20261113/rows.jsonl)
 describe qualified source snapshot `6032c0f1` and its exact binary hash.
+The implementation commit is `084ba5b2`; source links target that commit.
 The [qualification record](../../benchmarks/root-bound-diagnostics-20261113/qualification.json)
 pins source identities, gate commands, seeds, scheduler jobs and limitations.
 The final helper adds direct includes and an ownership comment;

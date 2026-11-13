@@ -319,5 +319,6 @@
     "analyzer_triage": "Clang reports uninitialized argument in structured-binding capture. normalize_atom initializes rhs and coefficients; atom owns its polynomial map and endpoint only updates separate explicit_bounds. Independent reviewer confirms false positive.",
     "efficiency": "Default off; no scans when disabled. One input scan and bounded-width target isolation, no SAT callbacks or atom growth. Width cap follows normalization, so parse/normalization cost is not bounded; five-second corpus deadlines are reported separately. Pure-class probe is the 3x+4y=12 smoke input (two new upper endpoints). No solving speedup claimed.",
     "retained_test_advisory": "One performance-inefficient-string-concatenation warning in the bounded65-term fixture setup; no solver-runtime effect. Existing project advisories retained and archived."
-  }
+  },
+  "implementation_commit": "084ba5b2312b904609bcaa8044088314042d8038"
 }

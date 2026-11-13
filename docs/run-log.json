@@ -8,6 +8,7 @@
       "kind": "Opt-in original-input bound detection and detection-only selected-corpus scan",
       "evidence_status": "qualified current calculation; detection only, no inferred bounds installed or search speedup claim",
       "qualified_snapshot": "6032c0f18bf7062bdf971b2f52498c6ef9f7ba30",
+      "implementation_commit": "084ba5b2312b904609bcaa8044088314042d8038",
       "binary_sha256": "7a2594618c71e4656cafc3b9131ee5481ac648500309291d0477284cb6ab91a6",
       "source_qualification": "All source identities and direct-header/comment equivalence proof are pinned in benchmarks/root-bound-diagnostics-20261113/qualification.json. Final helper preprocessed C++ identical to tested snapshot.",
       "commands": {

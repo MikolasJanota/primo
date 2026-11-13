@@ -3,17 +3,17 @@
   "baseline_git": "354f13a11a6edb4bde5b8625de87b497d9669f5b",
   "reviewer": "Separate root_bounds_docs_review agent under repository writer-reviewer rule.",
   "reviewed_files": {
-    "docs/leads/root-bound-detection.md": "40e012f1f665bd6a69825b70d71cbf9f72390e9091d85c38ec3f37675581f098",
+    "docs/leads/root-bound-detection.md": "bbea3019de23a38ab2cc5f1f2eff8958e7a019eab937c455635dc740908307e2",
     "docs/implementation/preprocessing.md": "d61fd28588f4d0b252a46796a423ef0c54af1bd752361b696e84325ca9be95b6",
     "docs/reference/options.md": "2ea08ab86d00b7922e68d41132b4c4441aa4a095f40248ad7b92c7932d0472b9",
     "docs/reference/statistics.md": "1551fd6847f59679a55e4994ae65ba5f9103d625a755bd5a04d727c7dd3620e8",
     "docs/examples/primo-help.txt": "ebc7b80d379ca0c2c936144d2b1726699360e7269c9f33041452c38f7448cef5",
-    "docs/_config.yml": "45bcb579e1f85840cd3d4d02bbe7dc7abfde7d4c7b6d9688574e1ab23213f6d0",
+    "docs/_config.yml": "2f4c4c99032e0e5a5d9e549b1b0e30ad43f994fe82b67c9622a886d35bb9bc24",
     "docs/_toc.yml": "0d4dcc443225176bd7b5767427ab76858861203fb80165bc7c0e90b089d46965",
-    "docs/run-log.json": "eb5e6f01f736bb84eb1efde8d729481e80ecb5fbee69b5168f2c6a4d8c4a6e75",
+    "docs/run-log.json": "a1f40abf544515d4435a91ef8d5b5c438f39fe4e296a9e50d230485b0d3d7596",
     "benchmarks/root-bound-diagnostics-20261113/summary.json": "c81ab723690dfe7761868faa02981ea539f31809d7e1db151fa51f6eb8188476",
     "benchmarks/root-bound-diagnostics-20261113/rows.jsonl": "93f9bdaf23d1f3b45f9b7078fa8037f39148f9b5f6f97b5be800e9f16ef5e535",
-    "benchmarks/root-bound-diagnostics-20261113/qualification.json": "5e636c1a38f70ca2ece2ed931e2b8b17eaea25cd63e77d2a01f3d25469543e3a",
+    "benchmarks/root-bound-diagnostics-20261113/qualification.json": "659ca06638e927f30fe3c1b708c572c29c880299f688df20108d400b45a152df",
     "benchmarks/root-bound-diagnostics-20261113/header-equivalence.json": "8f8736ca964a2c80629b349df59664cb3868adec9cdbb4ff25896df1bb9aa2b8"
   },
   "findings": {
@@ -59,5 +59,7 @@
     "lint": "make lint pass",
     "docs": "make docs strict pass",
     "links": "296pages,43027local links,1253Git links,zero failures;507external deferred"
-  }
+  },
+  "source_links_commit": "084ba5b2312b904609bcaa8044088314042d8038",
+  "source_link_followup": "Independent reviewer verified actual implementation commit and all cited source/test bytes; frozen qualification snapshot remains separately identified. Current-pin strict docs/local+Git links passed after review."
 }
