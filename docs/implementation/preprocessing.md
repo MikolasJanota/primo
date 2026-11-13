@@ -54,8 +54,8 @@ composition operations.
 (preprocessing-order)=
 ## Execution order
 
-{source}`prepare_and_execute_preprocessing_strategy
-<src/smt/preprocessing_strategy.cpp#L554-L641>` executes the initial sequence,
+{preprocessboundsource}`prepare_and_execute_preprocessing_strategy
+<src/smt/preprocessing_strategy.cpp>` executes the initial sequence,
 analyzes its result to select a profile, then runs the remaining passes.
 The following order is encoded by
 {source}`make_preprocessing_strategy <src/smt/preprocessing_strategy.cpp#L419-L552>`.
@@ -67,6 +67,7 @@ In the table, **ITE** means an if-then-else expression, written `ite` in SMT-LIB
 | --- | --- |
 | 1. Simplify extended terms | If enabled, simplify comparisons involving constant if-then-else terms, then apply bounded structural `ite`/`div`/`mod`/`abs` rewrites. The constant-ITE pass also has its own switch. |
 | 2. Eliminate extended operators | Always translate remaining extended terms into Boolean structure, linear terms, and fresh definitions. |
+| 2a. Tighten unconditional bounds | Optional bounded interval propagation on the lowered goal; emit ordinary comparison conjuncts. |
 | 3. Normalize the initial goal | Optional arithmetic atom canonicalization, then optional initial bounded Boolean flattening. |
 | 4. Choose a profile | Analyze the normalized goal; retain finite-domain clauses and symmetry results needed later. |
 | 5. Profile-specific preparation | Integer profiles run bounded syntactic solve-eqs. The profile that skips the main loop for large inputs can run one solve-eqs pass. Integer profiles with an enabled round normalize Boolean negations before that round. |
@@ -106,6 +107,34 @@ Assumptions sessions reject the option; quantified queries skip it. The
 paper basis, strictness and integer rounding rules, 64-term row cap, cancellation
 behavior, tests, and limits. This is one-pass detection, not fixed-point bound
 tightening or complete arithmetic consequence discovery.
+
+## Optional bound tightening
+
+`--preprocess-bound-tightening` enables bounded interval propagation immediately
+after required extended-term lowering, before the remaining initial normalizers,
+profile analysis, equation elimination and the main simplification loop. It is
+off by default, supports the four ground arithmetic logics in rebuild sessions,
+and runs independently of the chosen preprocessing preset. Assumptions sessions
+reject explicit enabling; quantified queries use their separate route.
+
+The {preprocessboundsource}`analysis <src/smt/preprocess_bound_tightening.cpp>`
+owns intervals and occurrence lists keyed by stable term IDs, and a FIFO queue
+of row indices. It reads unconditional conjunctions only. Completed improved
+endpoints become ordinary comparison conjuncts through the term manager, then
+follow ordinary clausification and arithmetic preparation. There are no new
+dynamic tableau rows or branch-dependent private assumptions. Existing model
+reconstruction and checks of the original assertions remain in force.
+
+The work budget defaults to 100,000 counted operations; zero does no
+strengthening. Exhaustion retains sound partial results and continues solving,
+while cancellation follows the existing inconclusive path. At most 4,096
+endpoints are emitted per query. Neither limit bounds the cost of one exact
+rational operation or provides a wall-time guarantee. See the
+[algorithm and implementation checklist](../leads/preprocessing-bound-tightening.md).
+
+The original `--arithmetic-bound-diagnostics` remains a separate, read-only scan
+before rewriting, so its opportunities and this pass's actual emissions have
+different input boundaries and must not be compared as identical measurements.
 
 (preprocessing-profiles)=
 ## Profiles and repetition

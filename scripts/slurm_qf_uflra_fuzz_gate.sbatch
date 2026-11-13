@@ -42,6 +42,11 @@ MODEL_TIMEOUT=${PRIMO_FUZZ_MODEL_TIMEOUT:-10}
 MODEL_DOLMEN_TIMEOUT=${PRIMO_FUZZ_MODEL_DOLMEN_TIMEOUT:-10}
 QF_UFLRA_REQUIRE_POST_AMO=${PRIMO_FINITE_DOMAIN_QF_UFLRA_REQUIRE_POST_AMO:-1}
 QF_UFLRA_ACTIVATION_PROFILE=${PRIMO_FINITE_DOMAIN_QF_UFLRA_ACTIVATION_PROFILE:-amo}
+QF_UF_ACTIVATION_PROFILE=${PRIMO_FINITE_DOMAIN_QF_UF_ACTIVATION_PROFILE:-amo}
+uf_activation_args=(--activation-profile "$QF_UF_ACTIVATION_PROFILE")
+if [[ $QF_UF_ACTIVATION_PROFILE != answers ]]; then
+  uf_activation_args+=(--require-post-amo)
+fi
 
 cd "$WORKDIR"
 mkdir -p slurm_logs "$OUT_ROOT"
@@ -96,9 +101,9 @@ case "$QF_UFLRA_REQUIRE_POST_AMO" in
     ;;
 esac
 case "$QF_UFLRA_ACTIVATION_PROFILE" in
-  amo|structural) ;;
+  amo|structural|answers) ;;
   *)
-    echo "PRIMO_FINITE_DOMAIN_QF_UFLRA_ACTIVATION_PROFILE must be amo or structural" >&2
+    echo "PRIMO_FINITE_DOMAIN_QF_UFLRA_ACTIVATION_PROFILE must be amo, structural or answers" >&2
     exit 2
     ;;
 esac
@@ -132,8 +137,7 @@ python3 scripts/finite_domain_fuzz.py \
     --count "$FINITE_COUNT" \
     --seed "$((SEED + 100000))" \
     --timeout 5 \
-    --activation-profile amo \
-    --require-post-amo \
+    "${uf_activation_args[@]}" \
     --out "$OUT/finite-qf-uf"
 
 python3 scripts/finite_domain_fuzz.py \

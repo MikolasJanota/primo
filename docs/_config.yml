@@ -80,6 +80,9 @@ sphinx:
       rootboundsource:
         - "https://github.com/primo-solver/primo/blob/084ba5b2312b904609bcaa8044088314042d8038/%s"
         - "%s"
+      preprocessboundsource:
+        - "https://github.com/primo-solver/primo/blob/57150e21fc5189a66260514b0a0dc03e5a8b6192/%s"
+        - "%s"
       hybridbaselinesource:
         - "https://github.com/primo-solver/primo/blob/c49585a09710eca76f10ce081923c1bcb3765a7c/%s"
         - "%s"

@@ -78,7 +78,14 @@ C++ policy fields and existing statistic keys keep their names. The
 and compatibility resolution; [phase-control literature](../papers/arithmetic-phase-control.md)
 explains the separate heuristic investigation.
 
-## Preprocessing diagnostic
+## Preprocessing strengthening and diagnostics
+
+`--preprocess-bound-tightening` (default off) enables actual unconditional bound
+strengthening after required lowering in rebuild sessions. Its
+`--preprocess-bound-work-limit=N` defaults to 100,000 operations; zero emits no
+new bounds. Exhaustion continues normal solving with sound partial deductions.
+At most 4,096 improved endpoints are emitted. Assumptions sessions reject the
+option. See [the implementation](../implementation/preprocessing.md).
 
 `--preprocess-only` stops before search. Use it with `--stats` to inspect
 preprocessing cost and formula-size counters independently of solving. It

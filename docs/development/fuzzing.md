@@ -17,6 +17,18 @@ needs fresh evidence for its actual configuration.
 | Real-seed mutation | {source}`yinyang_fuzz.sh <scripts/yinyang_fuzz.sh>`, with logic-specific configs |
 
 The convenience `make fuzzsmt` target's small default count is not a merge gate.
+
+For qualifying a preprocessing pass that can bypass finite-domain machinery,
+the {preprocessboundsource}`finite-domain generator <scripts/finite_domain_fuzz.py>`
+supports explicit `--activation-profile=answers`.
+It checks expected answers, reference agreement and process status, while making
+no AMO or selector-activation claim. It cannot be combined with
+`--require-post-amo`. The default `amo` and optional `structural` profiles retain
+their existing activity requirements. The {preprocessboundsource}`mixed SLURM
+gate <scripts/slurm_qf_uflra_fuzz_gate.sbatch>` accepts
+`PRIMO_FINITE_DOMAIN_QF_UF_ACTIVATION_PROFILE=answers` and
+`PRIMO_FINITE_DOMAIN_QF_UFLRA_ACTIVATION_PROFILE=answers`; for the latter, also
+set `PRIMO_FINITE_DOMAIN_QF_UFLRA_REQUIRE_POST_AMO=0`. Model replay still runs.
 A skipped generator/dependency is not a pass. Install missing dependencies
 where feasible; otherwise record the blocked gate and failed access/install
 command. Counts must include valid inputs actually reaching the relevant solver

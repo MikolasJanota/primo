@@ -100,6 +100,7 @@ parts:
       - file: leads/compact-distinct
       - file: leads/incremental-equations
       - file: leads/root-bound-detection
+      - file: leads/preprocessing-bound-tightening
       - file: leads/shared-euf-structure
   - caption: Active work
     chapters:

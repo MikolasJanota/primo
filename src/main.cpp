@@ -694,6 +694,12 @@ int run_main(int argc, char** argv) {
       app, "--arithmetic-bound-diagnostics", solver_options.arithmetic_bound_diagnostics,
       "Diagnostic: count root-level numeric bound opportunities before preprocessing; "
       "does not install bounds or change search");
+  add_flag_with_default(app, "--preprocess-bound-tightening",
+                        solver_options.preprocess_bound_tightening,
+                        "Infer and assert unconditional arithmetic bounds after lowering");
+  app.add_option("--preprocess-bound-work-limit", solver_options.preprocess_bound_work_limit,
+                 "Bound-tightening work budget; 0 performs no strengthening")
+      ->capture_default_str();
   app.add_option("--cancel-grace-seconds", cancel_grace_seconds,
                  "Seconds SIGTERM or SIGINT waits for the cooperative cancellation path, "
                  "which reports statistics, before answering unknown and exiting")
@@ -964,7 +970,8 @@ int run_main(int argc, char** argv) {
         starts_with(name, "--qf-uflia-") || starts_with(name, "--no-qf-uflia-")) {
       return kGroupLia;
     }
-    if (name == "--arithmetic-bound-diagnostics" || name == "--incremental-mode" ||
+    if (name == "--preprocess-bound-tightening" || name == "--preprocess-bound-work-limit" ||
+        name == "--arithmetic-bound-diagnostics" || name == "--incremental-mode" ||
         name == "--preprocessing-mode" || name == "--arithmetic-atom-canonicalization" ||
         name == "--auto-preprocess-selector" || name == "--boolean-flatten-threshold" ||
         name == "--boolean-flatten-post-threshold" || name == "--boolean-implies-rewrite" ||

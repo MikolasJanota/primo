@@ -3,6 +3,136 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-13-preprocess-bound-tightening",
+      "date": "2026-11-13",
+      "kind": "Opt-in bounded preprocessing interval propagation",
+      "evidence_status": "correctness-qualified implementation; paired performance acceptance pending",
+      "baseline_git": "d584dc3b9a722383fbb886a6cf4c4e85b7d0cdcf",
+      "qualified_snapshot": "57150e21fc5189a66260514b0a0dc03e5a8b6192",
+      "binary_sha256": "b85b8c4946a332a05d0fc7006e6cdec1f884b013812c6b86ac7c00ce9e124a52",
+      "execution": "All builds,solver batches,fuzzing,implication checks,model checks and timings in SLURM. Connection details outside tracked files.",
+      "jobs": {
+        "build": "385541",
+        "focused": "385550",
+        "verification": "385555",
+        "static": "385556",
+        "canonical": "385565",
+        "original_proofs_failed": "385566",
+        "mutation_answers": "385571",
+        "header_equivalence": "385584",
+        "header_static": "385585",
+        "resumed_models": "385589",
+        "probe_repair_build": "385604",
+        "repaired_proofs_models": "385606",
+        "probe_static_docs_examples": "385610"
+      },
+      "commands": {
+        "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --extra-target primo_preprocess_bound_probe",
+        "verification": "scripts/qualification/preprocess_bounds/verify.sbatch slots0-6,8; scripts/qualification/preprocess_bounds/static.sbatch",
+        "proofs_models": "scripts/qualification/preprocess_bounds/proofs_models.sbatch; failed workflow attempts retained; finish_models.sbatch resumes completed LIA/mutation receipts; repaired exporter85db5385 checked four remaining shards",
+        "canonical": "scripts/slurm_qf_uflra_fuzz_gate.sbatch;250general+25finiteUF+25finiteUFLRA per4tasks; seedbase2026111330; finite activation profile=answers; no AMO activity claim",
+        "mutations": "OpFuzz/model_linear_ops.txt,12real seeds perlogic,seed2026111327;100saved mutants perintegerlogic freshly replayed against Z3 on current binary",
+        "models": "scripts/validate_model.py --require-dolmen-pass --dolmen-arg=--strict=false; native30s,Dolmen30s for generated/mutation replays; no Z3 model fallback accepted"
+      },
+      "checks": {
+        "make_check": "49CTest groups +337Python tests pass; job385555_0",
+        "asan": "49CTest groups pass; job385555_8",
+        "static": "140TUs covered;136identical reuse,4rescan; final direct-header cleanup independently rescanned385585; no tool errors; advisories retained",
+        "docs": "make docs; assembled297pages,43336local links,1258Git links:0failures; rendered lead inspected in Chrome"
+      },
+      "fresh_fuzz": [
+        {
+          "logic": "QF_LIA",
+          "hybrid": false,
+          "seed": 2026111311,
+          "count": 1000,
+          "outcomes": {
+            "PASS": 980,
+            "TIMEOUT": 20
+          },
+          "timeout_seconds": 5,
+          "summary_sha256": "7efb8905277190ed2c91970ad45bef9886b128b573d24f9f74115ca21162463d"
+        },
+        {
+          "logic": "QF_UFLIA",
+          "hybrid": false,
+          "seed": 2026111312,
+          "count": 1000,
+          "outcomes": {
+            "PASS": 1000
+          },
+          "timeout_seconds": 5,
+          "summary_sha256": "352f3a80db155ad4db3237b1124516eea00b7d535e6e2611c47c7171dd51d9d1"
+        },
+        {
+          "logic": "QF_LRA",
+          "hybrid": false,
+          "seed": 2026111313,
+          "count": 1000,
+          "outcomes": {
+            "PASS": 1000
+          },
+          "timeout_seconds": 5,
+          "summary_sha256": "a1d949582c3ad08d2598d8f068d88e99985855f227e1cde7619e02a08c281591"
+        },
+        {
+          "logic": "QF_UFLRA",
+          "hybrid": false,
+          "seed": 2026111314,
+          "count": 1000,
+          "outcomes": {
+            "PASS": 1000
+          },
+          "timeout_seconds": 5,
+          "summary_sha256": "13dfcd13aae4f6dfce9bf5fea1fa25097c5c26c6b04bd8bdedb5cd031b69a2de"
+        },
+        {
+          "logic": "QF_LIA",
+          "hybrid": true,
+          "seed": 2026111315,
+          "count": 1000,
+          "outcomes": {
+            "PASS": 992,
+            "TIMEOUT": 8
+          },
+          "timeout_seconds": 5,
+          "summary_sha256": "9a4d55416b167c4fd4cc4e5e8f71149a70c91bb3dac55fbd858bf04057313892"
+        },
+        {
+          "logic": "QF_UFLIA",
+          "hybrid": true,
+          "seed": 2026111316,
+          "count": 1000,
+          "outcomes": {
+            "PASS": 1000
+          },
+          "timeout_seconds": 5,
+          "summary_sha256": "80f3af33d9248b33ebf4b99188cdfa3a9004729f44e41e4ed374c45569b79e18"
+        }
+      ],
+      "proofs": {
+        "refuted_batches": 5972,
+        "nonempty_batches": 1588,
+        "native_timeouts_without_completed_batch": 28,
+        "selected_sat": 4411,
+        "direct_dolmen_pass": 4411,
+        "supplemental_cases": 1200,
+        "supplemental_direct_dolmen_pass": 688,
+        "mutants": 200,
+        "mutation_direct_dolmen_pass": 138,
+        "wrong_answers": 0,
+        "invalid_models": 0,
+        "crashes": 0,
+        "untriaged_reference_disagreements": 0
+      },
+      "qualification": "benchmarks/preprocess-bounds-20261113/qualification.json; exact source hashes,gate receipt hashes,source-equivalence proof,perlogic counts",
+      "workflow_failures": "Original strict finite-domain activation gate reported ACTIVATION_MISSING on UNSAT cases; baseline job385533 reproduces13/25,so explicitly answers-only profile used. Original probe omitted surviving ITE and emitted integer-valued Real numerals without Real sort; repaired probe85db5385 reran affected four shards385606. Original model wrappers lacked Dolmen PATH; repaired and resumed completed receipts385589; no failed attempt counted as pass. Native TIMEOUTs are not proof/model passes.",
+      "source_review": "Whole-tree140TU static coverage,136identical-source/header/compiler-command reuse+4rescan; final helper direct-header additions/comment preprocessed identical in Release andASan385584;385585rescan no include advisories. Remaining unchecked-optional warning follows immediately constructed engaged optional; retained baseline advisories,not warning-free claim.",
+      "artifacts": "SLURM final workspace results/bound-tightening-gates; local results/preprocess-bounds-20261113/qualified; repaired exporter workspace results/probe-checks. Raw artifacts local/SLURM-backed,not published.",
+      "selection": "benchmarks/preprocess-bounds-20261113/selection.json;700inputs frozen before measurements,200LIA+300UFLIA+100LRA+100UFLRA,120s planned",
+      "defaults": "Off;100000charged operations;4096emission cap; no default promotion."
+    },
+    {
       "id": "2026-11-13-root-bound-diagnostics",
       "date": "2026-11-13",
       "kind": "Opt-in original-input bound detection and detection-only selected-corpus scan",

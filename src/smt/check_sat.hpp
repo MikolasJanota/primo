@@ -423,6 +423,8 @@ struct CheckSatOptions {
   bool preprocess_only = false;
   // Detection only, on original unconditional input literals before rewriting.
   bool arithmetic_bound_diagnostics = false;
+  bool preprocess_bound_tightening = false;
+  std::size_t preprocess_bound_work_limit = 100000;
   std::size_t euf_propagation_interval = 32;
   double euf_propagation_assign_threshold = 0.25;
   std::size_t euf_diseq_ackermann_max_width = 3;

@@ -46,7 +46,7 @@ STAT_FIELDS = {
     "profile_strong": ":preprocessing.auto.profile.strong",
 }
 
-ACTIVATION_PROFILES = ("amo", "structural")
+ACTIVATION_PROFILES = ("amo", "structural", "answers")
 
 
 @dataclasses.dataclass(frozen=True)
@@ -224,6 +224,8 @@ def run_solver(command: list[str], timeout: float, collect_stats: bool) -> Solve
 def activation_failure(
     case: GeneratedCase, stats: dict[str, int], activation_profile: str = "amo"
 ) -> str | None:
+    if activation_profile == "answers":
+        return None
     required: list[str] = []
     if activation_profile == "amo":
         required.extend([STAT_FIELDS["raw_amo"], STAT_FIELDS["amo"]])
@@ -305,6 +307,9 @@ def main() -> int:
     )
     parser.add_argument("--out", type=Path, default=Path("fuzz-results/finite-domain"))
     args = parser.parse_args()
+
+    if args.activation_profile == "answers" and args.require_post_amo:
+        parser.error("answers profile cannot require post-AMO activation")
 
     references = args.ref or ["z3"]
     logics = ("QF_UF", "QF_UFLRA") if args.logic == "mixed" else (args.logic,)

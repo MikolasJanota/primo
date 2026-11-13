@@ -19,6 +19,20 @@ SPEC.loader.exec_module(finite_domain_fuzz)
 
 
 class FiniteDomainFuzzTests(unittest.TestCase):
+    def test_answers_profile_checks_results_without_claiming_activation(self) -> None:
+        case = finite_domain_fuzz.GeneratedCase("QF_UF", "flat-choice", "unsat", "")
+        run = finite_domain_fuzz.SolverRun("unsat", 0, {})
+        refs = {"z3": finite_domain_fuzz.SolverRun("unsat", 0, {})}
+        classify = finite_domain_fuzz.classify
+        self.assertEqual(classify(case, run, refs), "ACTIVATION_MISSING")
+        self.assertEqual(classify(case, run, refs, "answers"), "PASS")
+        wrong_ref = {"z3": finite_domain_fuzz.SolverRun("sat", 0, {})}
+        self.assertEqual(
+            classify(case, run, wrong_ref, "answers"), "REFERENCE_DISAGREEMENT"
+        )
+        crash = finite_domain_fuzz.SolverRun("CRASH", 2, {})
+        self.assertEqual(classify(case, crash, refs, "answers"), "CRASH")
+
     def test_script_parses_with_cluster_python_grammar(self) -> None:
         source = SCRIPT.read_text(encoding="utf-8")
         ast.parse(source, filename=str(SCRIPT), feature_version=(3, 9))
@@ -77,7 +91,9 @@ if "--stats" in sys.argv:
     def test_generation_preflight_executes_every_slot(self) -> None:
         logics = ("QF_UF", "QF_UFLRA")
         cases = finite_domain_fuzz.preflight_generation(23, logics)
-        self.assertEqual(len(cases), len(logics) * len(finite_domain_fuzz.SCENARIOS) * 2)
+        self.assertEqual(
+            len(cases), len(logics) * len(finite_domain_fuzz.SCENARIOS) * 2
+        )
         self.assertEqual(
             {(case.logic, case.scenario, case.expected) for case in cases},
             {

@@ -117,6 +117,8 @@ struct SmtSession::Implementation final : SessionExecutor {
       throw std::invalid_argument("assumptions mode requires preprocessing-mode=auto or off");
     if (options.arithmetic_bound_diagnostics)
       throw std::invalid_argument("assumptions mode rejects arithmetic-bound-diagnostics");
+    if (options.preprocess_bound_tightening)
+      throw std::invalid_argument("assumptions mode rejects preprocess-bound-tightening");
     if (options.qf_uf_portfolio != QfUfPortfolioMode::Off ||
         options.experimental_split_bools != 0 || options.lra_fixed_elimination ||
         options.preprocess_only || !options.cadical_options.empty())

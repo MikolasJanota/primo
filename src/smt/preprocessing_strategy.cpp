@@ -13,6 +13,7 @@
 #include "smt/formula_metrics.hpp"
 #include "smt/frontend.hpp"
 #include "smt/model_reconstruction.hpp"
+#include "smt/preprocess_bound_tightening.hpp"
 #include "smt/preprocessing.hpp"
 #include "smt/preprocessing_tactics.hpp"
 #include "smt/strategy.hpp"
@@ -606,6 +607,12 @@ PreparedPreprocessingStrategy prepare_and_execute_preprocessing_strategy(
   }
   initial_children.push_back(
       Strategy::leaf("lower-extended-terms", NoStrategyParameters{}, make_lower_extended_terms()));
+  if (options.preprocess_bound_tightening &&
+      (is_qf_lia || frontend.logic() == "QF_LRA" || frontend.logic() == "QF_UFLRA")) {
+    const PreprocessBoundOptions bound_options{options.preprocess_bound_work_limit};
+    initial_children.push_back(Strategy::leaf("preprocess-bound-tightening", bound_options,
+                                              make_preprocess_bound_tightening(bound_options)));
+  }
   if (options.arithmetic_atom_canonicalization) {
     const NormalizeArithmeticOptions arithmetic_options{
         .stage = ArithmeticNormalizationStage::Initial,

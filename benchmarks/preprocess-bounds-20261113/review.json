@@ -1,0 +1,26 @@
+{
+  "baseline": "d584dc3b9a722383fbb886a6cf4c4e85b7d0cdcf",
+  "scope": "New lead and changed sections only; source roles and TOC. Evidence and exporter acceptance excluded from prose review.",
+  "reviewer": "Independent read-only agent /root/tightening_docs_review",
+  "verdict": "Ready; no required findings remain",
+  "findings": {
+    "BT-DOC-01": "execution stage2a added",
+    "BT-DOC-02": "Representation added; row indices in FIFO,TermIds in maps,lifetimes stated",
+    "BT-DOC-03": "new answers generator/wrapper source links pinned",
+    "S01": "strengthening/diagnostic headings separated",
+    "S02": "allowed-profile diagnostic includes answers"
+  },
+  "reviewed_source": "57150e21; final direct includes/comment inspected separately",
+  "subsequent_terminology": "root/node -> assertion/node; root conjuncts -> input conjuncts; no semantic change",
+  "files_sha256": {
+    "docs/leads/preprocessing-bound-tightening.md": "33ca6682a28c69e3792012f9d058874c85f349846081a497a84e72aee2af3234",
+    "docs/implementation/preprocessing.md": "95a3c820b109aca69fcac5efb07499f32bbdb0a2bc9c89fb55b09910dae5a1e3",
+    "docs/reference/options.md": "951c5e6ea6f1a8d0b260f63b590e36cf1d5e68ff557b43670c6e52df34bc407b",
+    "docs/reference/statistics.md": "cf1983627d8ff79931e2ff9bcec6d2fbe81588d9d749fbcb14a62291dd761d69",
+    "docs/development/fuzzing.md": "21462eb0bb4fd6487be0d648b5b623ca7f0c2fd1a1141f615947c433e9519ca8",
+    "docs/_config.yml": "4e20a5e05ae29503d9716889ded80b4830aa77cc3a2785c6498293ff2adaafed",
+    "docs/_toc.yml": "a5c14254c8efe9176537ed6542fa11dcaea62fca5fc892f7de0ae24bfd5d4563"
+  },
+  "validation": "make docs; assembled site297pages,43336local links,1258Git links0failures; Chrome rendered lead inspected;12/12CLI/doc examples SLURM385610",
+  "code_review": "Mechanical whole-tree static/inclusion scan plus tracked-file inventory; manual soundness,borrow/mutation/use,scope,model,budget and hygiene review of new component/integration/tests/workflows; no blocking production issue found. Exact rational bit-complexity not budgeted; maps add logarithmic overhead; opt-in pending700paired evaluation."
+}

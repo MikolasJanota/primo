@@ -43,6 +43,17 @@ or `--check-model`. The assumptions engine also constructs a model when
 `:time.model.check-and-print-us`. Dolmen replay is a separate process and is
 not included in these internal counters.
 
+## Preprocessing bound-tightening counters
+
+Actual strengthening uses separate `:preprocessing.bounds.*` counters:
+`constraints`, `endpoint-updates` (including explicit input endpoints),
+`row-visits`, `work`, `emitted`, `newly-finite` (among emitted endpoints),
+`contradictions`, `work-exhaustion`, `emission-truncated` (omitted endpoint count),
+`cancelled`, and `time-us` (analysis and materialization wall time). They appear
+only when `--preprocess-bound-tightening` executes. Work exhaustion is partial
+success, not an `unknown` result. See the
+[tightening checklist](../leads/preprocessing-bound-tightening.md).
+
 (root-bound-opportunity-counters)=
 ## Root-bound opportunity counters
 

@@ -223,6 +223,10 @@ Preprocessing options:
           --arithmetic-bound-diagnostics [default: off]
                               Diagnostic: count root-level numeric bound opportunities before
                               preprocessing; does not install bounds or change search
+          --preprocess-bound-tightening [default: off]
+                              Infer and assert unconditional arithmetic bounds after lowering
+          --preprocess-bound-work-limit UINT [100000]
+                              Bound-tightening work budget; 0 performs no strengthening
           --preprocessing-mode TEXT:{off,basic,strong,auto} [auto]
                               Preprocessing preset for all supported logics
           --incremental-mode TEXT:{rebuild,assumptions} [rebuild]
