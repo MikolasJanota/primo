@@ -466,7 +466,7 @@
     "docs": "make docs; assembled297pages,43336local links,1258Git links:0failures; rendered lead inspected in Chrome",
     "lint_docs": "make lint,make docs,assembledsite links0failures,Chrome rendering,12/12CLI examples pass"
   },
-  "status": "Correctness-qualified; paired performance acceptance pending",
+  "status": "Generated correctness qualification passed. End-to-end acceptance blocked by shared baseline/candidate UFLRA allocation-exception cleanup aborts; separate SAT boundary repair and repeated evaluation remain.",
   "canonical": {
     "cases": 1200,
     "general": 1000,
@@ -590,7 +590,7 @@
       "final_syntax_check": "pass",
       "claim": "Two redundant direct-provider includes; declaration order differs. Not a preprocessed identity claim."
     },
-    "static": "385610 initially identified two missing direct providers; final385613 compile/tidy/include-cleaner pass,no include advisories. 385612 strict preprocessed-identity assertion intentionally failed due declaration order; no identity claim made.",
+    "static": "385610 initially identified two missing direct providers; final385613 compile/tidy/include-cleaner pass,no include advisories. 385612 strict preprocessed-identity assertion failed due declaration order; no identity claim made.",
     "doc_examples": "12/12pass,includingcapturedCLIhelp;385610",
     "binary_sha256_by_shard": {
       "1,5": "e8d09c83f43841dd3ad14fedbc64c10150e61be9d6701b846137dbb51178d662",
@@ -632,5 +632,6 @@
     },
     "canonical_cvc5": "1.3.4 f3b21c4"
   },
-  "qualification_script_manifest_revision": "2c6503d9645f9ca76250c68c82cd86f7100f4733"
+  "qualification_script_manifest_revision": "2c6503d9645f9ca76250c68c82cd86f7100f4733",
+  "evaluation": "evaluation.json and blocker.json; primary697complete pairs+3candidate-first aborts,baseline reproduction3shared aborts;752/752SAT timing models directDolmen pass; no performance acceptance"
 }

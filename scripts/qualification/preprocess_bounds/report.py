@@ -81,6 +81,11 @@ def main() -> None:
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--rows", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument(
+        "--baseline-abort-receipts",
+        type=Path,
+        help="Separate frozen-baseline reproductions of candidate-first aborts",
+    )
     args = parser.parse_args()
     config = json.loads(args.config.read_text())
     pairs = []
@@ -88,16 +93,52 @@ def main() -> None:
     model_expected = model_pass = 0
     complete_models = True
     receipt_hashes = {}
+    triaged_aborts = []
+    baseline_aborts = {}
+    baseline_abort_hashes = {}
+    model_coverage_hashes = {}
+    if args.baseline_abort_receipts:
+        for directory in args.baseline_abort_receipts.glob("slot-*"):
+            provenance = json.loads((directory / "provenance.json").read_text())
+            assert provenance["profiles"]["baseline"] == config["profiles"]["baseline"]
+            (row,) = map(
+                json.loads, (directory / "rows.jsonl").read_text().splitlines()
+            )
+            assert row["profile"] == "baseline"
+            parent = provenance["case"]["parent_slot"]
+            assert parent not in baseline_aborts
+            assert provenance["case"]["sha256"] == config["cases"][parent]["sha256"]
+            assert row["file"] == config["cases"][parent]["file"]
+            assert row["args"] == config["profiles"]["baseline"]["args"]
+            baseline_aborts[parent] = row
+            baseline_abort_hashes[str(parent)] = hashlib.sha256(
+                (directory / "rows.jsonl").read_bytes()
+            ).hexdigest()
     for slot, case in enumerate(config["cases"]):
         directory = args.rows / f"slot-{slot}"
-        assert (directory / "timing-complete").is_file(), slot
+        complete = (directory / "timing-complete").is_file()
         source = directory / "rows.jsonl"
         rows = [json.loads(line) for line in source.read_text().splitlines()]
         pair = {row["profile"]: row for row in rows}
+        if not complete:
+            assert (
+                len(rows) == 1
+                and set(pair) == {"tightened"}
+                and slot in baseline_aborts
+            ), slot
+            pair["baseline"] = baseline_aborts[slot]
+            assert all(
+                r["status"] == "error"
+                and r["exit_code"] == -6
+                and "disconnect_external_propagator" in r.get("stderr_head", "")
+                for r in pair.values()
+            )
+            triaged_aborts.append(slot)
+            rows = list(pair.values())
         assert len(rows) == len(pair) == 2
         assert set(pair) == {"baseline", "tightened"}
         assert len({r["answer"] for r in rows if solved(r)}) <= 1
-        assert all(
+        assert slot in triaged_aborts or all(
             r["status"] in ("ok", "timeout", "unsupported") or r.get("memory_out")
             for r in rows
         )
@@ -108,10 +149,26 @@ def main() -> None:
         model_expected += selected
         coverage = directory / "coverage.json"
         if coverage.is_file():
+            model_coverage_hashes[str(slot)] = hashlib.sha256(
+                coverage.read_bytes()
+            ).hexdigest()
             value = json.loads(coverage.read_text())
             assert value["selected_sat"] == value["direct_dolmen_pass"] == selected
+            assert {r["profile"] for r in value["rows"]} == {
+                r["profile"] for r in rows if solved(r) and r["answer"] == "sat"
+            }
+            for validated in value["rows"]:
+                model_path = directory / "models" / validated["profile"] / "summary.csv"
+                assert (
+                    hashlib.sha256(model_path.read_bytes()).hexdigest()
+                    == validated["summary_sha256"]
+                )
+                with model_path.open() as model_stream:
+                    (model,) = csv.DictReader(model_stream)
+                assert model["outcome"] == "pass" and model["validator"] == "dolmen"
+                assert model["solver_exit"] == model["dolmen_exit"] == "0"
             model_pass += selected
-        else:
+        elif complete or selected:
             complete_models = False
         before, after = pair["baseline"], pair["tightened"]
         lost = solved(before) and not solved(after)
@@ -134,6 +191,13 @@ def main() -> None:
     report = {
         "config_sha256": hashlib.sha256(args.config.read_bytes()).hexdigest(),
         "receipt_sha256": receipt_hashes,
+        "baseline_abort_receipt_sha256": baseline_abort_hashes,
+        "model_coverage_sha256": model_coverage_hashes,
+        "paired_timing_complete": len(pairs) - len(triaged_aborts),
+        "triaged_common_abort_slots": triaged_aborts,
+        "qualification_status": "blocked by native aborts; no performance acceptance"
+        if triaged_aborts
+        else "check model and repeat coverage before acceptance",
         "all": summarize(pairs, config["timeout"]),
         "by_logic": {
             logic: summarize(

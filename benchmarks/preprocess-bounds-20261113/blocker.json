@@ -1,0 +1,136 @@
+{
+  "status": "Implementation present, default off; end-to-end acceptance blocked. No performance promotion.",
+  "implementation_commit": "2c6503d9645f9ca76250c68c82cd86f7100f4733",
+  "shared_abort_slots": [
+    653,
+    657,
+    659
+  ],
+  "cases": [
+    {
+      "group": "uflra",
+      "logic": "QF_UFLRA",
+      "file": "cpachecker-bmc-svcomp14/cpachecker-bmc.rekcba_ctm_false-unreach-call.2.c.smt2",
+      "sha256": "20f00ab37c1ecac4ce42dc2930dbb2db76cabfca1e7e5afd1d1c33194179ce35",
+      "expected": "sat",
+      "repetition": 0,
+      "selection_bucket": "historical-other"
+    },
+    {
+      "group": "uflra",
+      "logic": "QF_UFLRA",
+      "file": "cpachecker-bmc-svcomp14/cpachecker-bmc.rekcba_ctm_true-unreach-call.1.c.smt2",
+      "sha256": "9f60d1c378a52640afb613ff6bbdd9c4c22348516e8381a7de7ee4739f0636f4",
+      "expected": "sat",
+      "repetition": 0,
+      "selection_bucket": "historical-other"
+    },
+    {
+      "group": "uflra",
+      "logic": "QF_UFLRA",
+      "file": "cpachecker-bmc-svcomp14/cpachecker-bmc.rekcba_ctm_true-unreach-call.2.c.smt2",
+      "sha256": "6169245c49749e57ec5ff4c7b7fc7d1b3e75f54924ba2282df3e76bb2dfa4a27",
+      "expected": "sat",
+      "repetition": 0,
+      "selection_bucket": "historical-other"
+    }
+  ],
+  "primary_job": "385614",
+  "baseline_reproduction_job": "386323",
+  "allocation_trace_job": "386326 (first throw);387029 (first throw continued to actual cleanup SIGABRT)",
+  "earlier_debug_samples_job": "386320",
+  "invalid_initial_debug_sample_job": "386295:debug-info download consumed sampling window; no stack evidence accepted",
+  "failure": "operator new throws during vector<RowEntry>::reserve in LraTableau::pivot in online assignment notification. Exception crosses CaDiCaL callback; AssignmentConnection unwinding calls disconnect_external_propagator while backend remains SOLVING, causing SIGABRT(-6). Both frozen baseline and candidate reproduce under8GiB RLIMIT_AS.",
+  "boundary_sources": [
+    "src/smt/assignment_coordinator.hpp",
+    "src/sat/cadical_backend.cpp"
+  ],
+  "artifact_root": "results/preprocess-bounds-20261113; SLURM final qualification workspace results/{bound-tightening-paired,bound-tightening-baseline-aborts,bound-tightening-abort-trace,bound-tightening-diagnose-fixed}",
+  "trace_sha256": {
+    "baseline.stderr": "920eb4dd2762b68a90da30d80319818a997ace5d3f159a545bbf5d47d104fc07",
+    "baseline.stdout": "a6657d985abc728dbadc2fd8f1d9dab07ee42427cda0978c4c57ce18516ce098",
+    "receipts.json": "58bfe5226a455fb0e7e108d4a544b9f8da185c054685be85f89bbda040b33a25",
+    "tightened.stderr": "920eb4dd2762b68a90da30d80319818a997ace5d3f159a545bbf5d47d104fc07",
+    "tightened.stdout": "e3f4a673e21e90d628e9e668a6fe649ed167342e46da80649e5092714b21a522"
+  },
+  "diagnostic_sha256": {
+    "213-baseline-gdb.stderr": "b11cede79e3c179274640a73fee3a1370132352984fdf6ddd9227a0cc6541f57",
+    "213-baseline-gdb.stdout": "a39383563bb356960727ad60086854122cd20bf521f8294d0dd7802739328926",
+    "213-baseline-preprocess.stderr": "bbf295b44db987c3c4fb08ce8398411f727fd5b3c07ae1be231b9f9975b6de33",
+    "213-baseline-preprocess.stdout": "7f51b4fb44dbc72708fac0a474600c2e9d8af4ce3a8b8f1680330454f6a8d68f",
+    "213-tightened-gdb.stderr": "b11cede79e3c179274640a73fee3a1370132352984fdf6ddd9227a0cc6541f57",
+    "213-tightened-gdb.stdout": "7c9709f295e147755de047b4cbb9861f499370a19cbe6487436d2bdb2b49d76c",
+    "213-tightened-preprocess.stderr": "1d85dcf73bd2f288a065077c10e9df80c6354a610f1646c32e6560877d69d419",
+    "213-tightened-preprocess.stdout": "7f51b4fb44dbc72708fac0a474600c2e9d8af4ce3a8b8f1680330454f6a8d68f",
+    "229-baseline-gdb.stderr": "b11cede79e3c179274640a73fee3a1370132352984fdf6ddd9227a0cc6541f57",
+    "229-baseline-gdb.stdout": "faced5e0fa7c8205d4e34febe00064721dcd7360984490873959edb028c55841",
+    "229-baseline-preprocess.stderr": "d8e51b4dd45df06a96c573dd691d4a4499b3e1a70c14679101bcb896e6ab90c4",
+    "229-baseline-preprocess.stdout": "7f51b4fb44dbc72708fac0a474600c2e9d8af4ce3a8b8f1680330454f6a8d68f",
+    "229-tightened-gdb.stderr": "b11cede79e3c179274640a73fee3a1370132352984fdf6ddd9227a0cc6541f57",
+    "229-tightened-gdb.stdout": "9a1f9fe122e95be3f2623889e11b0a157e99fac96590f6cb53d7f4c0b3802ecb",
+    "229-tightened-preprocess.stderr": "ba9d8d944e49fb44c88ab00b48d1c0a555df80ea632e7913735d28f960b36ad1",
+    "229-tightened-preprocess.stdout": "7f51b4fb44dbc72708fac0a474600c2e9d8af4ce3a8b8f1680330454f6a8d68f",
+    "receipts.json": "29ddcc8b64f6e41a8a1c725da3c15d564366e407658197869e198ea9e8ccca29"
+  },
+  "source_changes_to_backend": "None. No callback-guard or cleanup bypass introduced in this milestone.",
+  "incomplete_acceptance": [
+    "Design and verify callback failure containment and safe teardown/incremental reuse; do not bypass consumer lifetime obligations",
+    "Add low-memory regression, run ASan/check/lint/static and fresh affected solver fuzz/model gates after that repair",
+    "Rerun qualification on repaired code and repeat each of eight primary lost-solve/substantial-slowdown cases twice with rotated order; reconfirm two LRA gains",
+    "Decide opt-in retention versus clean rejection from qualified repeated evidence; no default promotion requested"
+  ],
+  "pending_repeat_slots": [
+    213,
+    229,
+    383,
+    384,
+    506,
+    537,
+    554,
+    590
+  ],
+  "unconfirmed_gained_slots": [
+    580,
+    591
+  ],
+  "unwind_trace_sha256": {
+    "baseline.stderr": "aa09b1a91d687f2270ac57bbe011c4cbc88d5404c41f0ae94d78a8df589bb316",
+    "baseline.stdout": "02850df33e00b8b119cbe00271a58125a672abd687dc5d784fa4546a04f89757",
+    "receipts.json": "993436e8bf2b9b54ae0eab16870ad84e3a9a7a0ae6ab6eab7fdc7af0c9d0469c",
+    "tightened.stderr": "aa09b1a91d687f2270ac57bbe011c4cbc88d5404c41f0ae94d78a8df589bb316",
+    "tightened.stdout": "dd04d97542ab6276f17f088676958b1672b1ba4e847bb4c776121ba2523b5d71"
+  },
+  "confirmed_unwind": "For both binaries, continuing after first throw reaches SIGABRT with CaDiCaL::Solver::disconnect_external_propagator, CadicalBackend::disconnect_external_propagator and optional<AssignmentConnection>::_M_reset on the backtrace.",
+  "workflow_sha256": {
+    "scripts/qualification/preprocess_bounds/abort_trace.py": "5b5ba1a147f2299641926edcd70379a5d78451a7ae713c6aaf1dcbbf321e1725",
+    "scripts/qualification/preprocess_bounds/abort_trace.sbatch": "ba8b486c4f35c97af4fbf577df4b93c7829b04153e9b1757237a07148b84ab48",
+    "scripts/qualification/preprocess_bounds/configure.py": "2bcba2856181a70375d1bcd89f95534751f7f162251ad4a2c36023094866411a",
+    "scripts/qualification/preprocess_bounds/diagnose.py": "1e456d8293305c9e32a73e6d33e67e881ff832d008423ee3c5638a4b03d4aeaf",
+    "scripts/qualification/preprocess_bounds/diagnose.sbatch": "0b620f966e2ad01f3a2d856a6344395cc245aa40d153be913b22171ec35fbcc3",
+    "scripts/qualification/preprocess_bounds/finish_models.py": "e4c7d5fbe06bb91954a9a764ef185fb627496ce92025c457a2e06b089d27be63",
+    "scripts/qualification/preprocess_bounds/finish_models.sbatch": "418ae2aedb4c6c9396be8395143e372ce0da1355de491a25b87591d20b7e9381",
+    "scripts/qualification/preprocess_bounds/focused.sbatch": "05232671785d7796eeb615816811ed4ff5e0802d95202711c1ea6c9d8532a60a",
+    "scripts/qualification/preprocess_bounds/header_equivalence.sbatch": "922c201bc93356e0aa284d61c4a00b4004be2d12948eb6793ee2e20bf463685d",
+    "scripts/qualification/preprocess_bounds/header_static.sbatch": "9e2d003a09e44d3e17d6fd31ff40896ca64433079b52a1f6083f97d8d4be2b9d",
+    "scripts/qualification/preprocess_bounds/mutation_replay.py": "7083cccf88ef8ebda15f0e46a50e83337f920c83c5695188c3d48edd8da1dc0b",
+    "scripts/qualification/preprocess_bounds/mutation_replay.sbatch": "c5aa7e3d85ce69d7991cae7ffa5d573eb381641856ef97b07a7a1c0e5e56ec09",
+    "scripts/qualification/preprocess_bounds/mutations.sbatch": "7eb1125eeae33e5dae121393855b64d0a2f7d22bf8743a1b79f469ec79aaa91c",
+    "scripts/qualification/preprocess_bounds/paired.sbatch": "77aa7979499af87a8596f18ed4522d6074908a2b68d6c4dfe7edb5435c8480cb",
+    "scripts/qualification/preprocess_bounds/probe_checks.sbatch": "1dee408b11d472cf44771371b26ef059fddd2710289aae778411eaf366f20695",
+    "scripts/qualification/preprocess_bounds/probe_headers.sbatch": "788820aee4a58c538b4cdc5f34eccc52f9af3721113b5f0a748b7c0791837192",
+    "scripts/qualification/preprocess_bounds/proofs_models.py": "5099ca65f3b944b5fbe4780bd0a53599b4a53df5d0747228a5a63c9b6833eb72",
+    "scripts/qualification/preprocess_bounds/proofs_models.sbatch": "51d215df531472507c7cd90c625f4edd09fb133b044313994992c544b6d78e09",
+    "scripts/qualification/preprocess_bounds/report.py": "6fc9814a5bfafdc0a98a12307cb4fce5803e1c16798d2692d015154a462c9953",
+    "scripts/qualification/preprocess_bounds/static.sbatch": "3aa31f2d43fe57dfd212b1cae4e237c5ea60bb9c5c95931144d3dbb89c9a3415",
+    "scripts/qualification/preprocess_bounds/verify.sbatch": "c27df10474b41de1f030876099ed2a1823e17a7c16008f4a5d957e5495754352"
+  },
+  "model_stage": {
+    "job": "386327",
+    "selected_sat_rows": 752,
+    "direct_dolmen_pass": 752,
+    "native_timeout_seconds": 180,
+    "dolmen_timeout_seconds": 60,
+    "timing_unchanged": true
+  },
+  "artifacts_portability": "Metadata tracked; full inputs/printed models/debug logs retained in local and SLURM artifact roots, not published."
+}

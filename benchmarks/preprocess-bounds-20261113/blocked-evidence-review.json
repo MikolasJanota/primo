@@ -1,0 +1,18 @@
+{
+  "reviewer": "Independent read-only /root/tightening_docs_review",
+  "baseline": "a48a50cf",
+  "verdict": "Evidence milestone ready; no required data/script findings remain. Solver acceptance blocked.",
+  "scope": "697paired timing records+3candidate-first aborts+3baseline reproductions;752model CSVs/hashes;54families;PAR2;report/diagnostic scripts;blocked status. No repair or performance promotion accepted.",
+  "accepted_sha256": {
+    "evaluation.json": "e79eae6060c795943fbcf29705656d96694d23c250cb7fe7292fee37ac20dee1",
+    "blocker.json": "eaa2f69cd4049c024f125c79e7c180fb004ea04d3cb5e600c92861c45327d16d",
+    "qualification.json": "416a454055c3dc9df983e951ef67cacee2c960878951b7f24c3a570658d99080",
+    "pairs.csv": "4fcd0f527253499cd2a2e4c338cab282419aead1f1319ed7c58c56a953d278ef"
+  },
+  "run_log_first_entry_canonical_sorted_compact_sha256": "b85d028481a9ab848d95ceb04337a9025360704dcfd26346c0f8b3aeffeecf00",
+  "findings": {
+    "BT-FINAL-01": "Resolved:387029observes exception then cleanup SIGABRT in both binaries",
+    "BT-FINAL-02": "Pending adjacent documentation commit with navigable source-pinned metadata links"
+  },
+  "unchecked": "No independent solver rerun; full raw corpora not committed; native callback repair and regression repetitions not performed."
+}

@@ -6,7 +6,7 @@
       "id": "2026-11-13-preprocess-bound-tightening",
       "date": "2026-11-13",
       "kind": "Opt-in bounded preprocessing interval propagation",
-      "evidence_status": "correctness-qualified implementation; paired performance acceptance pending",
+      "evidence_status": "Implementation experimental/default-off; generated gates pass; end-to-end acceptance blocked by shared resource-triggered callback cleanup aborts. No performance acceptance.",
       "baseline_git": "d584dc3b9a722383fbb886a6cf4c4e85b7d0cdcf",
       "qualified_snapshot": "57150e21fc5189a66260514b0a0dc03e5a8b6192",
       "binary_sha256": "b85b8c4946a332a05d0fc7006e6cdec1f884b013812c6b86ac7c00ce9e124a52",
@@ -27,7 +27,13 @@
         "probe_static_docs_examples": "385610",
         "paired_timing": "385614",
         "paired_model_dependency": "385684",
-        "probe_header_review": "385613"
+        "probe_header_review": "385613",
+        "baseline_abort_reproduction": "386323",
+        "valid_uflia_debug_samples": "386320",
+        "invalid_initial_debug_samples": "386295",
+        "first_allocation_traces": "386326",
+        "allocation_and_unwind_trace": "387029",
+        "successful_timing_SAT_models": "386327"
       },
       "commands": {
         "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --extra-target primo_preprocess_bound_probe",
@@ -35,13 +41,16 @@
         "proofs_models": "scripts/qualification/preprocess_bounds/proofs_models.sbatch; failed workflow attempts retained; finish_models.sbatch resumes completed LIA/mutation receipts; repaired exporter85db5385 checked four remaining shards",
         "canonical": "scripts/slurm_qf_uflra_fuzz_gate.sbatch;250general+25finiteUF+25finiteUFLRA per4tasks; seedbase2026111330; finite activation profile=answers; no AMO activity claim",
         "mutations": "OpFuzz/model_linear_ops.txt,12real seeds perlogic,seed2026111327;100saved mutants perintegerlogic freshly replayed against Z3 on current binary",
-        "models": "scripts/validate_model.py --require-dolmen-pass --dolmen-arg=--strict=false; native30s,Dolmen30s for generated/mutation replays; no Z3 model fallback accepted"
+        "models": "scripts/validate_model.py --require-dolmen-pass --dolmen-arg=--strict=false; native30s,Dolmen30s for generated/mutation replays; no Z3 model fallback accepted",
+        "failed_evaluation_report": "scripts/qualification/preprocess_bounds/report.py --config PRIVATE_CONFIG --rows COLLECTED_PRIMARY --baseline-abort-receipts COLLECTED_BASELINE_COMPLETIONS --out REPORT; model CSV/outcome/hash coverage independently checked",
+        "diagnostic": "diagnose.sbatch:2cases,preprocess-only10s and15sGDB samples; abort_trace.sbatch:case653,bothbinaries,8GiBRLIMIT_AS,catchthrow thencontinue to SIGABRT"
       },
       "checks": {
         "make_check": "49CTest groups +337Python tests pass; job385555_0",
         "asan": "49CTest groups pass; job385555_8",
         "static": "140TUs covered;136identical reuse,4rescan; final direct-header cleanup independently rescanned385585; no tool errors; advisories retained",
-        "docs": "make docs; assembled297pages,43336local links,1258Git links:0failures; rendered lead inspected in Chrome"
+        "docs": "make docs; assembled297pages,43336local links,1258Git links:0failures; rendered lead inspected in Chrome",
+        "final_docs": "make docs; assembled297pages,43339local links,1259Git links0failures before final navigable-evidence links; final independent/render/link checks pending."
       },
       "fresh_fuzz": [
         {
@@ -131,11 +140,61 @@
       "qualification": "benchmarks/preprocess-bounds-20261113/qualification.json; exact source hashes,gate receipt hashes,source-equivalence proof,perlogic counts",
       "workflow_failures": "Original strict finite-domain activation gate reported ACTIVATION_MISSING on UNSAT cases; baseline job385533 reproduces13/25,so explicitly answers-only profile used. Original probe omitted surviving ITE and emitted integer-valued Real numerals without Real sort; repaired probe85db5385 reran affected four shards385606. Original model wrappers lacked Dolmen PATH; repaired and resumed completed receipts385589; no failed attempt counted as pass. Native TIMEOUTs are not proof/model passes.",
       "source_review": "Whole-tree140TU static coverage,136identical-source/header/compiler-command reuse+4rescan; final helper direct-header additions/comment preprocessed identical in Release andASan385584;385585rescan no include advisories. Remaining unchecked-optional warning follows immediately constructed engaged optional; retained baseline advisories,not warning-free claim.",
-      "artifacts": "SLURM final workspace results/bound-tightening-gates; local results/preprocess-bounds-20261113/qualified; repaired exporter workspace results/probe-checks. Raw artifacts local/SLURM-backed,not published.",
+      "artifacts": "Public metadata benchmarks/preprocess-bounds-20261113; local raw results/preprocess-bounds-20261113/{qualified,paired,baseline-aborts,failed-evaluation}; remote final qualification workspace results/bound-tightening-{gates,paired,baseline-aborts,diagnose-fixed,abort-trace,abort-unwind}. Raw logs not published.",
       "selection": "benchmarks/preprocess-bounds-20261113/selection.json;700inputs frozen before measurements,200LIA+300UFLIA+100LRA+100UFLRA,120s planned",
       "defaults": "Off;100000charged operations;4096emission cap; no default promotion.",
       "implementation_commit": "2c6503d9645f9ca76250c68c82cd86f7100f4733",
-      "measurement": "Frozen700inputs,baseline and tightening profiles,rotatedpair order,120s,8GiBaddress-space limit,oneCPU,10GiBallocation,concurrency32,exclude externally busy node01. Timing385614 active; models385684 depends on all timing succeeding. No performance result claimed yet."
+      "measurement": "Frozen700inputs,120s harness deadline (+~1s termination grace),8GiBaddress-space limit,one requestedCPU,10GiBallocation,32concurrenttasks; baseline/tightening order rotated.697pairs complete;3candidate-first aborts stop pair before baseline. Exclusive-node baseline completions386323 reproduce all3aborts. Error runtimes do not enter PAR2: each unsolved result penalized240s.",
+      "real_corpus_failure": {
+        "slots": [
+          653,
+          657,
+          659
+        ],
+        "logic": "QF_UFLRA",
+        "profiles": "Both frozen baseline and candidate",
+        "exit_code": -6,
+        "diagnostic": "CaDiCaL disconnect_external_propagator: solver in invalid state",
+        "triage": "8GiB allocation exception in vector<RowEntry>::reserve during LraTableau::pivot from online assignment callback. Callback exception escapes while CaDiCaL is SOLVING; AssignmentConnection unwinding calls disconnect. Existing boundary requires safe failure containment,not a cleanup bypass. First-exception traces386326; continued unwind trace387029 collected: both binaries reach SIGABRT via CaDiCaL disconnect,backend disconnect and optional<AssignmentConnection> teardown.",
+        "acceptance": "Blocked. Generated gates remain valid evidence of their specific coverage,not full solver qualification."
+      },
+      "models": "Original afterok-dependent model array385684cancelled after primary aborts. Array386327 validates all752successful native SAT timing rows from697complete pairs:752directDolmen passes,zero missing/invalid/changed-answer/errors. Failed3candidate-first rows and matching baseline aborts yield no SAT model obligations.",
+      "provisional_evaluation": {
+        "status": "blocked; one-shot measurements, required repetitions pending; not an improvement claim",
+        "baseline": {
+          "solved": 539,
+          "mean_PAR2_seconds": 59.17011610714286,
+          "sat": 376,
+          "unsat": 163,
+          "unknown": 63,
+          "timeout": 90,
+          "memory_exhaustion": 5,
+          "abort": 3
+        },
+        "tightened": {
+          "solved": 539,
+          "mean_PAR2_seconds": 58.94505077428571,
+          "sat": 376,
+          "unsat": 163,
+          "unknown": 63,
+          "timeout": 90,
+          "memory_exhaustion": 5,
+          "abort": 3
+        },
+        "gained_LRA": 2,
+        "lost_UFLIA": 2,
+        "common_solved": 537,
+        "median_paired_ratio": 1.0014592566805056,
+        "geometric_mean_paired_ratio": 0.9900062767128931,
+        "candidate_emitting_cases": 247,
+        "available_candidate_emitted_bounds": 11082,
+        "candidate_work_budget_exits": 30,
+        "candidate_emission_truncations": 0,
+        "counter_scope": "Available printed statistics only; timeout/abort rows can lack counters.",
+        "details": "benchmarks/preprocess-bounds-20261113/{evaluation,blocker}.json and pairs.csv"
+      },
+      "regression_samples": "213/229preprocessing-only:4.9/3.7ms,163/210bounds. Valid15s GDB samples386320 place candidate in arithmetic search; one in privatebranch_and_bound. Sampling does not prove fullCPU cost attribution. Initial386295 waited for debug-info download; no stacks accepted; repaired with DEBUGINFOD_URLS empty.",
+      "remaining_acceptance": "Fix/verify SAT callback exception containment and incremental lifetime behavior,low-memory regressions/fresh correctness gates; rerun paired qualification and two rotated repetitions for8substantial regressions,then decide retention/rejection. No default promotion."
     },
     {
       "id": "2026-11-13-root-bound-diagnostics",
