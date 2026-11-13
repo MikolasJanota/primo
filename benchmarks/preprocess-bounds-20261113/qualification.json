@@ -591,7 +591,11 @@
       "claim": "Two redundant direct-provider includes; declaration order differs. Not a preprocessed identity claim."
     },
     "static": "385610 initially identified two missing direct providers; final385613 compile/tidy/include-cleaner pass,no include advisories. 385612 strict preprocessed-identity assertion intentionally failed due declaration order; no identity claim made.",
-    "doc_examples": "12/12pass,includingcapturedCLIhelp;385610"
+    "doc_examples": "12/12pass,includingcapturedCLIhelp;385610",
+    "binary_sha256_by_shard": {
+      "1,5": "e8d09c83f43841dd3ad14fedbc64c10150e61be9d6701b846137dbb51178d662",
+      "2,3,4,6": "10ce5947ebe5e2ab14e206720e6cae423a877277a8e578508f2efdb98ab16ffb"
+    }
   },
   "qualification_scripts_sha256": {
     "scripts/qualification/preprocess_bounds/finish_models.py": "e4c7d5fbe06bb91954a9a764ef185fb627496ce92025c457a2e06b089d27be63",
@@ -615,5 +619,18 @@
     "CMakeLists.txt": "78bc672ac8b5e7459d32e72f675e609e810431dece2445fcaad9ad432aa861a7",
     "tests/unit/preprocess_bound_tightening_tests.cpp": "be52fccee8774f58128a492c3b75fe95b672dbe2492554afc58f2c3bcb381388",
     "tests/tools/preprocess_bound_probe.cpp": "dcc50bbe94f1904ad49b4c76c8c27609efb8b1830592d5ff7a077456f0fb6f6d"
-  }
+  },
+  "implementation_commit": "2c6503d9645f9ca76250c68c82cd86f7100f4733",
+  "reference_tools": {
+    "z3": {
+      "version": "5.1.0",
+      "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0"
+    },
+    "dolmen": {
+      "version": "0.10",
+      "sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+    },
+    "canonical_cvc5": "1.3.4 f3b21c4"
+  },
+  "qualification_script_manifest_revision": "2c6503d9645f9ca76250c68c82cd86f7100f4733"
 }

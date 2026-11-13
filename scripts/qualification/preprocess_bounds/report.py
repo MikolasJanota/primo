@@ -53,6 +53,10 @@ def summarize(pairs: list, timeout: float) -> dict:
                 row["peak_rss_kib"] for row in rows
             ),
             "max_peak_rss_kib": max(row["peak_rss_kib"] for row in rows),
+            "cases_emitting_bounds": sum(
+                int(row["stats"].get(":preprocessing.bounds.emitted", 0)) > 0
+                for row in rows
+            ),
             "counters_sum_including_partial_timeout_statistics": dict(counter_sums),
         }
     common = [pair for pair in pairs if all(solved(r) for r in pair.values())]
@@ -141,6 +145,19 @@ def main() -> None:
                 config["timeout"],
             )
             for logic in sorted({c["logic"] for c in config["cases"]})
+        },
+        "by_family": {
+            family: summarize(
+                [
+                    p
+                    for p, c in zip(pairs, config["cases"], strict=True)
+                    if c["logic"] + "/" + c["file"].split("/")[0] == family
+                ],
+                config["timeout"],
+            )
+            for family in sorted(
+                {c["logic"] + "/" + c["file"].split("/")[0] for c in config["cases"]}
+            )
         },
         "models": {
             "complete": complete_models,

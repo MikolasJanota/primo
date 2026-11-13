@@ -1,0 +1,25 @@
+{
+  "reviewer": "Independent read-only documentation/evidence agent /root/tightening_docs_review",
+  "verdict": "Ready; no required findings remain",
+  "accepted_scope": "Correctness receipts/summary,changed prose,source navigation and terminology; no performance/default-promotion acceptance. Remote binaries not independently rehashed; full input/probe corpora not rerun by reviewer.",
+  "accepted_sha256": {
+    "qualification.json": "20428874a4bbb529e1938979ef53fb8313e5958d31c8efd93042ff0a78c8b896",
+    "review.json": "47604165e0093dcd612afe38fe303ff7e6065b5d71370c66a7220300df1b8514",
+    "first_run_log_entry_canonical_sorted_compact": "787b76c29a70e43508b1a025b42a2216e15b276ae7ef2e6559e5008fe73d893a",
+    "docs/_config.yml": "99c1cf442fa71a0900d22aaee5d2b608048c8bca38e43b774af3f9a26c336628",
+    "lead": "33ca6682a28c69e3792012f9d058874c85f349846081a497a84e72aee2af3234"
+  },
+  "verified_totals": {
+    "generated_pass": 5972,
+    "timeout": 28,
+    "refuted_batches": 5972,
+    "nonempty_batches": 1588,
+    "generated_Dolmen_models": 4411,
+    "supplemental_Dolmen_models": 688,
+    "mutation_Dolmen_models": 138
+  },
+  "finding_dispositions": {
+    "EV01": "review hashes refreshed after source-role update",
+    "EV02": "final385613header receipts collected"
+  }
+}

@@ -24,7 +24,10 @@
         "resumed_models": "385589",
         "probe_repair_build": "385604",
         "repaired_proofs_models": "385606",
-        "probe_static_docs_examples": "385610"
+        "probe_static_docs_examples": "385610",
+        "paired_timing": "385614",
+        "paired_model_dependency": "385684",
+        "probe_header_review": "385613"
       },
       "commands": {
         "build": "scripts/slurm_prepare_benchmark_workspace.py --build-via-slurm --reuse-dependencies --extra-target primo_preprocess_bound_probe",
@@ -130,7 +133,9 @@
       "source_review": "Whole-tree140TU static coverage,136identical-source/header/compiler-command reuse+4rescan; final helper direct-header additions/comment preprocessed identical in Release andASan385584;385585rescan no include advisories. Remaining unchecked-optional warning follows immediately constructed engaged optional; retained baseline advisories,not warning-free claim.",
       "artifacts": "SLURM final workspace results/bound-tightening-gates; local results/preprocess-bounds-20261113/qualified; repaired exporter workspace results/probe-checks. Raw artifacts local/SLURM-backed,not published.",
       "selection": "benchmarks/preprocess-bounds-20261113/selection.json;700inputs frozen before measurements,200LIA+300UFLIA+100LRA+100UFLRA,120s planned",
-      "defaults": "Off;100000charged operations;4096emission cap; no default promotion."
+      "defaults": "Off;100000charged operations;4096emission cap; no default promotion.",
+      "implementation_commit": "2c6503d9645f9ca76250c68c82cd86f7100f4733",
+      "measurement": "Frozen700inputs,baseline and tightening profiles,rotatedpair order,120s,8GiBaddress-space limit,oneCPU,10GiBallocation,concurrency32,exclude externally busy node01. Timing385614 active; models385684 depends on all timing succeeding. No performance result claimed yet."
     },
     {
       "id": "2026-11-13-root-bound-diagnostics",
