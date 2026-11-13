@@ -86,6 +86,9 @@ sphinx:
       preprocessboundevidence:
         - "https://github.com/primo-solver/primo/blob/a5a105460fd75d34be53c5181a4deb8f4500a1cf/%s"
         - "%s"
+      boundpropsource:
+        - "https://github.com/primo-solver/primo/blob/158cc50af0fae9cd9ed78b0b8bb103b725d729d0/%s"
+        - "%s"
       hybridbaselinesource:
         - "https://github.com/primo-solver/primo/blob/c49585a09710eca76f10ce081923c1bcb3765a7c/%s"
         - "%s"

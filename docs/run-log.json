@@ -6,7 +6,7 @@
       "id": "2026-11-13-bound-propagation-factorial",
       "date": "2026-11-13",
       "kind": "Three-repetition four-profile experiment for preprocessing bounds and online row propagation",
-      "evidence_status": "Fresh propagation profile qualification passed; broad timing pending",
+      "evidence_status": "Qualification passed; restarted three repetitions active/pending with verified held-array parent dependencies; no performance result accepted.",
       "source_base": "102307b1",
       "qualification_snapshot": "a4b5d75ff6c649f3fac94b629b4ee04e04e10c42",
       "protocol": "benchmarks/bound-propagation-20261113/protocol.json",
@@ -27,7 +27,17 @@
         "tracked_seeds": "387586",
         "canonical_UFLRA": "387587",
         "arithmetic_units": "387588",
-        "corrected_tracked_seed_gate": "387604"
+        "corrected_tracked_seed_gate": "387604",
+        "timing_qualified": [
+          "387737",
+          "387738",
+          "387739"
+        ],
+        "model_replay_after_all_timings": [
+          "387803",
+          "387804",
+          "387805"
+        ]
       },
       "workflow_note": "Direct route timed out; supplied jump route succeeds. Initial build preflight required cvc5 under workspace contrib/local,where it is absent; corrected tool check uses existing preprovisioned cvc5 in reference prefix via private PATH. Build itself passed; no dependencies compiled on login host. Seed job387586 stopped on known Z3 quoted|let| parse error followed by unusable SAT(exit1); corrected387604 checks that unchanged original withcvc5andDolmen. Metadata audit tolerates current CTest success-summary spelling and independently verifies all three Passed lines.",
       "native_sha256": "1b43e6bdf394fa130483950c5d2a240f8b1667d25f4478e7ac6c244f74ba9cf5",
@@ -50,7 +60,26 @@
         "crashes": 0,
         "untriaged_disagreements": 0
       },
-      "qualification_artifact": "benchmarks/bound-propagation-20261113/qualification.json; collected local results/bound-propagation-20261113/gates"
+      "qualification_artifact": "benchmarks/bound-propagation-20261113/qualification.json; collected local results/bound-propagation-20261113/gates",
+      "invalid_timing_attempt": {
+        "jobs": [
+          "387607",
+          "387650",
+          "387671"
+        ],
+        "status": "Cancelled and rejected before analysis; no timing evidence accepted",
+        "reason": "Third repetition mistakenly depended on child job387608(array387607task0),rather than actual second-array ID387650. It started concurrently. All three arrays cancelled; retain raw outputs only as rejected workflow artifacts. Restart in fresh directories with parsed/verified parent dependencies."
+      },
+      "submission_receipts": {
+        "timing": "results/bound-propagation-20261113/submission-timing-qualified.json",
+        "models": "results/bound-propagation-20261113/submission-models-qualified.json"
+      },
+      "accepted_private_config_sha256": {
+        "config-0.json": "ae0150734a732af59aeb8b601599f4384b7b2b53bd77576673b9813c4999a61f",
+        "config-1.json": "725669ef6ff023790cf72877e9ec39013a049d4e59b7ad19afb765627ca1a6ff",
+        "config-2.json": "cabc5b8bb85e3930cf5e97fe9a2a824139a61d4eed1133e3489b9dbb8b1f3d73"
+      },
+      "scheduling_guard": "All arrays submitted held,returned whole-array IDs checked via scontrol; parent dependencies verified before any release. Model arrays each depend on last whole timing array. Two focused metadata tests cover nonconsecutive IDs and rejecting a child-task dependency; no native solver invoked in local tests."
     },
     {
       "id": "2026-11-13-preprocess-bound-tightening",

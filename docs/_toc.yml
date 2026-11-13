@@ -117,6 +117,7 @@ parts:
       - file: evidence/qf-lia-progress
       - file: evidence/lia-cubes
       - file: evidence/lia-hybrid-20261111
+      - file: evidence/bound-propagation
       - file: evidence/arithmetic-efficiency-20261108
       - file: evidence/arithmetic-overhead-20261109
       - file: evidence/uniform120
