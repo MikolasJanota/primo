@@ -188,7 +188,9 @@
       },
       "execution_metadata": "benchmarks/bound-propagation-20261113/execution.json",
       "comparison": "rows->both:3stable gains/1stable loss(allLRA),PAR2 improves0.7486/0.7538/0.7424s perinput. default->both:5stable gains/2stable losses,third repetition additional UFLIA timeout. both lowers PAR2 by0.68-0.99% but common-solved geometric mean both/default=1.219. Retain existing settings opt-in; no general runtime/default claim.",
-      "verification_scope": "Fresh Release rebuild via preparation helper;3arithmetic CTestgroups;generated/seed/scoped gates in qualification.json;7focused metadata tests and make lint. Full make check,ASan,and clang-tidy not rerun for this experiment because all201tracked production sources are unchanged. Documentation review/build/render follows this data milestone."
+      "verification_scope": "Fresh Release build via preparation helper;3arithmetic CTestgroups;generated/seed/scoped gates in qualification.json;7focused metadata tests;make lint;strict make docs and full make docs-check-links,then corrected-page rebuild/assembledlinks;298pages,43662local links,1278Git links,0failures;511externalURLsdeferred. ActualHTMLrendered,all7pageswriter-inspected,critical4-7independentlyreviewed. Full make check,ASan,and clang-tidy not rerun because all201production sources unchanged.",
+      "independent_review": "benchmarks/bound-propagation-20261113/method-review.json:method,analysis,alltiming/counters,all4524modelreplays and final prose/source/render accepted;all findings resolved.",
+      "evidence_commit": "95872423352e3592ac6fe925a9d7822549790c7d"
     },
     {
       "id": "2026-11-13-preprocess-bound-tightening",

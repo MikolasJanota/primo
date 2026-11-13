@@ -89,6 +89,9 @@ sphinx:
       boundpropsource:
         - "https://github.com/primo-solver/primo/blob/158cc50af0fae9cd9ed78b0b8bb103b725d729d0/%s"
         - "%s"
+      boundpropevidence:
+        - "https://github.com/primo-solver/primo/blob/95872423352e3592ac6fe925a9d7822549790c7d/%s"
+        - "%s"
       hybridbaselinesource:
         - "https://github.com/primo-solver/primo/blob/c49585a09710eca76f10ce081923c1bcb3765a7c/%s"
         - "%s"

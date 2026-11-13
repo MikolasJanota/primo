@@ -1,5 +1,5 @@
 {
-  "status": "Independent method,analysis,timing and final data/ledger acceptance complete; final public prose/link/render review follows the data milestone.",
+  "status": "Independent method,analysis,timing,data/ledger,and final prose/source/render acceptance complete. Conditional697input study only; three known abort quarantines remain unqualified; no default promotion.",
   "historical_method_review": {
     "reviewer": "Independent read-only /root/propagation_docs_review",
     "baseline": "102307b185aed18dc4bbd89e3263e5610eca6663",
@@ -53,5 +53,29 @@
       "measurements.csv": "f31db2d7141edca40b5d10d1a8165fab8e530bd2326c770b44e8e23424f6e1d4",
       "accounting.psv": "e973f685ef7af4cf0c0667eb466d517fc0d51d64d50e83d387118cf03dcd4598"
     }
+  },
+  "final_documentation_review": {
+    "reviewer": "Independent read-only /root/propagation_docs_review",
+    "baseline": "95872423352e3592ac6fe925a9d7822549790c7d",
+    "accepted_three_file_patch_sha256": "ce9175eb6108df70f65fdfa2891d473eac255be0bb9920882cd50226810a44c7",
+    "accepted_files_sha256": {
+      "docs/evidence/bound-propagation.md": "74cdb611c9eb75634cbefc69fff38cac2e131e8f88fb1d33633f85bdefe79371",
+      "docs/leads/preprocessing-bound-tightening.md": "cb9320c87c11289aff9d7fca67acd87b6d8d4861fa723068328e6caea3e31f61",
+      "docs/_config.yml": "0cfc3a8284cbf906076900c891c71c3faf2f22a54997fec3a5c2220fdc4d7349"
+    },
+    "findings": {
+      "BP-P01": "Accounting prose distinguishes sequential timing repetitions from concurrent model arrays after timings"
+    },
+    "verdict": "All findings resolved. Source claims,pinned targets and critical rendered pages4-7 accepted; no clipping. No solver runs or source edits by reviewer.",
+    "writer_render_scope": "Actual final HTML rendered to7page ChromePDF; writer inspected all7pages. Independent reviewer inspected critical pages4-7.",
+    "rendered_pdf_sha256": "1d102a77b599ff7b266bdfd803cb23fb9357b9debae1cdbd777abbc9c1db299c",
+    "rendered_pdf_local_only": "/tmp/primo-bound-propagation-report.pdf",
+    "validation": [
+      "make lint:pass",
+      "seven focused metadata tests:pass,independently repeated during analyzer review",
+      "make docs:strict pass",
+      "make docs-check-links:full strict current/historical books,pass",
+      "after final wording repair:strict rebuild,assemble and local/Git link check pass;298pages,43662local links,1278Git links,0failures;511external URLs deferred"
+    ]
   }
 }

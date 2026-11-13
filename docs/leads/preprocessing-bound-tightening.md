@@ -144,3 +144,8 @@ row hashes and the blocked status. The implementation remains available behind
 its option, with acceptance pending. Complete the callback-failure repair and fresh
 correctness qualification, then repeat the performance comparison and required
 paired regressions before accepting or rejecting this experiment.
+
+The separate [propagation follow-up](../evidence/bound-propagation.md) tests
+four profiles and three fresh repetitions on 697 retained inputs, with complete
+SAT-model replay. It keeps the three known abort cases quarantined and does
+not lift the whole-solver qualification blocker above.
