@@ -116,6 +116,8 @@ profile analysis, equation elimination and the main simplification loop. It is
 off by default, supports the four ground arithmetic logics in rebuild sessions,
 and runs independently of the chosen preprocessing preset. Assumptions sessions
 reject explicit enabling; quantified queries use their separate route.
+The feature remains experimental: [qualification is blocked](../leads/preprocessing-bound-tightening.md#qualification-is-blocked)
+by a shared baseline/candidate callback-cleanup failure under memory pressure.
 
 The {preprocessboundsource}`analysis <src/smt/preprocess_bound_tightening.cpp>`
 owns intervals and occurrence lists keyed by stable term IDs, and a FIFO queue

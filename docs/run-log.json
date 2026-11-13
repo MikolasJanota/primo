@@ -50,7 +50,7 @@
         "asan": "49CTest groups pass; job385555_8",
         "static": "140TUs covered;136identical reuse,4rescan; final direct-header cleanup independently rescanned385585; no tool errors; advisories retained",
         "docs": "make docs; assembled297pages,43336local links,1258Git links:0failures; rendered lead inspected in Chrome",
-        "final_docs": "make docs; assembled297pages,43339local links,1259Git links0failures before final navigable-evidence links; final independent/render/link checks pending."
+        "final_docs": "Independent blocked-evidence/doc review ready; make docs strict,297pages/43341local links/1264uniqueGit links0failures; qualification table and failure explanation inspected in Chrome-renderedPDFpage4. Source-pinned navigable evidence links reference a5a10546. Solver acceptance stays blocked."
       },
       "fresh_fuzz": [
         {
@@ -194,7 +194,8 @@
         "details": "benchmarks/preprocess-bounds-20261113/{evaluation,blocker}.json and pairs.csv"
       },
       "regression_samples": "213/229preprocessing-only:4.9/3.7ms,163/210bounds. Valid15s GDB samples386320 place candidate in arithmetic search; one in privatebranch_and_bound. Sampling does not prove fullCPU cost attribution. Initial386295 waited for debug-info download; no stacks accepted; repaired with DEBUGINFOD_URLS empty.",
-      "remaining_acceptance": "Fix/verify SAT callback exception containment and incremental lifetime behavior,low-memory regressions/fresh correctness gates; rerun paired qualification and two rotated repetitions for8substantial regressions,then decide retention/rejection. No default promotion."
+      "remaining_acceptance": "Fix/verify SAT callback exception containment and incremental lifetime behavior,low-memory regressions/fresh correctness gates; rerun paired qualification and two rotated repetitions for8substantial regressions,then decide retention/rejection. No default promotion.",
+      "evidence_commit": "a5a105460fd75d34be53c5181a4deb8f4500a1cf"
     },
     {
       "id": "2026-11-13-root-bound-diagnostics",

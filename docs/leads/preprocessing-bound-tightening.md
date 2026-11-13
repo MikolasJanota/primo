@@ -77,3 +77,70 @@ remain valid only in that same manager, whose storage must outlive their use.
 The materializer must receive that manager. It saves the target's sort before
 creating its numeral, and retains no term-node borrow across manager allocations.
 The returned conjuncts enter the existing goal and model-reconstruction flow.
+
+## Qualification is blocked
+
+The implementation is experimental and disabled by default. The generated
+correctness gates passed: 5,972 reference comparisons and emitted-batch
+refutations, with 28 native timeouts recorded separately. All 4,411 selected
+generated SAT models, 688 supplemental models and 138 real-seed mutant models
+passed direct Dolmen validation. Release and ASan each passed 49 CTest groups;
+337 Python tests passed. These checks do not override the real-corpus failure
+below.
+
+The frozen 700-input comparison used 120-second solver deadlines, an 8 GiB
+address-space limit, and rotated baseline/tightening order. All 752 successful
+native SAT timing rows subsequently passed direct Dolmen validation in a
+separate SLURM run. Timing includes 697 complete pairs. On three candidate-first
+UFLRA cases the candidate aborted before the baseline ran; separate frozen
+baseline runs reproduced the same aborts. Those three supplemental baseline
+results classify the failure; they are not complete original timing pairs.
+
+| Logic | Inputs | Baseline solved | Tightening solved | Baseline mean PAR2 (s) | Tightening mean PAR2 (s) |
+|---|---:|---:|---:|---:|---:|
+| QF_LIA | 200 | 104 | 104 | 120.56 | 119.85 |
+| QF_UFLIA | 300 | 259 | 257 | 35.40 | 36.78 |
+| QF_LRA | 100 | 85 | 87 | 41.28 | 36.97 |
+| QF_UFLRA | 100 | 91 | 91 | 25.60 | 25.61 |
+| Total | 700 | 539 | 539 | 59.17 | 58.95 |
+
+PAR2 assigns 240 seconds to each unsolved result, including errors. Each profile
+had 63 unknowns, 90 timeouts, five other memory exhaustion results and three
+aborts. The preliminary run gains two LRA instances and loses two Certora UFLIA
+instances. Its small aggregate timing difference is not accepted as an overall
+improvement. Required rotated repetitions of the losses and substantial
+slowdowns remain pending because the crash gate stopped acceptance.
+
+The three shared aborts occur on the `cpachecker-bmc-svcomp14` inputs ending in
+`rekcba_ctm_false-unreach-call.2.c.smt2`,
+`rekcba_ctm_true-unreach-call.1.c.smt2`, and
+`rekcba_ctm_true-unreach-call.2.c.smt2`. Under the same memory limit, debugger
+backtraces for both frozen binaries locate an allocation exception in a row
+vector reservation during `LraTableau::pivot`, reached through an online
+arithmetic assignment callback. Unwinding then reaches
+{preprocessboundsource}`AssignmentConnection <src/smt/assignment_coordinator.hpp>`,
+whose destructor disconnects the external propagator while CaDiCaL is still
+solving. CaDiCaL aborts on that invalid-state API call. This pre-existing
+callback exception boundary requires a separate correctness repair; bypassing
+the disconnect alone would leave the consumer lifetime obligation unresolved.
+
+For the two lost UFLIA instances, tightening itself took about 4–5 milliseconds
+and emitted 163 and 210 bounds. Bounded debugger samples later found arithmetic
+search, including private integer branching on one instance. These samples
+show that preprocessing time alone does not explain the losses; they do not
+establish a complete CPU profile or prove the precise search cause.
+
+The committed {preprocessboundevidence}`input selection
+<benchmarks/preprocess-bounds-20261113/selection.json>`,
+{preprocessboundevidence}`qualification record
+<benchmarks/preprocess-bounds-20261113/qualification.json>`,
+{preprocessboundevidence}`evaluation
+<benchmarks/preprocess-bounds-20261113/evaluation.json>`,
+{preprocessboundevidence}`blocking-failure record
+<benchmarks/preprocess-bounds-20261113/blocker.json>`, and
+{preprocessboundevidence}`run log <docs/run-log.json>` preserve exact inputs,
+binary/source identities, per-family outcomes, memory, mechanism counters,
+row hashes and the blocked status. The implementation remains available behind
+its option, with acceptance pending. Complete the callback-failure repair and fresh
+correctness qualification, then repeat the performance comparison and required
+paired regressions before accepting or rejecting this experiment.

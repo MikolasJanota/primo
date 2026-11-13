@@ -86,6 +86,8 @@ strengthening after required lowering in rebuild sessions. Its
 new bounds. Exhaustion continues normal solving with sound partial deductions.
 At most 4,096 improved endpoints are emitted. Assumptions sessions reject the
 option. See [the implementation](../implementation/preprocessing.md).
+This option is experimental; [end-to-end acceptance is blocked](../leads/preprocessing-bound-tightening.md#qualification-is-blocked)
+by a memory-exhaustion cleanup abort reproduced on both the baseline and candidate.
 
 `--preprocess-only` stops before search. Use it with `--stats` to inspect
 preprocessing cost and formula-size counters independently of solving. It
