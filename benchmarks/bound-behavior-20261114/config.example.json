@@ -1,0 +1,75 @@
+{
+  "source_commit": "5c8ced98",
+  "native": "/absolute/path/to/frozen/primo",
+  "native_sha256": "1b43e6bdf394fa130483950c5d2a240f8b1667d25f4478e7ac6c244f74ba9cf5",
+  "probe": "/absolute/path/to/build-slurm-rel/primo_preprocess_bound_probe",
+  "probe_sha256": "10ce5947ebe5e2ab14e206720e6cae423a877277a8e578508f2efdb98ab16ffb",
+  "z3": "/absolute/path/to/contrib/local/bin/z3",
+  "roots": {
+    "QF_LIA": "/absolute/path/to/corpus/QF_LIA",
+    "QF_UFLIA": "/absolute/path/to/corpus/QF_UFLIA",
+    "QF_LRA": "/absolute/path/to/corpus/QF_LRA",
+    "QF_UFLRA": "/absolute/path/to/corpus/QF_UFLRA"
+  },
+  "cases": [
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "20231117-c_inference/30_30_18_12_sat.smt2",
+      "sha256": "587ac5c022f9d8b80c21b0887f642cd80b5667f5321647381dd6ac0f8a9d2958",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 4,
+      "slot": 4,
+      "reason": "LIA:row propagation82s versus both7s,zero private branch nodes"
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Wisa/xs-20-19-2-2-2-5.smt2",
+      "sha256": "dc612413e1f78373ae8461db6cd99f86961c4d493cd9f7c421714edf453fb9d8",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 438,
+      "slot": 438,
+      "reason": "UFLIA:rows0.36s versus both33s,private cap and complete-arrangement fallback"
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+      "sha256": "c68e77db3bc6cd15daebe8fcffb9d445bca654c6b2fcc47a8b65d27c3074e182",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 213,
+      "slot": 213,
+      "reason": "UFLIA:163new bounds,pre-only timeout"
+    },
+    {
+      "group": "lra",
+      "logic": "QF_LRA",
+      "file": "miplib/danoint-166.smt2",
+      "sha256": "25d25861bcb8adcdb09d1b2b42f40cb3ee6aa3b096f81eb6d5c8daeb17ed4266",
+      "expected": "sat",
+      "repetition": 0,
+      "selection_bucket": "historical-other",
+      "original_slot": 557,
+      "slot": 557,
+      "reason": "LRA:894new bounds,stable combined-profile gain"
+    },
+    {
+      "group": "lra",
+      "logic": "QF_LRA",
+      "file": "miplib/danoint-266.smt2",
+      "sha256": "8e3be88890cfc4c0fb5e9a26b44cf4930d118a910df65bab48617d9d7f15deb5",
+      "expected": "sat",
+      "repetition": 0,
+      "selection_bucket": "historical-other",
+      "original_slot": 569,
+      "slot": 569,
+      "reason": "LRA:same894new bounds,stable combined-profile loss"
+    }
+  ],
+  "out": "/absolute/path/to/results/fresh-bound-behavior",
+  "skip_micros": false
+}
