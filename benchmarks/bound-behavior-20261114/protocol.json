@@ -78,5 +78,10 @@
     "Row propagation checks registered atoms rather than maintaining numeric endpoint closure.",
     "The UFLIAregression is a private-budget-triggered complete-arrangement fallback,not preprocessing CPU cost."
   ],
-  "retention": "Diagnostic evidence only;keep existing options/defaults. No headline improvement or new correctness qualification from this selected set."
+  "retention": "Diagnostic evidence only;keep existing options/defaults. No headline improvement or new correctness qualification from this selected set.",
+  "workflow_adjustments": {
+    "initial_attempt": "Microcases all completed;LRA557bound-proof reference timedout30s,ablation dependency cancelled. All3Callgrind jobs stalled during startup with inherited DEBUGINFOD_URLS then control-timeout;no profiles accepted.",
+    "retry": "Reuse original36validated micro rows;save bound batches durably;require UNSATproof for4/438ablation batches,record LRA proof timeout separately;disable DEBUGINFOD_URLS for profiler. Profiling failures do not block the independent ablations.",
+    "additional_control": "UF438 fixed interval arg0=-19 represented as an equality instead of paired inequalities,with other4derived bounds retained."
+  }
 }

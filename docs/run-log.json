@@ -6,12 +6,26 @@
       "id": "2026-11-14-bound-behavior-diagnosis",
       "date": "2026-11-14",
       "kind": "Code review,selected bound-flow probes,private-budget ablations and Callgrind",
-      "evidence_status": "Prepared;fresh helper build/probe source5c8ced98;targeted execution and results pending. No production source or default changes.",
+      "evidence_status": "Initial diagnostic attempt triaged:36micro rows with directDolmen passes;Z3bound proof557timeout30s;all3profilesblocked by inheriteddebuginfod startup. Dependent ablation392090cancelled without execution. Corrected retry prepared.",
       "source_base": "5c8ced98",
       "protocol": "benchmarks/bound-behavior-20261114/protocol.json",
       "commands": "scripts/qualification/bound_behavior/diagnose.py and diagnose.sbatch;preflight via slurm_prepare_benchmark_workspace.py --check-only;fresh Release and probe build via --build-via-slurm.",
       "artifacts": "SLURM bound-behavior workspace results/bound-behavior;local results/bound-behavior-20261114;private connection/config outside tracked files.",
-      "correctness": "Original qualified frozen native binary;all new micro and modified input SATanswers checked againstZ3,and every successful native SATdiagnostic row replayed with directDolmen. New wronganswers/crashes stop investigation."
+      "correctness": "Original qualified frozen native binary;all new micro and modified input SATanswers checked againstZ3,and every successful native SATdiagnostic row replayed with directDolmen. New wronganswers/crashes stop investigation.",
+      "jobs": {
+        "diagnostics": "392089",
+        "ablations": "392090",
+        "build": "392076"
+      },
+      "runner_sha256": "0cd2dd82ca27fdb5b67726f83d09d18949d70b0cb9d9ef21e0460ed5e51c7637",
+      "private_config_sha256": "3763ed60875c8afa95b3f8b6d35a1831e764ee14e05d1d07aecc9c7d39b3c716",
+      "probe_sha256": "10ce5947ebe5e2ab14e206720e6cae423a877277a8e578508f2efdb98ab16ffb",
+      "scheduling": "Both submitted held;returned ArrayJobIds392089/392090 and afterok:392089_* parent verified,runner SHA verified before release. Excluded node01;unrelated job392078left untouched.",
+      "initial_attempt_triage": {
+        "392089_0": "36SATmicro/reference rows and36directDolmenpasses complete;proof4/438/213UNSAT;LRA557proof timeout,not proof pass;569notreached.",
+        "392089_1-3": "No usable profiles;Valgrindstartup stalled with DEBUGINFOD_URLS pointing to external server. callgrind_control timedout;allprofilerchildrenkilled in finally.",
+        "392090": "Cancelled dependent ablations;no executions."
+      }
     },
     {
       "id": "2026-11-13-bound-propagation-factorial",

@@ -155,7 +155,12 @@ def main() -> None:
     if args.mode == 0:
         # These are new small probes, not copied solver or benchmark source.
         rows = []
-        for logic in ("QF_LRA", "QF_UFLRA", "QF_LIA", "QF_UFLIA"):
+        logics = (
+            ()
+            if config.get("skip_micros")
+            else ("QF_LRA", "QF_UFLRA", "QF_LIA", "QF_UFLIA")
+        )
+        for logic in logics:
             sort = "Int" if "LIA" in logic else "Real"
             prefix = (
                 f"(set-logic {logic})\n(declare-const u {sort})\n"
@@ -203,7 +208,7 @@ def main() -> None:
                     )
                     assert row["answer"] == "sat"
                     rows.append(row)
-        assert rows
+        assert rows or config.get("skip_micros")
         probe = Path(config["probe"])
         assert sha(probe) == config["probe_sha256"]
         collected = {}
@@ -221,18 +226,28 @@ def main() -> None:
             text = (out / f"proof-{slot}.smt2").read_text()
             bounds = expanded_bounds(text)
             collected[str(slot)] = bounds
+            (out / "bounds.json").write_text(json.dumps(collected, indent=2) + "\n")
             (out / f"bounds-{slot}.smt2").write_text(
                 "\n".join(f"(assert {b})" for b in bounds) + "\n"
             )
-            proof = subprocess.run(
-                [config["z3"], str(out / f"proof-{slot}.smt2")],
-                check=False,
-                capture_output=True,
-                text=True,
-                timeout=30,
-            )
-            (out / f"proof-{slot}.reference").write_text(proof.stdout + proof.stderr)
-            assert proof.returncode == 0 and proof.stdout.strip() == "unsat", proof
+            try:
+                proof = subprocess.run(
+                    [config["z3"], str(out / f"proof-{slot}.smt2")],
+                    check=False,
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
+                )
+                (out / f"proof-{slot}.reference").write_text(
+                    proof.stdout + proof.stderr
+                )
+                assert proof.returncode == 0 and proof.stdout.strip() == "unsat", proof
+            except subprocess.TimeoutExpired:
+                (out / f"proof-{slot}.reference").write_text(
+                    "timeout:30seconds;not a proof pass\n"
+                )
+                # Only the two verified batches feed the content ablations.
+                assert slot not in (4, 438), "unverified ablation bounds"
             print("emitted", slot, len(bounds), result.stderr.strip(), flush=True)
         (out / "bounds.json").write_text(json.dumps(collected, indent=2) + "\n")
     elif args.mode in (1, 2, 3):
@@ -254,7 +269,11 @@ def main() -> None:
             (out / "profile.stderr").open("w") as stderr,
         ):
             process = subprocess.Popen(
-                command, stdout=stdout, stderr=stderr, start_new_session=True
+                command,
+                stdout=stdout,
+                stderr=stderr,
+                start_new_session=True,
+                env={**os.environ, "DEBUGINFOD_URLS": ""},
             )
             partial = False
             try:
@@ -344,6 +363,8 @@ def main() -> None:
                 )
         variants = {"explicit-all": bounds}
         if slot == 438:
+            assert bounds[:2] == ["(<= (- 19) arg0)", "(<= arg0 (- 19))"]
+            variants["fixed-as-equality"] = ["(= arg0 (- 19))", *bounds[2:]]
             variants.update(
                 {f"drop-{i}": bounds[:i] + bounds[i + 1 :] for i in range(len(bounds))}
             )
