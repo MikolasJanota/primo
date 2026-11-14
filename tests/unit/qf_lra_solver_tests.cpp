@@ -3544,16 +3544,11 @@ void bidirectional_row_propagation_drives_boolean_structure() {
   // FALSE (since y is forced >=3, contradicting y<=2), forcing the
   // disjunction's other branch without ever deciding (<= y 2) directly.
   //
-  // The specific atom shapes here aren't arbitrary: single_variable_slack
-  // only registers a bare variable's *positive*-coefficient normalized
-  // form (`>=` normalizes to a negated/coefficient-(-1) polynomial and
-  // never gets an entry at all -- a pre-existing quirk this test must
-  // respect, not something item 7 changes), and the specific bound
-  // *direction* combination used here (s's lower bound + x's upper
-  // bound, deriving y's lower bound) is the one that's actually available
-  // given that same quirk -- asserting *both* (<= x 2) and (>= x 2)
-  // would split x's bound across two different slacks with only one
-  // direction visible on each, making the other combination unreachable.
+  // Single-variable atoms now bind their variable directly, including
+  // comparisons with a flipped coefficient. This case covers a bound on
+  // the basic row before the bound on its child: the latter notification
+  // triggers the reverse scan. The opposite notification order is a
+  // separate coverage gap documented by the bound-behavior diagnostics.
   const std::string formula = R"(
     (set-logic QF_LRA)
     (declare-fun x () Real)

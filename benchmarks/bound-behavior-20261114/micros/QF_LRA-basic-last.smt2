@@ -1,0 +1,8 @@
+(set-logic QF_LRA)
+(declare-const u Real)
+(declare-const v Real)
+(declare-const t Real)
+(assert (<= u 2))
+(assert (>= (+ u v) 5))
+(assert (or (<= v 2) (>= t 20)))
+(check-sat)

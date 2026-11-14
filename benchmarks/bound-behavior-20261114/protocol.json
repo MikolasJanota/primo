@@ -1,7 +1,7 @@
 {
   "source_base": "5c8ced98",
   "native_sha256": "1b43e6bdf394fa130483950c5d2a240f8b1667d25f4478e7ac6c244f74ba9cf5",
-  "status": "Targeted diagnostics prepared; no new solver algorithm or default change. Execution/results pending.",
+  "status": "Completed targeted diagnostics;54SATrows and54separate directDolmenpasses;no production algorithm or default change.",
   "question": "Which bounds and propagation events change actual search, and which implementation limits explain weak aggregate gains?",
   "cases": [
     {
@@ -83,5 +83,6 @@
     "initial_attempt": "Microcases all completed;LRA557bound-proof reference timedout30s,ablation dependency cancelled. All3Callgrind jobs stalled during startup with inherited DEBUGINFOD_URLS then control-timeout;no profiles accepted.",
     "retry": "Reuse original36validated micro rows;save bound batches durably;require UNSATproof for4/438ablation batches,record LRA proof timeout separately;disable DEBUGINFOD_URLS for profiler. Profiling failures do not block the independent ablations.",
     "additional_control": "UF438 fixed interval arg0=-19 represented as an equality instead of paired inequalities,with other4derived bounds retained."
-  }
+  },
+  "trace": "Diagnostic-only patch6936bfbe on baseline5c8ced98;bounded root SATlevel trace with --max-theory-conflicts=1 and --lia-branch-limit=1;two expected unknown results;no timing/model claim."
 }

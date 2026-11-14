@@ -1,0 +1,86 @@
+diff --git a/src/smt/solver_engines.cpp b/src/smt/solver_engines.cpp
+index f378de78..bbba9629 100644
+--- a/src/smt/solver_engines.cpp
++++ b/src/smt/solver_engines.cpp
+@@ -8,6 +8,7 @@
+ #include <cstdlib>
+ #include <deque>
+ #include <functional>
++#include <iostream>
+ #include <iterator>
+ #include <memory>
+ #include <optional>
+@@ -7086,6 +7087,37 @@ compute_implied_child_bound(const theory::arithmetic::LraTableau& tableau,
+   return std::make_pair(total.scaled(inv), std::move(reasons));
+ }
+ 
++// Diagnostic-only snapshot patch: observe root fmt1 bounds without modifying them.
++void trace_fmt1_bound(
++    const PreparedLraTheory& prepared, const PreparedLraTheory::PreparedAtom& atom,
++    const theory::arithmetic::LraTableau& tableau, bool value, int literal,
++    const std::optional<theory::arithmetic::LraTableau::BoundInfo>& before_upper,
++    const std::optional<theory::arithmetic::LraTableau::BoundInfo>& before_lower) {
++  if (atom.relation == theory::arithmetic::LraRelation::Eq) return;
++  bool target = false;
++  for (const auto& [term, variable] : prepared.var_ids_) {
++    if (variable != atom.bound_var) continue;
++    const auto& node = prepared.terms_.get(term);
++    if (node.kind == core::TermKind::Constant &&
++        prepared.terms_.symbols().get_symbol(node.symbol).name == "fmt1")
++      target = true;
++  }
++  if (!target) return;
++  const auto assertion = bound_assertion(atom.relation, atom.rhs, atom.asserts_lower_when_true,
++                                         value, atom.integer_rounding);
++  const auto before = assertion.is_upper ? before_upper : before_lower;
++  const auto after = assertion.is_upper ? tableau.upper_bound(atom.bound_var)
++                                        : tableau.lower_bound(atom.bound_var);
++  std::cerr << "TRACE_FMT1 lit=" << literal << " variable=" << atom.bound_var
++            << " relation=" << (atom.relation == theory::arithmetic::LraRelation::Lt ? "lt" : "le")
++            << " rhs=" << atom.rhs.to_string() << " truth=" << value
++            << " upper=" << assertion.is_upper
++            << " asserted=" << assertion.value.rational.to_string()
++            << " delta=" << assertion.value.infinitesimal.to_string()
++            << " before=" << (before ? before->value.rational.to_string() : "infinite")
++            << " after=" << (after ? after->value.rational.to_string() : "infinite") << '\n';
++}
++
+ // Trail-synced CaDiCaL external propagator for QF_LRA (Milestone 3a of the
+ // QF_LRA plan): mirrors OnlineEufPropagator structurally. cb_propagate()
+ // delivers same-slack propagations (Milestone 3b, scan_for_propagations)
+@@ -7490,9 +7522,17 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
+     const AssignedTheoryAtom assigned =
+         assigned_theory_atom(PureTheoryFilterMode::Off, atom, atom_value);
+     const sat::Lit reason = blocking_lit(assigned);
++    const bool trace_root = checkpoints_.empty() && std::getenv("PRIMO_TRACE_FMT1");
++    const auto trace_upper =
++        trace_root ? tableau_.upper_bound(prepared_atom.bound_var) : std::nullopt;
++    const auto trace_lower =
++        trace_root ? tableau_.lower_bound(prepared_atom.bound_var) : std::nullopt;
+     const auto direct_conflict = assert_lra_atom_bound(
+         tableau_, prepared_atom.bound_var, prepared_atom.relation, prepared_atom.rhs, atom_value,
+         prepared_atom.asserts_lower_when_true, reason, prepared_atom.integer_rounding);
++    if (trace_root)
++      trace_fmt1_bound(prepared_, prepared_atom, tableau_, atom_value, atom.lit.value, trace_upper,
++                       trace_lower);
+     // Item H7's counters move inside assert_upper/assert_lower, not inside
+     // check(), so they are published here rather than alongside the pivot
+     // counters in run_deferred_check_if_needed(). They are cumulative
+@@ -9194,9 +9234,17 @@ class ComponentLraExecution final {
+     const AssignedTheoryAtom assigned =
+         assigned_theory_atom(PureTheoryFilterMode::Off, atom, atom_value);
+     const sat::Lit reason = blocking_lit(assigned);
++    const bool trace_root = checkpoints_.empty() && std::getenv("PRIMO_TRACE_FMT1");
++    const auto trace_upper =
++        trace_root ? tableau_.upper_bound(prepared_atom.bound_var) : std::nullopt;
++    const auto trace_lower =
++        trace_root ? tableau_.lower_bound(prepared_atom.bound_var) : std::nullopt;
+     const auto direct_conflict = assert_lra_atom_bound(
+         tableau_, prepared_atom.bound_var, prepared_atom.relation, prepared_atom.rhs, atom_value,
+         prepared_atom.asserts_lower_when_true, reason, prepared_atom.integer_rounding);
++    if (trace_root)
++      trace_fmt1_bound(prepared_, prepared_atom, tableau_, atom_value, atom.lit.value, trace_upper,
++                       trace_lower);
+     // Item H7's counters move inside assert_upper/assert_lower, not inside
+     // check(), so they are published here rather than alongside the pivot
+     // counters in run_deferred_check_if_needed(). They are cumulative

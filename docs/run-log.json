@@ -6,7 +6,7 @@
       "id": "2026-11-14-bound-behavior-diagnosis",
       "date": "2026-11-14",
       "kind": "Code review,selected bound-flow probes,private-budget ablations and Callgrind",
-      "evidence_status": "Initial diagnostic attempt triaged:36micro rows with directDolmen passes;Z3bound proof557timeout30s;all3profilesblocked by inheriteddebuginfod startup. Dependent ablation392090cancelled without execution. Corrected retry prepared.",
+      "evidence_status": "Completed selected diagnosis:36micro+18ablationSATrows;all54replayed directDolmen. Two propagation gaps, redundant bound and UF fallback regression confirmed;no production behavior changes.",
       "source_base": "5c8ced98",
       "protocol": "benchmarks/bound-behavior-20261114/protocol.json",
       "commands": "scripts/qualification/bound_behavior/diagnose.py and diagnose.sbatch;preflight via slurm_prepare_benchmark_workspace.py --check-only;fresh Release and probe build via --build-via-slurm.",
@@ -25,7 +25,28 @@
         "392089_0": "36SATmicro/reference rows and36directDolmenpasses complete;proof4/438/213UNSAT;LRA557proof timeout,not proof pass;569notreached.",
         "392089_1-3": "No usable profiles;Valgrindstartup stalled with DEBUGINFOD_URLS pointing to external server. callgrind_control timedout;allprofilerchildrenkilled in finally.",
         "392090": "Cancelled dependent ablations;no executions."
-      }
+      },
+      "retry_jobs": {
+        "inspection": "392098",
+        "profiles": "392099",
+        "ablations": "392143"
+      },
+      "scheduler_note": "Unrelated export-memory experiment392100began oncluster while our retrywasheld. Left untouched;new wall times are diagnostics,not uncontended performance claims. Native work counters and prior rotated results drive causal analysis.",
+      "results": "benchmarks/bound-behavior-20261114/observations.json",
+      "trace_jobs": {
+        "build": "392149",
+        "bounded_trace": "392150"
+      },
+      "summary": {
+        "basic_bound_event_gap": "All4logics:reverse delivery1versus0with assertion order reversed.",
+        "integer_rounding_gap": "Both integer logics miss u<=2from implied2.5,but propagate u<=3.",
+        "lia4": "Explicit6bounds reproduce both profile work:282750to20789pivots;0private nodes.",
+        "uf438": "Removing only fmt1<=18avoids100063private nodes and4656-pair fallback;original fmt1<19already sets actualLPupper18.",
+        "models": "54/54 direct Dolmen passes; reference Z3 SAT for 12 micro inputs and all 9 modified corpus inputs.",
+        "proofs": "Z3UNSAT4/438/213;557/569proofstimeout30s,notpasses.",
+        "profiling": "UFboth60sprefix56.52%inclusive instructionevents in two disjoint implied-bound helper trees;LIArows60sprefix90.12%in tableaucheck including70.53%pivot. PartialprefixisnotfullrunCPUshare."
+      },
+      "unfinished": "Production fixes and their behavior/fuzz/performance qualification are separate future work;diagnostic metadata/docs checks pending."
     },
     {
       "id": "2026-11-13-bound-propagation-factorial",

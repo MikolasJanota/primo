@@ -1,0 +1,8 @@
+(set-logic QF_LIA)
+(declare-const u Int)
+(declare-const v Int)
+(declare-const t Int)
+(assert (<= (+ (* 2 u) v) 5))
+(assert (>= v 0))
+(assert (or (<= u 3) (>= t 20)))
+(check-sat)
