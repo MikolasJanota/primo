@@ -1,0 +1,82 @@
+{
+  "source_base": "5c8ced98",
+  "native_sha256": "1b43e6bdf394fa130483950c5d2a240f8b1667d25f4478e7ac6c244f74ba9cf5",
+  "status": "Targeted diagnostics prepared; no new solver algorithm or default change. Execution/results pending.",
+  "question": "Which bounds and propagation events change actual search, and which implementation limits explain weak aggregate gains?",
+  "cases": [
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "20231117-c_inference/30_30_18_12_sat.smt2",
+      "sha256": "587ac5c022f9d8b80c21b0887f642cd80b5667f5321647381dd6ac0f8a9d2958",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 4,
+      "slot": 4,
+      "reason": "LIA:row propagation82s versus both7s,zero private branch nodes"
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Wisa/xs-20-19-2-2-2-5.smt2",
+      "sha256": "dc612413e1f78373ae8461db6cd99f86961c4d493cd9f7c421714edf453fb9d8",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 438,
+      "slot": 438,
+      "reason": "UFLIA:rows0.36s versus both33s,private cap and complete-arrangement fallback"
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+      "sha256": "c68e77db3bc6cd15daebe8fcffb9d445bca654c6b2fcc47a8b65d27c3074e182",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 213,
+      "slot": 213,
+      "reason": "UFLIA:163new bounds,pre-only timeout"
+    },
+    {
+      "group": "lra",
+      "logic": "QF_LRA",
+      "file": "miplib/danoint-166.smt2",
+      "sha256": "25d25861bcb8adcdb09d1b2b42f40cb3ee6aa3b096f81eb6d5c8daeb17ed4266",
+      "expected": "sat",
+      "repetition": 0,
+      "selection_bucket": "historical-other",
+      "original_slot": 557,
+      "slot": 557,
+      "reason": "LRA:894new bounds,stable combined-profile gain"
+    },
+    {
+      "group": "lra",
+      "logic": "QF_LRA",
+      "file": "miplib/danoint-266.smt2",
+      "sha256": "8e3be88890cfc4c0fb5e9a26b44cf4930d118a910df65bab48617d9d7f15deb5",
+      "expected": "sat",
+      "repetition": 0,
+      "selection_bucket": "historical-other",
+      "original_slot": 569,
+      "slot": 569,
+      "reason": "LRA:same894new bounds,stable combined-profile loss"
+    }
+  ],
+  "phases": {
+    "0": "Fresh SATmicrocases:basic-bound assertion order and integer rounding,all four arithmetic logics;referenceZ3 and selectedSATDolmen. Export exact new bound batches on5selected corpus inputs;Z3refutes lowered-input AND NOTbounds.",
+    "1": "Callgrind frozen native,UF438rows;60smaximum,explicit dump before termination",
+    "2": "Callgrind frozen native,UF438both;60smaximum,explicit dump before termination",
+    "3": "Callgrind frozen native,LIA4rows;60smaximum,explicit dump before termination",
+    "4": "UF438:rows/both,private caps1/100/1000,hybrid factors0/1,explicit exact bounds,dropone controls;selectedSATdirectDolmen",
+    "5": "LIA4:rows/both versus explicitly appended exact bounds;selectedSATdirectDolmen"
+  },
+  "limits": "Native8GiBAS,120swall;replay180s/Dolmen30s;Callgrind60scollection and5sgrace,separate16GiBallocation,no8GiBASlimit. Instrumented partial profiles are not comparable timing rows.",
+  "basis": "Dutertre/deMoura,CAV2006,A Fast Linear-Arithmetic Solver for DPLL(T),Section4.5,read locally from original PDF. Existing interval rule only;the diagnostic exercises scheduling and coverage,not a new inference algorithm.",
+  "hypotheses": [
+    "A bound assertion on a basic variable cannot trigger its own reverse scan via occurs_in,which indexes row children.",
+    "Implied integer endpoints are compared as rationals with already rounded atom thresholds;this can miss valid integer entailments.",
+    "Row propagation checks registered atoms rather than maintaining numeric endpoint closure.",
+    "The UFLIAregression is a private-budget-triggered complete-arrangement fallback,not preprocessing CPU cost."
+  ],
+  "retention": "Diagnostic evidence only;keep existing options/defaults. No headline improvement or new correctness qualification from this selected set."
+}

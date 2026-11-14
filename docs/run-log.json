@@ -3,6 +3,17 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-14-bound-behavior-diagnosis",
+      "date": "2026-11-14",
+      "kind": "Code review,selected bound-flow probes,private-budget ablations and Callgrind",
+      "evidence_status": "Prepared;fresh helper build/probe source5c8ced98;targeted execution and results pending. No production source or default changes.",
+      "source_base": "5c8ced98",
+      "protocol": "benchmarks/bound-behavior-20261114/protocol.json",
+      "commands": "scripts/qualification/bound_behavior/diagnose.py and diagnose.sbatch;preflight via slurm_prepare_benchmark_workspace.py --check-only;fresh Release and probe build via --build-via-slurm.",
+      "artifacts": "SLURM bound-behavior workspace results/bound-behavior;local results/bound-behavior-20261114;private connection/config outside tracked files.",
+      "correctness": "Original qualified frozen native binary;all new micro and modified input SATanswers checked againstZ3,and every successful native SATdiagnostic row replayed with directDolmen. New wronganswers/crashes stop investigation."
+    },
+    {
       "id": "2026-11-13-bound-propagation-factorial",
       "date": "2026-11-13",
       "kind": "Three-repetition four-profile experiment for preprocessing bounds and online row propagation",
