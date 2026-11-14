@@ -7896,6 +7896,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     // A basic variable has no RHS occurrences; its own bound still refines
     // every child of its defining row. No tableau mutation occurs in a scan.
     if (bidirectional_row_propagation_enabled_ && tableau_.is_basic(changed_var) &&
+        row_propagation_limits_.max_fanout >= 1 &&
         row_propagation_limits_.bidirectional_max_fanout >= 1) {
       statistics_.increment(":lra.basic-variable-row-scans");
       scan_row_child_propagations(changed_var, changed_var);
@@ -9556,6 +9557,7 @@ class ComponentLraExecution final {
     // A basic variable has no RHS occurrences; its own bound still refines
     // every child of its defining row. No tableau mutation occurs in a scan.
     if (bidirectional_row_propagation_enabled_ && tableau_.is_basic(changed_var) &&
+        row_propagation_limits_.max_fanout >= 1 &&
         row_propagation_limits_.bidirectional_max_fanout >= 1) {
       statistics_.increment(":lra.basic-variable-row-scans");
       scan_row_child_propagations(changed_var, changed_var);

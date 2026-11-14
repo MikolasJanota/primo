@@ -3549,12 +3549,20 @@ void row_bound_events_and_integer_refinement() {
     for (bool basic_first : {false, true}) {
       const std::string basic = "(assert (>= (+ u v) 5))";
       const std::string child = "(assert (<= u 2))";
-      const auto result = check_sat_smtlib(prefix + (basic_first ? basic + child : child + basic) +
-                                               "(assert (or (<= v 2) (>= t 20)))(check-sat)",
-                                           options);
+      std::string input = prefix;
+      input += basic_first ? basic : child;
+      input += basic_first ? child : basic;
+      input += "(assert (or (<= v 2) (>= t 20)))(check-sat)";
+      const auto result = check_sat_smtlib(input, options);
       assert(result.result == CheckSatResult::Sat);
       assert(result.statistics.get(StatKey::LraBidirectionalRowPropagations) > 0);
       if (!basic_first) assert(result.statistics.get(":lra.basic-variable-row-scans") > 0);
+      auto capped = options;
+      capped.lra_row_propagation_limits.max_fanout = 0;
+      const auto without_scans = check_sat_smtlib(input, capped);
+      assert(without_scans.result == CheckSatResult::Sat);
+      assert(without_scans.statistics.get(StatKey::LraRowPropagations) == 0);
+      assert(without_scans.statistics.get(":lra.basic-variable-row-scans") == 0);
     }
     if (!integer) continue;
     // UFLIA intentionally keeps this off by default; exercise the opt-in policy.

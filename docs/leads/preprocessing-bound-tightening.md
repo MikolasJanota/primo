@@ -47,8 +47,9 @@ The SMT {preprocessboundsource}`analysis API and owned result
   term ID then lower before upper. Term creation follows analysis, through
   the term manager only. Ordinary input conjuncts carry the deductions through
   SAT and arithmetic preparation; no dynamic tableau rows or private bounds.
-- Run once immediately after required extended-term lowering, before equation
-  elimination and the main preprocessing loop, even with the loop off. Rebuild
+- The early-placement version pinned on this page runs once after extended-term
+  lowering, before equation elimination and the main loop, even with that loop
+  off. The rejected placement experiment below tested changing this schedule. Rebuild
   sessions recompute per query/scope. Assumptions sessions reject enabling;
   quantified queries retain their separate route. Original-model assertions
   and lowering reconstruction remain owned by the existing session/tactic.
@@ -149,3 +150,52 @@ The separate [propagation follow-up](../evidence/bound-propagation.md) tests
 four profiles and three fresh repetitions on 697 retained inputs, with complete
 SAT-model replay. It keeps the three known abort cases quarantined and does
 not lift the whole-solver qualification blocker above.
+
+
+## Scheduling experiment (rejected)
+
+The active [improvement plan](bound-propagation-improvements.md) evaluated
+running analysis after the existing value/equality simplification stages and
+before finite-domain processing, final arithmetic normalization and purification.
+The trial
+{boundplacementtrialsource}`declared-logic resolution <src/smt/preprocessing_strategy.cpp#L637>`
+sets `PreprocessingProfile::preprocess_bound_tightening`
+from the declared logic, independently of which atoms survive initial
+transformations. That owned Boolean controls the
+single
+{boundplacementtrialsource}`later tactic <src/smt/preprocessing_strategy.cpp#L510>`;
+it is not a new user option. Disabling the ordinary preprocessing loop leaves
+this tactic scheduled once. Integer solved-constant substitution still precedes
+it; analysis is skipped if earlier stages resolve the goal.
+
+The
+{boundplacementtrialsource}`analysis <src/smt/preprocess_bound_tightening.cpp#L61>`
+still snapshots directly available intervals before its worklist.
+`:preprocessing.bounds.redundant-endpoints` counts finite final endpoints no
+stronger than that snapshot, rather than counting new facts rejected by SAT.
+Moving the snapshot later can avoid emitting facts already exposed by value
+substitution. It can also change automatic preprocessing-profile selection;
+these interactions require separate evaluation before acceptance.
+The historical qualification and timings above concern early placement.
+
+The control used notification/rounding repair snapshot `3c2971a4`; the variant
+added later placement in snapshot `e22299f9`. The combined profile enables
+same-variable, forward and reverse row propagation together with preprocessing
+bounds; integer branching keeps its private default. Here Wisa denotes UFLIA
+`mathsat/Wisa/xs-20-19-2-2-2-5.smt2` from the retained selection.
+
+The trial is rejected and its source changes are reverted. The
+{boundrepairresults}`observations <benchmarks/bound-repairs-20261114/placement-observations.json>`,
+{boundrepairresults}`measurement table <benchmarks/bound-repairs-20261114/placement-measurements.csv>`
+and {boundrepairresults}`reproduction patch <benchmarks/bound-repairs-20261114/rejected-placement.patch>`
+retain the negative result. Across five selected
+inputs and two rotated repetitions, all 28 successful SAT timing rows pass
+separate direct Dolmen validation; 12 runs time out. LIA and LRA successes keep
+the same emitted-bound and pivot counts. Wisa emits no new bounds after later
+placement, but its combined-profile runtime rises from 0.504–0.505 seconds to
+3.747–3.788 seconds, with pivots increasing from 3,752 to 13,007. These developmental runs overlap other cluster work. Stable bound and pivot
+counts support rejection alongside diagnostic wall times; this is selected
+evidence, not a general rejection of later analysis.
+The earlier propagation repair changed which assertion streams help search;
+numeric redundancy alone does not establish a performance win from removal.
+The trial profile Boolean and redundant-endpoint counter are not retained.

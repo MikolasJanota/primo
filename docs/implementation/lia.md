@@ -1195,6 +1195,11 @@ tracks an unqualified notification/rounding repair. With arithmetic, row and bid
 reverse-scan a still-basic variable's defining row when its bound is asserted,
 subject to the reverse row-size limit and reverse fanout limit of at least one.
 Reverse scanning is independent of registered atoms on the basic variable.
+The
+{boundrepairfollowupsource}`follow-up guard <src/smt/solver_engines.cpp#L7898>`
+also requires the shared fanout cap to admit one row; zero continues to disable
+all row scans. The regression exercises this boundary under both assertion
+orders in all four arithmetic logic declarations.
 Inferred endpoints use delta-aware floor/ceiling when preparation's `All`
 integer-rounding policy applies. Reasons remain the original bound literals;
 no new tableau rows or permanent inferred numeric endpoints are installed.

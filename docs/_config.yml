@@ -95,6 +95,12 @@ sphinx:
       staticrunnerreportersource:
         - "https://github.com/primo-solver/primo/blob/f34acfa479676335e8f275acc534bd26b939f9b2/%s"
         - "%s"
+      boundrepairresults:
+        - "https://github.com/primo-solver/primo/blob/ffaa99e648f33708267ef5a5e90ab8633131de60/%s"
+        - "%s"
+      boundrepairfollowupsource:
+        - "https://github.com/primo-solver/primo/blob/d85c08e190d6fc6e8d056cde8689afcc23aa4a99/%s"
+        - "%s"
       boundrepairsource:
         - "https://github.com/primo-solver/primo/blob/2b5288f41f7be4919cac0788466ca081e271a311/%s"
         - "%s"

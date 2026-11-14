@@ -2,8 +2,10 @@
 
 Baseline: `ff303826`. This page records the four-stage plan following the
 [selected diagnosis](../evidence/bound-behavior.md). Qualification is pending;
-existing evidence does not qualify these changes. Only notification and
-rounding repairs are currently drafted; placement and scan reuse remain planned.
+existing evidence does not qualify these changes. Notification and rounding repairs now have
+{boundrepairevidence}`initial correctness evidence <benchmarks/bound-repairs-20261114/stage1-qualification.json>`;
+performance qualification remains pending. The later-placement experiment is rejected with its source changes reverted;
+scan reuse remains planned.
 
 ## Basis and obligations
 
