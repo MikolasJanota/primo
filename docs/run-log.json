@@ -3,6 +3,42 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-14-bound-repairs-final",
+      "date": "2026-11-14",
+      "kind": "Fresh exact-source qualification and full paired propagation comparison",
+      "evidence_status": "Correctness qualification complete with resource outcomes separate; timing and subsequent model arrays active/pending. No full-suite performance claim yet.",
+      "source": "07ec5ce5",
+      "baseline": "ff303826 (compiled source-equivalent a4b5d75f)",
+      "protocol": "benchmarks/bound-repairs-20261114/final-protocol.json",
+      "qualification": "benchmarks/bound-repairs-20261114/final-qualification.json",
+      "mutations": "benchmarks/bound-repairs-20261114/final-mutations.json",
+      "jobs": {
+        "build": 392396,
+        "check": 392397,
+        "gates": 392398,
+        "canonical": 392409,
+        "mutations": 392408,
+        "regression_seeds": 392410,
+        "reference_timeout_models": 392426,
+        "resource_replays": 392427,
+        "timing": [
+          392428,
+          392429,
+          392430
+        ],
+        "models": [
+          392573,
+          392574,
+          392577
+        ]
+      },
+      "commands": "prepare helper --build-via-slurm; bound_repairs verify/gates/canonical/mutations controllers. configure.py plus bound_propagation/submit.py --phase timing --concurrency 96 --job-time 00:20:00; models --after 392430 --concurrency 32 --job-time 00:45:00. Effective generator/reference commands, seeds, tool hashes and limits in retained qualification metadata.",
+      "correctness": "49 CTest and354Python tests pass.10000fresh generated inputs:9980reference matches,18timeouts,one diagnosed private-budget unknown,one reference timeout;7069selected nativeSATmodels directDolmen pass. Canonical2400inputs and1345model replays pass.2520real-seed mutants:2508PASS,12resource-incomplete;1680SATmodels passDolmen. Resource comparison confirms no decisive native/reference disagreement;original incomplete outcomes remain separate. Tracked57regression seeds perprofile preserve all queryanswers,27singleSATmodels and6incrementalSATmodels perprofile validate.",
+      "reused_checks": "ASan49/49 and whole-tree140-TU static/includes scans from1d3bee8c reuse exact production/native-test source equivalence to07ec5ce5; no memory-sensitive source changes between them.861tidyfindings and397include-provider findings remain inventoried,not a clean-tree claim.",
+      "artifacts": "Remote prepared final workspace results/{qualification,mutations,resource-triage,paired};local results/bound-repairs-20261114/{final,final-configs};private SSH/routes outsideGit.",
+      "remaining": "Finish all16728timing rows and exact-option independentSATmodels;audited comparison,regression investigations,reviewed final docs and evidence commits."
+    },
+    {
       "id": "2026-11-14-row-endpoint-cache",
       "date": "2026-11-14",
       "kind": "Scan-local row endpoint reuse and lazy explanations",

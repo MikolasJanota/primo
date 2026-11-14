@@ -1,0 +1,100 @@
+{
+  "status": "Exact-candidate correctness qualification complete; timing arrays released; model arrays depend on the last timing array",
+  "baseline_source": "ff303826",
+  "baseline_compiled_snapshot": "a4b5d75f",
+  "baseline_sha256": "1b43e6bdf394fa130483950c5d2a240f8b1667d25f4478e7ac6c244f74ba9cf5",
+  "baseline_equivalence_check": "git diff --exit-code ff303826 a4b5d75f -- src (all201productionfilesidentical)",
+  "candidate_source": "07ec5ce5",
+  "candidate_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+  "candidate_production_equivalence_to_qualified_snapshot": "git diff --exit-code 1d3bee8c 07ec5ce5 -- src tests/unit: identical production source and native tests; compiled revision metadata differs",
+  "selection": "benchmarks/bound-propagation-20261113/selection.json",
+  "selection_sha256": "c76acbe0c55381a0e4db6a141427d5e8cc5daa59803fa0810af0b8e8640077c9",
+  "cases": 697,
+  "by_logic": {
+    "QF_LIA": 200,
+    "QF_UFLIA": 300,
+    "QF_LRA": 100,
+    "QF_UFLRA": 97
+  },
+  "repetitions": 3,
+  "profiles": [
+    "default",
+    "pre",
+    "rows",
+    "both"
+  ],
+  "binaries": 2,
+  "native_measurements": 16728,
+  "native_timeout_seconds": 120,
+  "address_space_bytes": 8589934592,
+  "allocation_memory_GiB": 10,
+  "CPUs_per_task": 1,
+  "timing_allocation_minutes": 20,
+  "models_allocation_minutes": 45,
+  "array_concurrency": {
+    "timing_per_array": 96,
+    "models_per_array": 32,
+    "models_arrays_parallel": 3
+  },
+  "timing_schedule": "3sequential whole arrays;adjacentbaselinecandidatepairs;rotate4profilegroups byslot+repetition;reversepairinternalorderonodd slot+repetition;exclude node01",
+  "model_schedule": "Every successfulnativeSATtimingrow replayedseparately withsameprofilearguments+check-model;180snative60sDolmen;onlyafterlasttimingarray",
+  "quarantines": "Same3predeclaredabortquarantinesexcludedfrom700case selection,notpasses;no new removals",
+  "source_policy": "No defaults,private-node limits orUFfallback changes;rejectedlateplacementsourcefullyreverted",
+  "qualification_jobs": {
+    "all_target_build": 392396,
+    "check": 392397,
+    "differential": 392398,
+    "canonical": 392409,
+    "mutations": 392408,
+    "regression_seeds": 392410
+  },
+  "config_sha256": {
+    "0": "75a3f5ca6fbb5c695a79a1ba832c25e352157e7e546db438218eac259f92eccc",
+    "1": "d55c59caf052a0458fa69fb79dd3d9a523b038efc749fbfb3c367d17486eecd7",
+    "2": "63080c9c4d21fabecfecb8feb6a071de003c5b6d15a5ae9ffc41a93149066428"
+  },
+  "timing_jobs": {
+    "state": "released",
+    "phase": "timing",
+    "jobs": [
+      {
+        "repetition": 0,
+        "job": "392428",
+        "verified_parent": null
+      },
+      {
+        "repetition": 1,
+        "job": "392429",
+        "verified_parent": "392428"
+      },
+      {
+        "repetition": 2,
+        "job": "392430",
+        "verified_parent": "392429"
+      }
+    ]
+  },
+  "model_jobs": {
+    "state": "released",
+    "phase": "models",
+    "jobs": [
+      {
+        "repetition": 0,
+        "job": "392573",
+        "verified_parent": "392430"
+      },
+      {
+        "repetition": 1,
+        "job": "392574",
+        "verified_parent": "392430"
+      },
+      {
+        "repetition": 2,
+        "job": "392577",
+        "verified_parent": "392430"
+      }
+    ]
+  },
+  "qualification": "benchmarks/bound-repairs-20261114/final-qualification.json",
+  "mutation_qualification": "benchmarks/bound-repairs-20261114/final-mutations.json"
+}

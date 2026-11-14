@@ -1,0 +1,1227 @@
+{
+  "source_snapshot": "07ec5ce5",
+  "native_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+  "qualification_scope": "Exact candidate correctness gate complete; full paired timing and its separate SAT-model validation pending.",
+  "gates": [
+    {
+      "slot": 0,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "07ec5ce5",
+      "native_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+      "count": 1000,
+      "seed": 2026111800,
+      "outcomes": {
+        "PASS": 986,
+        "TIMEOUT": 14
+      },
+      "resource_unknowns": [],
+      "selected_sat": 876,
+      "direct_dolmen_pass": 876,
+      "summary_sha256": "ae0e23a7b6b48a6045eb86eeea22af6266a72a534e46757831cb22d0c7096f1e",
+      "job": "392399",
+      "logic": "QF_LIA",
+      "generator_command": [
+        "python3",
+        "scripts/fuzz_external.py",
+        "--fuzzer",
+        "fuzzsmt",
+        "--logic",
+        "QF_LIA",
+        "--count",
+        "1000",
+        "--seed",
+        "2026111800",
+        "--timeout",
+        "5",
+        "--solver",
+        "build-slurm-rel/primo --quiet --lra-propagation --lra-row-propagation --lra-bidirectional-row-propagation --check-model",
+        "--refs",
+        "z3",
+        "--fuzzer-args",
+        "-ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4",
+        "--out",
+        "<gate-output>"
+      ]
+    },
+    {
+      "slot": 1,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "07ec5ce5",
+      "native_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+      "count": 1000,
+      "seed": 2026111801,
+      "outcomes": {
+        "PASS": 999,
+        "UNKNOWN_INVOLVED": 1
+      },
+      "resource_unknowns": [
+        {
+          "case": "case-00380.smt2",
+          "sha256": "58f37cf598a90f5a92beecfc866281161fec4f2016b6f560ebc6ab043d34b7ad",
+          "reason": "integer branch-and-bound node limit",
+          "private_nodes": "200000",
+          "budget_exits": "2"
+        }
+      ],
+      "selected_sat": 512,
+      "direct_dolmen_pass": 512,
+      "summary_sha256": "79c7616b508befae1a3bc13705d211f431ae215d5b378e47f57081f5169f4e0f",
+      "job": "392400",
+      "logic": "QF_UFLIA",
+      "generator_command": [
+        "python3",
+        "scripts/qf_uflia_fuzz.py",
+        "--solver",
+        "build-slurm-rel/primo",
+        "--solver-arg=--quiet",
+        "--solver-arg=--lra-propagation",
+        "--solver-arg=--lra-row-propagation",
+        "--solver-arg=--lra-bidirectional-row-propagation",
+        "--solver-arg=--check-model",
+        "--ref",
+        "z3",
+        "--shape",
+        "mixed",
+        "--depth",
+        "3",
+        "--count",
+        "1000",
+        "--seed",
+        "2026111801",
+        "--timeout",
+        "5",
+        "--out",
+        "<gate-output>"
+      ]
+    },
+    {
+      "slot": 2,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "07ec5ce5",
+      "native_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+      "count": 1000,
+      "seed": 2026111802,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 1000,
+      "direct_dolmen_pass": 1000,
+      "summary_sha256": "5ebbe458cffb914c597b660b3c687cec9c5c1a8c6c0a348fd1ae8cca43c48b32",
+      "job": "392401",
+      "logic": "QF_LRA",
+      "generator_command": [
+        "python3",
+        "scripts/qf_lra_boolean_arithmetic_fuzz.py",
+        "--solver",
+        "build-slurm-rel/primo",
+        "--solver-arg=--quiet",
+        "--solver-arg=--lra-propagation",
+        "--solver-arg=--lra-row-propagation",
+        "--solver-arg=--lra-bidirectional-row-propagation",
+        "--solver-arg=--check-model",
+        "--z3",
+        "contrib/local/bin/z3",
+        "--dolmen",
+        "contrib/local/bin/dolmen",
+        "--count",
+        "1000",
+        "--seed",
+        "2026111802",
+        "--timeout",
+        "5",
+        "--out",
+        "<gate-output>"
+      ]
+    },
+    {
+      "slot": 3,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "07ec5ce5",
+      "native_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+      "count": 1000,
+      "seed": 2026111803,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 621,
+      "direct_dolmen_pass": 621,
+      "summary_sha256": "c4d4f1ea1ac1f3932412f109425be0a57e053e59b93661d870b21a727070d617",
+      "job": "392402",
+      "logic": "QF_UFLRA",
+      "generator_command": [
+        "python3",
+        "scripts/qf_uflra_smoke_fuzz.py",
+        "--solver",
+        "build-slurm-rel/primo",
+        "--solver-arg=--quiet",
+        "--solver-arg=--lra-propagation",
+        "--solver-arg=--lra-row-propagation",
+        "--solver-arg=--lra-bidirectional-row-propagation",
+        "--solver-arg=--check-model",
+        "--ref",
+        "z3",
+        "--count",
+        "1000",
+        "--seed",
+        "2026111803",
+        "--timeout",
+        "5",
+        "--out",
+        "<gate-output>"
+      ]
+    },
+    {
+      "slot": 4,
+      "reference_timeouts_validated_separately": [
+        "fuzzsmt_2026111804__file_703.smt2"
+      ],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening"
+      ],
+      "source_snapshot": "07ec5ce5",
+      "native_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+      "count": 1000,
+      "seed": 2026111804,
+      "outcomes": {
+        "PASS": 995,
+        "TIMEOUT": 4,
+        "REFERENCE_UNUSABLE": 1
+      },
+      "resource_unknowns": [],
+      "selected_sat": 880,
+      "direct_dolmen_pass": 880,
+      "summary_sha256": "a2f2308edb8870c07128a9f908f91d63ff198fa6c0752fdf7b02adcf9ad2b5f6",
+      "job": "392426",
+      "logic": "QF_LIA",
+      "generator_command": [
+        "python3",
+        "scripts/fuzz_external.py",
+        "--fuzzer",
+        "fuzzsmt",
+        "--logic",
+        "QF_LIA",
+        "--count",
+        "1000",
+        "--seed",
+        "2026111804",
+        "--timeout",
+        "5",
+        "--solver",
+        "build-slurm-rel/primo --quiet --lra-propagation --lra-row-propagation --lra-bidirectional-row-propagation --check-model --preprocess-bound-tightening",
+        "--refs",
+        "z3",
+        "--fuzzer-args",
+        "-ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4",
+        "--out",
+        "<gate-output>"
+      ]
+    },
+    {
+      "slot": 5,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening"
+      ],
+      "source_snapshot": "07ec5ce5",
+      "native_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+      "count": 1000,
+      "seed": 2026111805,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 513,
+      "direct_dolmen_pass": 513,
+      "summary_sha256": "da90273926b9351585959db005525e50a31e0af7ddb52ea841963a6f6ca74f98",
+      "job": "392404",
+      "logic": "QF_UFLIA",
+      "generator_command": [
+        "python3",
+        "scripts/qf_uflia_fuzz.py",
+        "--solver",
+        "build-slurm-rel/primo",
+        "--solver-arg=--quiet",
+        "--solver-arg=--lra-propagation",
+        "--solver-arg=--lra-row-propagation",
+        "--solver-arg=--lra-bidirectional-row-propagation",
+        "--solver-arg=--check-model",
+        "--solver-arg=--preprocess-bound-tightening",
+        "--ref",
+        "z3",
+        "--shape",
+        "mixed",
+        "--depth",
+        "3",
+        "--count",
+        "1000",
+        "--seed",
+        "2026111805",
+        "--timeout",
+        "5",
+        "--out",
+        "<gate-output>"
+      ]
+    },
+    {
+      "slot": 6,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening"
+      ],
+      "source_snapshot": "07ec5ce5",
+      "native_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+      "count": 1000,
+      "seed": 2026111806,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 1000,
+      "direct_dolmen_pass": 1000,
+      "summary_sha256": "b6c7004991c8f72645b5bd7a75f4ee2a88f61d12ddac24848e0f12a801166a13",
+      "job": "392405",
+      "logic": "QF_LRA",
+      "generator_command": [
+        "python3",
+        "scripts/qf_lra_boolean_arithmetic_fuzz.py",
+        "--solver",
+        "build-slurm-rel/primo",
+        "--solver-arg=--quiet",
+        "--solver-arg=--lra-propagation",
+        "--solver-arg=--lra-row-propagation",
+        "--solver-arg=--lra-bidirectional-row-propagation",
+        "--solver-arg=--check-model",
+        "--solver-arg=--preprocess-bound-tightening",
+        "--z3",
+        "contrib/local/bin/z3",
+        "--dolmen",
+        "contrib/local/bin/dolmen",
+        "--count",
+        "1000",
+        "--seed",
+        "2026111806",
+        "--timeout",
+        "5",
+        "--out",
+        "<gate-output>"
+      ]
+    },
+    {
+      "slot": 7,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening"
+      ],
+      "source_snapshot": "07ec5ce5",
+      "native_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+      "count": 1000,
+      "seed": 2026111807,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 627,
+      "direct_dolmen_pass": 627,
+      "summary_sha256": "a091ab2c54953a63c6794faa124553abc44632822132e990632ee09e2c5b830b",
+      "job": "392406",
+      "logic": "QF_UFLRA",
+      "generator_command": [
+        "python3",
+        "scripts/qf_uflra_smoke_fuzz.py",
+        "--solver",
+        "build-slurm-rel/primo",
+        "--solver-arg=--quiet",
+        "--solver-arg=--lra-propagation",
+        "--solver-arg=--lra-row-propagation",
+        "--solver-arg=--lra-bidirectional-row-propagation",
+        "--solver-arg=--check-model",
+        "--solver-arg=--preprocess-bound-tightening",
+        "--ref",
+        "z3",
+        "--count",
+        "1000",
+        "--seed",
+        "2026111807",
+        "--timeout",
+        "5",
+        "--out",
+        "<gate-output>"
+      ]
+    },
+    {
+      "slot": 8,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--lia-round-integer-bounds"
+      ],
+      "source_snapshot": "07ec5ce5",
+      "native_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+      "count": 1000,
+      "seed": 2026111808,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 512,
+      "direct_dolmen_pass": 512,
+      "summary_sha256": "ef7ff7135fcd934f1abef7bd0b353c4822b7760f26b20d2438665eb4205fd462",
+      "job": "392407",
+      "logic": "QF_UFLIA",
+      "generator_command": [
+        "python3",
+        "scripts/qf_uflia_fuzz.py",
+        "--solver",
+        "build-slurm-rel/primo",
+        "--solver-arg=--quiet",
+        "--solver-arg=--lra-propagation",
+        "--solver-arg=--lra-row-propagation",
+        "--solver-arg=--lra-bidirectional-row-propagation",
+        "--solver-arg=--check-model",
+        "--solver-arg=--lia-round-integer-bounds",
+        "--ref",
+        "z3",
+        "--shape",
+        "mixed",
+        "--depth",
+        "3",
+        "--count",
+        "1000",
+        "--seed",
+        "2026111808",
+        "--timeout",
+        "5",
+        "--out",
+        "<gate-output>"
+      ]
+    },
+    {
+      "slot": 9,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening",
+        "--lia-round-integer-bounds"
+      ],
+      "source_snapshot": "07ec5ce5",
+      "native_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+      "count": 1000,
+      "seed": 2026111809,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 528,
+      "direct_dolmen_pass": 528,
+      "summary_sha256": "50df44e693ff70b56df3543c0b47630eeb7b9e30507be68964eb53bcf2ffae36",
+      "job": "392398",
+      "logic": "QF_UFLIA",
+      "generator_command": [
+        "python3",
+        "scripts/qf_uflia_fuzz.py",
+        "--solver",
+        "build-slurm-rel/primo",
+        "--solver-arg=--quiet",
+        "--solver-arg=--lra-propagation",
+        "--solver-arg=--lra-row-propagation",
+        "--solver-arg=--lra-bidirectional-row-propagation",
+        "--solver-arg=--check-model",
+        "--solver-arg=--preprocess-bound-tightening",
+        "--solver-arg=--lia-round-integer-bounds",
+        "--ref",
+        "z3",
+        "--shape",
+        "mixed",
+        "--depth",
+        "3",
+        "--count",
+        "1000",
+        "--seed",
+        "2026111809",
+        "--timeout",
+        "5",
+        "--out",
+        "<gate-output>"
+      ]
+    }
+  ],
+  "canonical": [
+    {
+      "task": "qualification/gates/canonical-both/task-4",
+      "exit_code": 0,
+      "general": 250,
+      "finite_domain_cases": 50,
+      "direct_dolmen_pass": 167
+    },
+    {
+      "task": "qualification/gates/canonical-both/task-5",
+      "exit_code": 0,
+      "general": 250,
+      "finite_domain_cases": 50,
+      "direct_dolmen_pass": 174
+    },
+    {
+      "task": "qualification/gates/canonical-both/task-6",
+      "exit_code": 0,
+      "general": 250,
+      "finite_domain_cases": 50,
+      "direct_dolmen_pass": 174
+    },
+    {
+      "task": "qualification/gates/canonical-both/task-7",
+      "exit_code": 0,
+      "general": 250,
+      "finite_domain_cases": 50,
+      "direct_dolmen_pass": 171
+    },
+    {
+      "task": "qualification/gates/canonical-rows/task-0",
+      "exit_code": 0,
+      "general": 250,
+      "finite_domain_cases": 50,
+      "direct_dolmen_pass": 160
+    },
+    {
+      "task": "qualification/gates/canonical-rows/task-1",
+      "exit_code": 0,
+      "general": 250,
+      "finite_domain_cases": 50,
+      "direct_dolmen_pass": 164
+    },
+    {
+      "task": "qualification/gates/canonical-rows/task-2",
+      "exit_code": 0,
+      "general": 250,
+      "finite_domain_cases": 50,
+      "direct_dolmen_pass": 171
+    },
+    {
+      "task": "qualification/gates/canonical-rows/task-3",
+      "exit_code": 0,
+      "general": 250,
+      "finite_domain_cases": 50,
+      "direct_dolmen_pass": 164
+    }
+  ],
+  "verification": {
+    "check": "49 CTest and 354 Python tests pass; job392397_0.",
+    "ASan_source_equivalence": "49/49 pass on1d3bee8c, job392363_1; src and tests/unit byte-identical to07ec5ce5, not rerun for metadata-only differences.",
+    "static_source_equivalence": "Both140-TU scans on1d3bee8c are unchanged for07ec5ce5; no new C++ files or compiler-policy changes.",
+    "check_log_sha256": "cf2d425cf9e64702327ae354e63a5405c7127186283f7623fcb275b93b34c0af"
+  },
+  "counter_totals": {
+    "PASS": 9980,
+    "TIMEOUT": 18,
+    "UNKNOWN_INVOLVED": 1,
+    "REFERENCE_UNUSABLE": 1
+  },
+  "direct_dolmen_pass": 7069,
+  "canonical_direct_dolmen_pass": 1345,
+  "resource_triage": {
+    "job": 392427,
+    "requests": 14,
+    "rows": [
+      {
+        "group": "QF_LIA-rows",
+        "file": "006-Os57o-fdVPe.smt2",
+        "variant": "reference",
+        "expected": "sat",
+        "answer": "sat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.015779"
+      },
+      {
+        "group": "QF_LIA-rows",
+        "file": "006-Os57o-fdVPe.smt2",
+        "variant": "candidate",
+        "expected": "sat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.018254"
+      },
+      {
+        "group": "QF_LIA-rows",
+        "file": "006-Os57o-fdVPe.smt2",
+        "variant": "baseline",
+        "expected": "sat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.025941"
+      },
+      {
+        "group": "QF_LIA-rows",
+        "file": "006-Os57o-zxF0j.smt2",
+        "variant": "reference",
+        "expected": "sat",
+        "answer": "sat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.014644"
+      },
+      {
+        "group": "QF_LIA-rows",
+        "file": "006-Os57o-zxF0j.smt2",
+        "variant": "candidate",
+        "expected": "sat",
+        "answer": "unknown",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.146697"
+      },
+      {
+        "group": "QF_LIA-rows",
+        "file": "006-Os57o-zxF0j.smt2",
+        "variant": "baseline",
+        "expected": "sat",
+        "answer": "unknown",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.147900"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-6Ctxu.smt2",
+        "variant": "reference",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.012807"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-6Ctxu.smt2",
+        "variant": "candidate",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.017865"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-6Ctxu.smt2",
+        "variant": "baseline",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.019000"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-6WCBf.smt2",
+        "variant": "reference",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.014915"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-6WCBf.smt2",
+        "variant": "candidate",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.017653"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-6WCBf.smt2",
+        "variant": "baseline",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.017330"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-C7Ndl.smt2",
+        "variant": "reference",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.014011"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-C7Ndl.smt2",
+        "variant": "candidate",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.016768"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-C7Ndl.smt2",
+        "variant": "baseline",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.018615"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-YjtZI.smt2",
+        "variant": "reference",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.015271"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-YjtZI.smt2",
+        "variant": "candidate",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.017847"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-YjtZI.smt2",
+        "variant": "baseline",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.018075"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-lXE5Q.smt2",
+        "variant": "reference",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.012961"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-lXE5Q.smt2",
+        "variant": "candidate",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.017463"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-lXE5Q.smt2",
+        "variant": "baseline",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.018318"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-rnNXv.smt2",
+        "variant": "reference",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.014586"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-rnNXv.smt2",
+        "variant": "candidate",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.017950"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-rnNXv.smt2",
+        "variant": "baseline",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.017290"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-xL8TI.smt2",
+        "variant": "reference",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.013313"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-xL8TI.smt2",
+        "variant": "candidate",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.017963"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "007-vXaHA-xL8TI.smt2",
+        "variant": "baseline",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.018321"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "008-vXaHA-T4zbH.smt2",
+        "variant": "reference",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.014628"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "008-vXaHA-T4zbH.smt2",
+        "variant": "candidate",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.017879"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "008-vXaHA-T4zbH.smt2",
+        "variant": "baseline",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.018350"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "008-vXaHA-Z0Xjz.smt2",
+        "variant": "reference",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.015828"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "008-vXaHA-Z0Xjz.smt2",
+        "variant": "candidate",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.017691"
+      },
+      {
+        "group": "QF_UFLIA-both",
+        "file": "008-vXaHA-Z0Xjz.smt2",
+        "variant": "baseline",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "timeout",
+        "exit_code": 0,
+        "seconds": "16.007224"
+      },
+      {
+        "group": "QF_UFLIA-rows",
+        "file": "006-I0sSF-nGkVY.smt2",
+        "variant": "reference",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.019069"
+      },
+      {
+        "group": "QF_UFLIA-rows",
+        "file": "006-I0sSF-nGkVY.smt2",
+        "variant": "candidate",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "12.574432"
+      },
+      {
+        "group": "QF_UFLIA-rows",
+        "file": "006-I0sSF-nGkVY.smt2",
+        "variant": "baseline",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "12.162833"
+      },
+      {
+        "group": "generated",
+        "file": "fuzzsmt_2026111804__file_703.smt2",
+        "variant": "reference",
+        "expected": "sat",
+        "answer": "sat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "10.454364"
+      },
+      {
+        "group": "generated",
+        "file": "fuzzsmt_2026111804__file_703.smt2",
+        "variant": "candidate",
+        "expected": "sat",
+        "answer": "sat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "1.338108"
+      },
+      {
+        "group": "generated",
+        "file": "fuzzsmt_2026111804__file_703.smt2",
+        "variant": "baseline",
+        "expected": "sat",
+        "answer": "sat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "4.912093"
+      },
+      {
+        "group": "gate-1",
+        "file": "case-00380.smt2",
+        "variant": "reference",
+        "expected": "unsat",
+        "answer": "unsat",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "0.012870"
+      },
+      {
+        "group": "gate-1",
+        "file": "case-00380.smt2",
+        "variant": "candidate",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "3.792998"
+      },
+      {
+        "group": "gate-1",
+        "file": "case-00380.smt2",
+        "variant": "baseline",
+        "expected": "unsat",
+        "answer": "unknown",
+        "status": "ok",
+        "exit_code": 0,
+        "seconds": "3.785306"
+      }
+    ],
+    "controller": "scripts/qualification/bound_repairs/resource_triage.sbatch",
+    "controller_note": "Reusable controller substitutes environment-owned workdir/bootstrap and baseline paths for the session-private executed script. Native/reference commands, options and limits match. As-run scripts and full rows remain in the remote result workspace.",
+    "reference_timeout_seconds": 60,
+    "native_timeout_seconds": 15,
+    "SAT_replay_native_timeout_seconds": 30,
+    "Dolmen_timeout_seconds": 30,
+    "raw_rows_sha256": "c481868b2536053a6466391c47c8565f8d55242bece8fed4c8a6609e6d0b6929",
+    "complete": {
+      "requests": 14,
+      "job": "392427"
+    },
+    "native_SAT_Dolmen_pass": 2,
+    "classification": "Both native revisions replay the same10cases as timeouts and2as diagnosed private-node-limit unknowns; both solve oneUNSATcase and oneSATcase consistently withZ3. Z3 answers all14. The two nativeSATreplays passDolmen. Original resource outcomes remain incomplete,notpasses.",
+    "jobs": {
+      "reference_timeout_SAT_models": 392426,
+      "resource_comparison": 392427
+    }
+  },
+  "tools": {
+    "Z3": {
+      "version": "5.1.0",
+      "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+      "command": [
+        "contrib/local/bin/z3"
+      ]
+    },
+    "Dolmen": {
+      "version": "0.10",
+      "sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+      "command": [
+        "contrib/local/bin/dolmen"
+      ]
+    },
+    "cvc5": {
+      "version": "1.3.4,f3b21c4",
+      "sha256": "4a93548398445cf1a774655583f5465b156c26f63f2cdfb94f4728fdf7adde46",
+      "command": [
+        "cvc5"
+      ]
+    },
+    "FuzzSMT": {
+      "version": "0.3",
+      "jar_sha256": "89f887283d409842ebb19af6fce7a33a1b4a6c006746801b98ca8d716a3b0552"
+    }
+  },
+  "provenance": {
+    "execution": "SLURM; 1 CPU and8GiB allocation per gate task; no native address-space limit added by gate controller. Output placeholders below stand for private result directories.",
+    "seed_base": 2026111800,
+    "generator_timeout_seconds": 5,
+    "model_native_timeout_seconds": 30,
+    "model_Dolmen_timeout_seconds": 30,
+    "reference_commands": {
+      "differential": [
+        "z3"
+      ],
+      "LRA_boolean": [
+        "contrib/local/bin/z3"
+      ],
+      "canonical_finite_domain": [
+        "z3",
+        "cvc5"
+      ]
+    },
+    "model_command_template": [
+      "python3",
+      "scripts/validate_model.py",
+      "--solver",
+      "build-slurm-rel/primo",
+      "<repeated --solver-arg=flags from gate receipt>",
+      "--manifest",
+      "<selected-SAT-manifest>",
+      "--expect-sat",
+      "--require-dolmen-pass",
+      "--dolmen-arg=--strict=false",
+      "--timeout",
+      "30",
+      "--dolmen-timeout",
+      "30",
+      "--out",
+      "<model-output>"
+    ]
+  },
+  "canonical_provenance": {
+    "controller": "scripts/qualification/bound_repairs/canonical.sbatch -> scripts/slurm_qf_uflra_fuzz_gate.sbatch",
+    "seed_base": 2026112000,
+    "tasks": 8,
+    "general_command_template": [
+      "python3",
+      "scripts/qf_uflra_smoke_fuzz.py",
+      "--solver",
+      "build-slurm-rel/primo",
+      "<repeated --solver-arg=profile-flags>",
+      "--ref",
+      "z3",
+      "--count",
+      "250",
+      "--seed",
+      "2026112000+task",
+      "--timeout",
+      "5",
+      "--shape",
+      "mixed",
+      "--out",
+      "<output>/general"
+    ],
+    "finite_command_template": [
+      "python3",
+      "scripts/finite_domain_fuzz.py",
+      "--solver",
+      "build-slurm-rel/primo",
+      "<repeated --solver-arg=profile-flags; add --preprocessing-mode=strong for QF_UF>",
+      "--ref",
+      "z3",
+      "--ref",
+      "cvc5",
+      "--logic",
+      "<QF_UF or QF_UFLRA>",
+      "--count",
+      "25",
+      "--seed",
+      "2026112000+task+<100000 for UF,200000 for UFLRA>",
+      "--timeout",
+      "5",
+      "--activation-profile",
+      "answers",
+      "--out",
+      "<output>/finite-<logic>"
+    ],
+    "model_timeout_seconds": 30,
+    "Dolmen_timeout_seconds": 30,
+    "tasks_0_3": "rows profile",
+    "tasks_4_7": "both profile"
+  },
+  "regression_receipts": [
+    {
+      "profile": "rows",
+      "complete": {
+        "profile": "rows",
+        "cases": 57,
+        "scoped_sessions": 2,
+        "single_query_sat_models": 27,
+        "runner_sha256": "309e5b502c46d83f1e709b3f44112e68f03a016e0083ff702777c7001e51ab63",
+        "manifest_sha256": "a94a31f94e77328e88f30eb2edcee00b85de5b6eb7a838bbe12555d3d7b2026a",
+        "job": "392422"
+      },
+      "scoped_summary_sha256": "b74bf2a8ca6ed2cc90c34443daae10a16f2356e66c805a43d3d4507cf9d5f45b",
+      "SAT_Dolmen_pass": 6,
+      "queries": 8
+    },
+    {
+      "profile": "both",
+      "complete": {
+        "profile": "both",
+        "cases": 57,
+        "scoped_sessions": 2,
+        "single_query_sat_models": 27,
+        "runner_sha256": "309e5b502c46d83f1e709b3f44112e68f03a016e0083ff702777c7001e51ab63",
+        "manifest_sha256": "a94a31f94e77328e88f30eb2edcee00b85de5b6eb7a838bbe12555d3d7b2026a",
+        "job": "392410"
+      },
+      "scoped_summary_sha256": "78a9687222833e5814121a5e7b5d5111c1b99c7dd323c5f0bd45be65f1448ec9",
+      "SAT_Dolmen_pass": 6,
+      "queries": 8
+    }
+  ],
+  "static": {
+    "tidy": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 140,
+      "analyzed_translation_units": 140,
+      "tool_exit_code": 0,
+      "unique_diagnostics": 861,
+      "counts": {
+        "portability-avoid-pragma-once": 106,
+        "performance-enum-size": 87,
+        "clang-analyzer-optin.performance.Padding": 1,
+        "misc-include-cleaner": 397,
+        "bugprone-unchecked-optional-access": 109,
+        "bugprone-exception-escape": 11,
+        "bugprone-easily-swappable-parameters": 41,
+        "performance-inefficient-string-concatenation": 14,
+        "performance-unnecessary-value-param": 15,
+        "performance-move-const-arg": 23,
+        "performance-inefficient-vector-operation": 8,
+        "performance-no-automatic-move": 1,
+        "bugprone-implicit-widening-of-multiplication-result": 4,
+        "bugprone-branch-clone": 5,
+        "clang-analyzer-cplusplus.NewDeleteLeaks": 2,
+        "bugprone-use-after-move": 1,
+        "performance-unnecessary-copy-initialization": 5,
+        "bugprone-assert-side-effect": 6,
+        "performance-faster-string-find": 3,
+        "clang-analyzer-optin.core.EnumCastOutOfRange": 20,
+        "bugprone-optional-value-conversion": 2
+      },
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      },
+      "summary_sha256": "64e36e471857c1648c0b3fae387cc4f076174847542a8b8ea8d654e5d2bab832"
+    },
+    "includes": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 140,
+      "analyzed_translation_units": 140,
+      "tool_exit_code": 0,
+      "unique_diagnostics": 397,
+      "counts": {
+        "misc-include-cleaner": 397
+      },
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      },
+      "summary_sha256": "2b76a685dc3b79ab7d5d4b1d04181dac200d6eb54247a279f600203faa4d85da"
+    },
+    "review": "140 tracked translation units analyzed in both scans; no unused-header blockers.861tidy findings versus860stage1,including397include-provider findings. New conditional optional access is guarded by bound presence and lazy integer endpoint initialization; adjacent LraVarId helper arguments checked against all callers. Removed one temporary-string warning. Existing broad findings remain inventoried,not declared clean.",
+    "analyzed_source_snapshot": "1d3bee8c",
+    "source_equivalence_command": "git diff --exit-code 1d3bee8c 07ec5ce5 -- src tests/unit docs/examples CMakeLists.txt"
+  }
+}

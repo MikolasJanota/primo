@@ -1,0 +1,1405 @@
+{
+  "source_snapshot": "07ec5ce5",
+  "job": 392408,
+  "controller": "scripts/qualification/bound_repairs/mutations.sbatch",
+  "generator": "YinYang seeded_opfuzz model_linear_ops;12real seeds per logic;30iterations perseed;UFLRA180retainedmutants eachprofile",
+  "seed_base": 2026111900,
+  "generator_solver_timeout_seconds": 5,
+  "answer_replay_timeout_seconds": 10,
+  "model_replay_timeout_seconds": 30,
+  "Dolmen_timeout_seconds": 30,
+  "groups": [
+    {
+      "logic_profile": "QF_LIA-both",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "native": {
+        "unsat": 162,
+        "sat": 198
+      },
+      "reference": {
+        "unsat": 162,
+        "sat": 198
+      },
+      "selected_sat": 198,
+      "direct_Dolmen_pass": 198,
+      "incomplete": [],
+      "summary_sha256": "9ec5c657533e3904d9f279d1c5a06ec98f0bc373ced8c0de861a9960380a0600",
+      "model_summary_sha256": "cc81e4f535ca6004f0e7c78fb98be3052781083100d87571abc8aa95d9391362",
+      "seeds": [
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__001.smt2.slack.smt2",
+          "sha256": "5e7bbd1b311fd0cc8235a7527fef07e273a31291e93eef8e3e758d8f4eaa1875",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 150,
+          "baseline_seconds": 0.008584
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "2019-ezsmt/routingMin/SCC/d100.1.smt2",
+          "sha256": "5eb2fe6ec48476408df6f2cbf86609b00f36d35a1db9a462a85a86b94a5b0e9b",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 179,
+          "baseline_seconds": 0.064473
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "20220307-SMPT/2PhLockVParam/RC-00.smt2",
+          "sha256": "1f751f8b7773c11495b1998d32df0908d81cead0ff8da3ebeb53dec2cee644f2",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 153,
+          "baseline_seconds": 0.009145
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "20230321-UltimateAutomizerSvcomp2023/jain_5-2.c_1.smt2",
+          "sha256": "cea09d2215d5fb306f950350cdd13637789aa20f3226bc009a9994081309e190",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 154,
+          "baseline_seconds": 0.008452
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "20231117-c_inference/30_30_86_7_sat.smt2",
+          "sha256": "c99d640ed6d5e712095bb2d9d7d6cf10146c2f8a818543f58de7c9db5afa8dc5",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 155,
+          "baseline_seconds": 0.039079
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_live_bgmc000.smt2",
+          "sha256": "6213aee6ef744f290f7da387e100f2859ac61d49aabde19d802f533a68f09132",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 156,
+          "baseline_seconds": 0.058325
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "CAV_2009_benchmarks/coef-size/smt/size-10/problem__001.smt2",
+          "sha256": "0b7ceffad2e4d5fbd9bd5dfde863479fbe47e192a21b420ada44b7f8bb48fdf8",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 157,
+          "baseline_seconds": 0.008502
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "CIRC/multiplier/MULTIPLIER_2.msat.smt2",
+          "sha256": "4be4da89c96cd588f29539e1a6c99c1f6e9907d13e3f96badc68089247c4bc91",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 158,
+          "baseline_seconds": 0.010652
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "RTCL/b04_tf_15/ckt_PROP0_tf_15.smt2",
+          "sha256": "3d92278439fecbb3faac2e1325a07a9f4b40dab2e7e3e748388d79096b852bf4",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 159,
+          "baseline_seconds": 0.066763
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "RWS/Example_6.txt.smt2",
+          "sha256": "2fd075ed0ab25751455e4ac4e85804a29722ad21e78c055f0e205a6fd5d4fb20",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 160,
+          "baseline_seconds": 0.088772
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "calypto/problem-004284.cvc.1.smt2",
+          "sha256": "9ca056f82b8e94e26c7cee5d7b6319bb69e10bec0d685a7d385a1839c5710596",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 185,
+          "baseline_seconds": 0.020781
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "check/bignum_lia2.smt2",
+          "sha256": "e952da1b9ddce77fe641ddae992965c536368e339abeb353d2549592fefa3af7",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 186,
+          "baseline_seconds": 0.007755
+        }
+      ]
+    },
+    {
+      "logic_profile": "QF_LIA-rows",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 358,
+        "INCOMPLETE": 2
+      },
+      "native": {
+        "unsat": 127,
+        "sat": 231,
+        "timeout": 1,
+        "unknown": 1
+      },
+      "reference": {
+        "unsat": 127,
+        "sat": 233
+      },
+      "selected_sat": 231,
+      "direct_Dolmen_pass": 231,
+      "incomplete": [
+        {
+          "case": "006-Os57o-fdVPe.smt2",
+          "expected": "",
+          "ours": "timeout",
+          "ours_exit": "124",
+          "reference": "sat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "case": "006-Os57o-zxF0j.smt2",
+          "expected": "",
+          "ours": "unknown",
+          "ours_exit": "0",
+          "reference": "sat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        }
+      ],
+      "summary_sha256": "d01b8dfe422363e792be76f2fe54b632c9925dd13bd8b7c6c290eb1c69b40e4d",
+      "model_summary_sha256": "8cb6f87f46512dac45b6cdccad05c8a7981a4a0d083269070f799b426e6e75b4",
+      "seeds": [
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "20180326-Bromberger/more_slacked/CAV_2009_benchmarks/coef-size/smt/size-10/c10_problem__001.smt2.slack.smt2",
+          "sha256": "5e7bbd1b311fd0cc8235a7527fef07e273a31291e93eef8e3e758d8f4eaa1875",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 150,
+          "baseline_seconds": 0.008584
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "2019-ezsmt/routingMin/SCC/d100.1.smt2",
+          "sha256": "5eb2fe6ec48476408df6f2cbf86609b00f36d35a1db9a462a85a86b94a5b0e9b",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 179,
+          "baseline_seconds": 0.064473
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "20220307-SMPT/2PhLockVParam/RC-00.smt2",
+          "sha256": "1f751f8b7773c11495b1998d32df0908d81cead0ff8da3ebeb53dec2cee644f2",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 153,
+          "baseline_seconds": 0.009145
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "20230321-UltimateAutomizerSvcomp2023/jain_5-2.c_1.smt2",
+          "sha256": "cea09d2215d5fb306f950350cdd13637789aa20f3226bc009a9994081309e190",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 154,
+          "baseline_seconds": 0.008452
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "20231117-c_inference/30_30_86_7_sat.smt2",
+          "sha256": "c99d640ed6d5e712095bb2d9d7d6cf10146c2f8a818543f58de7c9db5afa8dc5",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 155,
+          "baseline_seconds": 0.039079
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "Averest/parallel_prefix_sum/ParallelPrefixSum_live_bgmc000.smt2",
+          "sha256": "6213aee6ef744f290f7da387e100f2859ac61d49aabde19d802f533a68f09132",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 156,
+          "baseline_seconds": 0.058325
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "CAV_2009_benchmarks/coef-size/smt/size-10/problem__001.smt2",
+          "sha256": "0b7ceffad2e4d5fbd9bd5dfde863479fbe47e192a21b420ada44b7f8bb48fdf8",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 157,
+          "baseline_seconds": 0.008502
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "CIRC/multiplier/MULTIPLIER_2.msat.smt2",
+          "sha256": "4be4da89c96cd588f29539e1a6c99c1f6e9907d13e3f96badc68089247c4bc91",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 158,
+          "baseline_seconds": 0.010652
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "RTCL/b04_tf_15/ckt_PROP0_tf_15.smt2",
+          "sha256": "3d92278439fecbb3faac2e1325a07a9f4b40dab2e7e3e748388d79096b852bf4",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 159,
+          "baseline_seconds": 0.066763
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "RWS/Example_6.txt.smt2",
+          "sha256": "2fd075ed0ab25751455e4ac4e85804a29722ad21e78c055f0e205a6fd5d4fb20",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 160,
+          "baseline_seconds": 0.088772
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "calypto/problem-004284.cvc.1.smt2",
+          "sha256": "9ca056f82b8e94e26c7cee5d7b6319bb69e10bec0d685a7d385a1839c5710596",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 185,
+          "baseline_seconds": 0.020781
+        },
+        {
+          "group": "lia",
+          "logic": "QF_LIA",
+          "file": "check/bignum_lia2.smt2",
+          "sha256": "e952da1b9ddce77fe641ddae992965c536368e339abeb353d2549592fefa3af7",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 186,
+          "baseline_seconds": 0.007755
+        }
+      ]
+    },
+    {
+      "logic_profile": "QF_LRA-both",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "native": {
+        "unsat": 111,
+        "sat": 249
+      },
+      "reference": {
+        "unsat": 111,
+        "sat": 249
+      },
+      "selected_sat": 249,
+      "direct_Dolmen_pass": 249,
+      "incomplete": [],
+      "summary_sha256": "a9d31bc146f95d420121dec793dbabf7079c537cc55b5dd2625c0f80dd709a8b",
+      "model_summary_sha256": "6f593972a7678cea6144c8f1e45493f72d77cf39f4f73b79ac9a7ee30067b845",
+      "seeds": [
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "2017-Heizmann-UltimateInvariantSynthesis/_hhk2008.c.i_3_3_2.bpl_7.smt2",
+          "sha256": "b04959c003b6f0e07282753c5fc5387a8e44ebf98c96db7dd67d2d2db1317f11",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 516,
+          "baseline_seconds": 0.107079
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "2019-ezsmt/blending/15.smt2",
+          "sha256": "fc39fdc74d02a2fafd5c87864979242152d4c55e2e38cf0e4c37925628f47fca",
+          "expected": "",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 548,
+          "baseline_seconds": 0.026094
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "DTP-Scheduling/constraints-cooking01.smt2",
+          "sha256": "fa7a5d2cef4daf5da44908dd7ce0d32f6e2d264282a7afd4ddbfc004143effb3",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 502,
+          "baseline_seconds": 0.010112
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "TM/p-0-bucket_s7.smt2",
+          "sha256": "17435d5c5cfef5214283dc7046d265f87bb0578e5d3f6dbd9908ee7c7b9bb7e5",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 536,
+          "baseline_seconds": 0.089586
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "check/bignum_lra1.smt2",
+          "sha256": "e420831670683c464148a12e0acbbcbc8848b32abd0a2d6e083a910c02dc022d",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 505,
+          "baseline_seconds": 0.009759
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "clock_synchro/clocksynchro_10clocks.worst_case_skew.base.smt2",
+          "sha256": "78540077ac59fd228100b617e122c709e5dd8a425e385be37443fcde8da076f5",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 522,
+          "baseline_seconds": 0.010341
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "keymaera/bouncing-ball-simple-node1628.smt2",
+          "sha256": "1f5637b29ccf421692152522230c0c2e7cbd027633da53a593974de9c6fe06ae",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 538,
+          "baseline_seconds": 0.008617
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "meti-tarski/CMOS/CMOS-opamp-chunk-0005.smt2",
+          "sha256": "7751240ef3a89929f61f228c4f80444b35cec0aa1a1892830166f1ccc305d736",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 540,
+          "baseline_seconds": 0.008257
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "miplib/danoint-30.smt2",
+          "sha256": "d9f237e70b91b5f39e4a163b4fb07c6db24e097cbf485e75332468f228765df0",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 510,
+          "baseline_seconds": 0.113035
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "sal/carpark/Carpark2-ausgabe-1.smt2",
+          "sha256": "f13077bb1f2242500e62f65149a7025da8fe020aa88914a6451f3021efa49923",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 511,
+          "baseline_seconds": 0.010856
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "sc/sc-10.induction.cvc.smt2",
+          "sha256": "8b19d7ade12961c53e22ee859c3dec8498e0f0321f0584b100cfa87dfc48fa97",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 528,
+          "baseline_seconds": 0.057035
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "spider_benchmarks/bad_echos_ascend.induction.smt2",
+          "sha256": "79fe78824f7d256aff413b589aa66cabc384e9533e21722c64853fbdbb408b27",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 529,
+          "baseline_seconds": 0.028971
+        }
+      ]
+    },
+    {
+      "logic_profile": "QF_LRA-rows",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "native": {
+        "unsat": 129,
+        "sat": 231
+      },
+      "reference": {
+        "unsat": 129,
+        "sat": 231
+      },
+      "selected_sat": 231,
+      "direct_Dolmen_pass": 231,
+      "incomplete": [],
+      "summary_sha256": "81bf5be114aa0a8a7560307394993521ed94cf7100e38b02962e5bf3e6fe4df0",
+      "model_summary_sha256": "952c0c8dbbcb2d2d866334450cb6a59507f77421d63e037c0fee11f09f766a19",
+      "seeds": [
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "2017-Heizmann-UltimateInvariantSynthesis/_hhk2008.c.i_3_3_2.bpl_7.smt2",
+          "sha256": "b04959c003b6f0e07282753c5fc5387a8e44ebf98c96db7dd67d2d2db1317f11",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 516,
+          "baseline_seconds": 0.107079
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "2019-ezsmt/blending/15.smt2",
+          "sha256": "fc39fdc74d02a2fafd5c87864979242152d4c55e2e38cf0e4c37925628f47fca",
+          "expected": "",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 548,
+          "baseline_seconds": 0.026094
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "DTP-Scheduling/constraints-cooking01.smt2",
+          "sha256": "fa7a5d2cef4daf5da44908dd7ce0d32f6e2d264282a7afd4ddbfc004143effb3",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 502,
+          "baseline_seconds": 0.010112
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "TM/p-0-bucket_s7.smt2",
+          "sha256": "17435d5c5cfef5214283dc7046d265f87bb0578e5d3f6dbd9908ee7c7b9bb7e5",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 536,
+          "baseline_seconds": 0.089586
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "check/bignum_lra1.smt2",
+          "sha256": "e420831670683c464148a12e0acbbcbc8848b32abd0a2d6e083a910c02dc022d",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 505,
+          "baseline_seconds": 0.009759
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "clock_synchro/clocksynchro_10clocks.worst_case_skew.base.smt2",
+          "sha256": "78540077ac59fd228100b617e122c709e5dd8a425e385be37443fcde8da076f5",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 522,
+          "baseline_seconds": 0.010341
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "keymaera/bouncing-ball-simple-node1628.smt2",
+          "sha256": "1f5637b29ccf421692152522230c0c2e7cbd027633da53a593974de9c6fe06ae",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 538,
+          "baseline_seconds": 0.008617
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "meti-tarski/CMOS/CMOS-opamp-chunk-0005.smt2",
+          "sha256": "7751240ef3a89929f61f228c4f80444b35cec0aa1a1892830166f1ccc305d736",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 540,
+          "baseline_seconds": 0.008257
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "miplib/danoint-30.smt2",
+          "sha256": "d9f237e70b91b5f39e4a163b4fb07c6db24e097cbf485e75332468f228765df0",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 510,
+          "baseline_seconds": 0.113035
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "sal/carpark/Carpark2-ausgabe-1.smt2",
+          "sha256": "f13077bb1f2242500e62f65149a7025da8fe020aa88914a6451f3021efa49923",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 511,
+          "baseline_seconds": 0.010856
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "sc/sc-10.induction.cvc.smt2",
+          "sha256": "8b19d7ade12961c53e22ee859c3dec8498e0f0321f0584b100cfa87dfc48fa97",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 528,
+          "baseline_seconds": 0.057035
+        },
+        {
+          "group": "lra",
+          "logic": "QF_LRA",
+          "file": "spider_benchmarks/bad_echos_ascend.induction.smt2",
+          "sha256": "79fe78824f7d256aff413b589aa66cabc384e9533e21722c64853fbdbb408b27",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 529,
+          "baseline_seconds": 0.028971
+        }
+      ]
+    },
+    {
+      "logic_profile": "QF_UFLIA-both",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 351,
+        "INCOMPLETE": 9
+      },
+      "native": {
+        "unsat": 93,
+        "sat": 258,
+        "timeout": 9
+      },
+      "reference": {
+        "unsat": 102,
+        "sat": 258
+      },
+      "selected_sat": 258,
+      "direct_Dolmen_pass": 258,
+      "incomplete": [
+        {
+          "case": "007-vXaHA-6Ctxu.smt2",
+          "expected": "",
+          "ours": "timeout",
+          "ours_exit": "124",
+          "reference": "unsat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "case": "007-vXaHA-6WCBf.smt2",
+          "expected": "",
+          "ours": "timeout",
+          "ours_exit": "124",
+          "reference": "unsat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "case": "007-vXaHA-C7Ndl.smt2",
+          "expected": "",
+          "ours": "timeout",
+          "ours_exit": "124",
+          "reference": "unsat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "case": "007-vXaHA-YjtZI.smt2",
+          "expected": "",
+          "ours": "timeout",
+          "ours_exit": "124",
+          "reference": "unsat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "case": "007-vXaHA-lXE5Q.smt2",
+          "expected": "",
+          "ours": "timeout",
+          "ours_exit": "124",
+          "reference": "unsat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "case": "007-vXaHA-rnNXv.smt2",
+          "expected": "",
+          "ours": "timeout",
+          "ours_exit": "124",
+          "reference": "unsat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "case": "007-vXaHA-xL8TI.smt2",
+          "expected": "",
+          "ours": "timeout",
+          "ours_exit": "124",
+          "reference": "unsat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "case": "008-vXaHA-T4zbH.smt2",
+          "expected": "",
+          "ours": "timeout",
+          "ours_exit": "124",
+          "reference": "unsat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "case": "008-vXaHA-Z0Xjz.smt2",
+          "expected": "",
+          "ours": "timeout",
+          "ours_exit": "124",
+          "reference": "unsat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        }
+      ],
+      "summary_sha256": "f860b173338b86034911b5fdbba25481f4f5d552f073001cc62e999f5209f4d8",
+      "model_summary_sha256": "8d40c66a8eb5da62a46341267e89dcfc81cc1eb5d0d6f9a96ee7a84e95ccfa40",
+      "seeds": [
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+          "sha256": "217dc9cacd1f312bf0fa58ba1cb25bfbf1f4d89629c8ea285a77298d4ccc02af",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 227,
+          "baseline_seconds": 0.252102
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "mathsat/EufLaArithmetic/hard/hard5.smt2",
+          "sha256": "062174f8cbd403a07224755b49db6a2386560bffa317218db93a6e404e4a4e9d",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 245,
+          "baseline_seconds": 0.274641
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "wisas/xs_5_10.smt2",
+          "sha256": "a06f70dc6091c80a6fad804d6de87c316308a87bb9200ce04c2e385ca955e795",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 492,
+          "baseline_seconds": 0.01895
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "mathsat/EufLaArithmetic/hard/hard6.smt2",
+          "sha256": "a609d8447034d4a39b642489d2b0d713e45cc9cc6edfca0e572394a7758eb41a",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 246,
+          "baseline_seconds": 0.419306
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "wisas/xs_6_6.smt2",
+          "sha256": "d2cb37ec22d3c74bc001afbec16ba71eec84215775328972614a0305d820243a",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 494,
+          "baseline_seconds": 0.019972
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "mathsat/Wisa/xs-05-09-5-1-2-5.smt2",
+          "sha256": "c4057f408a5c1edec67f56a9ef9af835fba3019e5d53809ddda60745e8825ea2",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 309,
+          "baseline_seconds": 0.022345
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "wisas/xs_6_11.smt2",
+          "sha256": "35c994342c1f6512d7924042bbc942dbb2da86cf5c7be39a5383de70adee6708",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 493,
+          "baseline_seconds": 0.110087
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "mathsat/Wisa/xs-05-06-2-2-5-1.smt2",
+          "sha256": "713484b7f2c61e27f1303cde71e01f05cb58da2c89e95a5607d99d675601881e",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 308,
+          "baseline_seconds": 0.022578
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "wisas/xs_7_17.smt2",
+          "sha256": "391a8cea4ddc0442e0981356b2d3686544290d395c011133275d77426806e1de",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 495,
+          "baseline_seconds": 0.023004
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "mathsat/Wisa/xs-05-18-1-3-1-3.smt2",
+          "sha256": "8954ebbaf0485225157a028c18ae98f55be7af8896887629559bf52fc2d98f35",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 312,
+          "baseline_seconds": 0.022467
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "wisas/xs_8_8.smt2",
+          "sha256": "cad3a158240e69802daa0fbbf8bca94088ba24837a216fc03f0c248441185828",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 496,
+          "baseline_seconds": 0.087409
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "mathsat/Wisa/xs-05-14-4-3-1-1.smt2",
+          "sha256": "13e95eb7ce9607029cef783c015f82560a910be724287de9d9e6ba0b1afa3694",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 311,
+          "baseline_seconds": 0.022601
+        }
+      ]
+    },
+    {
+      "logic_profile": "QF_UFLIA-rows",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 359,
+        "INCOMPLETE": 1
+      },
+      "native": {
+        "unsat": 165,
+        "sat": 194,
+        "timeout": 1
+      },
+      "reference": {
+        "unsat": 166,
+        "sat": 194
+      },
+      "selected_sat": 194,
+      "direct_Dolmen_pass": 194,
+      "incomplete": [
+        {
+          "case": "006-I0sSF-nGkVY.smt2",
+          "expected": "",
+          "ours": "timeout",
+          "ours_exit": "124",
+          "reference": "unsat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        }
+      ],
+      "summary_sha256": "9479ec2725dd0d752c5b635d5ef96f212936a05f3057f09dfd8058948b3c4945",
+      "model_summary_sha256": "cd54928606640ce76921ef7c26cdecdea564d006372b475f5690fd8b8b0d61d2",
+      "seeds": [
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "20230314-Jaroslav-Bendik-Certora/63058_aa742630eef64f949de269382c1f9035_25_UFLIA.smt2",
+          "sha256": "217dc9cacd1f312bf0fa58ba1cb25bfbf1f4d89629c8ea285a77298d4ccc02af",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 227,
+          "baseline_seconds": 0.252102
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "mathsat/EufLaArithmetic/hard/hard5.smt2",
+          "sha256": "062174f8cbd403a07224755b49db6a2386560bffa317218db93a6e404e4a4e9d",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 245,
+          "baseline_seconds": 0.274641
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "wisas/xs_5_10.smt2",
+          "sha256": "a06f70dc6091c80a6fad804d6de87c316308a87bb9200ce04c2e385ca955e795",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 492,
+          "baseline_seconds": 0.01895
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "mathsat/EufLaArithmetic/hard/hard6.smt2",
+          "sha256": "a609d8447034d4a39b642489d2b0d713e45cc9cc6edfca0e572394a7758eb41a",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 246,
+          "baseline_seconds": 0.419306
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "wisas/xs_6_6.smt2",
+          "sha256": "d2cb37ec22d3c74bc001afbec16ba71eec84215775328972614a0305d820243a",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 494,
+          "baseline_seconds": 0.019972
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "mathsat/Wisa/xs-05-09-5-1-2-5.smt2",
+          "sha256": "c4057f408a5c1edec67f56a9ef9af835fba3019e5d53809ddda60745e8825ea2",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 309,
+          "baseline_seconds": 0.022345
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "wisas/xs_6_11.smt2",
+          "sha256": "35c994342c1f6512d7924042bbc942dbb2da86cf5c7be39a5383de70adee6708",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 493,
+          "baseline_seconds": 0.110087
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "mathsat/Wisa/xs-05-06-2-2-5-1.smt2",
+          "sha256": "713484b7f2c61e27f1303cde71e01f05cb58da2c89e95a5607d99d675601881e",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 308,
+          "baseline_seconds": 0.022578
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "wisas/xs_7_17.smt2",
+          "sha256": "391a8cea4ddc0442e0981356b2d3686544290d395c011133275d77426806e1de",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 495,
+          "baseline_seconds": 0.023004
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "mathsat/Wisa/xs-05-18-1-3-1-3.smt2",
+          "sha256": "8954ebbaf0485225157a028c18ae98f55be7af8896887629559bf52fc2d98f35",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 312,
+          "baseline_seconds": 0.022467
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "wisas/xs_8_8.smt2",
+          "sha256": "cad3a158240e69802daa0fbbf8bca94088ba24837a216fc03f0c248441185828",
+          "expected": "sat",
+          "repetition": 0,
+          "original_slot": 496,
+          "baseline_seconds": 0.087409
+        },
+        {
+          "group": "uflia",
+          "logic": "QF_UFLIA",
+          "file": "mathsat/Wisa/xs-05-14-4-3-1-1.smt2",
+          "sha256": "13e95eb7ce9607029cef783c015f82560a910be724287de9d9e6ba0b1afa3694",
+          "expected": "unsat",
+          "repetition": 0,
+          "original_slot": 311,
+          "baseline_seconds": 0.022601
+        }
+      ]
+    },
+    {
+      "logic_profile": "QF_UFLRA-both",
+      "cases": 180,
+      "outcomes": {
+        "PASS": 180
+      },
+      "native": {
+        "unsat": 28,
+        "sat": 152
+      },
+      "reference": {
+        "unsat": 28,
+        "sat": 152
+      },
+      "selected_sat": 152,
+      "direct_Dolmen_pass": 152,
+      "incomplete": [],
+      "summary_sha256": "4282ad1fdc65ebd42bf2ca2541eb2cf2d1b0cbe45c3ddb088801a256bda5c1d7",
+      "model_summary_sha256": "b3639542f6bc863d662b58f6f3f2d9f381cc07ed9ece03bfc3253b498ff7846b",
+      "seeds": [
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "FFT/smtlib.626179.smt2",
+          "sha256": "dc26ef759f13149983b3e4a272f29654bea976c32931242507be0c93b2f40d44",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 630,
+          "baseline_seconds": 0.010081
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "cpachecker-bmc-svcomp14/cpachecker-bmc.callfpointer.c_false-unreach-call.i.smt2",
+          "sha256": "f64f9efd050ba70517645a08853bbaf0c4d2a8339f70578be8191e414ef44c42",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 601,
+          "baseline_seconds": 0.008683
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "cpachecker-induction-svcomp14/cpachecker-induction.32_1_cilled_true-unreach-call_ok_nondet_linux-3.4-32_1-drivers--i2c--algos--i2c-algo-pca.ko-ldv_main0_sequence_infinite_withcheck_stateful.cil.out.c.smt2",
+          "sha256": "bb543a0d34b09944d2c0915461a90da43e82998609b893195899fcb67cc4fdaf",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 610,
+          "baseline_seconds": 0.007572
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "mathsat/RandomCoupled/pb_real_10_0100_10_21.smt2",
+          "sha256": "1886dc86ed7aa55789fd9a627328ccfb30f77aab5b67ce9edd4ba36645318a23",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 639,
+          "baseline_seconds": 0.017321
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "FFT/smtlib.620524.smt2",
+          "sha256": "a531f415f616a323f75f173cd152f60f0730c75dc12db144f7b1e275b16eec36",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 600,
+          "baseline_seconds": 0.010474
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "cpachecker-bmc-svcomp14/cpachecker-bmc.implicitfloatconversion_false-unreach-call.i.smt2",
+          "sha256": "0e77675bf897f56633f58a128e2b54c5425a66d9b8c1a50e09552ec1ed15e37f",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 613,
+          "baseline_seconds": 0.010344
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "cpachecker-induction-svcomp14/cpachecker-induction.1_3.c_false-unreach-call.i.smt2",
+          "sha256": "214a618035cd49e3ce4919a4c5e2c9120d4ff3ea8fd35702dfcdfb1127a44a1b",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 602,
+          "baseline_seconds": 0.012731
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "mathsat/RandomCoupled/pb_real_10_0100_10_20.smt2",
+          "sha256": "8cef749a29cd2d8e8323b6b619fb6a456e139d3cea00ae698012cfccf3f547b4",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 637,
+          "baseline_seconds": 0.016631
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "FFT/smtlib.626159.smt2",
+          "sha256": "107d72d7fe4e52d45d819b52ceff17cf8230b038d9671cca9cea6c136bd3ad5b",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 627,
+          "baseline_seconds": 0.009586
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "cpachecker-bmc-svcomp14/cpachecker-bmc.while_infinite_loop_4_false-unreach-call_true-termination.i.smt2",
+          "sha256": "bc62b7d9b7a772c5f91b7ff1ec2859781b5c9a862c5f9a002a1bcfe4d6f93221",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 621,
+          "baseline_seconds": 0.010417
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "cpachecker-induction-svcomp14/cpachecker-induction.32_1_cilled_true-unreach-call_ok_nondet_linux-3.4-32_1-drivers--edac--mce_amd_inj.ko-ldv_main0_sequence_infinite_withcheck_stateful.cil.out.c.smt2",
+          "sha256": "ff71f6bb6405082ff20f52bd97bbe1061543863d6db4eb864ad49f86cd9e25ad",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 606,
+          "baseline_seconds": 0.02469
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "mathsat/RandomCoupled/pb_real_10_0100_10_19.smt2",
+          "sha256": "3d8bebef0100fae97ff71497c23d50a13360b4b1f93e23a90419bd4585d5e373",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 635,
+          "baseline_seconds": 0.01869
+        }
+      ]
+    },
+    {
+      "logic_profile": "QF_UFLRA-rows",
+      "cases": 180,
+      "outcomes": {
+        "PASS": 180
+      },
+      "native": {
+        "sat": 167,
+        "unsat": 13
+      },
+      "reference": {
+        "sat": 167,
+        "unsat": 13
+      },
+      "selected_sat": 167,
+      "direct_Dolmen_pass": 167,
+      "incomplete": [],
+      "summary_sha256": "99d403e1563c126d346c486ffc270a052e720c2acdd89b3a44487063276f1ad9",
+      "model_summary_sha256": "8acd6e2cc2950edbaf92d280bf822d3cfa58c0959bbaf923fdf98f5668c719bc",
+      "seeds": [
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "FFT/smtlib.626179.smt2",
+          "sha256": "dc26ef759f13149983b3e4a272f29654bea976c32931242507be0c93b2f40d44",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 630,
+          "baseline_seconds": 0.010081
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "cpachecker-bmc-svcomp14/cpachecker-bmc.callfpointer.c_false-unreach-call.i.smt2",
+          "sha256": "f64f9efd050ba70517645a08853bbaf0c4d2a8339f70578be8191e414ef44c42",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 601,
+          "baseline_seconds": 0.008683
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "cpachecker-induction-svcomp14/cpachecker-induction.32_1_cilled_true-unreach-call_ok_nondet_linux-3.4-32_1-drivers--i2c--algos--i2c-algo-pca.ko-ldv_main0_sequence_infinite_withcheck_stateful.cil.out.c.smt2",
+          "sha256": "bb543a0d34b09944d2c0915461a90da43e82998609b893195899fcb67cc4fdaf",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 610,
+          "baseline_seconds": 0.007572
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "mathsat/RandomCoupled/pb_real_10_0100_10_21.smt2",
+          "sha256": "1886dc86ed7aa55789fd9a627328ccfb30f77aab5b67ce9edd4ba36645318a23",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 639,
+          "baseline_seconds": 0.017321
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "FFT/smtlib.620524.smt2",
+          "sha256": "a531f415f616a323f75f173cd152f60f0730c75dc12db144f7b1e275b16eec36",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 600,
+          "baseline_seconds": 0.010474
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "cpachecker-bmc-svcomp14/cpachecker-bmc.implicitfloatconversion_false-unreach-call.i.smt2",
+          "sha256": "0e77675bf897f56633f58a128e2b54c5425a66d9b8c1a50e09552ec1ed15e37f",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 613,
+          "baseline_seconds": 0.010344
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "cpachecker-induction-svcomp14/cpachecker-induction.1_3.c_false-unreach-call.i.smt2",
+          "sha256": "214a618035cd49e3ce4919a4c5e2c9120d4ff3ea8fd35702dfcdfb1127a44a1b",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 602,
+          "baseline_seconds": 0.012731
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "mathsat/RandomCoupled/pb_real_10_0100_10_20.smt2",
+          "sha256": "8cef749a29cd2d8e8323b6b619fb6a456e139d3cea00ae698012cfccf3f547b4",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 637,
+          "baseline_seconds": 0.016631
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "FFT/smtlib.626159.smt2",
+          "sha256": "107d72d7fe4e52d45d819b52ceff17cf8230b038d9671cca9cea6c136bd3ad5b",
+          "expected": "unsat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 627,
+          "baseline_seconds": 0.009586
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "cpachecker-bmc-svcomp14/cpachecker-bmc.while_infinite_loop_4_false-unreach-call_true-termination.i.smt2",
+          "sha256": "bc62b7d9b7a772c5f91b7ff1ec2859781b5c9a862c5f9a002a1bcfe4d6f93221",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 621,
+          "baseline_seconds": 0.010417
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "cpachecker-induction-svcomp14/cpachecker-induction.32_1_cilled_true-unreach-call_ok_nondet_linux-3.4-32_1-drivers--edac--mce_amd_inj.ko-ldv_main0_sequence_infinite_withcheck_stateful.cil.out.c.smt2",
+          "sha256": "ff71f6bb6405082ff20f52bd97bbe1061543863d6db4eb864ad49f86cd9e25ad",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 606,
+          "baseline_seconds": 0.02469
+        },
+        {
+          "group": "uflra",
+          "logic": "QF_UFLRA",
+          "file": "mathsat/RandomCoupled/pb_real_10_0100_10_19.smt2",
+          "sha256": "3d8bebef0100fae97ff71497c23d50a13360b4b1f93e23a90419bd4585d5e373",
+          "expected": "sat",
+          "repetition": 0,
+          "selection_bucket": "historical-below-1s",
+          "original_slot": 635,
+          "baseline_seconds": 0.01869
+        }
+      ]
+    }
+  ],
+  "total": 2520,
+  "direct_Dolmen_pass": 1680,
+  "triage_job": 392427,
+  "triage": "The12 mutant incompletes replay identically on candidate and frozen baseline:10timeouts,one diagnosed private-node-limit unknown,oneUNSATconsistent withZ3. The extra UF generated-gate unknown is reproduced separately. Original resource outcomes remain incomplete,notpasses. No saved bugs; remote inventory checked. All1680selectedSATmodels passDolmen.",
+  "tools": {
+    "Z3": {
+      "version": "5.1.0",
+      "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+      "command": [
+        "contrib/local/bin/z3"
+      ]
+    },
+    "Dolmen": {
+      "version": "0.10",
+      "sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+      "command": [
+        "contrib/local/bin/dolmen"
+      ]
+    },
+    "cvc5": {
+      "version": "1.3.4,f3b21c4",
+      "sha256": "4a93548398445cf1a774655583f5465b156c26f63f2cdfb94f4728fdf7adde46",
+      "command": [
+        "cvc5"
+      ]
+    },
+    "FuzzSMT": {
+      "version": "0.3",
+      "jar_sha256": "89f887283d409842ebb19af6fce7a33a1b4a6c006746801b98ca8d716a3b0552"
+    }
+  },
+  "YinYang_revision": "04c8618a134e7a6c8b6d54fcd5ee9fd2ec64a2bb",
+  "generator_inputs_sha256": {
+    "scripts/seeded_opfuzz.py": "25d0d2c0b32fc597aeb78e2caf0ade3174c07cd16547b4a8edb2629aa38af32c",
+    "contrib/install_yinyang.py": "845467f41ae8218055e2d58e33125efc6f8a916433ff643e6ea1b77122b0aed2",
+    "scripts/yinyang_fuzz.sh": "8e03782e6a056fdc56e88b8dd44be795903674301c5ab6c17d9d68fe49cbc509",
+    "scripts/fuzz_configs/model_linear_ops.txt": "7f9807c60456303d031a50206430889440cc937e656601ca67ca95708b153849"
+  },
+  "controller_sha256": "c64caf45881c223e9978f489cc30b9f671ed9a20f4d2afe2312d9d85c1acbea9",
+  "command_template": [
+    "scripts/yinyang_fuzz.sh",
+    "--seeds",
+    "<12-seed-directory>",
+    "--typefuzz",
+    "scripts/seeded_opfuzz.py",
+    "--solver",
+    "build-slurm-rel/primo <flags from profile>",
+    "--ref",
+    "contrib/local/bin/z3 model_validate=true",
+    "--seconds",
+    "600",
+    "--iterations",
+    "30",
+    "--solver-timeout",
+    "5",
+    "--file-size-limit",
+    "2000000",
+    "--config",
+    "scripts/fuzz_configs/model_linear_ops.txt",
+    "--bugs",
+    "<bugs>",
+    "--scratch",
+    "<scratch>",
+    "--logs",
+    "<logs>",
+    "--random-seed",
+    "2026111900+slot",
+    "--keep-logic",
+    "--hoist-declarations",
+    "--keep-mutants"
+  ],
+  "slot_mapping": "0:LIArows,1:UFLIArows,2:LRArows,3:UFLRArows,4:LIAboth,5:UFLIAboth,6:LRAboth,7:UFLRAboth",
+  "profile_flags": {
+    "rows": [
+      "--quiet",
+      "--lra-propagation",
+      "--lra-row-propagation",
+      "--lra-bidirectional-row-propagation",
+      "--check-model"
+    ],
+    "both": [
+      "--quiet",
+      "--lra-propagation",
+      "--lra-row-propagation",
+      "--lra-bidirectional-row-propagation",
+      "--check-model",
+      "--preprocess-bound-tightening"
+    ]
+  },
+  "native_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4"
+}
