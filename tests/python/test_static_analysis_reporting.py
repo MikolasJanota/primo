@@ -65,6 +65,22 @@ class StaticReportingTests(unittest.TestCase):
         self.assertEqual(report["status"], "incomplete")
         self.assertEqual(report["missing"], [self.files[1]])
 
+    def test_llvm21_progress_preserves_strict_coverage_and_exit_checks(self):
+        lines = self.log.splitlines()
+        log = f"[ 1/2][0.3s] {lines[0]}\n[2/2][12.0s] {lines[1]}\n"
+        self.assertEqual(SUMMARY.summarize(self.manifest, log, 0)["status"], "clean")
+        self.assertEqual(
+            SUMMARY.summarize(self.manifest, log, 1)["status"], "incomplete"
+        )
+        self.assertEqual(
+            SUMMARY.summarize(self.manifest, log.splitlines()[0] + "\n", 0)["missing"],
+            [self.files[1]],
+        )
+        arbitrary = "".join(f"unrecognized prefix {line}\n" for line in lines)
+        self.assertEqual(
+            SUMMARY.summarize(self.manifest, arbitrary, 0)["status"], "incomplete"
+        )
+
     def test_header_diagnostics_are_deduplicated_and_visible(self):
         warning = f"{self.repo / self.files[2]}:1:2: warning: questionable copy [performance-test]\n"
         report = SUMMARY.summarize(self.manifest, self.log + warning * 2, 0)
