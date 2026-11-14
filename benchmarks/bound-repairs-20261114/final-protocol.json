@@ -1,5 +1,5 @@
 {
-  "status": "Exact-candidate correctness qualification complete; timing arrays released; model arrays depend on the last timing array",
+  "status": "Primary comparison and independent SAT-model coverage complete; additional paired follow-ups and bounded prefixes also qualified",
   "baseline_source": "ff303826",
   "baseline_compiled_snapshot": "a4b5d75f",
   "baseline_sha256": "1b43e6bdf394fa130483950c5d2a240f8b1667d25f4478e7ac6c244f74ba9cf5",
@@ -96,5 +96,76 @@
     ]
   },
   "qualification": "benchmarks/bound-repairs-20261114/final-qualification.json",
-  "mutation_qualification": "benchmarks/bound-repairs-20261114/final-mutations.json"
+  "mutation_qualification": "benchmarks/bound-repairs-20261114/final-mutations.json",
+  "primary_models": {
+    "selected_SAT": 9038,
+    "direct_Dolmen_pass": 9038
+  },
+  "comparison": "benchmarks/bound-repairs-20261114/final-comparison/comparison.json",
+  "followups": {
+    "artifact": "benchmarks/bound-repairs-20261114/followups.json",
+    "timing_job": 396630,
+    "model_job": 396631,
+    "prefix_job": 396637,
+    "selection": "All4stable losses (2,17,213,597),largest consistent common slowdown64,and predeclared cache probe438. No primary removals.",
+    "native_rows": 72,
+    "SAT_Dolmen_pass": 30,
+    "prefix_rows": 60,
+    "prefix_statuses": {
+      "unknown": 58,
+      "timeout": 2
+    },
+    "native_timeout_seconds": 120,
+    "prefix_timeout_seconds": 15,
+    "prefix_theory_conflict_limits": [
+      1,
+      10,
+      100
+    ],
+    "paired_repetitions": 3,
+    "model_timeouts_seconds": {
+      "native": 180,
+      "Dolmen": 60
+    },
+    "timing_allocation_minutes": 30,
+    "models_allocation_minutes": 60
+  },
+  "retention": "Notification/rounding repairs and scan-local cache remain in existing opt-in row modes. Later placement rejected and reverted. No default promotion; broad result mixed despite targeted gains.",
+  "allocation_observations": {
+    "compute_hosts": 5,
+    "anonymous_host_order": [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    "host_task_counts_by_repetition": [
+      [
+        198,
+        156,
+        171,
+        158,
+        14
+      ],
+      [
+        236,
+        136,
+        174,
+        136,
+        15
+      ],
+      [
+        216,
+        144,
+        183,
+        144,
+        10
+      ]
+    ],
+    "affinity_mask_size_counts": {
+      "2": 2091
+    },
+    "note": "One SLURM CPU requested; observed masks contain two logical CPU IDs. CPU model, physical-core mapping/isolation and exclusive-node use were not established."
+  }
 }

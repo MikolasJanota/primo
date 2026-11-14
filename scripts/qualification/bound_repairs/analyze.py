@@ -288,7 +288,7 @@ def main() -> None:
     args.out.mkdir(parents=True, exist_ok=True)
     (args.out / "comparison.json").write_text(json.dumps(report, indent=2) + "\n")
     with (args.out / "measurements.csv").open("w") as stream:
-        writer = csv.writer(stream)
+        writer = csv.writer(stream, lineterminator="\n")
         writer.writerow(
             [
                 "repetition",
