@@ -43,6 +43,27 @@ or `--check-model`. The assumptions engine also constructs a model when
 `:time.model.check-and-print-us`. Dolmen replay is a separate process and is
 not included in these internal counters.
 
+## Arithmetic row-refinement work
+
+The optional row propagation modes share these counters across QF_LRA, QF_UFLRA,
+QF_LIA and QF_UFLIA. They measure work attempted during scans, separately from
+`:lra.row-propagations`, which counts delivered consequences.
+
+| Key | Meaning |
+| --- | --- |
+| `:lra.basic-variable-row-scans` | Own-row reverse scans requested by a basic-variable bound notification, after fanout checks; row-size checks may still skip the work. |
+| `:lra.integer-rounding-entailments` | Candidate entailments that require integer rounding; queued, duplicate or later discarded candidates can contribute. |
+| `:lra.row-bound-calculations` | Numeric direction calculations attempted, including missing or capped endpoints; a local cache reuses failed attempts too. |
+| `:lra.row-bound-candidate-comparisons` | Candidate polarity comparisons requested from the endpoint cache, including comparisons with a missing endpoint. |
+| `:lra.row-bound-explanations` | Cached explaining vectors constructed after successful entailment; copying them to individual consequences does not increment this counter. |
+
+The {rowcachetrialsource}`publisher <src/smt/solver_engines.cpp#L7092>`
+records the three `row-bound-*` counts once per row or child group; the
+other two counters increment at their respective scan or entailment events. See the
+[cache lifetime and cost model](../leads/bound-propagation-improvements.md#scan-local-reuse-draft).
+Absent increment-only keys mean zero when statistics were printed successfully;
+an interrupted run with no statistics provides no counter evidence.
+
 ## Preprocessing bound-tightening counters
 
 Actual strengthening uses separate `:preprocessing.bounds.*` counters:

@@ -81,3 +81,25 @@ class PairedSummaryTests(unittest.TestCase):
                 "candidate": 30,
             },
         )
+
+    def test_uninstrumented_baseline_work_is_unavailable(self):
+        from scripts.qualification.bound_repairs.analyze import summarize
+
+        row = {
+            "status": "ok",
+            "exit_code": 0,
+            "answer": "sat",
+            "seconds": "1",
+            "peak_rss_kib": 100,
+            "stats": {":lra.pivots": "1"},
+        }
+        records = {
+            (r, 0, f"{v}-{p}"): dict(row)
+            for r in range(3)
+            for v in ("baseline", "candidate")
+            for p in ("default", "pre", "rows", "both")
+        }
+        summary = summarize([0], records, 120)["profiles"]["rows"]
+        work = summary["comparison"]["matched_counters"][":lra.row-bound-calculations"]
+        self.assertIsNone(work["baseline"])
+        self.assertEqual(work["candidate"], 0)

@@ -101,6 +101,12 @@ sphinx:
       boundrepairfollowupsource:
         - "https://github.com/primo-solver/primo/blob/d85c08e190d6fc6e8d056cde8689afcc23aa4a99/%s"
         - "%s"
+      boundrepairpairsource:
+        - "https://github.com/primo-solver/primo/blob/4d7647b6/%s"
+        - "%s"
+      rowcachetrialsource:
+        - "https://github.com/primo-solver/primo/blob/1d3bee8c587a8e598a7b1b5525ae4a0592d031b6/%s"
+        - "%s"
       boundrepairsource:
         - "https://github.com/primo-solver/primo/blob/2b5288f41f7be4919cac0788466ca081e271a311/%s"
         - "%s"

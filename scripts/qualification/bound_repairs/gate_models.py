@@ -27,13 +27,26 @@ def main() -> None:
     parser.add_argument("--slot", type=int, required=True)
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--allow-private-node-limit", action="store_true")
+    parser.add_argument("--allow-reference-timeout", action="store_true")
     args = parser.parse_args()
     assert os.environ.get("SLURM_JOB_ID")
     out = args.root / f"gate-{args.slot}"
     with (out / "summary.csv").open() as stream:
         rows = list(csv.DictReader(stream))
     assert len(rows) == 1000
-    unresolved = [r for r in rows if r["outcome"] not in ("PASS", "TIMEOUT")]
+    reference_timeouts = [
+        r
+        for r in rows
+        if args.allow_reference_timeout
+        and r["outcome"] == "REFERENCE_UNUSABLE"
+        and r.get("refs") == "TIMEOUT"
+        and r.get("ours") == "sat"
+    ]
+    unresolved = [
+        r
+        for r in rows
+        if r["outcome"] not in ("PASS", "TIMEOUT") and r not in reference_timeouts
+    ]
     assert not unresolved or args.allow_private_node_limit
     assert all(
         r["outcome"] == "UNKNOWN_INVOLVED" and r.get("ours") == "unknown"
@@ -42,7 +55,8 @@ def main() -> None:
     selected = [
         r.get("case") or r["file"]
         for r in rows
-        if r["outcome"] == "PASS" and (r.get("ours") or r.get("answer")) == "sat"
+        if (r["outcome"] == "PASS" or r in reference_timeouts)
+        and (r.get("ours") or r.get("answer")) == "sat"
     ]
     manifest = out / "sat.txt"
     manifest.write_text("".join(f"{path}\n" for path in selected))
@@ -107,6 +121,9 @@ def main() -> None:
         )
     receipt = {
         "slot": args.slot,
+        "reference_timeouts_validated_separately": [
+            Path(r["file"]).name for r in reference_timeouts
+        ],
         "solver_args": flags,
         "source_snapshot": os.environ["PRIMO_EXPECTED_GIT"],
         "native_sha256": hashlib.sha256(

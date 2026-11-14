@@ -27,14 +27,14 @@ from scripts.qualification.lia_hybrid.run import measurement_order  # noqa: E402
 
 PROFILES = ("default", "pre", "rows", "both")
 VARIANTS = ("baseline", "candidate")
-COUNTERS = (
-    *METRICS,
+NEW_COUNTERS = (
     ":lra.basic-variable-row-scans",
     ":lra.integer-rounding-entailments",
     ":lra.row-bound-calculations",
     ":lra.row-bound-candidate-comparisons",
     ":lra.row-bound-explanations",
 )
+COUNTERS = (*METRICS, *NEW_COUNTERS)
 
 
 def summarize(slots: list[int], records: dict, timeout: float) -> dict:
@@ -62,7 +62,9 @@ def summarize(slots: list[int], records: dict, timeout: float) -> dict:
                             )
                         ),
                         "available_counter_totals": {
-                            k: sum(int(r["stats"].get(k, 0)) for r in rows)
+                            k: None
+                            if variant == "baseline" and k in NEW_COUNTERS
+                            else sum(int(r["stats"].get(k, 0)) for r in rows)
                             for k in COUNTERS
                         },
                     }
@@ -149,7 +151,9 @@ def summarize(slots: list[int], records: dict, timeout: float) -> dict:
             ),
             "matched_counters": {
                 k: {
-                    v: sum(
+                    v: None
+                    if v == "baseline" and k in NEW_COUNTERS
+                    else sum(
                         int(records[r, s, f"{v}-{profile}"]["stats"].get(k, 0))
                         for s in common
                         for r in range(3)
@@ -272,6 +276,7 @@ def main() -> None:
         },
         "config_sha256": [sha(args.configs / f"config-{r}.json") for r in range(3)],
         "runner_sha256": sha(ROOT / "scripts/qualification/lia_hybrid/run.py"),
+        "counter_semantics": "Available printed totals only; matched totals require both rows with printed statistics. Baseline lacks five new counters: null means unavailable, not zero work. Missing increment-only keys on complete instrumented candidate rows count as zero. Rounding entailments are candidate tests, not deliveries.",
         "timing_receipts": receipts,
         "model_receipts": coverage,
         "models": {"selected_sat": expected_sat, "direct_dolmen_pass": validated_sat},

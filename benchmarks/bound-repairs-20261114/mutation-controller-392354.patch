@@ -1,0 +1,13 @@
+--- a/scripts/qualification/bound_repairs/mutations.sbatch
++++ b/scripts/qualification/bound_repairs/mutations.sbatch
+@@ -54,9 +54,7 @@
+ if [[ $seed_status != 0 ]]; then
+  python3 scripts/classify_mutation_resources.py answers "$out/seed-answers.csv"
+ fi
+-base=${PRIMO_MUTATION_SEED_BASE:-2026111600}
+-[[ $base =~ ^[0-9]+$ ]]
+-seed=$((base+slot))
++seed=$((2026111600+slot))
+ scripts/yinyang_fuzz.sh --seeds "$out/seeds" --typefuzz "$PWD/scripts/seeded_opfuzz.py" \
+  --solver "$PWD/build-slurm-rel/primo ${flags[*]}" --ref "$PWD/contrib/local/bin/z3 model_validate=true" \
+  --seconds 600 --iterations 30 --solver-timeout 5 --file-size-limit 2000000 \

@@ -48,4 +48,10 @@ case $((slot%4)) in
   --count 1000 --seed "$seed" --timeout 5 --out "$target"
  ;;
 esac
-python3 "${PRIMO_REPAIR_MODEL_RUNNER:?}" --slot "$slot" --root "${PRIMO_PROP_OUT:?}/gates"
+resource_flags=()
+# Keep diagnosed private-node-limit unknowns separate from reference matches.
+# The model auditor replays each unknown and checks its exact diagnostic/counter.
+if [[ $slot == 1 || $slot == 5 ]]; then
+ resource_flags+=(--allow-private-node-limit)
+fi
+python3 "${PRIMO_REPAIR_MODEL_RUNNER:?}" --slot "$slot" --root "${PRIMO_PROP_OUT:?}/gates" "${resource_flags[@]}"

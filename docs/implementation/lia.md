@@ -1209,3 +1209,20 @@ that require rounding, respectively; the latter is not a delivery count.
 These changes remain subject to fresh SLURM qualification. Existing caps and
 option defaults remain in force, and basis changes do not trigger exhaustive
 interval rescans.
+
+
+### Draft reuse of row endpoints
+
+The active
+{rowcachetrialsource}`scan-reuse draft <src/smt/solver_engines.cpp#L7082>`
+keeps an owning two-direction cache for each row
+or target child within a single synchronous scan. Numeric interval calculation
+and integer rounding occur at most once per direction/policy there. Explaining
+premises are collected only after entailment succeeds and copied into each
+pending consequence. The tableau remains unchanged while the scan queues
+consequences, so the cache requires no backtracking or atom-growth invalidation.
+It is destroyed before those events can occur. The counters
+`:lra.row-bound-calculations`, `:lra.row-bound-candidate-comparisons` and
+`:lra.row-bound-explanations` expose reuse and deferred explanation construction.
+The [design checklist](../leads/bound-propagation-improvements.md#scan-local-reuse-draft)
+records the lifetime invariant, complexity and pending qualification.

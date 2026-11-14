@@ -3583,6 +3583,36 @@ void row_bound_events_and_integer_refinement() {
   }
 }
 
+void row_scans_reuse_endpoints_and_build_reasons_lazily() {
+  for (const bool with_uf : {false, true}) {
+    std::string input = with_uf ? "(set-logic QF_UFLRA)" : "(set-logic QF_LRA)";
+    input += "(declare-const u Real)(declare-const v Real)(declare-const t Real)";
+    if (with_uf) {
+      input += "(declare-fun f (Real) Real)(assert (distinct (f t) (f u)))";
+    }
+    input += "(assert (<= u 1))(assert (<= v 2))";
+    for (int i = 4; i < 16; ++i) {
+      input += "(assert (or (<= (+ u v) ";
+      input += std::to_string(i);
+      input += ") (>= t 20)))";
+    }
+    input += "(check-sat)";
+    auto options = isolated_lra_options();
+    options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+    options.lra_propagation = true;
+    options.lra_row_propagation = true;
+    options.lra_bidirectional_row_propagation = true;
+    const auto result = check_sat_smtlib(input, options);
+    assert(result.result == CheckSatResult::Sat);
+    const auto calculations = result.statistics.get(":lra.row-bound-calculations");
+    const auto candidates = result.statistics.get(":lra.row-bound-candidate-comparisons");
+    const auto explanations = result.statistics.get(":lra.row-bound-explanations");
+    assert(result.statistics.get(StatKey::LraRowPropagations) >= 12);
+    assert(calculations > 0 && calculations < candidates);
+    assert(explanations > 0 && explanations < calculations);
+  }
+}
+
 void bidirectional_row_propagation_drives_boolean_structure() {
   // s := (+ x y) has a directly-asserted lower bound (>= s 5) and x has a
   // directly-asserted upper bound (<= x 2), so x+y>=5 and x<=2 together
@@ -5108,6 +5138,7 @@ int main() {
   boolean_flattening_runs_after_the_rewriting_passes();
   row_propagation_limits_are_actually_enforced();
   row_bound_events_and_integer_refinement();
+  row_scans_reuse_endpoints_and_build_reasons_lazily();
   bidirectional_row_propagation_drives_boolean_structure();
   bidirectional_row_propagation_can_reach_a_conflict();
   theory_decisions_drive_boolean_structure();

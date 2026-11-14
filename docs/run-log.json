@@ -3,10 +3,46 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-14-row-endpoint-cache",
+      "date": "2026-11-14",
+      "kind": "Scan-local row endpoint reuse and lazy explanations",
+      "evidence_status": "Correctness snapshot qualified with resource outcomes separate; whole-tree static review complete with existing findings. Final paired performance pending. No default promotion.",
+      "source_snapshot": "1d3bee8c587a8e598a7b1b5525ae4a0592d031b6",
+      "prototype_snapshot": "e0481563",
+      "baseline": "ff303826",
+      "commands": "Preparation helper --build-via-slurm --extra-target all; qualification/bound_repairs verify.sbatch,gates.sbatch,canonical.sbatch,mutations.sbatch,static.sbatch; resource replays in SLURM.",
+      "jobs": {
+        "check_asan": 392363,
+        "differential": 392365,
+        "private_limit_replay_models": 392393,
+        "canonical_missing_dependency": 392377,
+        "canonical_retry": 392385,
+        "regression_seeds": 392394,
+        "whole_tree_static": 392376,
+        "prototype_check_asan": 392337,
+        "prototype_differential": 392338,
+        "prototype_mutations": 392354,
+        "prototype_resource_triage": 392375,
+        "prototype_selected_pilot": 392349
+      },
+      "artifacts": [
+        "benchmarks/bound-repairs-20261114/cache-qualification.json",
+        "benchmarks/bound-repairs-20261114/cache-mutations.json",
+        "benchmarks/bound-repairs-20261114/cache-pilot.json"
+      ],
+      "local_artifacts": "results/bound-repairs-20261114/cache-batched and cache-prototype; remote prepared workspaces retain full inputs, logs and model replays. Private SSH/config remains outside Git.",
+      "correctness": "Batched snapshot:49CTest,349Python,49ASan pass;10000fresh differential inputs:9986PASS,13TIMEOUT,1private-node-limitunknown reproduced on frozenbaseline;7039selectedSATdirectDolmenpasses. Canonical2400general/finite-domain inputs and1347SATmodel replays pass.57tracked regressioninputs perprofile preserve queryanswers;27singleSATmodels plus6incrementalSATqueries perprofile pass independent model checks. Prototype2520real-seedmutants:2512PASS,8resourceincomplete;1677SATmodels directDolmenpass,no savedbugs. Reference timeout replays agree at60s;private limits/timeouts remain incomplete,notpasses.",
+      "pilot": "40selected stage1/cache measurements:28SATallDolmenvalidated,12timeouts. Wisa rows3.71–3.78s to3.13–3.14s withsame13007pivots;both~0.5s unchanged. Other selected successes essentiallyunchanged;Certora213timeouts persist. These contended development observations do not qualify full-suite performance.",
+      "ownership": "Owning two-direction cache per synchronous row/child scan;numeric calculation detached from lazy reason collection;no cache crosses tableau mutation,backtracking or registry growth. Counts batched once pergroup;alloptions remainopt-in andbudgets/fallbackunchanged.",
+      "remaining": "Commit cache milestone; freeze final source and qualify exact commit; fresh697-input×4profiles×2binaries×3repetitions at120s with complete separate SAT model replays; review and commit final evidence.",
+      "static": "Both clang-tidy and advisory include scans cover all140tracked translation units with unchanged inputs and tool exit0;861tidy findings and397include-provider findings inventoried,no unused-header blockers. New helper optional guard and parameter-order diagnostics reviewed; not a clean-tree claim.",
+      "provenance": "Effective generator/reference command templates, timeouts, slot mappings, tool hashes and scoped model receipts are retained in cache-qualification.json and cache-mutations.json; pilotcontrolsource3c2971a4 explicitly identified."
+    },
+    {
       "id": "2026-11-14-bound-propagation-repairs",
       "date": "2026-11-14",
       "kind": "Staged propagation correctness and performance implementation",
-      "evidence_status": "Notification/rounding repairs pass Release/check/ASan and fresh differential/model gates. Whole-tree static scan ongoing; performance qualification and later stages pending.",
+      "evidence_status": "Notification/rounding repairs pass Release/check/ASan and fresh differential/model gates. Stage1 whole-tree static coverage reviewed with existing findings; final performance qualification pending.",
       "baseline": "ff303826",
       "unqualified_snapshot": "3c2971a4",
       "jobs": {

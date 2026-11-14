@@ -526,10 +526,10 @@ lower(s) = 2*l(x) - 3*u(y) + l(z)
 ```
 
 These are candidate implied bounds; they need not be the strongest bounds
-entailed by the whole problem. {source}`compute_implied_bound
-<src/smt/solver_engines.cpp#L6854-L6879>` computes one direction at a time
-with exact `DeltaRational` arithmetic and collects the reasons of the selected
-bounds. It reads bounds, not the current model's values of `x`, `y` and `z`.
+entailed by the whole problem. {rowcachetrialsource}`compute_implied_bound
+<src/smt/solver_engines.cpp#L7013>` computes one direction at a time
+with exact `DeltaRational` arithmetic. A separate helper collects the selected
+bounds' reasons only after the endpoint entails an atom. It reads bounds, not the current model's values of `x`, `y` and `z`.
 
 For a concrete upper bound, suppose SAT literals `p`, `q`, `r` assert
 `x <= 4`, `y >= 1`, `z <= 2`. The contributions are at most 8, −3 and 2,
@@ -571,13 +571,15 @@ In general, for `s = k*y + sum(k_j*x_j)` with nonzero `k`, isolate
 `y = (s - sum(k_j*x_j))/k`. Choose the numerator's upper or lower bound
 according to the requested direction and the sign of `k`, then apply the
 coefficient rule above to the subtracted terms. This is
-{source}`compute_implied_child_bound <src/smt/solver_engines.cpp#L6893-L6930>`.
-It returns a derived value and the clause literals explaining the selected
-bounds, without pivoting to make `y` basic.
+{rowcachetrialsource}`compute_implied_child_bound <src/smt/solver_engines.cpp#L7052>`.
+It returns a derived value without pivoting to make `y` basic. Explanation
+collection follows successful entailment, as in the forward direction.
 
 ### Delivery, triggers and limits
 
-Both helpers retain the bounds' **already negated premise literals**: the
+The separate {rowcachetrialsource}`explanation collectors
+<src/smt/solver_engines.cpp#L7135>` collect the bounds' **already negated premise
+literals**: the
 forward example stores `not p`, `not q`, `not r`. The
 {source}`delivery and reason callbacks <src/smt/solver_engines.cpp#L7115-L7180>`
 return the target literal and these clause literals without negating them again.
@@ -594,17 +596,22 @@ In the forward example, deriving `s <= 7` proves the existing atom `s <= 8`.
 Assigning that atom submits the bound 8 to the tableau, not the derived bound
 7; an already stronger stored bound remains in force.
 
-After a nonconflicting assigned bound, the
-{source}`notification hook <src/smt/solver_engines.cpp#L7340-L7347>` invokes
-the optional row scan. {source}`scan_row_based_propagations
-<src/smt/solver_engines.cpp#L7630-L7668>` follows `occurs_in(changed_var)` to
-rows containing the changed variable. It skips rows without indexed atoms on
-their basic variable; otherwise it tests those atoms and, when enabled, runs
-the reverse scan over atoms on the other row variables.
-This is selective scheduling: a change to a basic variable's own bound alone
-does not visit its defining row through `occurs_in`. In the reverse example,
-a subsequent bound notification for `x` or `z` can trigger the calculation
-once the needed bounds are present. Pivots do not themselves run this scan.
+After a nonconflicting assigned bound, the optional
+{rowcachetrialsource}`scan_row_based_propagations <src/smt/solver_engines.cpp#L7955>`
+follows `occurs_in(changed_var)` to rows containing the changed variable.
+Forward work needs registered atoms on the row's basic variable. Reverse work
+has no such prerequisite: it tests atoms on other row variables when enabled.
+A notification on a basic variable also scans its own defining row in reverse,
+subject to both fanout caps being nonzero and the reverse row-size cap. Thus the
+reverse example can propagate when the bound on `s` arrives last. Pivots do not
+themselves trigger exhaustive interval rescanning.
+
+Both `OnlineLraPropagator` and `ComponentLraExecution` use these rules. They serve
+QF_LRA and QF_UFLRA, and the rational relaxation in QF_LIA and QF_UFLIA. Under
+preparation's `IntegerBoundRounding::All` policy, comparisons on integer-valued
+targets use delta-aware floor for upper endpoints and ceiling for lower ones,
+with the same explaining premises. This remains conditional on the existing
+rounding option; non-strict rounding stays off by default in QF_UFLIA.
 
 Missing bounds and cost caps can prevent a propagation without changing
 satisfiability. Without a lower bound on `y`, the forward example cannot
@@ -613,8 +620,14 @@ another row may still yield a consequence. A row wider than the size cap is
 skipped. If the changed variable occurs in more rows than the fanout cap,
 the scan skips all of them for that notification rather than taking a prefix.
 The {source}`default caps <src/smt/check_sat.hpp#L173-L178>` are 64 terms/rows
-for forward work and 32 for reverse work. Each target-atom query can rescan
-the row, so the cost also depends on how many atoms index the affected variables.
+for forward work and 32 for reverse work. Within one synchronous row or child
+scan, an owning two-direction cache reuses calculated endpoints, including missing
+results, and rounded integer endpoints across target atoms. Explanation vectors
+are built lazily and copied into each pending consequence. Scans only enqueue
+consequences and do not mutate the tableau; the cache is destroyed before any
+subsequent assignment, pivot, backtrack or atom registration. The
+[scan-reuse checklist](../leads/bound-propagation-improvements.md#scan-local-reuse-draft)
+records its complexity, counters and qualification status.
 
 {source}`The options <src/smt/check_sat.hpp#L245-L269>` enable same-variable
 propagation by default; row propagation requires `lra_row_propagation`, and
