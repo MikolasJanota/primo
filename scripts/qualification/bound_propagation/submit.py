@@ -53,7 +53,11 @@ def submit(args: argparse.Namespace, run=execute) -> list[str]:
                 "--hold",
                 "--exclude=node-01",
                 f"--array=0-696%{args.concurrency}",
-                "--time=00:10:00" if args.phase == "timing" else "--time=00:20:00",
+                "--time="
+                + (
+                    getattr(args, "job_time", None)
+                    or ("00:10:00" if args.phase == "timing" else "00:20:00")
+                ),
             ]
             if parent:
                 flags.append(f"--dependency=afterok:{parent}")
@@ -114,7 +118,14 @@ def main() -> None:
     )
     parser.add_argument("--concurrency", type=int, default=32)
     parser.add_argument("--receipt", type=Path, required=True)
+    parser.add_argument(
+        "--job-time",
+        help="SLURM HH:MM:SS allocation limit; solver limits remain in config",
+    )
     args = parser.parse_args()
+    assert args.job_time is None or re.fullmatch(
+        r"\d{2}:[0-5]\d:[0-5]\d", args.job_time
+    )
     assert args.phase != "models" or args.after
     assert args.after is None or re.fullmatch(r"[0-9]+", args.after)
     print(json.dumps({"jobs": submit(args)}))

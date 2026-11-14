@@ -64,3 +64,29 @@ asserting the basic bound last must also trigger its reverse scan, subject to
 the configured limits. The
 {boundrepairsource}`focused regression <tests/unit/qf_lra_solver_tests.cpp#L3537>`
 checks assertion ordering and both integer bound directions.
+
+## Final comparison protocol (pending)
+
+The {source}`configuration helper <scripts/qualification/bound_repairs/configure.py>`
+creates three private
+configurations from the frozen 697-input selection and its four existing
+profiles. Each profile has an adjacent baseline/candidate pair. The timing
+{source}`runner's optional paired_groups <scripts/qualification/lia_hybrid/run.py#L40>` rotates the four pairs by instance index plus
+repetition and reverses their internal order on alternating sums. Each native
+measurement starts a fresh solver process; the per-allocation provenance records
+the actual order, executable hashes, arguments, input identity and host. The
+runner verifies executable and input hashes; Git labels are supplied metadata
+and require the separate build/preflight and source-equivalence evidence.
+Configurations without `paired_groups` retain the runner's earlier rotation.
+
+The {source}`submission controller <scripts/qualification/bound_propagation/submit.py>`
+accepts `--job-time` for the SLURM allocation duration.
+The final comparison requests 20 minutes for eight timing measurements per
+allocation and 45 minutes for their separate model replays. This does not change
+the native timing deadline of 120 seconds or the 8 GiB address-space limit. Three timing
+arrays run sequentially, with verified whole-array dependencies; model arrays
+are submitted with `--after` naming the last timing-array ID, so they start only
+after all timing arrays finish. Replay allows 180 seconds for the native solver
+and 60 seconds for Dolmen. Every successful native SAT timing row
+requires its own exact-option Dolmen replay. These scripts and scheduling tests
+prepare the comparison; they are not completed performance evidence.

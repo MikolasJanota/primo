@@ -37,6 +37,30 @@ def decisive(row: dict) -> bool:
     )
 
 
+def measurement_order(config: dict, slot: int) -> list[str]:
+    """Keep optional baseline/candidate pairs adjacent while rotating profiles."""
+    profiles = list(config["profiles"])
+    groups = config.get("paired_groups")
+    if groups is None:
+        return profiles[slot % len(profiles) :] + profiles[: slot % len(profiles)]
+    if not groups or any(
+        not isinstance(pair, list) or len(pair) != 2 for pair in groups
+    ):
+        raise ValueError("paired_groups must contain two-label lists")
+    flat = [label for pair in groups for label in pair]
+    if (
+        len(flat) != len(profiles)
+        or len(set(flat)) != len(flat)
+        or set(flat) != set(profiles)
+    ):
+        raise ValueError("paired_groups must cover each profile exactly once")
+    repetition = int(config["cases"][slot].get("repetition", 0))
+    offset = (slot + repetition) % len(groups)
+    ordered = groups[offset:] + groups[:offset]
+    reverse = (slot + repetition) % 2
+    return [label for pair in ordered for label in (pair[::-1] if reverse else pair)]
+
+
 def measure(command: list[str], source: Path, timeout: float, connection) -> None:
     # A fresh supervisor has exactly one native child, so RUSAGE_CHILDREN's
     # high-water mark is this solver's RSS, including on timeout. Keep the
@@ -67,15 +91,11 @@ def main() -> None:
     if expected not in ("sat", "unsat"):
         expected = declared
     out = Path(config["out"]) / f"slot-{args.slot}"
-    profiles = list(config["profiles"])
     for profile in config["profiles"].values():
         assert sha(Path(profile["solver"])) == profile["sha256"]
     if args.phase == "timing":
         out.mkdir(parents=True, exist_ok=False)
-        order = (
-            profiles[args.slot % len(profiles) :]
-            + profiles[: args.slot % len(profiles)]
-        )
+        order = measurement_order(config, args.slot)
         provenance = {
             "config_sha256": sha(args.config),
             "runner_sha256": sha(Path(__file__)),
