@@ -1184,3 +1184,23 @@ specific sections and their implementation status.
 The Griggio and Bromberger tableau
 engineering references remain mapped in [LRA's source table](lra.md#sources-and-implementation-status);
 they are not additional implemented integer stages.
+
+
+## Pending bound-propagation qualification
+
+The [bound-propagation improvement checklist](../leads/bound-propagation-improvements.md)
+tracks an unqualified notification/rounding repair. With arithmetic, row and bidirectional propagation enabled, the scans in
+{boundrepairsource}`OnlineLraPropagator <src/smt/solver_engines.cpp#L7895>` and
+{boundrepairsource}`ComponentLraExecution <src/smt/solver_engines.cpp#L9555>`
+reverse-scan a still-basic variable's defining row when its bound is asserted,
+subject to the reverse row-size limit and reverse fanout limit of at least one.
+Reverse scanning is independent of registered atoms on the basic variable.
+Inferred endpoints use delta-aware floor/ceiling when preparation's `All`
+integer-rounding policy applies. Reasons remain the original bound literals;
+no new tableau rows or permanent inferred numeric endpoints are installed.
+The counters `:lra.basic-variable-row-scans` and
+`:lra.integer-rounding-entailments` count own-row scans and candidate entailments
+that require rounding, respectively; the latter is not a delivery count.
+These changes remain subject to fresh SLURM qualification. Existing caps and
+option defaults remain in force, and basis changes do not trigger exhaustive
+interval rescans.

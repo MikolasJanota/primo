@@ -101,6 +101,7 @@ parts:
       - file: leads/incremental-equations
       - file: leads/root-bound-detection
       - file: leads/preprocessing-bound-tightening
+      - file: leads/bound-propagation-improvements
       - file: leads/shared-euf-structure
   - caption: Active work
     chapters:

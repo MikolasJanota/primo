@@ -3,6 +3,32 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-14-bound-propagation-repairs",
+      "date": "2026-11-14",
+      "kind": "Staged propagation correctness and performance implementation",
+      "evidence_status": "Notification/rounding repairs pass Release/check/ASan and fresh differential/model gates. Whole-tree static scan ongoing; performance qualification and later stages pending.",
+      "baseline": "ff303826",
+      "unqualified_snapshot": "3c2971a4",
+      "jobs": {
+        "release_all_build": "392241",
+        "arithmetic_units": "392243",
+        "release_all_rebuild": 392261,
+        "arithmetic_units_retry": 392262,
+        "full_check": 392266,
+        "asan_fixed_runtime": 392271,
+        "differential_gates": 392265,
+        "resource_unknown_replay": 392308,
+        "gate9_models": 392309,
+        "static": 392304
+      },
+      "design": "docs/leads/bound-propagation-improvements.md",
+      "qualification": "Release/all-target build and arithmetic units pass. make check:49CTest and348Python tests pass withPython3.11. ASan49/49pass using matchinglibasan extracted to user-owned prefix. Fresh10000referencecases:9979PASS,20TIMEOUT,1known private-node-limit unknown reproduced on baseline;6990SATmodel replays all directDolmenpass. make lint/docs and localGitlinks pass. Independent pending-qualification documentation review ready; full static scan pending.",
+      "remaining": "Finish static review and fresh seed mutations; evaluate preprocessing placement and scan reuse in separate milestones; final697-case paired evaluation and complete model validation; reviewed final evidence and commits.",
+      "local_artifacts": "/tmp/primo-propagation-repairs-build.log; /tmp/primo-propagation-repairs-preflight.log; /tmp/primo-propagation-fixes-lint.log; /tmp/primo-propagation-fixes-docs.log",
+      "ownership": "No private branch budget or UF fallback changes. Unrelated untracked resume untouched.",
+      "stage1_evidence": "benchmarks/bound-repairs-20261114/stage1-qualification.json"
+    },
+    {
       "id": "2026-11-14-bound-behavior-diagnosis",
       "date": "2026-11-14",
       "kind": "Code review,selected bound-flow probes,private-budget ablations and Callgrind",

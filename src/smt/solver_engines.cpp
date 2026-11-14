@@ -7086,6 +7086,18 @@ compute_implied_child_bound(const theory::arithmetic::LraTableau& tableau,
   return std::make_pair(total.scaled(inv), std::move(reasons));
 }
 
+// CAV 2006 Section 4.5 refinement, extended by integer floor/ceiling.
+// Only preparation's All policy proves this target may be rounded here.
+bool implied_endpoint_entails(theory::arithmetic::DeltaRational implied,
+                              const BoundAssertion& assertion, IntegerBoundRounding rounding) {
+  if (rounding == IntegerBoundRounding::All) {
+    implied = theory::arithmetic::DeltaRational::from_rational(
+        assertion.is_upper ? theory::arithmetic::delta_floor(implied)
+                           : theory::arithmetic::delta_ceil(implied));
+  }
+  return assertion.is_upper ? implied <= assertion.value : implied >= assertion.value;
+}
+
 // Trail-synced CaDiCaL external propagator for QF_LRA (Milestone 3a of the
 // QF_LRA plan): mirrors OnlineEufPropagator structurally. cb_propagate()
 // delivers same-slack propagations (Milestone 3b, scan_for_propagations)
@@ -7849,16 +7861,20 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
   // bound_assertion()'s direction convention, so a flipped atom's TRUE case
   // is checked against an implied *lower* bound and vice versa.
   std::optional<std::vector<sat::Lit>> implied_bound_entails(theory::arithmetic::LraVarId basic_var,
-                                                             const BoundAssertion& assertion) {
+                                                             const BoundAssertion& assertion,
+                                                             IntegerBoundRounding rounding) {
     auto implied =
         compute_implied_bound(tableau_, basic_var, assertion.is_upper, row_propagation_limits_);
     if (!implied.has_value()) {
       return std::nullopt;
     }
-    const bool tight =
-        assertion.is_upper ? implied->first <= assertion.value : implied->first >= assertion.value;
+    const bool tight = implied_endpoint_entails(implied->first, assertion, rounding);
     if (!tight) {
       return std::nullopt;
+    }
+    if (rounding == IntegerBoundRounding::All &&
+        !implied_endpoint_entails(implied->first, assertion, IntegerBoundRounding::None)) {
+      statistics_.increment(":lra.integer-rounding-entailments");
     }
     return std::move(implied->second);
   }
@@ -7877,12 +7893,23 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
   // directly, any bound change is a candidate and the fanout cap below is
   // what keeps the cost bounded.
   void scan_row_based_propagations(theory::arithmetic::LraVarId changed_var) {
+    // A basic variable has no RHS occurrences; its own bound still refines
+    // every child of its defining row. No tableau mutation occurs in a scan.
+    if (bidirectional_row_propagation_enabled_ && tableau_.is_basic(changed_var) &&
+        row_propagation_limits_.bidirectional_max_fanout >= 1) {
+      statistics_.increment(":lra.basic-variable-row-scans");
+      scan_row_child_propagations(changed_var, changed_var);
+    }
     const std::vector<theory::arithmetic::LraVarId>& affected_rows =
         tableau_.occurs_in(changed_var);
     if (affected_rows.empty() || affected_rows.size() > row_propagation_limits_.max_fanout) {
       return;
     }
     for (const theory::arithmetic::LraVarId basic_var : affected_rows) {
+      if (bidirectional_row_propagation_enabled_ &&
+          affected_rows.size() <= row_propagation_limits_.bidirectional_max_fanout) {
+        scan_row_child_propagations(basic_var, changed_var);
+      }
       const auto found = prepared_.atoms_by_bound_var.find(basic_var);
       if (found == prepared_.atoms_by_bound_var.end()) {
         continue;
@@ -7895,24 +7922,24 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
         }
         const PreparedLraTheory::PreparedAtom& prepared_atom = prepared_.atoms[atom_index];
         auto reasons = implied_bound_entails(
-            basic_var, bound_assertion(prepared_atom.relation, prepared_atom.rhs,
-                                       prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
-                                       prepared_atom.integer_rounding));
+            basic_var,
+            bound_assertion(prepared_atom.relation, prepared_atom.rhs,
+                            prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
+                            prepared_atom.integer_rounding),
+            prepared_atom.integer_rounding);
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{atom.lit.value, std::move(*reasons), true});
           continue;
         }
         reasons = implied_bound_entails(
-            basic_var, bound_assertion(prepared_atom.relation, prepared_atom.rhs,
-                                       prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
-                                       prepared_atom.integer_rounding));
+            basic_var,
+            bound_assertion(prepared_atom.relation, prepared_atom.rhs,
+                            prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
+                            prepared_atom.integer_rounding),
+            prepared_atom.integer_rounding);
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{-atom.lit.value, std::move(*reasons), true});
         }
-      }
-      if (bidirectional_row_propagation_enabled_ &&
-          affected_rows.size() <= row_propagation_limits_.bidirectional_max_fanout) {
-        scan_row_child_propagations(basic_var, changed_var);
       }
     }
   }
@@ -7948,7 +7975,8 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
             basic_var, target_var, target_coeff,
             bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
-                            prepared_atom.integer_rounding));
+                            prepared_atom.integer_rounding),
+            prepared_atom.integer_rounding);
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{atom.lit.value, std::move(*reasons), true, true});
           continue;
@@ -7957,7 +7985,8 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
             basic_var, target_var, target_coeff,
             bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
-                            prepared_atom.integer_rounding));
+                            prepared_atom.integer_rounding),
+            prepared_atom.integer_rounding);
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{-atom.lit.value, std::move(*reasons), true, true});
         }
@@ -7969,16 +7998,20 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
   // direction -- same convention, same all-or-nothing behaviour.
   std::optional<std::vector<sat::Lit>> implied_child_bound_entails(
       theory::arithmetic::LraVarId basic_var, theory::arithmetic::LraVarId target_var,
-      const util::Rational& target_coeff, const BoundAssertion& assertion) {
+      const util::Rational& target_coeff, const BoundAssertion& assertion,
+      IntegerBoundRounding rounding) {
     auto implied = compute_implied_child_bound(tableau_, basic_var, target_var, target_coeff,
                                                assertion.is_upper, row_propagation_limits_);
     if (!implied.has_value()) {
       return std::nullopt;
     }
-    const bool tight =
-        assertion.is_upper ? implied->first <= assertion.value : implied->first >= assertion.value;
+    const bool tight = implied_endpoint_entails(implied->first, assertion, rounding);
     if (!tight) {
       return std::nullopt;
+    }
+    if (rounding == IntegerBoundRounding::All &&
+        !implied_endpoint_entails(implied->first, assertion, IntegerBoundRounding::None)) {
+      statistics_.increment(":lra.integer-rounding-entailments");
     }
     return std::move(implied->second);
   }
@@ -9488,16 +9521,20 @@ class ComponentLraExecution final {
   // bound_assertion()'s direction convention, so a flipped atom's TRUE case
   // is checked against an implied *lower* bound and vice versa.
   std::optional<std::vector<sat::Lit>> implied_bound_entails(theory::arithmetic::LraVarId basic_var,
-                                                             const BoundAssertion& assertion) {
+                                                             const BoundAssertion& assertion,
+                                                             IntegerBoundRounding rounding) {
     auto implied =
         compute_implied_bound(tableau_, basic_var, assertion.is_upper, row_propagation_limits_);
     if (!implied.has_value()) {
       return std::nullopt;
     }
-    const bool tight =
-        assertion.is_upper ? implied->first <= assertion.value : implied->first >= assertion.value;
+    const bool tight = implied_endpoint_entails(implied->first, assertion, rounding);
     if (!tight) {
       return std::nullopt;
+    }
+    if (rounding == IntegerBoundRounding::All &&
+        !implied_endpoint_entails(implied->first, assertion, IntegerBoundRounding::None)) {
+      statistics_.increment(":lra.integer-rounding-entailments");
     }
     return std::move(implied->second);
   }
@@ -9516,12 +9553,23 @@ class ComponentLraExecution final {
   // directly, any bound change is a candidate and the fanout cap below is
   // what keeps the cost bounded.
   void scan_row_based_propagations(theory::arithmetic::LraVarId changed_var) {
+    // A basic variable has no RHS occurrences; its own bound still refines
+    // every child of its defining row. No tableau mutation occurs in a scan.
+    if (bidirectional_row_propagation_enabled_ && tableau_.is_basic(changed_var) &&
+        row_propagation_limits_.bidirectional_max_fanout >= 1) {
+      statistics_.increment(":lra.basic-variable-row-scans");
+      scan_row_child_propagations(changed_var, changed_var);
+    }
     const std::vector<theory::arithmetic::LraVarId>& affected_rows =
         tableau_.occurs_in(changed_var);
     if (affected_rows.empty() || affected_rows.size() > row_propagation_limits_.max_fanout) {
       return;
     }
     for (const theory::arithmetic::LraVarId basic_var : affected_rows) {
+      if (bidirectional_row_propagation_enabled_ &&
+          affected_rows.size() <= row_propagation_limits_.bidirectional_max_fanout) {
+        scan_row_child_propagations(basic_var, changed_var);
+      }
       const auto found = prepared_.atoms_by_bound_var.find(basic_var);
       if (found == prepared_.atoms_by_bound_var.end()) {
         continue;
@@ -9534,24 +9582,24 @@ class ComponentLraExecution final {
         }
         const PreparedLraTheory::PreparedAtom& prepared_atom = prepared_.atoms[atom_index];
         auto reasons = implied_bound_entails(
-            basic_var, bound_assertion(prepared_atom.relation, prepared_atom.rhs,
-                                       prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
-                                       prepared_atom.integer_rounding));
+            basic_var,
+            bound_assertion(prepared_atom.relation, prepared_atom.rhs,
+                            prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
+                            prepared_atom.integer_rounding),
+            prepared_atom.integer_rounding);
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{atom.lit.value, std::move(*reasons), true});
           continue;
         }
         reasons = implied_bound_entails(
-            basic_var, bound_assertion(prepared_atom.relation, prepared_atom.rhs,
-                                       prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
-                                       prepared_atom.integer_rounding));
+            basic_var,
+            bound_assertion(prepared_atom.relation, prepared_atom.rhs,
+                            prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
+                            prepared_atom.integer_rounding),
+            prepared_atom.integer_rounding);
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{-atom.lit.value, std::move(*reasons), true});
         }
-      }
-      if (bidirectional_row_propagation_enabled_ &&
-          affected_rows.size() <= row_propagation_limits_.bidirectional_max_fanout) {
-        scan_row_child_propagations(basic_var, changed_var);
       }
     }
   }
@@ -9587,7 +9635,8 @@ class ComponentLraExecution final {
             basic_var, target_var, target_coeff,
             bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
-                            prepared_atom.integer_rounding));
+                            prepared_atom.integer_rounding),
+            prepared_atom.integer_rounding);
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{atom.lit.value, std::move(*reasons), true, true});
           continue;
@@ -9596,7 +9645,8 @@ class ComponentLraExecution final {
             basic_var, target_var, target_coeff,
             bound_assertion(prepared_atom.relation, prepared_atom.rhs,
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
-                            prepared_atom.integer_rounding));
+                            prepared_atom.integer_rounding),
+            prepared_atom.integer_rounding);
         if (reasons.has_value()) {
           pending_.push_back(PendingPropagation{-atom.lit.value, std::move(*reasons), true, true});
         }
@@ -9608,16 +9658,20 @@ class ComponentLraExecution final {
   // direction -- same convention, same all-or-nothing behaviour.
   std::optional<std::vector<sat::Lit>> implied_child_bound_entails(
       theory::arithmetic::LraVarId basic_var, theory::arithmetic::LraVarId target_var,
-      const util::Rational& target_coeff, const BoundAssertion& assertion) {
+      const util::Rational& target_coeff, const BoundAssertion& assertion,
+      IntegerBoundRounding rounding) {
     auto implied = compute_implied_child_bound(tableau_, basic_var, target_var, target_coeff,
                                                assertion.is_upper, row_propagation_limits_);
     if (!implied.has_value()) {
       return std::nullopt;
     }
-    const bool tight =
-        assertion.is_upper ? implied->first <= assertion.value : implied->first >= assertion.value;
+    const bool tight = implied_endpoint_entails(implied->first, assertion, rounding);
     if (!tight) {
       return std::nullopt;
+    }
+    if (rounding == IntegerBoundRounding::All &&
+        !implied_endpoint_entails(implied->first, assertion, IntegerBoundRounding::None)) {
+      statistics_.increment(":lra.integer-rounding-entailments");
     }
     return std::move(implied->second);
   }

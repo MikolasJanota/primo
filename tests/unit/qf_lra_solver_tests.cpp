@@ -3533,6 +3533,48 @@ void row_propagation_limits_are_actually_enforced() {
   assert(with_tight_fanout.statistics.get(StatKey::LraRowPropagations) == 0);
 }
 
+// Scheduling and integer refinement regressions from the selected diagnostics.
+void row_bound_events_and_integer_refinement() {
+  for (const std::string logic : {"QF_LRA", "QF_UFLRA", "QF_LIA", "QF_UFLIA"}) {
+    const bool integer = logic == "QF_LIA" || logic == "QF_UFLIA";
+    const std::string prefix = "(set-logic " + logic + ")(declare-const u " +
+                               (integer ? "Int" : "Real") + ")(declare-const v " +
+                               (integer ? "Int" : "Real") + ")(declare-const t " +
+                               (integer ? "Int" : "Real") + ")";
+    auto options = isolated_lra_options();
+    options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+    options.lra_propagation = true;
+    options.lra_row_propagation = true;
+    options.lra_bidirectional_row_propagation = true;
+    for (bool basic_first : {false, true}) {
+      const std::string basic = "(assert (>= (+ u v) 5))";
+      const std::string child = "(assert (<= u 2))";
+      const auto result = check_sat_smtlib(prefix + (basic_first ? basic + child : child + basic) +
+                                               "(assert (or (<= v 2) (>= t 20)))(check-sat)",
+                                           options);
+      assert(result.result == CheckSatResult::Sat);
+      assert(result.statistics.get(StatKey::LraBidirectionalRowPropagations) > 0);
+      if (!basic_first) assert(result.statistics.get(":lra.basic-variable-row-scans") > 0);
+    }
+    if (!integer) continue;
+    // UFLIA intentionally keeps this off by default; exercise the opt-in policy.
+    options.lia.round_integer_bounds = true;
+    for (const std::string constraints : {"(assert (<= (+ (* 2 u) v) 5))(assert (>= v 0))"
+                                          "(assert (or (<= u 2) (>= t 20)))",
+                                          "(assert (>= (+ (* 2 u) v) (- 5)))(assert (<= v 0))"
+                                          "(assert (or (>= u (- 2)) (>= t 20)))"}) {
+      const auto result = check_sat_smtlib(prefix + constraints + "(check-sat)", options);
+      assert(result.result == CheckSatResult::Sat);
+      assert(result.statistics.get(":lra.integer-rounding-entailments") > 0);
+      options.lia.round_integer_bounds = false;
+      const auto disabled = check_sat_smtlib(prefix + constraints + "(check-sat)", options);
+      assert(disabled.result == CheckSatResult::Sat);
+      assert(disabled.statistics.get(":lra.integer-rounding-entailments") == 0);
+      options.lia.round_integer_bounds = true;
+    }
+  }
+}
+
 void bidirectional_row_propagation_drives_boolean_structure() {
   // s := (+ x y) has a directly-asserted lower bound (>= s 5) and x has a
   // directly-asserted upper bound (<= x 2), so x+y>=5 and x<=2 together
@@ -5057,6 +5099,7 @@ int main() {
   row_based_propagation_can_reach_a_conflict();
   boolean_flattening_runs_after_the_rewriting_passes();
   row_propagation_limits_are_actually_enforced();
+  row_bound_events_and_integer_refinement();
   bidirectional_row_propagation_drives_boolean_structure();
   bidirectional_row_propagation_can_reach_a_conflict();
   theory_decisions_drive_boolean_structure();

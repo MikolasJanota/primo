@@ -1,0 +1,284 @@
+{
+  "baseline": "ff303826",
+  "source_snapshot": "3c2971a4",
+  "native_sha256": "a532772f6b4d677152a32f050e050897822353ce6502994eadf6537386c56e74",
+  "gates": [
+    {
+      "slot": 0,
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "3c2971a4",
+      "native_sha256": "a532772f6b4d677152a32f050e050897822353ce6502994eadf6537386c56e74",
+      "count": 1000,
+      "seed": 2026111440,
+      "outcomes": {
+        "PASS": 990,
+        "TIMEOUT": 10
+      },
+      "selected_sat": 870,
+      "direct_dolmen_pass": 870,
+      "summary_sha256": "f89c869e3261f93c76e0571de621eb270307b73075e3337adead8220c2fd8504",
+      "job": "392267"
+    },
+    {
+      "slot": 1,
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "3c2971a4",
+      "native_sha256": "a532772f6b4d677152a32f050e050897822353ce6502994eadf6537386c56e74",
+      "count": 1000,
+      "seed": 2026111441,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 510,
+      "direct_dolmen_pass": 510,
+      "summary_sha256": "2d1980ab7ec11c0d9e41a6f78bb4d0e4b9c92495733023d8f5dec684c9809925",
+      "job": "392268"
+    },
+    {
+      "slot": 2,
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "3c2971a4",
+      "native_sha256": "a532772f6b4d677152a32f050e050897822353ce6502994eadf6537386c56e74",
+      "count": 1000,
+      "seed": 2026111442,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 1000,
+      "direct_dolmen_pass": 1000,
+      "summary_sha256": "85fabf63676d3f51165259d7d8e393c9a38527e561c381393ace983ca2445e97",
+      "job": "392269"
+    },
+    {
+      "slot": 3,
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "3c2971a4",
+      "native_sha256": "a532772f6b4d677152a32f050e050897822353ce6502994eadf6537386c56e74",
+      "count": 1000,
+      "seed": 2026111443,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 627,
+      "direct_dolmen_pass": 627,
+      "summary_sha256": "7709ecab1c3bb3996d60c5e7848ea706cbeaa2dde65955ace7e9afb24b36860c",
+      "job": "392270"
+    },
+    {
+      "slot": 4,
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening"
+      ],
+      "source_snapshot": "3c2971a4",
+      "native_sha256": "a532772f6b4d677152a32f050e050897822353ce6502994eadf6537386c56e74",
+      "count": 1000,
+      "seed": 2026111444,
+      "outcomes": {
+        "PASS": 990,
+        "TIMEOUT": 10
+      },
+      "selected_sat": 890,
+      "direct_dolmen_pass": 890,
+      "summary_sha256": "b607f0afd718bd84ff3380cbbcce8d2562008434ed8722a434a7f96621da81c6",
+      "job": "392272"
+    },
+    {
+      "slot": 5,
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening"
+      ],
+      "source_snapshot": "3c2971a4",
+      "native_sha256": "a532772f6b4d677152a32f050e050897822353ce6502994eadf6537386c56e74",
+      "count": 1000,
+      "seed": 2026111445,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 495,
+      "direct_dolmen_pass": 495,
+      "summary_sha256": "e6b9a3728e2cdcbd06fb6822e91fc8b3cc1b515f7d832575d3ac0861c605e0a4",
+      "job": "392273"
+    },
+    {
+      "slot": 6,
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening"
+      ],
+      "source_snapshot": "3c2971a4",
+      "native_sha256": "a532772f6b4d677152a32f050e050897822353ce6502994eadf6537386c56e74",
+      "count": 1000,
+      "seed": 2026111446,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 1000,
+      "direct_dolmen_pass": 1000,
+      "summary_sha256": "f27e8a758868a5801d1b7d14c76d6d93bcd2afc1309e69dc21327372294bf4a6",
+      "job": "392274"
+    },
+    {
+      "slot": 7,
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening"
+      ],
+      "source_snapshot": "3c2971a4",
+      "native_sha256": "a532772f6b4d677152a32f050e050897822353ce6502994eadf6537386c56e74",
+      "count": 1000,
+      "seed": 2026111447,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 613,
+      "direct_dolmen_pass": 613,
+      "summary_sha256": "910efbea9c5d102c668b07c8c3ab15f1bac21180fec2ad3845eab6f6f603a02b",
+      "job": "392298"
+    },
+    {
+      "slot": 8,
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--lia-round-integer-bounds"
+      ],
+      "source_snapshot": "3c2971a4",
+      "native_sha256": "a532772f6b4d677152a32f050e050897822353ce6502994eadf6537386c56e74",
+      "count": 1000,
+      "seed": 2026111448,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "selected_sat": 481,
+      "direct_dolmen_pass": 481,
+      "summary_sha256": "8b61b7c7e3a5082a9ac4b932e255af8146ce645e094b0f72bd19e1e50b920ad3",
+      "job": "392300"
+    },
+    {
+      "slot": 9,
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening",
+        "--lia-round-integer-bounds"
+      ],
+      "source_snapshot": "3c2971a4",
+      "native_sha256": "a532772f6b4d677152a32f050e050897822353ce6502994eadf6537386c56e74",
+      "count": 1000,
+      "seed": 2026111449,
+      "outcomes": {
+        "PASS": 999,
+        "UNKNOWN_INVOLVED": 1
+      },
+      "resource_unknowns": [
+        {
+          "case": "case-00938.smt2",
+          "sha256": "1d0195ebfac893c4605e59358f161e1bc75fd2e26d40fc4020ef0d05772cf274",
+          "reason": "integer branch-and-bound node limit",
+          "private_nodes": "200000",
+          "budget_exits": "2"
+        }
+      ],
+      "selected_sat": 504,
+      "direct_dolmen_pass": 504,
+      "summary_sha256": "a5ce54a263a0bd343b2962606b49eaf03a9904380e3a2f71dd91293fe574b056",
+      "job": "392309"
+    }
+  ],
+  "totals": {
+    "PASS": 9979,
+    "TIMEOUT": 20,
+    "UNKNOWN_INVOLVED": 1
+  },
+  "direct_dolmen_passes": 6990,
+  "unknown938": {
+    "candidate": {
+      "answer": "unknown",
+      "reason": "integer branch-and-bound node limit",
+      "private_nodes": "200000",
+      "budget_exits": "2"
+    },
+    "baseline": {
+      "answer": "unknown",
+      "reason": "integer branch-and-bound node limit",
+      "private_nodes": "200000",
+      "budget_exits": "2"
+    }
+  },
+  "checks": {
+    "make_check": "49 CTest groups and 348 Python tests passed (Python3.11).",
+    "asan": "49/49 passed with user-owned matching libasan runtime.",
+    "lint": "make lint passed locally; remote check also passed lint with clang-format21.1.8 and Ruff0.16.1.",
+    "static": "Whole-tree clang-tidy and include-cleaner job392304 ongoing; not claimed passed."
+  },
+  "jobs": {
+    "builds": [
+      392241,
+      392261
+    ],
+    "arith_units": [
+      392243,
+      392262
+    ],
+    "check_asan_initial": 392263,
+    "check_retry": 392266,
+    "asan_retry": 392271,
+    "fuzz_native_and_models": 392265,
+    "unknown_baseline_replay": 392308,
+    "remaining_gate9_models": 392309,
+    "static_attempts": [
+      392299,
+      392301,
+      392304
+    ]
+  },
+  "limits": "Reference/native differential5s;model replay30s/Dolmen30s.1000cases per gate, seeds2026111440+slot;two extra UFLIA gates enable rounding. Native referenceZ3;model validationDolmen. No benchmark timing claim."
+}
