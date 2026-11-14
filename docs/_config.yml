@@ -86,6 +86,15 @@ sphinx:
       preprocessboundevidence:
         - "https://github.com/primo-solver/primo/blob/a5a105460fd75d34be53c5181a4deb8f4500a1cf/%s"
         - "%s"
+      boundplacementtrialsource:
+        - "https://github.com/primo-solver/primo/blob/72382fd5a9d4c71b6fede0a723071b6a4996bbc7/%s"
+        - "%s"
+      boundrepairevidence:
+        - "https://github.com/primo-solver/primo/blob/7e99c017d2e74f878a8ca270ee6b5c7c7c5e5e5c/%s"
+        - "%s"
+      staticrunnerreportersource:
+        - "https://github.com/primo-solver/primo/blob/f34acfa479676335e8f275acc534bd26b939f9b2/%s"
+        - "%s"
       boundrepairsource:
         - "https://github.com/primo-solver/primo/blob/2b5288f41f7be4919cac0788466ca081e271a311/%s"
         - "%s"

@@ -208,3 +208,13 @@ python3 scripts/summarize_uf_memory.py \
   --results results/uf-rollback-memory-20261027/258443 \
   --output docs/coverage/uf-rollback-memory-20261027.json
 ```
+
+
+## LLVM runner output compatibility
+
+The {staticrunnerreportersource}`report adapter <scripts/summarize_static_analysis.py>`
+accepts both bare `clang-tidy` command lines and LLVM 21's
+`[completed/total][seconds]` invocation prefixes. It still requires every
+expected translation unit, unchanged source hashes and a successful aggregate
+tool exit. Recognizing the newer format establishes execution coverage; it
+does not classify diagnostic findings as benign.
