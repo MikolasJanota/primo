@@ -1,11 +1,25 @@
 # Bound propagation improvements: implementation checklist
 
-Baseline: `ff303826`. This page records the four-stage plan following the
-[selected diagnosis](../evidence/bound-behavior.md). Qualification is pending;
-existing evidence does not qualify these changes. Notification and rounding repairs now have
-{boundrepairevidence}`initial correctness evidence <benchmarks/bound-repairs-20261114/stage1-qualification.json>`;
-performance qualification remains pending. The later-placement experiment is rejected with its source changes reverted;
-scan-local endpoint reuse is now drafted and awaiting qualification.
+Baseline: `ff303826`. Notification and integer-rounding repairs and scan-local
+endpoint reuse are implemented. The later preprocessing-placement trial was
+rejected and its source changes reverted. Defaults, private branch limits and
+UF fallback remain unchanged.
+
+The exact candidate `07ec5ce5` has
+{boundrepairfinalevidence}`fresh correctness qualification <benchmarks/bound-repairs-20261114/final-qualification.json>`:
+49 native test groups, 354 Python tests and 7,069 direct Dolmen model passes for
+selected SAT results from 10,000 generated inputs. Those inputs produced 9,980
+reference matches, 18 timeouts, one diagnosed private-budget unknown and one
+reference timeout. The resource outcomes remain separate from matches. Canonical
+UF/arithmetic tests, tracked regression sessions and real-seed mutations also
+have retained receipts; ASan and static evidence explicitly use identical C++
+source from the earlier cache snapshot.
+
+The full
+{boundrepairfinalevidence}`paired comparison <benchmarks/bound-repairs-20261114/final-protocol.json>`
+is running: 697 instances, four profiles, two binaries and three repetitions.
+Its separate SAT-model validation is pending. No full-suite performance claim
+is made from the selected pilot or correctness tests.
 
 ## Basis and obligations
 
@@ -66,7 +80,8 @@ the configured limits. The
 checks assertion ordering and both integer bound directions.
 
 
-## Scan-local reuse (draft)
+(scan-local-reuse-draft)=
+## Scan-local reuse
 
 The private
 {rowcachetrialsource}`RowBoundCache <src/smt/solver_engines.cpp#L7082>`

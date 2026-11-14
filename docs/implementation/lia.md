@@ -1186,19 +1186,19 @@ engineering references remain mapped in [LRA's source table](lra.md#sources-and-
 they are not additional implemented integer stages.
 
 
-## Pending bound-propagation qualification
+## Bound propagation repairs
 
 The [bound-propagation improvement checklist](../leads/bound-propagation-improvements.md)
-tracks an unqualified notification/rounding repair. With arithmetic, row and bidirectional propagation enabled, the scans in
-{boundrepairsource}`OnlineLraPropagator <src/smt/solver_engines.cpp#L7895>` and
-{boundrepairsource}`ComponentLraExecution <src/smt/solver_engines.cpp#L9555>`
+tracks a notification/rounding repair with correctness qualification and pending
+performance evaluation. With arithmetic, row and bidirectional propagation enabled, the scans in
+{rowcachetrialsource}`OnlineLraPropagator <src/smt/solver_engines.cpp#L7955>` and
+{rowcachetrialsource}`ComponentLraExecution <src/smt/solver_engines.cpp#L9632>`
 reverse-scan a still-basic variable's defining row when its bound is asserted,
-subject to the reverse row-size limit and reverse fanout limit of at least one.
+subject to the reverse row-size limit and both shared and reverse fanout limits
+being nonzero.
 Reverse scanning is independent of registered atoms on the basic variable.
-The
-{boundrepairfollowupsource}`follow-up guard <src/smt/solver_engines.cpp#L7898>`
-also requires the shared fanout cap to admit one row; zero continues to disable
-all row scans. The regression exercises this boundary under both assertion
+A zero shared fanout cap disables all row scans. The regression exercises this boundary
+under both assertion
 orders in all four arithmetic logic declarations.
 Inferred endpoints use delta-aware floor/ceiling when preparation's `All`
 integer-rounding policy applies. Reasons remain the original bound literals;
@@ -1206,15 +1206,16 @@ no new tableau rows or permanent inferred numeric endpoints are installed.
 The counters `:lra.basic-variable-row-scans` and
 `:lra.integer-rounding-entailments` count own-row scans and candidate entailments
 that require rounding, respectively; the latter is not a delivery count.
-These changes remain subject to fresh SLURM qualification. Existing caps and
+These changes have [exact-candidate correctness qualification](../leads/bound-propagation-improvements.md);
+full paired performance qualification remains pending. Existing caps and
 option defaults remain in force, and basis changes do not trigger exhaustive
 interval rescans.
 
 
-### Draft reuse of row endpoints
+### Reuse of row endpoints
 
 The active
-{rowcachetrialsource}`scan-reuse draft <src/smt/solver_engines.cpp#L7082>`
+{rowcachetrialsource}`scan-reuse implementation <src/smt/solver_engines.cpp#L7082>`
 keeps an owning two-direction cache for each row
 or target child within a single synchronous scan. Numeric interval calculation
 and integer rounding occur at most once per direction/policy there. Explaining
@@ -1224,5 +1225,5 @@ consequences, so the cache requires no backtracking or atom-growth invalidation.
 It is destroyed before those events can occur. The counters
 `:lra.row-bound-calculations`, `:lra.row-bound-candidate-comparisons` and
 `:lra.row-bound-explanations` expose reuse and deferred explanation construction.
-The [design checklist](../leads/bound-propagation-improvements.md#scan-local-reuse-draft)
-records the lifetime invariant, complexity and pending qualification.
+The {ref}`design checklist <scan-local-reuse-draft>`
+records the lifetime invariant, complexity and qualification status.

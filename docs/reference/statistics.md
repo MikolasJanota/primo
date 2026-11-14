@@ -60,7 +60,7 @@ QF_LIA and QF_UFLIA. They measure work attempted during scans, separately from
 The {rowcachetrialsource}`publisher <src/smt/solver_engines.cpp#L7092>`
 records the three `row-bound-*` counts once per row or child group; the
 other two counters increment at their respective scan or entailment events. See the
-[cache lifetime and cost model](../leads/bound-propagation-improvements.md#scan-local-reuse-draft).
+{ref}`cache lifetime and cost model <scan-local-reuse-draft>`.
 Absent increment-only keys mean zero when statistics were printed successfully;
 an interrupted run with no statistics provides no counter evidence.
 

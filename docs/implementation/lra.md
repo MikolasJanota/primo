@@ -626,7 +626,7 @@ results, and rounded integer endpoints across target atoms. Explanation vectors
 are built lazily and copied into each pending consequence. Scans only enqueue
 consequences and do not mutate the tableau; the cache is destroyed before any
 subsequent assignment, pivot, backtrack or atom registration. The
-[scan-reuse checklist](../leads/bound-propagation-improvements.md#scan-local-reuse-draft)
+{ref}`scan-reuse checklist <scan-local-reuse-draft>`
 records its complexity, counters and qualification status.
 
 {source}`The options <src/smt/check_sat.hpp#L245-L269>` enable same-variable
