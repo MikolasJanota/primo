@@ -1189,8 +1189,8 @@ they are not additional implemented integer stages.
 ## Bound propagation repairs
 
 The [bound-propagation improvement checklist](../leads/bound-propagation-improvements.md)
-tracks a notification/rounding repair with correctness qualification and pending
-performance evaluation. With arithmetic, row and bidirectional propagation enabled, the scans in
+tracks a notification/rounding repair with correctness qualification and a
+[mixed paired evaluation](../evidence/bound-repairs.md). With arithmetic, row and bidirectional propagation enabled, the scans in
 {rowcachetrialsource}`OnlineLraPropagator <src/smt/solver_engines.cpp#L7955>` and
 {rowcachetrialsource}`ComponentLraExecution <src/smt/solver_engines.cpp#L9632>`
 reverse-scan a still-basic variable's defining row when its bound is asserted,
@@ -1207,7 +1207,7 @@ The counters `:lra.basic-variable-row-scans` and
 `:lra.integer-rounding-entailments` count own-row scans and candidate entailments
 that require rounding, respectively; the latter is not a delivery count.
 These changes have [exact-candidate correctness qualification](../leads/bound-propagation-improvements.md);
-full paired performance qualification remains pending. Existing caps and
+the full paired evaluation is complete with mixed results. Existing caps and
 option defaults remain in force, and basis changes do not trigger exhaustive
 interval rescans.
 

@@ -6,7 +6,7 @@
       "id": "2026-11-14-bound-repairs-final",
       "date": "2026-11-14",
       "kind": "Fresh exact-source qualification and full paired propagation comparison",
-      "evidence_status": "Primary comparison and all9038SATmodels audited; follow-up72timings/30SATmodels and60bounded prefixes qualified. Mixed performance; no default promotion. Documentation acceptance pending.",
+      "evidence_status": "Complete: primary comparison and all 9038 SAT models audited; follow-up 72 timings/30 SAT models and 60 bounded prefixes qualified; independent documentation acceptance and rendered/link checks complete. Mixed performance; no default promotion.",
       "source": "07ec5ce5",
       "baseline": "ff303826 (compiled source-equivalent a4b5d75f)",
       "protocol": "benchmarks/bound-repairs-20261114/final-protocol.json",
@@ -39,11 +39,35 @@
       "correctness": "49 CTest and354Python tests pass.10000fresh generated inputs:9980reference matches,18timeouts,one diagnosed private-budget unknown,one reference timeout;7069selected nativeSATmodels directDolmen pass. Canonical2400inputs and1345model replays pass.2520real-seed mutants:2508PASS,12resource-incomplete;1680SATmodels passDolmen. Resource comparison confirms no decisive native/reference disagreement;original incomplete outcomes remain separate. Tracked57regression seeds perprofile preserve all queryanswers,27singleSATmodels and6incrementalSATmodels perprofile validate.",
       "reused_checks": "ASan49/49 and whole-tree140-TU static/includes scans from1d3bee8c reuse exact production/native-test source equivalence to07ec5ce5; no memory-sensitive source changes between them.861tidyfindings and397include-provider findings remain inventoried,not a clean-tree claim.",
       "artifacts": "Remote prepared final workspace results/{qualification,mutations,resource-triage,paired};local results/bound-repairs-20261114/{final,final-configs};private SSH/routes outsideGit.",
-      "remaining": "Independent final evidence/document review, rendered documentation build/check and final commits.",
+      "remaining": "None for this plan. Redundant-notification filtering and stronger cross-event refinement remain separate future work; defaults unchanged.",
       "comparison": "benchmarks/bound-repairs-20261114/final-comparison/comparison.json",
       "followups": "benchmarks/bound-repairs-20261114/followups.json",
       "performance": "Median solved baseline→candidate:default539→539,pre539→539,rows540→539,both542→542. Median meanPAR2:58.392→58.348,58.158→58.160,58.553→58.313,57.797→57.596s. All4stable losses reproduced; conditional common-solved slow-case geomean paired ratios0.893rows/0.911both exclude gains/losses. Cache controlWisa repeats3.716–3.760→2.770–2.810s rows with identical13007pivots; combined0.498–0.510→0.460–0.467s,3752pivots. Aggregate changes do not justify general speedup/default promotion.",
-      "followup_analysis": "New scan requests33–38million on LIA2/17 beforetimeout are counted before size guard,not a CPU attribution. LIA64private nodes45→2118 and runtime~0.232→39s;100-conflict prefix stalls on candidate. Certora213shows changed early decisions but full timeout lacks statistics. No new source tuning; deferred notification filtering remains separate."
+      "followup_analysis": "New scan requests33–38million on LIA2/17 beforetimeout are counted before size guard,not a CPU attribution. LIA64private nodes45→2118 and runtime~0.232→39s;100-conflict prefix stalls on candidate. Certora213shows changed early decisions but full timeout lacks statistics. No new source tuning; deferred notification filtering remains separate.",
+      "documentation": {
+        "accepted_date": "2026-11-15",
+        "report": "docs/evidence/bound-repairs.md",
+        "figure": "docs/_static/bound-repairs-cactus.svg",
+        "evidence_commit": "0756279a",
+        "review": "Independent read-only writer-reviewer loop accepted the report, lead, LIA page, config and TOC; DOC-FINAL-NAV-01 corrected the completed-protocol link and was rechecked. Source ownership/algorithm documentation and evidence were reviewed in earlier milestones. Acceptance covers these units, not the whole manual.",
+        "accepted_blobs": {
+          "report": "7658cb1d7126b16c3a5953f0d72b84af5b207e1b",
+          "lead": "8937f090be3d06af564aea62558964cdbf0d7c41",
+          "lia": "0ed04aa3cc23f9b8033a1480556ba5e764229c23",
+          "config": "1a1f51416ac9ef9177d1ecb40180ad941cf412b0",
+          "toc": "739c03471419f3e12218b1b23618817d2f318528"
+        },
+        "commands": [
+          "make docs",
+          "python3 scripts/assemble_docs.py",
+          "python3 scripts/check_doc_links.py docs/_build/site --report /tmp/primo-final-links-accepted.json",
+          "make lint",
+          "git diff --check"
+        ],
+        "link_result": "301 pages, 44650 local links, 1323 unique Git links, zero failures; 517 external URLs deferred to Sphinx linkcheck.",
+        "render": "Headless Chrome PDF of the assembled evidence page; eight pages generated, pages 1–3 visually inspected for introduction, aggregate table and cactus chart. Chart export inspected separately. Chrome process group terminated after rendering.",
+        "verification_scope": "Final edits are documentation/ledger only; no native source or solver-option changes after qualified 07ec5ce5. Native qualification and declared exact-source sanitizer/static reuse are retained above."
+      }
     },
     {
       "id": "2026-11-14-row-endpoint-cache",

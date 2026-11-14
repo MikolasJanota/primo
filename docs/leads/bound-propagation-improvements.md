@@ -16,10 +16,13 @@ have retained receipts; ASan and static evidence explicitly use identical C++
 source from the earlier cache snapshot.
 
 The full
-{boundrepairfinalevidence}`paired comparison <benchmarks/bound-repairs-20261114/final-protocol.json>`
-is running: 697 instances, four profiles, two binaries and three repetitions.
-Its separate SAT-model validation is pending. No full-suite performance claim
-is made from the selected pilot or correctness tests.
+{boundrepaircomparison}`paired comparison <benchmarks/bound-repairs-20261114/final-protocol.json>`
+is complete: 697 instances, four profiles, two binaries and three repetitions,
+with all 9,038 successful SAT timing rows independently validated. The
+[qualified results](../evidence/bound-repairs.md) are mixed: row mode loses one
+median solved instance, combined mode keeps the same count, and aggregate PAR2
+changes are small. Follow-up runs reproduce the regressions and isolate a
+repeatable cache benefit. Both row modes remain opt-in; no default promotion.
 
 ## Basis and obligations
 
@@ -125,7 +128,7 @@ for one row tests reuse, including an
 actual UF interaction. Existing conflict, sign, scope and allocation-growth
 tests and fresh four-logic gates remain required before acceptance.
 
-## Final comparison protocol (pending)
+## Final comparison protocol
 
 The {boundrepairpairsource}`configuration helper <scripts/qualification/bound_repairs/configure.py>`
 creates three private
@@ -148,5 +151,5 @@ arrays run sequentially, with verified whole-array dependencies; model arrays
 are submitted with `--after` naming the last timing-array ID, so they start only
 after all timing arrays finish. Replay allows 180 seconds for the native solver
 and 60 seconds for Dolmen. Every successful native SAT timing row
-requires its own exact-option Dolmen replay. These scripts and scheduling tests
-prepare the comparison; they are not completed performance evidence.
+requires its own exact-option Dolmen replay. The [completed comparison](../evidence/bound-repairs.md) retains full timing,
+model and follow-up receipts; the selected pilot remains a separate diagnostic.

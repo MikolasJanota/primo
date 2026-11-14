@@ -104,6 +104,9 @@ sphinx:
       boundrepairpairsource:
         - "https://github.com/primo-solver/primo/blob/4d7647b6/%s"
         - "%s"
+      boundrepaircomparison:
+        - "https://github.com/primo-solver/primo/blob/0756279a/%s"
+        - "%s"
       boundrepairfinalevidence:
         - "https://github.com/primo-solver/primo/blob/9fe16357/%s"
         - "%s"
