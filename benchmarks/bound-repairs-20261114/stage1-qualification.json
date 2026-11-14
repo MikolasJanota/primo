@@ -257,7 +257,7 @@
     "make_check": "49 CTest groups and 348 Python tests passed (Python3.11).",
     "asan": "49/49 passed with user-owned matching libasan runtime.",
     "lint": "make lint passed locally; remote check also passed lint with clang-format21.1.8 and Ruff0.16.1.",
-    "static": "Whole-tree clang-tidy and include-cleaner job392304 ongoing; not claimed passed."
+    "static": "Whole-tree LLVM21.1.6 scan and include-cleaner both completed all140 translation units, source hashes unchanged, aggregate tool exits0. Tidy860unique findings;include-cleaner397(no blocking unused headers). Reports were reprocessed by the strict LLVM21-compatible adapter after preserving original global exit codes; no clean-tree claim."
   },
   "jobs": {
     "builds": [
@@ -280,5 +280,17 @@
       392304
     ]
   },
-  "limits": "Reference/native differential5s;model replay30s/Dolmen30s.1000cases per gate, seeds2026111440+slot;two extra UFLIA gates enable rounding. Native referenceZ3;model validationDolmen. No benchmark timing claim."
+  "limits": "Reference/native differential5s;model replay30s/Dolmen30s.1000cases per gate, seeds2026111440+slot;two extra UFLIA gates enable rounding. Native referenceZ3;model validationDolmen. No benchmark timing claim.",
+  "static_review": {
+    "changed_helper_methods": "No new helper diagnostic. Two scanner argument-type warnings predate this change; basic/excluded variable calls inspected.",
+    "new_test_warning": "Unnecessary string-concatenation temporary found and corrected in active follow-up, preserving generated formula.",
+    "ownership_diagnostics": "CLI.hpp potential-leak is external. tactic.cpp shared_ptr aggregate ownership inspected; ASan49tests passed. model_reconstruction.hpp forwards visitor repeatedly but current callbacks have no consuming ref-qualified call operator; no actual move occurs in std::forward.",
+    "scope_limit": "Remaining style, enum-width, include-provider and pre-existing control-flow findings are retained as inventory, not all independently cleared."
+  },
+  "followup": {
+    "source_snapshot": "d85c08e1",
+    "native_tests": "49/49passed in job392334, including ordinary tactic fingerprints and new shared-fanout-zero checks under both assertion orders/allfourlogic declarations.",
+    "scope": "Shared fanout cap0also disables own-row scans; avoid unnecessary test-string temporary. Placement trial pipeline is not retained.",
+    "remaining": "Fresh final qualification after scan-reuse implementation; no full-plan completion claim."
+  }
 }

@@ -12,7 +12,9 @@ build-slurm-rel/primo --version | grep -Fx "git: ${PRIMO_EXPECTED_GIT:?}"
 slot=${SLURM_ARRAY_TASK_ID:?}
 [[ $slot -ge 0 && $slot -lt 10 ]]
 target="${PRIMO_PROP_OUT:?}/gates/gate-$slot"
-seed=$((2026111440+slot))
+base=${PRIMO_FUZZ_SEED_BASE:-2026111440}
+[[ $base =~ ^[0-9]+$ ]]
+seed=$((base+slot))
 flags=(--solver-arg=--quiet --solver-arg=--lra-propagation --solver-arg=--lra-row-propagation --solver-arg=--lra-bidirectional-row-propagation --solver-arg=--check-model)
 pre=
 if [[ ( $slot -ge 4 && $slot -lt 8 ) || $slot -eq 9 ]]; then

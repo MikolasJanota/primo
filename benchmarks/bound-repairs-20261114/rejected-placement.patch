@@ -1,0 +1,137 @@
+diff --git a/src/smt/preprocess_bound_tightening.cpp b/src/smt/preprocess_bound_tightening.cpp
+index 5ad10c01..e734cd5e 100644
+--- a/src/smt/preprocess_bound_tightening.cpp
++++ b/src/smt/preprocess_bound_tightening.cpp
+@@ -76,7 +76,11 @@ class Analysis {
+         const auto old = found == initial.end()
+                              ? std::optional<Endpoint>{}
+                              : (upper ? found->second.upper : found->second.lower);
+-        if (!value || !stronger(*value, old, upper)) continue;
++        if (!value) continue;
++        if (!stronger(*value, old, upper)) {
++          ++result_.redundant_endpoints;
++          continue;
++        }
+         if (result_.bounds.size() == 4096) {
+           ++result_.emission_truncated;
+           continue;
+@@ -378,6 +382,7 @@ Tactic make_preprocess_bound_tightening(PreprocessBoundOptions options) {
+     set("endpoint-updates", result.endpoint_updates);
+     set("row-visits", result.row_visits);
+     set("newly-finite", result.newly_finite);
++    set("redundant-endpoints", result.redundant_endpoints);
+     set("emitted", result.cancelled || result.contradiction ? 0 : result.bounds.size());
+     set("contradictions", result.contradiction ? 1 : 0);
+     set("work-exhaustion", result.exhausted ? 1 : 0);
+diff --git a/src/smt/preprocess_bound_tightening.hpp b/src/smt/preprocess_bound_tightening.hpp
+index 04fe11fe..d7071527 100644
+--- a/src/smt/preprocess_bound_tightening.hpp
++++ b/src/smt/preprocess_bound_tightening.hpp
+@@ -30,6 +30,8 @@ struct PreprocessBoundResult {
+   std::size_t endpoint_updates = 0;
+   std::size_t row_visits = 0;
+   std::size_t newly_finite = 0;
++  // Finite final endpoints already supplied by the analysis input.
++  std::size_t redundant_endpoints = 0;
+   std::size_t emission_truncated = 0;
+   bool contradiction = false;
+   bool exhausted = false;
+diff --git a/src/smt/preprocessing_strategy.cpp b/src/smt/preprocessing_strategy.cpp
+index b481b512..94b9bbb1 100644
+--- a/src/smt/preprocessing_strategy.cpp
++++ b/src/smt/preprocessing_strategy.cpp
+@@ -215,6 +215,7 @@ std::vector<StrategyParameter> PreprocessingProfile::strategy_parameters() const
+   return {{"adaptive-shrink-percent", std::to_string(adaptive_shrink_percent)},
+           {"kind", profile_name(kind)},
+           {"passes", std::to_string(preprocessing_passes)},
++          {"preprocess-bounds-after-values", bool_parameter(preprocess_bound_tightening)},
+           {"strong", bool_parameter(strong_preprocessing)},
+           {"use-eq-bridge", bool_parameter(use_eq_bridge)},
+           {"use-finite-domain-amo", bool_parameter(use_finite_domain_amo)},
+@@ -506,6 +507,11 @@ Strategy make_preprocessing_strategy(const CheckSatOptions& options,
+         },
+         "preprocessing-fixed-point"));
+   }
++  if (profile.preprocess_bound_tightening) {
++    const PreprocessBoundOptions bound_options{options.preprocess_bound_work_limit};
++    children.push_back(Strategy::leaf("preprocess-bound-tightening", bound_options,
++                                      make_preprocess_bound_tightening(bound_options)));
++  }
+   const FiniteDomainPreprocessOptions finite_options{
+       .evaluate_equalities = false,
+       .generate_ground_congruence = false,
+@@ -607,12 +613,6 @@ PreparedPreprocessingStrategy prepare_and_execute_preprocessing_strategy(
+   }
+   initial_children.push_back(
+       Strategy::leaf("lower-extended-terms", NoStrategyParameters{}, make_lower_extended_terms()));
+-  if (options.preprocess_bound_tightening &&
+-      (is_qf_lia || frontend.logic() == "QF_LRA" || frontend.logic() == "QF_UFLRA")) {
+-    const PreprocessBoundOptions bound_options{options.preprocess_bound_work_limit};
+-    initial_children.push_back(Strategy::leaf("preprocess-bound-tightening", bound_options,
+-                                              make_preprocess_bound_tightening(bound_options)));
+-  }
+   if (options.arithmetic_atom_canonicalization) {
+     const NormalizeArithmeticOptions arithmetic_options{
+         .stage = ArithmeticNormalizationStage::Initial,
+@@ -634,6 +634,9 @@ PreparedPreprocessingStrategy prepare_and_execute_preprocessing_strategy(
+       normalized.alternatives().front().assertions();
+   PreprocessingProfile profile =
+       analyze_preprocessing_profile(frontend.terms(), normalized_assertions, options, is_qf_lia);
++  profile.preprocess_bound_tightening =
++      options.preprocess_bound_tightening &&
++      (is_qf_lia || frontend.logic() == "QF_LRA" || frontend.logic() == "QF_UFLRA");
+   record_profile_statistics(profile, options, context.statistics());
+   context.statistics().set(util::StatKey::PreprocessingTermSizeInitial,
+                            reachable_term_count(frontend.terms(), normalized_assertions));
+diff --git a/src/smt/preprocessing_strategy.hpp b/src/smt/preprocessing_strategy.hpp
+index 6894b16d..836de4c8 100644
+--- a/src/smt/preprocessing_strategy.hpp
++++ b/src/smt/preprocessing_strategy.hpp
+@@ -35,6 +35,8 @@ struct PreprocessingProfile {
+   std::size_t initial_reachable_terms = 0;
+   bool structural_selector = false;
+   bool preprocessing_loop_enabled = false;
++  // Resolved from the declared logic, independently of surviving atom shape.
++  bool preprocess_bound_tightening = false;
+   bool auto_large_assertion_skip = false;
+   bool auto_basic_single = false;
+   bool auto_basic_multi = false;
+diff --git a/tests/unit/preprocess_bound_tightening_tests.cpp b/tests/unit/preprocess_bound_tightening_tests.cpp
+index e909e8c3..7bbc26ff 100644
+--- a/tests/unit/preprocess_bound_tightening_tests.cpp
++++ b/tests/unit/preprocess_bound_tightening_tests.cpp
+@@ -148,6 +148,27 @@ void emission_and_wide_rows() {
+   for (const auto id : extra) assert(terms.get(id).kind == primo::core::TermKind::Le);
+ }
+ 
++void placement_after_constant_simplification() {
++  primo::smt::CheckSatOptions options;
++  options.preprocess_bound_tightening = true;
++  options.check_model = true;
++  options.monotone_elimination = false;
++  options.preprocessing_mode = primo::smt::PreprocessingMode::Basic;
++  const std::string input =
++      "(set-logic QF_LIA)(declare-const x Int)(declare-const y Int)"
++      "(declare-const z Int)(assert (= x 0))(assert (= y 20))"
++      "(assert (< z (- (+ x y) 1)))(check-sat)";
++  const auto simplified = primo::smt::check_sat_smtlib(input, options);
++  assert(simplified.result == primo::smt::CheckSatResult::Sat);
++  assert(simplified.statistics.get(":preprocessing.bounds.emitted") == 0);
++  assert(simplified.statistics.get(":preprocessing.bounds.redundant-endpoints") > 0);
++  // With ordinary preprocessing disabled, the explicit bound pass still runs.
++  options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
++  const auto isolated = primo::smt::check_sat_smtlib(input, options);
++  assert(isolated.result == primo::smt::CheckSatResult::Sat);
++  assert(isolated.statistics.get(":preprocessing.bounds.work") > 0);
++}
++
+ void integration() {
+   using namespace primo::smt;
+   CheckSatOptions options;
+@@ -202,5 +223,6 @@ int main() {
+   interval_rules();
+   strictness_and_limits();
+   emission_and_wide_rows();
++  placement_after_constant_simplification();
+   integration();
+ }

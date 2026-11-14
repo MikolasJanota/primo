@@ -113,7 +113,7 @@ def main() -> None:
             Path("build-slurm-rel/primo").read_bytes()
         ).hexdigest(),
         "count": len(rows),
-        "seed": 2026111440 + args.slot,
+        "seed": int(os.environ.get("PRIMO_FUZZ_SEED_BASE", "2026111440")) + args.slot,
         "outcomes": dict(collections.Counter(r["outcome"] for r in rows)),
         "resource_unknowns": resource_unknowns,
         "selected_sat": len(selected),
