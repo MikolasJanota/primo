@@ -17,6 +17,12 @@ propagation yields a modest, mixed benefit on the retained selection. The
 three quarantined cases remain unqualified. Solver source and defaults are
 unchanged.
 
+The [selected behavior diagnosis](bound-behavior.md) subsequently reproduced
+missed reverse scans, missing integer endpoint rounding, and a redundant bound
+that triggers expensive UF fallback. It also isolated the LP work reduction
+on a selected LIA success. Those findings leave the aggregate qualification
+and opt-in decision below unchanged.
+
 ## Four profiles
 
 All profiles use one fresh Release binary and enable the existing same-variable

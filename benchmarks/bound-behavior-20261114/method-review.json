@@ -1,0 +1,44 @@
+{
+  "scope": "Selected diagnostic evidence and interpretation; no production algorithm changes or default promotion.",
+  "source_base": "5c8ced98",
+  "data_commits": [
+    "749bfbd8",
+    "3aa7047a"
+  ],
+  "independent_review": {
+    "role": "Read-only writer-reviewer loop authorized by AGENTS.md and skills/documentation/SKILL.md",
+    "verdict": "ready",
+    "accepted_git_blobs": {
+      "docs/evidence/bound-behavior.md": "111a4bb6c108bfa70bce4a5b83e7938c56c0bf3f",
+      "docs/_config.yml": "0dd7e4d90e4da25e926e7e88232e9c4598aad59e",
+      "docs/_toc.yml": "4745c077c81a5ff2ce9c4908bc778394cac73756",
+      "docs/evidence/bound-propagation.md": "12dbab8806483ab8403eabdafcdc000988b9c6cb"
+    },
+    "findings": {
+      "BB-DOC-01": "Resolved: distinguish protocol selection/limits from recorded options; add private configuration template and execution instructions.",
+      "BB-DOC-02": "Resolved: publish accounting header and JobIDRaw aliases.",
+      "BB-DOC-03": "Resolved: define private nodes, per-completion cap, hybrid factors and ownership/stage reference.",
+      "BB-DOC-04": "Resolved: scanners use interval helpers; helpers do not enqueue consequences.",
+      "BB-DOC-S01": "Adopted: operation-level anchors in pinned source links."
+    },
+    "inspected": "Complete new page, neighboring qualification context, source/TOC roles, both scanner paths, helpers, notifications and deferred repair, prepass order and rounding, occurrence index, UF fallback, diagnostic patch, runner/auditor, original CAV2006 Section4.5. Independently audited all54 model receipts and3 profile digests; all201 src files match baseline.",
+    "unchecked": "Reviewer did not recreate remote builds, execute solvers, inspect remote binaries, render docs or verify public HTTP availability. Writer performed builds, executions and rendering separately."
+  },
+  "writer_verification": {
+    "receipt_audit": "python3 scripts/qualification/bound_behavior/analyze.py --results results/bound-behavior-20261114 --out benchmarks/bound-behavior-20261114:54SATrows,54directDolmenpasses,3profiles and bounded trace.",
+    "metadata_tests": "python3 -m unittest tests.python.test_bound_behavior_diagnostics:4PASS, including rejection of altered replay formulas and options.",
+    "lint": "make lint PASS; corrected an extra import-block blank line found after commit3aa7047a; final tree rechecked.",
+    "docs": "make docs PASS; make docs-check-links full build PASS before review revisions, followed by final make docs, assemble_docs.py and check_doc_links.py:299pages,43991local links,1295uniqueGit links,0failures;513externalURLs deferred.",
+    "rendering": "Final HTML printed by headless Chrome; integer example, bounded trace/private-policy explanation and both full result tables inspected from rendered pages. Local PDF and images retained in /tmp.",
+    "sbatch": "slurm_validate_sbatch.py trace.sbatch PASS.",
+    "source_identity": "git diff --exit-code 5c8ced98 -- src PASS;201production sources unchanged. The unit-test C++ change is comments only.",
+    "not_rerun": "No new production behavior, ownership or options: full make check, ASan, clang-tidy/include-cleaner and a new merge fuzz gate were not rerun for this diagnostic-only change. Existing qualified-study evidence remains separate; future solver fixes require fresh gates.",
+    "processes": "All own diagnostic jobs terminal; no local solver/profiler/browser experiment process or descendant left running."
+  },
+  "tool_sha256": {
+    "z3": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "dolmen": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+  },
+  "limits": "Native120swall/8GiBAS; model replay180s/Dolmen30s; bound-reference30s; Callgrind60scollection plus5sgrace,16GiBallocation,no8GiBAS; root trace30swall,private-cap1,theory-conflict-cap1.",
+  "decision": "Accept diagnostic evidence and reproducers. Keep solver defaults and production code unchanged. Prioritize basic-variable event coverage, integer rounding, normalized-bound redundancy filtering and reuse of interval calculations; each requires separate implementation and qualification."
+}

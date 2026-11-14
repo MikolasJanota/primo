@@ -6,7 +6,7 @@
       "id": "2026-11-14-bound-behavior-diagnosis",
       "date": "2026-11-14",
       "kind": "Code review,selected bound-flow probes,private-budget ablations and Callgrind",
-      "evidence_status": "Completed selected diagnosis:36micro+18ablationSATrows;all54replayed directDolmen. Two propagation gaps, redundant bound and UF fallback regression confirmed;no production behavior changes.",
+      "evidence_status": "Selected behavior diagnosis complete and independently reviewed; 54 SAT rows with 54 exact-option direct Dolmen replays. No production solver behavior or default change.",
       "source_base": "5c8ced98",
       "protocol": "benchmarks/bound-behavior-20261114/protocol.json",
       "commands": "scripts/qualification/bound_behavior/diagnose.py and diagnose.sbatch;preflight via slurm_prepare_benchmark_workspace.py --check-only;fresh Release and probe build via --build-via-slurm.",
@@ -46,7 +46,24 @@
         "proofs": "Z3UNSAT4/438/213;557/569proofstimeout30s,notpasses.",
         "profiling": "UFboth60sprefix56.52%inclusive instructionevents in two disjoint implied-bound helper trees;LIArows60sprefix90.12%in tableaucheck including70.53%pivot. PartialprefixisnotfullrunCPUshare."
       },
-      "unfinished": "Production fixes and their behavior/fuzz/performance qualification are separate future work;diagnostic metadata/docs checks pending."
+      "unfinished": "No unfinished diagnostic execution. Production fixes, their fresh behavior/fuzz gates and paired evaluation are future implementation work.",
+      "method_review": "benchmarks/bound-behavior-20261114/method-review.json",
+      "verification": {
+        "receipt_audit": "python3 scripts/qualification/bound_behavior/analyze.py --results results/bound-behavior-20261114 --out benchmarks/bound-behavior-20261114:54SATrows,54directDolmenpasses,3profiles and bounded trace.",
+        "metadata_tests": "python3 -m unittest tests.python.test_bound_behavior_diagnostics:4PASS, including rejection of altered replay formulas and options.",
+        "lint": "make lint PASS; corrected an extra import-block blank line found after commit3aa7047a; final tree rechecked.",
+        "docs": "make docs PASS; make docs-check-links full build PASS before review revisions, followed by final make docs, assemble_docs.py and check_doc_links.py:299pages,43991local links,1295uniqueGit links,0failures;513externalURLs deferred.",
+        "rendering": "Final HTML printed by headless Chrome; integer example, bounded trace/private-policy explanation and both full result tables inspected from rendered pages. Local PDF and images retained in /tmp.",
+        "sbatch": "slurm_validate_sbatch.py trace.sbatch PASS.",
+        "source_identity": "git diff --exit-code 5c8ced98 -- src PASS;201production sources unchanged. The unit-test C++ change is comments only.",
+        "not_rerun": "No new production behavior, ownership or options: full make check, ASan, clang-tidy/include-cleaner and a new merge fuzz gate were not rerun for this diagnostic-only change. Existing qualified-study evidence remains separate; future solver fixes require fresh gates.",
+        "processes": "All own diagnostic jobs terminal; no local solver/profiler/browser experiment process or descendant left running."
+      },
+      "tool_sha256": {
+        "z3": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+        "dolmen": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+      },
+      "decision": "Accept diagnostic evidence and reproducers. Keep solver defaults and production code unchanged. Prioritize basic-variable event coverage, integer rounding, normalized-bound redundancy filtering and reuse of interval calculations; each requires separate implementation and qualification."
     },
     {
       "id": "2026-11-13-bound-propagation-factorial",
