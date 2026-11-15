@@ -105,7 +105,7 @@ sphinx:
         - "https://github.com/primo-solver/primo/blob/4d7647b6/%s"
         - "%s"
       arithmeticreporttools:
-        - "https://github.com/primo-solver/primo/blob/3263bd78/%s"
+        - "https://github.com/primo-solver/primo/blob/8fe6ab9b/%s"
         - "%s"
       arithmeticcombsource:
         - "https://github.com/primo-solver/primo/blob/4f02a8b7/%s"

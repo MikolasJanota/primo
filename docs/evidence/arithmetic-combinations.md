@@ -181,10 +181,15 @@ For every predeclared stable loss or consistent runtime regression, the
 {arithmeticreporttools}`follow-up controller <scripts/qualification/arithmetic_combinations/followups.py>`
 prepares three additional adjacent paired repetitions of that single technique
 addition. It retains the two original profiles, input hash and 120-second/
-8 GiB limits, rotates pair direction, and binds the derived manifest to the
+8 GiB limits, counterbalances each pair against its actual original order,
+and binds the derived manifest to the
 parent analysis and original configuration hashes. Its manifest also records
 every derived configuration hash; final auditing rejects any changed options
-before reading results. Follow-up timings start
+before reading results. Each side runs first three times across the six
+original/additional repetitions. Some original cross-group pairs ran in one
+relative order in all three main repetitions, so their extra runs use the
+opposite order throughout; alternation is used when compatible with balance.
+Follow-up timings start
 after all main timing/model jobs finish, with their own model phase after their
 last timing repetition. Every selected SAT result again requires Dolmen.
 The follow-up report says whether the slowdown or solve loss reproduced;

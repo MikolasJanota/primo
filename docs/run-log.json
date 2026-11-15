@@ -34,6 +34,11 @@
           "verdict": "Ready; no new required findings, AC-DOC-01–10 remain resolved. Runtime/rendering excluded.",
           "accepted_page_sha256": "9cbf6243b97a3994a739c9fceafbfc1efaed063fb7e5ee2690fd08fed0847f8e",
           "source": "3263bd78"
+        },
+        "counterbalance_unit": {
+          "verdict": "Ready; original k first positions plus3-k additional gives3of6 perarm, all original hashes/orders retained. AC-DOC-01–10 remain resolved; runtime/render excluded.",
+          "accepted_page_sha256": "0d035c36a693a4d065ebe206dff516fdc707cfcbb71a554ee4e8998045f8f699",
+          "source": "8fe6ab9b"
         }
       },
       "checks": "Profile/config fixtures24tasks,8/4profiles,697mappedinputs,14364measurements pass. Python syntax/Ruff/make lint, batch validation/bash syntax, strict make docs and local/Git links pass. Initial toolcommit deab87b9 had importlintfailure due non-failfast shell; fixed ebe8d4b2 before build or solver work.",
@@ -117,13 +122,14 @@
       },
       "timing_restart": "First timing attempt canceled after live collector observed rows before earlier-written stderr copied.1192durable rows subsequently audited without native failure. All3repetitions restarted in separate output namespace; no partial timings reused. Separate rejected-monitor-* private receipts retained.",
       "reporting_tools": {
-        "revision": "3263bd78",
+        "revision": "8fe6ab9b",
         "analysis": "scripts/qualification/arithmetic_combinations/analyze.py",
         "plots": "scripts/qualification/arithmetic_combinations/plot.py",
-        "checks": "Nine pure mocked analysis/followup/submission tests pass, including configuration drift, missing statistics, cutoff exclusion, post-answer crash and stable loss. make lint, strict docs/localGitlinks and rendered source/counter/restart sections pass. Matplotlib3.11.2 synthetic figures rendered and visually inspected; interaction annotation clipping fixed. No local native runs.",
+        "checks": "Ten pure mocked analysis/followup/submission tests pass, including configuration drift, missing statistics, cutoff exclusion, post-answer crash and stable loss. make lint, strict docs/localGitlinks and rendered source/counter/restart sections pass. Matplotlib3.11.2 synthetic figures rendered and visually inspected; interaction annotation clipping fixed. No local native runs. Full strict make docs-check-links:303pages,45340local links,1356uniqueGit links,zero failures;522external URLs deferred.",
         "followups": "scripts/qualification/arithmetic_combinations/followups.py",
         "mechanisms": "scripts/qualification/arithmetic_combinations/mechanisms.py"
-      }
+      },
+      "followup_order_policy": "Refined before flag selection/config generation or followupjobs: read all3 actual original schedules, counterbalance each one-switch pair to3firstpositions perarm across6runs. Extra pair alternation only when compatible with balance; handles nonadjacent P/R groups. Original timing schedule/scores unchanged."
     },
     {
       "id": "2026-11-15-propagation-filters-qualified",
