@@ -7,7 +7,7 @@ from scripts.qualification.bound_propagation.submit import submit
 
 
 class SubmissionTests(unittest.TestCase):
-    def exercise(self, malformed_dependency=False):
+    def exercise(self, malformed_dependency=False, campaign=False):
         calls = []
         ids = iter(["100", "371", "900"])
 
@@ -38,6 +38,11 @@ class SubmissionTests(unittest.TestCase):
                 concurrency=32,
                 receipt=Path(directory) / "receipt.json",
             )
+            if campaign:
+                args.campaign = "/remote/campaign.json"
+                args.batch_script = (
+                    "scripts/qualification/arithmetic_combinations/run.sbatch"
+                )
             if malformed_dependency:
                 with self.assertRaises(AssertionError):
                     submit(args, run)
@@ -62,3 +67,15 @@ class SubmissionTests(unittest.TestCase):
         calls = self.exercise(malformed_dependency=True)
         self.assertFalse(any(c[-1].startswith("scontrol release") for c in calls))
         self.assertEqual(calls[-1][-1], "scancel 100 371")
+
+    def test_combination_routing_keeps_verified_replication_schedule(self):
+        calls = self.exercise(campaign=True)
+        batches = [c[-1] for c in calls if "\nsbatch " in c[-1]]
+        for repetition, command in enumerate(batches):
+            self.assertIn("export PRIMO_COMB_PHASE=timing", command)
+            self.assertIn("export PRIMO_COMB_CAMPAIGN=/remote/campaign.json", command)
+            self.assertIn(f"export PRIMO_COMB_REPETITION={repetition}", command)
+            self.assertIn(
+                "scripts/qualification/arithmetic_combinations/run.sbatch", command
+            )
+            self.assertNotIn("PRIMO_PROP_CONFIG", command)

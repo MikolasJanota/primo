@@ -61,14 +61,27 @@ def submit(args: argparse.Namespace, run=execute) -> list[str]:
             ]
             if parent:
                 flags.append(f"--dependency=afterok:{parent}")
-            flags.append("scripts/qualification/bound_propagation/paired.sbatch")
+            flags.append(
+                getattr(args, "batch_script", None)
+                or "scripts/qualification/bound_propagation/paired.sbatch"
+            )
+            if getattr(args, "campaign", None):
+                exports = [
+                    "export PRIMO_COMB_PHASE=" + shlex.quote(args.phase),
+                    "export PRIMO_COMB_CAMPAIGN=" + shlex.quote(args.campaign),
+                    "export PRIMO_COMB_REPETITION=" + str(repetition),
+                ]
+            else:
+                exports = [
+                    "export PRIMO_PROP_PHASE=" + shlex.quote(args.phase),
+                    "export PRIMO_PROP_CONFIG="
+                    + shlex.quote(f"{args.configs}/config-{repetition}.json"),
+                ]
             command = "\n".join(
                 [
                     "set -eu",
                     ". " + shlex.quote(args.environment),
-                    "export PRIMO_PROP_PHASE=" + shlex.quote(args.phase),
-                    "export PRIMO_PROP_CONFIG="
-                    + shlex.quote(f"{args.configs}/config-{repetition}.json"),
+                    *exports,
                     shlex.join(flags),
                 ]
             )
@@ -111,6 +124,13 @@ def main() -> None:
     parser.add_argument("--workdir", required=True)
     parser.add_argument("--environment", required=True)
     parser.add_argument("--configs", required=True)
+    parser.add_argument(
+        "--batch-script", help="Override the default paired benchmark batch script"
+    )
+    parser.add_argument(
+        "--campaign",
+        help="Use fixed combination campaign routing instead of profile configs",
+    )
     parser.add_argument("--snapshot", type=Path, required=True)
     parser.add_argument("--phase", choices=("timing", "models"), required=True)
     parser.add_argument(
