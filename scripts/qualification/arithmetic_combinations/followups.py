@@ -45,6 +45,21 @@ def targets(report: dict) -> list[dict]:
     return selected
 
 
+def counterbalanced_orders(
+    initial: list[list[str]], before: str, after: str
+) -> list[list[str]]:
+    """Give each arm three first positions across the original and extra runs."""
+    assert len(initial) == 3
+    required = 3 - sum(order.index(before) < order.index(after) for order in initial)
+    first = {
+        0: [False, False, False],
+        1: [False, True, False],
+        2: [True, False, True],
+        3: [True, True, True],
+    }[required]
+    return [[before, after] if value else [after, before] for value in first]
+
+
 def configure(args) -> None:
     report = json.loads(args.analysis.read_text())
     assert report["native_rows"] == 14364
@@ -65,6 +80,15 @@ def configure(args) -> None:
         case = original["cases"][entry["slot"]]
         assert case["logic"] == target["logic"]
         before, after = target["edge"].split("->")
+        initial, original_hashes = [], {}
+        for rep in range(3):
+            parent = args.configs / f"{entry['cohort']}-{rep}.json"
+            original_hashes[str(rep)] = sha(parent)
+            assert sha(parent) == report["config_sha256"][f"{rep}/{entry['cohort']}"]
+            initial.append(
+                measurement_order(json.loads(parent.read_text()), entry["slot"])
+            )
+        extra_orders = counterbalanced_orders(initial, before, after)
         manifest.append(
             {
                 **target,
@@ -72,6 +96,9 @@ def configure(args) -> None:
                 "file": case["file"],
                 "input_sha256": case["sha256"],
                 "original_config_sha256": sha(original_path),
+                "original_config_sha256_by_repetition": original_hashes,
+                "original_orders": initial,
+                "additional_orders": extra_orders,
                 "derived_config_sha256": {},
             }
         )
@@ -79,9 +106,11 @@ def configure(args) -> None:
         mapping.append({"cohort": cohort, "slot": 0})
         for rep in range(3):
             config = copy.deepcopy(original)
-            config["cases"] = [dict(case, repetition=rep + 3 + entry["slot"])]
+            config["cases"] = [dict(case, repetition=rep + 3)]
             config["profiles"] = {p: original["profiles"][p] for p in (before, after)}
-            config["paired_groups"] = [[before, after]]
+            # The frozen runner reverses a pair on odd repetition markers.
+            desired = extra_orders[rep]
+            config["paired_groups"] = [desired[::-1] if (rep + 3) % 2 else desired]
             config["out"] = f"{args.results_root}/rep-{rep}/{cohort}"
             derived = args.out / f"{cohort}-{rep}.json"
             derived.write_text(json.dumps(config, indent=2) + "\n")
@@ -148,6 +177,7 @@ def analyze(args) -> None:
                 [r["profile"] for r in rows]
                 == provenance["order"]
                 == measurement_order(config, 0)
+                == item["additional_orders"][rep]
             )
             for row in rows:
                 try:
