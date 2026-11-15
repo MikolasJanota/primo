@@ -1,0 +1,485 @@
+{
+  "status": "Frozen planned P/R/H factorial experiment; no new measurement claim.",
+  "selection": "benchmarks/bound-propagation-20261113/selection.json",
+  "selection_sha256": "c76acbe0c55381a0e4db6a141427d5e8cc5daa59803fa0810af0b8e8640077c9",
+  "inputs": 697,
+  "by_logic": {
+    "QF_LIA": 200,
+    "QF_UFLIA": 300,
+    "QF_LRA": 100,
+    "QF_UFLRA": 97
+  },
+  "quarantines": "Same3predeclared abort exclusions from original700 selection;notpasses;no new removals.",
+  "repetitions": 3,
+  "native_measurements": 14364,
+  "tasks": [
+    {
+      "logic": "QF_LIA",
+      "label": "B",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": false,
+        "R": false,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "P",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--preprocess-bound-tightening",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": true,
+        "R": false,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "R",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": false,
+        "R": true,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "PR",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--preprocess-bound-tightening",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": true,
+        "R": true,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "H",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": false,
+        "R": false,
+        "H": true
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "PH",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--preprocess-bound-tightening",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": true,
+        "R": false,
+        "H": true
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "RH",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": false,
+        "R": true,
+        "H": true
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "PRH",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--preprocess-bound-tightening",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": true,
+        "R": true,
+        "H": true
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "B",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": false,
+        "R": false,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "P",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--preprocess-bound-tightening",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": true,
+        "R": false,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "R",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": false,
+        "R": true,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "PR",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--preprocess-bound-tightening",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": true,
+        "R": true,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "H",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": false,
+        "R": false,
+        "H": true
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "PH",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--preprocess-bound-tightening",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": true,
+        "R": false,
+        "H": true
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "RH",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": false,
+        "R": true,
+        "H": true
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "PRH",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--preprocess-bound-tightening",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "factors": {
+        "P": true,
+        "R": true,
+        "H": true
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "label": "B",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation"
+      ],
+      "factors": {
+        "P": false,
+        "R": false,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "label": "P",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--preprocess-bound-tightening"
+      ],
+      "factors": {
+        "P": true,
+        "R": false,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "label": "R",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation"
+      ],
+      "factors": {
+        "P": false,
+        "R": true,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_LRA",
+      "label": "PR",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--preprocess-bound-tightening",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation"
+      ],
+      "factors": {
+        "P": true,
+        "R": true,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_UFLRA",
+      "label": "B",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation"
+      ],
+      "factors": {
+        "P": false,
+        "R": false,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_UFLRA",
+      "label": "P",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--preprocess-bound-tightening"
+      ],
+      "factors": {
+        "P": true,
+        "R": false,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_UFLRA",
+      "label": "R",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation"
+      ],
+      "factors": {
+        "P": false,
+        "R": true,
+        "H": false
+      }
+    },
+    {
+      "logic": "QF_UFLRA",
+      "label": "PR",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--preprocess-bound-tightening",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation"
+      ],
+      "factors": {
+        "P": true,
+        "R": true,
+        "H": false
+      }
+    }
+  ],
+  "seconds": 120,
+  "address_space_bytes": 8589934592,
+  "allocation_memory_GiB": 10,
+  "CPUs_per_task": 1,
+  "fresh_generated_per_task": 1000,
+  "generated_seed_base": 2026113100,
+  "mutation_seed_base": 2026113200,
+  "mutations": "12family-balanced eligible real seeds per logic/profile,30iterations,600seconds collection budget,5s mutant solve,10s answer replay,30s model/checker replay;resourceincomplete separate.",
+  "timing_schedule": "Three sequential arrays,96concurrency;rotateadjacent H off/onpairs at each P/Rsetting forintegers;rotateprofileorderforreals. Exclude node01.",
+  "models": "Afterlasttimingarray;every successfulSATrow separately exactargs+check-model,180snative60sDolmen;timeexcluded. Three arrays32concurrency each.",
+  "analysis": {
+    "PAR2": "Per-input elapsed time if successful,otherwise240s; report per-repetition means and their median,bylogic/family/profile.",
+    "pairing": "Compare one-switch neighbors within each case/repetition, then median paired ratios per case,then geometric mean across eligible cases.",
+    "squares": "For each fixed third-factor state, four corners00,10,01,11. Within each repetition: q=(T11/T01)/(T10/T00); medianq over3repetitions per case,then geometric meanq across cases. Include only cases solved by all4corners in all3repetitions and medianT00>=1s;T00 is B when thirdfactoroff,that thirdfactoralone when on.",
+    "coverage": "Report full-profile and one-switch solved/PAR2 outcomes separately; conditional time squares cannot describe gained/lost/unsolved cases. Descriptive oracle union only,notimplementedselector.",
+    "regression_screen": "Common all3 one-switch pairs with either arm median>=1s;flag >=10%and >=0.5s slower in all3paired repetitions. Follow up these flags and stable solve losses."
+  },
+  "scope": "OnlyP/R/H;all other logic-specific settings fixed;no source/default/policy changes. Hybridfactor1/globalprivatecap100000/freshsplitcap0;effectiveN-dependent private budgets may differ afterpreprocessing.",
+  "native_source_snapshot": "ebe8d4b2",
+  "profile_harness_revision": "ebe8d4b2",
+  "native_binary_sha256": "pending: populate and hash private campaign config before qualification",
+  "qualification": {
+    "controller": "scripts/qualification/arithmetic_combinations/qualify.py",
+    "batch": "scripts/qualification/arithmetic_combinations/qualify.sbatch",
+    "tasks": "profiles.tasks(): QF_LIA B,P,R,PR,H,PH,RH,PRH;QF_UFLIA same;QF_LRA B,P,R,PR;QF_UFLRA same. Zero-based slot0\u201323.",
+    "generated": "1000per slot;seed=2026113100+slot;5s native/reference;FuzzSMT QF_LIA with-ms1-Ms4-mv1-Mv6-mf1-mp1-ma1-Ma4;QF_UFLIA mixed/depth3;QF_LRA Boolean/arithmetic generator;QF_UFLRA mixed smoke generator;native exact task args+check-model,reference Z3. All native SAT including reference-timeout rows get direct Dolmen30s/native30s checks.",
+    "seeds_manifest": "benchmarks/bound-propagation-20261113/regression-seeds.json",
+    "seeds_manifest_sha256": "a94a31f94e77328e88f30eb2edcee00b85de5b6eb7a838bbe12555d3d7b2026a",
+    "seeds": "Filter manifest by task.logic; exact task argv via seeds.py profile-args-json. Compare full query sequences; validate every single/scoped SAT query with Dolmen. Reference override cvc5 retained for lexical seed.",
+    "mutations": "seed=2026113200+slot;12eligible <=200000byte family-round-robin seeds per logic,30iterations each,600s collection;originals checked first and all original/mutant nativeSATresults independently Dolmen checked.",
+    "source_equivalence": "Production C++ and build inputs unchanged from qualified C815; test differs only direct sat/lit.hpp include. New build also includes exact-profile benchmark tooling."
+  }
+}

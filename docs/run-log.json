@@ -3,6 +3,26 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-15-arithmetic-combinations",
+      "date": "2026-11-15",
+      "branch": "lia-integrality",
+      "kind": "P/R/H technique interaction study",
+      "evidence_status": "Protocol/tooling prepared; frozen build running, no new combination qualified or timed.",
+      "source_snapshot": "ebe8d4b2",
+      "source_equivalence": "Production C++/build inputs unchanged from C815; unit test only direct sat/lit.hpp include. Fresh Release build via preparation helper/SLURM.",
+      "protocol": "benchmarks/arithmetic-combinations-20261115/protocol.json",
+      "scope": "P preprocessing bounds,R forward+reverse row propagation,H hybrid integer branching.8integer/4real profiles,24logicprofiletasks,all other settings fixed.697inputs,3repetitions,14364native measurements planned;120s/8GiB;separate allSATDolmen.",
+      "correctness_plan": "1000fresh generated inputs per task, exact-option tracked regressions and real-seed mutations; every successful native SAT including reference-timeout/original-seed results independently Dolmen checked. No broad timing before audited gate receipts.",
+      "documentation_review": {
+        "reviewer": "arithmetic_combinations_docs_review (independent read-only)",
+        "verdict": "Planned protocol ready; AC-DOC-01/02/03/04 resolved and rechecked. Runtime qualification not accepted yet.",
+        "accepted_page_sha256": "1c8541814ec32852d9df112cff4079cc012d2f98f110a626b302f810158a1e21",
+        "accepted_protocol_sha256": "b5413f18371ca296c0bd14e75c30d7becb0a21d1410f487e120b0b1208317551"
+      },
+      "checks": "Profile/config fixtures24tasks,8/4profiles,697mappedinputs,14364measurements pass. Python syntax/Ruff/make lint, batch validation/bash syntax, strict make docs and local/Git links pass. Initial toolcommit deab87b9 had importlintfailure due non-failfast shell; fixed ebe8d4b2 before build or solver work.",
+      "remaining": "Finish build; qualify/audit every profile; full SLURM matrix plus allSATmodel coverage; interaction/percase/counter/regression analysis; final docs/review/render/commits."
+    },
+    {
       "id": "2026-11-15-propagation-filters-qualified",
       "date": "2026-11-15",
       "branch": "lia-integrality",
