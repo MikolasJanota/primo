@@ -9,6 +9,7 @@ from scripts.qualification.arithmetic_combinations.analyze import (
     compare,
     interaction,
     metric,
+    observed_metric,
 )
 from scripts.qualification.bound_propagation.analyze import audit_row
 
@@ -74,6 +75,15 @@ class CombinationAnalysis(unittest.TestCase):
             metric(row(120, status="timeout", exit_code=124), ":sat.conflicts")
         )
         self.assertEqual(metric(row(1), ":lra.pivots"), 0)
+        self.assertEqual(
+            observed_metric(
+                row(120, status="timeout", exit_code=124), ":sat.conflicts"
+            ),
+            7,
+        )
+        self.assertIsNone(
+            observed_metric(row(120, status="timeout", exit_code=124), ":lra.pivots")
+        )
         with self.assertRaises(AssertionError):
             audit_row(row(1, exit_code=-6))
 

@@ -52,7 +52,7 @@ def submit(args: argparse.Namespace, run=execute) -> list[str]:
                 "--parsable",
                 "--hold",
                 "--exclude=node-01",
-                f"--array=0-696%{args.concurrency}",
+                f"--array=0-{getattr(args, 'task_count', 697) - 1}%{args.concurrency}",
                 "--time="
                 + (
                     getattr(args, "job_time", None)
@@ -137,12 +137,14 @@ def main() -> None:
         "--after", help="Whole timing-array ID; required for model replay"
     )
     parser.add_argument("--concurrency", type=int, default=32)
+    parser.add_argument("--task-count", type=int, default=697)
     parser.add_argument("--receipt", type=Path, required=True)
     parser.add_argument(
         "--job-time",
         help="SLURM HH:MM:SS allocation limit; solver limits remain in config",
     )
     args = parser.parse_args()
+    assert args.task_count > 0 and args.concurrency > 0
     assert args.job_time is None or re.fullmatch(
         r"\d{2}:[0-5]\d:[0-5]\d", args.job_time
     )

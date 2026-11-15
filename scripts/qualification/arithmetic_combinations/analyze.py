@@ -91,11 +91,26 @@ def metric(row: dict, key: str) -> int | None:
     return int(row["stats"].get(key, 0)) if solved(row) and row["stats"] else None
 
 
+def observed_metric(row: dict, key: str) -> int | None:
+    """Retain printed resource-exit snapshots without filling missing counters."""
+    return int(row["stats"][key]) if key in row["stats"] else metric(row, key)
+
+
 def describe(rows: list[dict], limit: float) -> dict:
     available = {
         k: [v for r in rows if (v := metric(r, k)) is not None] for k in METRICS
     }
+    unknowns = [r for r in rows if r["status"] == "ok" and r["answer"] == "unknown"]
+    snapshots = {
+        k: [int(r["stats"][k]) for r in unknowns if k in r["stats"]] for k in METRICS
+    }
     return {
+        "normal_unknown_reported_counter_snapshots": {
+            "rows": len(unknowns),
+            "scope": "Printed counters at normal resource return, not successful integer completion. Unprinted counters unavailable; no extrapolation to unfinished search.",
+            "totals": {k: sum(v) if v else None for k, v in snapshots.items()},
+            "rows_reporting_counter": {k: len(v) for k, v in snapshots.items()},
+        },
         "solved": sum(map(solved, rows)),
         "outcomes": dict(collections.Counter(outcome(r) for r in rows)),
         "mean_PAR2_seconds": st.mean(penalty(r, limit) for r in rows),
@@ -461,7 +476,7 @@ def main() -> None:
         "pending_model_allocations": pending_models,
         "receipts": receipts,
         "resource_diagnostics": diagnostics,
-        "counter_scope": "Successful measurements with statistics only; missing increment-only counters zero on these rows. Interrupted counts unavailable. Row is a subset of total propagation; reverse a subset of row. Queue duplicate classification unavailable for untracked candidates. Phase times overlap; no sum attribution.",
+        "counter_scope": "Successful measurements with statistics only; missing increment-only counters zero on these rows. Interrupted counts unavailable. Row is a subset of total propagation; reverse a subset of row. Queue duplicate classification unavailable for untracked candidates. Phase times overlap; no sum attribution. CSV retains explicitly printed resource/interruption snapshots; blank is unavailable. Normal unknown snapshots are summarized separately from successful totals.",
         "summaries": {
             name: summarize(
                 records,
@@ -500,7 +515,7 @@ def main() -> None:
                     "slot": slot,
                     "solved": solved(row),
                     "PAR2_seconds": penalty(row, protocol["seconds"]),
-                    **{k: metric(row, k) for k in METRICS},
+                    **{k: observed_metric(row, k) for k in METRICS},
                 }
             )
     print(

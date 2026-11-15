@@ -83,7 +83,8 @@ def main() -> None:
                 ax.annotate(
                     f"{ratio:.3f} · n={value['eligible_cases']}",
                     (ratio, y),
-                    xytext=(7, 7),
+                    xytext=(-7 if ratio >= 1 else 7, 7),
+                    ha="right" if ratio >= 1 else "left",
                     textcoords="offset points",
                     fontsize=8,
                 )

@@ -39,6 +39,7 @@ class SubmissionTests(unittest.TestCase):
                 receipt=Path(directory) / "receipt.json",
             )
             if campaign:
+                args.task_count = 17
                 args.campaign = "/remote/campaign.json"
                 args.batch_script = (
                     "scripts/qualification/arithmetic_combinations/run.sbatch"
@@ -79,3 +80,4 @@ class SubmissionTests(unittest.TestCase):
                 "scripts/qualification/arithmetic_combinations/run.sbatch", command
             )
             self.assertNotIn("PRIMO_PROP_CONFIG", command)
+            self.assertIn("--array=0-16%32", command)
