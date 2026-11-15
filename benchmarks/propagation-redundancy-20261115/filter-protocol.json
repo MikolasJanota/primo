@@ -1,0 +1,45 @@
+{
+  "status": "Frozen final-source protocol. Submit after final correctness gates and resource-only classification; no accepted speed claim yet.",
+  "baseline_source": "07ec5ce5",
+  "baseline_source_equivalent_head": "abe24b92",
+  "baseline_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+  "candidate_source": "c815a0b4",
+  "candidate_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+  "inputs": 697,
+  "selection": "benchmarks/bound-propagation-20261113/selection.json",
+  "selection_sha256": "c76acbe0c55381a0e4db6a141427d5e8cc5daa59803fa0810af0b8e8640077c9",
+  "by_logic": {
+    "QF_LIA": 200,
+    "QF_UFLIA": 300,
+    "QF_LRA": 100,
+    "QF_UFLRA": 97
+  },
+  "quarantines": "Same three predeclared QF_UFLRA abort exclusions from the original700-case set; not passes; no new removals.",
+  "repetitions": 3,
+  "profiles": {
+    "rows": [
+      "--quiet",
+      "--stats",
+      "--lra-propagation",
+      "--lra-row-propagation",
+      "--lra-bidirectional-row-propagation"
+    ],
+    "both": [
+      "--quiet",
+      "--stats",
+      "--lra-propagation",
+      "--preprocess-bound-tightening",
+      "--lra-row-propagation",
+      "--lra-bidirectional-row-propagation"
+    ]
+  },
+  "binaries": 2,
+  "native_measurements": 8364,
+  "time_limit_seconds": 120,
+  "address_space_bytes": 8589934592,
+  "allocation_memory_GiB": 10,
+  "CPUs_per_task": 1,
+  "schedule": "Three sequential whole arrays, adjacent baseline/candidate pairs; group/pair order rotates by slot+repetition. Exclude node01.96concurrent timing tasks per array. Models start only after final timing array; every successfulSAT timing row receives independent same-option native replay pluscheck-model and directDolmen,180s native/60s checker; validation time excluded.",
+  "claims": "Compare net change against pre-audit native source, including audit overhead. Separate instrument-only and dedup-only ablations identify work; no isolated speed attribution from counters. Defaults and numeric budgets unchanged; both optimizations confined to existing opt-in row mode. No default promotion.",
+  "artifacts": "Private configs,SSH routes/corpus roots outsideGit; full raw timings/model receipts in prepared workspace and local ignored results/propagation-redundancy-20261115. Public receipts include config/input/row/model hashes and explicit resource outcomes."
+}

@@ -1,0 +1,108 @@
+{
+  "source": "127d71e1",
+  "job": 396934,
+  "status": "Historical pre-default-guard trial;resource-incomplete outcomes separate, not all passes. No saved bugs;all selected SAT models validate.",
+  "profiles": [
+    {
+      "logic_profile": "QF_LIA-both",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "SAT_Dolmen_pass": 200,
+      "summary_sha256": "33b4ccae82e312312e228f166d770ef57ce32a7a68504e3bc328abe4ed68540f",
+      "model_summary_sha256": "1fb0c91669ab3d6812d93babdce47c3b2df199746f3a265392170a6915a41c19",
+      "resources": []
+    },
+    {
+      "logic_profile": "QF_LIA-rows",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "SAT_Dolmen_pass": 221,
+      "summary_sha256": "c67744254b8ad40e18a901c7f84f0e22f956770e37e68beddf5ece09320049e9",
+      "model_summary_sha256": "44758c3d6c3b174fa0a6d6123d0f9fc0f1fa671f35b5068d3a361575b4dc91c2",
+      "resources": []
+    },
+    {
+      "logic_profile": "QF_LRA-both",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "SAT_Dolmen_pass": 186,
+      "summary_sha256": "2cac3c571d7501a9caad5dd9c0535b15d67f33c193e6f0eaa141aa64218eeefa",
+      "model_summary_sha256": "c305b9966e1f0d2690e112d99f425a48c8b223f3bfe7e5fa4e4d508d6db8fb4d",
+      "resources": []
+    },
+    {
+      "logic_profile": "QF_LRA-rows",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "SAT_Dolmen_pass": 220,
+      "summary_sha256": "77d4f860cc3454b45ccc3c7be6d5e4a9b2b704d5b46ad1720800663c7f6eba95",
+      "model_summary_sha256": "23ba512240cc76828772c9e12e401babd1c0de8f45441010fc52ccc3b2401531",
+      "resources": []
+    },
+    {
+      "logic_profile": "QF_UFLIA-both",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "SAT_Dolmen_pass": 287,
+      "summary_sha256": "2c358928aac737ffeaedd57bc7660364c57bf4303a4633fe60aab3767eee61ba",
+      "model_summary_sha256": "7773b7dac4f348b02646656fc54b20b27c3c5e1c815d72ba4aaeb10390c0ec47",
+      "resources": []
+    },
+    {
+      "logic_profile": "QF_UFLIA-rows",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 359,
+        "INCOMPLETE": 1
+      },
+      "SAT_Dolmen_pass": 235,
+      "summary_sha256": "6c0124a42aa97ad98cfe5d9e313ec74ea96034831a98cadee419cab188cd53c7",
+      "model_summary_sha256": "bb51e19392cdadc461f4f8745370959547487fca8d142e8522e1b427ba939a80",
+      "resources": [
+        {
+          "file": "/home/janotmik/primo-propagation-filter-20261115/results/mutations/QF_UFLIA-rows/scratch/006-UfHkO-3YwIt.smt2",
+          "expected": "",
+          "ours": "timeout",
+          "ours_exit": "124",
+          "reference": "unsat",
+          "reference_exit": "0",
+          "outcome": "INCOMPLETE"
+        }
+      ]
+    },
+    {
+      "logic_profile": "QF_UFLRA-both",
+      "cases": 180,
+      "outcomes": {
+        "PASS": 180
+      },
+      "SAT_Dolmen_pass": 159,
+      "summary_sha256": "364a59d01367b34d73ce24e234c5b6c31a579f6fa293176eb5e0820a140ea9a2",
+      "model_summary_sha256": "1f96e66963aedc43a52ca415e9a726c19e8c1193c9652b817b623afad671a452",
+      "resources": []
+    },
+    {
+      "logic_profile": "QF_UFLRA-rows",
+      "cases": 180,
+      "outcomes": {
+        "PASS": 180
+      },
+      "SAT_Dolmen_pass": 164,
+      "summary_sha256": "3e1af6bdc6c2402b025f402c5be84e5f3f3b14ab32889c761f23ad3730bf3d45",
+      "model_summary_sha256": "0e109b3852703972e601c1e958fd6eba1f4ee2da7ba02b087a4eb316ffd8d6e4",
+      "resources": []
+    }
+  ],
+  "cases": 2520,
+  "SAT_Dolmen_pass": 1672
+}

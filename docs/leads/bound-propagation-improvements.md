@@ -275,6 +275,7 @@ fixpoint algorithm. Before implementation, the obligations are:
   notification is a separate experiment: it needs proof that relevant bounds,
   basis, atom registry and pending state have not changed since a covering scan.
 
+(repeated-state-row-scan-filter)=
 ### Candidate experiment: skip a scan with unchanged inputs
 
 A second, deliberately conservative experiment may skip a row-scan event only
@@ -329,3 +330,39 @@ implements the fingerprint and generation invalidation. Its
 contains both adapters' `notify_assignment_lit`/`notify_backtrack_delta`, component
 `register_atoms`/`reset`, and the fixed-view legacy construction sites. These
 links identify the qualification trial, not an accepted performance result.
+
+### Default-mode allocation guard
+
+Before accepting the filters, bypass signed-ID tracking when the row option is
+not enabled. The diagnostic control intentionally used `O(V)` tracking for all
+queue entries; the accepted implementation must not add that allocation to the
+default queue. A late arithmetic atom can have a large SAT index after many
+Boolean atoms, even when few arithmetic literals are pending.
+
+`ArithmeticPropagationQueue` must take an explicit coalescing policy. When it
+is false, append the original candidate/reasons in order without indexing or
+growing the marker vector; pop/clear must not visit markers either. Count these
+actual insertions as `propagation-untracked-candidates`. Candidate attempts,
+actual insertions and owned reason-literal counts remain available. Unique and
+duplicate classification is unavailable for these entries, not measured zero;
+analyses must not compute a duplicate fraction when untracked entries exist.
+Thus actual insertions partition into classified unique, classified duplicate
+and untracked entries. With the row option enabled, all entries are classified
+and signed duplicates are suppressed before copying reasons.
+
+Add a pure queue regression that retains duplicate order/reasons with tracking
+disabled and accepts a large sparse literal ID without a dense allocation.
+Keep the default-mode path proportional to queue payload, while tracking in the
+opt-in row mode retains the stated `O(N+V)` bound. This is a guard on the audit's
+own cost; it introduces no inference or SAT decision policy.
+
+In the coalesced queue each signed literal has at most one pending occurrence,
+so markers store Boolean presence rather than full multiplicity counters. The
+unfiltered audit control keeps multiplicities; it is a separate measurement
+implementation. The
+{propfilterfinaltrialsource}`final trial queue <src/smt/arithmetic_propagation_queue.hpp>`
+and {propfilterfinaltrialsource}`focused queue regression <tests/unit/qf_lra_solver_tests.cpp>`
+show the disabled-mode allocation guard and preserved duplicate/reason order.
+The {propfilterfinaltrialsource}`counter registry <src/util/statistics.cpp>`
+defines the untracked category. These links identify a qualification trial;
+source acceptance and broad performance qualification remain pending.

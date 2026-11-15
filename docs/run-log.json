@@ -6,7 +6,7 @@
       "id": "2026-11-15-propagation-redundancy",
       "date": "2026-11-15",
       "kind": "Arithmetic redundancy audit before filtering",
-      "evidence_status": "Instrument-only source correctness qualified; whole-tree static/include inventories complete with findings. Selected full paired timing/model stage in progress. No filtering acceptance yet.",
+      "evidence_status": "Audit complete; final sourcec815a0b4 built. Final-source correctness, mutations and static qualification submitted inSLURM; full comparison pending.",
       "source_snapshot": "f8845defb0b17e3e49b47d41f3b7b93689bafd63",
       "baseline": "abe24b92 (native source 07ec5ce5)",
       "jobs": {
@@ -31,7 +31,7 @@
       "commands": "Preparation helper --build-via-slurm --reuse-dependencies --extra-target all; scripts/qualification/propagation_redundancy/configure.py and run.sbatch; existing bound_repairs verify/gates/static controllers.",
       "limits": "All solver qualification and batches in SLURM. Planned timing1CPU/10GiB allocation with8GiB address space;120s complete,30s prefix; separate exact-option Dolmen SAT replay.",
       "artifacts": "results/propagation-redundancy-20261115 locally and prepared remote workspace results; private routes/config outside Git.",
-      "remaining": "Complete selected paired timing/model collection and analysis; qualify/evaluate the separate row-mode queue-coalescing trial; independently review final evidence, render docs and commit coherent milestones.",
+      "remaining": "Build/test/ASan/static/fresh reference+mutation qualification of finalc815a0b4; fresh full697-case rows/both comparison at120s with3rotated paired repetitions andallSATrowsDolmenvalidated; inspect regressions,accept/rejectsource,update/review/renderdocs andcommit source/evidence. Defaults remain unpromoted.",
       "native_sha256": "e6e6e1e766f9083b0ee4ed05310a96e8f9918a97700dc147aca86c1d5b4c3444",
       "static_attempts": [
         {
@@ -58,33 +58,116 @@
       "static": "Fresh whole-tree140TUs tidy+include scans completed with unchanged inputs and tool exit0;861tidy findings incl397include-provider findings; separate advisory397; unused-header gate passes. Existing inventory,not clean-tree claim.",
       "profile_attempts": "Callgrind396816on LIA and396838on Wisa exceeded300s normal-completion budget with no usable dump; discarded. Existing GDB sampler396853 completed four rotated1000-conflict prefixes:468wall-stack observations,34/116 and38/120audit stacks and52/114 and42/118control stacks include row scanning. Overlapping stack evidence,notCPUpercentages or native timing.",
       "experiment": {
-        "status": "Combined row-mode trial127d71e1 builds in SLURM396861; unqualified and unaccepted. Earlier94f548ee row-only coalescing binary retained for diagnostic ablation.",
-        "snapshots": [
+        "source_snapshot": "c815a0b4",
+        "status": "Final qualification build in progress; no filtering source accepted or adopted on main yet.",
+        "mechanisms": "Signed queue coalescing before reason copy; Boolean presence markers onlyunder existingrowoption; defaultnoID-indexedauditallocation and preserves duplicate order. Untrackedcategory distinguishes unavailable uniqueness data. Row scansskiponlynon-strengthening inserts matching samevar/trail/pivots/backtrackgeneration; newobjects onregistrationreset.",
+        "superseded": [
           {
             "source": "e61db15f",
             "build": 396854,
-            "status": "Superseded before qualification to confine coalescing to row mode."
+            "reason": "Confine coalescing to existingrowoption."
           },
           {
             "source": "94f548ee",
             "build": 396860,
-            "sha256": "fd38673b9943804b5100e53ed13c058f5fb2846e79004b9626d380e6a1beb62a",
-            "status": "Build passed; diagnostic ablation only, not accepted source."
+            "ablation_check": 396867,
+            "prefix": 396868,
+            "models": 396869,
+            "reason": "Dedup-only ablation retained; combinedtrial adds guardedscan skipping."
           },
           {
             "source": "127d71e1",
             "build": 396861,
-            "status": "Build in progress."
+            "check_asan": 396894,
+            "gates": 396897,
+            "seeds": 396898,
+            "static": 396930,
+            "hard_timing": 396931,
+            "hard_models": 396932,
+            "extra_gates": 396933,
+            "mutations": 396934,
+            "reason": "Finalsource guardsdefaultmodeauditallocation."
+          },
+          {
+            "source": "53db125c",
+            "reason": "Superseded prequalification by compactBooleanmarkers; nobenchmark source claim."
           }
-        ],
-        "mechanisms": "Signed queue coalescing before reason copy and exact input stamps for repeated no-op row scans; both confined to existing opt-in row mode. Backtracks invalidate stamps; registry reset rebuilds execution. Defaults retain duplicate order."
+        ]
       },
       "lint": "Local whole-tree make lint passed with ripgrep15.2.0 and clang-format21.1.8;log /tmp/primo-redundancy-verified-lint.log. Remote make check lacked rg and therefore skipped C++ format enumeration; native/Python tests remain valid, local lint supplies formatting coverage.",
       "documentation_review": {
         "status": "Audit unit and experimental checklists independently accepted; no filter qualification claimed.",
         "findings": "RDA-1/2/3,S1;RDD-1/2,S1;RDE-1/2/3;RDS-1/2 resolved and rechecked. Scope: lead/checklist,statistics reference,LRA paragraph,config,qualification/prefix/profile evidence and first ledger entry.",
         "validation": "make docs;assemble_docs.py;check_doc_links.py:301pages44666local links1330Git links0failures,518external deferred. Chrome statistics PDF pages4/5 inspected: introduction and key table legible; process group terminated. Local make lint withrg15.2.0/clang-format21.1.8 passed; remote format-enumeration limitation separately disclosed.",
-        "remaining": "Independent acceptance of final complete timing/model analysis and any accepted filter implementation documentation remains pending."
+        "remaining": "Independent acceptance of final complete timing/model analysis and any accepted filter implementation documentation remains pending.",
+        "final_implementation_review": {
+          "reviewer": "redundancy_docs_review (independent read-only)",
+          "findings": "RDG-1,FQR-1 resolved and rechecked; queue/memo/default guard/counter sections accepted; not qualification or performance acceptance.",
+          "reviewed_diff_sha256": "637ef6271d2c7a12183dc155a381dc1b713840c6166fe07ffe2d5201b142b254",
+          "checks": "make docs strict passes; assembled site local/Git link check301pages44672local1335Git0failures;518external URLs deferred."
+        }
+      },
+      "audit_comparison": "benchmarks/propagation-redundancy-20261115/audit-comparison.json",
+      "dedup_ablation": "benchmarks/propagation-redundancy-20261115/dedup-prefix.json",
+      "combined_prefix": "benchmarks/propagation-redundancy-20261115/filter-prefix.json",
+      "hard_trial": "benchmarks/propagation-redundancy-20261115/hard-comparison.json",
+      "prototype_mutations": "benchmarks/propagation-redundancy-20261115/prototype-mutations.json",
+      "full_protocol": "benchmarks/propagation-redundancy-20261115/filter-protocol.json",
+      "prototype_status": "127d71e1:49native+354Python+49ASan pass,8000fresh refs7986PASS14TIMEOUT and6026SATDolmenpasses; extra4000gates and2520real-seed mutants complete (one mutant timeout vs referenceUNSAT,resource-incomplete;1672SATmodelsDolmenpass,no savedbugs). Whole-tree static396930 running or complete; receipts pending collection. This source is historical, superseded before acceptance by default-mode allocation guard.",
+      "prototype_performance": "Matched1000-conflict LIA2/17 prefixes:dedup-only paired ratios~0.90–0.96;combined~0.78–0.81 with same recorded decisions/conflicts/pivots. Combined skips~761k–783k repeated scans andsuppresses~6.33million dup attempts. Hard complete R0(24rows):same16timeouts,4UNSAT,4SAT;all4SATmodels validate. Wisa row2.964→2.217s,both0.473→0.389s;private case64~39s unchanged. Prefix evidence is work/time at resource stops,not full-run speedup or CPUshare.",
+      "final_candidate": {
+        "source": "c815a0b4",
+        "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+        "build": 396956,
+        "qualification_jobs": [
+          {
+            "phase": "check-asan",
+            "job": "396957",
+            "parents": []
+          },
+          {
+            "phase": "fresh-generated",
+            "job": "396958",
+            "parents": [
+              "396957"
+            ]
+          },
+          {
+            "phase": "extra-generated",
+            "job": "396959",
+            "parents": [
+              "396957"
+            ]
+          },
+          {
+            "phase": "regression-seeds",
+            "job": "396960",
+            "parents": [
+              "396957"
+            ]
+          },
+          {
+            "phase": "real-seed-mutations",
+            "job": "396961",
+            "parents": [
+              "396957"
+            ]
+          },
+          {
+            "phase": "whole-tree-static",
+            "job": "396962",
+            "parents": [
+              "396957_0"
+            ]
+          }
+        ],
+        "status": "Submitted; final source frozen before all checks. Earlier127d71e1 receipts remain prototype evidence only.",
+        "generated_seed_bases": [
+          2026112900,
+          2026112908
+        ],
+        "mutation_seed_base": 2026113000,
+        "protocol": "benchmarks/propagation-redundancy-20261115/filter-protocol.json"
       }
     },
     {

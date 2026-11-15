@@ -13,6 +13,7 @@ def main() -> None:
     parser.add_argument("--template", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--results-root", required=True)
+    parser.add_argument("--complete-repetitions", type=int, choices=(1, 3), default=3)
     for variant in ("control", "audit"):
         for field in ("solver", "git", "sha256"):
             parser.add_argument(f"--{variant}-{field}", required=True)
@@ -35,7 +36,9 @@ def main() -> None:
                 index = len(entries)
                 entry = {"index": index, "original_slot": slot, "conflict_limit": limit}
                 entries.append(entry)
-                for repetition in range(3 if phase == "complete" else 1):
+                for repetition in range(
+                    args.complete_repetitions if phase == "complete" else 1
+                ):
                     case = dict(template["cases"][slot], repetition=repetition)
                     if limit is not None:
                         case["extra_args"] = ["--max-theory-conflicts", str(limit)]
@@ -55,7 +58,13 @@ def main() -> None:
                     )
                     target.parent.mkdir(parents=True, exist_ok=True)
                     target.write_text(json.dumps(config, indent=2) + "\n")
-        manifest.append({"phase": phase, "cases": entries})
+        manifest.append(
+            {
+                "phase": phase,
+                "repetitions": args.complete_repetitions if phase == "complete" else 1,
+                "cases": entries,
+            }
+        )
     (args.out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 
 
