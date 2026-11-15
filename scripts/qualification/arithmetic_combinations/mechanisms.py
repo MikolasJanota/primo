@@ -92,6 +92,57 @@ def summarize(rows):
     return result
 
 
+def complements(report, rows):
+    """Describe unpriced per-case oracle coverage beyond a fixed profile."""
+    records = {(int(r["repetition"]), int(r["slot"]), r["profile"]): r for r in rows}
+    result = {}
+    for cohort, logics in {
+        "integers": {"QF_LIA", "QF_UFLIA"},
+        "reals": {"QF_LRA", "QF_UFLRA"},
+    }.items():
+        slots = sorted({int(r["slot"]) for r in rows if r["logic"] in logics})
+        profiles = report["summaries"][cohort]["profiles"]
+        best = min(profiles, key=lambda p: profiles[p]["median_mean_PAR2_seconds"])
+        unions, residuals, best_counts = [], [], []
+        for rep in range(3):
+            union = {
+                s
+                for s in slots
+                if any(records[rep, s, p]["solved"] == "True" for p in profiles)
+            }
+            chosen = {s for s in slots if records[rep, s, best]["solved"] == "True"}
+            unions.append(union)
+            residuals.append(union - chosen)
+            best_counts.append(len(chosen))
+        inventory = []
+        for slot in sorted(set.union(*residuals)):
+            example = records[0, slot, best]
+            inventory.append(
+                {
+                    "slot": slot,
+                    "logic": example["logic"],
+                    "file": example["file"],
+                    "solving_profiles_by_repetition": {
+                        str(rep): [
+                            p
+                            for p in profiles
+                            if records[rep, slot, p]["solved"] == "True"
+                        ]
+                        for rep in range(3)
+                    },
+                }
+            )
+        result[cohort] = {
+            "best_fixed_profile_by_median_mean_PAR2": best,
+            "best_solved_counts": best_counts,
+            "oracle_union_solved_counts": [len(s) for s in unions],
+            "residual_slots_by_repetition": [sorted(s) for s in residuals],
+            "persistent_residual_slots": sorted(set.intersection(*residuals)),
+            "case_inventory": inventory,
+        }
+    return result
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--evidence", type=Path, required=True)
@@ -110,6 +161,19 @@ def main():
         "by_logic": summarize(rows),
     }
     (args.evidence / "mechanisms.json").write_text(json.dumps(result, indent=2) + "\n")
+    union = {
+        "source": report["source"],
+        "native_sha256": report["native_sha256"],
+        "measurements_sha256": result["measurements_sha256"],
+        "parent_analysis_sha256": hashlib.sha256(
+            (args.evidence / "analysis.json").read_bytes()
+        ).hexdigest(),
+        "scope": "Descriptive oracle union across actual profiles. No selector or portfolio implemented; combined execution cost is not priced. Original timing scores unchanged.",
+        "cohorts": complements(report, rows),
+    }
+    (args.evidence / "coverage-union.json").write_text(
+        json.dumps(union, indent=2) + "\n"
+    )
     print("Wrote selected-counter repeatability and one-switch change diagnostics")
 
 
