@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "smt/arithmetic_propagation_queue.hpp"
+#include "smt/arithmetic_row_scan_memo.hpp"
 #include "smt/check_sat.hpp"
 #include "util/statistics.hpp"
 
@@ -3592,6 +3593,24 @@ void row_bound_events_and_integer_refinement() {
   }
 }
 
+void row_scan_memo_invalidates_changed_inputs_and_backtracks() {
+  primo::smt::detail::ArithmeticRowScanMemo memo;
+  assert(!memo.seen(5, 10, 2));
+  memo.remember(5, 10, 2);
+  assert(memo.seen(5, 10, 2));
+  assert(!memo.seen(6, 10, 2));
+  assert(!memo.seen(5, 11, 2));
+  assert(!memo.seen(5, 10, 3));
+  memo.remember(50000, 11, 3);  // Growth must preserve an earlier stamp.
+  assert(memo.seen(5, 10, 2) && memo.seen(50000, 11, 3));
+  memo.invalidate();  // Even restoring exactly the old numeric offsets is new.
+  assert(!memo.seen(5, 10, 2) && !memo.seen(50000, 11, 3));
+  memo.remember(5, 10, 2);
+  assert(memo.seen(5, 10, 2));
+  const primo::smt::detail::ArithmeticRowScanMemo fresh;
+  assert(!fresh.seen(5, 10, 2));
+}
+
 void pending_arithmetic_queue_retains_first_literal_and_reason_order() {
   primo::util::Statistics statistics;
   primo::smt::detail::ArithmeticPropagationQueue queue;
@@ -3677,6 +3696,7 @@ void row_scans_reuse_endpoints_and_build_reasons_lazily() {
                result.statistics.get(StatKey::LraPropagationDuplicateCandidates));
     assert(result.statistics.get(StatKey::LraRowScanEventsWithNewCandidates) > 0);
     assert(result.statistics.get(StatKey::LraRowScanNoopEvents) > 0);
+    assert(result.statistics.get(StatKey::LraRowScanRepeatedStateSkips) > 0);
     assert(result.statistics.get(StatKey::LraRowScanEventsWithNewCandidates) <=
            result.statistics.get(StatKey::LraRowScanEvents));
   }
@@ -5207,6 +5227,7 @@ int main() {
   boolean_flattening_runs_after_the_rewriting_passes();
   row_propagation_limits_are_actually_enforced();
   row_bound_events_and_integer_refinement();
+  row_scan_memo_invalidates_changed_inputs_and_backtracks();
   pending_arithmetic_queue_retains_first_literal_and_reason_order();
   row_scans_reuse_endpoints_and_build_reasons_lazily();
   bidirectional_row_propagation_drives_boolean_structure();

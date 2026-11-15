@@ -33,6 +33,7 @@
 #include "sat/lit.hpp"
 #include "sat/trail.hpp"
 #include "smt/arithmetic_propagation_queue.hpp"
+#include "smt/arithmetic_row_scan_memo.hpp"
 #include "smt/assignment_coordinator.hpp"
 #include "smt/boolean_solver.hpp"
 #include "smt/check_sat.hpp"
@@ -7223,6 +7224,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     throw std::logic_error("arithmetic backtrack requires the shared removal delta");
   }
   void notify_backtrack_delta(std::size_t new_level, const std::vector<int>& removed) override {
+    row_scan_memo_.invalidate();
     if (new_level < checkpoints_.size()) {
       tableau_.pop(checkpoints_[new_level]);
       checkpoints_.resize(new_level);
@@ -7602,7 +7604,14 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
         statistics_.increment(util::StatKey::LraRowScanEvents);
         if (!bound_changed) statistics_.increment(util::StatKey::LraRowScanNoopEvents);
         const auto unique_before = statistics_.get(util::StatKey::LraPropagationUniqueCandidates);
-        scan_row_based_propagations(prepared_atom.bound_var);
+        const auto trail = tableau_.push();
+        const auto pivots = tableau_.pivot_count();
+        if (!bound_changed && row_scan_memo_.seen(prepared_atom.bound_var, trail, pivots)) {
+          statistics_.increment(util::StatKey::LraRowScanRepeatedStateSkips);
+        } else {
+          scan_row_based_propagations(prepared_atom.bound_var);
+          row_scan_memo_.remember(prepared_atom.bound_var, trail, pivots);
+        }
         if (statistics_.get(util::StatKey::LraPropagationUniqueCandidates) != unique_before)
           statistics_.increment(util::StatKey::LraRowScanEventsWithNewCandidates);
       }
@@ -8146,6 +8155,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
   std::vector<std::size_t> checkpoints_;
   // Keep coalescing confined to the existing opt-in row mode.
   detail::ArithmeticPropagationQueue pending_{row_propagation_enabled_};
+  detail::ArithmeticRowScanMemo row_scan_memo_;
   std::deque<InterfaceEqualityPropagation> pending_interface_equalities_;
   bool interface_equalities_enabled_ = false;
   bool equality_propagation_enabled_ = false;
@@ -9031,6 +9041,7 @@ class ComponentLraExecution final {
   void notify_new_decision_level() { checkpoints_.push_back(tableau_.push()); }
 
   void notify_backtrack_delta(std::size_t new_level, const std::vector<int>& removed) {
+    row_scan_memo_.invalidate();
     if (new_level < checkpoints_.size()) {
       tableau_.pop(checkpoints_[new_level]);
       checkpoints_.resize(new_level);
@@ -9358,7 +9369,14 @@ class ComponentLraExecution final {
         statistics_.increment(util::StatKey::LraRowScanEvents);
         if (!bound_changed) statistics_.increment(util::StatKey::LraRowScanNoopEvents);
         const auto unique_before = statistics_.get(util::StatKey::LraPropagationUniqueCandidates);
-        scan_row_based_propagations(prepared_atom.bound_var);
+        const auto trail = tableau_.push();
+        const auto pivots = tableau_.pivot_count();
+        if (!bound_changed && row_scan_memo_.seen(prepared_atom.bound_var, trail, pivots)) {
+          statistics_.increment(util::StatKey::LraRowScanRepeatedStateSkips);
+        } else {
+          scan_row_based_propagations(prepared_atom.bound_var);
+          row_scan_memo_.remember(prepared_atom.bound_var, trail, pivots);
+        }
         if (statistics_.get(util::StatKey::LraPropagationUniqueCandidates) != unique_before)
           statistics_.increment(util::StatKey::LraRowScanEventsWithNewCandidates);
       }
@@ -9829,6 +9847,7 @@ class ComponentLraExecution final {
   std::vector<std::size_t> checkpoints_;
   // Keep coalescing confined to the existing opt-in row mode.
   detail::ArithmeticPropagationQueue pending_{row_propagation_enabled_};
+  detail::ArithmeticRowScanMemo row_scan_memo_;
   std::deque<InterfaceEqualityPropagation> pending_interface_equalities_;
   bool interface_equalities_enabled_ = false;
   std::unordered_map<TermPairKey, sat::Lit, TermPairKeyHash> true_lra_le_reasons_;

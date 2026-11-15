@@ -185,6 +185,7 @@ constexpr std::array<std::string_view, static_cast<std::size_t>(StatKey::Count)>
     ":lra.row-scan-events"sv,
     ":lra.row-scan-events-with-new-candidates"sv,
     ":lra.row-scan-noop-events"sv,
+    ":lra.row-scan-repeated-state-skips"sv,
     ":lra.bland-fallbacks"sv,
     ":preprocessing.arithmetic-canonicalization.atoms-visited"sv,
     ":preprocessing.arithmetic-canonicalization.atoms-rewritten"sv,

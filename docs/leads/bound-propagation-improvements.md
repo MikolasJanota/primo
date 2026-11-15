@@ -274,3 +274,50 @@ fixpoint algorithm. Before implementation, the obligations are:
   entries. Numeric row calculations are unchanged. Suppressing a numeric no-op
   notification is a separate experiment: it needs proof that relevant bounds,
   basis, atom registry and pending state have not changed since a covering scan.
+
+### Candidate experiment: skip a scan with unchanged inputs
+
+A second, deliberately conservative experiment may skip a row-scan event only
+when insertion was a numeric no-op and the same arithmetic variable has already
+been scanned with the identical global trail offset and cumulative pivot count
+in the current backtrack generation. It is engineering memoization of the
+existing row operation, motivated by relevant-event reasoning in Schulte–Stuckey
+§5; it is not a domain-fixpoint algorithm or numeric closure.
+
+Before implementation, the owning execution object must satisfy:
+
+- Store only `(generation, trail offset, pivot count)` per encountered arithmetic
+  variable, not endpoints, rows, terms or reasons. A stamp records that this
+  variable's complete existing bounded scan was called at those inputs, including
+  its fixed cap/empty outcomes. New objects have no matching stamps.
+- Every successful bound change appends to the tableau trail. Every pivot,
+  including fixed-variable elimination, advances the cumulative pivot count.
+  A scan only enqueues, so its numeric inputs remain unchanged until it returns.
+  Identical trail offsets between monotonic insertions imply no intervening
+  bound change; matching pivots also preserve row structure and variable roles.
+- Invalidate all stamps logically in constant time on every backtrack, even if
+  the restored trail offset equals an older one. A generation counter supplies
+  this invalidation; on unsigned wrap, clear all stamps before restarting it.
+- Registry extension must not reuse stamps across a changed prepared atom set.
+  Component registration destroys/recreates `ComponentLraExecution`; the legacy
+  `OnlineLraPropagator` owns a fixed prepared arithmetic-atom set for its solve.
+  A new execution therefore begins with fresh stamps. Verify these ownership
+  paths against `register_atoms`, `reset` and the legacy construction site.
+- SAT assignments without arithmetic changes can remove eligible atoms, but
+  cannot make an assigned atom unassigned without backtracking. Previously
+  queued first occurrences are retained/delivered; backtracking clears pending
+  candidates and invalidates stamps together. Preserve same-variable scans,
+  interface/equality handling, deferred feasibility checks and conflicts.
+- Count skipped repeated states separately; `row-scan-events` remains a request
+  count including these skips. This does not authorize skipping all numeric
+  no-ops: another variable's changed bound or a pivot changes the fingerprint.
+- Test first visit, exact repeat, other variable, changed trail, changed pivot,
+  backtrack to the same offset, fresh execution and vector growth. Integration
+  must exercise a skipped weak-bound event, preserve delivered reasons/search
+  counters on completed prefixes and pass fresh four-logic/model/ASan gates.
+- Lookup is constant-time; total growth/space is linear in the largest encountered
+  arithmetic-variable ID, including gaps. Generation invalidation is constant
+  except at wrap. This cache does not track dependencies finely: an unrelated
+  trailed change prevents a hit too. Cumulative counter wrap within a generation
+  is outside the supported solver-resource envelope; no completeness claim is
+  attached to this scheduling heuristic.

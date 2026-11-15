@@ -185,6 +185,7 @@ enum class StatKey : std::size_t {
   LraRowScanEvents,
   LraRowScanEventsWithNewCandidates,
   LraRowScanNoopEvents,
+  LraRowScanRepeatedStateSkips,
   LraBlandFallbacks,
   ArithmeticCanonicalizationAtomsVisited,
   ArithmeticCanonicalizationAtomsRewritten,
