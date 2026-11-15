@@ -3,10 +3,232 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-15-propagation-filters-qualified",
+      "date": "2026-11-15",
+      "branch": "lia-integrality",
+      "kind": "Qualified opt-in arithmetic work filtering",
+      "evidence_status": "Complete and retained under existing opt-in row propagation. Source, tests, documentation, scripts and qualified evidence are committed in adjacent verified milestones; no default promotion.",
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "implementation_commit": "b62e9649",
+      "snapshot_ancestry_merge": "7e16e7d6 (main worktree tree unchanged)",
+      "source_equivalence": "All changed production files and build inputs match measured C815. The unit test adds only a direct sat/lit.hpp include after the frozen static scan; its body is unchanged and a bounded g++ -std=c++20 -Isrc -fsyntax-only check passes.",
+      "baseline_source": "07ec5ce5",
+      "baseline_source_equivalent_head": "abe24b92",
+      "baseline_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+      "implementation": "ArithmeticPropagationQueue retains first signed pending literal/reason/order before reason copy; opposite signs separate. No dense markers outside row mode. ArithmeticRowScanMemo skips only numeric no-op scans at same variable/trail/pivot/backtrack generation. Backtracking invalidates; registration recreates execution. No new rows, variables, atoms or inference rules; same-variable/equality/interface checks preserved.",
+      "paper_basis": "Schulte–Stuckey Efficient Constraint Propagation Engines §5 motivates event filtering. This is ordinary queue coalescing and conservative exact-input memoization, not their optimized finite-domain fixpoint algorithm. Existing interval arithmetic remains the implemented Dutertre–de Moura subset; checklist and limitations are linked in the evidence page.",
+      "jobs": {
+        "build": 396956,
+        "check_asan": 396957,
+        "generated": 396958,
+        "extra_generated": 396959,
+        "regression_seeds": 396960,
+        "mutations": 396961,
+        "static": 396962,
+        "timing": [
+          396982,
+          396983,
+          396984
+        ],
+        "models": [
+          396985,
+          396986,
+          397083
+        ]
+      },
+      "commands": "Preparation helper --build-via-slurm --reuse-dependencies --extra-target all, then --check-only before every submission. Existing bound_repairs verify/gates/static/mutations and bound_propagation seeds/submit/paired controllers. propagation_redundancy qualification.py, mutations.py and full_analysis.py audit receipts; plot.py renders the cactus with optional Matplotlib3.11.2. Reporting tool revision ef1d8689; exact commands/limits in protocol and evidence page.",
+      "limits": {
+        "inputs": 697,
+        "repetitions": 3,
+        "profiles": {
+          "rows": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "both": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ]
+        },
+        "native_rows": 8364,
+        "seconds": 120,
+        "address_space_bytes": 8589934592,
+        "SLURM_CPUs_per_task": 1,
+        "SLURM_memory_GiB": 10,
+        "timing_concurrency": 96,
+        "model_concurrency_per_array": 32,
+        "schedule": "Three sequential timing arrays with rotated adjacent pairs; model arrays only after final timing array and all own qualification jobs terminal. Observed logical masks/hosts retained; physical-core isolation not established.",
+        "model_limits": "Separate same-option replay with --check-model,180s native and60s Dolmen; validation time excluded."
+      },
+      "selection": {
+        "path": "benchmarks/bound-propagation-20261113/selection.json",
+        "sha256": "c76acbe0c55381a0e4db6a141427d5e8cc5daa59803fa0810af0b8e8640077c9",
+        "by_logic": {
+          "QF_LIA": 200,
+          "QF_UFLIA": 300,
+          "QF_LRA": 100,
+          "QF_UFLRA": 97
+        },
+        "quarantines": "Same three predeclared QF_UFLRA abort exclusions from the original700-case set; not passes; no new removals."
+      },
+      "correctness": {
+        "native_groups": 49,
+        "Python_tests": 354,
+        "ASan_groups": 49,
+        "generated": {
+          "count": 12000,
+          "PASS": 11973,
+          "TIMEOUT": 27,
+          "SAT_Dolmen_pass": 9084,
+          "seed_bases": [
+            2026112900,
+            2026112908
+          ]
+        },
+        "mutations": {
+          "count": 2520,
+          "PASS": 2512,
+          "INCOMPLETE": 8,
+          "SAT_Dolmen_pass": 1704,
+          "seed_base": 2026113000,
+          "classification": "Eight reference timeouts, all native SAT with direct Dolmen pass. Child396961_2 intentionally fails its completeness gate; no saved bugs or decisive mismatch."
+        },
+        "regressions": "57 cases/profile;27 single-query plus6 incremental SAT models/profile pass Dolmen.",
+        "full_SAT_Dolmen_pass": 4515,
+        "scope": "No wrong pinned answer, unhandled crash or invalid selected model observed in admitted selection/gates. Timeouts and diagnosed limits remain incomplete; three predeclared abort exclusions are not passes."
+      },
+      "static": {
+        "translation_units_per_scan": 140,
+        "both_tool_exit": 0,
+        "changed_inputs": [],
+        "tidy_findings": 865,
+        "include_provider_findings": 398,
+        "unused_header_gate": "passed",
+        "scope": "Complete with advisory findings, not warning-free. New pragma-once convention and internal parameter-order advisory reviewed; one direct unit-test include fixed/syntax-checked after frozen scan."
+      },
+      "results": {
+        "rows": {
+          "median_solved": {
+            "baseline": 539,
+            "candidate": 539
+          },
+          "median_mean_PAR2_seconds": {
+            "baseline": 58.29055842898135,
+            "candidate": 58.15276819942611
+          },
+          "paired_solved_deltas": [
+            0,
+            1,
+            0
+          ],
+          "common_baseline_at_least_1s": 232,
+          "conditional_geomean_paired_median_ratio": 0.9279690715815616,
+          "search_pairs_checked": 1616,
+          "stable_gains": [],
+          "stable_losses": [],
+          "repetition_solved": {
+            "baseline": [
+              539,
+              538,
+              539
+            ],
+            "candidate": [
+              539,
+              539,
+              539
+            ]
+          },
+          "screened_consistent_slowdowns": []
+        },
+        "both": {
+          "median_solved": {
+            "baseline": 541,
+            "candidate": 542
+          },
+          "median_mean_PAR2_seconds": {
+            "baseline": 57.74611898278336,
+            "candidate": 57.424550169296985
+          },
+          "paired_solved_deltas": [
+            1,
+            0,
+            1
+          ],
+          "common_baseline_at_least_1s": 238,
+          "conditional_geomean_paired_median_ratio": 0.9251538711260795,
+          "search_pairs_checked": 1624,
+          "stable_gains": [],
+          "stable_losses": [],
+          "repetition_solved": {
+            "baseline": [
+              541,
+              542,
+              541
+            ],
+            "candidate": [
+              542,
+              542,
+              542
+            ]
+          },
+          "screened_consistent_slowdowns": []
+        }
+      },
+      "aggregate_outcomes": {
+        "ok/unknown": 768,
+        "ok/sat": 4515,
+        "timeout/unknown": 1061,
+        "error/error": 49,
+        "ok/unsat": 1968,
+        "timeout/error": 2,
+        "timeout/sat": 1
+      },
+      "counter_scope": "Success-only pooled counts; interrupted observations excluded, historical unsupported namespaces null. Full comparison records all selected metrics and coverage.",
+      "verdict": "Retain opt-in. Conditional common-case runtime improves about7.2–7.5%, led by QF_UFLIA13–14%; global PAR2 only0.24–0.56% lower. Every paired solve difference is cutoff-sensitive slot17 (candidate3/6 successes,baseline0/6), no stable all-three gain and no pair loses a solve. No material screened regression; no default-profile performance or promotion claim.",
+      "artifacts": {
+        "protocol": "benchmarks/propagation-redundancy-20261115/filter-protocol.json",
+        "qualification": "benchmarks/propagation-redundancy-20261115/final-qualification.json",
+        "mutations": "benchmarks/propagation-redundancy-20261115/final-mutations.json",
+        "seeds": "benchmarks/propagation-redundancy-20261115/final-seeds.json",
+        "comparison": "benchmarks/propagation-redundancy-20261115/full/comparison.json",
+        "comparison_sha256": "3096a65f9420277d8c17cd117ccbfde2dd7fb133c6b0f2f60d0ca7bb09125382",
+        "measurements": "benchmarks/propagation-redundancy-20261115/full/measurements.csv",
+        "measurements_sha256": "ab588f6d40268323fa7ce73710683480b4d111ef1bb3a81494cc768ec4944235",
+        "evidence_page": "docs/evidence/propagation-redundancy.md",
+        "cactus": "docs/images/propagation-filters.png",
+        "raw": "Prepared final-source SLURM workspace results/full and local ignored results/propagation-redundancy-20261115/final-full-rows; configs,SSH/corpus roots outside Git."
+      },
+      "remaining": [],
+      "documentation_review": {
+        "reviewer": "redundancy_docs_review (independent read-only)",
+        "baseline": "ef1d8689",
+        "verdict": "Ready; no required findings. Final source/paper scope, methods, every timing/model/resource receipt, all aggregate/example values and cactus accepted.",
+        "accepted_report_sha256": "02542c0ff8cf4c65de0acf553cc54daecdd07545623be951d3b64b928e01c490",
+        "accepted_comparison_sha256": "3096a65f9420277d8c17cd117ccbfde2dd7fb133c6b0f2f60d0ca7bb09125382",
+        "accepted_measurements_sha256": "ab588f6d40268323fa7ce73710683480b4d111ef1bb3a81494cc768ec4944235",
+        "verification": "Independently checked2091row/provenance/coverage receipts,4515Dolmen summary/metadata hashes and820resource-diagnostic hashes; no native runs or edits. Earlier PRE-1/2 andRPA-1/2 fixes rechecked. Filling this metadata does not change accepted scientific claims."
+      },
+      "documentation_checks": {
+        "strict_make_docs": "passed",
+        "local_Git_link_check": "302pages45015local links1337Git links0failures;520external URLs deferred",
+        "rendered_inspection": "Chrome PDF pages6–8: full table,cactus,counter table and interpretation inspected; groups terminated. Standalone cactus also inspected.",
+        "lint": "make lint and explicit qualification-module Python syntax/Ruff pass. git diff --check passes.",
+        "source_review": "Code-review and efficiency self-review: no blocking issue. Whole tracked inventory with changed-source focus,140TUstatic/include inventories and strict lint; not a new line-by-line proof of unrelated code."
+      }
+    },
+    {
       "id": "2026-11-15-propagation-redundancy",
       "date": "2026-11-15",
-      "kind": "Arithmetic redundancy audit before filtering",
-      "evidence_status": "Audit/ablation evidence committed; finalC815correctness-qualified. Fullpairedtimings/modelsrunning,nooverallperformanceclaim.",
+      "kind": "Arithmetic redundancy audit and prototype chronology",
+      "evidence_status": "Audit and prototype chronology complete. Final C815 qualification, accepted opt-in implementation and full comparison are recorded in 2026-11-15-propagation-filters-qualified.",
       "source_snapshot": "f8845defb0b17e3e49b47d41f3b7b93689bafd63",
       "baseline": "abe24b92 (native source 07ec5ce5)",
       "jobs": {
@@ -31,7 +253,7 @@
       "commands": "Preparation helper --build-via-slurm --reuse-dependencies --extra-target all; scripts/qualification/propagation_redundancy/configure.py and run.sbatch; existing bound_repairs verify/gates/static controllers.",
       "limits": "All solver qualification and batches in SLURM. Planned timing1CPU/10GiB allocation with8GiB address space;120s complete,30s prefix; separate exact-option Dolmen SAT replay.",
       "artifacts": "results/propagation-redundancy-20261115 locally and prepared remote workspace results; private routes/config outside Git.",
-      "remaining": "Complete the full697-case rows/both comparison at120s with three rotated paired repetitions; validate every successful SAT timing row with Dolmen; analyze regressions,review/render final evidence andcommit. Source correctness/static qualification and featurecommit complete; defaults remain unpromoted.",
+      "remaining": "None for the audit/prototype chronology. Final acceptance and documentation review are recorded in the newer qualified-filter entry.",
       "native_sha256": "e6e6e1e766f9083b0ee4ed05310a96e8f9918a97700dc147aca86c1d5b4c3444",
       "static_attempts": [
         {
@@ -50,7 +272,7 @@
           "scope": "All tracked src/tests/docs/examples C++ and headers; expected140TUs."
         }
       ],
-      "preliminary_observation": "At1000theory conflicts slots2/17: about89%candidate insertions duplicate an already pending signed literal; over99%row-scan events add no new pending literal;29–31%numeric no-op notifications. Matched completed prefixes preserve recorded SAT decisions/conflicts,tableau pivots,theory conflicts and private nodes (absent in both retained LIA rows, interpreted as zero under the increment-only statistics convention). Prefix data only; native timing/model qualification pending.",
+      "preliminary_observation": "At1000theory conflicts slots2/17: about89%candidate insertions duplicate an already pending signed literal; over99%row-scan events add no new pending literal;29–31%numeric no-op notifications. Matched completed prefixes preserve recorded SAT decisions/conflicts,tableau pivots,theory conflicts and private nodes (absent in both retained LIA rows, interpreted as zero under the increment-only statistics convention). Diagnostic prefixes only; complete audit and final comparison scopes are separately recorded.",
       "correctness": "49native test groups,354Python tests and49ASan tests pass. Fresh8000generated inputs across QF_LIA/QF_UFLIA/QF_LRA/QF_UFLRA in rows/both:7986PASS,14TIMEOUT;6034selected SAT models directDolmen pass. No wronganswer/crash/invalidmodel observed. Timeouts remain incomplete.",
       "qualification": "benchmarks/propagation-redundancy-20261115/audit-qualification.json",
       "prefix_observations": "benchmarks/propagation-redundancy-20261115/prefix-observations.json",
@@ -59,7 +281,7 @@
       "profile_attempts": "Callgrind396816on LIA and396838on Wisa exceeded300s normal-completion budget with no usable dump; discarded. Existing GDB sampler396853 completed four rotated1000-conflict prefixes:468wall-stack observations,34/116 and38/120audit stacks and52/114 and42/118control stacks include row scanning. Overlapping stack evidence,notCPUpercentages or native timing.",
       "experiment": {
         "source_snapshot": "c815a0b4",
-        "status": "FinalC815source correctness-qualified; native filtering onmainstaged forverifiedcommit. Fullperformance/modelacceptancepending.",
+        "status": "Final C815 correctness and full timing/model qualification complete; accepted only under existing opt-in row propagation. See newer qualified-filter entry.",
         "mechanisms": "Signed queue coalescing before reason copy; Boolean presence markers onlyunder existingrowoption; defaultnoID-indexedauditallocation and preserves duplicate order. Untrackedcategory distinguishes unavailable uniqueness data. Row scansskiponlynon-strengthening inserts matching samevar/trail/pivots/backtrackgeneration; newobjects onregistrationreset.",
         "superseded": [
           {
@@ -99,7 +321,7 @@
         "status": "Audit unit and experimental checklists independently accepted; no filter qualification claimed.",
         "findings": "RDA-1/2/3,S1;RDD-1/2,S1;RDE-1/2/3;RDS-1/2 resolved and rechecked. Scope: lead/checklist,statistics reference,LRA paragraph,config,qualification/prefix/profile evidence and first ledger entry.",
         "validation": "make docs;assemble_docs.py;check_doc_links.py:301pages44666local links1330Git links0failures,518external deferred. Chrome statistics PDF pages4/5 inspected: introduction and key table legible; process group terminated. Local make lint withrg15.2.0/clang-format21.1.8 passed; remote format-enumeration limitation separately disclosed.",
-        "remaining": "Independent acceptance of final complete timing/model analysis and any accepted filter implementation documentation remains pending.",
+        "remaining": "None for the audit/prototype chronology; final evidence review is recorded separately.",
         "final_implementation_review": {
           "reviewer": "redundancy_docs_review (independent read-only)",
           "findings": "RDG-1,FQR-1 resolved and rechecked; queue/memo/default guard/counter sections accepted; not qualification or performance acceptance.",
@@ -125,7 +347,7 @@
       "hard_trial": "benchmarks/propagation-redundancy-20261115/hard-comparison.json",
       "prototype_mutations": "benchmarks/propagation-redundancy-20261115/prototype-mutations.json",
       "full_protocol": "benchmarks/propagation-redundancy-20261115/filter-protocol.json",
-      "prototype_status": "127d71e1:49native+354Python+49ASan pass,8000fresh refs7986PASS14TIMEOUT and6026SATDolmenpasses; extra4000gates and2520real-seed mutants complete (one mutant timeout vs referenceUNSAT,resource-incomplete;1672SATmodelsDolmenpass,no savedbugs). Whole-tree static396930 running or complete; receipts pending collection. This source is historical, superseded before acceptance by default-mode allocation guard.",
+      "prototype_status": "127d71e1:49native+354Python+49ASan pass,8000fresh refs7986PASS14TIMEOUT and6026SATDolmenpasses; extra4000gates and2520real-seed mutants complete (one mutant timeout vs referenceUNSAT,resource-incomplete;1672SATmodelsDolmenpass,no savedbugs). Whole-tree static396930 completed; not used to qualify the final source. This source is historical, superseded before acceptance by default-mode allocation guard.",
       "prototype_performance": "Matched1000-conflict LIA2/17 prefixes:dedup-only paired ratios~0.90–0.96;combined~0.78–0.81 with same recorded decisions/conflicts/pivots. Combined skips~761k–783k repeated scans andsuppresses~6.33million dup attempts. Hard complete R0(24rows):same16timeouts,4UNSAT,4SAT;all4SATmodels validate. Wisa row2.964→2.217s,both0.473→0.389s;private case64~39s unchanged. Prefix evidence is work/time at resource stops,not full-run speedup or CPUshare.",
       "final_candidate": {
         "source": "c815a0b4",
@@ -173,7 +395,7 @@
             ]
           }
         ],
-        "status": "Final-source correctness and both static inventories audited. Full697rows/both3rep timing and allSATmodel phases submitted after staticjob terminal; final performance verdict pending.",
+        "status": "Complete; final performance and acceptance are recorded in the newer qualified-filter entry.",
         "generated_seed_bases": [
           2026112900,
           2026112908
@@ -246,7 +468,8 @@
         "source_review": "skills/code-review and solver-efficiency-review self-review: no blocking issue. Full1798trackednon-generated inventory with diff focus; lint+140TUstatic coverage. Reasonborrowsconsumed synchronously,firstreasonowned,backtrack/registration invalidation verified. Not a fresh line-by-line proof of unrelated code.",
         "implementation_commit": "b62e9649",
         "snapshot_ancestry_merge": "7e16e7d6,unchanged main tree; exact measured snapshots retained as ancestors."
-      }
+      },
+      "source_snapshot_scope": "This top-level snapshot/hash identifies the instrument-only audit; final source C815 is a separate newer entry."
     },
     {
       "id": "2026-11-14-bound-repairs-final",
