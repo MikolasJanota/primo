@@ -300,8 +300,9 @@ Before implementation, the owning execution object must satisfy:
   this invalidation; on unsigned wrap, clear all stamps before restarting it.
 - Registry extension must not reuse stamps across a changed prepared atom set.
   Component registration destroys/recreates `ComponentLraExecution`; the legacy
-  `OnlineLraPropagator` owns a fixed prepared arithmetic-atom set for its solve.
-  A new execution therefore begins with fresh stamps. Verify these ownership
+  `OnlineLraPropagator` borrows a fixed prepared arithmetic-atom view whose
+  external owners outlive it; that fixed LRA subset is distinct from the shared
+  main registry, which can grow. A new execution begins with fresh stamps. Verify these ownership
   paths against `register_atoms`, `reset` and the legacy construction site.
 - SAT assignments without arithmetic changes can remove eligible atoms, but
   cannot make an assigned atom unassigned without backtracking. Previously
@@ -321,3 +322,35 @@ Before implementation, the owning execution object must satisfy:
   trailed change prevents a hit too. Cumulative counter wrap within a generation
   is outside the supported solver-resource envelope; no completeness claim is
   attached to this scheduling heuristic.
+
+The {propfiltertrialsource}`trial memo <src/smt/arithmetic_row_scan_memo.hpp>`
+implements the fingerprint and generation invalidation. Its
+{propfiltertrialsource}`execution integration <src/smt/solver_engines.cpp>`
+contains both adapters' `notify_assignment_lit`/`notify_backtrack_delta`, component
+`register_atoms`/`reset`, and the fixed-view legacy construction sites. These
+links identify the qualification trial, not an accepted performance result.
+
+### Default-mode allocation guard
+
+Before accepting the filters, bypass signed-ID tracking when the row option is
+not enabled. The diagnostic control intentionally used `O(V)` tracking for all
+queue entries; the accepted implementation must not add that allocation to the
+default queue. A late arithmetic atom can have a large SAT index after many
+Boolean atoms, even when few arithmetic literals are pending.
+
+`ArithmeticPropagationQueue` must take an explicit coalescing policy. When it
+is false, append the original candidate/reasons in order without indexing or
+growing the marker vector; pop/clear must not visit markers either. Count these
+actual insertions as `propagation-untracked-candidates`. Candidate attempts,
+actual insertions and owned reason-literal counts remain available. Unique and
+duplicate classification is unavailable for these entries, not measured zero;
+analyses must not compute a duplicate fraction when untracked entries exist.
+Thus actual insertions partition into classified unique, classified duplicate
+and untracked entries. With the row option enabled, all entries are classified
+and signed duplicates are suppressed before copying reasons.
+
+Add a pure queue regression that retains duplicate order/reasons with tracking
+disabled and accepts a large sparse literal ID without a dense allocation.
+Keep the default-mode path proportional to queue payload, while tracking in the
+opt-in row mode retains the stated `O(N+V)` bound. This is a guard on the audit's
+own cost; it introduces no inference or SAT decision policy.

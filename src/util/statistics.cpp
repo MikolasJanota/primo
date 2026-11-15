@@ -177,6 +177,7 @@ constexpr std::array<std::string_view, static_cast<std::size_t>(StatKey::Count)>
     ":lra.propagation-candidate-attempts"sv,
     ":lra.propagation-suppressed-duplicates"sv,
     ":lra.propagation-reason-literals"sv,
+    ":lra.propagation-untracked-candidates"sv,
     ":lra.propagation-candidates"sv,
     ":lra.propagation-unique-candidates"sv,
     ":lra.propagation-duplicate-candidates"sv,

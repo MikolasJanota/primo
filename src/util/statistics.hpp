@@ -177,6 +177,7 @@ enum class StatKey : std::size_t {
   LraPropagationCandidateAttempts,
   LraPropagationSuppressedDuplicates,
   LraPropagationReasonLiterals,
+  LraPropagationUntrackedCandidates,
   LraPropagationCandidates,
   LraPropagationUniqueCandidates,
   LraPropagationDuplicateCandidates,

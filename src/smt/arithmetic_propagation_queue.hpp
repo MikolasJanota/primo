@@ -21,7 +21,7 @@ namespace primo::smt::detail {
 // obligations: retain the first reason/order and clear markers on backtracking.
 class ArithmeticPropagationQueue {
  public:
-  explicit ArithmeticPropagationQueue(bool coalesce = true) : coalesce_(coalesce) {}
+  explicit ArithmeticPropagationQueue(bool coalesce) : coalesce_(coalesce) {}
 
   struct Candidate {
     int lit;
@@ -35,21 +35,25 @@ class ArithmeticPropagationQueue {
             bool variable_equality, util::Statistics& statistics) {
     assert(lit != 0);
     statistics.increment(util::StatKey::LraPropagationCandidateAttempts);
-    const auto var = static_cast<std::size_t>(std::abs(lit));
-    if (var >= pending_.size()) pending_.resize(std::max(var + 1, pending_.size() * 2));
-    auto& count = pending_[var][lit > 0 ? 1U : 0U];
-    const bool duplicate = count != 0;
-    if (coalesce_ && duplicate) {
-      statistics.increment(util::StatKey::LraPropagationSuppressedDuplicates);
-      return;
+    std::size_t var = 0;
+    if (coalesce_) {
+      var = static_cast<std::size_t>(std::abs(lit));
+      if (var >= pending_.size()) pending_.resize(std::max(var + 1, pending_.size() * 2));
+      if (pending_[var][lit > 0 ? 1U : 0U] != 0) {
+        statistics.increment(util::StatKey::LraPropagationSuppressedDuplicates);
+        return;
+      }
     }
     // The incoming span is consumed now; the queue never borrows its storage.
     entries_.push_back(Candidate{
         lit, {reasons.begin(), reasons.end()}, row_based, bidirectional, variable_equality});
-    ++count;
     statistics.increment(util::StatKey::LraPropagationCandidates);
-    statistics.increment(duplicate ? util::StatKey::LraPropagationDuplicateCandidates
-                                   : util::StatKey::LraPropagationUniqueCandidates);
+    if (coalesce_) {
+      ++pending_[var][lit > 0 ? 1U : 0U];
+      statistics.increment(util::StatKey::LraPropagationUniqueCandidates);
+    } else {
+      statistics.increment(util::StatKey::LraPropagationUntrackedCandidates);
+    }
     statistics.increment(util::StatKey::LraPropagationReasonLiterals, reasons.size());
   }
 
@@ -59,13 +63,15 @@ class ArithmeticPropagationQueue {
     assert(!entries_.empty());
     Candidate candidate = std::move(entries_.front());
     entries_.pop_front();
-    removed(candidate.lit);
+    if (coalesce_) removed(candidate.lit);
     return candidate;
   }
 
   void clear(util::Statistics& statistics) {
     statistics.increment(util::StatKey::LraPropagationBacktrackDiscarded, entries_.size());
-    for (const auto& entry : entries_) removed(entry.lit);
+    if (coalesce_) {
+      for (const auto& entry : entries_) removed(entry.lit);
+    }
     entries_.clear();
   }
 

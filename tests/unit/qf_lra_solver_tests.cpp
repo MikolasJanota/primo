@@ -4,6 +4,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <limits>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -3613,7 +3614,7 @@ void row_scan_memo_invalidates_changed_inputs_and_backtracks() {
 
 void pending_arithmetic_queue_retains_first_literal_and_reason_order() {
   primo::util::Statistics statistics;
-  primo::smt::detail::ArithmeticPropagationQueue queue;
+  primo::smt::detail::ArithmeticPropagationQueue queue(true);
   std::vector<primo::sat::Lit> first_reasons{{-11}, {-12}};
   queue.push(7, first_reasons, true, false, false, statistics);
   first_reasons[0].value = -99;  // The queue owns its original premises.
@@ -3653,7 +3654,12 @@ void pending_arithmetic_queue_retains_first_literal_and_reason_order() {
   assert(unfiltered.pop().reasons[0].value == -99);
   assert(unfiltered.pop().reasons[0].value == -20 && unfiltered.empty());
   assert(unfiltered_statistics.get(StatKey::LraPropagationCandidates) == 2);
-  assert(unfiltered_statistics.get(StatKey::LraPropagationDuplicateCandidates) == 1);
+  assert(unfiltered_statistics.get(StatKey::LraPropagationUntrackedCandidates) == 2);
+  // Sparse SAT IDs must not allocate an ID-indexed marker array in default mode.
+  unfiltered.push(std::numeric_limits<int>::max(), opposite_reasons, false, false, false,
+                  unfiltered_statistics);
+  assert(unfiltered.pop().lit == std::numeric_limits<int>::max());
+  assert(unfiltered.empty());
   assert(unfiltered_statistics.get(StatKey::LraPropagationSuppressedDuplicates) == 0);
 }
 
