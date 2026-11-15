@@ -104,6 +104,9 @@ sphinx:
       boundrepairpairsource:
         - "https://github.com/primo-solver/primo/blob/4d7647b6/%s"
         - "%s"
+      arithmeticreporttools:
+        - "https://github.com/primo-solver/primo/blob/d11116fa/%s"
+        - "%s"
       arithmeticcombsource:
         - "https://github.com/primo-solver/primo/blob/4f02a8b7/%s"
         - "%s"

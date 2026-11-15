@@ -19,7 +19,12 @@
         "accepted_page_sha256": "1c8541814ec32852d9df112cff4079cc012d2f98f110a626b302f810158a1e21",
         "accepted_protocol_sha256": "3193e5efb5ddcb3f63cddabee58fc306de22670fe199c83abf635fd0f50b4fc0",
         "baseline": "f45a3aaa",
-        "accepted_qualification_sha256": "f9fed3a3d66a4cf9415222c6431c6ff6147f2ce041c85077b333daa4b09f4c84"
+        "accepted_qualification_sha256": "f9fed3a3d66a4cf9415222c6431c6ff6147f2ce041c85077b333daa4b09f4c84",
+        "analysis_unit": {
+          "verdict": "Ready; AC-DOC-07/08 fixed/rechecked; timing/model completion and conclusions excluded.",
+          "accepted_page_sha256": "4410da6f02fa5ae614b784717b029b6bb1169264894bb03325158fd15a9e19f1",
+          "source": "d11116fa"
+        }
       },
       "checks": "Profile/config fixtures24tasks,8/4profiles,697mappedinputs,14364measurements pass. Python syntax/Ruff/make lint, batch validation/bash syntax, strict make docs and local/Git links pass. Initial toolcommit deab87b9 had importlintfailure due non-failfast shell; fixed ebe8d4b2 before build or solver work.",
       "remaining": "Full SLURM matrix plus allSATmodel coverage; interaction/percase/counter/regression analysis; final docs/review/render/commits.",
@@ -84,6 +89,11 @@
           401588,
           401589,
           401590
+        ],
+        "models": [
+          401727,
+          401728,
+          401729
         ]
       },
       "raw_artifacts": "results/arithmetic-combinations-20261115/raw (workspace-relative ignored copy; preserved SLURM workspace; connection/root mapping in private campaign.json and submission receipts)",
@@ -95,7 +105,13 @@
         "path": "results/arithmetic-combinations-20261115/raw/combinations/unknown-diagnostics.json",
         "sha256": "c2dc8cedc3ac8cd23b07eac4090e816fcf93812c3acf35bebb25cd6b5e996400"
       },
-      "timing_restart": "First timing attempt canceled after live collector observed rows before earlier-written stderr copied.1192durable rows subsequently audited without native failure. All3repetitions restarted in separate output namespace; no partial timings reused. Separate rejected-monitor-* private receipts retained."
+      "timing_restart": "First timing attempt canceled after live collector observed rows before earlier-written stderr copied.1192durable rows subsequently audited without native failure. All3repetitions restarted in separate output namespace; no partial timings reused. Separate rejected-monitor-* private receipts retained.",
+      "reporting_tools": {
+        "revision": "d11116fa",
+        "analysis": "scripts/qualification/arithmetic_combinations/analyze.py",
+        "plots": "scripts/qualification/arithmetic_combinations/plot.py",
+        "checks": "Four pure mocked analysis tests pass, including missing-statistics/cutoff/post-answer-crash and stable-loss screening; make lint and strict docs/localGitlinks pass. Matplotlib3.11.2 synthetic report fixture rendered for visual review; no native runs local."
+      }
     },
     {
       "id": "2026-11-15-propagation-filters-qualified",

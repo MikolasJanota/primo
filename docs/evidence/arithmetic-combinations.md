@@ -138,3 +138,33 @@ run three sequential timing arrays, then separate model arrays, through the
 and existing pinned timing/model driver. Binary hashes, actual private config
 hashes and submission receipts must be recorded before execution; no pending
 identity is accepted as completed provenance.
+
+
+## Reproducing the analysis
+
+The reporting tool is separate from the frozen native build. Run
+{arithmeticreporttools}`analyze.py <scripts/qualification/arithmetic_combinations/analyze.py>` with `--configs`
+pointing to the private timing-config directory, `--rows` to its collected
+`full` directory, `--protocol` and `--selection` to the tracked manifests, and
+`--out` to a new evidence directory. The default audit requires every timing
+allocation and every selected SAT model. `--allow-pending-models` permits an
+explicitly provisional timing report; `--partial` only screens durable rows
+and produces no performance summary. A live collection can omit a diagnostic
+file until the next transfer, so the partial audit defers that diagnostic;
+the final audit requires it. The initial timing attempt was canceled after
+this collection race and preserved separately. All repetitions restarted;
+none of its partial measurements enter the final comparison.
+
+The report checks native/configuration/input/profile/order identities, process
+status before answers, expected and cross-profile answers, complete model
+coverage and propagation-counter partitions. It emits `analysis.json` and
+`measurements.csv`, with one row per actual native measurement. Counter totals
+use successful rows with statistics; interrupted missing counters remain
+unavailable. Paired mechanism comparisons use only common solved cases in all
+three repetitions and repetition pairs where both arms have statistics. They
+report the available and excluded pair counts; no available pair yields
+`null`, not zero, for both totals. Peak generated atoms also receive a maximum, separate from sums.
+The companion {arithmeticreporttools}`plot.py <scripts/qualification/arithmetic_combinations/plot.py>`
+(`--evidence OUTPUT`) requires qualified model coverage
+and uses optional Matplotlib to render cactus and interaction figures. Cactus
+curves use cases solved in all three repetitions and their median times.
