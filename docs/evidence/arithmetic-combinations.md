@@ -157,7 +157,9 @@ none of its partial measurements enter the final comparison.
 
 The report checks native/configuration/input/profile/order identities, process
 status before answers, expected and cross-profile answers, complete model
-coverage and propagation-counter partitions. It emits `analysis.json` and
+coverage and propagation-counter partitions. Handled errors coincident with
+the deadline still require the known memory-exhaustion diagnostic; an
+unexplained handled error stops the audit. It emits `analysis.json` and
 `measurements.csv`, with one row per actual native measurement. Counter totals
 use successful rows with statistics; interrupted missing counters remain
 unavailable. Paired mechanism comparisons use only common solved cases in all

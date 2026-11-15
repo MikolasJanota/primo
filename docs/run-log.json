@@ -39,6 +39,11 @@
           "verdict": "Ready; original k first positions plus3-k additional gives3of6 perarm, all original hashes/orders retained. AC-DOC-01–10 remain resolved; runtime/render excluded.",
           "accepted_page_sha256": "0d035c36a693a4d065ebe206dff516fdc707cfcbb71a554ee4e8998045f8f699",
           "source": "8fe6ab9b"
+        },
+        "deadline_unit": {
+          "verdict": "Ready; errors atdeadline require exit2/knownbadalloc; signals rejected, AC-DOC-01–10 remain resolved. Runtime/render excluded.",
+          "accepted_page_sha256": "fed56892f92d7946d5cdb14c793877449320ad324ed213afebd6094d2111df5d",
+          "source": "8c3942b9"
         }
       },
       "checks": "Profile/config fixtures24tasks,8/4profiles,697mappedinputs,14364measurements pass. Python syntax/Ruff/make lint, batch validation/bash syntax, strict make docs and local/Git links pass. Initial toolcommit deab87b9 had importlintfailure due non-failfast shell; fixed ebe8d4b2 before build or solver work.",
@@ -70,7 +75,10 @@
         "Z3": "5.1.0",
         "Z3_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
         "Dolmen": "0.10",
-        "Dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+        "Dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+        "YinYang": "0.3.0",
+        "FuzzSMT_jar_sha256": "89f887283d409842ebb19af6fce7a33a1b4a6c006746801b98ca8d716a3b0552",
+        "cvc5_regression_override": "1.3.4 git f3b21c4"
       },
       "rejected_attempt": "ebe8d4b2: adapters mistook unsupported-named statistics for diagnostics. Stopped all initial qualification arrays before timings; no old classifications reused. SLURM probe unsat/exit0 with only zero-valued fallback-unsupported statistic; fixed4f02a8b7. Four-adapter mocked post-answer-crash/resource-stat tests pass.",
       "private_submission_receipts": "results/arithmetic-combinations-20261115/{qualification,timing,models}-submission.json",
@@ -122,10 +130,10 @@
       },
       "timing_restart": "First timing attempt canceled after live collector observed rows before earlier-written stderr copied.1192durable rows subsequently audited without native failure. All3repetitions restarted in separate output namespace; no partial timings reused. Separate rejected-monitor-* private receipts retained.",
       "reporting_tools": {
-        "revision": "8fe6ab9b",
+        "revision": "8c3942b9",
         "analysis": "scripts/qualification/arithmetic_combinations/analyze.py",
         "plots": "scripts/qualification/arithmetic_combinations/plot.py",
-        "checks": "Ten pure mocked analysis/followup/submission tests pass, including configuration drift, missing statistics, cutoff exclusion, post-answer crash and stable loss. make lint, strict docs/localGitlinks and rendered source/counter/restart sections pass. Matplotlib3.11.2 synthetic figures rendered and visually inspected; interaction annotation clipping fixed. No local native runs. Full strict make docs-check-links:303pages,45340local links,1356uniqueGit links,zero failures;522external URLs deferred.",
+        "checks": "Eleven pure mocked analysis/followup/submission tests pass, including configuration drift, missing statistics, cutoff exclusion, post-answer crash and stable loss. make lint, strict docs/localGitlinks and rendered source/counter/restart sections pass. Matplotlib3.11.2 synthetic figures rendered and visually inspected; interaction annotation clipping fixed. No local native runs. Full strict make docs-check-links:303pages,45340local links,1356uniqueGit links,zero failures;522external URLs deferred.",
         "followups": "scripts/qualification/arithmetic_combinations/followups.py",
         "mechanisms": "scripts/qualification/arithmetic_combinations/mechanisms.py"
       },
