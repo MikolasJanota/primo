@@ -79,7 +79,7 @@ def configure(args) -> None:
         mapping.append({"cohort": cohort, "slot": 0})
         for rep in range(3):
             config = copy.deepcopy(original)
-            config["cases"] = [dict(case, repetition=rep + 3)]
+            config["cases"] = [dict(case, repetition=rep + 3 + entry["slot"])]
             config["profiles"] = {p: original["profiles"][p] for p in (before, after)}
             config["paired_groups"] = [[before, after]]
             config["out"] = f"{args.results_root}/rep-{rep}/{cohort}"

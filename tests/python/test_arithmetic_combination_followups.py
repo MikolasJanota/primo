@@ -53,6 +53,7 @@ class CombinationFollowups(unittest.TestCase):
                 "timeout": 120,
                 "address_space_bytes": 8589934592,
             }
+            original["cases"].append(dict(original["cases"][0]))
             config = root / "integers-0.json"
             config.write_text(json.dumps(original))
             report["config_sha256"] = {"0/integers": sha(config)}
@@ -61,7 +62,7 @@ class CombinationFollowups(unittest.TestCase):
                     {
                         "git": "frozen",
                         "sha256": "binary",
-                        "mapping": [{"cohort": "integers", "slot": 0}],
+                        "mapping": [{"cohort": "integers", "slot": 1}],
                     }
                 )
             )
@@ -84,10 +85,10 @@ class CombinationFollowups(unittest.TestCase):
                     value["profiles"], {p: original["profiles"][p] for p in ("B", "P")}
                 )
                 self.assertEqual(value["cases"][0]["sha256"], "input")
-                self.assertEqual(value["cases"][0]["repetition"], rep + 3)
+                self.assertEqual(value["cases"][0]["repetition"], rep + 4)
                 self.assertEqual(value["timeout"], 120)
                 orders.append(measurement_order(value, 0))
-            self.assertEqual(orders, [["P", "B"], ["B", "P"], ["P", "B"]])
+            self.assertEqual(orders, [["B", "P"], ["P", "B"], ["B", "P"]])
             manifest = json.loads((root / "repeats/manifest.json").read_text())
             self.assertEqual(manifest["timing_rows"], 6)
             self.assertEqual(manifest["parent_analysis_sha256"], sha(analysis))
