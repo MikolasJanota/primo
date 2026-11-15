@@ -168,3 +168,27 @@ The companion {arithmeticreporttools}`plot.py <scripts/qualification/arithmetic_
 (`--evidence OUTPUT`) requires qualified model coverage
 and uses optional Matplotlib to render cactus and interaction figures. Cactus
 curves use cases solved in all three repetitions and their median times.
+
+
+Normal resource-limit returns receive a separate table of explicitly printed
+counter snapshots. This exposes private-node-limit work even where completion
+returns `unknown`, without counting it as a successful solve or extrapolating
+the unfinished search. CSV counter cells likewise retain explicitly printed
+snapshots, including interrupted runs; an unprinted interrupted counter stays
+blank. These snapshots do not enter the successful matched-counter totals.
+
+For every predeclared stable loss or consistent runtime regression, the
+{arithmeticreporttools}`follow-up controller <scripts/qualification/arithmetic_combinations/followups.py>`
+prepares three additional adjacent paired repetitions of that single technique
+addition. It retains the two original profiles, input hash and 120-second/
+8 GiB limits, rotates pair direction, and binds the derived manifest to the
+parent analysis and original configuration hashes. Its manifest also records
+every derived configuration hash; final auditing rejects any changed options
+before reading results. Follow-up timings start
+after all main timing/model jobs finish, with their own model phase after their
+last timing repetition. Every selected SAT result again requires Dolmen.
+The follow-up report says whether the slowdown or solve loss reproduced;
+these diagnostic measurements never replace the original factorial scores.
+The {arithmeticreporttools}`shared submission controller <scripts/qualification/bound_propagation/submit.py>`
+option `--task-count` limits these arrays to the
+actual number of flagged pairs; its default remains 697.

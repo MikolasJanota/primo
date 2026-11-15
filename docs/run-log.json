@@ -24,6 +24,11 @@
           "verdict": "Ready; AC-DOC-07/08 fixed/rechecked; timing/model completion and conclusions excluded.",
           "accepted_page_sha256": "4410da6f02fa5ae614b784717b029b6bb1169264894bb03325158fd15a9e19f1",
           "source": "d11116fa"
+        },
+        "followup_unit": {
+          "verdict": "Ready; AC-DOC-09/10 fixed/rechecked. Scheduling/results/rendering excluded.",
+          "accepted_page_sha256": "dd7b863a390588320c34dca2538a71775c5825a40e8250e280d8587c5482b055",
+          "source": "052fe9cc"
         }
       },
       "checks": "Profile/config fixtures24tasks,8/4profiles,697mappedinputs,14364measurements pass. Python syntax/Ruff/make lint, batch validation/bash syntax, strict make docs and local/Git links pass. Initial toolcommit deab87b9 had importlintfailure due non-failfast shell; fixed ebe8d4b2 before build or solver work.",
@@ -107,10 +112,11 @@
       },
       "timing_restart": "First timing attempt canceled after live collector observed rows before earlier-written stderr copied.1192durable rows subsequently audited without native failure. All3repetitions restarted in separate output namespace; no partial timings reused. Separate rejected-monitor-* private receipts retained.",
       "reporting_tools": {
-        "revision": "d11116fa",
+        "revision": "052fe9cc",
         "analysis": "scripts/qualification/arithmetic_combinations/analyze.py",
         "plots": "scripts/qualification/arithmetic_combinations/plot.py",
-        "checks": "Four pure mocked analysis tests pass, including missing-statistics/cutoff/post-answer-crash and stable-loss screening; make lint and strict docs/localGitlinks pass. Matplotlib3.11.2 synthetic report fixture rendered for visual review; no native runs local."
+        "checks": "Eight pure mocked analysis/followup/submission tests pass, including configuration drift, missing statistics, cutoff exclusion, post-answer crash and stable loss. make lint, strict docs/localGitlinks and rendered source/counter/restart sections pass. Matplotlib3.11.2 synthetic figures rendered and visually inspected; interaction annotation clipping fixed. No local native runs.",
+        "followups": "scripts/qualification/arithmetic_combinations/followups.py"
       }
     },
     {
