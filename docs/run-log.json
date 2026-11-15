@@ -7,20 +7,95 @@
       "date": "2026-11-15",
       "branch": "lia-integrality",
       "kind": "P/R/H technique interaction study",
-      "evidence_status": "Protocol/tooling prepared; frozen build running, no new combination qualified or timed.",
-      "source_snapshot": "ebe8d4b2",
+      "evidence_status": "Qualified; three sequential timing arrays released, models after last timing. Results pending.",
+      "source_snapshot": "4f02a8b7",
       "source_equivalence": "Production C++/build inputs unchanged from C815; unit test only direct sat/lit.hpp include. Fresh Release build via preparation helper/SLURM.",
       "protocol": "benchmarks/arithmetic-combinations-20261115/protocol.json",
       "scope": "P preprocessing bounds,R forward+reverse row propagation,H hybrid integer branching.8integer/4real profiles,24logicprofiletasks,all other settings fixed.697inputs,3repetitions,14364native measurements planned;120s/8GiB;separate allSATDolmen.",
       "correctness_plan": "1000fresh generated inputs per task, exact-option tracked regressions and real-seed mutations; every successful native SAT including reference-timeout/original-seed results independently Dolmen checked. No broad timing before audited gate receipts.",
       "documentation_review": {
         "reviewer": "arithmetic_combinations_docs_review (independent read-only)",
-        "verdict": "Planned protocol ready; AC-DOC-01/02/03/04 resolved and rechecked. Runtime qualification not accepted yet.",
+        "verdict": "Corrected-adapter qualification narrative ready; AC-DOC-01–06 resolved/rechecked. Timing/restart/results excluded.",
         "accepted_page_sha256": "1c8541814ec32852d9df112cff4079cc012d2f98f110a626b302f810158a1e21",
-        "accepted_protocol_sha256": "b5413f18371ca296c0bd14e75c30d7becb0a21d1410f487e120b0b1208317551"
+        "accepted_protocol_sha256": "3193e5efb5ddcb3f63cddabee58fc306de22670fe199c83abf635fd0f50b4fc0",
+        "baseline": "f45a3aaa",
+        "accepted_qualification_sha256": "f9fed3a3d66a4cf9415222c6431c6ff6147f2ce041c85077b333daa4b09f4c84"
       },
       "checks": "Profile/config fixtures24tasks,8/4profiles,697mappedinputs,14364measurements pass. Python syntax/Ruff/make lint, batch validation/bash syntax, strict make docs and local/Git links pass. Initial toolcommit deab87b9 had importlintfailure due non-failfast shell; fixed ebe8d4b2 before build or solver work.",
-      "remaining": "Finish build; qualify/audit every profile; full SLURM matrix plus allSATmodel coverage; interaction/percase/counter/regression analysis; final docs/review/render/commits."
+      "remaining": "Full SLURM matrix plus allSATmodel coverage; interaction/percase/counter/regression analysis; final docs/review/render/commits.",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+      "qualification_artifact": "benchmarks/arithmetic-combinations-20261115/qualification.json",
+      "correctness": {
+        "native_groups": 49,
+        "Python_tests": 357,
+        "generated": {
+          "inputs": 24000,
+          "PASS": 23877,
+          "TIMEOUT": 123
+        },
+        "mutations": {
+          "inputs": 7920,
+          "PASS": 7795,
+          "INCOMPLETE": 125,
+          "classifications": {
+            "native_timeout": 120,
+            "native_private_node_limit_unknown": 4,
+            "reference_timeout_native_SAT_Dolmen_pass": 1
+          }
+        },
+        "tracked_regression_measurements": 292,
+        "SAT_Dolmen_pass": 22961
+      },
+      "dependency_provenance": {
+        "Z3": "5.1.0",
+        "Z3_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+        "Dolmen": "0.10",
+        "Dolmen_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+      },
+      "rejected_attempt": "ebe8d4b2: adapters mistook unsupported-named statistics for diagnostics. Stopped all initial qualification arrays before timings; no old classifications reused. SLURM probe unsat/exit0 with only zero-valued fallback-unsupported statistic; fixed4f02a8b7. Four-adapter mocked post-answer-crash/resource-stat tests pass.",
+      "private_submission_receipts": "results/arithmetic-combinations-20261115/{qualification,timing,models}-submission.json",
+      "scheduler_tool_revision": "da5f0442",
+      "jobs": {
+        "rejected_build": 401218,
+        "rejected_qualification": [
+          401219,
+          401220,
+          401221,
+          401222
+        ],
+        "adapter_probe": 401292,
+        "build": 401293,
+        "check": 401294,
+        "generated": 401295,
+        "regressions": 401296,
+        "mutations": 401297,
+        "unknown_diagnostic_replay": 401367,
+        "rejected_monitor_timing": [
+          401368,
+          401369,
+          401370
+        ],
+        "rejected_monitor_models": [
+          401492,
+          401493,
+          401494
+        ],
+        "timing": [
+          401588,
+          401589,
+          401590
+        ]
+      },
+      "raw_artifacts": "results/arithmetic-combinations-20261115/raw (workspace-relative ignored copy; preserved SLURM workspace; connection/root mapping in private campaign.json and submission receipts)",
+      "auditor": {
+        "revision": "f45a3aaa",
+        "sha256": "aee6c095b76d4f2563b8b6854a59ebf5f38cb05438262754015dc8206b0f4ecc"
+      },
+      "unknown_diagnostic_artifact": {
+        "path": "results/arithmetic-combinations-20261115/raw/combinations/unknown-diagnostics.json",
+        "sha256": "c2dc8cedc3ac8cd23b07eac4090e816fcf93812c3acf35bebb25cd6b5e996400"
+      },
+      "timing_restart": "First timing attempt canceled after live collector observed rows before earlier-written stderr copied.1192durable rows subsequently audited without native failure. All3repetitions restarted in separate output namespace; no partial timings reused. Separate rejected-monitor-* private receipts retained."
     },
     {
       "id": "2026-11-15-propagation-filters-qualified",

@@ -37,10 +37,10 @@ private-factor tuning or equality-sharing factor is part of this matrix.
 
 ## Execution and correctness gate
 
-The measured source and profile/harness revision are frozen at `ebe8d4b2`,
+The measured source and profile/harness revision are frozen at `4f02a8b7`,
 with production C++ unchanged from the qualified `c815a0b4`. One fresh Release
-build supplies every configuration; its binary SHA256 is pending until build
-completion and must be recorded before qualification. Builds and all native
+build supplies every configuration; its binary SHA256 is
+`08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff`. Builds and all native
 solver work run in SLURM through the preparation helper. Before broad timings,
 each of the 24 logic/configuration pairs receives 1,000 fresh generated inputs
 against Z3 with model checks, exact-option tracked regression sessions, and
@@ -106,8 +106,23 @@ account of regressions; no default promotion is implied by a winning sample.
 
 ## Current status
 
-The frozen build is being prepared; no new combination is yet qualified or
-measured. The {arithmeticcombsource}`configuration generator <scripts/qualification/arithmetic_combinations/configure.py>`
+The corrected-adapter build passed 49 native test groups and 357 Python tests.
+The {download}`qualification audit <../../benchmarks/arithmetic-combinations-20261115/qualification.json>`
+covers all 24 logic/profile pairs: 23,877 generated agreement passes and 123
+timeouts from 24,000 cases, plus 7,795 mutation agreement passes and 125
+resource-incomplete results from 7,920 mutants: 120 native timeouts, four
+private-node-limit unknowns (confirmed in separate SLURM replays), and one
+reference timeout whose native SAT model passed Dolmen. All 292 tracked-regression
+measurements passed. Direct Dolmen checks accepted all 22,961 native SAT gate
+results, including the original mutation seeds. Resource-incomplete results
+remain separate from agreement passes. Full timings are pending. An initial attempt at `ebe8d4b2` was stopped before any
+timing: fuzz/seed adapters classified `--stats` keys containing “unsupported” as
+an unsupported result. A separate SLURM probe instead observed `unsat`, exit zero,
+no diagnostic and only `:combination.model.fallback-unsupported 0`. The
+{arithmeticcombsource}`adapter correction <scripts/fuzz_external.py>` excludes
+colon-prefixed statistic lines from this test and preserves nonzero-exit
+rejection after SAT/UNSAT. Three mocked protocol tests cover all four adapters;
+all logic/profile gates were rerun, without reusing rejected classifications. The {arithmeticcombsource}`configuration generator <scripts/qualification/arithmetic_combinations/configure.py>`
 creates private corpus-root/binary configs and integer/real cohorts. Run
 {arithmeticcombsource}`qualify.py <scripts/qualification/arithmetic_combinations/qualify.py>`
 with `generated`, `seeds` and `mutations` for every slot 0–23 through

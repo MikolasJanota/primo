@@ -1,0 +1,3148 @@
+{
+  "status": "qualified with separately recorded resource-incomplete outcomes",
+  "source": "4f02a8b7",
+  "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+  "counts": {
+    "generated_inputs": 24000,
+    "generated_PASS": 23877,
+    "generated_TIMEOUT": 123,
+    "tracked_regression_measurements": 292,
+    "mutants": 7920,
+    "mutation_PASS": 7795,
+    "mutation_INCOMPLETE": 125
+  },
+  "SAT_Dolmen_pass": 22961,
+  "receipts": [
+    {
+      "phase": "generated",
+      "slot": 0,
+      "logic": "QF_LIA",
+      "profile": "B",
+      "receipt_sha256": "f027c8760ebec9cabf7f8a84bd0bd5f111c3a51747ca527a151d900018db1984",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "B",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113100,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 986,
+          "TIMEOUT": 14
+        },
+        "summary_sha256": "a30595c7fef5e3829fa0aeca95cfaa3abc12ebb4cf4e30876304bcf35cd614b1",
+        "SAT_Dolmen_pass": 877,
+        "model_summary_sha256": "f655eece9f475a219433410a7c9ff8df2ef31e649d79cc2fb38ad50feaed4c92"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 1,
+      "logic": "QF_LIA",
+      "profile": "P",
+      "receipt_sha256": "b40d2b6a22a0c0050cab0ef87e0b3166bc49eaf00e9d059751d2f22a34e94258",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "P",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113101,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 979,
+          "TIMEOUT": 21
+        },
+        "summary_sha256": "b2e1a3ab637d0d124cb287e0302d25589cdd0a58fcbaf8dc75fea4248fc57381",
+        "SAT_Dolmen_pass": 873,
+        "model_summary_sha256": "fb45773e2c6c9c47e060889fc8aa34279703d4997226bdc40f478d6f1885e424"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 2,
+      "logic": "QF_LIA",
+      "profile": "R",
+      "receipt_sha256": "8ae46dfb24e6312cf2d63219b9e8e77b6d9e3bf12865e20cf6fe31823f0270d4",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "R",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113102,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 986,
+          "TIMEOUT": 14
+        },
+        "summary_sha256": "096c0dc124a7f64728af53b8911005960047e9666b8060e58b95886a61aa7939",
+        "SAT_Dolmen_pass": 888,
+        "model_summary_sha256": "6d7f1c05e751e6e926a746df1caa4bc57c0ca951b3a7edc7fe8470151dc221c3"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 3,
+      "logic": "QF_LIA",
+      "profile": "PR",
+      "receipt_sha256": "89d12faeef620836493df015bb6f2596efeb80c05b91970bd867fa9bc3b3556a",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "PR",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113103,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 985,
+          "TIMEOUT": 15
+        },
+        "summary_sha256": "84d343f6101f62d8be93ade2482f8f7b69c06e1953174c7f879993be36d27444",
+        "SAT_Dolmen_pass": 885,
+        "model_summary_sha256": "1fa54b869f96e7a6658c61572fc9b36645511a544d6846d4afc040302c386834"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 4,
+      "logic": "QF_LIA",
+      "profile": "H",
+      "receipt_sha256": "8a1f6adbd206b1308c16636210a98b284c15868a834f5684d390aad434a712a7",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "H",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": true
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113104,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 984,
+          "TIMEOUT": 16
+        },
+        "summary_sha256": "914172ac50495fc80cda9764bc956074a4ebd8f536da3fa1f868161d87b4765b",
+        "SAT_Dolmen_pass": 866,
+        "model_summary_sha256": "99bc30f90b555bbeef6cd45eeea0eba675aff65b0b1cebf7238c747d525d97d4"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 5,
+      "logic": "QF_LIA",
+      "profile": "PH",
+      "receipt_sha256": "6354b71e8fbf620b5dd983e71481b7ca73c19cca4bc565b79bac89029eafc232",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "PH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": true
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113105,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 983,
+          "TIMEOUT": 17
+        },
+        "summary_sha256": "26a48acb30c759f73e0deec3d90f77fe262c9fc2f0b027f184d02f7a6b467c22",
+        "SAT_Dolmen_pass": 859,
+        "model_summary_sha256": "18a96183d510d6ca9b38f45c0c2244fb328346a627e9153f266c355160a26dc1"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 6,
+      "logic": "QF_LIA",
+      "profile": "RH",
+      "receipt_sha256": "8851d806fc3d1601722172898f6a7b58e1590c6c721db3ef317a4c65af7e7f18",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "RH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": true
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113106,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 982,
+          "TIMEOUT": 18
+        },
+        "summary_sha256": "fa67c83f1874c34e241c8e3031f3964b1253c6ee10aaeca2f23cb2a9564a3dbe",
+        "SAT_Dolmen_pass": 884,
+        "model_summary_sha256": "03ecf8ef61a247286c99f5ee1be63677bf50de9dbb211d520682a5f38fac14f1"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 7,
+      "logic": "QF_LIA",
+      "profile": "PRH",
+      "receipt_sha256": "fb5bf78f7569d29ef12f86a4189aec4138beb9b5cabd6e7712f77b8a8a258047",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "PRH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": true
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113107,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 992,
+          "TIMEOUT": 8
+        },
+        "summary_sha256": "354043c8b44787b72757be9c28114f0d0888a4a9dacd26869ddab961823f9f21",
+        "SAT_Dolmen_pass": 886,
+        "model_summary_sha256": "3f89c057ec7f0f59c0aa7b900e00bf953d9b769a415eda029a873f8109e4d4c9"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 8,
+      "logic": "QF_UFLIA",
+      "profile": "B",
+      "receipt_sha256": "19e1fdf8d6fa1dfed9291e86a611b3312cb0d65e853e52a498733576dde28836",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "B",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113108,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "674574e56896d4e80bda48af5dbd155118ec7fe6e54ed90d45a335c952f91760",
+        "SAT_Dolmen_pass": 488,
+        "model_summary_sha256": "531d6b59dbd2a05ae96228aa9bead19e9132930fc9a6903abe62916671903646"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 9,
+      "logic": "QF_UFLIA",
+      "profile": "P",
+      "receipt_sha256": "7f51b62a8b73cd4c53acecd676abeaaa91625799bec40ac38156c29bfe3b6a5e",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "P",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113109,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "47c5a85ec2f413d1389bfcb7c99b3427b0751ac602060087053091b24dda9777",
+        "SAT_Dolmen_pass": 501,
+        "model_summary_sha256": "be659ca0726317426b75f2d966500b5fdff503ffccfa7439e8d37032c7d74a66"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 10,
+      "logic": "QF_UFLIA",
+      "profile": "R",
+      "receipt_sha256": "f3e37db6bdf197850b00b3bb50575f3fc350a22bf71832b75758e700b947bba0",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "R",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113110,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "1131ed51ae354a9caeb91e97741ac6d4f1da56f37c94a1f1d6a35de289cb5e71",
+        "SAT_Dolmen_pass": 510,
+        "model_summary_sha256": "fa31ad7b41c091f85256d9907b840e9df384f1dce7f12f5847a04d44250d31a2"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 11,
+      "logic": "QF_UFLIA",
+      "profile": "PR",
+      "receipt_sha256": "727fc2085ab1430535cdeb978b9870a8c4467cf7ae4a3dc7c9a0437087f9e501",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "PR",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113111,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "dc7c6e95dd1823691bf5d0b4065e0656ef664e41bf83110922cb2b077ce63551",
+        "SAT_Dolmen_pass": 514,
+        "model_summary_sha256": "d46c007700f19a69ec4594d40f0d7670401a4082a61b2de9e89eec1c3d5945e3"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 12,
+      "logic": "QF_UFLIA",
+      "profile": "H",
+      "receipt_sha256": "18b813371f584c86da5a83ccb6a5194fa6f50e48f8c42b4cc78b1c744be77ad9",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "H",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": true
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113112,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "1d89862bc63cb331b816c6e0f7338fd54342bbb06006885f2dfc03ad468aa771",
+        "SAT_Dolmen_pass": 514,
+        "model_summary_sha256": "7c80a94e710aa1a8f3e3a1b82e0625dfc05f4c35e89e99c3aa15c3f4e6210a26"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 13,
+      "logic": "QF_UFLIA",
+      "profile": "PH",
+      "receipt_sha256": "34e11ffeca6fb029e7151a9998aa2638cad5d6c751231bd14488b26ff76905d5",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "PH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": true
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113113,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "e4bc370f5381e12d55c34491d6fe6b0b671facf8d35b50df2b13eae4986f9491",
+        "SAT_Dolmen_pass": 506,
+        "model_summary_sha256": "4b5dc80c5ff5b6a5a1889dfbfe93d5cea94c354eb71e0d8f66e2a7e037faffcd"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 14,
+      "logic": "QF_UFLIA",
+      "profile": "RH",
+      "receipt_sha256": "62bbb675ff1fb6651a61887eb204b4ec24da9202202208c5e99922cff0e147ad",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "RH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": true
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113114,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "bbc601334dd5e67fc779088174768c8b0c0c15255a53ca547cdd33c47870fb1f",
+        "SAT_Dolmen_pass": 515,
+        "model_summary_sha256": "92f7714a1cf6993bf71b4ab2d84d5383cf7ee0fde84391df1efe0963b112e838"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 15,
+      "logic": "QF_UFLIA",
+      "profile": "PRH",
+      "receipt_sha256": "ca2b39cf27f20d21f6a547375436fbd3c7ec78dd7a4b74f07dbf417ffef93ab2",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "PRH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": true
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113115,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "955c0b9cba543635446aa3ed8600b274f34de695cc0b4abcce161c34626ad790",
+        "SAT_Dolmen_pass": 508,
+        "model_summary_sha256": "413944bc9737d877df7fc2ad0989f528aed9712554f9d7260cc6b2fc1a2c2bdc"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 16,
+      "logic": "QF_LRA",
+      "profile": "B",
+      "receipt_sha256": "e8e5b7933bbc9cdaa3695b9654b618f89e26bf4a1d6b03e286f8010cadd7501c",
+      "coverage": {
+        "task": {
+          "logic": "QF_LRA",
+          "label": "B",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113116,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "fb3138d03f44cda29e17af9a5366c190b4daa3ad94f1e1f9bc4df024be516bbb",
+        "SAT_Dolmen_pass": 1000,
+        "model_summary_sha256": "7fe8d159d107cec8d8d9ce03c69a0431e1dd9f18abdf63d0efc47e57c5dfb3f8"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 17,
+      "logic": "QF_LRA",
+      "profile": "P",
+      "receipt_sha256": "ae431b752be0fdef33002aaffb69ec81e0fc6dda43525151382a43df4682d47d",
+      "coverage": {
+        "task": {
+          "logic": "QF_LRA",
+          "label": "P",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113117,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "cb8c73bf1c9c4509f061fc7d38270f65a7ae98ba3191b944785b9440e715a898",
+        "SAT_Dolmen_pass": 1000,
+        "model_summary_sha256": "f7291ad837ff8eae40ed1538b6e98b37a7e6ca205ab4544f4f27c304a3e98785"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 18,
+      "logic": "QF_LRA",
+      "profile": "R",
+      "receipt_sha256": "b3b4e4786ab5362cfbf36f37b089368fae5d5f68c5d6bb09a2bb9a783cea1d85",
+      "coverage": {
+        "task": {
+          "logic": "QF_LRA",
+          "label": "R",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113118,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "88916d2ce0a9e3e09b0b87f2338de869f7b27beba4fe4d1b2b37eadbdb8b6036",
+        "SAT_Dolmen_pass": 1000,
+        "model_summary_sha256": "009ce56d84ab84e76ba87dd760055b2c98b702e5b2dce105c19ee64ce3448495"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 19,
+      "logic": "QF_LRA",
+      "profile": "PR",
+      "receipt_sha256": "467714f2d61600484560212946b11561a4476960f7e492b48250bee604aaea6b",
+      "coverage": {
+        "task": {
+          "logic": "QF_LRA",
+          "label": "PR",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113119,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "83c74c91498cd55167f8c896b3d3164653e0a1a8798b7a3c23b67376be0742e0",
+        "SAT_Dolmen_pass": 1000,
+        "model_summary_sha256": "859891879a49e5a984f71759fd55511788bc5997f1d06c3d37c409b7525c35f6"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 20,
+      "logic": "QF_UFLRA",
+      "profile": "B",
+      "receipt_sha256": "49297076ed54b2d50f6df7eb224efc380bfad4812ac1287a4fb5b9bc7a6a1cb4",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLRA",
+          "label": "B",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113120,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "131c6e6c3c19bafaaa0b539566d84a8a63cda473a80cad18e86488a3ce3e7f6a",
+        "SAT_Dolmen_pass": 627,
+        "model_summary_sha256": "fcbb3c87c74b1cd06e2233e83a346a88a628c8d22ec22cba38a16f7053d16142"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 21,
+      "logic": "QF_UFLRA",
+      "profile": "P",
+      "receipt_sha256": "7c8017fdc8d1de889c6d094399fe595b2bf7b2319dbb3723d51341f7d50e82a6",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLRA",
+          "label": "P",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113121,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "ea48ccecba9d83a7fdff3f807b7d6e3bf5b766434f553476d8a5aa7d580781b5",
+        "SAT_Dolmen_pass": 607,
+        "model_summary_sha256": "43543fbb0150cb8567bf78b32641e63640b3ca2bedc1f61ffb208d4b0d60e74f"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 22,
+      "logic": "QF_UFLRA",
+      "profile": "R",
+      "receipt_sha256": "d2b178248bb65dcbfad566ae2f25bb71d558f7c69d5de34225722d72666cd664",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLRA",
+          "label": "R",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113122,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "30bd5ba1a5e924919d1db374a4b7aceef38071c0e3c060f2efcb6afe4e1c20fc",
+        "SAT_Dolmen_pass": 624,
+        "model_summary_sha256": "ec66439ed275d2791ac8c3a663359a941c9802c87ea5a86c778c2e2b8d3e6fce"
+      }
+    },
+    {
+      "phase": "generated",
+      "slot": 23,
+      "logic": "QF_UFLRA",
+      "profile": "PR",
+      "receipt_sha256": "de38bc173c8e050ca06c6e72827a97252abfbaa1c2e601dab3faf33ceea7258a",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLRA",
+          "label": "PR",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "generated",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "seed": 2026113123,
+        "generator_exit": 0,
+        "cases": 1000,
+        "outcomes": {
+          "PASS": 1000
+        },
+        "summary_sha256": "0dc00e46d4852e7a88a96339006fc7cdee0a1a28da6cadef7aa557b9df891c1f",
+        "SAT_Dolmen_pass": 610,
+        "model_summary_sha256": "c7f1694d1f4ca5043520e1ab37563c74f4d0369563995fdc7882e6d3b6f91529"
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 0,
+      "logic": "QF_LIA",
+      "profile": "B",
+      "receipt_sha256": "047ddd5611687f3edbc2e548a23612837ba03e7c1102ab886480f7e06e6bbdb7",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "B",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lia-branching=private",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_LIA"
+        ],
+        "cases": 9,
+        "scoped_sessions": 2,
+        "single_query_sat_models": 6
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 1,
+      "logic": "QF_LIA",
+      "profile": "P",
+      "receipt_sha256": "29194049e7e0e42e27960e8f8708e43ab1b95906cf6464ae160869f18f3db816",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "P",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--preprocess-bound-tightening",
+          "--lia-branching=private",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_LIA"
+        ],
+        "cases": 9,
+        "scoped_sessions": 2,
+        "single_query_sat_models": 6
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 2,
+      "logic": "QF_LIA",
+      "profile": "R",
+      "receipt_sha256": "cc8eac814d1d7b0e5ff6d3672dc9c4be461f2c67dc03d5478a84713daa2f1a01",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "R",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--lia-branching=private",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_LIA"
+        ],
+        "cases": 9,
+        "scoped_sessions": 2,
+        "single_query_sat_models": 6
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 3,
+      "logic": "QF_LIA",
+      "profile": "PR",
+      "receipt_sha256": "195ef0a667b42b5cadbc6e227ffbb472e6d8171493e945b4e8bf52317208616e",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "PR",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--preprocess-bound-tightening",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--lia-branching=private",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_LIA"
+        ],
+        "cases": 9,
+        "scoped_sessions": 2,
+        "single_query_sat_models": 6
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 4,
+      "logic": "QF_LIA",
+      "profile": "H",
+      "receipt_sha256": "f006d2e67f3c4473753ea121712cd24548947383c364c4f138cbba296336f5a5",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "H",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": true
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_LIA"
+        ],
+        "cases": 9,
+        "scoped_sessions": 2,
+        "single_query_sat_models": 6
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 5,
+      "logic": "QF_LIA",
+      "profile": "PH",
+      "receipt_sha256": "4d25d1c02742f82e0059b5c2f225ed7370e0e14d863808bc93eabae8d304c71e",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "PH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": true
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--preprocess-bound-tightening",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_LIA"
+        ],
+        "cases": 9,
+        "scoped_sessions": 2,
+        "single_query_sat_models": 6
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 6,
+      "logic": "QF_LIA",
+      "profile": "RH",
+      "receipt_sha256": "85e6e68e56e782a8074c2f34a015470f658df07af04b3e3a658c284dbebb3b0a",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "RH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": true
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_LIA"
+        ],
+        "cases": 9,
+        "scoped_sessions": 2,
+        "single_query_sat_models": 6
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 7,
+      "logic": "QF_LIA",
+      "profile": "PRH",
+      "receipt_sha256": "cbfa510268e3ab59af88a17171786f62e592c4403b1b607b5ba1bfb94c27382c",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "PRH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": true
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--preprocess-bound-tightening",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_LIA"
+        ],
+        "cases": 9,
+        "scoped_sessions": 2,
+        "single_query_sat_models": 6
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 8,
+      "logic": "QF_UFLIA",
+      "profile": "B",
+      "receipt_sha256": "c8df24b4bc4524aebcb9a5129082d010b57d84c522cea1135b1163342ac35d7e",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "B",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lia-branching=private",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_UFLIA"
+        ],
+        "cases": 7,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 5
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 9,
+      "logic": "QF_UFLIA",
+      "profile": "P",
+      "receipt_sha256": "9b9c805e35ba0e6f426d5d701492407fc5c9fffdba03572af5503b85739d1d12",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "P",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--preprocess-bound-tightening",
+          "--lia-branching=private",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_UFLIA"
+        ],
+        "cases": 7,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 5
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 10,
+      "logic": "QF_UFLIA",
+      "profile": "R",
+      "receipt_sha256": "c789fecc1dc71042fd7f62b13769be476ecd87f93b5fcabfd45fa47df89c90c7",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "R",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--lia-branching=private",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_UFLIA"
+        ],
+        "cases": 7,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 5
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 11,
+      "logic": "QF_UFLIA",
+      "profile": "PR",
+      "receipt_sha256": "017253138c1473b8b936eb18ea182a83503881e3b34da83f4960628f55d9f1c0",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "PR",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--preprocess-bound-tightening",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--lia-branching=private",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_UFLIA"
+        ],
+        "cases": 7,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 5
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 12,
+      "logic": "QF_UFLIA",
+      "profile": "H",
+      "receipt_sha256": "21b80d84e786ed1bb4383a402d720c909a0a6fd9449c4d3bcc3b7040ece53fe0",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "H",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": true
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_UFLIA"
+        ],
+        "cases": 7,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 5
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 13,
+      "logic": "QF_UFLIA",
+      "profile": "PH",
+      "receipt_sha256": "f48f762bebbcb261f75b1b54e2b91f026505450b93399839e81069cc9a232352",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "PH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": true
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--preprocess-bound-tightening",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_UFLIA"
+        ],
+        "cases": 7,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 5
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 14,
+      "logic": "QF_UFLIA",
+      "profile": "RH",
+      "receipt_sha256": "941f21d32d454cb893c93b26d5d18cd65d936bb36c7d67c90510b9d8a2846ea1",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "RH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": true
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_UFLIA"
+        ],
+        "cases": 7,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 5
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 15,
+      "logic": "QF_UFLIA",
+      "profile": "PRH",
+      "receipt_sha256": "64b67cb10a5c1019f93bf7d4635cab09b9d07bb8513e8abe0342e1460d3998a1",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "PRH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": true
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--preprocess-bound-tightening",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=1",
+          "--lia-split-atom-limit=0",
+          "--lia-branch-limit=100000",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_UFLIA"
+        ],
+        "cases": 7,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 5
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 16,
+      "logic": "QF_LRA",
+      "profile": "B",
+      "receipt_sha256": "10c1527ae161f260b9847ab512605d97fd8f66b6bca0af8f1f7d09c9126fe966",
+      "coverage": {
+        "task": {
+          "logic": "QF_LRA",
+          "label": "B",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_LRA"
+        ],
+        "cases": 21,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 9
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 17,
+      "logic": "QF_LRA",
+      "profile": "P",
+      "receipt_sha256": "bf43c01e3aa638a95025cc6b6292438daa85df1633053f7b705f0814eaf6c72e",
+      "coverage": {
+        "task": {
+          "logic": "QF_LRA",
+          "label": "P",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--preprocess-bound-tightening",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_LRA"
+        ],
+        "cases": 21,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 9
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 18,
+      "logic": "QF_LRA",
+      "profile": "R",
+      "receipt_sha256": "b5f190c825cf0cc80308b83b881dd6618422d95ce09d9b25fff24c62e6c54990",
+      "coverage": {
+        "task": {
+          "logic": "QF_LRA",
+          "label": "R",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_LRA"
+        ],
+        "cases": 21,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 9
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 19,
+      "logic": "QF_LRA",
+      "profile": "PR",
+      "receipt_sha256": "b136162122f8ffbc669e39cf8606d699cef730f67514864420d6a0494da05269",
+      "coverage": {
+        "task": {
+          "logic": "QF_LRA",
+          "label": "PR",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--preprocess-bound-tightening",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_LRA"
+        ],
+        "cases": 21,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 9
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 20,
+      "logic": "QF_UFLRA",
+      "profile": "B",
+      "receipt_sha256": "a86913f71e7430484928d53d6c1e82cb0d705ef656df90422768f66501add034",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLRA",
+          "label": "B",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_UFLRA"
+        ],
+        "cases": 20,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 7
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 21,
+      "logic": "QF_UFLRA",
+      "profile": "P",
+      "receipt_sha256": "66c80bbbbd64429a9de1435d55e8da649cd3a9358175696eb307248812046175",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLRA",
+          "label": "P",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--preprocess-bound-tightening",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_UFLRA"
+        ],
+        "cases": 20,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 7
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 22,
+      "logic": "QF_UFLRA",
+      "profile": "R",
+      "receipt_sha256": "ec4d73d5b41514261a4733fdd6719e90bab3de781924b9c0a9ab3e9185764ae5",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLRA",
+          "label": "R",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_UFLRA"
+        ],
+        "cases": 20,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 7
+      }
+    },
+    {
+      "phase": "seeds",
+      "slot": 23,
+      "logic": "QF_UFLRA",
+      "profile": "PR",
+      "receipt_sha256": "9c36676e31cd35634b5fbb82b6269d6e5c60be3a97640c5c5e2437ab4cd7a9e7",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLRA",
+          "label": "PR",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "seeds",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "solver_args": [
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--preprocess-bound-tightening",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--check-model"
+        ],
+        "logics": [
+          "QF_UFLRA"
+        ],
+        "cases": 20,
+        "scoped_sessions": 0,
+        "single_query_sat_models": 7
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 0,
+      "logic": "QF_LIA",
+      "profile": "B",
+      "receipt_sha256": "c0bfca85e97d92391d8b1e2cff6a97f0a333e8a1f9b0fb57c780f82b1aac683b",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "B",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113200,
+        "outcomes": {
+          "PASS": 356,
+          "INCOMPLETE": 4
+        },
+        "summary_sha256": "5d1271704a9b053765361c2df6abaf9ca40014ab2f3652a73dd88d5d45bcb55a",
+        "SAT_Dolmen_pass": 238,
+        "model_summary_sha256": "f5993762878d6a0d6525bc5666f2b8c676b507ec3db941cbd64f04f12738907a"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 1,
+      "logic": "QF_LIA",
+      "profile": "P",
+      "receipt_sha256": "3249b7caeb1cd56263a2aaf29fe46c8b050ac5d01890199231fffe13f814ec86",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "P",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113201,
+        "outcomes": {
+          "PASS": 360
+        },
+        "summary_sha256": "332fcf7ed19048ab820acbe63dc34aad74da8a1d9873b52e8feb2b72b378eb3a",
+        "SAT_Dolmen_pass": 236,
+        "model_summary_sha256": "4e6b53a431bd7af593f2f6f15680b47eaa3975bd10f9a2499fd5edc1f15718b3"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 2,
+      "logic": "QF_LIA",
+      "profile": "R",
+      "receipt_sha256": "0461884294e06e5eb46973cf2eb1e47a78d6621a2543c7e096a997216c9c307b",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "R",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113202,
+        "outcomes": {
+          "PASS": 360
+        },
+        "summary_sha256": "5fdc37c6427d6c7ca3fa5d35997f05db30b96cb9864b87738a93b0b2e0d4bbdd",
+        "SAT_Dolmen_pass": 232,
+        "model_summary_sha256": "b03570743862ffcab7a60fcb5d7d58f656484cfd0c5c023d702b267fc4f36adf"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 3,
+      "logic": "QF_LIA",
+      "profile": "PR",
+      "receipt_sha256": "ca198166e3a9ec719070a8f423549e2c5fce7d03dd7af388e0126557a020ea3a",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "PR",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113203,
+        "outcomes": {
+          "PASS": 360
+        },
+        "summary_sha256": "c3304b47b3ebce4c31ae993bc1c6844b09f5d532be4e5c25bb5ce67ef37d9386",
+        "SAT_Dolmen_pass": 237,
+        "model_summary_sha256": "ba39b1189ad4f3dd94c77432b4ec04eae9e876f9d97db20c2602edcf0053f338"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 4,
+      "logic": "QF_LIA",
+      "profile": "H",
+      "receipt_sha256": "64aa34b0906b49b805afbb2eea6388d4f40b6f60d0849a5a0e930c0887a479df",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "H",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": true
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113204,
+        "outcomes": {
+          "PASS": 360
+        },
+        "summary_sha256": "6d9f09cb20411bab6be35f6cf1b7970d6eaed08fbfe6031db4dec1e282e962b2",
+        "SAT_Dolmen_pass": 215,
+        "model_summary_sha256": "385aa1258c72ae8d123ebd1b10466f013bdb7f36f4a4806aacd2ad19cb64073d"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 5,
+      "logic": "QF_LIA",
+      "profile": "PH",
+      "receipt_sha256": "e4ea3b1a503b9d68eb936a4f2a0022b59d4f79cd2c5c389f0371810cc562bfaa",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "PH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": true
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113205,
+        "outcomes": {
+          "PASS": 360
+        },
+        "summary_sha256": "efb09bb8d416470252f3af2fb1abaa171e2060a0cf8dc1569e9673dcfe2d41d8",
+        "SAT_Dolmen_pass": 214,
+        "model_summary_sha256": "5739b31175e060b8b31a4b0b41e6ba51146133f05f78ae27f6720ace64b426f8"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 6,
+      "logic": "QF_LIA",
+      "profile": "RH",
+      "receipt_sha256": "8ecdc93aaa8a4d9e2f9a609b242f19409fdbc6ca24e7d99e22a754307e7f5004",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "RH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": true
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113206,
+        "outcomes": {
+          "PASS": 360
+        },
+        "summary_sha256": "b794532a078e1f7d6ed012d8e18987df5da818cf8c82284815e4c5f6f37581b4",
+        "SAT_Dolmen_pass": 226,
+        "model_summary_sha256": "0278cef4e0cbffbc5d2d6cc87297bc8b706d50dbbadeb8b9fdc593397399dc00"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 7,
+      "logic": "QF_LIA",
+      "profile": "PRH",
+      "receipt_sha256": "e29a56b84fc18ae284d10b0bb0720972d7363f6004c3280e7f70302a700f270a",
+      "coverage": {
+        "task": {
+          "logic": "QF_LIA",
+          "label": "PRH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": true
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113207,
+        "outcomes": {
+          "PASS": 359,
+          "INCOMPLETE": 1
+        },
+        "summary_sha256": "3ceb4133c61a99b3c97e7c1e35f553e538932a0d063ca8c08b11141c17001130",
+        "SAT_Dolmen_pass": 234,
+        "model_summary_sha256": "aa356738c17e7e208be1ee678c5ce87022952fe99f14805721f1f34cd5843c74"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 8,
+      "logic": "QF_UFLIA",
+      "profile": "B",
+      "receipt_sha256": "6521cedaf25af70097b007faf368249d690cced8ce0e5f465fd08b321283d277",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "B",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113208,
+        "outcomes": {
+          "PASS": 356,
+          "INCOMPLETE": 4
+        },
+        "summary_sha256": "67559336136e5f09c592d2868fd7106170d38328f894e3debb10af21e0a4a6b8",
+        "SAT_Dolmen_pass": 228,
+        "model_summary_sha256": "4d77169d6e902334cee67d6d00832a4ca0b13c9a8268ecd6cdee896151c86b2a"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 9,
+      "logic": "QF_UFLIA",
+      "profile": "P",
+      "receipt_sha256": "f29ce5b35b0bfd6709bd2d3a4b1103d64ea4e0a9a33ee1ac62beecc7d0ec3140",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "P",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113209,
+        "outcomes": {
+          "PASS": 348,
+          "INCOMPLETE": 12
+        },
+        "summary_sha256": "917f216503240419aa05688a098a60ca9d6da64f2ab8a2b2721ec124a87f8a0a",
+        "SAT_Dolmen_pass": 229,
+        "model_summary_sha256": "ccf837f32db7563939cce6e0059f45c57890c1f77b4d3872266c15a9072db3e9"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 10,
+      "logic": "QF_UFLIA",
+      "profile": "R",
+      "receipt_sha256": "78b0040ec0c739202edcdb91f539d5a14533354d4e387b45f97120ead4473d7c",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "R",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113210,
+        "outcomes": {
+          "PASS": 359,
+          "INCOMPLETE": 1
+        },
+        "summary_sha256": "6ffc662f5d842372f88ef4a486f8cf1fce4dbeeae17d059d62da10a1e9209278",
+        "SAT_Dolmen_pass": 235,
+        "model_summary_sha256": "e7268a18f69017fd1ed9b30e463168856069b1b0d59cc38de0b18942964b77b4"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 11,
+      "logic": "QF_UFLIA",
+      "profile": "PR",
+      "receipt_sha256": "757723394bd3efd100f53bc93a97a9f9111ae8264e9cd0746d5191fbb37743d5",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "PR",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=private",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113211,
+        "outcomes": {
+          "PASS": 360
+        },
+        "summary_sha256": "d9e9f66ce1658f2da94cef53308ee225387a0d871e1dd1da2dd6fdfa7e71d91d",
+        "SAT_Dolmen_pass": 275,
+        "model_summary_sha256": "45ba842252b86ae59819e8292176633137ff1d3d10e66afd1dba41c67722ccc0"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 12,
+      "logic": "QF_UFLIA",
+      "profile": "H",
+      "receipt_sha256": "ec24a926ec8d7d050541b31361e799556cb93eb56bb699722cea698cd3151b76",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "H",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": true
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113212,
+        "outcomes": {
+          "PASS": 325,
+          "INCOMPLETE": 35
+        },
+        "summary_sha256": "9e2848b658701d5ebc20251b0c23ae6f1f198eb4e2bd9af691c51b1058924148",
+        "SAT_Dolmen_pass": 231,
+        "model_summary_sha256": "5bcbcdcb4fd805c6a0374b7a839658344342eb0e117c143d9775d074644d6a20"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 13,
+      "logic": "QF_UFLIA",
+      "profile": "PH",
+      "receipt_sha256": "ba648d54031b78281d98247514671bff4145bdb1825b7b104b43403e65ec078c",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "PH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": true
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113213,
+        "outcomes": {
+          "PASS": 337,
+          "INCOMPLETE": 23
+        },
+        "summary_sha256": "32a6e4f6a958deb8f2e5fcbcf763da0abe4f2d05f7d2a3619eeec4e1b7934238",
+        "SAT_Dolmen_pass": 252,
+        "model_summary_sha256": "74173911460c642aa51a4dc92f5d3ab1daea1744aec25772b672477d425603be"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 14,
+      "logic": "QF_UFLIA",
+      "profile": "RH",
+      "receipt_sha256": "a1ce458fbc6e64f975942e807a256b227993fc37db008d1bc37ac41986cb6744",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "RH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": true
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113214,
+        "outcomes": {
+          "PASS": 340,
+          "INCOMPLETE": 20
+        },
+        "summary_sha256": "5e635034188917e3f4ad455e53e0270f4bcfe47f81d6d499a71639fde7911393",
+        "SAT_Dolmen_pass": 230,
+        "model_summary_sha256": "91d74a5b28e9ee92837c72d550febbab4fbbea913f9981640a3f21ca1fa30e68"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 15,
+      "logic": "QF_UFLIA",
+      "profile": "PRH",
+      "receipt_sha256": "0b45de794d5a7dfdcb4b8d8adfc9c91592aaac87a597a7edcf310213119119a9",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLIA",
+          "label": "PRH",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation",
+            "--lia-branching=hybrid",
+            "--lia-private-branch-factor=1",
+            "--lia-split-atom-limit=0",
+            "--lia-branch-limit=100000"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": true
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113215,
+        "outcomes": {
+          "PASS": 336,
+          "INCOMPLETE": 24
+        },
+        "summary_sha256": "3e2f2ac8a4fa8154cc8fc4945f2ba2582eb3474cd343d201d109164fdd18ac77",
+        "SAT_Dolmen_pass": 172,
+        "model_summary_sha256": "ff38a83c191f3b6846c204a893b640efc0fe934c0280b3946c3d5b5d3198a6e7"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 16,
+      "logic": "QF_LRA",
+      "profile": "B",
+      "receipt_sha256": "10a515c5c98bcdecaaa06899baabe43ce2c143dab0b1bd8f9b936cbbe4fbd506",
+      "coverage": {
+        "task": {
+          "logic": "QF_LRA",
+          "label": "B",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113216,
+        "outcomes": {
+          "PASS": 360
+        },
+        "summary_sha256": "b09712f93b14cc3dfd852d9fbbfc4d8565f5404d9685aa69c431d4f8104f24ec",
+        "SAT_Dolmen_pass": 182,
+        "model_summary_sha256": "6731a814f93695a1b5b47155e568877d939a5f4e292141d6371fa9d5f86667a1"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 17,
+      "logic": "QF_LRA",
+      "profile": "P",
+      "receipt_sha256": "61f2d259bdb3f5edb4e2ce0c3340661fd242473f69226ebf085efb5c0adfd4b4",
+      "coverage": {
+        "task": {
+          "logic": "QF_LRA",
+          "label": "P",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113217,
+        "outcomes": {
+          "PASS": 359,
+          "INCOMPLETE": 1
+        },
+        "summary_sha256": "dfe9c8ea40c8049e33eb105f5a91fb86bab402acc1d07b433369e7d8ee9d204a",
+        "SAT_Dolmen_pass": 189,
+        "model_summary_sha256": "5135565fbf9fdce6beb25141a0f7e64ade483cbb4efad1601d8383c3ea18ee7c"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 18,
+      "logic": "QF_LRA",
+      "profile": "R",
+      "receipt_sha256": "ad2b28515f8a06b56dc16e777f6f3c501fb8ae0495490d8deec39dbfc4ef2981",
+      "coverage": {
+        "task": {
+          "logic": "QF_LRA",
+          "label": "R",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113218,
+        "outcomes": {
+          "PASS": 360
+        },
+        "summary_sha256": "14d7eae0717cd9785efdd0ba45e3fe956c38e6ce628ee49eac55785380d6f6da",
+        "SAT_Dolmen_pass": 128,
+        "model_summary_sha256": "40afb067a2c98d414db3da71eda9a6d7d8790553bc49a75b6969ecd89a0a2f48"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 19,
+      "logic": "QF_LRA",
+      "profile": "PR",
+      "receipt_sha256": "f0dc47583c3905486de9bfeed339a89812c0327996e07967896b55d4cf6b3e61",
+      "coverage": {
+        "task": {
+          "logic": "QF_LRA",
+          "label": "PR",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 360,
+        "seed": 2026113219,
+        "outcomes": {
+          "PASS": 360
+        },
+        "summary_sha256": "c25e1e0ae1227eefc63343d2cc43a537bea7cd5e22aec53e15fcfcb5a4110e86",
+        "SAT_Dolmen_pass": 231,
+        "model_summary_sha256": "92eb6e16e51fadc4a6ad79ec13ec00a1357db7147c3d6ef1c4d322465e33fd7f"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 20,
+      "logic": "QF_UFLRA",
+      "profile": "B",
+      "receipt_sha256": "4dd939e78a91f5d510dfc9994495adff49506efac41750d3cf78a18342de6ba5",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLRA",
+          "label": "B",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation"
+          ],
+          "factors": {
+            "P": false,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 180,
+        "seed": 2026113220,
+        "outcomes": {
+          "PASS": 180
+        },
+        "summary_sha256": "830f744a61434fa7233528ba3768291d67849a6e00b2320c70016f316a03a0ec",
+        "SAT_Dolmen_pass": 163,
+        "model_summary_sha256": "ae6a3f721190666711c08e621506f865d1720002d396ce59652249a931773069"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 21,
+      "logic": "QF_UFLRA",
+      "profile": "P",
+      "receipt_sha256": "7a5def9db2a2791d49d5ec3e43fa1e54bdd22ee5477e191eca4137d7bd9b2d46",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLRA",
+          "label": "P",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening"
+          ],
+          "factors": {
+            "P": true,
+            "R": false,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 180,
+        "seed": 2026113221,
+        "outcomes": {
+          "PASS": 180
+        },
+        "summary_sha256": "3f4732bc637b9ed07a10756428f89ed9871737c5d6ad9dc68640aeb5ff49acd0",
+        "SAT_Dolmen_pass": 160,
+        "model_summary_sha256": "91699bdd956b677ef3bc4173952a9c828d04f6d43799f06b283d8f3c25870925"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 22,
+      "logic": "QF_UFLRA",
+      "profile": "R",
+      "receipt_sha256": "1a8a9290597982fb314bd8a28ea7bb859c3007c620baaf6872996de1223955e2",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLRA",
+          "label": "R",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "factors": {
+            "P": false,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 180,
+        "seed": 2026113222,
+        "outcomes": {
+          "PASS": 180
+        },
+        "summary_sha256": "a27d1913b9de7279d6316e9ebe921aef448dcbdd72938b041cee8afa46ed1edd",
+        "SAT_Dolmen_pass": 161,
+        "model_summary_sha256": "ed6a977000bb5062e29d4192360fde92aedc0a472ecc95fb62f50a3bd6e44e94"
+      }
+    },
+    {
+      "phase": "mutations",
+      "slot": 23,
+      "logic": "QF_UFLRA",
+      "profile": "PR",
+      "receipt_sha256": "e023c666fb7c362780457ce240a7ac8fe4cc495a3e16441009810c1994ac5595",
+      "coverage": {
+        "task": {
+          "logic": "QF_UFLRA",
+          "label": "PR",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--lra-propagation",
+            "--preprocess-bound-tightening",
+            "--lra-row-propagation",
+            "--lra-bidirectional-row-propagation"
+          ],
+          "factors": {
+            "P": true,
+            "R": true,
+            "H": false
+          }
+        },
+        "phase": "mutations",
+        "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+        "source": "4f02a8b7",
+        "campaign_sha256": "2bc7c20a086e5d4dfc591afec761d143ac02c7ee3addda42347555f99346648f",
+        "script_sha256": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e",
+        "cases": 180,
+        "seed": 2026113223,
+        "outcomes": {
+          "PASS": 180
+        },
+        "summary_sha256": "1153d3d725efd4453261b557a445e97934e8f806ce8c830b5cb4ab7bffadfb48",
+        "SAT_Dolmen_pass": 161,
+        "model_summary_sha256": "1c8c0c1cee3a521dacfbd19b33ccc95842e3373e55fb418888cac3baa7038d24"
+      }
+    }
+  ],
+  "scope": "Every successful native SAT gate result checked, including original mutation seeds and reference-timeout rows. Timeout/unknown/reference-timeout cases remain incomplete, not agreement passes."
+}

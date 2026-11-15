@@ -1,5 +1,5 @@
 {
-  "status": "Frozen planned P/R/H factorial experiment; no new measurement claim.",
+  "status": "Frozen planned P/R/H factorial experiment; no new timing result claim.",
   "selection": "benchmarks/bound-propagation-20261113/selection.json",
   "selection_sha256": "c76acbe0c55381a0e4db6a141427d5e8cc5daa59803fa0810af0b8e8640077c9",
   "inputs": 697,
@@ -468,9 +468,9 @@
     "regression_screen": "Common all3 one-switch pairs with either arm median>=1s;flag >=10%and >=0.5s slower in all3paired repetitions. Follow up these flags and stable solve losses."
   },
   "scope": "OnlyP/R/H;all other logic-specific settings fixed;no source/default/policy changes. Hybridfactor1/globalprivatecap100000/freshsplitcap0;effectiveN-dependent private budgets may differ afterpreprocessing.",
-  "native_source_snapshot": "ebe8d4b2",
-  "profile_harness_revision": "ebe8d4b2",
-  "native_binary_sha256": "pending: populate and hash private campaign config before qualification",
+  "native_source_snapshot": "4f02a8b7",
+  "profile_harness_revision": "4f02a8b7",
+  "native_binary_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
   "qualification": {
     "controller": "scripts/qualification/arithmetic_combinations/qualify.py",
     "batch": "scripts/qualification/arithmetic_combinations/qualify.sbatch",
@@ -481,5 +481,6 @@
     "seeds": "Filter manifest by task.logic; exact task argv via seeds.py profile-args-json. Compare full query sequences; validate every single/scoped SAT query with Dolmen. Reference override cvc5 retained for lexical seed.",
     "mutations": "seed=2026113200+slot;12eligible <=200000byte family-round-robin seeds per logic,30iterations each,600s collection;originals checked first and all original/mutant nativeSATresults independently Dolmen checked.",
     "source_equivalence": "Production C++ and build inputs unchanged from qualified C815; test differs only direct sat/lit.hpp include. New build also includes exact-profile benchmark tooling."
-  }
+  },
+  "rejected_attempt": "ebe8/4eec90e0 qualification stopped before timings: four adapters falsely read zero-valued unsupported statistics as unsupported results. Corrected in4f02a8b7;all profiles required fresh qualification; see qualification.json."
 }

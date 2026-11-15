@@ -18,6 +18,18 @@ needs fresh evidence for its actual configuration.
 
 The convenience `make fuzzsmt` target's small default count is not a merge gate.
 
+Result adapters must distinguish diagnostics from printed statistics. The
+{arithmeticcombsource}`external-fuzzer adapter <scripts/fuzz_external.py>`,
+{arithmeticcombsource}`integer/UF adapter <scripts/qf_uflia_fuzz.py>`,
+{arithmeticcombsource}`real/UF adapter <scripts/qf_uflra_smoke_fuzz.py>` and
+{arithmeticcombsource}`seed comparator <scripts/check_solver_seed_corpus.py>`
+exclude colon-prefixed statistic lines when checking for unsupported diagnostics.
+A key such as `:combination.model.fallback-unsupported 0` is not an unsupported
+answer. A nonzero exit after a printed SAT/UNSAT answer remains a crash, even
+when unsupported text is also present. The
+{arithmeticcombsource}`mock protocol regressions <tests/python/test_solver_statistics_classification.py>`
+exercise all four adapters without invoking a solver.
+
 For qualifying a preprocessing pass that can bypass finite-domain machinery,
 the {preprocessboundsource}`finite-domain generator <scripts/finite_domain_fuzz.py>`
 supports explicit `--activation-profile=answers`.
