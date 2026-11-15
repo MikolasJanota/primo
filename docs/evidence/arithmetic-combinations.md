@@ -192,3 +192,16 @@ these diagnostic measurements never replace the original factorial scores.
 The {arithmeticreporttools}`shared submission controller <scripts/qualification/bound_propagation/submit.py>`
 option `--task-count` limits these arrays to the
 actual number of flagged pairs; its default remains 697.
+
+
+The {arithmeticreporttools}`selected-work diagnostic <scripts/qualification/arithmetic_combinations/mechanisms.py>`
+reads only a qualified measurement CSV. It compares SAT decisions, SAT
+conflicts, pivots, private nodes and split requests. Within each profile it
+reports cases whose selected counters vary across repetitions; across a
+one-switch pair it reports cases with equal or changed selected counters.
+Its cohort requires successful solves in all three repetitions and available
+values for all five counters. Missing data and coverage differences remain
+outside this comparison. Equal selected counters do not prove identical
+search traces, and changed counters do not by themselves attribute CPU time.
+The resulting `mechanisms.json` pins the measurement CSV hash and native
+identity, and does not alter timing scores.
