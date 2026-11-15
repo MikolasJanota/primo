@@ -1,0 +1,34 @@
+{
+  "source": "c815a0b4",
+  "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+  "parent_job": 396960,
+  "profiles": [
+    {
+      "profile": "rows",
+      "cases": 57,
+      "scoped_sessions": 2,
+      "single_query_sat_models": 27,
+      "runner_sha256": "309e5b502c46d83f1e709b3f44112e68f03a016e0083ff702777c7001e51ab63",
+      "manifest_sha256": "a94a31f94e77328e88f30eb2edcee00b85de5b6eb7a838bbe12555d3d7b2026a",
+      "job": "396974",
+      "single_Dolmen_pass": 27,
+      "scoped_SAT_Dolmen_pass": 6,
+      "models_sha256": "22ef12a077ca7bb8de2c000c235aecdf0bda3b412cd26d61f4801239d57cd431",
+      "scoped_summary_sha256": "aa5b4702ff6a022f9fec1ff66a7ffb13009a6c3dfff80e377597b0a311f12cd8"
+    },
+    {
+      "profile": "both",
+      "cases": 57,
+      "scoped_sessions": 2,
+      "single_query_sat_models": 27,
+      "runner_sha256": "309e5b502c46d83f1e709b3f44112e68f03a016e0083ff702777c7001e51ab63",
+      "manifest_sha256": "a94a31f94e77328e88f30eb2edcee00b85de5b6eb7a838bbe12555d3d7b2026a",
+      "job": "396960",
+      "single_Dolmen_pass": 27,
+      "scoped_SAT_Dolmen_pass": 6,
+      "models_sha256": "82f1220d51e3f034fe5ae3156826b0c35d0abe2d55a4cc23229e86e88e2d698a",
+      "scoped_summary_sha256": "0dba523b228b96b6a3a536592ac107ce0d7d2b586c4418729280740feaf78b97"
+    }
+  ],
+  "scope": "Tracked regression seeds plus incremental sessions, with exact profile replay and direct Dolmen checks for each SAT query. Native source version checked by batch script before execution; fixed-source build and hash recorded separately."
+}

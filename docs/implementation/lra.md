@@ -629,17 +629,51 @@ subsequent assignment, pivot, backtrack or atom registration. The
 {ref}`scan-reuse checklist <scan-local-reuse-draft>`
 records its complexity, counters and qualification status.
 
-The {redundancyauditsource}`execution adapters <src/smt/solver_engines.cpp>`
-also measure redundant work without filtering it. Their owning
-`PropagationQueueAudit` records signed-literal multiplicity in the SAT-literal
-pending queue, updating on insertion, pop and backtrack removal; it owns no
-premises or tableau references. Successful bound insertions are classified as
-numeric no-ops or endpoint changes using the read-only trail offset. Queue
-order, repeated candidates and original reasons are preserved. Interface-pair
-publication queues are excluded. See the
-[redundancy counters](../reference/statistics.md#arithmetic-redundancy-audit)
-for exact denominators. Neither a numerical no-op nor an event without a new
-pending literal is automatically a redundant search step.
+The {propfilterfinaltrialsource}`execution adapters <src/smt/solver_engines.cpp>`
+classify successful bound insertions as numeric no-ops
+or endpoint changes using the read-only tableau trail offset. The original
+instrument-only snapshot preserved every duplicate; the following filters are
+implemented in the frozen qualification candidate `c815a0b4`, with final
+correctness and performance acceptance recorded separately in the
+{download}`experiment ledger <../run-log.json>`.
+
+Each adapter owns an
+{propfilterfinaltrialsource}`ArithmeticPropagationQueue <src/smt/arithmetic_propagation_queue.hpp>`.
+Its entries own the signed SAT literal, copied explanation vector and origin
+flags. With the existing row-propagation option enabled, a dense array of two
+Boolean markers per SAT variable records pending presence independently for
+each sign. A repeated signed literal is suppressed before copying reasons;
+the first occurrence retains its position and original explanation. Opposite
+signs remain distinct. Pop moves the owning entry out and clears its marker;
+backtracking clears every remaining marker and entry. Interface-pair
+publications use a separate queue and are excluded. Without row propagation,
+the queue preserves duplicates and their order, and never indexes or allocates
+the marker array. Those insertions are explicitly counted as untracked for
+duplicate classification.
+
+Each adapter also owns an
+{propfilterfinaltrialsource}`ArithmeticRowScanMemo <src/smt/arithmetic_row_scan_memo.hpp>`.
+Per arithmetic variable it stores only the last scanned backtrack generation,
+trail offset and cumulative pivot count. A numerical no-op skips row refinement
+only when all three match. Every backtrack invalidates stamps, including when
+another branch later reaches the same trail offset; generation wrap clears all
+stamps. A changed endpoint or pivot prevents reuse. The component execution is
+recreated after atom registration; the legacy online adapter borrows its fixed
+prepared arithmetic view. No endpoint or reason cache survives a scan, and no
+new rows, variables, atoms or inference rules are introduced. Same-variable
+propagation and the equality/interface paths still run. See the
+{ref}`design and invalidation obligations <repeated-state-row-scan-filter>`
+and [counter denominators](../reference/statistics.md#arithmetic-redundancy-audit).
+
+This is ordinary queue coalescing and conservative memoization, motivated by
+Schulte–Stuckey's *Efficient Constraint Propagation Engines* §5; it does not
+implement their finite-domain fixpoint algorithm. The bounded scan still uses
+Dutertre–de Moura's interval bounds with Primo's existing limits. Marker growth
+and memo growth cost a total `O(N + V)` initialization and storage over the
+execution lifetime, for maximum encountered SAT index `N` and arithmetic index
+`V`; this is not an amortized constant-space claim for sparse IDs. The default
+path allocates neither dense array. Neither a numerical no-op nor a row event
+without a new candidate alone proves that all processing can be omitted.
 
 
 {source}`The options <src/smt/check_sat.hpp#L245-L269>` enable same-variable

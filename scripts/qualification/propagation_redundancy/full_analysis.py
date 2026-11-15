@@ -22,6 +22,7 @@ from scripts.qualification.bound_propagation.analyze import (  # noqa: E402
     solved,
 )
 from scripts.qualification.lia_hybrid.run import measurement_order  # noqa: E402
+from scripts.qualification.propagation_redundancy.analyze import counters  # noqa: E402
 
 METRICS = (
     ":sat.decisions",
@@ -265,6 +266,8 @@ def main() -> None:
                 if solved(row) and case.get("expected") in ("sat", "unsat"):
                     assert row["answer"] == case["expected"]
                 variant, mode = row["profile"].split("-", 1)
+                if variant == "candidate":
+                    counters(row)  # Validate complete counter partitions when available.
                 records.append(
                     {
                         **{
@@ -381,7 +384,9 @@ def main() -> None:
                     "solved": solved(row),
                     "PAR2_seconds": penalty(row, limit),
                     "stats": json.dumps(
-                        row["stats"], sort_keys=True, separators=(",", ":")
+                        {key: metric(row, key) for key in METRICS},
+                        sort_keys=True,
+                        separators=(",", ":")
                     ),
                 }
             )

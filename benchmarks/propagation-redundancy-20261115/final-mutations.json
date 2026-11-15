@@ -1,0 +1,223 @@
+{
+  "source": "c815a0b4",
+  "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+  "status": "No decisive mismatch or invalid selected SAT model; resource outcomes incomplete.",
+  "cases": 2520,
+  "outcomes": {
+    "PASS": 2512,
+    "INCOMPLETE": 8
+  },
+  "SAT_Dolmen_pass": 1704,
+  "profiles": [
+    {
+      "logic_profile": "QF_LIA-rows",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "seed_outcomes": {
+        "PASS": 12
+      },
+      "SAT_Dolmen_pass": 241,
+      "summary_sha256": "7ed9b253e3f5507be3b7d669851235ca3da16da73744e116bbd98e204e3795cf",
+      "seed_summary_sha256": "fc2540009f346ffe8064637b67bb348a6eaa3d11c267e4b1a74c88d6dc0d35fb",
+      "model_summary_sha256": "f360219bb0f057759122b5941ff80a7f5c22568a80942bd9ad8627e2d83b80b5",
+      "seeds_sha256": "6bda83455f173b23b4d7ea81e40875bea23b36afb3fc518ff929df5b41582813",
+      "executables_sha256": "6206dc1ab81b9580082dc831c2e88d0fa39b1a1713e6787cffc30cf31377542e",
+      "resources": []
+    },
+    {
+      "logic_profile": "QF_LIA-both",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "seed_outcomes": {
+        "PASS": 12
+      },
+      "SAT_Dolmen_pass": 213,
+      "summary_sha256": "13d9f6aaeb3685943a9e33bf5f734c328aa02f55afde231bec15ce4ff254c952",
+      "seed_summary_sha256": "823e7672bea1d2607ac8d36e1590da942f0dcebd7460acbbc29b41b44f31109c",
+      "model_summary_sha256": "8cceb81fbdd2bfe3df4b2551df98e71e28d9b50b1b1f81c6185081b881701390",
+      "seeds_sha256": "6bda83455f173b23b4d7ea81e40875bea23b36afb3fc518ff929df5b41582813",
+      "executables_sha256": "6206dc1ab81b9580082dc831c2e88d0fa39b1a1713e6787cffc30cf31377542e",
+      "resources": []
+    },
+    {
+      "logic_profile": "QF_UFLIA-rows",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "seed_outcomes": {
+        "PASS": 12
+      },
+      "SAT_Dolmen_pass": 212,
+      "summary_sha256": "58c1f98327bf5c8d3ab7bf30cc3ee7584ff397cb5fca396f43e4560119f328dd",
+      "seed_summary_sha256": "781b62cc7e7a64947efd5131221547a732c4823bb79a1ef1b3c12f171684897f",
+      "model_summary_sha256": "c715c617c0ed9583434b6906357b4bd2741364296b8766adbedc46dc06eb03e5",
+      "seeds_sha256": "7ef7473300fc2e8982b9f598b928d6a2ec03858762f81d788a3f72deb0d13a34",
+      "executables_sha256": "6206dc1ab81b9580082dc831c2e88d0fa39b1a1713e6787cffc30cf31377542e",
+      "resources": []
+    },
+    {
+      "logic_profile": "QF_UFLIA-both",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "seed_outcomes": {
+        "PASS": 12
+      },
+      "SAT_Dolmen_pass": 275,
+      "summary_sha256": "076c9c7f9b02880be10f7264ee2275663ed60966bd4dfe1c74fdde21f903fe97",
+      "seed_summary_sha256": "9c62efe47fdcdb21cabff9bf0481d1e30158172fb5194180ca87b900a955fbcf",
+      "model_summary_sha256": "edf2c4ff8746714b4c30f89ecea23fdf5cfef63aed13ea4e7434b629d0e379f4",
+      "seeds_sha256": "7ef7473300fc2e8982b9f598b928d6a2ec03858762f81d788a3f72deb0d13a34",
+      "executables_sha256": "6206dc1ab81b9580082dc831c2e88d0fa39b1a1713e6787cffc30cf31377542e",
+      "resources": []
+    },
+    {
+      "logic_profile": "QF_LRA-rows",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 352,
+        "INCOMPLETE": 8
+      },
+      "seed_outcomes": {
+        "PASS": 12
+      },
+      "SAT_Dolmen_pass": 193,
+      "summary_sha256": "d1d8ee45476c617902c6c564ec6d9c3b71b595143be41536e13f981a6585ca2b",
+      "seed_summary_sha256": "ca82ca4930a7bfbd851369f705e98901eb846e5cddf97bdbdd9234e59bb45ef4",
+      "model_summary_sha256": "af25f7f7f83b68349809425aa8f9bacbaff982b34c01e893460536d0b5891b2a",
+      "seeds_sha256": "816ccd743e420d9bd79ab8fff1a6c84586e846884c167d77461a7a208ecc5af6",
+      "executables_sha256": "6206dc1ab81b9580082dc831c2e88d0fa39b1a1713e6787cffc30cf31377542e",
+      "resources": [
+        {
+          "file": "/home/janotmik/primo-propagation-filter-final-20261115/results/mutations/QF_LRA-rows/scratch/000-jxFlH-4phJv.smt2",
+          "expected": "",
+          "ours": "sat",
+          "ours_exit": "0",
+          "reference": "timeout",
+          "reference_exit": "124",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "file": "/home/janotmik/primo-propagation-filter-final-20261115/results/mutations/QF_LRA-rows/scratch/000-jxFlH-9c7Ay.smt2",
+          "expected": "",
+          "ours": "sat",
+          "ours_exit": "0",
+          "reference": "timeout",
+          "reference_exit": "124",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "file": "/home/janotmik/primo-propagation-filter-final-20261115/results/mutations/QF_LRA-rows/scratch/000-jxFlH-ISi4p.smt2",
+          "expected": "",
+          "ours": "sat",
+          "ours_exit": "0",
+          "reference": "timeout",
+          "reference_exit": "124",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "file": "/home/janotmik/primo-propagation-filter-final-20261115/results/mutations/QF_LRA-rows/scratch/000-jxFlH-MNQkw.smt2",
+          "expected": "",
+          "ours": "sat",
+          "ours_exit": "0",
+          "reference": "timeout",
+          "reference_exit": "124",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "file": "/home/janotmik/primo-propagation-filter-final-20261115/results/mutations/QF_LRA-rows/scratch/000-jxFlH-Z2V1o.smt2",
+          "expected": "",
+          "ours": "sat",
+          "ours_exit": "0",
+          "reference": "timeout",
+          "reference_exit": "124",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "file": "/home/janotmik/primo-propagation-filter-final-20261115/results/mutations/QF_LRA-rows/scratch/000-jxFlH-eOQv0.smt2",
+          "expected": "",
+          "ours": "sat",
+          "ours_exit": "0",
+          "reference": "timeout",
+          "reference_exit": "124",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "file": "/home/janotmik/primo-propagation-filter-final-20261115/results/mutations/QF_LRA-rows/scratch/000-jxFlH-gumrW.smt2",
+          "expected": "",
+          "ours": "sat",
+          "ours_exit": "0",
+          "reference": "timeout",
+          "reference_exit": "124",
+          "outcome": "INCOMPLETE"
+        },
+        {
+          "file": "/home/janotmik/primo-propagation-filter-final-20261115/results/mutations/QF_LRA-rows/scratch/000-jxFlH-hv0gl.smt2",
+          "expected": "",
+          "ours": "sat",
+          "ours_exit": "0",
+          "reference": "timeout",
+          "reference_exit": "124",
+          "outcome": "INCOMPLETE"
+        }
+      ]
+    },
+    {
+      "logic_profile": "QF_LRA-both",
+      "cases": 360,
+      "outcomes": {
+        "PASS": 360
+      },
+      "seed_outcomes": {
+        "PASS": 12
+      },
+      "SAT_Dolmen_pass": 245,
+      "summary_sha256": "04afa8b01b7aa3f1ef72864f95f1eb8e455538e7b763db8b3921e4bd9499b858",
+      "seed_summary_sha256": "c675547020671d9c7482a4459a094ee329b8d098cf644de64b1fd954f77301f2",
+      "model_summary_sha256": "ed849c63389ae008fa9de16aefd1318c463c779a05ae3d2005bcff7d8e682cfa",
+      "seeds_sha256": "816ccd743e420d9bd79ab8fff1a6c84586e846884c167d77461a7a208ecc5af6",
+      "executables_sha256": "6206dc1ab81b9580082dc831c2e88d0fa39b1a1713e6787cffc30cf31377542e",
+      "resources": []
+    },
+    {
+      "logic_profile": "QF_UFLRA-rows",
+      "cases": 180,
+      "outcomes": {
+        "PASS": 180
+      },
+      "seed_outcomes": {
+        "PASS": 12
+      },
+      "SAT_Dolmen_pass": 162,
+      "summary_sha256": "99fcf08a175f028861f0e1b2791b370eae34a39aba436feaf05712f2db0cd4f2",
+      "seed_summary_sha256": "fa06fe0298f58b1c1c0500319eb61be02387c5b83bf53651202838deee655b8f",
+      "model_summary_sha256": "458b452bdceddacb182d4205e0be4226c4a56c0d283d03f7ec330f9d701bbfdf",
+      "seeds_sha256": "26d83100599faeafa3c7d8fff0f362e84ca2d6fe89b61bdb54ec98b4e3c81cb0",
+      "executables_sha256": "6206dc1ab81b9580082dc831c2e88d0fa39b1a1713e6787cffc30cf31377542e",
+      "resources": []
+    },
+    {
+      "logic_profile": "QF_UFLRA-both",
+      "cases": 180,
+      "outcomes": {
+        "PASS": 180
+      },
+      "seed_outcomes": {
+        "PASS": 12
+      },
+      "SAT_Dolmen_pass": 163,
+      "summary_sha256": "84fd57c9c597a65e2f199b78828f2269c6ab303c8b4e499d189c030cc3ff2124",
+      "seed_summary_sha256": "994aa648b2737c172a1a1b59bacb6b8a99257ab8f149198e3ff3cd99d2210080",
+      "model_summary_sha256": "5782ee34948bde298712d7940f17531abed1fa49dfaf0e7f0ba2c50adfece420",
+      "seeds_sha256": "26d83100599faeafa3c7d8fff0f362e84ca2d6fe89b61bdb54ec98b4e3c81cb0",
+      "executables_sha256": "6206dc1ab81b9580082dc831c2e88d0fa39b1a1713e6787cffc30cf31377542e",
+      "resources": []
+    }
+  ]
+}

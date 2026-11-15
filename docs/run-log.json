@@ -6,7 +6,7 @@
       "id": "2026-11-15-propagation-redundancy",
       "date": "2026-11-15",
       "kind": "Arithmetic redundancy audit before filtering",
-      "evidence_status": "Audit complete; final sourcec815a0b4 built. Final-source correctness, mutations and static qualification submitted inSLURM; full comparison pending.",
+      "evidence_status": "Audit/ablation evidence committed; finalC815correctness-qualified. Fullpairedtimings/modelsrunning,nooverallperformanceclaim.",
       "source_snapshot": "f8845defb0b17e3e49b47d41f3b7b93689bafd63",
       "baseline": "abe24b92 (native source 07ec5ce5)",
       "jobs": {
@@ -59,7 +59,7 @@
       "profile_attempts": "Callgrind396816on LIA and396838on Wisa exceeded300s normal-completion budget with no usable dump; discarded. Existing GDB sampler396853 completed four rotated1000-conflict prefixes:468wall-stack observations,34/116 and38/120audit stacks and52/114 and42/118control stacks include row scanning. Overlapping stack evidence,notCPUpercentages or native timing.",
       "experiment": {
         "source_snapshot": "c815a0b4",
-        "status": "Final qualification build in progress; no filtering source accepted or adopted on main yet.",
+        "status": "FinalC815source correctness-qualified; native filtering onmainstaged forverifiedcommit. Fullperformance/modelacceptancepending.",
         "mechanisms": "Signed queue coalescing before reason copy; Boolean presence markers onlyunder existingrowoption; defaultnoID-indexedauditallocation and preserves duplicate order. Untrackedcategory distinguishes unavailable uniqueness data. Row scansskiponlynon-strengthening inserts matching samevar/trail/pivots/backtrackgeneration; newobjects onregistrationreset.",
         "superseded": [
           {
@@ -161,13 +161,77 @@
             ]
           }
         ],
-        "status": "Submitted; final source frozen before all checks. Earlier127d71e1 receipts remain prototype evidence only.",
+        "status": "Final-source correctness and both static inventories audited. Full697rows/both3rep timing and allSATmodel phases submitted after staticjob terminal; final performance verdict pending.",
         "generated_seed_bases": [
           2026112900,
           2026112908
         ],
         "mutation_seed_base": 2026113000,
-        "protocol": "benchmarks/propagation-redundancy-20261115/filter-protocol.json"
+        "protocol": "benchmarks/propagation-redundancy-20261115/filter-protocol.json",
+        "generated_results": {
+          "inputs": 12000,
+          "PASS": 11973,
+          "TIMEOUT": 27,
+          "SAT_Dolmen_pass": 9084,
+          "status": "Fresh 3000 per affected logic; timeout-only cases incomplete."
+        },
+        "mutation_results": {
+          "inputs": 2520,
+          "PASS": 2512,
+          "INCOMPLETE": 8,
+          "SAT_Dolmen_pass": 1704,
+          "artifact": "benchmarks/propagation-redundancy-20261115/final-mutations.json",
+          "classification": "All8 incomplete are reference timeouts, with native SAT,exit0 and directDolmen pass; child396961_2 exits1 deliberately preserving incomplete stage status."
+        },
+        "regressions": "57tracked cases per rows/both;27single-query plus6incremental SATqueries each profile independently Dolmenpass; final-seeds.json.",
+        "checks": "make check49native+354Python and make asan-test49native pass; whole-tree lint withrg passes; full static inventories pending.",
+        "static": {
+          "job": 396962,
+          "translation_units_per_scan": 140,
+          "tidy_unique_findings": 865,
+          "includes_unique_findings": 398,
+          "both_tool_exit": 0,
+          "unused_header_gate": "passed",
+          "scope": "Complete with findings,not clean-tree. New helper pragma-once and internal swappable-size_t advisories reviewed. Existing enum-size advisory changesuint8 touint16. One new missing direct sat/lit.hpp test include fixed after frozen scan; bounded syntax-only compilepasses. Five changed production files exactlyC815; testbody unchanged plus explicitdirectinclude."
+        },
+        "qualification_artifact": "benchmarks/propagation-redundancy-20261115/final-qualification.json",
+        "full_jobs": {
+          "timing": [
+            {
+              "repetition": 0,
+              "job": "396982",
+              "verified_parent": null
+            },
+            {
+              "repetition": 1,
+              "job": "396983",
+              "verified_parent": "396982"
+            },
+            {
+              "repetition": 2,
+              "job": "396984",
+              "verified_parent": "396983"
+            }
+          ],
+          "model": [
+            {
+              "repetition": 0,
+              "job": "396985",
+              "verified_parent": "396984"
+            },
+            {
+              "repetition": 1,
+              "job": "396986",
+              "verified_parent": "396984"
+            },
+            {
+              "repetition": 2,
+              "job": "397083",
+              "verified_parent": "396984"
+            }
+          ]
+        },
+        "source_review": "skills/code-review and solver-efficiency-review self-review: no blocking issue. Full1798trackednon-generated inventory with diff focus; lint+140TUstatic coverage. Reasonborrowsconsumed synchronously,firstreasonowned,backtrack/registration invalidation verified. Not a fresh line-by-line proof of unrelated code."
       }
     },
     {

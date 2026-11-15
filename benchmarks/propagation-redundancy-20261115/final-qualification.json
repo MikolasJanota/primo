@@ -1,0 +1,395 @@
+{
+  "status": "source checks and generated/model gates qualified; mutation and corpus evidence separate",
+  "source_snapshot": "c815a0b4",
+  "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+  "generated_inputs": 12000,
+  "outcomes": {
+    "PASS": 11973,
+    "TIMEOUT": 27
+  },
+  "SAT_Dolmen_pass": 9084,
+  "gates": [
+    {
+      "slot": 0,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "count": 1000,
+      "seed": 2026112900,
+      "outcomes": {
+        "PASS": 992,
+        "TIMEOUT": 8
+      },
+      "resource_unknowns": [],
+      "selected_sat": 878,
+      "direct_dolmen_pass": 878,
+      "summary_sha256": "3baba9748e9c5690c5d96833a082a0fbcc3f0c68e1457321c5cf1bcc955e7587",
+      "job": "396964",
+      "receipt_sha256": "37b5be4d7be3e22abb080e0bcf97fc985aa88be6793027c15ca2709fe1fbefdc",
+      "model_summary_sha256": "70509fdcd0a22ee0af2b711030af291686dae66c6c683cc631fd475a47ffeb1d"
+    },
+    {
+      "slot": 1,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "count": 1000,
+      "seed": 2026112901,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 514,
+      "direct_dolmen_pass": 514,
+      "summary_sha256": "2c5fff3d9ceb3b8726ff06af738c86cf67ac20a9cb4077834526d1806c2eb0ba",
+      "job": "396965",
+      "receipt_sha256": "847d623edeef8fce7729ca8655c1799bd7c194fc7589452c12d27e7cba500a6f",
+      "model_summary_sha256": "e77f66323920c3363de051fbb3e81202c9d35a162f8654456080b4f61ce63878"
+    },
+    {
+      "slot": 2,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "count": 1000,
+      "seed": 2026112902,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 1000,
+      "direct_dolmen_pass": 1000,
+      "summary_sha256": "83e80fff57aca8b83b1daecc18e8bee584c985a39e9a18c141a93ac4c2574e36",
+      "job": "396966",
+      "receipt_sha256": "ebd4035ea3561ca47ccb1203b32ccd4666f6e7182951ffe36b8dd493547162f7",
+      "model_summary_sha256": "a8a884952f01a610f4ce8ef253b52902a4051391aa8a5802a35487c4f1162325"
+    },
+    {
+      "slot": 3,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "count": 1000,
+      "seed": 2026112903,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 642,
+      "direct_dolmen_pass": 642,
+      "summary_sha256": "28565ff2ab8bcb4696ef4dab47a1d9c141a3fcd977e7730b74db01fa2311d8ca",
+      "job": "396967",
+      "receipt_sha256": "8f311ed857461d062e052565585870ae3101db292362bd2285b77f4cd616fca9",
+      "model_summary_sha256": "983d73ce97bbebf3f10ee12983057b4e3cecc3b36a855febe4d335e27494337a"
+    },
+    {
+      "slot": 4,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening"
+      ],
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "count": 1000,
+      "seed": 2026112904,
+      "outcomes": {
+        "PASS": 993,
+        "TIMEOUT": 7
+      },
+      "resource_unknowns": [],
+      "selected_sat": 874,
+      "direct_dolmen_pass": 874,
+      "summary_sha256": "9662da56e5388538804cd1ddc6ea69477462fa5cfeefdc5b1fc9ee4caf6fe370",
+      "job": "396968",
+      "receipt_sha256": "ec00d594f0b281d312d57053916f6ddf17b3cb68240636c8cd6253e8e2b94b5c",
+      "model_summary_sha256": "9e983c84ec4d7e0f02f33073cc0a75f3b0228be09bed7982bc9362cb6a193e11"
+    },
+    {
+      "slot": 5,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening"
+      ],
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "count": 1000,
+      "seed": 2026112905,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 516,
+      "direct_dolmen_pass": 516,
+      "summary_sha256": "96971c45610e7811dca8a22e1c57ca43031c5f4124a18f33910082fd73154c15",
+      "job": "396969",
+      "receipt_sha256": "46c62a52b9ec1afc0d638aa258839684b0bc9f009989e44d4c3c782d8c2a394e",
+      "model_summary_sha256": "65f2c9dc06c8c87b6cb770422082d27249b2accc757590893f4c6077a3d6b781"
+    },
+    {
+      "slot": 6,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening"
+      ],
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "count": 1000,
+      "seed": 2026112906,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 1000,
+      "direct_dolmen_pass": 1000,
+      "summary_sha256": "66bc6b539a004d01c4aa1fe0d411c026fd5a9ab7bdc6c727e9a933be6c6784bd",
+      "job": "396970",
+      "receipt_sha256": "589d796b8d0c1331be10d2a077f17ae48898b2fe28d513dfebc823b1511c99d7",
+      "model_summary_sha256": "3676542d843ebda121f3a5a905f824b6d1df2d50dca5f8169d704f1a079ffe11"
+    },
+    {
+      "slot": 7,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model",
+        "--preprocess-bound-tightening"
+      ],
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "count": 1000,
+      "seed": 2026112907,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 653,
+      "direct_dolmen_pass": 653,
+      "summary_sha256": "788f50b6fb06a8ae7cd2493d5cb164aea8ebfbe43b1f1c8aa295163241caad9f",
+      "job": "396958",
+      "receipt_sha256": "7b50bf3f836d65f95b55eefc43e926a2842dbd62cd551242a6d864cb769add1f",
+      "model_summary_sha256": "8fb68554782094d6378cef09d501661cf003aa5b2383177f7da7b318b19a1efe"
+    },
+    {
+      "slot": 0,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "count": 1000,
+      "seed": 2026112908,
+      "outcomes": {
+        "PASS": 988,
+        "TIMEOUT": 12
+      },
+      "resource_unknowns": [],
+      "selected_sat": 883,
+      "direct_dolmen_pass": 883,
+      "summary_sha256": "36f00f833458297af76d189887b55514529ede7c3ccebf983383b0ee7430edff",
+      "job": "396971",
+      "receipt_sha256": "ca40c2f6908e835370786094d51c6a6e4ccb58ece98e5e177c0c09b488f8d323",
+      "model_summary_sha256": "d56734221dd7594f642d691de541cc11dc58e43a8cb208a9549632707df8067f"
+    },
+    {
+      "slot": 1,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "count": 1000,
+      "seed": 2026112909,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 507,
+      "direct_dolmen_pass": 507,
+      "summary_sha256": "0e50d22ad9dc72b59ec882f8c4c5120ab55b09fbdfffe2e6e4fc67953c91c80e",
+      "job": "396972",
+      "receipt_sha256": "f3aa73bf3fde4c9381f97c5f23deadbdfa9e7397c03a64099826f242787a0a7f",
+      "model_summary_sha256": "1bd81d8cf8a1fb7129b01bd8ae15fa25934bc95efa38913b7029eeff214c48c8"
+    },
+    {
+      "slot": 2,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "count": 1000,
+      "seed": 2026112910,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 1000,
+      "direct_dolmen_pass": 1000,
+      "summary_sha256": "62a62f6038d1ca142468acc116b0328d4b2f2d16b46732e1f6eeb73dd11040c8",
+      "job": "396973",
+      "receipt_sha256": "c23f4c7378668abd8000a9217e5651f76a6f9e1f29a3b7d2e5cf781d9d233e71",
+      "model_summary_sha256": "8fefb47edf3a3523293bd62927b550b652a6df772ad1bc94d4db2d861a56eb88"
+    },
+    {
+      "slot": 3,
+      "reference_timeouts_validated_separately": [],
+      "solver_args": [
+        "--quiet",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--check-model"
+      ],
+      "source_snapshot": "c815a0b4",
+      "native_sha256": "3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed",
+      "count": 1000,
+      "seed": 2026112911,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "selected_sat": 617,
+      "direct_dolmen_pass": 617,
+      "summary_sha256": "fa86c6fa890b73629873b126d19da9ad8a217eabd91705f44ad309e3e06699e8",
+      "job": "396959",
+      "receipt_sha256": "ad4bfd9dc6299c2fbaab5e8baf3dea87e64800dbef26378c3c22a90afc20dfc3",
+      "model_summary_sha256": "6fdc8899bf0c54dfd2fa6705951bc4da4785033862fd66edd027fa604c9521f5"
+    }
+  ],
+  "checks": {
+    "check": {
+      "sha256": "07b44a34726dcf2688ca2bf4a145f0385fcda64f8f1fd05f0ba392d5a4e62a1d",
+      "native_groups": 49
+    },
+    "asan": {
+      "sha256": "a7550ee31ded695133e85fd20034992895fe31de9724fd8b03ab51bed431a59a",
+      "native_groups": 49
+    }
+  },
+  "static": {
+    "tidy": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 140,
+      "analyzed_translation_units": 140,
+      "missing": [],
+      "changed_inputs": [],
+      "tool_exit_code": 0,
+      "diagnostic_occurrences": 3992,
+      "unique_diagnostics": 865,
+      "counts": {
+        "portability-avoid-pragma-once": 108,
+        "performance-enum-size": 87,
+        "misc-include-cleaner": 398,
+        "clang-analyzer-optin.performance.Padding": 1,
+        "bugprone-unchecked-optional-access": 109,
+        "performance-no-automatic-move": 1,
+        "bugprone-use-after-move": 1,
+        "bugprone-exception-escape": 11,
+        "performance-move-const-arg": 23,
+        "performance-unnecessary-value-param": 15,
+        "performance-inefficient-string-concatenation": 14,
+        "bugprone-easily-swappable-parameters": 42,
+        "performance-inefficient-vector-operation": 8,
+        "clang-analyzer-optin.core.EnumCastOutOfRange": 20,
+        "performance-faster-string-find": 3,
+        "bugprone-implicit-widening-of-multiplication-result": 4,
+        "bugprone-assert-side-effect": 6,
+        "clang-analyzer-cplusplus.NewDeleteLeaks": 2,
+        "performance-unnecessary-copy-initialization": 5,
+        "bugprone-optional-value-conversion": 2,
+        "bugprone-branch-clone": 5
+      },
+      "scope": "Diagnostic inventory; completed analysis is not a claim that findings are benign.",
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      },
+      "receipt_sha256": "5246f5cb7c4db43c0001b76deddebf526b65b1a01a299ffd2132cfd823fda0ae"
+    },
+    "includes": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 140,
+      "analyzed_translation_units": 140,
+      "missing": [],
+      "changed_inputs": [],
+      "tool_exit_code": 0,
+      "diagnostic_occurrences": 398,
+      "unique_diagnostics": 398,
+      "counts": {
+        "misc-include-cleaner": 398
+      },
+      "scope": "Diagnostic inventory; completed analysis is not a claim that findings are benign.",
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      },
+      "receipt_sha256": "8a7e39e037dccd14f68ef39b140af67b532dbda4f4968994311775638e0cf468"
+    }
+  },
+  "scope": "Timeouts and diagnosed resource unknowns remain incomplete. Static inventories with findings are not a clean-tree claim. Every selected SAT gate case has a direct Dolmen result. Mutations, seeds and full timing-model validation are separate artifacts."
+}

@@ -4,10 +4,15 @@
 
 #include <cassert>
 #include <cstdint>
+#include <limits>
 #include <string>
 #include <string_view>
 #include <utility>
+#include <vector>
 
+#include "sat/lit.hpp"
+#include "smt/arithmetic_propagation_queue.hpp"
+#include "smt/arithmetic_row_scan_memo.hpp"
 #include "smt/check_sat.hpp"
 #include "util/statistics.hpp"
 
@@ -3556,6 +3561,13 @@ void row_bound_events_and_integer_refinement() {
       const auto result = check_sat_smtlib(input, options);
       assert(result.result == CheckSatResult::Sat);
       assert(result.statistics.get(StatKey::LraBidirectionalRowPropagations) > 0);
+      assert(result.statistics.get(StatKey::LraBoundNotifications) ==
+             result.statistics.get(StatKey::LraBoundNoopNotifications) +
+                 result.statistics.get(StatKey::LraBoundTighteningNotifications) +
+                 result.statistics.get(StatKey::LraBoundConflictingNotifications));
+      assert(result.statistics.get(StatKey::LraPropagationCandidateAttempts) ==
+             result.statistics.get(StatKey::LraPropagationCandidates) +
+                 result.statistics.get(StatKey::LraPropagationSuppressedDuplicates));
       if (!basic_first) assert(result.statistics.get(":lra.basic-variable-row-scans") > 0);
       auto capped = options;
       capped.lra_row_propagation_limits.max_fanout = 0;
@@ -3581,6 +3593,75 @@ void row_bound_events_and_integer_refinement() {
       options.lia.round_integer_bounds = true;
     }
   }
+}
+
+void row_scan_memo_invalidates_changed_inputs_and_backtracks() {
+  primo::smt::detail::ArithmeticRowScanMemo memo;
+  assert(!memo.seen(5, 10, 2));
+  memo.remember(5, 10, 2);
+  assert(memo.seen(5, 10, 2));
+  assert(!memo.seen(6, 10, 2));
+  assert(!memo.seen(5, 11, 2));
+  assert(!memo.seen(5, 10, 3));
+  memo.remember(50000, 11, 3);  // Growth must preserve an earlier stamp.
+  assert(memo.seen(5, 10, 2) && memo.seen(50000, 11, 3));
+  memo.invalidate();  // Even restoring exactly the old numeric offsets is new.
+  assert(!memo.seen(5, 10, 2) && !memo.seen(50000, 11, 3));
+  memo.remember(5, 10, 2);
+  assert(memo.seen(5, 10, 2));
+  const primo::smt::detail::ArithmeticRowScanMemo fresh;
+  assert(!fresh.seen(5, 10, 2));
+}
+
+void pending_arithmetic_queue_retains_first_literal_and_reason_order() {
+  primo::util::Statistics statistics;
+  primo::smt::detail::ArithmeticPropagationQueue queue(true);
+  std::vector<primo::sat::Lit> first_reasons{{-11}, {-12}};
+  queue.push(7, first_reasons, true, false, false, statistics);
+  first_reasons[0].value = -99;  // The queue owns its original premises.
+  queue.push(7, first_reasons, false, true, true, statistics);
+  const std::vector<primo::sat::Lit> opposite_reasons{{-20}};
+  queue.push(-7, opposite_reasons, false, true, false, statistics);
+  queue.push(9, first_reasons, false, false, true, statistics);
+  queue.push(-7, first_reasons, true, false, true, statistics);
+  const auto first = queue.pop();
+  assert(first.lit == 7 && first.reasons.size() == 2);
+  assert(first.reasons[0].value == -11 && first.reasons[1].value == -12);
+  assert(first.row_based && !first.bidirectional && !first.variable_equality);
+  const auto opposite = queue.pop();
+  assert(opposite.lit == -7 && opposite.reasons.size() == 1);
+  assert(opposite.reasons[0].value == -20 && opposite.bidirectional);
+  const auto third = queue.pop();
+  assert(third.lit == 9 && third.variable_equality && queue.empty());
+  // Popped and backtracked literals must be eligible in the next state.
+  queue.push(7, opposite_reasons, false, false, false, statistics);
+  queue.clear(statistics);
+  queue.push(7, first_reasons, true, true, false, statistics);
+  // Cross an allocation boundary while an earlier candidate owns its reasons.
+  queue.push(50000, opposite_reasons, false, false, false, statistics);
+  const auto restored = queue.pop();
+  assert(restored.lit == 7 && restored.reasons[0].value == -99);
+  assert(queue.pop().lit == 50000 && queue.empty());
+  assert(first.reasons[0].value == -11);  // Earlier delivered reasons survive.
+  assert(statistics.get(StatKey::LraPropagationCandidateAttempts) == 8);
+  assert(statistics.get(StatKey::LraPropagationSuppressedDuplicates) == 2);
+  assert(statistics.get(StatKey::LraPropagationCandidates) == 6);
+  assert(statistics.get(StatKey::LraPropagationBacktrackDiscarded) == 1);
+  // Disabled row mode retains the original duplicate order and reasons.
+  primo::util::Statistics unfiltered_statistics;
+  primo::smt::detail::ArithmeticPropagationQueue unfiltered(false);
+  unfiltered.push(7, first_reasons, true, false, false, unfiltered_statistics);
+  unfiltered.push(7, opposite_reasons, false, true, false, unfiltered_statistics);
+  assert(unfiltered.pop().reasons[0].value == -99);
+  assert(unfiltered.pop().reasons[0].value == -20 && unfiltered.empty());
+  assert(unfiltered_statistics.get(StatKey::LraPropagationCandidates) == 2);
+  assert(unfiltered_statistics.get(StatKey::LraPropagationUntrackedCandidates) == 2);
+  // Sparse SAT IDs must not allocate an ID-indexed marker array in default mode.
+  unfiltered.push(std::numeric_limits<int>::max(), opposite_reasons, false, false, false,
+                  unfiltered_statistics);
+  assert(unfiltered.pop().lit == std::numeric_limits<int>::max());
+  assert(unfiltered.empty());
+  assert(unfiltered_statistics.get(StatKey::LraPropagationSuppressedDuplicates) == 0);
 }
 
 void row_scans_reuse_endpoints_and_build_reasons_lazily() {
@@ -3622,6 +3703,7 @@ void row_scans_reuse_endpoints_and_build_reasons_lazily() {
                result.statistics.get(StatKey::LraPropagationDuplicateCandidates));
     assert(result.statistics.get(StatKey::LraRowScanEventsWithNewCandidates) > 0);
     assert(result.statistics.get(StatKey::LraRowScanNoopEvents) > 0);
+    assert(result.statistics.get(StatKey::LraRowScanRepeatedStateSkips) > 0);
     assert(result.statistics.get(StatKey::LraRowScanEventsWithNewCandidates) <=
            result.statistics.get(StatKey::LraRowScanEvents));
   }
@@ -5152,6 +5234,8 @@ int main() {
   boolean_flattening_runs_after_the_rewriting_passes();
   row_propagation_limits_are_actually_enforced();
   row_bound_events_and_integer_refinement();
+  row_scan_memo_invalidates_changed_inputs_and_backtracks();
+  pending_arithmetic_queue_retains_first_literal_and_reason_order();
   row_scans_reuse_endpoints_and_build_reasons_lazily();
   bidirectional_row_propagation_drives_boolean_structure();
   bidirectional_row_propagation_can_reach_a_conflict();

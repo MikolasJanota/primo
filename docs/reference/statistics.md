@@ -66,27 +66,42 @@ an interrupted run with no statistics provides no counter evidence.
 
 ## Arithmetic redundancy audit
 
-Both {redundancyauditsource}`arithmetic execution adapters <src/smt/solver_engines.cpp>`
-record the following diagnostic counters.
-They preserve duplicate candidates, reason selection and propagation order;
-no filtering policy is enabled by these measurements. The
+Both {propfilterfinaltrialsource}`arithmetic execution adapters <src/smt/solver_engines.cpp>`
+record these diagnostic counters. In the
+instrument-only snapshot `f8845def`, all candidates were retained and classified.
+The frozen qualification candidate `c815a0b4` adds coalescing in opt-in row mode
+and an exact-state row-scan guard; its acceptance remains recorded separately
+in the {download}`ledger <../run-log.json>`. The
 [design checklist](../leads/bound-propagation-improvements.md#redundancy-audit-2026-11-15)
-explains ownership, trail-offset classification and the research basis.
+explains ownership, invalidation and the research basis.
 
 | Key | Meaning |
 | --- | --- |
-| `:lra.bound-notifications` | Observed arithmetic assignments offered to bound insertion, excluding notifications ignored after an existing conflict. |
+| `:lra.bound-notifications` | Arithmetic assignments offered to bound insertion, excluding notifications ignored after an existing conflict. |
 | `:lra.bound-tightening-notifications` | Nonconflicting insertions changing at least one endpoint, including equality's paired insertion. |
 | `:lra.bound-noop-notifications` | Nonconflicting insertions changing neither endpoint. |
 | `:lra.bound-conflicting-notifications` | Insertions returning a direct conflict; equality may have changed one endpoint first. These three categories partition notifications. |
-| `:lra.propagation-candidates` | SAT-literal `pending_` insertions: same-variable, row and, where queued by `OnlineLraPropagator`, existing-equality consequences. Interface-pair publications in `pending_interface_equalities_` are excluded from all queue-audit keys. |
-| `:lra.propagation-unique-candidates` | Insertions whose signed literal was not already pending at insertion time; not a lifetime distinct-fact count. |
-| `:lra.propagation-duplicate-candidates` | Insertions whose signed literal was already pending. Unique plus duplicate equals all candidates. |
+| `:lra.propagation-candidate-attempts` | Calls offering a candidate before duplicate suppression. |
+| `:lra.propagation-candidates` | Actual SAT-literal queue insertions, including same-variable, row and existing-equality consequences where queued. Interface-pair publications are excluded from every queue counter. |
+| `:lra.propagation-unique-candidates` | Classified insertions whose signed literal was not already pending; not a lifetime distinct-fact count. |
+| `:lra.propagation-duplicate-candidates` | Classified duplicate insertions in the instrument-only snapshot. The filtering candidate suppresses these before insertion. |
+| `:lra.propagation-untracked-candidates` | Actual insertions outside row mode, where no pending-marker storage is allocated and duplicate classification is unavailable. |
+| `:lra.propagation-suppressed-duplicates` | Attempts discarded because the same signed literal is already pending; no reason vector is copied for these attempts. |
+| `:lra.propagation-reason-literals` | Total literal occurrences copied into retained queue-entry reasons; not bytes or distinct premises. |
 | `:lra.propagation-discarded-assigned` | Candidates popped and discarded because their variable was already assigned. |
-| `:lra.propagation-backtrack-discarded` | Candidates cleared on backtracking. Undrained candidates can remain at termination, so discard plus delivery counts need not equal insertions. |
-| `:lra.row-scan-events` | Notifications requesting row refinement, including events rejected by caps or with no affected rows/atoms. |
-| `:lra.row-scan-events-with-new-candidates` | Such events inserting at least one signed literal not already pending. This is a queue outcome, not a CPU or search-benefit measure. |
+| `:lra.propagation-backtrack-discarded` | Actual entries cleared on backtracking. Undrained entries can remain at termination, so discards plus deliveries need not equal insertions. |
+| `:lra.row-scan-events` | Notifications requesting row refinement, including events rejected by caps or skipped by the repeated-state guard. |
+| `:lra.row-scan-events-with-new-candidates` | Such events inserting at least one classified signed literal not already pending. This is a queue outcome, not a CPU or search-benefit measure. |
 | `:lra.row-scan-noop-events` | Row-scan events following a successful numerical no-op insertion. |
+| `:lra.row-scan-repeated-state-skips` | No-op events whose variable has already been scanned at the same trail offset and pivot count in the current backtrack generation. |
+
+In the filtering candidate, attempts equal insertions plus suppressed duplicates;
+insertions equal unique plus duplicate plus untracked insertions. Do not compute
+a duplicate fraction if untracked insertions are present: classification is
+unavailable, rather than a measured zero. Old binaries lack the newer counters;
+an absent key there is unavailable, not zero. Increment-only keys absent from a
+successful statistics print mean zero only for a binary implementing that key.
+An interrupted run without statistics provides no counter evidence.
 
 ## Preprocessing bound-tightening counters
 
