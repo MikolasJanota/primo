@@ -23,6 +23,7 @@ def main() -> None:
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
+    from matplotlib import ticker
 
     report = json.loads((args.evidence / "analysis.json").read_text())
     assert report["status"] == "qualified", "Only plot fully validated timing evidence"
@@ -74,6 +75,16 @@ def main() -> None:
     plt.close(fig)
 
     fig, axes = plt.subplots(2, 2, figsize=(11, 7), constrained_layout=True)
+    ratios = [
+        item["geomean_case_median_ratio"]
+        for logic in LOGICS
+        for item in report["summaries"][logic]["interactions"].values()
+        if item["geomean_case_median_ratio"] is not None
+    ]
+    limits = (
+        min(0.75, min(ratios, default=1) * 0.9),
+        max(1.5, max(ratios, default=1) * 1.1),
+    )
     for ax, logic in zip(axes.flat, LOGICS, strict=True):
         items = report["summaries"][logic]["interactions"]
         for y, (name, value) in enumerate(items.items()):
@@ -92,6 +103,10 @@ def main() -> None:
         ax.set_title(logic)
         ax.axvline(1, color="#7e858b", linewidth=1)
         ax.set_xscale("log")
+        ax.set_xlim(*limits)
+        ax.xaxis.set_major_locator(ticker.MaxNLocator(nbins=4))
+        ax.xaxis.set_major_formatter(ticker.StrMethodFormatter("{x:.2f}"))
+        ax.xaxis.set_minor_locator(ticker.NullLocator())
         ax.set_ylim(-0.7, len(items) - 0.2)
         ax.set_xlabel("Conditional interaction ratio (1 = no relative interaction)")
         ax.grid(True, axis="x", which="major", alpha=0.2)
