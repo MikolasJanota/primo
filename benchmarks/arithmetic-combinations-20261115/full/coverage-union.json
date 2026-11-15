@@ -1,0 +1,252 @@
+{
+  "source": "4f02a8b7",
+  "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+  "measurements_sha256": "39689877998406bac1d99f49d551f0cc075a9b4b107a2f68825b5da7302b2a58",
+  "parent_analysis_sha256": "446478ee73668838acdf98be4864c5b1d4477d17531643fbff6c5f222f6484c6",
+  "scope": "Descriptive oracle union across actual profiles. No selector or portfolio implemented; combined execution cost is not priced. Original timing scores unchanged.",
+  "cohorts": {
+    "integers": {
+      "best_fixed_profile_by_median_mean_PAR2": "RH",
+      "best_solved_counts": [
+        396,
+        396,
+        395
+      ],
+      "oracle_union_solved_counts": [
+        401,
+        401,
+        401
+      ],
+      "residual_slots_by_repetition": [
+        [
+          2,
+          85,
+          95,
+          229,
+          460
+        ],
+        [
+          2,
+          85,
+          95,
+          229,
+          460
+        ],
+        [
+          2,
+          17,
+          85,
+          95,
+          229,
+          460
+        ]
+      ],
+      "persistent_residual_slots": [
+        2,
+        85,
+        95,
+        229,
+        460
+      ],
+      "case_inventory": [
+        {
+          "slot": 2,
+          "logic": "QF_LIA",
+          "file": "20210219-Dartagnan/ConcurrencySafety-Main/race-1_2-join-O0.smt2",
+          "solving_profiles_by_repetition": {
+            "0": [
+              "B",
+              "P",
+              "H",
+              "PH"
+            ],
+            "1": [
+              "B",
+              "P",
+              "H",
+              "PH"
+            ],
+            "2": [
+              "B",
+              "P",
+              "H",
+              "PH"
+            ]
+          }
+        },
+        {
+          "slot": 17,
+          "logic": "QF_LIA",
+          "file": "20210219-Dartagnan/ConcurrencySafety-Main/race-1_3-join-O0.smt2",
+          "solving_profiles_by_repetition": {
+            "0": [
+              "B",
+              "P",
+              "H",
+              "PH",
+              "RH"
+            ],
+            "1": [
+              "B",
+              "P",
+              "R",
+              "H",
+              "PH",
+              "RH"
+            ],
+            "2": [
+              "B",
+              "P",
+              "PR",
+              "H",
+              "PH",
+              "PRH"
+            ]
+          }
+        },
+        {
+          "slot": 85,
+          "logic": "QF_LIA",
+          "file": "cut_lemmas/15-vars/cut_lemma_01_005.smt2",
+          "solving_profiles_by_repetition": {
+            "0": [
+              "B",
+              "P",
+              "R",
+              "PR"
+            ],
+            "1": [
+              "B",
+              "P",
+              "R",
+              "PR"
+            ],
+            "2": [
+              "B",
+              "P",
+              "R",
+              "PR"
+            ]
+          }
+        },
+        {
+          "slot": 95,
+          "logic": "QF_LIA",
+          "file": "cut_lemmas/15-vars/cut_lemma_01_010.smt2",
+          "solving_profiles_by_repetition": {
+            "0": [
+              "B",
+              "P",
+              "R",
+              "PR"
+            ],
+            "1": [
+              "B",
+              "P",
+              "R",
+              "PR"
+            ],
+            "2": [
+              "B",
+              "P",
+              "R",
+              "PR"
+            ]
+          }
+        },
+        {
+          "slot": 229,
+          "logic": "QF_UFLIA",
+          "file": "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_8_QF_UFLIA.smt2",
+          "solving_profiles_by_repetition": {
+            "0": [
+              "B",
+              "H"
+            ],
+            "1": [
+              "B",
+              "H"
+            ],
+            "2": [
+              "B",
+              "H"
+            ]
+          }
+        },
+        {
+          "slot": 460,
+          "logic": "QF_UFLIA",
+          "file": "wisas/xs_23_43.smt2",
+          "solving_profiles_by_repetition": {
+            "0": [
+              "B",
+              "P",
+              "H",
+              "PH"
+            ],
+            "1": [
+              "B",
+              "P",
+              "H",
+              "PH"
+            ],
+            "2": [
+              "B",
+              "P",
+              "H",
+              "PH"
+            ]
+          }
+        }
+      ]
+    },
+    "reals": {
+      "best_fixed_profile_by_median_mean_PAR2": "PR",
+      "best_solved_counts": [
+        179,
+        179,
+        179
+      ],
+      "oracle_union_solved_counts": [
+        180,
+        180,
+        180
+      ],
+      "residual_slots_by_repetition": [
+        [
+          597
+        ],
+        [
+          597
+        ],
+        [
+          597
+        ]
+      ],
+      "persistent_residual_slots": [
+        597
+      ],
+      "case_inventory": [
+        {
+          "slot": 597,
+          "logic": "QF_LRA",
+          "file": "2017-Heizmann-UltimateInvariantSynthesis/_avg60.i_5_5_4.bpl_5.smt2",
+          "solving_profiles_by_repetition": {
+            "0": [
+              "B",
+              "P"
+            ],
+            "1": [
+              "B",
+              "P"
+            ],
+            "2": [
+              "B",
+              "P"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,5 +1,181 @@
 # Arithmetic technique combinations
 
+## Measured results
+
+The main matrix is complete: 14,364 fresh timings and all **7,931 selected SAT
+rows directly accepted by Dolmen**. Hybrid branching accounts for the large
+integer coverage gain. Enabling every technique is not the best integer
+configuration in this selection. **342 pairs flagged by the predeclared regression criteria** received
+three additional counterbalanced repetitions and separate model checks.
+All 2,052 extra timings and 1,516 selected SAT model checks are complete. Defaults remain unchanged.
+
+P denotes preprocessing bounds, R forward/reverse row propagation, and H
+hybrid integer branching. B disables these three switches while retaining
+existing same-variable propagation. Tables give solved-count ranges over
+three repetitions and the median of their **mean PAR2 seconds**. Each
+unsolved row costs 240 seconds. The integer pool has 500 inputs; the real pool
+has 197. H is inactive for reals, so no duplicate real/H measurements exist.
+
+| Profile | QF_LIA solved / 200 | PAR2 s | QF_UFLIA solved / 300 | PAR2 s | integers solved / 500 | PAR2 s |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| B | 104 | 120.635 | 259 | 35.373 | 363 | 69.478 |
+| P | 104 | 119.965 | 257 | 36.754 | 361 | 70.040 |
+| R | 102–103 | 121.151 | 260 | 34.908 | 362–363 | 69.410 |
+| PR | 102–103 | 121.510 | 260 | 34.838 | 362–363 | 69.507 |
+| H | 134 | 85.351 | 260 | 34.463 | 394 | 54.813 |
+| PH | 134 | 84.610 | 258 | 35.920 | 392 | 55.396 |
+| RH | 134–135 | 83.082 | 261 | 34.067 | 395–396 | 53.680 |
+| PRH | 133–134 | 85.109 | 260 | 34.665 | 393–394 | 54.842 |
+
+| Profile | QF_LRA solved / 100 | PAR2 s | QF_UFLRA solved / 97 | PAR2 s | reals solved / 197 | PAR2 s |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| B | 85 | 41.120 | 91 | 18.970 | 176 | 30.213 |
+| P | 87 | 36.791 | 91 | 18.973 | 178 | 28.017 |
+| R | 85 | 41.468 | 91 | 18.634 | 176 | 30.225 |
+| PR | 88 | 35.924 | 91 | 18.626 | 179 | 27.415 |
+
+H alone consistently solves 394 integer inputs versus B's 363; its median
+mean PAR2 improves from 69.478 to 54.813 seconds (21.1%). RH has the lowest
+integer median mean PAR2, 53.680 seconds (22.7% below B), but its solved count
+varies between 395 and 396. PRH solves 393–394 and scores 54.842 seconds.
+For real arithmetic, PR solves 179 versus B's 176 and reduces median mean
+PAR2 from 30.213 to 27.415 seconds (9.3%). These are results on the frozen
+selection, not a default-promotion decision or a competition-wide ranking.
+
+```{figure} ../../benchmarks/arithmetic-combinations-20261115/full/cactus.png
+:name: arithmetic-combinations-cactus
+
+Cases solved in every repetition, sorted by median time. Curve counts can be
+lower than a table's per-repetition counts. Solid lines use private branching;
+dashed lines use H. SAT rows receive separate model validation.
+```
+
+The {download}`complete analysis <../../benchmarks/arithmetic-combinations-20261115/full/analysis.json>`,
+{download}`measurement CSV <../../benchmarks/arithmetic-combinations-20261115/full/measurements.csv>`
+and {download}`selected-work diagnostic <../../benchmarks/arithmetic-combinations-20261115/full/mechanisms.json>`
+retain per-family outcomes, gains/losses, memory, counters and receipt hashes.
+The main report is frozen as the parent of the
+{download}`regression manifest <../../benchmarks/arithmetic-combinations-20261115/followup-manifest.json>`.
+
+The descriptive oracle union solves **401 integer inputs in each repetition**,
+compared with RH's 396/396/395. Persistent residual slots are 2, 85, 95, 229
+and 460; slot 17 is an additional RH residual in the third repetition.
+The real union solves **180**, compared with PR's 179: slot 597 is solved by
+B/P. The {download}`compact coverage inventory <../../benchmarks/arithmetic-combinations-20261115/full/coverage-union.json>`
+identifies files and solving profiles for every residual. This is an upper
+bound from choosing a successful profile per case; it does not price combined
+execution, implement a selector, or change any fixed-profile score.
+
+## What the combinations change
+
+On QF_LIA, B→H has 32 stable gains and two stable losses: net +30 in every
+repetition. Of those gains, 29 had returned the private-node-limit unknown
+under B and three had timed out. H answers 28 SAT and four UNSAT on them.
+The SAT witnesses passed Dolmen; UNSAT is checked against available expected
+answers and differential gates, not certified by model checking. QF_UFLIA
+adds one stable B→H gain with no stable loss.
+
+Preprocessing does useful numerical work even when its overall PAR2 change
+looks small. On the 104 QF_LIA cases solved by both B and P in all repetitions,
+private nodes are exactly unchanged: 863,574 in each arm across the 312 paired
+measurements. Pivots fall from 3,730,785 to 2,299,911 (38.4%). The conditional
+time ratio is 0.798 over the 49 cases whose B median is at least one second.
+The global solved count remains 104; unsolved penalties dominate whole-suite
+PAR2. This is an observed reduction in arithmetic work, without a claim that
+pivot counts alone explain all CPU time.
+
+That benefit largely overlaps R on this LIA sample: adding P to R gives a
+conditional ratio of 0.994 over 44 cases, and does not change private-node
+counts. The matched four-corner P×R interaction ratios are 1.285 with H off
+(47 eligible cases) and 1.298 with H on (45). Values above one mean the
+relative benefit is weaker in combination; they do not imply that the
+combined configuration is slower than B.
+
+QF_UFLIA shows a different interaction. P alone cuts matched private nodes
+from 2,101,161 to 1,200,807 across the common completed triples. Adding P to H
+instead increases them from 15,030 to 25,449, with private-node and split-request
+changes on eight cases. Its conditional H→PH time ratio is 1.000, while P
+loses two solved inputs. The prepared problem and completion path change;
+these counters do not identify a single cause such as the effective N budget.
+Adding R to H has ratio 1.157 on 65 common slow cases, despite a net coverage
+gain. Full gains and losses therefore matter alongside runtime ratios.
+
+In QF_LRA, P adds two stable solutions. PR gains four over B and loses one,
+net +3. R's conditional B→R ratio is 1.415 on 33 common slow cases; its gain
+and loss occur outside that conditional cohort. QF_UFLRA keeps the same 91
+solutions in every profile. Small aggregate differences there warrant caution.
+
+Every eligible within-profile triple has identical values for the five
+selected search counters across repetitions. This rules out changes in those
+recorded counts within those triples; it does not establish identical traces
+or attribute timing variation to a particular machine effect.
+
+```{figure} ../../benchmarks/arithmetic-combinations-20261115/full/interactions.png
+:name: arithmetic-combinations-interactions
+
+Four-corner interaction ratios, using a shared horizontal scale. Each square
+forms its ratio within a repetition before aggregation and uses its own joint
+eligible cohort. Do not reconstruct these values by dividing aggregate edge
+ratios with different cohorts. Real-arithmetic values near one are shown on
+the same scale as the integer results.
+```
+
+The 14,364 timing outcomes are 7,931 SAT, 3,267 UNSAT, 762 normal private-node
+limit unknowns, 2,333 other timeouts, 67 handled memory-exhaustion errors and
+four timeouts coincident with memory exhaustion. All unsolved classes remain
+in PAR2. There are no observed wrong answers, crashes or unexplained handled
+errors. The largest reported generated-split-atom counter on a successful run is
+74. The largest printed interrupted snapshot is 2,226, from a timeout;
+interrupted or unprinted statistics do not establish a global peak. Maximum observed RSS reaches about
+7.4 GiB in LIA and 7.36 GiB in UFLRA, against an 8 GiB address-space cap.
+
+The primary private/H pairs are adjacent. P/R comparisons can cross groups,
+and initial circular group rotations do not balance every pair's first
+position. The additional flagged-pair runs counterbalance the original three;
+small timing effects and descriptive interaction ratios do not establish
+statistical significance. The observed five compute nodes share the reported
+x86-64 topology: two sockets, 14 cores per socket, two hardware threads per
+core, and 257,525 MB SLURM-reported memory. Allocation affinity masks have two
+logical CPUs; physical-core isolation has not been established.
+
+## Regression repeats and decision
+
+The {download}`qualified repeat report <../../benchmarks/arithmetic-combinations-20261115/followups.json>`
+covers 342 technique-addition/input pairs on **112 distinct inputs**: 315
+runtime flags and 27 stable-loss flags. These are pair/context counts, not
+342 distinct problems. All six main arrays and six follow-up arrays have finished; every selected SAT row in both studies passed Dolmen
+(7,931 main + 1,516 repeats). No wrong answer, crash or invalid model was
+observed.
+
+| Logic | Runtime pairs flagged | Repeated ≥10% and ≥0.5s | Stable-loss pairs flagged | Repeated loss in all extra runs |
+| --- | ---: | ---: | ---: | ---: |
+| QF_LIA | 41 | 40 | 13 | 10 |
+| QF_UFLIA | 208 | 206 | 12 | 12 |
+| QF_LRA | 54 | 54 | 2 | 2 |
+| QF_UFLRA | 12 | 12 | 0 | 0 |
+| Total | 315 | 312 | 27 | 24 |
+
+All 315 runtime pairs remain at least 10% slower in every extra repetition.
+The original one-second median rule selected eligible main-run pairs; it is
+not reapplied to this repeat-effect column. Reapplying it would give 311,
+because UFLIA slot 420 B→P has repeat medians 0.194525/0.998366 seconds.
+The three that miss the two effect thresholds still regress relatively; an
+absolute delta in one or more runs falls just below 0.5 seconds. They are
+LIA slot 72 PH→PRH and UFLIA slots 240/489 P→PR. The three stable-loss flags
+that do not repeat in all extra runs concern LIA slot 2: B→R loses in two
+of three, P→PR in one, and PH→PRH in two. H→RH on that input still loses in
+all three. This is cutoff sensitivity, not disappearance of every loss.
+Original main scores remain unchanged by the diagnostic repeats.
+
+The coverage gain from H is substantial and repeated. R adds selected
+solutions but also many repeated slowdowns; preprocessing has useful
+numerical and real-arithmetic effects while often overlapping other work.
+The evidence supports retaining the existing opt-in techniques and their
+explicit tradeoffs. It does not support enabling every option by default,
+promoting a universally best stack, or claiming that small differences between
+nearby aggregate scores are statistically resolved. No solver default or
+automatic profile-selection policy changes in this study.
+
 ## Question and fixed scope
 
 Do preprocessing bounds (P), tableau-row propagation (R), and hybrid integer
@@ -115,7 +291,7 @@ private-node-limit unknowns (confirmed in separate SLURM replays), and one
 reference timeout whose native SAT model passed Dolmen. All 292 tracked-regression
 measurements passed. Direct Dolmen checks accepted all 22,961 native SAT gate
 results, including the original mutation seeds. Resource-incomplete results
-remain separate from agreement passes. Full timings are pending. An initial attempt at `ebe8d4b2` was stopped before any
+remain separate from agreement passes. The full timing/model audit is complete; the main results are above. All flagged-pair follow-ups and their model checks are complete. An initial attempt at `ebe8d4b2` was stopped before any
 timing: fuzz/seed adapters classified `--stats` keys containing “unsupported” as
 an unsupported result. A separate SLURM probe instead observed `unsat`, exit zero,
 no diagnostic and only `:combination.model.fallback-unsupported 0`. The

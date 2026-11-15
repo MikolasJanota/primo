@@ -7,7 +7,7 @@
       "date": "2026-11-15",
       "branch": "lia-integrality",
       "kind": "P/R/H technique interaction study",
-      "evidence_status": "Qualified; three sequential timing arrays released, models after last timing. Results pending.",
+      "evidence_status": "Complete qualified arithmetic-combination study; retained as evidence for existing opt-in techniques, no default or selector changes.",
       "source_snapshot": "4f02a8b7",
       "source_equivalence": "Production C++/build inputs unchanged from C815; unit test only direct sat/lit.hpp include. Fresh Release build via preparation helper/SLURM.",
       "protocol": "benchmarks/arithmetic-combinations-20261115/protocol.json",
@@ -44,10 +44,17 @@
           "verdict": "Ready; errors atdeadline require exit2/knownbadalloc; signals rejected, AC-DOC-01–10 remain resolved. Runtime/render excluded.",
           "accepted_page_sha256": "fed56892f92d7946d5cdb14c793877449320ad324ed213afebd6094d2111df5d",
           "source": "8c3942b9"
+        },
+        "final_results": {
+          "verdict": "Ready; AC-DOC-01–14 repaired/rechecked. Independently matched2091mainallocationreceipts/7931models and1026followupallocations/1516models; figures inspected. Writer owns finalchecks/commit.",
+          "accepted_page_sha256": "ac7fe2a0e7f060b027da280a9a0bc7d8f813da1bd9c1232bb5fce9504e3205f2",
+          "main_analysis_sha256": "446478ee73668838acdf98be4864c5b1d4477d17531643fbff6c5f222f6484c6",
+          "followups_sha256": "795d8852628dd44fa983486e967e6b245d2a88499832bd95b60d2fc9c4b18ff7",
+          "reporting_source": "b0ea8e6d"
         }
       },
       "checks": "Profile/config fixtures24tasks,8/4profiles,697mappedinputs,14364measurements pass. Python syntax/Ruff/make lint, batch validation/bash syntax, strict make docs and local/Git links pass. Initial toolcommit deab87b9 had importlintfailure due non-failfast shell; fixed ebe8d4b2 before build or solver work.",
-      "remaining": "Full SLURM matrix plus allSATmodel coverage; interaction/percase/counter/regression analysis; final docs/review/render/commits.",
+      "remaining": "None after final verified evidence commit.",
       "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
       "qualification_artifact": "benchmarks/arithmetic-combinations-20261115/qualification.json",
       "correctness": {
@@ -69,7 +76,8 @@
           }
         },
         "tracked_regression_measurements": 292,
-        "SAT_Dolmen_pass": 22961
+        "SAT_Dolmen_pass": 22961,
+        "all_benchmark_SAT_Dolmen_pass": 9447
       },
       "dependency_provenance": {
         "Z3": "5.1.0",
@@ -117,6 +125,16 @@
           401727,
           401728,
           401729
+        ],
+        "followup_timing": [
+          405770,
+          405771,
+          405772
+        ],
+        "followup_models": [
+          406114,
+          406115,
+          406116
         ]
       },
       "raw_artifacts": "results/arithmetic-combinations-20261115/raw (workspace-relative ignored copy; preserved SLURM workspace; connection/root mapping in private campaign.json and submission receipts)",
@@ -130,14 +148,110 @@
       },
       "timing_restart": "First timing attempt canceled after live collector observed rows before earlier-written stderr copied.1192durable rows subsequently audited without native failure. All3repetitions restarted in separate output namespace; no partial timings reused. Separate rejected-monitor-* private receipts retained.",
       "reporting_tools": {
-        "revision": "8c3942b9",
+        "revision": "b0ea8e6d",
         "analysis": "scripts/qualification/arithmetic_combinations/analyze.py",
         "plots": "scripts/qualification/arithmetic_combinations/plot.py",
         "checks": "Eleven pure mocked analysis/followup/submission tests pass, including configuration drift, missing statistics, cutoff exclusion, post-answer crash and stable loss. make lint, strict docs/localGitlinks and rendered source/counter/restart sections pass. Matplotlib3.11.2 synthetic figures rendered and visually inspected; interaction annotation clipping fixed. No local native runs. Full strict make docs-check-links:303pages,45340local links,1356uniqueGit links,zero failures;522external URLs deferred.",
         "followups": "scripts/qualification/arithmetic_combinations/followups.py",
         "mechanisms": "scripts/qualification/arithmetic_combinations/mechanisms.py"
       },
-      "followup_order_policy": "Refined before flag selection/config generation or followupjobs: read all3 actual original schedules, counterbalance each one-switch pair to3firstpositions perarm across6runs. Extra pair alternation only when compatible with balance; handles nonadjacent P/R groups. Original timing schedule/scores unchanged."
+      "followup_order_policy": "Refined before flag selection/config generation or followupjobs: read all3 actual original schedules, counterbalance each one-switch pair to3firstpositions perarm across6runs. Extra pair alternation only when compatible with balance; handles nonadjacent P/R groups. Original timing schedule/scores unchanged.",
+      "reporting_revision": "b0ea8e6d",
+      "main_results": {
+        "artifact": "benchmarks/arithmetic-combinations-20261115/full/analysis.json",
+        "sha256": "446478ee73668838acdf98be4864c5b1d4477d17531643fbff6c5f222f6484c6",
+        "native_rows": 14364,
+        "SAT_Dolmen_pass": 7931,
+        "integers_B_solved": [
+          363,
+          363,
+          363
+        ],
+        "integers_H_solved": [
+          394,
+          394,
+          394
+        ],
+        "integers_RH_solved": [
+          396,
+          396,
+          395
+        ],
+        "integers_PRH_solved": [
+          393,
+          393,
+          394
+        ],
+        "integer_median_mean_PAR2_seconds": {
+          "B": 69.478,
+          "H": 54.813,
+          "RH": 53.68,
+          "PRH": 54.842
+        },
+        "real_B_solved": [
+          176,
+          176,
+          176
+        ],
+        "real_PR_solved": [
+          179,
+          179,
+          179
+        ],
+        "real_median_mean_PAR2_seconds": {
+          "B": 30.213,
+          "PR": 27.415
+        },
+        "oracle_union": {
+          "integers": [
+            401,
+            401,
+            401
+          ],
+          "reals": [
+            180,
+            180,
+            180
+          ]
+        },
+        "native_outcomes": {
+          "SAT": 7931,
+          "UNSAT": 3267,
+          "normal_private_node_limit_unknown": 762,
+          "timeout": 2333,
+          "memory_error": 67,
+          "timeout_with_memory_error": 4
+        },
+        "successful_reported_peak_split_atoms": 74,
+        "largest_printed_interrupted_split_atom_snapshot": 2226
+      },
+      "followups": {
+        "artifact": "benchmarks/arithmetic-combinations-20261115/followups.json",
+        "manifest": "benchmarks/arithmetic-combinations-20261115/followup-manifest.json",
+        "targets": 342,
+        "distinct_inputs": 112,
+        "native_rows": 2052,
+        "SAT_Dolmen_pass": 1516,
+        "runtime_flags": 315,
+        "relative_runtime_reproduced": 315,
+        "stable_loss_flags": 27,
+        "stable_loss_reproduced": 24,
+        "non_strict_runtime": "slots72PH->PRH,240/489P->PR stillall>=10%slow; absolute0.5sthresholdcrossings",
+        "non_stable_loss": "slot2 contextsB->R(2/3),P->PR(1/3),PH->PRH(2/3);H->RHstill3/3",
+        "schedule": "Three sequential96concurrency2profiletimingarrays6minallocation, then3modelarrays32concurrency12min;120s/8GiB timed,180s/60s separate native/Dolmen replays. Onlyafterallmainmodelscomplete.",
+        "repeated_10pct_and_half_second_thresholds": 312,
+        "repeated_with_original_1s_eligibility": 311,
+        "repeat_eligibility_scope": "Initialone-secondmedianrule selectsoriginalflags;notreappliedto312effectrepeats. Reapplyinggives311becauseUFslot420B->P repeatmedians0.194525/0.998366.",
+        "scope": "342technique/inputpairs on112distinctinputs;315relative slowdowns all3extra,312also>=0.5s,311iforiginal1smedianeligibilityreapplied;24/27stablelosspairsall3,other3samecutoffsensitiveinput2."
+      },
+      "interpretation": "H clear stable integercoveragegain; RH best measuredinteger medianmeanPAR2 but losses/slowdowns; PR best realmedianmeanPAR2 and+3solutions. All-on not universalbest;P/R overlapandlogic-specificeffects. Retain existing optinchoices, no default promotion or selector.",
+      "verification_scope": "Fresh4fRelease build/check49nativegroups+357Python;exactprofilegenerated/mutation/regressiongates;11focusedreportingmocks+lint;independentdocumentation/evidence review;strictfull docs/links/render. No newASAN/tidy run:productionC++/buildinputs matchqualifiedC815withprior49ASANgroups/140TUwholetreestaticinventory; testbodyunchangedapartdirectsat/lit.hppinclude. Source review: no new solverhotpaths, no blockingreportingissues after fixes; no defaultpromotion.",
+      "artifacts": {
+        "main": "benchmarks/arithmetic-combinations-20261115/full",
+        "followups": "benchmarks/arithmetic-combinations-20261115/followups.json",
+        "raw": "results/arithmetic-combinations-20261115/raw; preserved SLURM artifacts, private locator inSTATE.json",
+        "gate": "benchmarks/arithmetic-combinations-20261115/qualification.json"
+      }
     },
     {
       "id": "2026-11-15-propagation-filters-qualified",
