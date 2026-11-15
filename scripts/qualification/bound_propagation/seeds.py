@@ -14,7 +14,9 @@ from pathlib import Path
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--profile", choices=("rows", "both"), required=True)
+    parser.add_argument("--profile", required=True)
+    parser.add_argument("--profile-args-json", type=Path)
+    parser.add_argument("--logic", action="append")
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument(
         "--manifest",
@@ -27,7 +29,15 @@ def main() -> None:
     protocol = json.loads(
         Path("benchmarks/bound-propagation-20261113/protocol.json").read_text()
     )
-    flags = [*protocol["profiles"][args.profile], "--check-model"]
+    profile_args = (
+        json.loads(args.profile_args_json.read_text())
+        if args.profile_args_json
+        else protocol["profiles"]
+    )
+    flags = [*profile_args[args.profile], "--check-model"]
+    if args.logic:
+        manifest["cases"] = [c for c in manifest["cases"] if c["logic"] in args.logic]
+    assert manifest["cases"], "empty regression scope"
     args.out.mkdir(parents=True, exist_ok=False)
     scoped = []
     single_sat = []
@@ -128,6 +138,8 @@ def main() -> None:
         json.dumps(
             {
                 "profile": args.profile,
+                "solver_args": flags,
+                "logics": args.logic,
                 "cases": len(manifest["cases"]),
                 "scoped_sessions": len(scoped),
                 "single_query_sat_models": len(single_sat),
