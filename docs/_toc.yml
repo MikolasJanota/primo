@@ -119,6 +119,7 @@ parts:
       - file: evidence/lia-cubes
       - file: evidence/lia-hybrid-20261111
       - file: evidence/bound-propagation
+      - file: evidence/propagation-redundancy
       - file: evidence/bound-behavior
       - file: evidence/bound-repairs
       - file: evidence/arithmetic-efficiency-20261108

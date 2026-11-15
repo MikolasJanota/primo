@@ -31,7 +31,7 @@
       "commands": "Preparation helper --build-via-slurm --reuse-dependencies --extra-target all; scripts/qualification/propagation_redundancy/configure.py and run.sbatch; existing bound_repairs verify/gates/static controllers.",
       "limits": "All solver qualification and batches in SLURM. Planned timing1CPU/10GiB allocation with8GiB address space;120s complete,30s prefix; separate exact-option Dolmen SAT replay.",
       "artifacts": "results/propagation-redundancy-20261115 locally and prepared remote workspace results; private routes/config outside Git.",
-      "remaining": "Build/test/ASan/static/fresh reference+mutation qualification of finalc815a0b4; fresh full697-case rows/both comparison at120s with3rotated paired repetitions andallSATrowsDolmenvalidated; inspect regressions,accept/rejectsource,update/review/renderdocs andcommit source/evidence. Defaults remain unpromoted.",
+      "remaining": "Complete the full697-case rows/both comparison at120s with three rotated paired repetitions; validate every successful SAT timing row with Dolmen; analyze regressions,review/render final evidence andcommit. Source correctness/static qualification and featurecommit complete; defaults remain unpromoted.",
       "native_sha256": "e6e6e1e766f9083b0ee4ed05310a96e8f9918a97700dc147aca86c1d5b4c3444",
       "static_attempts": [
         {
@@ -105,6 +105,11 @@
           "findings": "RDG-1,FQR-1 resolved and rechecked; queue/memo/default guard/counter sections accepted; not qualification or performance acceptance.",
           "reviewed_diff_sha256": "637ef6271d2c7a12183dc155a381dc1b713840c6166fe07ffe2d5201b142b254",
           "checks": "make docs strict passes; assembled site local/Git link check301pages44672local1335Git0failures;518external URLs deferred."
+        },
+        "evidence_draft": {
+          "reviewer": "redundancy_docs_review,independent read-only",
+          "findings": "PRE-1 explanation lifetime andPRE-2 supporting receipt links resolved/rechecked. Follow-up final static/equivalence/job claims accepted; fullperformancepending.",
+          "accepted_report_sha256": "5519251bfb5f76b9c1eaa4ae1a0ecfcdc0a217c3cd3250df1c35b6f07aacfaf1"
         }
       },
       "audit_comparison": "benchmarks/propagation-redundancy-20261115/audit-comparison.json",
@@ -184,7 +189,7 @@
           "classification": "All8 incomplete are reference timeouts, with native SAT,exit0 and directDolmen pass; child396961_2 exits1 deliberately preserving incomplete stage status."
         },
         "regressions": "57tracked cases per rows/both;27single-query plus6incremental SATqueries each profile independently Dolmenpass; final-seeds.json.",
-        "checks": "make check49native+354Python and make asan-test49native pass; whole-tree lint withrg passes; full static inventories pending.",
+        "checks": "make check49native+354Python and make asan-test49native pass; whole-tree lint withrg passes; both140TUstatic inventories complete with tool0 and unused-header gatepass,findings retained.",
         "static": {
           "job": 396962,
           "translation_units_per_scan": 140,
@@ -231,7 +236,9 @@
             }
           ]
         },
-        "source_review": "skills/code-review and solver-efficiency-review self-review: no blocking issue. Full1798trackednon-generated inventory with diff focus; lint+140TUstatic coverage. Reasonborrowsconsumed synchronously,firstreasonowned,backtrack/registration invalidation verified. Not a fresh line-by-line proof of unrelated code."
+        "source_review": "skills/code-review and solver-efficiency-review self-review: no blocking issue. Full1798trackednon-generated inventory with diff focus; lint+140TUstatic coverage. Reasonborrowsconsumed synchronously,firstreasonowned,backtrack/registration invalidation verified. Not a fresh line-by-line proof of unrelated code.",
+        "implementation_commit": "b62e9649",
+        "snapshot_ancestry_merge": "7e16e7d6,unchanged main tree; exact measured snapshots retained as ancestors."
       }
     },
     {
