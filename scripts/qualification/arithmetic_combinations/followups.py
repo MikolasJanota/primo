@@ -285,7 +285,7 @@ def analyze(args) -> None:
         "SAT_selected": selected_sat,
         "SAT_Dolmen_pass": validated_sat,
         "results": results,
-        "scope": "Three additional rotated paired repetitions, exact original profiles,120s/8GiB. All selected SAT separately Dolmen checked. Diagnostic repeats do not replace or alter original factorial measurements.",
+        "scope": "Three additional paired repetitions counterbalancing the original orders to three first positions per arm across six runs; exact original profiles,120s/8GiB. All selected SAT separately Dolmen checked. Diagnostic repeats do not replace or alter original factorial measurements.",
     }
     args.out.write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps({k: v for k, v in report.items() if k != "results"}, indent=2))
