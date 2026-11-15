@@ -35,7 +35,14 @@ def run(command: list[str], path: Path, timeout: float) -> tuple[str, int]:
         return "missing", 127
 
     first_line = proc.stdout.strip().splitlines()[0] if proc.stdout.strip() else ""
-    if "unsupported" in f"{proc.stdout}\n{proc.stderr}".lower():
+    # Statistic names such as fallback-unsupported are not solver diagnostics.
+    diagnostics = "\n".join(
+        line for line in (proc.stdout + "\n" + proc.stderr).splitlines()
+        if not line.lstrip().startswith(":")
+    ).lower()
+    if proc.returncode != 0 and first_line in {"sat", "unsat"}:
+        return "crash", proc.returncode
+    if "unsupported" in diagnostics:
         return "unsupported", proc.returncode
     if proc.returncode != 0:
         return "crash", proc.returncode

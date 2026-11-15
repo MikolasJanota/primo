@@ -264,7 +264,13 @@ def run_solver(command: list[str], timeout: float) -> tuple[str, int]:
 
     stdout = proc.stdout.strip()
     first = stdout.splitlines()[0] if stdout else ""
-    combined = (proc.stdout + "\n" + proc.stderr).lower()
+    # Statistic names such as fallback-unsupported are not solver diagnostics.
+    combined = "\n".join(
+        line for line in (proc.stdout + "\n" + proc.stderr).splitlines()
+        if not line.lstrip().startswith(":")
+    ).lower()
+    if proc.returncode != 0 and first in {"sat", "unsat"}:
+        return "CRASH", proc.returncode
     if "unsupported" in combined:
         return "UNSUPPORTED_INPUT", proc.returncode
     if proc.returncode != 0:

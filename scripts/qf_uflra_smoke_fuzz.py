@@ -478,7 +478,13 @@ def run_solver(command: list[str], timeout: float) -> tuple[str, int]:
         return "MISSING", 127
 
     first = proc.stdout.strip().splitlines()[0] if proc.stdout.strip() else ""
-    text = (proc.stdout + "\n" + proc.stderr).lower()
+    # Statistic names such as fallback-unsupported are not solver diagnostics.
+    text = "\n".join(
+        line for line in (proc.stdout + "\n" + proc.stderr).splitlines()
+        if not line.lstrip().startswith(":")
+    ).lower()
+    if proc.returncode != 0 and first in {"sat", "unsat"}:
+        return "CRASH", proc.returncode
     if "unsupported" in text:
         return "UNSUPPORTED_INPUT", proc.returncode
     if proc.returncode != 0:
