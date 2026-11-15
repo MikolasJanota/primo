@@ -104,6 +104,9 @@ sphinx:
       boundrepairpairsource:
         - "https://github.com/primo-solver/primo/blob/4d7647b6/%s"
         - "%s"
+      propagationreporttools:
+        - "https://github.com/primo-solver/primo/blob/d03fdc4c/%s"
+        - "%s"
       propfilterfinaltrialsource:
         - "https://github.com/primo-solver/primo/blob/c815a0b4/%s"
         - "%s"

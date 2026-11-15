@@ -9,10 +9,11 @@ inference rules. Option defaults are unchanged.
 
 The final candidate is frozen at `c815a0b4`; its native SHA256 is
 `3a40b72a4837017a1b3d39dc70e0454b9c39796975d9e66f56271bd61c41e9ed`.
-Main implementation commit `b62e9649` has identical production source; its
+The working branch `lia-integrality` implements commit `b62e9649` with identical
+production source; its
 unit test adds only the direct `sat/lit.hpp` include after the frozen scan,
 with the test body unchanged and a successful bounded syntax-only compile.
-Merge `7e16e7d6` preserves all measured snapshots in main's ancestry without
+Merge `7e16e7d6` preserves all measured snapshots in this branch's ancestry without
 changing its tree. Source correctness and static qualification are complete;
 the full paired comparison is running. This page does not yet claim an overall
 performance improvement.
@@ -152,3 +153,23 @@ scripts check native/config/input provenance, successful-exit semantics,
 complete counter partitions and per-row model coverage. The
 {download}`run log <../run-log.json>` records commands, job IDs, resource
 classification, raw-artifact locations and documentation review.
+
+The {propagationreporttools}`full analyzer <scripts/qualification/propagation_redundancy/full_analysis.py>`
+emits solved/PAR2 summaries, per-case paired times and RSS,
+and counters summed only over successful rows with printed statistics.
+Unsupported historical counter namespaces remain null; interrupted counts are
+not included in these sums. Among cases solved by both arms in all three repetitions, paired details
+cover those with either arm's median at least one second. Within that
+population, the exploratory slowdown screen requires at least 10% and half a
+second of added wall time in every paired repetition. This is
+an investigation threshold, not a significance test or a reason to hide smaller
+regressions; the full measurements remain available.
+
+The {propagationreporttools}`cactus renderer <scripts/qualification/propagation_redundancy/plot.py>`
+has the optional plot-only dependency
+Matplotlib (the rendering environment uses 3.11.2). Qualification and analysis
+otherwise use the Python standard library. Its four-panel cactus plot uses
+per-case median wall times only for cases solved in all three repetitions by
+that arm/profile. Legend counts therefore measure stable solves, rather than
+the median solved counts reported in tables. It deliberately excludes
+intermittent solves from the curves.

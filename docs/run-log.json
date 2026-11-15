@@ -110,6 +110,13 @@
           "reviewer": "redundancy_docs_review,independent read-only",
           "findings": "PRE-1 explanation lifetime andPRE-2 supporting receipt links resolved/rechecked. Follow-up final static/equivalence/job claims accepted; fullperformancepending.",
           "accepted_report_sha256": "5519251bfb5f76b9c1eaa4ae1a0ecfcdc0a217c3cd3250df1c35b6f07aacfaf1"
+        },
+        "reporting_methodology": {
+          "reviewer": "redundancy_docs_review,independent read-only",
+          "findings": "RPA-1 eligible common-all3/onearmmedian>=1s population andRPA-2 pinned source navigation resolved/rechecked. Methodology only; finalperformancepending.",
+          "accepted_report_sha256": "b72159ca0795dda3817973e265c4a3a3143c0da9c7316118c0e448aa19cb4fac",
+          "script_commit": "d03fdc4c",
+          "validation": "Synthetic PAR2/namespace/success-only totals/paired-screen fixtures passed; plotfixture runs withMatplotlib3.11.2. Python syntax/Ruff/make lint pass; strict docs and local/Git linkcheck pass."
         }
       },
       "audit_comparison": "benchmarks/propagation-redundancy-20261115/audit-comparison.json",
