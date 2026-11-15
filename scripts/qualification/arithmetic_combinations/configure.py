@@ -11,11 +11,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
-from scripts.qualification.arithmetic_combinations.profiles import (
+from scripts.qualification.arithmetic_combinations.profiles import (  # noqa: E402
     INTEGER_LOGICS,
     profiles,
     tasks,
-)  # noqa: E402
+)
 
 
 def write(path: Path, value: dict) -> None:
