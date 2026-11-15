@@ -3610,6 +3610,20 @@ void row_scans_reuse_endpoints_and_build_reasons_lazily() {
     assert(result.statistics.get(StatKey::LraRowPropagations) >= 12);
     assert(calculations > 0 && calculations < candidates);
     assert(explanations > 0 && explanations < calculations);
+    // Measurement must preserve the partition of notifications and candidates.
+    // Weaker propagated sum bounds exercise successful numerical no-ops.
+    assert(result.statistics.get(StatKey::LraBoundNoopNotifications) > 0);
+    assert(result.statistics.get(StatKey::LraBoundNotifications) ==
+           result.statistics.get(StatKey::LraBoundNoopNotifications) +
+               result.statistics.get(StatKey::LraBoundTighteningNotifications) +
+               result.statistics.get(StatKey::LraBoundConflictingNotifications));
+    assert(result.statistics.get(StatKey::LraPropagationCandidates) ==
+           result.statistics.get(StatKey::LraPropagationUniqueCandidates) +
+               result.statistics.get(StatKey::LraPropagationDuplicateCandidates));
+    assert(result.statistics.get(StatKey::LraRowScanEventsWithNewCandidates) > 0);
+    assert(result.statistics.get(StatKey::LraRowScanNoopEvents) > 0);
+    assert(result.statistics.get(StatKey::LraRowScanEventsWithNewCandidates) <=
+           result.statistics.get(StatKey::LraRowScanEvents));
   }
 }
 

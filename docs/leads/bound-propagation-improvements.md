@@ -153,3 +153,50 @@ after all timing arrays finish. Replay allows 180 seconds for the native solver
 and 60 seconds for Dolmen. Every successful native SAT timing row
 requires its own exact-option Dolmen replay. The [completed comparison](../evidence/bound-repairs.md) retains full timing,
 model and follow-up receipts; the selected pilot remains a separate diagnostic.
+
+
+## Redundancy audit (2026-11-15)
+
+This follow-up first measures repeated work without changing propagation order,
+bound insertion, reasons or search decisions. The baseline is `abe24b92`, whose
+native source is the qualified `07ec5ce5` implementation above.
+
+Dutertre and de Moura, CAV 2006 §§4.3–4.5, distinguish a non-strengthening
+assertion from a changed endpoint and warn that row refinement may derive weaker
+bounds. Schulte and Stuckey, *Efficient Constraint Propagation Engines*,
+[author preprint, §§4–6](https://arxiv.org/pdf/cs/0611009), study fixpoint tracking,
+relevant events and scheduling. Those finite-domain algorithms are motivation
+for the audit, not implemented simplex scheduling. In particular, their domain
+fixpoint conditions cannot simply be assumed across a Primo pivot or backtrack.
+
+The audit checklist is:
+
+- In both `OnlineLraPropagator` and `ComponentLraExecution`, count arithmetic
+  notifications as conflicting, tightening at least one endpoint, or numerical
+  no-ops. Snapshot `LraTableau::push()` before insertion: it is a read-only trail
+  offset, and every successful endpoint change appends a bound trail entry.
+  A nonconflicting unchanged offset therefore identifies a no-op without
+  copying arbitrary-precision endpoints. No checkpoint is installed or popped.
+- Track pending multiplicity separately for each signed SAT literal. An owning
+  vector of two counters per encountered SAT-variable index belongs to the
+  execution object. Queue insertion/pop/backtrack removal update it; it never
+  stores terms, tableau references or reasons. Opposite polarities are distinct.
+  Counts survive neither removal nor object destruction. Growth acquires the
+  counter only after resize, with amortized constant insertion cost and space
+  linear in the largest encountered SAT-variable index.
+- Count candidates, duplicate insertions, first currently pending insertions,
+  assigned-at-pop discards and backtrack discards. Keep duplicates and their
+  original reason/order in this measurement stage. A first pending insertion
+  is not necessarily a newly learned fact or an eventually delivered literal.
+- Count row-scan notification events, including capped/empty attempts, and how
+  many enqueue at least one literal not already pending. Count events caused by
+  numerical no-ops separately. This measures useful queue additions, not SAT
+  search benefit, arithmetic closure or CPU share.
+- Add four-route tests for the counter partitions and unchanged-bound events;
+  qualify in SLURM, compare instrumented/control prefixes and complete selected
+  cases, and validate every successful SAT timing row independently. Report
+  instrumentation overhead and incomplete resource outcomes separately.
+- Only after these measurements consider queue deduplication and scan filtering.
+  Such a change must retain signed conflicts/reasons and account for separate
+  basis, registry and backtrack events. No blanket early return from assignment
+  notification is authorized by the numerical no-op counter alone.

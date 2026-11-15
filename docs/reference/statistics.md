@@ -64,6 +64,29 @@ other two counters increment at their respective scan or entailment events. See 
 Absent increment-only keys mean zero when statistics were printed successfully;
 an interrupted run with no statistics provides no counter evidence.
 
+## Arithmetic redundancy audit
+
+Both arithmetic execution adapters record the following diagnostic counters.
+They preserve duplicate candidates, reason selection and propagation order;
+no filtering policy is enabled by these measurements. The
+[design checklist](../leads/bound-propagation-improvements.md#redundancy-audit-2026-11-15)
+explains ownership, trail-offset classification and the research basis.
+
+| Key | Meaning |
+| --- | --- |
+| `:lra.bound-notifications` | Observed arithmetic assignments offered to bound insertion, excluding notifications ignored after an existing conflict. |
+| `:lra.bound-tightening-notifications` | Nonconflicting insertions changing at least one endpoint, including equality's paired insertion. |
+| `:lra.bound-noop-notifications` | Nonconflicting insertions changing neither endpoint. |
+| `:lra.bound-conflicting-notifications` | Insertions returning a direct conflict; equality may have changed one endpoint first. These three categories partition notifications. |
+| `:lra.propagation-candidates` | All pending candidate insertions, including same-variable, row and existing-equality consequences. |
+| `:lra.propagation-unique-candidates` | Insertions whose signed literal was not already pending at insertion time; not a lifetime distinct-fact count. |
+| `:lra.propagation-duplicate-candidates` | Insertions whose signed literal was already pending. Unique plus duplicate equals all candidates. |
+| `:lra.propagation-discarded-assigned` | Candidates popped and discarded because their variable was already assigned. |
+| `:lra.propagation-backtrack-discarded` | Candidates cleared on backtracking. Undrained candidates can remain at termination, so discard plus delivery counts need not equal insertions. |
+| `:lra.row-scan-events` | Notifications requesting row refinement, including events rejected by caps or with no affected rows/atoms. |
+| `:lra.row-scan-events-with-new-candidates` | Such events inserting at least one signed literal not already pending. This is a queue outcome, not a CPU or search-benefit measure. |
+| `:lra.row-scan-noop-events` | Row-scan events following a successful numerical no-op insertion. |
+
 ## Preprocessing bound-tightening counters
 
 Actual strengthening uses separate `:preprocessing.bounds.*` counters:
