@@ -21,6 +21,8 @@ namespace primo::smt::detail {
 // obligations: retain the first reason/order and clear markers on backtracking.
 class ArithmeticPropagationQueue {
  public:
+  explicit ArithmeticPropagationQueue(bool coalesce = true) : coalesce_(coalesce) {}
+
   struct Candidate {
     int lit;
     std::vector<sat::Lit> reasons;
@@ -35,17 +37,19 @@ class ArithmeticPropagationQueue {
     statistics.increment(util::StatKey::LraPropagationCandidateAttempts);
     const auto var = static_cast<std::size_t>(std::abs(lit));
     if (var >= pending_.size()) pending_.resize(std::max(var + 1, pending_.size() * 2));
-    auto& marked = pending_[var][lit > 0 ? 1U : 0U];
-    if (marked) {
+    auto& count = pending_[var][lit > 0 ? 1U : 0U];
+    const bool duplicate = count != 0;
+    if (coalesce_ && duplicate) {
       statistics.increment(util::StatKey::LraPropagationSuppressedDuplicates);
       return;
     }
     // The incoming span is consumed now; the queue never borrows its storage.
     entries_.push_back(Candidate{
         lit, {reasons.begin(), reasons.end()}, row_based, bidirectional, variable_equality});
-    marked = true;
+    ++count;
     statistics.increment(util::StatKey::LraPropagationCandidates);
-    statistics.increment(util::StatKey::LraPropagationUniqueCandidates);
+    statistics.increment(duplicate ? util::StatKey::LraPropagationDuplicateCandidates
+                                   : util::StatKey::LraPropagationUniqueCandidates);
     statistics.increment(util::StatKey::LraPropagationReasonLiterals, reasons.size());
   }
 
@@ -67,12 +71,13 @@ class ArithmeticPropagationQueue {
 
  private:
   void removed(int lit) {
-    auto& marked = pending_.at(static_cast<std::size_t>(std::abs(lit)))[lit > 0 ? 1U : 0U];
-    assert(marked);
-    marked = false;
+    auto& count = pending_.at(static_cast<std::size_t>(std::abs(lit)))[lit > 0 ? 1U : 0U];
+    assert(count > 0);
+    --count;
   }
 
-  std::vector<std::array<bool, 2>> pending_;
+  bool coalesce_;
+  std::vector<std::array<std::size_t, 2>> pending_;
   std::deque<Candidate> entries_;
 };
 

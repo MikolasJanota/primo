@@ -3626,6 +3626,16 @@ void pending_arithmetic_queue_retains_first_literal_and_reason_order() {
   assert(statistics.get(StatKey::LraPropagationSuppressedDuplicates) == 2);
   assert(statistics.get(StatKey::LraPropagationCandidates) == 6);
   assert(statistics.get(StatKey::LraPropagationBacktrackDiscarded) == 1);
+  // Disabled row mode retains the original duplicate order and reasons.
+  primo::util::Statistics unfiltered_statistics;
+  primo::smt::detail::ArithmeticPropagationQueue unfiltered(false);
+  unfiltered.push(7, first_reasons, true, false, false, unfiltered_statistics);
+  unfiltered.push(7, opposite_reasons, false, true, false, unfiltered_statistics);
+  assert(unfiltered.pop().reasons[0].value == -99);
+  assert(unfiltered.pop().reasons[0].value == -20 && unfiltered.empty());
+  assert(unfiltered_statistics.get(StatKey::LraPropagationCandidates) == 2);
+  assert(unfiltered_statistics.get(StatKey::LraPropagationDuplicateCandidates) == 1);
+  assert(unfiltered_statistics.get(StatKey::LraPropagationSuppressedDuplicates) == 0);
 }
 
 void row_scans_reuse_endpoints_and_build_reasons_lazily() {

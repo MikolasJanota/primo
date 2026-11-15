@@ -7910,7 +7910,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
                                         prepared_atom.integer_rounding));
       if (entails_true.has_value()) {
-        enqueue_pending(atom.lit.value, {*entails_true}, false);
+        enqueue_pending(atom.lit.value, {&*entails_true, 1}, false);
         continue;
       }
       const auto entails_false =
@@ -7919,7 +7919,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
                                         prepared_atom.integer_rounding));
       if (entails_false.has_value()) {
-        enqueue_pending(-atom.lit.value, {*entails_false}, false);
+        enqueue_pending(-atom.lit.value, {&*entails_false, 1}, false);
       }
     }
   }
@@ -8115,7 +8115,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     std::size_t atom_index;
   };
 
-  void enqueue_pending(int lit, const std::vector<sat::Lit>& reasons, bool row_based,
+  void enqueue_pending(int lit, std::span<const sat::Lit> reasons, bool row_based,
                        bool bidirectional = false, bool variable_equality = false) {
     pending_.push(lit, reasons, row_based, bidirectional, variable_equality, statistics_);
   }
@@ -8144,7 +8144,8 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
   std::vector<theory::arithmetic::LraVarId> model_phase_dirty_bound_var_list_;
   std::vector<std::size_t> atom_index_by_var_;
   std::vector<std::size_t> checkpoints_;
-  detail::ArithmeticPropagationQueue pending_;
+  // Keep coalescing confined to the existing opt-in row mode.
+  detail::ArithmeticPropagationQueue pending_{row_propagation_enabled_};
   std::deque<InterfaceEqualityPropagation> pending_interface_equalities_;
   bool interface_equalities_enabled_ = false;
   bool equality_propagation_enabled_ = false;
@@ -9601,7 +9602,7 @@ class ComponentLraExecution final {
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
                                         prepared_atom.integer_rounding));
       if (entails_true.has_value()) {
-        enqueue_pending(atom.lit.value, {*entails_true}, false);
+        enqueue_pending(atom.lit.value, {&*entails_true, 1}, false);
         continue;
       }
       const auto entails_false =
@@ -9610,7 +9611,7 @@ class ComponentLraExecution final {
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
                                         prepared_atom.integer_rounding));
       if (entails_false.has_value()) {
-        enqueue_pending(-atom.lit.value, {*entails_false}, false);
+        enqueue_pending(-atom.lit.value, {&*entails_false, 1}, false);
       }
     }
   }
@@ -9800,7 +9801,7 @@ class ComponentLraExecution final {
   // the row-based scan (for the LraRowPropagations breakdown stat).
   using PendingPropagation = detail::ArithmeticPropagationQueue::Candidate;
 
-  void enqueue_pending(int lit, const std::vector<sat::Lit>& reasons, bool row_based,
+  void enqueue_pending(int lit, std::span<const sat::Lit> reasons, bool row_based,
                        bool bidirectional = false) {
     pending_.push(lit, reasons, row_based, bidirectional, false, statistics_);
   }
@@ -9826,7 +9827,8 @@ class ComponentLraExecution final {
   std::vector<theory::arithmetic::LraVarId> model_phase_dirty_bound_var_list_;
   std::vector<std::size_t> atom_index_by_var_;
   std::vector<std::size_t> checkpoints_;
-  detail::ArithmeticPropagationQueue pending_;
+  // Keep coalescing confined to the existing opt-in row mode.
+  detail::ArithmeticPropagationQueue pending_{row_propagation_enabled_};
   std::deque<InterfaceEqualityPropagation> pending_interface_equalities_;
   bool interface_equalities_enabled_ = false;
   std::unordered_map<TermPairKey, sat::Lit, TermPairKeyHash> true_lra_le_reasons_;

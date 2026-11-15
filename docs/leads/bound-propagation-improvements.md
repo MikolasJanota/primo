@@ -235,7 +235,9 @@ The proposed subset of event scheduling is simple signed-literal queue
 coalescing, motivated by Schulte–Stuckey §5 rather than their finite-domain
 fixpoint algorithm. Before implementation, the obligations are:
 
-- Retain the first pending occurrence of each signed SAT literal. Suppress later
+- Enable coalescing only in the existing opt-in row mode; otherwise retain
+  duplicate entries and their reason order. Retain the first pending occurrence
+  of each signed SAT literal when coalescing. Suppress later
   occurrences of that same sign; never coalesce opposite polarities. Every
   retained candidate owns its original reasons. The previous queue would pop
   that first occurrence before all its duplicates, so retain its reason choice
