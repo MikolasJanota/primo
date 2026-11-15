@@ -77,7 +77,17 @@ def metric(row: dict, key: str) -> int | None:
 
 def summary(rows: list[dict], limit: float) -> dict:
     assert rows
+    completed = [r for r in rows if solved(r) and r["stats"]]
+    available = {
+        k: [value for r in completed if (value := metric(r, k)) is not None]
+        for k in METRICS
+    }
     return {
+        "successful_rows_with_statistics": len(completed),
+        "successful_counter_totals": {
+            k: sum(v) if v else None for k, v in available.items()
+        },
+        "counter_scope": "Successful complete measurements only; no interrupted counts. Unsupported namespaces remain null.",
         "rows": len(rows),
         "solved": sum(solved(r) for r in rows),
         "outcomes": dict(
@@ -169,7 +179,34 @@ def compare(records: list[dict], mode: str, slots: list[int], limit: float) -> d
                 search_differences.append(
                     {"slot": slot, "repetition": repetition, "counters": differences}
                 )
+    cases = []
+    for slot in common:
+        before = [float(by[slot, r, "baseline"]["seconds"]) for r in range(3)]
+        after = [float(by[slot, r, "candidate"]["seconds"]) for r in range(3)]
+        if max(statistics.median(before), statistics.median(after)) < 1:
+            continue
+        cases.append(
+            {
+                "slot": slot,
+                "before_seconds": before,
+                "after_seconds": after,
+                "median_paired_ratio": statistics.median(
+                    b / a for a, b in zip(before, after, strict=True)
+                ),
+                "before_RSS_KiB": [
+                    int(by[slot, r, "baseline"]["peak_rss_kib"]) for r in range(3)
+                ],
+                "after_RSS_KiB": [
+                    int(by[slot, r, "candidate"]["peak_rss_kib"]) for r in range(3)
+                ],
+                "consistent_slowdown_over_10pct_and_half_second": all(
+                    b >= a * 1.1 and b - a >= 0.5
+                    for a, b in zip(before, after, strict=True)
+                ),
+            }
+        )
     return {
+        "paired_case_details_either_median_at_least_1s": cases,
         "search_pairs_checked": checked_pairs,
         "search_counter_differences": search_differences,
         "inputs": len(slots),
@@ -267,7 +304,9 @@ def main() -> None:
                     assert row["answer"] == case["expected"]
                 variant, mode = row["profile"].split("-", 1)
                 if variant == "candidate":
-                    counters(row)  # Validate complete counter partitions when available.
+                    counters(
+                        row
+                    )  # Validate complete counter partitions when available.
                 records.append(
                     {
                         **{
@@ -386,7 +425,7 @@ def main() -> None:
                     "stats": json.dumps(
                         {key: metric(row, key) for key in METRICS},
                         sort_keys=True,
-                        separators=(",", ":")
+                        separators=(",", ":"),
                     ),
                 }
             )
