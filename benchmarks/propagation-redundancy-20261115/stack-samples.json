@@ -1,0 +1,230 @@
+{
+  "job": "396853",
+  "case": {
+    "group": "lia",
+    "logic": "QF_LIA",
+    "file": "20210219-Dartagnan/ConcurrencySafety-Main/race-1_2-join-O0.smt2",
+    "sha256": "b158aca38f172d4335eb02352a0f935e7b73a7bc6a9e556f999ca8c0bb30b078",
+    "expected": "sat",
+    "repetition": 0,
+    "original_slot": 2,
+    "extra_args": [
+      "--max-theory-conflicts",
+      "1000"
+    ]
+  },
+  "sampler_sha256": "11e12eb28df2bc297decdbd7ecbd73f813dd0513e8040f22c9d25414e42ef4b1",
+  "records": [
+    {
+      "label": "rep-0-audit-rows",
+      "summary": {
+        "status": "complete",
+        "diagnostic": null,
+        "command": [
+          "/home/janotmik/primo-redundancy-audit-20261115/build-slurm-rel/primo",
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--max-theory-conflicts",
+          "1000",
+          "/home/janotmik/primo-cadical-profile/sandbox/non-incremental/QF_LIA/20210219-Dartagnan/ConcurrencySafety-Main/race-1_2-join-O0.smt2"
+        ],
+        "executable_sha256": "e6e6e1e766f9083b0ee4ed05310a96e8f9918a97700dc147aca86c1d5b4c3444",
+        "exit_reason": "*stopped,reason=\"exited-normally\"",
+        "samples": 116,
+        "profile_wall_seconds": 12.75129053206183,
+        "interval": 0.1,
+        "seed": 2026112500,
+        "note": "GDB wall-clock stack samples include profiler perturbation; do not use as benchmark timing."
+      },
+      "samples_sha256": "c82824d830a042053a51905a999c8c9e30a521dfe643327f2920ea8f1688f44d",
+      "gdb_log_sha256": "971ea7a5f67945294508ddc620e5439d28300c2a6bef0870acf97ebb75a9b1d8",
+      "row_scan_stack_observations": 34,
+      "leaf_counts": {
+        "primo::smt::(anonymous namespace)::ComponentLraExecution::scan_row_child_propagations(unsigned long, unsigned long)": 15,
+        "primo::util::Rational::operator*(primo::util::Rational const&) const": 8,
+        "_int_malloc": 6,
+        "primo::smt::(anonymous namespace)::LiaTheoryComponent::assign(std::span<primo::theory::AssignedTheoryLiteral const, 18446744073709551615ul>)": 5,
+        "primo::util::Rational::operator+(primo::util::Rational const&) const": 4,
+        "std::_Hashtable<int, std::pair<int const, primo::smt::ComponentDispatcher::Explanation>, std::allocator<std::pair<int const, primo::smt::ComponentDispatcher::Explanation> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_erase(std::integral_constant<bool, true>, int const&) [clone .constprop.0]": 4,
+        "std::optional<primo::theory::TheoryCheckResult> primo::smt::(anonymous namespace)::ComponentAdapterSupport::consequence<primo::smt::(anonymous namespace)::ComponentLraExecution>(primo::smt::(anonymous namespace)::ComponentLraExecution&)": 4,
+        "primo::smt::TermBuilder::dispatch(primo::smtlib::SExpr const&, std::function<void (unsigned int)>)": 3,
+        "__memcmp_avx2_movbe_rtm": 3,
+        "primo::theory::arithmetic::LraTableau::update_violation_status(unsigned long)": 3,
+        "primo::sat::TrailView::literal(int) const": 3,
+        "malloc": 2,
+        "_int_free": 2,
+        "primo::smt::ComponentDispatcher::cb_propagate()": 2,
+        "primo::sat::CadicalBackend::ExternalPropagatorAdapter::notify_assignment(std::vector<int, std::allocator<int> > const&)": 2,
+        "primo::util::Statistics::increment(primo::util::StatKey, unsigned long)": 2,
+        "primo::util::Rational::operator-(primo::util::Rational const&) const": 2,
+        "primo::smt::(anonymous namespace)::compute_implied_child_bound(primo::theory::arithmetic::LraTableau const&, unsigned long, unsigned long, primo::util::Rational const&, bool, primo::smt::LraRowPropagationLimits const&)": 2,
+        "std::_Rb_tree<unsigned long, unsigned long, std::_Identity<unsigned long>, std::less<unsigned long>, std::allocator<unsigned long> >::_M_erase(std::_Rb_tree_node<unsigned long>*) [clone .isra.0]": 2,
+        "primo::sat::Trail::position(int) const": 2
+      }
+    },
+    {
+      "label": "rep-0-control-rows",
+      "summary": {
+        "status": "complete",
+        "diagnostic": null,
+        "command": [
+          "/home/janotmik/primo-bound-repairs-final-20261114/build-slurm-rel/primo",
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--max-theory-conflicts",
+          "1000",
+          "/home/janotmik/primo-cadical-profile/sandbox/non-incremental/QF_LIA/20210219-Dartagnan/ConcurrencySafety-Main/race-1_2-join-O0.smt2"
+        ],
+        "executable_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+        "exit_reason": "*stopped,reason=\"exited-normally\"",
+        "samples": 114,
+        "profile_wall_seconds": 12.555593290948309,
+        "interval": 0.1,
+        "seed": 2026112500,
+        "note": "GDB wall-clock stack samples include profiler perturbation; do not use as benchmark timing."
+      },
+      "samples_sha256": "ab4ab24323ae7fbe1fac896deb004f6d278285207b3090bca068b5b89726b8e1",
+      "gdb_log_sha256": "845b83162bf0a6eaf571b90664a0e6511f999f596e491fe9be89fe1b41de3ebd",
+      "row_scan_stack_observations": 52,
+      "leaf_counts": {
+        "primo::smt::(anonymous namespace)::ComponentLraExecution::scan_row_child_propagations(unsigned long, unsigned long)": 28,
+        "primo::util::Rational::operator*(primo::util::Rational const&) const": 10,
+        "primo::util::Rational::Rational(primo::util::Rational const&)": 5,
+        "primo::smt::TermBuilder::dispatch(primo::smtlib::SExpr const&, std::function<void (unsigned int)>)": 4,
+        "_int_malloc": 4,
+        "primo::util::Rational::from_int128_reduced(__int128, __int128)": 4,
+        "primo::smt::(anonymous namespace)::LiaTheoryComponent::assign(std::span<primo::theory::AssignedTheoryLiteral const, 18446744073709551615ul>)": 3,
+        "CaDiCaL::Internal::propagate()": 3,
+        "primo::util::Rational::Rational(long)": 3,
+        "std::_Hashtable<unsigned long, std::pair<unsigned long const, std::vector<unsigned long, std::allocator<unsigned long> > >, std::allocator<std::pair<unsigned long const, std::vector<unsigned long, std::allocator<unsigned long> > > >, std::__detail::_Select1st, std::equal_to<unsigned long>, std::hash<unsigned long>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::find(unsigned long const&) const": 3,
+        "free": 3,
+        "std::optional<primo::theory::TheoryCheckResult> primo::smt::(anonymous namespace)::ComponentAdapterSupport::consequence<primo::smt::(anonymous namespace)::ComponentLraExecution>(primo::smt::(anonymous namespace)::ComponentLraExecution&)": 3,
+        "primo::smt::(anonymous namespace)::bound_assertion(primo::theory::arithmetic::LraRelation, primo::util::Rational const&, bool, bool, primo::smt::(anonymous namespace)::IntegerBoundRounding)": 2,
+        "std::_Hash_bytes(void const*, unsigned long, unsigned long)": 2,
+        "CaDiCaL::Internal::next_decision_variable()": 2,
+        "primo::util::(anonymous namespace)::gcd_u64(unsigned long, unsigned long) [clone .part.0]": 2,
+        "primo::theory::arithmetic::LraTableau::lower_bound(unsigned long) const": 2,
+        "__GI__dl_debug_state": 1,
+        "primo::smt::(anonymous namespace)::subtree_occurrences(primo::core::TermManager const&, unsigned int, std::unordered_set<unsigned int, std::hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<unsigned int> > const&, std::unordered_map<unsigned int, std::vector<std::pair<unsigned int, unsigned long>, std::allocator<std::pair<unsigned int, unsigned long> > >, std::hash<unsigned int>, std::equal_to<unsigned int>, std::allocator<std::pair<unsigned int const, std::vector<std::pair<unsigned int, unsigned long>, std::allocator<std::pair<unsigned int, unsigned long> > > > > >&)": 1,
+        "malloc": 1
+      }
+    },
+    {
+      "label": "rep-1-audit-rows",
+      "summary": {
+        "status": "complete",
+        "diagnostic": null,
+        "command": [
+          "/home/janotmik/primo-redundancy-audit-20261115/build-slurm-rel/primo",
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--max-theory-conflicts",
+          "1000",
+          "/home/janotmik/primo-cadical-profile/sandbox/non-incremental/QF_LIA/20210219-Dartagnan/ConcurrencySafety-Main/race-1_2-join-O0.smt2"
+        ],
+        "executable_sha256": "e6e6e1e766f9083b0ee4ed05310a96e8f9918a97700dc147aca86c1d5b4c3444",
+        "exit_reason": "*stopped,reason=\"exited-normally\"",
+        "samples": 120,
+        "profile_wall_seconds": 12.801695408998057,
+        "interval": 0.1,
+        "seed": 2026112501,
+        "note": "GDB wall-clock stack samples include profiler perturbation; do not use as benchmark timing."
+      },
+      "samples_sha256": "0e1a6263b91e83b6a78b0e2430c71cb9972b388efc83d1f737fb3b2940744223",
+      "gdb_log_sha256": "989b1de7098a1dd01a354b821e9cae146123753510a746d372f8b1358197f4c1",
+      "row_scan_stack_observations": 38,
+      "leaf_counts": {
+        "primo::smt::(anonymous namespace)::ComponentLraExecution::scan_row_child_propagations(unsigned long, unsigned long)": 24,
+        "primo::util::Rational::operator*(primo::util::Rational const&) const": 5,
+        "primo::smt::TermBuilder::dispatch(primo::smtlib::SExpr const&, std::function<void (unsigned int)>)": 4,
+        "primo::smt::(anonymous namespace)::LiaTheoryComponent::assign(std::span<primo::theory::AssignedTheoryLiteral const, 18446744073709551615ul>)": 4,
+        "primo::util::Rational::Rational(primo::util::Rational const&)": 4,
+        "malloc": 3,
+        "_int_malloc": 3,
+        "_int_free": 3,
+        "primo::util::Rational::Rational(long)": 3,
+        "primo::util::Statistics::increment(std::basic_string_view<char, std::char_traits<char> >, unsigned long)": 3,
+        "free": 3,
+        "primo::util::Rational::operator+(primo::util::Rational const&) const": 3,
+        "std::_Hashtable<primo::core::TermManager::Key, std::pair<primo::core::TermManager::Key const, unsigned int>, std::allocator<std::pair<primo::core::TermManager::Key const, unsigned int> >, std::__detail::_Select1st, std::equal_to<primo::core::TermManager::Key>, primo::core::TermManager::KeyHash, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_find_before_node(unsigned long, primo::core::TermManager::Key const&, unsigned long) const": 2,
+        "primo::theory::arithmetic::LraTableau::update_violation_status(unsigned long)": 2,
+        "primo::smt::ComponentDispatcher::notify_assignment(std::vector<int, std::allocator<int> > const&)": 2,
+        "std::_Hashtable<int, std::pair<int const, primo::smt::ComponentDispatcher::Explanation>, std::allocator<std::pair<int const, primo::smt::ComponentDispatcher::Explanation> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_erase(std::integral_constant<bool, true>, int const&) [clone .constprop.0]": 2,
+        "primo::util::Rational::from_int128_reduced(__int128, __int128)": 2,
+        "primo::smt::(anonymous namespace)::bound_assertion(primo::theory::arithmetic::LraRelation, primo::util::Rational const&, bool, bool, primo::smt::(anonymous namespace)::IntegerBoundRounding) [clone .constprop.0]": 2,
+        "CaDiCaL::Internal::next_decision_variable()": 2,
+        "std::unique_ptr<__gmp_expr<__mpq_struct [1], __mpq_struct [1]>, std::default_delete<__gmp_expr<__mpq_struct [1], __mpq_struct [1]> > >::~unique_ptr()": 2
+      }
+    },
+    {
+      "label": "rep-1-control-rows",
+      "summary": {
+        "status": "complete",
+        "diagnostic": null,
+        "command": [
+          "/home/janotmik/primo-bound-repairs-final-20261114/build-slurm-rel/primo",
+          "--quiet",
+          "--stats",
+          "--lra-propagation",
+          "--lra-row-propagation",
+          "--lra-bidirectional-row-propagation",
+          "--max-theory-conflicts",
+          "1000",
+          "/home/janotmik/primo-cadical-profile/sandbox/non-incremental/QF_LIA/20210219-Dartagnan/ConcurrencySafety-Main/race-1_2-join-O0.smt2"
+        ],
+        "executable_sha256": "f9f4468aa55a35eb10e6800711c7f92b361f0107ec301374092968e83e5a5fc4",
+        "exit_reason": "*stopped,reason=\"exited-normally\"",
+        "samples": 118,
+        "profile_wall_seconds": 12.637781993951648,
+        "interval": 0.1,
+        "seed": 2026112501,
+        "note": "GDB wall-clock stack samples include profiler perturbation; do not use as benchmark timing."
+      },
+      "samples_sha256": "2f8560ee5717de7d2a37195009d89cef740dea4fc1f44f1f795cbcde05346b07",
+      "gdb_log_sha256": "a56be1146410b20f1bfb404eba580952da46c999b7fe5262b6bd6783c68797ef",
+      "row_scan_stack_observations": 42,
+      "leaf_counts": {
+        "primo::util::Rational::operator*(primo::util::Rational const&) const": 10,
+        "primo::smt::(anonymous namespace)::ComponentLraExecution::scan_row_child_propagations(unsigned long, unsigned long)": 10,
+        "primo::util::Rational::operator+(primo::util::Rational const&) const": 7,
+        "primo::sat::Trail::position(int) const": 7,
+        "primo::util::Rational::from_int128_reduced(__int128, __int128)": 5,
+        "_int_malloc": 4,
+        "primo::smt::TermBuilder::dispatch(primo::smtlib::SExpr const&, std::function<void (unsigned int)>)": 3,
+        "free": 3,
+        "primo::smt::(anonymous namespace)::LiaTheoryComponent::assign(std::span<primo::theory::AssignedTheoryLiteral const, 18446744073709551615ul>)": 3,
+        "primo::theory::arithmetic::LraTableau::update_violation_status(unsigned long)": 3,
+        "CaDiCaL::Internal::propagate()": 3,
+        "primo::smt::ComponentDispatcher::notify_assignment(std::vector<int, std::allocator<int> > const&)": 3,
+        "primo::smt::(anonymous namespace)::compute_implied_child_bound(primo::theory::arithmetic::LraTableau const&, unsigned long, unsigned long, primo::util::Rational const&, bool, primo::smt::LraRowPropagationLimits const&)": 3,
+        "std::_Hashtable<primo::core::TermManager::Key, std::pair<primo::core::TermManager::Key const, unsigned int>, std::allocator<std::pair<primo::core::TermManager::Key const, unsigned int> >, std::__detail::_Select1st, std::equal_to<primo::core::TermManager::Key>, primo::core::TermManager::KeyHash, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_find_before_node(unsigned long, primo::core::TermManager::Key const&, unsigned long) const": 2,
+        "malloc_consolidate": 2,
+        "primo::util::Rational::Rational(long)": 2,
+        "primo::util::Rational::operator<(primo::util::Rational const&) const": 2,
+        "primo::smt::(anonymous namespace)::bound_assertion(primo::theory::arithmetic::LraRelation, primo::util::Rational const&, bool, bool, primo::smt::(anonymous namespace)::IntegerBoundRounding) [clone .constprop.0]": 2,
+        "std::_Hashtable<int, std::pair<int const, std::vector<primo::sat::Lit, std::allocator<primo::sat::Lit> > >, std::allocator<std::pair<int const, std::vector<primo::sat::Lit, std::allocator<primo::sat::Lit> > > >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_erase(std::integral_constant<bool, true>, int const&) [clone .constprop.0]": 2,
+        "std::_Hashtable<int, std::pair<int const, primo::smt::ComponentDispatcher::Explanation>, std::allocator<std::pair<int const, primo::smt::ComponentDispatcher::Explanation> >, std::__detail::_Select1st, std::equal_to<int>, std::hash<int>, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<false, false, true> >::_M_erase(std::integral_constant<bool, true>, int const&) [clone .constprop.0]": 2
+      }
+    }
+  ],
+  "scope": "Four normally completed1000-theory-conflict prefixes, two rotated control/audit orders;0.1s jittered wall-clock stacks. Overlapping stack categories, sampling bias and optimized missing frames preclude CPU percentages. Durations are instrumented diagnostics, not native timings.",
+  "prior_profile_attempts": [
+    {
+      "job": "396816",
+      "result": "Callgrind300sdeadline before completion; no usable dump"
+    },
+    {
+      "job": "396838",
+      "result": "Wisa Callgrind300sdeadline before completion; no usable dump"
+    }
+  ]
+}

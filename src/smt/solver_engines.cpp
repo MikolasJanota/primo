@@ -7152,6 +7152,32 @@ std::vector<sat::Lit> implied_child_bound_reasons(const theory::arithmetic::LraT
   return reasons;
 }
 
+// Diagnostic only: preserve queue order and duplicate reasons. The design note
+// docs/leads/bound-propagation-improvements.md defines the event denominators;
+// Schulte--Stuckey (TOPLAS 2008, Sections 4--6) motivates measuring redundant
+// executions, but no finite-domain fixpoint algorithm is implemented here.
+class PropagationQueueAudit {
+ public:
+  void inserted(int lit, util::Statistics& statistics) {
+    const auto var = static_cast<std::size_t>(std::abs(lit));
+    if (var >= counts_.size()) counts_.resize(std::max(var + 1, counts_.size() * 2));
+    auto& count = counts_[var][lit > 0 ? 1U : 0U];
+    statistics.increment(util::StatKey::LraPropagationCandidates);
+    statistics.increment(count ? util::StatKey::LraPropagationDuplicateCandidates
+                               : util::StatKey::LraPropagationUniqueCandidates);
+    ++count;
+  }
+
+  void removed(int lit) {
+    auto& count = counts_.at(static_cast<std::size_t>(std::abs(lit)))[lit > 0 ? 1U : 0U];
+    assert(count > 0);
+    --count;
+  }
+
+ private:
+  std::vector<std::array<std::size_t, 2>> counts_;
+};
+
 // Trail-synced CaDiCaL external propagator for QF_LRA (Milestone 3a of the
 // QF_LRA plan): mirrors OnlineEufPropagator structurally. cb_propagate()
 // delivers same-slack propagations (Milestone 3b, scan_for_propagations)
@@ -7253,6 +7279,8 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     // pending_ entries are just candidates, not delivered propagations --
     // safe to drop unconditionally (unlike reasons_ above): at worst a
     // still-valid candidate gets rediscovered next time its slack changes.
+    statistics_.increment(util::StatKey::LraPropagationBacktrackDiscarded, pending_.size());
+    for (const auto& candidate : pending_) queue_audit_.removed(candidate.lit);
     pending_.clear();
     pending_interface_equalities_.clear();
     equality_scan_dirty_ = equality_propagation_enabled_;
@@ -7339,8 +7367,10 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     while (!pending_.empty()) {
       PendingPropagation candidate = std::move(pending_.front());
       pending_.pop_front();
+      queue_audit_.removed(candidate.lit);
       const int var = candidate.lit > 0 ? candidate.lit : -candidate.lit;
       if (is_assigned_var(var)) {
+        statistics_.increment(util::StatKey::LraPropagationDiscardedAssigned);
         continue;
       }
       const int lit = candidate.lit;
@@ -7556,6 +7586,10 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     const AssignedTheoryAtom assigned =
         assigned_theory_atom(PureTheoryFilterMode::Off, atom, atom_value);
     const sat::Lit reason = blocking_lit(assigned);
+    statistics_.increment(util::StatKey::LraBoundNotifications);
+    // push() only reads the trail offset. Every accepted endpoint change
+    // appends an entry; a successful no-op leaves the offset unchanged.
+    const std::size_t bound_trail_before = tableau_.push();
     const auto direct_conflict = assert_lra_atom_bound(
         tableau_, prepared_atom.bound_var, prepared_atom.relation, prepared_atom.rhs, atom_value,
         prepared_atom.asserts_lower_when_true, reason, prepared_atom.integer_rounding);
@@ -7566,6 +7600,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     // repeated calls -- and this is the only place they can change.
     publish_elimination_stats();
     if (direct_conflict.has_value()) {
+      statistics_.increment(util::StatKey::LraBoundConflictingNotifications);
       conflict_ = direct_conflict;
       record_query_conflict();
       // needs_check_ may already be true from an earlier, non-conflicting
@@ -7577,6 +7612,9 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
       needs_check_ = false;
       return;
     }
+    const bool bound_changed = tableau_.push() != bound_trail_before;
+    statistics_.increment(bound_changed ? util::StatKey::LraBoundTighteningNotifications
+                                        : util::StatKey::LraBoundNoopNotifications);
     if (tableau_.elimination_pivot_count() != elimination_pivots_before) {
       mark_all_model_phases_dirty();
     } else if (!bound_var_was_basic &&
@@ -7590,7 +7628,12 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     if (propagation_enabled_) {
       scan_for_propagations(atom_index, prepared_atom.bound_var);
       if (row_propagation_enabled_) {
+        statistics_.increment(util::StatKey::LraRowScanEvents);
+        if (!bound_changed) statistics_.increment(util::StatKey::LraRowScanNoopEvents);
+        const auto unique_before = statistics_.get(util::StatKey::LraPropagationUniqueCandidates);
         scan_row_based_propagations(prepared_atom.bound_var);
+        if (statistics_.get(util::StatKey::LraPropagationUniqueCandidates) != unique_before)
+          statistics_.increment(util::StatKey::LraRowScanEventsWithNewCandidates);
       }
     }
     if (atom_value) {
@@ -7810,7 +7853,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
         statistics_.increment(":lra.equality-propagation.conflicts");
         return;
       }
-      pending_.push_back(PendingPropagation{lit, reasons, false, false, true});
+      enqueue_pending(PendingPropagation{lit, reasons, false, false, true});
     }
   }
 
@@ -7896,7 +7939,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
                                         prepared_atom.integer_rounding));
       if (entails_true.has_value()) {
-        pending_.push_back(PendingPropagation{atom.lit.value, {*entails_true}, false});
+        enqueue_pending(PendingPropagation{atom.lit.value, {*entails_true}, false});
         continue;
       }
       const auto entails_false =
@@ -7905,7 +7948,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
                                         prepared_atom.integer_rounding));
       if (entails_false.has_value()) {
-        pending_.push_back(PendingPropagation{-atom.lit.value, {*entails_false}, false});
+        enqueue_pending(PendingPropagation{-atom.lit.value, {*entails_false}, false});
       }
     }
   }
@@ -7990,7 +8033,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
         if (reasons.has_value()) {
-          pending_.push_back(PendingPropagation{atom.lit.value, std::move(*reasons), true});
+          enqueue_pending(PendingPropagation{atom.lit.value, std::move(*reasons), true});
           continue;
         }
         reasons = implied_bound_entails(
@@ -8000,7 +8043,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
         if (reasons.has_value()) {
-          pending_.push_back(PendingPropagation{-atom.lit.value, std::move(*reasons), true});
+          enqueue_pending(PendingPropagation{-atom.lit.value, std::move(*reasons), true});
         }
       }
       record_row_bound_work(caches, statistics_);
@@ -8042,7 +8085,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
         if (reasons.has_value()) {
-          pending_.push_back(PendingPropagation{atom.lit.value, std::move(*reasons), true, true});
+          enqueue_pending(PendingPropagation{atom.lit.value, std::move(*reasons), true, true});
           continue;
         }
         reasons = implied_child_bound_entails(
@@ -8052,7 +8095,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
         if (reasons.has_value()) {
-          pending_.push_back(PendingPropagation{-atom.lit.value, std::move(*reasons), true, true});
+          enqueue_pending(PendingPropagation{-atom.lit.value, std::move(*reasons), true, true});
         }
       }
       record_row_bound_work(caches, statistics_);
@@ -8105,6 +8148,11 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     std::size_t atom_index;
   };
 
+  void enqueue_pending(PendingPropagation candidate) {
+    queue_audit_.inserted(candidate.lit, statistics_);
+    pending_.push_back(std::move(candidate));
+  }
+
   const std::vector<BooleanClausifier::TheoryAtom>& theory_atoms_;
   const PreparedLraTheory& prepared_;
   theory::arithmetic::LraTableau tableau_;
@@ -8129,6 +8177,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
   std::vector<theory::arithmetic::LraVarId> model_phase_dirty_bound_var_list_;
   std::vector<std::size_t> atom_index_by_var_;
   std::vector<std::size_t> checkpoints_;
+  PropagationQueueAudit queue_audit_;
   std::deque<PendingPropagation> pending_;
   std::deque<InterfaceEqualityPropagation> pending_interface_equalities_;
   bool interface_equalities_enabled_ = false;
@@ -9039,6 +9088,8 @@ class ComponentLraExecution final {
     // pending_ entries are just candidates, not delivered propagations --
     // safe to drop unconditionally (unlike reasons_ above): at worst a
     // still-valid candidate gets rediscovered next time its slack changes.
+    statistics_.increment(util::StatKey::LraPropagationBacktrackDiscarded, pending_.size());
+    for (const auto& candidate : pending_) queue_audit_.removed(candidate.lit);
     pending_.clear();
     pending_interface_equalities_.clear();
     reason_stream_active_lit_ = 0;
@@ -9125,8 +9176,10 @@ class ComponentLraExecution final {
     while (!pending_.empty()) {
       PendingPropagation candidate = std::move(pending_.front());
       pending_.pop_front();
+      queue_audit_.removed(candidate.lit);
       const int var = candidate.lit > 0 ? candidate.lit : -candidate.lit;
       if (is_assigned_var(var)) {
+        statistics_.increment(util::StatKey::LraPropagationDiscardedAssigned);
         continue;
       }
       const int lit = candidate.lit;
@@ -9298,6 +9351,10 @@ class ComponentLraExecution final {
     const AssignedTheoryAtom assigned =
         assigned_theory_atom(PureTheoryFilterMode::Off, atom, atom_value);
     const sat::Lit reason = blocking_lit(assigned);
+    statistics_.increment(util::StatKey::LraBoundNotifications);
+    // push() only reads the trail offset. Every accepted endpoint change
+    // appends an entry; a successful no-op leaves the offset unchanged.
+    const std::size_t bound_trail_before = tableau_.push();
     const auto direct_conflict = assert_lra_atom_bound(
         tableau_, prepared_atom.bound_var, prepared_atom.relation, prepared_atom.rhs, atom_value,
         prepared_atom.asserts_lower_when_true, reason, prepared_atom.integer_rounding);
@@ -9308,6 +9365,7 @@ class ComponentLraExecution final {
     // repeated calls -- and this is the only place they can change.
     publish_elimination_stats();
     if (direct_conflict.has_value()) {
+      statistics_.increment(util::StatKey::LraBoundConflictingNotifications);
       conflict_ = direct_conflict;
       // needs_check_ may already be true from an earlier, non-conflicting
       // literal in this same batch -- clear it, or run_deferred_check_if_
@@ -9318,6 +9376,9 @@ class ComponentLraExecution final {
       needs_check_ = false;
       return;
     }
+    const bool bound_changed = tableau_.push() != bound_trail_before;
+    statistics_.increment(bound_changed ? util::StatKey::LraBoundTighteningNotifications
+                                        : util::StatKey::LraBoundNoopNotifications);
     if (tableau_.elimination_pivot_count() != elimination_pivots_before) {
       mark_all_model_phases_dirty();
     } else if (!bound_var_was_basic &&
@@ -9331,7 +9392,12 @@ class ComponentLraExecution final {
     if (propagation_enabled_) {
       scan_for_propagations(atom_index, prepared_atom.bound_var);
       if (row_propagation_enabled_) {
+        statistics_.increment(util::StatKey::LraRowScanEvents);
+        if (!bound_changed) statistics_.increment(util::StatKey::LraRowScanNoopEvents);
+        const auto unique_before = statistics_.get(util::StatKey::LraPropagationUniqueCandidates);
         scan_row_based_propagations(prepared_atom.bound_var);
+        if (statistics_.get(util::StatKey::LraPropagationUniqueCandidates) != unique_before)
+          statistics_.increment(util::StatKey::LraRowScanEventsWithNewCandidates);
       }
     }
     if (atom_value) {
@@ -9573,7 +9639,7 @@ class ComponentLraExecution final {
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
                                         prepared_atom.integer_rounding));
       if (entails_true.has_value()) {
-        pending_.push_back(PendingPropagation{atom.lit.value, {*entails_true}, false});
+        enqueue_pending(PendingPropagation{atom.lit.value, {*entails_true}, false});
         continue;
       }
       const auto entails_false =
@@ -9582,7 +9648,7 @@ class ComponentLraExecution final {
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
                                         prepared_atom.integer_rounding));
       if (entails_false.has_value()) {
-        pending_.push_back(PendingPropagation{-atom.lit.value, {*entails_false}, false});
+        enqueue_pending(PendingPropagation{-atom.lit.value, {*entails_false}, false});
       }
     }
   }
@@ -9667,7 +9733,7 @@ class ComponentLraExecution final {
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
         if (reasons.has_value()) {
-          pending_.push_back(PendingPropagation{atom.lit.value, std::move(*reasons), true});
+          enqueue_pending(PendingPropagation{atom.lit.value, std::move(*reasons), true});
           continue;
         }
         reasons = implied_bound_entails(
@@ -9677,7 +9743,7 @@ class ComponentLraExecution final {
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
         if (reasons.has_value()) {
-          pending_.push_back(PendingPropagation{-atom.lit.value, std::move(*reasons), true});
+          enqueue_pending(PendingPropagation{-atom.lit.value, std::move(*reasons), true});
         }
       }
       record_row_bound_work(caches, statistics_);
@@ -9719,7 +9785,7 @@ class ComponentLraExecution final {
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
         if (reasons.has_value()) {
-          pending_.push_back(PendingPropagation{atom.lit.value, std::move(*reasons), true, true});
+          enqueue_pending(PendingPropagation{atom.lit.value, std::move(*reasons), true, true});
           continue;
         }
         reasons = implied_child_bound_entails(
@@ -9729,7 +9795,7 @@ class ComponentLraExecution final {
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
         if (reasons.has_value()) {
-          pending_.push_back(PendingPropagation{-atom.lit.value, std::move(*reasons), true, true});
+          enqueue_pending(PendingPropagation{-atom.lit.value, std::move(*reasons), true, true});
         }
       }
       record_row_bound_work(caches, statistics_);
@@ -9775,6 +9841,11 @@ class ComponentLraExecution final {
     bool bidirectional = false;  // competitiveness-roadmap item 7
   };
 
+  void enqueue_pending(PendingPropagation candidate) {
+    queue_audit_.inserted(candidate.lit, statistics_);
+    pending_.push_back(std::move(candidate));
+  }
+
   const std::vector<BooleanClausifier::TheoryAtom>& theory_atoms_;
   const PreparedLraTheory& prepared_;
   theory::arithmetic::LraTableau tableau_;
@@ -9796,6 +9867,7 @@ class ComponentLraExecution final {
   std::vector<theory::arithmetic::LraVarId> model_phase_dirty_bound_var_list_;
   std::vector<std::size_t> atom_index_by_var_;
   std::vector<std::size_t> checkpoints_;
+  PropagationQueueAudit queue_audit_;
   std::deque<PendingPropagation> pending_;
   std::deque<InterfaceEqualityPropagation> pending_interface_equalities_;
   bool interface_equalities_enabled_ = false;

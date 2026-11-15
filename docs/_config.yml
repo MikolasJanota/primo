@@ -104,6 +104,12 @@ sphinx:
       boundrepairpairsource:
         - "https://github.com/primo-solver/primo/blob/4d7647b6/%s"
         - "%s"
+      propfiltertrialsource:
+        - "https://github.com/primo-solver/primo/blob/127d71e1/%s"
+        - "%s"
+      redundancyauditsource:
+        - "https://github.com/primo-solver/primo/blob/f8845def/%s"
+        - "%s"
       boundrepaircomparison:
         - "https://github.com/primo-solver/primo/blob/0756279a/%s"
         - "%s"

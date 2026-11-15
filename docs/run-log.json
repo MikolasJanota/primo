@@ -3,6 +3,91 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-15-propagation-redundancy",
+      "date": "2026-11-15",
+      "kind": "Arithmetic redundancy audit before filtering",
+      "evidence_status": "Instrument-only source correctness qualified; whole-tree static/include inventories complete with findings. Selected full paired timing/model stage in progress. No filtering acceptance yet.",
+      "source_snapshot": "f8845defb0b17e3e49b47d41f3b7b93689bafd63",
+      "baseline": "abe24b92 (native source 07ec5ce5)",
+      "jobs": {
+        "build": 396808,
+        "check-and-asan": "396809",
+        "fresh-reference-model-gates": "396810",
+        "whole-tree-static": "396811",
+        "prefix-timing": "396812",
+        "complete-timing": "396813",
+        "complete-models": "396814",
+        "prefix-models": "396815",
+        "callgrind": "396816",
+        "whole-tree-static-full": "396837",
+        "callgrind-wisa": "396838",
+        "stack-samples": "396853",
+        "prefix-models-replacement": "396839",
+        "complete-timing-replacement": "396840",
+        "complete-models-replacement": "396841",
+        "dedup-build": "396854"
+      },
+      "scope": "Two arithmetic adapters; preserve queue order, duplicate candidates and reasons. Measure no-op bound notifications, signed pending multiplicity, assigned/backtrack discards and row-event queue additions. Separate complete120s and conflict-bounded30s probes of fixed slots2,17,64,213,438,597.",
+      "commands": "Preparation helper --build-via-slurm --reuse-dependencies --extra-target all; scripts/qualification/propagation_redundancy/configure.py and run.sbatch; existing bound_repairs verify/gates/static controllers.",
+      "limits": "All solver qualification and batches in SLURM. Planned timing1CPU/10GiB allocation with8GiB address space;120s complete,30s prefix; separate exact-option Dolmen SAT replay.",
+      "artifacts": "results/propagation-redundancy-20261115 locally and prepared remote workspace results; private routes/config outside Git.",
+      "remaining": "Complete selected paired timing/model collection and analysis; qualify/evaluate the separate row-mode queue-coalescing trial; independently review final evidence, render docs and commit coherent milestones.",
+      "native_sha256": "e6e6e1e766f9083b0ee4ed05310a96e8f9918a97700dc147aca86c1d5b4c3444",
+      "static_attempts": [
+        {
+          "job": "396811",
+          "state": "failed before scan",
+          "reason": "Tracked inventory included archived-away generated logs."
+        },
+        {
+          "job": "396836",
+          "state": "cancelled",
+          "reason": "Restricted inventory omitted docs/examples; replaced before relying on partial coverage."
+        },
+        {
+          "job": "396837",
+          "state": "completed, both140-TU inventories audited",
+          "scope": "All tracked src/tests/docs/examples C++ and headers; expected140TUs."
+        }
+      ],
+      "preliminary_observation": "At1000theory conflicts slots2/17: about89%candidate insertions duplicate an already pending signed literal; over99%row-scan events add no new pending literal;29–31%numeric no-op notifications. Matched completed prefixes preserve recorded SAT decisions/conflicts,tableau pivots,theory conflicts and private nodes (absent in both retained LIA rows, interpreted as zero under the increment-only statistics convention). Prefix data only; native timing/model qualification pending.",
+      "correctness": "49native test groups,354Python tests and49ASan tests pass. Fresh8000generated inputs across QF_LIA/QF_UFLIA/QF_LRA/QF_UFLRA in rows/both:7986PASS,14TIMEOUT;6034selected SAT models directDolmen pass. No wronganswer/crash/invalidmodel observed. Timeouts remain incomplete.",
+      "qualification": "benchmarks/propagation-redundancy-20261115/audit-qualification.json",
+      "prefix_observations": "benchmarks/propagation-redundancy-20261115/prefix-observations.json",
+      "stack_profiles": "benchmarks/propagation-redundancy-20261115/stack-samples.json",
+      "static": "Fresh whole-tree140TUs tidy+include scans completed with unchanged inputs and tool exit0;861tidy findings incl397include-provider findings; separate advisory397; unused-header gate passes. Existing inventory,not clean-tree claim.",
+      "profile_attempts": "Callgrind396816on LIA and396838on Wisa exceeded300s normal-completion budget with no usable dump; discarded. Existing GDB sampler396853 completed four rotated1000-conflict prefixes:468wall-stack observations,34/116 and38/120audit stacks and52/114 and42/118control stacks include row scanning. Overlapping stack evidence,notCPUpercentages or native timing.",
+      "experiment": {
+        "status": "Combined row-mode trial127d71e1 builds in SLURM396861; unqualified and unaccepted. Earlier94f548ee row-only coalescing binary retained for diagnostic ablation.",
+        "snapshots": [
+          {
+            "source": "e61db15f",
+            "build": 396854,
+            "status": "Superseded before qualification to confine coalescing to row mode."
+          },
+          {
+            "source": "94f548ee",
+            "build": 396860,
+            "sha256": "fd38673b9943804b5100e53ed13c058f5fb2846e79004b9626d380e6a1beb62a",
+            "status": "Build passed; diagnostic ablation only, not accepted source."
+          },
+          {
+            "source": "127d71e1",
+            "build": 396861,
+            "status": "Build in progress."
+          }
+        ],
+        "mechanisms": "Signed queue coalescing before reason copy and exact input stamps for repeated no-op row scans; both confined to existing opt-in row mode. Backtracks invalidate stamps; registry reset rebuilds execution. Defaults retain duplicate order."
+      },
+      "lint": "Local whole-tree make lint passed with ripgrep15.2.0 and clang-format21.1.8;log /tmp/primo-redundancy-verified-lint.log. Remote make check lacked rg and therefore skipped C++ format enumeration; native/Python tests remain valid, local lint supplies formatting coverage.",
+      "documentation_review": {
+        "status": "Audit unit and experimental checklists independently accepted; no filter qualification claimed.",
+        "findings": "RDA-1/2/3,S1;RDD-1/2,S1;RDE-1/2/3;RDS-1/2 resolved and rechecked. Scope: lead/checklist,statistics reference,LRA paragraph,config,qualification/prefix/profile evidence and first ledger entry.",
+        "validation": "make docs;assemble_docs.py;check_doc_links.py:301pages44666local links1330Git links0failures,518external deferred. Chrome statistics PDF pages4/5 inspected: introduction and key table legible; process group terminated. Local make lint withrg15.2.0/clang-format21.1.8 passed; remote format-enumeration limitation separately disclosed.",
+        "remaining": "Independent acceptance of final complete timing/model analysis and any accepted filter implementation documentation remains pending."
+      }
+    },
+    {
       "id": "2026-11-14-bound-repairs-final",
       "date": "2026-11-14",
       "kind": "Fresh exact-source qualification and full paired propagation comparison",

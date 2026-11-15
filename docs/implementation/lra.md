@@ -629,6 +629,19 @@ subsequent assignment, pivot, backtrack or atom registration. The
 {ref}`scan-reuse checklist <scan-local-reuse-draft>`
 records its complexity, counters and qualification status.
 
+The {redundancyauditsource}`execution adapters <src/smt/solver_engines.cpp>`
+also measure redundant work without filtering it. Their owning
+`PropagationQueueAudit` records signed-literal multiplicity in the SAT-literal
+pending queue, updating on insertion, pop and backtrack removal; it owns no
+premises or tableau references. Successful bound insertions are classified as
+numeric no-ops or endpoint changes using the read-only trail offset. Queue
+order, repeated candidates and original reasons are preserved. Interface-pair
+publication queues are excluded. See the
+[redundancy counters](../reference/statistics.md#arithmetic-redundancy-audit)
+for exact denominators. Neither a numerical no-op nor an event without a new
+pending literal is automatically a redundant search step.
+
+
 {source}`The options <src/smt/check_sat.hpp#L245-L269>` enable same-variable
 propagation by default; row propagation requires `lra_row_propagation`, and
 the reverse direction additionally requires `lra_bidirectional_row_propagation`.

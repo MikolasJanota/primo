@@ -153,3 +153,179 @@ after all timing arrays finish. Replay allows 180 seconds for the native solver
 and 60 seconds for Dolmen. Every successful native SAT timing row
 requires its own exact-option Dolmen replay. The [completed comparison](../evidence/bound-repairs.md) retains full timing,
 model and follow-up receipts; the selected pilot remains a separate diagnostic.
+
+
+## Redundancy audit (2026-11-15)
+
+This follow-up first measures repeated work without changing propagation order,
+bound insertion, reasons or search decisions. The baseline is `abe24b92`, whose
+native source is the qualified `07ec5ce5` implementation above.
+
+Dutertre and de Moura, CAV 2006 §§4.3–4.5, distinguish a non-strengthening
+assertion from a changed endpoint and warn that row refinement may derive weaker
+bounds. Schulte and Stuckey, *Efficient Constraint Propagation Engines*,
+[author preprint, §§4–6](https://arxiv.org/pdf/cs/0611009), study fixpoint tracking,
+relevant events and scheduling. Those finite-domain algorithms are motivation
+for the audit, not implemented simplex scheduling. In particular, their domain
+fixpoint conditions cannot simply be assumed across a Primo pivot or backtrack.
+
+The audit checklist is:
+
+- In both `OnlineLraPropagator` and `ComponentLraExecution`, count arithmetic
+  notifications as conflicting, tightening at least one endpoint, or numerical
+  no-ops. Snapshot `LraTableau::push()` before insertion: it is a read-only trail
+  offset, and every successful endpoint change appends a bound trail entry.
+  A nonconflicting unchanged offset therefore identifies a no-op without
+  copying arbitrary-precision endpoints. No checkpoint is installed or popped.
+- Track pending multiplicity separately for each signed SAT literal. An owning
+  vector of two counters per encountered SAT-variable index belongs to the
+  execution object. Queue insertion/pop/backtrack removal update it; it never
+  stores terms, tableau references or reasons. Opposite polarities are distinct.
+  Counts survive neither removal nor object destruction. Growth acquires the
+  counter only after resize. Insertion is constant-time once the index is
+  covered; total vector-growth cost and retained space are linear in the
+  largest encountered SAT-variable index, including gaps.
+- Audit the SAT-literal `pending_` queue only. Interface-pair publications in
+  `pending_interface_equalities_` are excluded, including backtrack discards.
+  Existing-equality candidates are included where `OnlineLraPropagator` queues
+  them as SAT literals. Count candidates, duplicate insertions, first currently pending insertions,
+  assigned-at-pop discards and backtrack discards. Keep duplicates and their
+  original reason/order in this measurement stage. A first pending insertion
+  is not necessarily a newly learned fact or an eventually delivered literal.
+- Count row-scan notification events, including capped/empty attempts, and how
+  many enqueue at least one literal not already pending. Count events caused by
+  numerical no-ops separately. This measures useful queue additions, not SAT
+  search benefit, arithmetic closure or CPU share.
+- Exercise QF_LRA, QF_UFLRA, QF_LIA and QF_UFLIA for the counter partitions
+  and unchanged-bound events;
+  qualify in SLURM, compare instrumented/control prefixes and complete selected
+  cases, and validate every successful SAT timing row independently. Report
+  instrumentation overhead and incomplete resource outcomes separately.
+- Only after these measurements consider queue deduplication and scan filtering.
+  Such a change must retain signed conflicts/reasons and account for separate
+  basis, registry and backtrack events. No blanket early return from assignment
+  notification is authorized by the numerical no-op counter alone.
+
+The {redundancyauditsource}`audit implementation <src/smt/solver_engines.cpp>`
+contains `PropagationQueueAudit` and both execution adapters. The
+{redundancyauditsource}`fixed counter keys <src/util/statistics.hpp>` and
+{redundancyauditsource}`printed names <src/util/statistics.cpp>` define the
+[statistics reference](../reference/statistics.md#arithmetic-redundancy-audit).
+This qualification snapshot precedes the final reviewed documentation.
+
+The owning tableau's
+{redundancyauditsource}`trail checkpoint and bound operations <src/theory/arithmetic/lra_tableau.hpp>`
+and {redundancyauditsource}`bound insertion <src/theory/arithmetic/lra_tableau.cpp>`
+provide the no-op classification contract. This audit implements no new
+inference or fixpoint proof obligation: all state must mirror queue operations
+without influencing them. Tests and the paired control check this preservation.
+
+### Candidate experiment: pending-literal deduplication
+
+The first diagnostic prefixes at 1,000 theory conflicts show approximately 89%
+duplicate candidate insertions on the two Dartagnan LIA inputs identified in the
+{download}`pinned observations <../../benchmarks/propagation-redundancy-20261115/prefix-observations.json>`.
+These compare instrument-only `f8845def` with source-equivalent baseline
+`07ec5ce5` in row and combined profiles; all eight retained outcomes are
+resource-limited `unknown`, not completed solving results. This motivates an
+experiment; it is not yet an accepted optimization or a CPU attribution. Keep
+the instrument-only binary as a separate control.
+
+The proposed subset of event scheduling is simple signed-literal queue
+coalescing, motivated by Schulte–Stuckey §5 rather than their finite-domain
+fixpoint algorithm. Before implementation, the obligations are:
+
+- Enable coalescing only in the existing opt-in row mode; otherwise retain
+  duplicate entries and their reason order. Retain the first pending occurrence
+  of each signed SAT literal when coalescing. Suppress later
+  occurrences of that same sign; never coalesce opposite polarities. Every
+  retained candidate owns its original reasons. The previous queue would pop
+  that first occurrence before all its duplicates, so retain its reason choice
+  and the order of first occurrences.
+- Preserve the existing candidate/unique/duplicate keys as actual insertion
+  counts. Add explicit attempt and suppressed-duplicate keys for the experiment.
+  In the audit control every attempt is inserted; in this experiment only
+  first-pending attempts are inserted. Removal/backtrack counters still count
+  actual queue entries; evidence must distinguish these denominators.
+- Check for duplication before copying a reason vector into the queue. A row
+  entailment helper may return a reference to its synchronous scan's owning
+  cache; consume that borrow immediately in the enqueue helper. No reference
+  may be stored in the pending queue or survive cache mutation/destruction.
+  Tableaux, terms and caches cannot mutate during this enqueue operation.
+- Popping removes the pending marker. Backtracking removes all remaining queue
+  markers while preserving the existing handling of reasons for already
+  delivered and retained literals. Repeated pushes/pops and registry growth
+  must not suppress later legitimate consequences.
+- The proof obligation is queue coalescing, not arithmetic redundancy: each
+  suppressed occurrence has an earlier pending occurrence with a still-valid
+  explanation. A backtrack clears both before another search state can use
+  either. After the first delivery SAT assigns that literal before a repeated
+  occurrence could be useful; subsequent bound insertions only strengthen its
+  premises until backtracking clears the queue. Existing assignment notification
+  and theory checking remain intact. Check literal/reason sequence preservation
+  directly, rather than treating aggregate counters as its proof.
+- Test both literal signs, branch conflicts, backtracking, integer rounding and
+  UF interaction. Run fresh four-logic reference gates, ASan and source review.
+  Compare identical search counters where both runs complete, plus paired
+  native runtime, memory and reason/candidate work. Validate all successful SAT
+  timing rows separately.
+- Audit-vector work remains `O(N+V)` for `N` candidate/removal operations and
+  largest encountered SAT index `V`; reason copying is paid only for retained
+  entries. Numeric row calculations are unchanged. Suppressing a numeric no-op
+  notification is a separate experiment: it needs proof that relevant bounds,
+  basis, atom registry and pending state have not changed since a covering scan.
+
+### Candidate experiment: skip a scan with unchanged inputs
+
+A second, deliberately conservative experiment may skip a row-scan event only
+when insertion was a numeric no-op and the same arithmetic variable has already
+been scanned with the identical global trail offset and cumulative pivot count
+in the current backtrack generation. It is engineering memoization of the
+existing row operation, motivated by relevant-event reasoning in Schulte–Stuckey
+§5; it is not a domain-fixpoint algorithm or numeric closure.
+
+Before implementation, the owning execution object must satisfy:
+
+- Store only `(generation, trail offset, pivot count)` per encountered arithmetic
+  variable, not endpoints, rows, terms or reasons. A stamp records that this
+  variable's complete existing bounded scan was called at those inputs, including
+  its fixed cap/empty outcomes. New objects have no matching stamps.
+- Every successful bound change appends to the tableau trail. Every pivot,
+  including fixed-variable elimination, advances the cumulative pivot count.
+  A scan only enqueues, so its numeric inputs remain unchanged until it returns.
+  Identical trail offsets between monotonic insertions imply no intervening
+  bound change; matching pivots also preserve row structure and variable roles.
+- Invalidate all stamps logically in constant time on every backtrack, even if
+  the restored trail offset equals an older one. A generation counter supplies
+  this invalidation; on unsigned wrap, clear all stamps before restarting it.
+- Registry extension must not reuse stamps across a changed prepared atom set.
+  Component registration destroys/recreates `ComponentLraExecution`; the legacy
+  `OnlineLraPropagator` borrows a fixed prepared arithmetic-atom view whose
+  external owners outlive it; that fixed LRA subset is distinct from the shared
+  main registry, which can grow. A new execution begins with fresh stamps. Verify these ownership
+  paths against `register_atoms`, `reset` and the legacy construction site.
+- SAT assignments without arithmetic changes can remove eligible atoms, but
+  cannot make an assigned atom unassigned without backtracking. Previously
+  queued first occurrences are retained/delivered; backtracking clears pending
+  candidates and invalidates stamps together. Preserve same-variable scans,
+  interface/equality handling, deferred feasibility checks and conflicts.
+- Count skipped repeated states separately; `row-scan-events` remains a request
+  count including these skips. This does not authorize skipping all numeric
+  no-ops: another variable's changed bound or a pivot changes the fingerprint.
+- Test first visit, exact repeat, other variable, changed trail, changed pivot,
+  backtrack to the same offset, fresh execution and vector growth. Integration
+  must exercise a skipped weak-bound event, preserve delivered reasons/search
+  counters on completed prefixes and pass fresh four-logic/model/ASan gates.
+- Lookup is constant-time; total growth/space is linear in the largest encountered
+  arithmetic-variable ID, including gaps. Generation invalidation is constant
+  except at wrap. This cache does not track dependencies finely: an unrelated
+  trailed change prevents a hit too. Cumulative counter wrap within a generation
+  is outside the supported solver-resource envelope; no completeness claim is
+  attached to this scheduling heuristic.
+
+The {propfiltertrialsource}`trial memo <src/smt/arithmetic_row_scan_memo.hpp>`
+implements the fingerprint and generation invalidation. Its
+{propfiltertrialsource}`execution integration <src/smt/solver_engines.cpp>`
+contains both adapters' `notify_assignment_lit`/`notify_backtrack_delta`, component
+`register_atoms`/`reset`, and the fixed-view legacy construction sites. These
+links identify the qualification trial, not an accepted performance result.
