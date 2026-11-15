@@ -14,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
 from scripts.qualification.arithmetic_combinations.analyze import (  # noqa: E402
+    expected_resource_diagnostic,
     metric,
 )
 from scripts.qualification.bound_propagation.analyze import (  # noqa: E402
@@ -202,11 +203,7 @@ def analyze(args) -> None:
                     if case.get("expected") in ("sat", "unsat"):
                         assert row["answer"] == case["expected"]
                     counters(row)
-                if (
-                    row["status"] == "error"
-                    or row["status"] == "ok"
-                    and row["answer"] == "unknown"
-                ):
+                if expected := expected_resource_diagnostic(row):
                     diagnostics = [
                         s
                         for s in (directory / (row["profile"] + ".stderr"))
@@ -214,11 +211,7 @@ def analyze(args) -> None:
                         .splitlines()
                         if s.strip() and not s.startswith(":")
                     ]
-                    assert diagnostics == (
-                        ["std::bad_alloc"]
-                        if row["status"] == "error"
-                        else ["integer branch-and-bound node limit"]
-                    )
+                    assert diagnostics == [expected]
             assert len({r["answer"] for r in rows if solved(r)}) <= 1
             selected = {
                 r["profile"]: r for r in rows if solved(r) and r["answer"] == "sat"

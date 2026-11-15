@@ -96,6 +96,20 @@ def observed_metric(row: dict, key: str) -> int | None:
     return int(row["stats"][key]) if key in row["stats"] else metric(row, key)
 
 
+def expected_resource_diagnostic(row: dict) -> str | None:
+    """A deadline must not hide an unexplained handled solver error."""
+    if row["status"] == "ok" and row["answer"] == "unknown":
+        return "integer branch-and-bound node limit"
+    if (
+        row["status"] == "error"
+        or row["status"] == "timeout"
+        and row["answer"] == "error"
+    ):
+        assert row["exit_code"] == 2
+        return "std::bad_alloc"
+    return None
+
+
 def describe(rows: list[dict], limit: float) -> dict:
     available = {
         k: [v for r in rows if (v := metric(r, k)) is not None] for k in METRICS
@@ -358,11 +372,7 @@ def main() -> None:
                             row["profile"],
                         )
                     counters(row)
-                if (
-                    row["status"] == "ok"
-                    and row["answer"] == "unknown"
-                    or row["status"] == "error"
-                ):
+                if expected := expected_resource_diagnostic(row):
                     stderr = directory / (row["profile"] + ".stderr")
                     if args.partial and not stderr.exists():
                         continue  # A live rsync can capture a row before its earlier-written log.
@@ -371,12 +381,7 @@ def main() -> None:
                         for s in stderr.read_text().splitlines()
                         if s.strip() and not s.startswith(":")
                     ]
-                    expected = (
-                        ["integer branch-and-bound node limit"]
-                        if row["status"] == "ok"
-                        else ["std::bad_alloc"]
-                    )
-                    assert diagnostic == expected, (
+                    assert diagnostic == [expected], (
                         rep,
                         slot,
                         row["profile"],

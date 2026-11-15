@@ -7,6 +7,7 @@ import unittest
 
 from scripts.qualification.arithmetic_combinations.analyze import (
     compare,
+    expected_resource_diagnostic,
     interaction,
     metric,
     observed_metric,
@@ -68,6 +69,17 @@ class CombinationAnalysis(unittest.TestCase):
         self.assertEqual(result["common_solved_counter_pairs_without_statistics"], 3)
         self.assertIsNone(
             result["matched_complete_counter_totals"][":sat.conflicts"]["P"]
+        )
+
+    def test_deadline_does_not_hide_unexplained_errors(self):
+        late = row(120, answer="error", status="timeout", exit_code=2)
+        self.assertEqual(expected_resource_diagnostic(late), "std::bad_alloc")
+        late["exit_code"] = -6
+        with self.assertRaises(AssertionError):
+            expected_resource_diagnostic(late)
+        self.assertEqual(
+            expected_resource_diagnostic(row(3, answer="unknown")),
+            "integer branch-and-bound node limit",
         )
 
     def test_interrupted_statistics_and_crash_after_answer(self):
