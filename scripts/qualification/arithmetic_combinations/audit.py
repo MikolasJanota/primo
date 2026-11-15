@@ -77,6 +77,10 @@ def main() -> None:
                 models += model_rows(
                     directory / "models", receipt["SAT_Dolmen_pass"], selected
                 )
+                assert (
+                    sha(directory / "models/summary.csv")
+                    == receipt["model_summary_sha256"]
+                )
                 totals.update({"generated_inputs": 1000})
                 for key, value in receipt["outcomes"].items():
                     totals["generated_" + key] += value
@@ -146,7 +150,30 @@ def main() -> None:
                     "logic": task["logic"],
                     "profile": task["label"],
                     "receipt_sha256": sha(directory / "receipt.json"),
-                    "coverage": receipt,
+                    "coverage": {
+                        key: value
+                        for key, value in receipt.items()
+                        if key
+                        in {
+                            "task",
+                            "phase",
+                            "source",
+                            "native_sha256",
+                            "campaign_sha256",
+                            "script_sha256",
+                            "seed",
+                            "cases",
+                            "outcomes",
+                            "summary_sha256",
+                            "SAT_Dolmen_pass",
+                            "model_summary_sha256",
+                            "single_query_sat_models",
+                            "scoped_sessions",
+                            "solver_args",
+                            "logics",
+                            "generator_exit",
+                        }
+                    },
                 }
             )
     assert len(receipts) == 72
