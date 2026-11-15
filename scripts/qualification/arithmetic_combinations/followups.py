@@ -142,6 +142,9 @@ def analyze(args) -> None:
     for item in manifest["targets"]:
         index, edge = item["index"], item["edge"]
         before, after = edge.split("->")
+        assert item["additional_orders"] == counterbalanced_orders(
+            item["original_orders"], before, after
+        )
         repeats, receipts = [], []
         for rep in range(3):
             path = args.configs / f"case-{index}-{rep}.json"
