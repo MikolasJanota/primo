@@ -71,6 +71,8 @@ def configure(args) -> None:
                 "index": index,
                 "file": case["file"],
                 "input_sha256": case["sha256"],
+                "original_config_sha256": sha(original_path),
+                "derived_config_sha256": {},
             }
         )
         cohort = f"case-{index}"
@@ -81,9 +83,9 @@ def configure(args) -> None:
             config["profiles"] = {p: original["profiles"][p] for p in (before, after)}
             config["paired_groups"] = [[before, after]]
             config["out"] = f"{args.results_root}/rep-{rep}/{cohort}"
-            (args.out / f"{cohort}-{rep}.json").write_text(
-                json.dumps(config, indent=2) + "\n"
-            )
+            derived = args.out / f"{cohort}-{rep}.json"
+            derived.write_text(json.dumps(config, indent=2) + "\n")
+            manifest[-1]["derived_config_sha256"][str(rep)] = sha(derived)
     master = {**campaign, "configs": args.remote_configs, "mapping": mapping}
     (args.out / "campaign.json").write_text(json.dumps(master, indent=2) + "\n")
     (args.out / "manifest.json").write_text(
@@ -114,6 +116,9 @@ def analyze(args) -> None:
         repeats, receipts = [], []
         for rep in range(3):
             path = args.configs / f"case-{index}-{rep}.json"
+            assert sha(path) == item["derived_config_sha256"][str(rep)], (
+                "follow-up configuration drift"
+            )
             config = json.loads(path.read_text())
             case = config["cases"][0]
             directory = args.rows / f"rep-{rep}/case-{index}/slot-0"

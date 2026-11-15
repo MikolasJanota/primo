@@ -9,7 +9,11 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from scripts.qualification.arithmetic_combinations.followups import configure, targets
+from scripts.qualification.arithmetic_combinations.followups import (
+    analyze,
+    configure,
+    targets,
+)
 from scripts.qualification.bound_propagation.analyze import sha
 from scripts.qualification.lia_hybrid.run import measurement_order
 
@@ -87,6 +91,26 @@ class CombinationFollowups(unittest.TestCase):
             manifest = json.loads((root / "repeats/manifest.json").read_text())
             self.assertEqual(manifest["timing_rows"], 6)
             self.assertEqual(manifest["parent_analysis_sha256"], sha(analysis))
+            self.assertEqual(
+                manifest["targets"][0]["original_config_sha256"], sha(config)
+            )
+            derived = root / "repeats/case-0-0.json"
+            self.assertEqual(
+                manifest["targets"][0]["derived_config_sha256"]["0"], sha(derived)
+            )
+            changed = json.loads(derived.read_text())
+            changed["profiles"]["P"]["args"].append("--different-policy")
+            derived.write_text(json.dumps(changed))
+            with self.assertRaisesRegex(
+                AssertionError, "follow-up configuration drift"
+            ):
+                analyze(
+                    argparse.Namespace(
+                        configs=root / "repeats",
+                        rows=root / "missing-results",
+                        out=root / "out.json",
+                    )
+                )
 
 
 if __name__ == "__main__":
