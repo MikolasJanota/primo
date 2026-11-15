@@ -182,9 +182,13 @@ The audit checklist is:
   execution object. Queue insertion/pop/backtrack removal update it; it never
   stores terms, tableau references or reasons. Opposite polarities are distinct.
   Counts survive neither removal nor object destruction. Growth acquires the
-  counter only after resize, with amortized constant insertion cost and space
-  linear in the largest encountered SAT-variable index.
-- Count candidates, duplicate insertions, first currently pending insertions,
+  counter only after resize. Insertion is constant-time once the index is
+  covered; total vector-growth cost and retained space are linear in the
+  largest encountered SAT-variable index, including gaps.
+- Audit the SAT-literal `pending_` queue only. Interface-pair publications in
+  `pending_interface_equalities_` are excluded, including backtrack discards.
+  Existing-equality candidates are included where `OnlineLraPropagator` queues
+  them as SAT literals. Count candidates, duplicate insertions, first currently pending insertions,
   assigned-at-pop discards and backtrack discards. Keep duplicates and their
   original reason/order in this measurement stage. A first pending insertion
   is not necessarily a newly learned fact or an eventually delivered literal.
@@ -192,7 +196,8 @@ The audit checklist is:
   many enqueue at least one literal not already pending. Count events caused by
   numerical no-ops separately. This measures useful queue additions, not SAT
   search benefit, arithmetic closure or CPU share.
-- Add four-route tests for the counter partitions and unchanged-bound events;
+- Exercise QF_LRA, QF_UFLRA, QF_LIA and QF_UFLIA for the counter partitions
+  and unchanged-bound events;
   qualify in SLURM, compare instrumented/control prefixes and complete selected
   cases, and validate every successful SAT timing row independently. Report
   instrumentation overhead and incomplete resource outcomes separately.
@@ -200,3 +205,70 @@ The audit checklist is:
   Such a change must retain signed conflicts/reasons and account for separate
   basis, registry and backtrack events. No blanket early return from assignment
   notification is authorized by the numerical no-op counter alone.
+
+The {redundancyauditsource}`audit implementation <src/smt/solver_engines.cpp>`
+contains `PropagationQueueAudit` and both execution adapters. The
+{redundancyauditsource}`fixed counter keys <src/util/statistics.hpp>` and
+{redundancyauditsource}`printed names <src/util/statistics.cpp>` define the
+[statistics reference](../reference/statistics.md#arithmetic-redundancy-audit).
+This qualification snapshot precedes the final reviewed documentation.
+
+The owning tableau's
+{redundancyauditsource}`trail checkpoint and bound operations <src/theory/arithmetic/lra_tableau.hpp>`
+and {redundancyauditsource}`bound insertion <src/theory/arithmetic/lra_tableau.cpp>`
+provide the no-op classification contract. This audit implements no new
+inference or fixpoint proof obligation: all state must mirror queue operations
+without influencing them. Tests and the paired control check this preservation.
+
+### Candidate experiment: pending-literal deduplication
+
+The first diagnostic prefixes at 1,000 theory conflicts show approximately 89%
+duplicate candidate insertions on the two Dartagnan LIA inputs identified in the
+{download}`pinned observations <../../benchmarks/propagation-redundancy-20261115/prefix-observations.json>`.
+These compare instrument-only `f8845def` with source-equivalent baseline
+`07ec5ce5` in row and combined profiles; all eight retained outcomes are
+resource-limited `unknown`, not completed solving results. This motivates an
+experiment; it is not yet an accepted optimization or a CPU attribution. Keep
+the instrument-only binary as a separate control.
+
+The proposed subset of event scheduling is simple signed-literal queue
+coalescing, motivated by Schulte–Stuckey §5 rather than their finite-domain
+fixpoint algorithm. Before implementation, the obligations are:
+
+- Retain the first pending occurrence of each signed SAT literal. Suppress later
+  occurrences of that same sign; never coalesce opposite polarities. Every
+  retained candidate owns its original reasons. The previous queue would pop
+  that first occurrence before all its duplicates, so retain its reason choice
+  and the order of first occurrences.
+- Preserve the existing candidate/unique/duplicate keys as actual insertion
+  counts. Add explicit attempt and suppressed-duplicate keys for the experiment.
+  In the audit control every attempt is inserted; in this experiment only
+  first-pending attempts are inserted. Removal/backtrack counters still count
+  actual queue entries; evidence must distinguish these denominators.
+- Check for duplication before copying a reason vector into the queue. A row
+  entailment helper may return a reference to its synchronous scan's owning
+  cache; consume that borrow immediately in the enqueue helper. No reference
+  may be stored in the pending queue or survive cache mutation/destruction.
+  Tableaux, terms and caches cannot mutate during this enqueue operation.
+- Popping removes the pending marker. Backtracking removes all remaining queue
+  markers while preserving the existing handling of reasons for already
+  delivered and retained literals. Repeated pushes/pops and registry growth
+  must not suppress later legitimate consequences.
+- The proof obligation is queue coalescing, not arithmetic redundancy: each
+  suppressed occurrence has an earlier pending occurrence with a still-valid
+  explanation. A backtrack clears both before another search state can use
+  either. After the first delivery SAT assigns that literal before a repeated
+  occurrence could be useful; subsequent bound insertions only strengthen its
+  premises until backtracking clears the queue. Existing assignment notification
+  and theory checking remain intact. Check literal/reason sequence preservation
+  directly, rather than treating aggregate counters as its proof.
+- Test both literal signs, branch conflicts, backtracking, integer rounding and
+  UF interaction. Run fresh four-logic reference gates, ASan and source review.
+  Compare identical search counters where both runs complete, plus paired
+  native runtime, memory and reason/candidate work. Validate all successful SAT
+  timing rows separately.
+- Audit-vector work remains `O(N+V)` for `N` candidate/removal operations and
+  largest encountered SAT index `V`; reason copying is paid only for retained
+  entries. Numeric row calculations are unchanged. Suppressing a numeric no-op
+  notification is a separate experiment: it needs proof that relevant bounds,
+  basis, atom registry and pending state have not changed since a covering scan.

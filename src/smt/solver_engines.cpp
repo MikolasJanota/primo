@@ -32,6 +32,7 @@
 #include "sat/ipasir_up.hpp"
 #include "sat/lit.hpp"
 #include "sat/trail.hpp"
+#include "smt/arithmetic_propagation_queue.hpp"
 #include "smt/assignment_coordinator.hpp"
 #include "smt/boolean_solver.hpp"
 #include "smt/check_sat.hpp"
@@ -7152,32 +7153,6 @@ std::vector<sat::Lit> implied_child_bound_reasons(const theory::arithmetic::LraT
   return reasons;
 }
 
-// Diagnostic only: preserve queue order and duplicate reasons. The design note
-// docs/leads/bound-propagation-improvements.md defines the event denominators;
-// Schulte--Stuckey (TOPLAS 2008, Sections 4--6) motivates measuring redundant
-// executions, but no finite-domain fixpoint algorithm is implemented here.
-class PropagationQueueAudit {
- public:
-  void inserted(int lit, util::Statistics& statistics) {
-    const auto var = static_cast<std::size_t>(std::abs(lit));
-    if (var >= counts_.size()) counts_.resize(std::max(var + 1, counts_.size() * 2));
-    auto& count = counts_[var][lit > 0 ? 1U : 0U];
-    statistics.increment(util::StatKey::LraPropagationCandidates);
-    statistics.increment(count ? util::StatKey::LraPropagationDuplicateCandidates
-                               : util::StatKey::LraPropagationUniqueCandidates);
-    ++count;
-  }
-
-  void removed(int lit) {
-    auto& count = counts_.at(static_cast<std::size_t>(std::abs(lit)))[lit > 0 ? 1U : 0U];
-    assert(count > 0);
-    --count;
-  }
-
- private:
-  std::vector<std::array<std::size_t, 2>> counts_;
-};
-
 // Trail-synced CaDiCaL external propagator for QF_LRA (Milestone 3a of the
 // QF_LRA plan): mirrors OnlineEufPropagator structurally. cb_propagate()
 // delivers same-slack propagations (Milestone 3b, scan_for_propagations)
@@ -7279,9 +7254,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     // pending_ entries are just candidates, not delivered propagations --
     // safe to drop unconditionally (unlike reasons_ above): at worst a
     // still-valid candidate gets rediscovered next time its slack changes.
-    statistics_.increment(util::StatKey::LraPropagationBacktrackDiscarded, pending_.size());
-    for (const auto& candidate : pending_) queue_audit_.removed(candidate.lit);
-    pending_.clear();
+    pending_.clear(statistics_);
     pending_interface_equalities_.clear();
     equality_scan_dirty_ = equality_propagation_enabled_;
     reason_stream_active_lit_ = 0;
@@ -7365,9 +7338,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
       return 0;
     }
     while (!pending_.empty()) {
-      PendingPropagation candidate = std::move(pending_.front());
-      pending_.pop_front();
-      queue_audit_.removed(candidate.lit);
+      PendingPropagation candidate = pending_.pop();
       const int var = candidate.lit > 0 ? candidate.lit : -candidate.lit;
       if (is_assigned_var(var)) {
         statistics_.increment(util::StatKey::LraPropagationDiscardedAssigned);
@@ -7853,7 +7824,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
         statistics_.increment(":lra.equality-propagation.conflicts");
         return;
       }
-      enqueue_pending(PendingPropagation{lit, reasons, false, false, true});
+      enqueue_pending(lit, reasons, false, false, true);
     }
   }
 
@@ -7939,7 +7910,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
                                         prepared_atom.integer_rounding));
       if (entails_true.has_value()) {
-        enqueue_pending(PendingPropagation{atom.lit.value, {*entails_true}, false});
+        enqueue_pending(atom.lit.value, {*entails_true}, false);
         continue;
       }
       const auto entails_false =
@@ -7948,7 +7919,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
                                         prepared_atom.integer_rounding));
       if (entails_false.has_value()) {
-        enqueue_pending(PendingPropagation{-atom.lit.value, {*entails_false}, false});
+        enqueue_pending(-atom.lit.value, {*entails_false}, false);
       }
     }
   }
@@ -7957,10 +7928,10 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
   // entail the atom whose truth assignment would impose `assertion`. Shares
   // bound_assertion()'s direction convention, so a flipped atom's TRUE case
   // is checked against an implied *lower* bound and vice versa.
-  std::optional<std::vector<sat::Lit>> implied_bound_entails(theory::arithmetic::LraVarId basic_var,
-                                                             const BoundAssertion& assertion,
-                                                             IntegerBoundRounding rounding,
-                                                             RowBoundCaches& caches) {
+  const std::vector<sat::Lit>* implied_bound_entails(theory::arithmetic::LraVarId basic_var,
+                                                     const BoundAssertion& assertion,
+                                                     IntegerBoundRounding rounding,
+                                                     RowBoundCaches& caches) {
     auto& implied = caches[assertion.is_upper ? 1U : 0U];
     ++implied.comparisons;
     if (!implied.computed) {
@@ -7970,7 +7941,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     }
     const bool tight = implied_endpoint_entails(implied, assertion, rounding);
     if (!tight) {
-      return std::nullopt;
+      return nullptr;
     }
     if (rounding == IntegerBoundRounding::All &&
         !implied_endpoint_entails(implied, assertion, IntegerBoundRounding::None)) {
@@ -7979,7 +7950,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     if (!implied.reasons) {
       implied.reasons = implied_bound_reasons(tableau_, basic_var, assertion.is_upper);
     }
-    return implied.reasons;
+    return &*implied.reasons;
   }
 
   // Row-based/interval bound propagation (Dutertre & de Moura Section 4,
@@ -8032,8 +8003,8 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
-        if (reasons.has_value()) {
-          enqueue_pending(PendingPropagation{atom.lit.value, std::move(*reasons), true});
+        if (reasons != nullptr) {
+          enqueue_pending(atom.lit.value, *reasons, true);
           continue;
         }
         reasons = implied_bound_entails(
@@ -8042,8 +8013,8 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
-        if (reasons.has_value()) {
-          enqueue_pending(PendingPropagation{-atom.lit.value, std::move(*reasons), true});
+        if (reasons != nullptr) {
+          enqueue_pending(-atom.lit.value, *reasons, true);
         }
       }
       record_row_bound_work(caches, statistics_);
@@ -8084,8 +8055,8 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
-        if (reasons.has_value()) {
-          enqueue_pending(PendingPropagation{atom.lit.value, std::move(*reasons), true, true});
+        if (reasons != nullptr) {
+          enqueue_pending(atom.lit.value, *reasons, true, true);
           continue;
         }
         reasons = implied_child_bound_entails(
@@ -8094,8 +8065,8 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
-        if (reasons.has_value()) {
-          enqueue_pending(PendingPropagation{-atom.lit.value, std::move(*reasons), true, true});
+        if (reasons != nullptr) {
+          enqueue_pending(-atom.lit.value, *reasons, true, true);
         }
       }
       record_row_bound_work(caches, statistics_);
@@ -8104,10 +8075,12 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
 
   // implied_bound_entails' counterpart for the reverse (child-tightening)
   // direction -- same convention, same all-or-nothing behaviour.
-  std::optional<std::vector<sat::Lit>> implied_child_bound_entails(
-      theory::arithmetic::LraVarId basic_var, theory::arithmetic::LraVarId target_var,
-      const util::Rational& target_coeff, const BoundAssertion& assertion,
-      IntegerBoundRounding rounding, RowBoundCaches& caches) {
+  const std::vector<sat::Lit>* implied_child_bound_entails(theory::arithmetic::LraVarId basic_var,
+                                                           theory::arithmetic::LraVarId target_var,
+                                                           const util::Rational& target_coeff,
+                                                           const BoundAssertion& assertion,
+                                                           IntegerBoundRounding rounding,
+                                                           RowBoundCaches& caches) {
     auto& implied = caches[assertion.is_upper ? 1U : 0U];
     ++implied.comparisons;
     if (!implied.computed) {
@@ -8117,7 +8090,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     }
     const bool tight = implied_endpoint_entails(implied, assertion, rounding);
     if (!tight) {
-      return std::nullopt;
+      return nullptr;
     }
     if (rounding == IntegerBoundRounding::All &&
         !implied_endpoint_entails(implied, assertion, IntegerBoundRounding::None)) {
@@ -8127,20 +8100,14 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
       implied.reasons = implied_child_bound_reasons(tableau_, basic_var, target_var, target_coeff,
                                                     assertion.is_upper);
     }
-    return implied.reasons;
+    return &*implied.reasons;
   }
 
   // A queued propagation candidate: the CaDiCaL literal to propagate, its
   // antecedent reason literals (one for same-slack propagation; up to a
   // row's term count for row-based propagation), and whether it came from
   // the row-based scan (for the LraRowPropagations breakdown stat).
-  struct PendingPropagation {
-    int lit;
-    std::vector<sat::Lit> reasons;
-    bool row_based;
-    bool bidirectional = false;  // competitiveness-roadmap item 7
-    bool variable_equality = false;
-  };
+  using PendingPropagation = detail::ArithmeticPropagationQueue::Candidate;
 
   struct EqualityTarget {
     theory::arithmetic::LraVarId lhs;
@@ -8148,9 +8115,9 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
     std::size_t atom_index;
   };
 
-  void enqueue_pending(PendingPropagation candidate) {
-    queue_audit_.inserted(candidate.lit, statistics_);
-    pending_.push_back(std::move(candidate));
+  void enqueue_pending(int lit, const std::vector<sat::Lit>& reasons, bool row_based,
+                       bool bidirectional = false, bool variable_equality = false) {
+    pending_.push(lit, reasons, row_based, bidirectional, variable_equality, statistics_);
   }
 
   const std::vector<BooleanClausifier::TheoryAtom>& theory_atoms_;
@@ -8177,8 +8144,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
   std::vector<theory::arithmetic::LraVarId> model_phase_dirty_bound_var_list_;
   std::vector<std::size_t> atom_index_by_var_;
   std::vector<std::size_t> checkpoints_;
-  PropagationQueueAudit queue_audit_;
-  std::deque<PendingPropagation> pending_;
+  detail::ArithmeticPropagationQueue pending_;
   std::deque<InterfaceEqualityPropagation> pending_interface_equalities_;
   bool interface_equalities_enabled_ = false;
   bool equality_propagation_enabled_ = false;
@@ -9088,9 +9054,7 @@ class ComponentLraExecution final {
     // pending_ entries are just candidates, not delivered propagations --
     // safe to drop unconditionally (unlike reasons_ above): at worst a
     // still-valid candidate gets rediscovered next time its slack changes.
-    statistics_.increment(util::StatKey::LraPropagationBacktrackDiscarded, pending_.size());
-    for (const auto& candidate : pending_) queue_audit_.removed(candidate.lit);
-    pending_.clear();
+    pending_.clear(statistics_);
     pending_interface_equalities_.clear();
     reason_stream_active_lit_ = 0;
     reason_stream_index_ = 0;
@@ -9174,9 +9138,7 @@ class ComponentLraExecution final {
       return 0;
     }
     while (!pending_.empty()) {
-      PendingPropagation candidate = std::move(pending_.front());
-      pending_.pop_front();
-      queue_audit_.removed(candidate.lit);
+      PendingPropagation candidate = pending_.pop();
       const int var = candidate.lit > 0 ? candidate.lit : -candidate.lit;
       if (is_assigned_var(var)) {
         statistics_.increment(util::StatKey::LraPropagationDiscardedAssigned);
@@ -9639,7 +9601,7 @@ class ComponentLraExecution final {
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
                                         prepared_atom.integer_rounding));
       if (entails_true.has_value()) {
-        enqueue_pending(PendingPropagation{atom.lit.value, {*entails_true}, false});
+        enqueue_pending(atom.lit.value, {*entails_true}, false);
         continue;
       }
       const auto entails_false =
@@ -9648,7 +9610,7 @@ class ComponentLraExecution final {
                                         prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
                                         prepared_atom.integer_rounding));
       if (entails_false.has_value()) {
-        enqueue_pending(PendingPropagation{-atom.lit.value, {*entails_false}, false});
+        enqueue_pending(-atom.lit.value, {*entails_false}, false);
       }
     }
   }
@@ -9657,10 +9619,10 @@ class ComponentLraExecution final {
   // entail the atom whose truth assignment would impose `assertion`. Shares
   // bound_assertion()'s direction convention, so a flipped atom's TRUE case
   // is checked against an implied *lower* bound and vice versa.
-  std::optional<std::vector<sat::Lit>> implied_bound_entails(theory::arithmetic::LraVarId basic_var,
-                                                             const BoundAssertion& assertion,
-                                                             IntegerBoundRounding rounding,
-                                                             RowBoundCaches& caches) {
+  const std::vector<sat::Lit>* implied_bound_entails(theory::arithmetic::LraVarId basic_var,
+                                                     const BoundAssertion& assertion,
+                                                     IntegerBoundRounding rounding,
+                                                     RowBoundCaches& caches) {
     auto& implied = caches[assertion.is_upper ? 1U : 0U];
     ++implied.comparisons;
     if (!implied.computed) {
@@ -9670,7 +9632,7 @@ class ComponentLraExecution final {
     }
     const bool tight = implied_endpoint_entails(implied, assertion, rounding);
     if (!tight) {
-      return std::nullopt;
+      return nullptr;
     }
     if (rounding == IntegerBoundRounding::All &&
         !implied_endpoint_entails(implied, assertion, IntegerBoundRounding::None)) {
@@ -9679,7 +9641,7 @@ class ComponentLraExecution final {
     if (!implied.reasons) {
       implied.reasons = implied_bound_reasons(tableau_, basic_var, assertion.is_upper);
     }
-    return implied.reasons;
+    return &*implied.reasons;
   }
 
   // Row-based/interval bound propagation (Dutertre & de Moura Section 4,
@@ -9732,8 +9694,8 @@ class ComponentLraExecution final {
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
-        if (reasons.has_value()) {
-          enqueue_pending(PendingPropagation{atom.lit.value, std::move(*reasons), true});
+        if (reasons != nullptr) {
+          enqueue_pending(atom.lit.value, *reasons, true);
           continue;
         }
         reasons = implied_bound_entails(
@@ -9742,8 +9704,8 @@ class ComponentLraExecution final {
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
-        if (reasons.has_value()) {
-          enqueue_pending(PendingPropagation{-atom.lit.value, std::move(*reasons), true});
+        if (reasons != nullptr) {
+          enqueue_pending(-atom.lit.value, *reasons, true);
         }
       }
       record_row_bound_work(caches, statistics_);
@@ -9784,8 +9746,8 @@ class ComponentLraExecution final {
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/true,
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
-        if (reasons.has_value()) {
-          enqueue_pending(PendingPropagation{atom.lit.value, std::move(*reasons), true, true});
+        if (reasons != nullptr) {
+          enqueue_pending(atom.lit.value, *reasons, true, true);
           continue;
         }
         reasons = implied_child_bound_entails(
@@ -9794,8 +9756,8 @@ class ComponentLraExecution final {
                             prepared_atom.asserts_lower_when_true, /*atom_value=*/false,
                             prepared_atom.integer_rounding),
             prepared_atom.integer_rounding, caches);
-        if (reasons.has_value()) {
-          enqueue_pending(PendingPropagation{-atom.lit.value, std::move(*reasons), true, true});
+        if (reasons != nullptr) {
+          enqueue_pending(-atom.lit.value, *reasons, true, true);
         }
       }
       record_row_bound_work(caches, statistics_);
@@ -9804,10 +9766,12 @@ class ComponentLraExecution final {
 
   // implied_bound_entails' counterpart for the reverse (child-tightening)
   // direction -- same convention, same all-or-nothing behaviour.
-  std::optional<std::vector<sat::Lit>> implied_child_bound_entails(
-      theory::arithmetic::LraVarId basic_var, theory::arithmetic::LraVarId target_var,
-      const util::Rational& target_coeff, const BoundAssertion& assertion,
-      IntegerBoundRounding rounding, RowBoundCaches& caches) {
+  const std::vector<sat::Lit>* implied_child_bound_entails(theory::arithmetic::LraVarId basic_var,
+                                                           theory::arithmetic::LraVarId target_var,
+                                                           const util::Rational& target_coeff,
+                                                           const BoundAssertion& assertion,
+                                                           IntegerBoundRounding rounding,
+                                                           RowBoundCaches& caches) {
     auto& implied = caches[assertion.is_upper ? 1U : 0U];
     ++implied.comparisons;
     if (!implied.computed) {
@@ -9817,7 +9781,7 @@ class ComponentLraExecution final {
     }
     const bool tight = implied_endpoint_entails(implied, assertion, rounding);
     if (!tight) {
-      return std::nullopt;
+      return nullptr;
     }
     if (rounding == IntegerBoundRounding::All &&
         !implied_endpoint_entails(implied, assertion, IntegerBoundRounding::None)) {
@@ -9827,23 +9791,18 @@ class ComponentLraExecution final {
       implied.reasons = implied_child_bound_reasons(tableau_, basic_var, target_var, target_coeff,
                                                     assertion.is_upper);
     }
-    return implied.reasons;
+    return &*implied.reasons;
   }
 
   // A queued propagation candidate: the CaDiCaL literal to propagate, its
   // antecedent reason literals (one for same-slack propagation; up to a
   // row's term count for row-based propagation), and whether it came from
   // the row-based scan (for the LraRowPropagations breakdown stat).
-  struct PendingPropagation {
-    int lit;
-    std::vector<sat::Lit> reasons;
-    bool row_based;
-    bool bidirectional = false;  // competitiveness-roadmap item 7
-  };
+  using PendingPropagation = detail::ArithmeticPropagationQueue::Candidate;
 
-  void enqueue_pending(PendingPropagation candidate) {
-    queue_audit_.inserted(candidate.lit, statistics_);
-    pending_.push_back(std::move(candidate));
+  void enqueue_pending(int lit, const std::vector<sat::Lit>& reasons, bool row_based,
+                       bool bidirectional = false) {
+    pending_.push(lit, reasons, row_based, bidirectional, false, statistics_);
   }
 
   const std::vector<BooleanClausifier::TheoryAtom>& theory_atoms_;
@@ -9867,8 +9826,7 @@ class ComponentLraExecution final {
   std::vector<theory::arithmetic::LraVarId> model_phase_dirty_bound_var_list_;
   std::vector<std::size_t> atom_index_by_var_;
   std::vector<std::size_t> checkpoints_;
-  PropagationQueueAudit queue_audit_;
-  std::deque<PendingPropagation> pending_;
+  detail::ArithmeticPropagationQueue pending_;
   std::deque<InterfaceEqualityPropagation> pending_interface_equalities_;
   bool interface_equalities_enabled_ = false;
   std::unordered_map<TermPairKey, sat::Lit, TermPairKeyHash> true_lra_le_reasons_;
