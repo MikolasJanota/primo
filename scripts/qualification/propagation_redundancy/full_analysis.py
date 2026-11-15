@@ -250,7 +250,7 @@ def main() -> None:
     assert (
         list(protocol["profiles"]) == ["rows", "both"] and protocol["repetitions"] == 3
     )
-    records, receipts = [], []
+    records, receipts, resource_diagnostics = [], [], []
     runner_sha256 = sha(ROOT / "scripts/qualification/lia_hybrid/run.py")
     for rep in range(3):
         config_path = args.configs / f"config-{rep}.json"
@@ -302,6 +302,39 @@ def main() -> None:
                 ] + case.get("extra_args", [])
                 if solved(row) and case.get("expected") in ("sat", "unsat"):
                     assert row["answer"] == case["expected"]
+                if (
+                    (row["status"] == "ok" and row["answer"] == "unknown")
+                    or row["status"] == "error"
+                    or (
+                        row["status"] == "timeout" and row["answer"] in ("error", "sat")
+                    )
+                ):
+                    diagnostic_path = directory / (row["profile"] + ".stderr")
+                    diagnostic = [
+                        line
+                        for line in diagnostic_path.read_text().splitlines()
+                        if line.strip() and not line.startswith(":")
+                    ]
+                    if row["status"] == "ok":
+                        assert diagnostic == ["integer branch-and-bound node limit"], (
+                            diagnostic
+                        )
+                    elif row["answer"] == "error":
+                        assert (
+                            diagnostic == ["std::bad_alloc"] and row["exit_code"] == 2
+                        ), diagnostic
+                    resource_diagnostics.append(
+                        {
+                            "slot": slot,
+                            "repetition": rep,
+                            "profile": row["profile"],
+                            "status": row["status"],
+                            "answer": row["answer"],
+                            "exit_code": row["exit_code"],
+                            "diagnostic": diagnostic,
+                            "stderr_sha256": sha(diagnostic_path),
+                        }
+                    )
                 variant, mode = row["profile"].split("-", 1)
                 if variant == "candidate":
                     counters(
@@ -350,6 +383,11 @@ def main() -> None:
             str(r): sha(args.configs / f"config-{r}.json") for r in range(3)
         },
         "native_rows": len(records),
+        "aggregate_outcomes": dict(
+            collections.Counter(r["status"] + "/" + r["answer"] for r in records)
+        ),
+        "resource_diagnostics": resource_diagnostics,
+        "resource_scope": "Normal unknowns must have the expected private-node-limit diagnostic. Errors must be handled exit2 bad_alloc. Timeout status overrides every printed answer/error; late SAT and allocation-diagnostic rows remain unsolved and are not selected for model validation.",
         "selected_SAT": selected_sat,
         "SAT_Dolmen_pass": selected_sat,
         "profiles": {
