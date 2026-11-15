@@ -39,7 +39,7 @@ class ArithmeticPropagationQueue {
     if (coalesce_) {
       var = static_cast<std::size_t>(std::abs(lit));
       if (var >= pending_.size()) pending_.resize(std::max(var + 1, pending_.size() * 2));
-      if (pending_[var][lit > 0 ? 1U : 0U] != 0) {
+      if (pending_[var][lit > 0 ? 1U : 0U]) {
         statistics.increment(util::StatKey::LraPropagationSuppressedDuplicates);
         return;
       }
@@ -49,7 +49,7 @@ class ArithmeticPropagationQueue {
         lit, {reasons.begin(), reasons.end()}, row_based, bidirectional, variable_equality});
     statistics.increment(util::StatKey::LraPropagationCandidates);
     if (coalesce_) {
-      ++pending_[var][lit > 0 ? 1U : 0U];
+      pending_[var][lit > 0 ? 1U : 0U] = true;
       statistics.increment(util::StatKey::LraPropagationUniqueCandidates);
     } else {
       statistics.increment(util::StatKey::LraPropagationUntrackedCandidates);
@@ -77,13 +77,13 @@ class ArithmeticPropagationQueue {
 
  private:
   void removed(int lit) {
-    auto& count = pending_.at(static_cast<std::size_t>(std::abs(lit)))[lit > 0 ? 1U : 0U];
-    assert(count > 0);
-    --count;
+    auto& marked = pending_.at(static_cast<std::size_t>(std::abs(lit)))[lit > 0 ? 1U : 0U];
+    assert(marked);
+    marked = false;
   }
 
   bool coalesce_;
-  std::vector<std::array<std::size_t, 2>> pending_;
+  std::vector<std::array<bool, 2>> pending_;
   std::deque<Candidate> entries_;
 };
 

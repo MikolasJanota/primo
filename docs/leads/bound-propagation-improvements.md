@@ -354,3 +354,8 @@ disabled and accepts a large sparse literal ID without a dense allocation.
 Keep the default-mode path proportional to queue payload, while tracking in the
 opt-in row mode retains the stated `O(N+V)` bound. This is a guard on the audit's
 own cost; it introduces no inference or SAT decision policy.
+
+In the coalesced queue each signed literal has at most one pending occurrence,
+so markers store Boolean presence rather than full multiplicity counters. The
+unfiltered audit control keeps multiplicities; it is a separate measurement
+implementation.
