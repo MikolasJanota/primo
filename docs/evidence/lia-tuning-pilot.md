@@ -87,10 +87,22 @@ checks exact options, input/configuration hashes and all-SAT coverage. The
 {liatuningtools}`submission controller <scripts/qualification/lia_tuning/submit.py>`
 preflights and holds arrays until their whole-array dependencies are verified.
 The finite-cap configuration/audit tool is
-`scripts/qualification/lia_tuning/probes.py`. Its first 32 native probes and
-all 10 SAT model replays passed. Fresh generated/regression gates have finished;
-mutation qualification and resource-diagnostic replay are still being audited.
-No primary timing result is qualified yet. Defaults remain unchanged.
+{liatuningtools}`finite-cap and resource-replay auditor <scripts/qualification/lia_tuning/probes.py>`. All 32 native probes and
+10 SAT model replays passed. The
+{download}`qualification inventory <../../benchmarks/lia-tuning-20261116/qualification.json>`
+accepts all 96 exact-option receipts: 32,000 generated inputs (31,810 agreement
+passes, 188 timeouts and two reference timeouts), 256 tracked regression
+measurements, 384 original real seeds (all agreement passes), and 11,520
+mutants (11,230 agreement passes; 289 native timeouts and one diagnosed
+private-node-limit unknown). All **29,767 successful native SAT gate results**
+passed Dolmen. Resource-incomplete cases do not become agreement passes.
+The {download}`unknown replay <../../benchmarks/lia-tuning-20261116/resource-unknowns.json>`
+confirms the exact private-node diagnostic and positive budget-exit counter;
+the {download}`finite-cap inventory <../../benchmarks/lia-tuning-20261116/resource-probes.json>`
+contains 10 SAT, eight UNSAT and 14 diagnosed atom-limit unknowns.
+Three sequential primary timing arrays are running or queued, with dependent
+all-SAT model arrays queued. No primary timing result is qualified yet; defaults
+remain unchanged.
 
 The native budget and history belong to
 {arithmeticcombsource}`lia_branch_and_bound.cpp <src/theory/arithmetic/lia_branch_and_bound.cpp>`;

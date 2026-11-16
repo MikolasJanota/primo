@@ -1,0 +1,984 @@
+{
+  "source": "4f02a8b7",
+  "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+  "counts": {
+    "generated_inputs": 32000,
+    "generated_PASS": 31810,
+    "generated_TIMEOUT": 188,
+    "generated_REFERENCE_UNUSABLE": 2,
+    "tracked_regression_measurements": 256,
+    "mutations_inputs": 11520,
+    "mutations_PASS": 11230,
+    "mutations_INCOMPLETE": 290
+  },
+  "SAT_Dolmen_pass": 29767,
+  "receipt_inventory": [
+    {
+      "phase": "generated",
+      "slot": 0,
+      "logic": "QF_LIA",
+      "profile": "r0-PVT",
+      "receipt_sha256": "1b3efa72be279d410094a156c88a4bc7fbde44594d25447f133e755d4ab5ad71",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 1,
+      "logic": "QF_LIA",
+      "profile": "r0-H0",
+      "receipt_sha256": "4db4d6e72332f7ca33916b8f4a0887abf63059af2a112f5eecef661f0a07d9fd",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 2,
+      "logic": "QF_LIA",
+      "profile": "r0-H1k",
+      "receipt_sha256": "72c0fdd77f9bf3982a9bae98942ba652713be63246a94407c05425e2e9d41c96",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 3,
+      "logic": "QF_LIA",
+      "profile": "r0-H1",
+      "receipt_sha256": "f898f44e3b71a9260c3ef8b71e7db55720f1ee29b0e1fbafeda6755b898b9974",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 4,
+      "logic": "QF_LIA",
+      "profile": "r0-H16k",
+      "receipt_sha256": "865d7020137c1177a5ad1d0dcb20d79a46b529af5a8adfb5bc7be7c861a5c218",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 5,
+      "logic": "QF_LIA",
+      "profile": "r0-H16",
+      "receipt_sha256": "4094b395f3293fdb88f08f1b7961d76430dcbbbeb3d1188e2d29ffb5a0d6292c",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 6,
+      "logic": "QF_LIA",
+      "profile": "r0-H4096k",
+      "receipt_sha256": "6168da31a3e57412f074732bc4d31ce904fc8ca053ff1de6522454deb28e5e69",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 7,
+      "logic": "QF_LIA",
+      "profile": "r0-H4096",
+      "receipt_sha256": "c907703404173c6dc4cee737ef26ee78f790abde4ce8e0f9e7454ba5b80edb31",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 8,
+      "logic": "QF_LIA",
+      "profile": "r1-PVT",
+      "receipt_sha256": "29b8ff498799065fe4e1616e0be1b4de260672083fb2a648ec6fba6118dbe91d",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 9,
+      "logic": "QF_LIA",
+      "profile": "r1-H0",
+      "receipt_sha256": "e5e9fef997db5bb5eb817ea1349fd18fbe87fb02e7910ca71751417e29b56187",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 10,
+      "logic": "QF_LIA",
+      "profile": "r1-H1k",
+      "receipt_sha256": "fc2f33394481c597bb45c6a1ab67d5e05bcfa7ccb4c6cbc6e4e1763c5e1d91b2",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 11,
+      "logic": "QF_LIA",
+      "profile": "r1-H1",
+      "receipt_sha256": "c562d6133a8013c1e677f0a05858a28d0273bf45e8cef91a63f98aa60272331f",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 12,
+      "logic": "QF_LIA",
+      "profile": "r1-H16k",
+      "receipt_sha256": "cb47ffba1677d06e27347a838682741511b4d14ca2910828f059a2d50f220ed0",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 13,
+      "logic": "QF_LIA",
+      "profile": "r1-H16",
+      "receipt_sha256": "0825b0967b3bd73135dbdcfa4cc0152348564da252f327b17c416903efee0019",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 14,
+      "logic": "QF_LIA",
+      "profile": "r1-H4096k",
+      "receipt_sha256": "0f61c78e4e2dbb242179fbe6d45de5b14d312aab005c206840ba90d5ada01d91",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 15,
+      "logic": "QF_LIA",
+      "profile": "r1-H4096",
+      "receipt_sha256": "62dcdd94c0cf43cd3c4985f047c0cf8246ea2375e5b5cee691744d5294b41ae2",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 16,
+      "logic": "QF_UFLIA",
+      "profile": "r0-PVT",
+      "receipt_sha256": "14f277d1cc0a8c94e632aea44d9b97d105e89804afd0efc615e3080d5f3e4752",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 17,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H0",
+      "receipt_sha256": "bfb95429fdb2828e0bae52e6618e2367ec32a431df6abbf5adc2bc54671d36a8",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 18,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H1k",
+      "receipt_sha256": "84da789782074e2753f8a183f2a8e65226da1f364062b9aa37c42a20205800c2",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 19,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H1",
+      "receipt_sha256": "e0cff6167891f49a6d611b159a9f7ac655f6377e1ffcc8fdffbeab9c77b639e3",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 20,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H16k",
+      "receipt_sha256": "63e58ee4b061dca35b32a8cad4ee0df3ae1271b9587bba57ceee46f2dc0f04d1",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 21,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H16",
+      "receipt_sha256": "10a5c2b503c966ea22acdfae8603a37190f62cb7ae9c4a5c34e27f06adf7d813",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 22,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H4096k",
+      "receipt_sha256": "f94ac89dcde8980aae05531c0a777712f5efd6e4ccd8032bc30528be476b45b3",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 23,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H4096",
+      "receipt_sha256": "8ce028c30aa6e37c0f1e8bbc00d607cb36b621a12ca756ef91d74a2b16c7e7aa",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 24,
+      "logic": "QF_UFLIA",
+      "profile": "r1-PVT",
+      "receipt_sha256": "ba118490a897cd3010d44ee497233ce30959d54faf858cbbf27c9408e1715fc7",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 25,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H0",
+      "receipt_sha256": "21e842772bfc20205aff487af76dba5cb23efc18cbbacefdde708259e13821b1",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 26,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H1k",
+      "receipt_sha256": "f4a09fb354132d0b03f2b14914befbdb5ef815905f99b48babb1b1be968d3f88",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 27,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H1",
+      "receipt_sha256": "25a692a1910e0ed7ff1cbe84e8b708437582b7931a9f04a6f123ebd3824ec2a5",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 28,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H16k",
+      "receipt_sha256": "379dfa4c8e50bde30677e4693a99ade705f1d3a7e3214baaf57f92f8068cba3e",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 29,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H16",
+      "receipt_sha256": "88b8f7b2b85f7c90b76aef58e84d6a4731211182879dfa2bf31d39c1eeb6b104",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 30,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H4096k",
+      "receipt_sha256": "7bee32b7808e6e48d65fcebca3242c707d0b00aaac505a9f21581d5c54d29850",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "generated",
+      "slot": 31,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H4096",
+      "receipt_sha256": "47eb791cb73ab4ac4909d317425e514144eeb93b2b024ec806cd50009bc9e49d",
+      "cases": 1000,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 0,
+      "logic": "QF_LIA",
+      "profile": "r0-PVT",
+      "receipt_sha256": "66980230b6547fa3d6d7c23c30ca170d9e0b589887b0f9673eede5cb66ee52e5",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 1,
+      "logic": "QF_LIA",
+      "profile": "r0-H0",
+      "receipt_sha256": "752a89d1e46c09488179c56350515c4886db32ab22223ece1c4c72664d2b148e",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 2,
+      "logic": "QF_LIA",
+      "profile": "r0-H1k",
+      "receipt_sha256": "bc763c6001c1f7c6bffb8a1900bddb387734d8580c83b09c2b30ab6ff33473bc",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 3,
+      "logic": "QF_LIA",
+      "profile": "r0-H1",
+      "receipt_sha256": "2c556b39f43aea331032fd3b010077a8d8d3f2c4d1129af937ec5694b6f86781",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 4,
+      "logic": "QF_LIA",
+      "profile": "r0-H16k",
+      "receipt_sha256": "6952734c3a48f4bae9440d6ceb9a8003779cda387d3c9a401e83f55052b21766",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 5,
+      "logic": "QF_LIA",
+      "profile": "r0-H16",
+      "receipt_sha256": "2cfc5cefaa6953954f2847008aa10b47b52d09cc9a2bab4f96153e2a260bcfb4",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 6,
+      "logic": "QF_LIA",
+      "profile": "r0-H4096k",
+      "receipt_sha256": "62a10028feb8405ae23811ca51ed42918f52b917bd9295d73f1d12aa067e447f",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 7,
+      "logic": "QF_LIA",
+      "profile": "r0-H4096",
+      "receipt_sha256": "56afa113e107810e3ab15158938e5518211abce28fc9c1b9c38cbd42e4c56df7",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 8,
+      "logic": "QF_LIA",
+      "profile": "r1-PVT",
+      "receipt_sha256": "c328c9be5fcef9257a0fd8fbd6d9aa78968d4f627c694c208c35572c00dfaed2",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 9,
+      "logic": "QF_LIA",
+      "profile": "r1-H0",
+      "receipt_sha256": "514fc57e0d464cdf993b40a33a269a45a3638483e77973fd08dad4ac8d34b2f2",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 10,
+      "logic": "QF_LIA",
+      "profile": "r1-H1k",
+      "receipt_sha256": "83acd6576e5c3a8c527104941703ed7e5d24e1b44c7bce397df40f82634b6c0e",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 11,
+      "logic": "QF_LIA",
+      "profile": "r1-H1",
+      "receipt_sha256": "7c2b264b19a7f8b5c4211164b233c919bb864da1d48bf721a4c698e4663775e5",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 12,
+      "logic": "QF_LIA",
+      "profile": "r1-H16k",
+      "receipt_sha256": "52e9e481fab0f935ee6f6b8da26363be78a9bee7b01cc2754be1d4980c6750ab",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 13,
+      "logic": "QF_LIA",
+      "profile": "r1-H16",
+      "receipt_sha256": "ad10d7dc101df4ba16a7f839358fe316317e51e0513523dc22f2ddaa1858eda0",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 14,
+      "logic": "QF_LIA",
+      "profile": "r1-H4096k",
+      "receipt_sha256": "09af184a2e4d65678223665f67e4f2cadbc89c2af2284d1dcb31af07e6b318a8",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 15,
+      "logic": "QF_LIA",
+      "profile": "r1-H4096",
+      "receipt_sha256": "146fb489f3f009515bcc4749207acd7d52480b36c1f20a9bbdde6d35deea9739",
+      "cases": 9,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 16,
+      "logic": "QF_UFLIA",
+      "profile": "r0-PVT",
+      "receipt_sha256": "9ef4dd48cbbd9db65ed7abf280f7497682a5d6b6703a3a489f3e555a83ba52e0",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 17,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H0",
+      "receipt_sha256": "4676a0b2f38303d38c9878039d461d9c595d63f14c6e280ac41ced9e6cafd138",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 18,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H1k",
+      "receipt_sha256": "3ec810f3208c89719363bb13f5600de21871148c4b67ea82127c4196df5de15e",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 19,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H1",
+      "receipt_sha256": "c51f53ebd3959ce2ff1386ff4e0fec1d0449c35c3f0e199a5ca829b7fd3d338a",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 20,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H16k",
+      "receipt_sha256": "3ca1ae547fd9789a1d75012c810d5d2021007ae7f8ae0227caca71b92b3ecfac",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 21,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H16",
+      "receipt_sha256": "e8bd94f3506090a73ed54e363f41ec78406953bde48b9a4b47c5fd6bda048982",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 22,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H4096k",
+      "receipt_sha256": "8015de8357ab13f6d963d02f114e804ab5ec4bc86aef8959e5aa3db50911e028",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 23,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H4096",
+      "receipt_sha256": "bff6e69858f43a8e39d59e6ac1d1c1eccd62fad80635bba76e59e463fb73fde1",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 24,
+      "logic": "QF_UFLIA",
+      "profile": "r1-PVT",
+      "receipt_sha256": "2f4787a14092a3808cec4fe6492fe559eeb032955e118859189ac72bcfae836a",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 25,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H0",
+      "receipt_sha256": "fe30475a6f694ab46f6ef26c9775ba6b0584b433109e9cb6e5dc43ef61a97eda",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 26,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H1k",
+      "receipt_sha256": "015fdc6d04664b3a1f523ce7794e3a7fb4460a999be8ddcfdc171c45a33259ca",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 27,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H1",
+      "receipt_sha256": "e05ee4636d6f85e3413e3a793ebec52bc3642f27706197c3325155a46f34e15b",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 28,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H16k",
+      "receipt_sha256": "9d5a5795d8cde954f778322d2abece23e91f1e904ead36e4814b61b17afb3c0b",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 29,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H16",
+      "receipt_sha256": "e6e2df423e1552e1c263e0ed0140bec3d89ca83a369a601cf6363ffd555a4274",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 30,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H4096k",
+      "receipt_sha256": "cdc45a9a6f519e46e8a618c44d1f9ce3d36ee4785bd3ebf8c02eb058b5727e5a",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "seeds",
+      "slot": 31,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H4096",
+      "receipt_sha256": "c9b3fb4cfc859d2890b42f54b07bc14cc238ef94bdef5650be999bc4a03541a4",
+      "cases": 7,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 0,
+      "logic": "QF_LIA",
+      "profile": "r0-PVT",
+      "receipt_sha256": "c8b6ef1f18b5cb1995487559f24bd6f0847f869282e620ceb65b765b3e62ba53",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 1,
+      "logic": "QF_LIA",
+      "profile": "r0-H0",
+      "receipt_sha256": "eeb88154f368a866856586fc1b07295e43e86129f58beca224cff8695f102dee",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 2,
+      "logic": "QF_LIA",
+      "profile": "r0-H1k",
+      "receipt_sha256": "c155edbb87a46d2c6466051dc06d7f563a3c5420d577cc33ce7277f65e0a9b5c",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 3,
+      "logic": "QF_LIA",
+      "profile": "r0-H1",
+      "receipt_sha256": "149fdc8974e8ba2b595920839c704f54b9bcac656c4ed9a4c8d07abdf1fdfd40",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 4,
+      "logic": "QF_LIA",
+      "profile": "r0-H16k",
+      "receipt_sha256": "215aae6dad24ecc30a87703de690b094e91ab4db03edcd374cd160773b3fabc3",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 5,
+      "logic": "QF_LIA",
+      "profile": "r0-H16",
+      "receipt_sha256": "47007c34b3d0ab3c5b0b711d1105f8a1c5a23f0b2527ecfb5d2e0a3862553b7d",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 6,
+      "logic": "QF_LIA",
+      "profile": "r0-H4096k",
+      "receipt_sha256": "0526624912742872d4eca378124569a3a0a3394eaad734d8242e205f46e16579",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 7,
+      "logic": "QF_LIA",
+      "profile": "r0-H4096",
+      "receipt_sha256": "4df71a3116fa31e71c8c337c9c529db120f01e7b60570f15be0315a927d3c484",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 8,
+      "logic": "QF_LIA",
+      "profile": "r1-PVT",
+      "receipt_sha256": "a55c21f46b68dff85e58ed24fe421ffcf8ce3263d29240592711ebf5e55ec9dd",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 9,
+      "logic": "QF_LIA",
+      "profile": "r1-H0",
+      "receipt_sha256": "650ce0a076f64d5d00e71b7ed13a854e5d6ffd872b6fa10bc91d4da8289dc8dd",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 10,
+      "logic": "QF_LIA",
+      "profile": "r1-H1k",
+      "receipt_sha256": "925ef8b41917ae2fd80137d5e98abacdc25ef00b4f365b67675ed429aa7ceef0",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 11,
+      "logic": "QF_LIA",
+      "profile": "r1-H1",
+      "receipt_sha256": "93eb9fbb15ca23973923a03ece98deed52d99525f39a65ec3e91dce0e15092a1",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 12,
+      "logic": "QF_LIA",
+      "profile": "r1-H16k",
+      "receipt_sha256": "38b14d7c03f914f356da7957ce71cc89c8bbbfcf5839641f35a35a3633530072",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 13,
+      "logic": "QF_LIA",
+      "profile": "r1-H16",
+      "receipt_sha256": "d7c64bbbb94c97f23d249de080c9bcb3ed6e2d9d82ac4f62ac6e7926b2a8b470",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 14,
+      "logic": "QF_LIA",
+      "profile": "r1-H4096k",
+      "receipt_sha256": "1afd7b3a2531cda59c72b47060d348e6bac9d2e9cfb673026678a354dae6157d",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 15,
+      "logic": "QF_LIA",
+      "profile": "r1-H4096",
+      "receipt_sha256": "0f7d9b3095d4354a20f3fb54463be520ad0a8b97a7c24e09cd1189ae453098aa",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 16,
+      "logic": "QF_UFLIA",
+      "profile": "r0-PVT",
+      "receipt_sha256": "b89fd71427fae0dce2f379c96b9b3ab155893dc79e9884edff223d828d8baed4",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 17,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H0",
+      "receipt_sha256": "2140d7ca83fb1b3478f26ace8f4afff8fd658f9cc906816e6f3d0d2a2b611b5d",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 18,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H1k",
+      "receipt_sha256": "2f8a1cb3cd8f9833fcaa88ef2967c7df0f40c9ca891bfa3ed057fae33d506a02",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 19,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H1",
+      "receipt_sha256": "3f9a2e7faebb648bc5ed5a7c3ffaa97ba4475beb622c5b7a12a834cfebe5e5dd",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 20,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H16k",
+      "receipt_sha256": "e99a979f26213a236857759d1298b9f84055fcd54a02a1b9eb4f080028ebb4ba",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 21,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H16",
+      "receipt_sha256": "674c3216334dbea4f2f991490da3970b133293d5a6bb4acc347865c32c44b08c",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 22,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H4096k",
+      "receipt_sha256": "c389c6bc90a5be11aae0ff2f3616d65396fd448d855c4ade81a1b37c3c24fb81",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 23,
+      "logic": "QF_UFLIA",
+      "profile": "r0-H4096",
+      "receipt_sha256": "bed2dfdc3968e732fa8eae30323ff39f12c72ab3537e75f4765c265e5ee43d1b",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 24,
+      "logic": "QF_UFLIA",
+      "profile": "r1-PVT",
+      "receipt_sha256": "31930f7b97cee6a35814afa2bc779f60e17fc0c192e4e7fc9b4a3cd7da6c187a",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 25,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H0",
+      "receipt_sha256": "3b94709ff1191b36696eb03f7976e4529a3278ca62e90775061e03df342ef657",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 26,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H1k",
+      "receipt_sha256": "8b78b31dae41ae752ddf9e2cc9ab5ad813d0956c4e69396ab54f5c2db2ca1624",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 27,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H1",
+      "receipt_sha256": "161c679f663ac3ca3ebf0be12c5110aa0933cef8e0c266a2dd99c6266049864e",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 28,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H16k",
+      "receipt_sha256": "41a2dc599d33c8590a490d4883e797ddf24d81896382962173247f3b167ddd8f",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 29,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H16",
+      "receipt_sha256": "564c3b8a8d09a75f1b42421c85a2b1f5d2e62b64339b344a330754cf18359e17",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 30,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H4096k",
+      "receipt_sha256": "8cc2d9b17f35d830bfbc261220e9d7ff02b7a1f8f9a2056abece4edea23762c5",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    },
+    {
+      "phase": "mutations",
+      "slot": 31,
+      "logic": "QF_UFLIA",
+      "profile": "r1-H4096",
+      "receipt_sha256": "1082eec2de3b75078f076161be7cf9273e0f6089be77fc8558ec48a45509d42b",
+      "cases": 360,
+      "source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff"
+    }
+  ],
+  "resource_unknown_audit": "resource-unknowns.json",
+  "status": "qualified exact-option pilot gates only",
+  "mutation_incomplete_breakdown": {
+    "timeout/sat": 216,
+    "unknown/sat": 1,
+    "timeout/unsat": 73
+  }
+}

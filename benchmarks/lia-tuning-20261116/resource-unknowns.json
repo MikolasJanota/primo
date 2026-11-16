@@ -1,0 +1,26 @@
+{
+  "diagnosed_unknowns": 1,
+  "replays": [
+    {
+      "index": 0,
+      "task_slot": 8,
+      "input_sha256": "37a93edeb4dff8ea9e68195e22ca2c1bebe9d35e2466d0ad469392abcc2b1ef4",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000",
+        "--check-model"
+      ],
+      "diagnostic": "integer branch-and-bound node limit",
+      "outcome": "resource-incomplete",
+      "rows_sha256": "c44450ee5f8a2fddb5e5638374fed41d89be08a3de1d025476c87b66a4826be9",
+      "provenance_sha256": "072b4341aa3828a7967f71a4f99bf1b6817c8671da06238d5392d5cac9a29e35"
+    }
+  ]
+}

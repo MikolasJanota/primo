@@ -7,11 +7,11 @@
       "date": "2026-11-16",
       "branch": "lia-integrality",
       "kind": "Bounded hybrid-parameter correctness and tuning pilot",
-      "evidence_status": "Fresh generated and tracked regression stages passed; mutation audit/resource diagnostic replay in progress; 32 finite-cap probes and 10 SAT model replays accepted; primary timing not started.",
+      "evidence_status": "Fresh exact-option gates and finite-cap correctness probes qualified; primary paired timing/model arrays running; no parameter/default claim.",
       "native_source": "4f02a8b7",
       "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
       "build_provenance": "Reuse immutable helper --build-via-slurm Release build/check;49 native groups/357 Python pass; no solver/build changes. Helper --check-only immediately before each submission.",
-      "reporting_source": "16cebe2e",
+      "reporting_source": "784e0290",
       "protocol": "benchmarks/lia-tuning-20261116/protocol.json",
       "selection": "benchmarks/lia-tuning-20261116/selection.json",
       "scope": "Factors0,1,16,4096; caps1024/100000;zero-factor duplicatecollapsed;privatecontrol=8policies;rowsoff/on,Poff;40target-enriched inputs20perlogic;3reps30s/8GiB=1920primarynative rows; notglobaltuning.",
@@ -21,8 +21,38 @@
         "mutation_base": 2026114100
       },
       "raw_artifacts": "results/lia-tuning-20261116; privateSSH/rootmapping outsidetrackedfiles",
-      "checks": "Three pure profile/dependency tests pass; make lint, make docs pass; fresh assembled-site linkcheck and final independent review pending.",
-      "remaining": "Finish local resource/audit tooling; audit newcorrectnessgates/probes; pairedSLURM pilot+allSATmodels; summarizeparamtradeoffs; independentdocsreview/fullbuild/render; commits; no defaultpromotion."
+      "checks": "Three pure profile/dependency tests pass; make lint, make docs and make docs-check-links pass; 304 pages, 45677 local links, 1361 Git links, zero failures. Native source/build inputs unchanged from qualified 4f snapshot; no fresh C++ static/ASan run.",
+      "remaining": "1920 paired SLURM pilot rows + every successful SAT model replay; analyze parameter tradeoffs; independent final documentation review/build/render; final commits; no default promotion.",
+      "documentation_review": {
+        "reviewer": "lia_tuning_docs_review (independent read-only)",
+        "verdict": "Protocol/tooling ready; LT-DOC-01/02/03 and LT-S01 resolved; final qualification/results/rendering outside acceptance.",
+        "accepted_page_sha256": "2ff1abd012d943df93a38e4075c436ad90b045de26356b21060556bfa6780749",
+        "qualification": {
+          "verdict": "Ready; exact96 receipts/options/campaign and29767directSATmodels independently verified; timings/render outside acceptance.",
+          "accepted_page_sha256": "3bf19f84c05c42984bc7eec646b8f3bd8b56edd5bde312e4dd0d01cc4ab9e247"
+        }
+      },
+      "qualification_artifact": "benchmarks/lia-tuning-20261116/qualification.json",
+      "resource_artifacts": [
+        "benchmarks/lia-tuning-20261116/resource-probes.json",
+        "benchmarks/lia-tuning-20261116/resource-unknowns.json"
+      ],
+      "gate_counts": {
+        "generated": 32000,
+        "generated_pass": 31810,
+        "generated_timeout": 188,
+        "reference_timeout": 2,
+        "tracked_regression_measurements": 256,
+        "original_real_seeds_pass": 384,
+        "mutants": 11520,
+        "mutant_pass": 11230,
+        "mutant_timeout": 289,
+        "mutant_diagnosed_resource_unknown": 1,
+        "all_SAT_Dolmen_pass": 29767,
+        "wrong_answer": 0,
+        "crash": 0,
+        "invalid_model": 0
+      }
     },
     {
       "id": "2026-11-15-arithmetic-combinations",

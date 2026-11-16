@@ -108,7 +108,7 @@ sphinx:
         - "https://github.com/primo-solver/primo/blob/b0ea8e6d/%s"
         - "%s"
       liatuningtools:
-        - "https://github.com/primo-solver/primo/blob/16cebe2e/%s"
+        - "https://github.com/primo-solver/primo/blob/784e0290/%s"
         - "%s"
       arithmeticcombsource:
         - "https://github.com/primo-solver/primo/blob/4f02a8b7/%s"
