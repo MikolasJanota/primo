@@ -131,7 +131,10 @@ keeps this prototype out of persistent assumptions sessions. The new
 {source}`ConflictAckermannSelector <src/smt/conflict_ackermann.hpp>` owns only semantic
 pair keys, existing equality literals and visit-generation metadata. These
 additions are implemented in the working prototype; native qualification and
-performance evidence are still pending.
+performance evidence are still pending. The first GCC build/native checks and
+ASan passed; whole-tree Clang analysis found a trace-state initialization
+compatibility issue. Explicit aggregate initialization replaces `optional::emplace`;
+qualification must use the repaired build.
 
 For binary f, the clause is `(a≠b) ∨ (c≠d) ∨ (f(a,c)=f(b,d))`. With false
 result equality and `a=b`, only `c≠d` is forced. Trace steps involving internal `f(a)`/`f(b)` curry prefixes are always skipped:

@@ -67,7 +67,9 @@ void FlatCongruenceClosure::enable_conflict_congruence_trace(std::size_t limit) 
       explanation_search_mode_ == FlatExplanationSearchMode::StructuralProofForest)
     throw std::invalid_argument(
         "conflict Ackermann prototype requires BFS or proof-forest explanations");
-  conflict_trace_.emplace();
+  // Explicit aggregate construction avoids Clang/libstdc++'s default-
+  // constructibility trait issue for this private nested state type.
+  conflict_trace_ = ConflictTraceState{};
   conflict_trace_->limit = limit;
 }
 

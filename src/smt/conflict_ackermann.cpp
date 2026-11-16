@@ -1,8 +1,15 @@
 #include "smt/conflict_ackermann.hpp"
 
 #include <algorithm>
+#include <cstddef>
+#include <cstdint>
+#include <optional>
 #include <string>
 
+#include "core/ids.hpp"
+#include "core/term.hpp"
+#include "sat/clause.hpp"
+#include "sat/lit.hpp"
 namespace primo::smt {
 
 std::uint64_t ConflictAckermannSelector::pair_key(core::TermId lhs, core::TermId rhs) {
