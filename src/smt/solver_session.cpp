@@ -620,6 +620,13 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
                    frontend.nullary_definition_eager_compiles());
     statistics.set(":frontend.define-fun.nullary-cache-entries",
                    frontend.nullary_definition_eager_compiles());
+    if (options.euf_conflict_ackermann || options.euf_conflict_ackermann_diagnostics) {
+      const auto logic = frontend.logic();
+      if (logic != std::optional<std::string>("QF_UF") &&
+          logic != std::optional<std::string>("QF_UFLIA"))
+        return finish(CheckSatResult::Unsupported,
+                      "conflict Ackermann prototype requires explicit QF_UF or QF_UFLIA logic");
+    }
     if (frontend.requested_model()) {
       if (!frontend.produce_models()) {
         return finish(CheckSatResult::Unsupported, "get-model requires :produce-models true");

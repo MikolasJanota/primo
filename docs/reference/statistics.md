@@ -1300,3 +1300,25 @@ bound check first discovers an internal conflict. Repeated availability checks
 for one pending clause do not increment it again. At exhaustion a complete SAT
 candidate may unwind the backend; the runtime must replace that candidate with
 `unknown` before any model or definitive solver answer is accepted.
+
+## Conflict-selected Ackermann prototype
+
+Both conflict-Ackermann options record `:euf.conflict-ack.*` counters on the
+actual incremental online EUF path. `conflicts`, `trace-steps`, `trace-kept`,
+`trace-truncations` describe conflict-explanation visits and its bounded prefix.
+`prefix-steps` counts retained flat pairs without two complete semantic terms.
+`semantic-pairs` counts new catalogue entries per propagator instance;
+`duplicate-pairs`, `catalog-limit`, `width-skips`, `nonmatching-pairs` and
+`tautologies` describe selector outcomes. `missing-result` counts absent result
+equalities; `missing-argument` counts absent argument-equality occurrences on
+examined pairs, so repeated argument positions can contribute repeatedly.
+`ready-clauses`, `queued-clauses`, `sent-clauses`, `sent-lits` distinguish
+construction, queue insertion and complete external-clause streaming.
+`peak-pairs` and `peak-pending` are maxima across propagator instances.
+
+Missing-atom coverage concerns the retained trace prefix and current equality
+index, not every congruence merge or hypothetical all-pairs reduction. Completed
+pairs are deduplicated; missing pairs can be retried after index growth. Delivery
+is not evidence that the backend retained/reused a clause. Diagnostic-only
+mode queues and sends none. These counters are experimental, default off, and
+currently undergoing qualification.

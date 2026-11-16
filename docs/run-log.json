@@ -3,6 +3,27 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-16-conflict-ackermann-prototype",
+      "date": "2026-11-16",
+      "branch": "lia-integrality",
+      "kind": "Bounded existing-atom conflict-selected Ackermann prototype",
+      "evidence_status": "Source prototype/static syntax checks complete; SLURM native qualification and evaluation pending; no default/performance claim.",
+      "baseline_source": "fca39be2; native implementation equivalent to frozen4f02a8b7",
+      "baseline_native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+      "design": "docs/leads/conflict-ackermann-prototype.md",
+      "scope": "QF_UF/QF_UFLIA incremental online/conflict path; one-sided/bidirectional/oldproof-forest; existing equality atoms only;64traceprefix/4096catalogue/32rawwidth engineering limits; bothflagsdefaultoff; freshatomgrowth and optimizedprooftracing deferred.",
+      "planned_gates": "Fresh exact-option candidateoff/diagnostic/emitting \u00d72logics \u00d71000generated +trackedregressions +12realseeds/task mutations; allSAT directDolmen before timings.",
+      "planned_evaluation": "Freeze target-enriched40cases/logic before runs; frozenbaseline/candidateoff/diagnostic/emitting,3reps30s/8GiB=960native timings; allSATseparatelyDolmen; memory/mechanism and qualified accepted/rejected decision; no globaltuning.",
+      "checks": "Changed theory/SMT translationunits and added tests pass g++ C++20 syntax-only with IPASIR enabled;make lint and make docs pass; CLI header unavailable locally, to be built through helper/SLURM. Native tests/ASan/static/fuzz/evaluation pending.",
+      "documentation_review": {
+        "reviewer": "conflict_ack_docs_review (independent read-only)",
+        "verdict": "Design unit ready;CAD-1/2/3 resolved;implementation/qualification/rendering/adjacent docs outside acceptance.",
+        "accepted_design_blob": "a2a83335603db0346dedd8fe1a89f1340a8825ab"
+      },
+      "raw_artifacts": "results/conflict-ackermann-20261116; private connection/workspace metadata excluded from tracked files",
+      "remaining": "SLURM helper build/check/ASan/whole-tree static; native/option regressions; freshgates;profile/pairedpilot/allSATmodels;reportdocsreview/render; finalcommits."
+    },
+    {
       "id": "2026-11-16-lia-tuning-pilot",
       "date": "2026-11-16",
       "branch": "lia-integrality",

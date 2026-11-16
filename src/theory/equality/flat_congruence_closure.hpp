@@ -15,6 +15,11 @@ namespace primo::theory::equality {
 
 class FlatCongruenceClosureTestAccess;
 
+struct ConflictCongruenceTrace {
+  std::vector<FlatEquality> steps;
+  std::size_t visited_steps = 0;
+};
+
 enum class FlatExplanationSearchMode {
   OneSidedBfs,
   BidirectionalBfs,
@@ -58,6 +63,10 @@ class FlatCongruenceClosure {
       const std::vector<FlatTermId>& terms) const;
   std::optional<std::vector<sat::Lit>> explain_equal(FlatTermId lhs, FlatTermId rhs) const;
   std::optional<std::vector<sat::Lit>> conflict() const { return conflict_; }
+  // Dutertre/de Moura (2006), Section 2 p.3: select congruence steps from
+  // conflict explanations. Bounded observation only; it never changes reasons.
+  void enable_conflict_congruence_trace(std::size_t limit = 64);
+  const ConflictCongruenceTrace* conflict_congruence_trace() const;
   void drain_changed_terms(std::vector<FlatTermId>& out);
   const IncrementalCongruenceClosureStats& stats() const { return stats_; }
   std::size_t checkpoint_depth() const { return checkpoints_.size(); }
@@ -180,6 +189,7 @@ class FlatCongruenceClosure {
   void record_conflict_reason_length(std::size_t length);
   ExplanationKey explanation_key(FlatTermId lhs, FlatTermId rhs) const;
   bool append_edge_reason(std::size_t edge_index, std::vector<sat::Lit>& reason) const;
+  void trace_conflict_congruence(const Edge& edge) const;
   bool explain_equal_into(FlatTermId lhs, FlatTermId rhs, std::vector<sat::Lit>& reason,
                           std::size_t max_edge_index) const;
   bool explain_equal_with_proof_forest_into(FlatTermId lhs, FlatTermId rhs,
@@ -207,6 +217,13 @@ class FlatCongruenceClosure {
                                                       std::vector<sat::Lit>& reason) const;
 
   std::vector<FlatTermId> parent_;
+  struct ConflictTraceState {
+    std::size_t limit = 0;
+    bool collecting = false;
+    ConflictCongruenceTrace current;
+    std::vector<ConflictCongruenceTrace> checkpoints;
+  };
+  mutable std::optional<ConflictTraceState> conflict_trace_;
   std::vector<std::size_t> class_size_;
   std::vector<std::vector<FlatTermId>> class_members_;
   std::vector<std::vector<FlatTermId>> use_lists_;

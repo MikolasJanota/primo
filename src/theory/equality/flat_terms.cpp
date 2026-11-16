@@ -95,6 +95,14 @@ std::optional<FlatTermId> FlatTermIndex::existing_flat_term(core::TermId term) c
   return found->second;
 }
 
+std::optional<core::TermId> FlatTermIndex::original_term(FlatTermId term) const {
+  if (term >= nodes_.size()) return std::nullopt;
+  const core::TermId original = nodes_[term].original;
+  const auto found = flattened_terms_.find(original);
+  if (found == flattened_terms_.end() || found->second != term) return std::nullopt;
+  return original;
+}
+
 FlatTermId FlatTermIndex::original_constant(core::TermId term) {
   if (const auto found = original_constants_.find(term); found != original_constants_.end()) {
     return found->second;

@@ -39,6 +39,7 @@
 #include "smt/check_sat.hpp"
 #include "smt/clausifier.hpp"
 #include "smt/component_solver.hpp"
+#include "smt/conflict_ackermann.hpp"
 #include "smt/formula_analysis.hpp"
 #include "smt/frontend.hpp"
 #include "smt/inconclusive_reason.hpp"
@@ -956,6 +957,16 @@ TermPairKey canonical_term_pair(core::TermId lhs, core::TermId rhs) {
   return TermPairKey{lhs, rhs};
 }
 
+void validate_conflict_ackermann_path(const CheckSatOptions& options, bool online) {
+  if (!options.euf_conflict_ackermann && !options.euf_conflict_ackermann_diagnostics) return;
+  if (!online || options.euf_engine != EufEngine::Incremental)
+    throw UnsupportedInput("conflict Ackermann prototype requires incremental online/conflict EUF");
+  if (options.euf_explain_search == EufExplainSearchMode::ReorientedProofForest ||
+      options.euf_explain_search == EufExplainSearchMode::StructuralProofForest)
+    throw UnsupportedInput(
+        "conflict Ackermann prototype requires BFS or proof-forest explanations");
+}
+
 struct FlatPairKey {
   theory::equality::FlatTermId lhs = theory::equality::kInvalidFlatTermId;
   theory::equality::FlatTermId rhs = theory::equality::kInvalidFlatTermId;
@@ -1339,7 +1350,8 @@ class IncrementalFlatAssignmentState {
                                  EufExplainSearchMode explain_search_mode,
                                  bool proof_forest_diagnostics, util::Statistics& statistics,
                                  bool flush_live_stats,
-                                 const PreparedFlatTheory* prepared = nullptr)
+                                 const PreparedFlatTheory* prepared = nullptr,
+                                 bool conflict_ackermann = false)
       : terms_(terms),
         pure_theory_filter_(pure_theory_filter),
         flat_(prepared ? prepared->flat : theory::equality::FlatTermIndex(terms)),
@@ -1349,6 +1361,7 @@ class IncrementalFlatAssignmentState {
                                 proof_forest_diagnostics)),
         statistics_(statistics),
         flush_live_stats_(flush_live_stats) {
+    if (conflict_ackermann) closure_.enable_conflict_congruence_trace();
     // Original session design: docs/assumption-incremental-uf.md. Copy only
     // structural definitions; no preceding query's assignments or reasons.
     if (prepared != nullptr) {
@@ -1481,6 +1494,26 @@ class IncrementalFlatAssignmentState {
   std::size_t flat_term_count() const { return flat_.size(); }
 
   std::optional<sat::Clause> conflict() const { return closure_.conflict(); }
+
+  std::vector<std::pair<core::TermId, core::TermId>> conflict_application_pairs() {
+    std::vector<std::pair<core::TermId, core::TermId>> result;
+    const auto* trace = closure_.conflict_congruence_trace();
+    if (!trace) return result;
+    statistics_.increment(":euf.conflict-ack.conflicts");
+    statistics_.increment(":euf.conflict-ack.trace-steps", trace->visited_steps);
+    statistics_.increment(":euf.conflict-ack.trace-kept", trace->steps.size());
+    if (trace->steps.size() < trace->visited_steps)
+      statistics_.increment(":euf.conflict-ack.trace-truncations");
+    for (const auto step : trace->steps) {
+      const auto lhs = flat_.original_term(step.lhs);
+      const auto rhs = flat_.original_term(step.rhs);
+      if (lhs && rhs)
+        result.emplace_back(*lhs, *rhs);
+      else
+        statistics_.increment(":euf.conflict-ack.prefix-steps");
+    }
+    return result;
+  }
 
   bool model_scope_active() const { return model_scope_active_; }
 
@@ -1688,11 +1721,19 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
       build_diseq_ackermann_watch_index();
     }
     if (options_.euf_engine == EufEngine::Incremental) {
-      incremental_state_.emplace(terms_, theory_atoms_, true_term_, false_term_,
-                                 options_.pure_theory_filter, options_.euf_explain_search,
-                                 options_.euf_proof_forest_diagnostics, statistics_,
-                                 /*flush_live_stats=*/false, prepared);
+      incremental_state_.emplace(
+          terms_, theory_atoms_, true_term_, false_term_, options_.pure_theory_filter,
+          options_.euf_explain_search, options_.euf_proof_forest_diagnostics, statistics_,
+          /*flush_live_stats=*/false, prepared,
+          options_.euf_conflict_ackermann || options_.euf_conflict_ackermann_diagnostics);
       build_candidate_index();
+    }
+    if (options_.euf_conflict_ackermann || options_.euf_conflict_ackermann_diagnostics) {
+      if (!incremental_state_)
+        throw std::invalid_argument("conflict Ackermann prototype requires incremental online EUF");
+      conflict_ackermann_.emplace(terms_, statistics_);
+      for (const auto& atom : theory_atoms_)
+        conflict_ackermann_->register_atom(atom.term, atom.lit);
     }
   }
 
@@ -1717,6 +1758,8 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
     }
     const std::size_t atom_index = atom_count();
     generated_theory_atoms_.push_back(generated_atom);
+    if (conflict_ackermann_)
+      conflict_ackermann_->register_atom(generated_atom.term, generated_atom.lit);
     atom_index_by_var_[var_index] = atom_index;
     observed_vars_[var_index] = 1;
     queued_candidate_indices_.push_back(0);
@@ -1780,6 +1823,8 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
     clear_all_diseq_ackermann_marks();
     external_clause_.clear();
     external_clause_index_ = 0;
+    external_clause_forgettable_ = false;
+    conflict_ackermann_processed_ = false;
   }
 
  public:
@@ -1914,23 +1959,30 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
   bool cb_has_external_clause(bool& is_forgettable) override {
     maybe_store_conflict();
     maybe_store_diseq_ackermann_conflict();
+    maybe_store_conflict_ackermann_clause();
     if (external_clause_.empty()) {
       return false;
     }
-    is_forgettable = false;
+    is_forgettable = external_clause_forgettable_;
     return true;
   }
 
   bool cb_has_external_clause() override {
     maybe_store_conflict();
     maybe_store_diseq_ackermann_conflict();
+    maybe_store_conflict_ackermann_clause();
     return !external_clause_.empty();
   }
 
   int cb_add_external_clause_lit() override {
     if (external_clause_index_ >= external_clause_.size()) {
+      if (external_clause_forgettable_) {
+        statistics_.increment(":euf.conflict-ack.sent-clauses");
+        statistics_.increment(":euf.conflict-ack.sent-lits", external_clause_.size());
+      }
       external_clause_.clear();
       external_clause_index_ = 0;
+      external_clause_forgettable_ = false;
       return 0;
     }
     return external_clause_[external_clause_index_++].value;
@@ -2521,10 +2573,33 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
     if (!conflict.has_value()) {
       return;
     }
+    if (conflict_ackermann_ && !conflict_ackermann_processed_) {
+      conflict_ackermann_processed_ = true;
+      for (const auto& [lhs, rhs] : incremental_state_->conflict_application_pairs()) {
+        auto clause = conflict_ackermann_->consider(lhs, rhs);
+        if (clause && options_.euf_conflict_ackermann) {
+          conflict_ackermann_queue_.push_back(std::move(*clause));
+          statistics_.increment(":euf.conflict-ack.queued-clauses");
+          statistics_.set(":euf.conflict-ack.peak-pending",
+                          std::max<std::uint64_t>(statistics_.get(":euf.conflict-ack.peak-pending"),
+                                                  conflict_ackermann_queue_.size()));
+        }
+      }
+    }
     external_clause_ = std::move(conflict.value());
     external_clause_index_ = 0;
     statistics_.increment(kStatTheoryConflicts);
     if (count_conflicts_) record_theory_conflict(statistics_);
+  }
+
+  void maybe_store_conflict_ackermann_clause() {
+    if (conflict_budget_exhausted() || !external_clause_.empty() ||
+        conflict_ackermann_queue_.empty())
+      return;
+    external_clause_ = std::move(conflict_ackermann_queue_.front());
+    conflict_ackermann_queue_.pop_front();
+    external_clause_index_ = 0;
+    external_clause_forgettable_ = true;
   }
 
   void maybe_store_diseq_ackermann_conflict() {
@@ -2601,6 +2676,10 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
   std::vector<unsigned char> queued_diseq_ackermann_candidates_;
   std::vector<std::vector<std::size_t>> diseq_ackermann_indices_by_var_;
   std::optional<IncrementalFlatAssignmentState> incremental_state_;
+  std::optional<ConflictAckermannSelector> conflict_ackermann_;
+  std::deque<sat::Clause> conflict_ackermann_queue_;
+  bool conflict_ackermann_processed_ = false;
+  bool external_clause_forgettable_ = false;
   sat::Clause external_clause_;
   std::size_t external_clause_index_ = 0;
   std::size_t propagation_interval_ = options_.euf_propagation_interval;
@@ -10836,6 +10915,7 @@ CheckSatOutcome solve_qf_uflia_engine_impl(
 #if PRIMO_HAVE_IPASIR
   const bool online =
       options.qf_uflia_online_components && options.euf_engine == EufEngine::Incremental;
+  validate_conflict_ackermann_path(options, online);
   CombinationRecipe recipe;
   recipe.model_guided = options.qf_uflia_model_combination;
   recipe.integer_split_atom_limit = settings.split_atom_limit;
@@ -10991,6 +11071,8 @@ CheckSatOutcome solve_qf_uf_engine_impl(core::TermManager& terms,
   publish_theory_atom_purity_stats(terms, clausifier.theory_atoms(), statistics);
   const EufPropagationMode euf_propagation =
       resolve_euf_propagation_mode(options, clausifier.theory_atoms().size(), statistics);
+  validate_conflict_ackermann_path(options, euf_propagation == EufPropagationMode::Online ||
+                                                euf_propagation == EufPropagationMode::Conflict);
   CheckSatOptions resolved_options = options;
   resolved_options.euf_propagation = euf_propagation;
   TheoryPhaseMode theory_phase =
@@ -11391,6 +11473,9 @@ CheckSatOutcome solve_qf_uflra_engine_impl(core::TermManager& terms,
                                            const ModelConversionChain& conversions,
                                            const CheckSatOptions& options,
                                            util::Statistics& statistics) {
+  if (options.euf_conflict_ackermann || options.euf_conflict_ackermann_diagnostics)
+    return {CheckSatResult::Unsupported, "conflict Ackermann prototype covers QF_UF/QF_UFLIA only",
+            statistics, ""};
   statistics.increment(":solver.qf-uflra");
   const bool mixed_fixed_elimination = lra_fixed_elimination_for_mixed(options);
   const bool candidate_final_scan_enabled = options.qf_uflra_candidate_final_scan;

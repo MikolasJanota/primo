@@ -37,6 +37,9 @@ class FlatTermIndex {
   const std::vector<FlatDefinition>& definitions() const { return definitions_; }
   std::size_t size() const { return nodes_.size(); }
   std::optional<FlatTermId> existing_flat_term(core::TermId term) const;
+  // Curry prefixes have no original SMT term. Never export their bookkeeping
+  // `original` application as if it denoted the prefix itself.
+  std::optional<core::TermId> original_term(FlatTermId term) const;
 
  private:
   enum class NodeKind {

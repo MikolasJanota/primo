@@ -1494,7 +1494,79 @@ void proof_forest_structural_class_coalescing_backtracks() {
 
 }  // namespace
 
+void conflict_congruence_trace_selects_only_explained_steps() {
+  for (auto mode :
+       {FlatExplanationSearchMode::OneSidedBfs, FlatExplanationSearchMode::BidirectionalBfs,
+        FlatExplanationSearchMode::ProofForest}) {
+    FlatCongruenceClosure closure(8, mode);
+    closure.enable_conflict_congruence_trace();
+    closure.add_definition({0, 1, 3});
+    closure.add_definition({0, 2, 4});
+    closure.add_definition({5, 1, 6});
+    closure.add_definition({5, 2, 7});
+    const auto checkpoint = closure.push();
+    closure.assert_equal(1, 2, {{1}});
+    check(closure.explain_equal(6, 7).has_value());
+    check(closure.conflict_congruence_trace() == nullptr);
+    closure.assert_distinct(3, 4, {{-2}});
+    const auto* trace = closure.conflict_congruence_trace();
+    check(trace != nullptr && trace->visited_steps == 1 && trace->steps.size() == 1);
+    check((trace->steps[0].lhs == 3 && trace->steps[0].rhs == 4) ||
+          (trace->steps[0].lhs == 4 && trace->steps[0].rhs == 3));
+    const auto nested = closure.push();
+    closure.pop(nested);
+    check(closure.conflict_congruence_trace()->steps.size() == 1);
+    closure.pop(checkpoint);
+    check(!closure.conflict() && closure.conflict_congruence_trace() == nullptr);
+    closure.assert_distinct(3, 4, {{-3}});
+    closure.assert_equal(1, 2, {{4}});
+    check(closure.conflict_congruence_trace()->steps.size() == 1);
+  }
+  FlatCongruenceClosure limited(5);
+  limited.enable_conflict_congruence_trace(0);
+  limited.add_definition({0, 1, 3});
+  limited.add_definition({0, 2, 4});
+  limited.assert_equal(1, 2, {{1}});
+  limited.assert_distinct(3, 4, {{-2}});
+  check(limited.conflict()->size() == 2);
+  check(limited.conflict_congruence_trace()->visited_steps == 1);
+  check(limited.conflict_congruence_trace()->steps.empty());
+  for (auto mode : {FlatExplanationSearchMode::ReorientedProofForest,
+                    FlatExplanationSearchMode::StructuralProofForest}) {
+    FlatCongruenceClosure unsupported(0, mode);
+    bool rejected = false;
+    try {
+      unsupported.enable_conflict_congruence_trace();
+    } catch (const std::invalid_argument&) {
+      rejected = true;
+    }
+    check(rejected);
+  }
+}
+
+void flat_terms_do_not_export_curry_prefixes() {
+  primo::core::SymbolTable symbols;
+  const auto sort = symbols.declare_sort("A");
+  const auto a = symbols.declare_constant("a", sort);
+  const auto b = symbols.declare_constant("b", sort);
+  const auto f = symbols.declare_function("f", {sort, sort}, sort);
+  primo::core::TermManager terms(symbols);
+  const auto ta = terms.mk_constant(a);
+  const auto tb = terms.mk_constant(b);
+  const auto fab = terms.mk_app(f, {ta, tb});
+  const auto faa = terms.mk_app(f, {ta, ta});
+  FlatTermIndex flat(terms);
+  const auto full = flat.flatten(fab);
+  flat.flatten(faa);
+  check(flat.original_term(full).value() == fab);
+  check(!flat.original_term(flat.definitions().front().result));
+  check(!flat.original_term(flat.definitions().front().function));
+  check(flat.original_term(flat.existing_flat_term(ta).value()).value() == ta);
+}
+
 int main() {
+  conflict_congruence_trace_selects_only_explained_steps();
+  flat_terms_do_not_export_curry_prefixes();
   congruent_applications_are_merged();
   distinct_unrelated_terms_are_satisfiable();
   explained_closure_explains_explicit_chain();

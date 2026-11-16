@@ -104,7 +104,8 @@ struct SmtSession::Implementation final : SessionExecutor {
           (options.euf_propagation != EufPropagationMode::Auto &&
            options.euf_propagation != EufPropagationMode::Online &&
            options.euf_propagation != EufPropagationMode::Conflict) ||
-          options.euf_dynamic_ackermann_shadow || options.euf_diseq_ackermann)
+          options.euf_dynamic_ackermann_shadow || options.euf_diseq_ackermann ||
+          options.euf_conflict_ackermann || options.euf_conflict_ackermann_diagnostics)
         throw std::invalid_argument(
             "QF_UF assumptions requires incremental EUF, "
             "auto/online/conflict propagation and no experimental Ackermann modes");

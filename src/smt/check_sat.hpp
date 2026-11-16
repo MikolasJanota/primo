@@ -246,6 +246,8 @@ struct CheckSatOptions {
   NelsonOppenPropagationMode nelson_oppen_propagation = NelsonOppenPropagationMode::Final;
   bool euf_dynamic_ackermann_shadow = false;
   bool euf_diseq_ackermann = false;
+  bool euf_conflict_ackermann = false;
+  bool euf_conflict_ackermann_diagnostics = false;
   AutoBudget euf_propagation_budget;
   AutoBudget euf_propagation_delivery{AutoBudget::Kind::Fixed, 1000};
   // QF_LRA same-slack bound propagation (Milestone 3b: Dutertre & de Moura

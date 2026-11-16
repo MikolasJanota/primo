@@ -9,9 +9,13 @@
 #include <string>
 #include <string_view>
 #include <utility>
+#include <vector>
 
 #include "core/model.hpp"
+#include "core/symbol_table.hpp"
+#include "core/term_manager.hpp"
 #include "smt/check_sat.hpp"
+#include "smt/conflict_ackermann.hpp"
 #include "smt/inconclusive_reason.hpp"
 #include "smt/preprocessing.hpp"
 
@@ -3183,7 +3187,129 @@ void purely_propositional_input_still_uses_the_boolean_solver() {
   assert(result.statistics.get(":solver.qf-uf") == 0);
 }
 
+void conflict_ackermann_selector_preserves_nary_disjunction_and_retries_missing_atoms() {
+  primo::core::SymbolTable symbols;
+  const auto sort = symbols.declare_sort("A");
+  const auto sa = symbols.declare_constant("a", sort);
+  const auto sb = symbols.declare_constant("b", sort);
+  const auto sc = symbols.declare_constant("c", sort);
+  const auto sd = symbols.declare_constant("d", sort);
+  const auto f = symbols.declare_function("f", {sort, sort}, sort);
+  primo::core::TermManager terms(symbols);
+  const auto a = terms.mk_constant(sa), b = terms.mk_constant(sb);
+  const auto c = terms.mk_constant(sc), d = terms.mk_constant(sd);
+  const auto lhs = terms.mk_app(f, {a, c}), rhs = terms.mk_app(f, {b, d});
+  const auto ab = terms.mk_eq(a, b), cd = terms.mk_eq(c, d), rr = terms.mk_eq(lhs, rhs);
+  primo::util::Statistics stats;
+  primo::smt::ConflictAckermannSelector selector(terms, stats);
+  selector.register_atom(rr, {3});
+  selector.register_atom(ab, {1});
+  assert(!selector.consider(lhs, rhs));
+  assert(stats.get(":euf.conflict-ack.missing-argument") == 1);
+  selector.register_atom(cd, {2});
+  auto clause = selector.consider(lhs, rhs);
+  assert(clause && clause->size() == 3);
+  assert((*clause)[0].value == 3 && (*clause)[1].value == -1 && (*clause)[2].value == -2);
+  assert(!selector.consider(rhs, lhs));
+  // Truth-table check of congruence: false result allows either argument to differ.
+  for (int bits = 0; bits < 8; ++bits) {
+    bool satisfied = false;
+    for (auto lit : *clause) {
+      const int variable = lit.value < 0 ? -lit.value : lit.value;
+      const bool value = (bits & (1 << (variable - 1))) != 0;
+      satisfied = satisfied || value == (lit.value > 0);
+    }
+    const bool congruent = !(bits & 1) || !(bits & 2) || (bits & 4);
+    assert(satisfied == congruent);
+  }
+  const auto shared_lhs = terms.mk_app(f, {a, c});
+  const auto shared_rhs = terms.mk_app(f, {b, c});
+  selector.register_atom(terms.mk_eq(shared_lhs, shared_rhs), {4});
+  clause = selector.consider(shared_lhs, shared_rhs);
+  assert(clause && clause->size() == 2);
+  const auto repeated_lhs = terms.mk_app(f, {a, a});
+  const auto repeated_rhs = terms.mk_app(f, {b, b});
+  selector.register_atom(terms.mk_eq(repeated_lhs, repeated_rhs), {5});
+  clause = selector.consider(repeated_lhs, repeated_rhs);
+  assert(clause && clause->size() == 2);
+  primo::smt::ConflictAckermannSelector missing_result(terms, stats);
+  missing_result.register_atom(ab, {1});
+  assert(!missing_result.consider(repeated_lhs, repeated_rhs));
+  assert(stats.get(":euf.conflict-ack.missing-result") == 1);
+  primo::smt::ConflictAckermannSelector bounded(terms, stats);
+  for (int i = 0; i < 4100; ++i) {
+    const auto name = symbols.declare_constant("fresh" + std::to_string(i), sort);
+    const auto fresh = terms.mk_constant(name);
+    const auto application = terms.mk_app(f, {fresh, c});
+    assert(!bounded.consider(lhs, application));
+  }
+  assert(stats.get(":euf.conflict-ack.peak-pairs") == 4096);
+  assert(stats.get(":euf.conflict-ack.catalog-limit") == 4);
+  const auto wide_symbol =
+      symbols.declare_function("wide", std::vector<primo::core::SortId>(32, sort), sort);
+  std::vector<primo::core::TermId> args(32, a);
+  const auto wide_a = terms.mk_app(wide_symbol, args);
+  args[0] = b;
+  const auto wide_b = terms.mk_app(wide_symbol, args);
+  assert(!selector.consider(wide_a, wide_b));
+  assert(stats.get(":euf.conflict-ack.width-skips") == 1);
+}
+
+void conflict_ackermann_diagnostics_observe_actual_conflicts() {
+  const char* input = R"(
+    (set-logic QF_UF)
+    (declare-sort A 0)
+    (declare-const a A) (declare-const b A) (declare-const c A)
+    (declare-fun f (A) A)
+    (assert (= a c)) (assert (= c b))
+    (assert (not (= (f a) (f b))))
+    (check-sat)
+  )";
+  auto options = propagation_test_options();
+  options.euf_propagation = primo::smt::EufPropagationMode::Conflict;
+  options.euf_conflict_ackermann_diagnostics = true;
+  const auto result = check_sat_smtlib(input, options);
+  assert(result.result == CheckSatResult::Unsat);
+  assert(result.statistics.get(":euf.conflict-ack.conflicts") > 0);
+  assert(result.statistics.get(":euf.conflict-ack.trace-steps") > 0);
+  assert(result.statistics.get(":euf.conflict-ack.missing-argument") > 0);
+  assert(result.statistics.get(":euf.conflict-ack.sent-clauses") == 0);
+  options.euf_conflict_ackermann_diagnostics = false;
+  const auto disabled = check_sat_smtlib(input, options);
+  assert(disabled.result == CheckSatResult::Unsat);
+  assert(disabled.statistics.get(":euf.conflict-ack.conflicts") == 0);
+}
+
+void conflict_ackermann_emits_after_backtracking_without_strengthening_nary_clause() {
+  for (bool binary : {false, true}) {
+    auto options = propagation_test_options();
+    options.euf_propagation = primo::smt::EufPropagationMode::Conflict;
+    options.theory_phase = primo::smt::TheoryPhaseMode::Positive;
+    options.euf_conflict_ackermann = true;
+    const auto input = binary ? R"(
+      (set-logic QF_UF) (declare-sort A 0)
+      (declare-const a A) (declare-const b A) (declare-const c A) (declare-const d A)
+      (declare-const q Bool) (declare-fun f (A A) A)
+      (assert (= a b)) (assert (or (= c d) q))
+      (assert (not (= (f a c) (f b d)))) (check-sat)
+    )"
+                              : R"(
+      (set-logic QF_UF) (declare-sort A 0)
+      (declare-const a A) (declare-const b A) (declare-const q Bool)
+      (declare-fun f (A) A)
+      (assert (or (= a b) q)) (assert (not (= (f a) (f b)))) (check-sat)
+    )";
+    const auto result = check_sat_smtlib(input, options);
+    assert(result.result == CheckSatResult::Sat);
+    assert(result.statistics.get(":euf.conflict-ack.queued-clauses") > 0);
+    assert(result.statistics.get(":euf.conflict-ack.sent-clauses") > 0);
+  }
+}
+
 int main() {
+  conflict_ackermann_emits_after_backtracking_without_strengthening_nary_clause();
+  conflict_ackermann_selector_preserves_nary_disjunction_and_retries_missing_atoms();
+  conflict_ackermann_diagnostics_observe_actual_conflicts();
   pure_boolean_sat();
   get_model_requires_produce_models();
   get_model_requires_prior_check_sat();

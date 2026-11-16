@@ -482,3 +482,29 @@ and [safe-forgetting lead](../leads/theory-lemma-forgetting.md).
 These links identify tests to maintain when changing the mechanisms. The
 [review ledger](../review-history.md#euf-chapter-checks) records this documentation
 audit; solver changes still require the [correctness gates](../development/correctness.md).
+
+## Conflict-selected Ackermann prototype
+
+The opt-in `--euf-conflict-ackermann` selects congruence steps traversed by an
+online EUF conflict explanation and queues the corresponding full congruence
+clause over existing equality atoms. `--euf-conflict-ackermann-diagnostics`
+records opportunities without adding clauses, unless the emitting option is
+also enabled. Both default off. This is the existing-atom subset of Dutertre
+and de Moura (2006), §2 p. 3, not the complete Yices policy.
+
+{source}`ConflictAckermannSelector <src/smt/conflict_ackermann.hpp>` owns the
+equality-pair index and bounded selection catalogue; the online propagator
+owns queued SAT clauses. The closure's optional owning trace is checkpointed
+and only active during conflict explanation. Curry-prefix nodes are rejected
+by checking their complete original-term mapping. No terms/atoms are created
+in callbacks, and ordinary EUF explanations/checking stay authoritative.
+
+The [implementation checklist](../leads/conflict-ackermann-prototype.md) gives
+limits, ownership, supported modes and proof obligations. Missing atoms, Boolean
+results without existing equality atoms, optimized proof forests, QF_UFLRA and
+assumptions sessions are outside this bounded experiment. Rebuild sessions
+remain supported. Clauses are theory-valid independently of the selecting
+assertions and may survive SAT backtracking. A new catalogue is created when
+a QF_UFLIA component is rebuilt after atom registration. Native tests, fresh
+fuzz/model gates and performance qualification are pending; no default change
+or performance improvement is claimed yet.

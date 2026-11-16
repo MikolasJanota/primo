@@ -22,6 +22,16 @@ std::size_t lit_index(sat::Lit lit) {
   return (var << 1U) + (lit.value < 0 ? 1U : 0U);
 }
 
+struct ConflictTraceScope {
+  explicit ConflictTraceScope(bool* enabled) : flag(enabled) {
+    if (flag) *flag = true;
+  }
+  ~ConflictTraceScope() {
+    if (flag) *flag = false;
+  }
+  bool* flag;
+};
+
 }  // namespace
 
 std::size_t FlatCongruenceClosure::ApplyKeyHash::operator()(const ApplyKey& key) const {
@@ -50,7 +60,31 @@ FlatCongruenceClosure::FlatCongruenceClosure(std::size_t node_count,
   ensure_node_count(node_count);
 }
 
+void FlatCongruenceClosure::enable_conflict_congruence_trace(std::size_t limit) {
+  if (!checkpoints_.empty() || conflict_ || conflict_trace_)
+    throw std::logic_error("conflict congruence tracing must start before checkpoints/conflicts");
+  if (explanation_search_mode_ == FlatExplanationSearchMode::ReorientedProofForest ||
+      explanation_search_mode_ == FlatExplanationSearchMode::StructuralProofForest)
+    throw std::invalid_argument(
+        "conflict Ackermann prototype requires BFS or proof-forest explanations");
+  conflict_trace_.emplace();
+  conflict_trace_->limit = limit;
+}
+
+const ConflictCongruenceTrace* FlatCongruenceClosure::conflict_congruence_trace() const {
+  return conflict_ && conflict_trace_ ? &conflict_trace_->current : nullptr;
+}
+
+void FlatCongruenceClosure::trace_conflict_congruence(const Edge& edge) const {
+  if (!conflict_trace_ || !conflict_trace_->collecting) return;
+  auto& trace = conflict_trace_->current;
+  ++trace.visited_steps;
+  if (trace.steps.size() < conflict_trace_->limit)
+    trace.steps.push_back({edge.lhs_definition.result, edge.rhs_definition.result});
+}
+
 std::size_t FlatCongruenceClosure::push() {
+  if (conflict_trace_) conflict_trace_->checkpoints.push_back(conflict_trace_->current);
   checkpoints_.push_back(
       Checkpoint{parent_.size(), definitions_.size(), pending_.size(), disequalities_.size(),
                  edges_.size(), changed_terms_.size(), changed_terms_generation_, trail_.size(),
@@ -105,6 +139,10 @@ void FlatCongruenceClosure::pop(std::size_t checkpoint) {
   reoriented_proof_forest_.pop(checkpoint);
   structural_proof_forest_.pop(checkpoint);
   conflict_ = std::move(state.conflict);
+  if (conflict_trace_) {
+    conflict_trace_->current = std::move(conflict_trace_->checkpoints.at(checkpoint));
+    conflict_trace_->checkpoints.resize(checkpoint);
+  }
   stats_ = state.stats;
   ++stats_.backtracks;
 }
@@ -645,6 +683,8 @@ bool FlatCongruenceClosure::check_disequality(const Disequality& disequality) {
   }
   std::vector<sat::Lit> reason;
   begin_reason_collection(reason);
+  if (conflict_trace_) conflict_trace_->current = {};
+  ConflictTraceScope trace_scope(conflict_trace_ ? &conflict_trace_->collecting : nullptr);
   if (!explain_equal_into(disequality.lhs, disequality.rhs, reason, edges_.size())) {
     throw std::logic_error("flat congruence closure failed to explain disequality conflict");
   }
@@ -748,6 +788,7 @@ bool FlatCongruenceClosure::append_edge_reason(std::size_t edge_index,
                                                std::vector<sat::Lit>& reason) const {
   const Edge& edge = edges_[edge_index];
   if (edge.congruence) {
+    trace_conflict_congruence(edge);
     ++stats_.explain_congruence_edges;
     return explain_equal_into(edge.lhs_definition.function, edge.rhs_definition.function, reason,
                               edge_index) &&
@@ -857,6 +898,7 @@ void FlatCongruenceClosure::append_proof_edge_label(
     std::vector<ProofObligation>& pending_proofs) const {
   const Edge& edge = edges_[edge_index];
   if (edge.congruence) {
+    trace_conflict_congruence(edge);
     ++stats_.explain_congruence_edges;
     pending_proofs.push_back(
         ProofObligation{edge.lhs_definition.function, edge.rhs_definition.function, edge_index});
