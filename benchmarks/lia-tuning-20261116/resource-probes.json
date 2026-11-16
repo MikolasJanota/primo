@@ -1,0 +1,174 @@
+{
+  "status": "qualified resource probes only",
+  "native_rows": 32,
+  "SAT_Dolmen_pass": 10,
+  "cases": [
+    {
+      "index": 0,
+      "parent_slot": 48,
+      "row_context": 0,
+      "logic": "QF_LIA",
+      "file": "convert/convert-jpg2gif-query-1185.smt2",
+      "input_sha256": "ac9698a520753f01728e07e19b1a427918ec381131e2ed01cdb3f2dfb31c3630",
+      "config_sha256": "4fdb4a0c7cbf319ca991223ec2d8aacabb1f007ee9dabc43b0f15d8a1e67811e",
+      "rows_sha256": "7953b81621003265f1e6773f1a468a7eecec022c911bcadcc2fcd7cf85c8a665",
+      "coverage_sha256": "7053473efd776a57703c8ad1573369d1bb3a8abc505ba2de9da92c483d522c2c",
+      "model_metadata_sha256": {
+        "A0": "8b193de455ed602ac411dd59747452b32856911d271d8ef3a8762fc60ed338fa",
+        "A64": "54fd6fb394a3dc63bf5583e40b22ce7ef2cdcbcb2339a1628332fe63cea96ee7"
+      },
+      "control_atoms": 9,
+      "outcomes": {
+        "A0": "sat",
+        "A1": "unknown",
+        "A8": "unknown",
+        "A64": "sat"
+      }
+    },
+    {
+      "index": 1,
+      "parent_slot": 198,
+      "row_context": 0,
+      "logic": "QF_LIA",
+      "file": "tightrhombus/tightrhombus-273-245-1.smt2",
+      "input_sha256": "fe2182879fa99c16ba90e5407b7326e861f7361971a1441ff24210b561a959ed",
+      "config_sha256": "53eceea48c111c5be0ce46c0aab3fc5551a6662e0f3ff8d786e278832129f2e0",
+      "rows_sha256": "4157f194cec9b6b4eb4d7d50581f9b536821815b6363f4a0c64e7013dc8cb367",
+      "coverage_sha256": "21a08aa68ece117ed86b931d6741d6d44a650ac6621a854dd4ddd3e5c339c1bd",
+      "model_metadata_sha256": {},
+      "control_atoms": 74,
+      "outcomes": {
+        "A0": "unsat",
+        "A1": "unknown",
+        "A8": "unknown",
+        "A64": "unknown"
+      }
+    },
+    {
+      "index": 2,
+      "parent_slot": 376,
+      "row_context": 0,
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Wisa/xs-14-09-3-3-4-4.smt2",
+      "input_sha256": "79bdac97ff433fc9cec718584d1ebe692e1611591aed0d8434e9746ec6105e29",
+      "config_sha256": "33131e85d8b4fd5ea1536954759d948f69fec4d48926a0a913bb3d90c2f90e71",
+      "rows_sha256": "17d1e4c311d5a6624676ec4ac8111d30ee0570ae26064d48e95578a35812ff7b",
+      "coverage_sha256": "1f4330604c5c17966961c6e349d8530e7a5fad9c3e905c46ebe49b491bc5e976",
+      "model_metadata_sha256": {
+        "A0": "8b193de455ed602ac411dd59747452b32856911d271d8ef3a8762fc60ed338fa",
+        "A8": "6eccd4d9dd90ee208f96b81f32559822887803b53408d794b9dd233b8714e3da",
+        "A64": "54fd6fb394a3dc63bf5583e40b22ce7ef2cdcbcb2339a1628332fe63cea96ee7"
+      },
+      "control_atoms": 2,
+      "outcomes": {
+        "A0": "sat",
+        "A1": "unknown",
+        "A8": "sat",
+        "A64": "sat"
+      }
+    },
+    {
+      "index": 3,
+      "parent_slot": 332,
+      "row_context": 0,
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Wisa/xs-08-15-4-2-1-4.smt2",
+      "input_sha256": "723d8e38ce223563c6e5830803b86fb6177e14ae7752a41ff5c7ab40e639d877",
+      "config_sha256": "170f0bbada137276cf52284fb12ecbe73d5a4e41003a72f35ac48172c39b6968",
+      "rows_sha256": "8f1bedb10cbeed3f46737326fbcb1ea7c5ced7131b12865323c861a7274d55ca",
+      "coverage_sha256": "21a08aa68ece117ed86b931d6741d6d44a650ac6621a854dd4ddd3e5c339c1bd",
+      "model_metadata_sha256": {},
+      "control_atoms": 2,
+      "outcomes": {
+        "A0": "unsat",
+        "A1": "unknown",
+        "A8": "unsat",
+        "A64": "unsat"
+      }
+    },
+    {
+      "index": 4,
+      "parent_slot": 48,
+      "row_context": 1,
+      "logic": "QF_LIA",
+      "file": "convert/convert-jpg2gif-query-1185.smt2",
+      "input_sha256": "ac9698a520753f01728e07e19b1a427918ec381131e2ed01cdb3f2dfb31c3630",
+      "config_sha256": "36ed45b0defcd5f703d6ef403f5345d31be174c8df8c3af4038e8d99e703a4e2",
+      "rows_sha256": "fd68c7d38117f5756ef6acdd0c6b90ca4ad8c04edad5644b58a2398761a008ae",
+      "coverage_sha256": "716dbfce116f3af2517da15315c995a19857fcb8a6991e233ed824768d81b820",
+      "model_metadata_sha256": {
+        "A0": "c71d4452430648c054a94db5bc7128b29f47affda068bd9f0a5aedec66434947",
+        "A64": "0064073b9b4082c79ae820929eea99e498ebf482ba41b9193ce9b576efdbc53f"
+      },
+      "control_atoms": 9,
+      "outcomes": {
+        "A0": "sat",
+        "A1": "unknown",
+        "A8": "unknown",
+        "A64": "sat"
+      }
+    },
+    {
+      "index": 5,
+      "parent_slot": 198,
+      "row_context": 1,
+      "logic": "QF_LIA",
+      "file": "tightrhombus/tightrhombus-273-245-1.smt2",
+      "input_sha256": "fe2182879fa99c16ba90e5407b7326e861f7361971a1441ff24210b561a959ed",
+      "config_sha256": "51b78fff6bd3c0ae0dc08cd516d6559287dd9c49246032d099a6a0dc51627770",
+      "rows_sha256": "afaa1e7d02cfe8b1d45f7e0b3b12ca79d7d13d5abb7a60010e80b3be2f6f6d94",
+      "coverage_sha256": "21a08aa68ece117ed86b931d6741d6d44a650ac6621a854dd4ddd3e5c339c1bd",
+      "model_metadata_sha256": {},
+      "control_atoms": 72,
+      "outcomes": {
+        "A0": "unsat",
+        "A1": "unknown",
+        "A8": "unknown",
+        "A64": "unknown"
+      }
+    },
+    {
+      "index": 6,
+      "parent_slot": 368,
+      "row_context": 1,
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Wisa/xs-13-10-4-3-1-3.smt2",
+      "input_sha256": "fe539c5ebb7e409139b6cb992a55459304a585874d41f225602e3ced672c7795",
+      "config_sha256": "83f6f1af907459fcfc043e56a341337b8cdfe91fb6a62b4210494e94ce16d468",
+      "rows_sha256": "c14164723173c1e98302c672aa8f587e1168cfac4d6e67a0c5cee066b0d8141c",
+      "coverage_sha256": "f96ea10de3d7b925c510f60e0dc941794d67fe58da74123716687762addc52b3",
+      "model_metadata_sha256": {
+        "A0": "c71d4452430648c054a94db5bc7128b29f47affda068bd9f0a5aedec66434947",
+        "A8": "b495585e243155d212e20857487f2e83414f4fe20372e88e3c6384ad3296a1a3",
+        "A64": "0064073b9b4082c79ae820929eea99e498ebf482ba41b9193ce9b576efdbc53f"
+      },
+      "control_atoms": 5,
+      "outcomes": {
+        "A0": "sat",
+        "A1": "unknown",
+        "A8": "sat",
+        "A64": "sat"
+      }
+    },
+    {
+      "index": 7,
+      "parent_slot": 453,
+      "row_context": 1,
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_18_38.smt2",
+      "input_sha256": "6202b5ddb33565ed3cf4847fca6a3726603b8554d10447ee674e40470adcf3f7",
+      "config_sha256": "924fa520d65854322df7a33695107d7898764ae6b1ac03ab94c2edb1577ce868",
+      "rows_sha256": "c64b9a00f69bedefcd0b94e12ef337533a32e51115d07967ea221f41dfe6b618",
+      "coverage_sha256": "21a08aa68ece117ed86b931d6741d6d44a650ac6621a854dd4ddd3e5c339c1bd",
+      "model_metadata_sha256": {},
+      "control_atoms": 3,
+      "outcomes": {
+        "A0": "unsat",
+        "A1": "unknown",
+        "A8": "unsat",
+        "A64": "unsat"
+      }
+    }
+  ],
+  "scope": "Finite atom caps produce diagnosed unknown, never a logical refutation. These are correctness probes, excluded from tuning scores."
+}

@@ -8,10 +8,42 @@ import unittest
 from pathlib import Path
 
 from scripts.qualification.lia_tuning.prepare import POLICIES, flags, tasks
-from scripts.qualification.lia_tuning.submit import submit
+from scripts.qualification.lia_tuning.submit import submit, submit_probe
 
 
 class PilotTests(unittest.TestCase):
+    def test_probe_models_wait_for_whole_timing_array(self):
+        calls = []
+
+        def run(command):
+            calls.append(command)
+            cmd = command[-1]
+            if "\nsbatch " in cmd:
+                self.assertIn("--dependency=afterok:37", cmd)
+                return "91"
+            if cmd.startswith("scontrol show job "):
+                job = cmd.split()[-1]
+                return f"ArrayJobId={job} Reason=JobHeldUser Dependency=afterok:37(unfulfilled)"
+            return ""
+
+        with tempfile.TemporaryDirectory() as d:
+            a = argparse.Namespace(
+                ssh_config=Path("/config"),
+                remote="remote",
+                snapshot=Path("/snapshot"),
+                workdir="/work",
+                environment="/env",
+                campaign="/campaign",
+                receipt=Path(d) / "receipt.json",
+                probe_phase="models",
+                probe_count=8,
+                after="37",
+            )
+            self.assertEqual(submit_probe(a, run), "91")
+            self.assertEqual(json.loads(a.receipt.read_text())["parent"], "37")
+        self.assertEqual(sum("--check-only" in c for c in calls), 1)
+        self.assertTrue(calls[-1][-1].startswith("scontrol release"))
+
     def test_unique_budgets_and_row_contexts(self):
         self.assertEqual(len(POLICIES), 8)
         self.assertEqual(len(tasks()), 32)

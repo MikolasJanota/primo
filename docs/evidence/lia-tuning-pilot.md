@@ -81,12 +81,25 @@ are not zero-filled. Ranking is descriptive for this selected pilot only.
 
 ## Status and sources
 
-Protocol and local tooling are being prepared; no new parameter setting has
-yet passed the fresh gates or timing/model evaluation. Existing defaults stay
-unchanged regardless of the pilot ranking. The new local 96-receipt auditor
-and held-array gate submission tool are implemented; resource-probe generation
-and final enforcement still need verification before primary timing can start.
-The older fixed-72-receipt auditor is not used for this pilot.
+The local {liatuningtools}`configuration generator <scripts/qualification/lia_tuning/prepare.py>`
+freezes recipes and selection; the {liatuningtools}`96-receipt auditor <scripts/qualification/lia_tuning/audit.py>`
+checks exact options, input/configuration hashes and all-SAT coverage. The
+{liatuningtools}`submission controller <scripts/qualification/lia_tuning/submit.py>`
+preflights and holds arrays until their whole-array dependencies are verified.
+The finite-cap configuration/audit tool is
+`scripts/qualification/lia_tuning/probes.py`. Its first 32 native probes and
+all 10 SAT model replays passed. Fresh generated/regression gates have finished;
+mutation qualification and resource-diagnostic replay are still being audited.
+No primary timing result is qualified yet. Defaults remain unchanged.
+
+The native budget and history belong to
+{arithmeticcombsource}`lia_branch_and_bound.cpp <src/theory/arithmetic/lia_branch_and_bound.cpp>`;
+{arithmeticcombsource}`CLI registration <src/main.cpp>` defines the controls.
+The frozen {arithmeticcombsource}`qualification runner <scripts/qualification/arithmetic_combinations/qualify.py>`,
+{arithmeticcombsource}`cohort router <scripts/qualification/arithmetic_combinations/run.py>`
+and {arithmeticcombsource}`native timing/model runner <scripts/qualification/lia_hybrid/run.py>`
+execute the private JSON metadata. The older fixed-72-receipt auditor is not
+used for this pilot.
 
 The existing policy implements the ordinary-coordinate subset of Griggio §5,
 with SAT scheduling motivated by splitting on demand; see the

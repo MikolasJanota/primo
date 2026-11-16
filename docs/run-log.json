@@ -3,6 +3,28 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-16-lia-tuning-pilot",
+      "date": "2026-11-16",
+      "branch": "lia-integrality",
+      "kind": "Bounded hybrid-parameter correctness and tuning pilot",
+      "evidence_status": "Fresh generated and tracked regression stages passed; mutation audit/resource diagnostic replay in progress; 32 finite-cap probes and 10 SAT model replays accepted; primary timing not started.",
+      "native_source": "4f02a8b7",
+      "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+      "build_provenance": "Reuse immutable helper --build-via-slurm Release build/check;49 native groups/357 Python pass; no solver/build changes. Helper --check-only immediately before each submission.",
+      "reporting_source": "16cebe2e",
+      "protocol": "benchmarks/lia-tuning-20261116/protocol.json",
+      "selection": "benchmarks/lia-tuning-20261116/selection.json",
+      "scope": "Factors0,1,16,4096; caps1024/100000;zero-factor duplicatecollapsed;privatecontrol=8policies;rowsoff/on,Poff;40target-enriched inputs20perlogic;3reps30s/8GiB=1920primarynative rows; notglobaltuning.",
+      "correctness_plan": "32exactlogic/context/policy tasks \u00d71000fresh generatedinputs +trackedregressions +12real-seed mutationcampaigns/task; allSATDolmen; separate8contexts\u00d74atomcaps=32correctnessprobes; resourceincompletes separate; no primarytimingbeforeauditedgates/probes.",
+      "seeds": {
+        "generated_base": 2026114000,
+        "mutation_base": 2026114100
+      },
+      "raw_artifacts": "results/lia-tuning-20261116; privateSSH/rootmapping outsidetrackedfiles",
+      "checks": "Three pure profile/dependency tests pass; make lint, make docs pass; fresh assembled-site linkcheck and final independent review pending.",
+      "remaining": "Finish local resource/audit tooling; audit newcorrectnessgates/probes; pairedSLURM pilot+allSATmodels; summarizeparamtradeoffs; independentdocsreview/fullbuild/render; commits; no defaultpromotion."
+    },
+    {
       "id": "2026-11-15-arithmetic-combinations",
       "date": "2026-11-15",
       "branch": "lia-integrality",

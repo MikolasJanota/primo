@@ -44,6 +44,9 @@ def gates(args):
             p = d / "receipt.json"
             r = json.loads(p.read_text())
             assert r["task"] == task and r["phase"] == phase
+            assert r["script_sha256"] == sha(
+                ROOT / "scripts/qualification/arithmetic_combinations/qualify.py"
+            )
             assert (
                 r["source"] == campaign["git"]
                 and r["native_sha256"] == campaign["sha256"]
@@ -166,6 +169,7 @@ def gates(args):
 
 def rows(args):
     c = json.loads((args.configs / "campaign.json").read_text())
+    assert c["tasks"] == c["protocol"]["tasks"]
     assert args.selection is not None
     selection = json.loads(args.selection.read_text())
     assert sha(args.selection) == c["protocol"]["selection_sha256"]
