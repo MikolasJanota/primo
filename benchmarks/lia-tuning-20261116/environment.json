@@ -1,0 +1,26 @@
+{
+  "observed_timing_allocations": 240,
+  "distinct_compute_nodes": 8,
+  "affinity_logical_CPU_count": {
+    "2": 240
+  },
+  "selected_node_topologies": [
+    {
+      "nodes": 8,
+      "topology": {
+        "Arch": "x86_64",
+        "CPUTot": "56",
+        "CoresPerSocket": "14",
+        "Sockets": "2",
+        "ThreadsPerCore": "2",
+        "RealMemory": "257525"
+      }
+    }
+  ],
+  "physical_core_isolation": "not established",
+  "tools": {
+    "z3": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "dolmen": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e"
+  },
+  "selected_node_query_sha256": "291d6fc0973f96387c6735e4625aaae7ef1bb354006acbfafc1fa0fd2d18a82e"
+}

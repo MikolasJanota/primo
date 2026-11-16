@@ -7,7 +7,7 @@
       "date": "2026-11-16",
       "branch": "lia-integrality",
       "kind": "Bounded hybrid-parameter correctness and tuning pilot",
-      "evidence_status": "Fresh exact-option gates and finite-cap correctness probes qualified; primary paired timing/model arrays running; no parameter/default claim.",
+      "evidence_status": "Qualified bounded parameter pilot; all1920 primary rows and663 SAT timing-model replays audited; final narrative/review/render pending. No default promotion.",
       "native_source": "4f02a8b7",
       "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
       "build_provenance": "Reuse immutable helper --build-via-slurm Release build/check;49 native groups/357 Python pass; no solver/build changes. Helper --check-only immediately before each submission.",
@@ -22,7 +22,7 @@
       },
       "raw_artifacts": "results/lia-tuning-20261116; privateSSH/rootmapping outsidetrackedfiles",
       "checks": "Three pure profile/dependency tests pass; make lint, make docs and make docs-check-links pass; 304 pages, 45677 local links, 1361 Git links, zero failures. Native source/build inputs unchanged from qualified 4f snapshot; no fresh C++ static/ASan run.",
-      "remaining": "1920 paired SLURM pilot rows + every successful SAT model replay; analyze parameter tradeoffs; independent final documentation review/build/render; final commits; no default promotion.",
+      "remaining": "Summarize paired parameter tradeoffs, final independent documentation review/build/render and evidence commit. No default promotion.",
       "documentation_review": {
         "reviewer": "lia_tuning_docs_review (independent read-only)",
         "verdict": "Protocol/tooling ready; LT-DOC-01/02/03 and LT-S01 resolved; final qualification/results/rendering outside acceptance.",
@@ -52,7 +52,24 @@
         "wrong_answer": 0,
         "crash": 0,
         "invalid_model": 0
-      }
+      },
+      "timing_artifacts": {
+        "analysis": "benchmarks/lia-tuning-20261116/full/analysis.json",
+        "measurements": "benchmarks/lia-tuning-20261116/full/measurements.csv",
+        "environment": "benchmarks/lia-tuning-20261116/environment.json"
+      },
+      "timing_counts": {
+        "native_rows": 1920,
+        "sat": 663,
+        "unsat": 312,
+        "timeout": 939,
+        "diagnosed_private_node_limit_unknown": 6,
+        "SAT_Dolmen_pass": 663,
+        "wrong_answer": 0,
+        "crash": 0,
+        "invalid_model": 0
+      },
+      "environment": "240 timing allocations across8x86_64nodes with identical recorded topology:56logicalCPUs,2sockets,14cores/socket,2threads/core,SLURM RealMemory257525;affinity2logicalCPUs/allallocations;physical isolation not established. Immutable Z3/Dolmen SHA256 freshly rechecked under qualification PATH."
     },
     {
       "id": "2026-11-15-arithmetic-combinations",

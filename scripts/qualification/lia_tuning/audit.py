@@ -295,6 +295,7 @@ def rows(args):
         return
     assert len(records) == 1920 and all_sat == passed
     summaries = {}
+    families = {}
     for logic in ("QF_LIA", "QF_UFLIA"):
         for row in range(2):
             slots = [
@@ -325,16 +326,59 @@ def rows(args):
                         result["comparisons"][base + "->" + p] = compare(
                             records, slots, base, p, 30
                         )
+            for before, after in (
+                ("H16", "H4096"),
+                ("H1k", "H16k"),
+                ("H16k", "H4096k"),
+                ("H1k", "H1"),
+                ("H16k", "H16"),
+                ("H4096k", "H4096"),
+            ):
+                result["comparisons"][before + "->" + after] = compare(
+                    records, slots, before, after, 30
+                )
             summaries[f"{logic}/r{row}"] = result
+            groups = collections.defaultdict(list)
+            for allocation in slots:
+                case = selection["cases"][allocation // 2]
+                groups["/".join(case["file"].split("/")[:2])].append(allocation)
+            families[f"{logic}/r{row}"] = {
+                family: {
+                    "cases": len(group),
+                    "profiles": {
+                        p: [
+                            {
+                                k: v
+                                for k, v in describe(
+                                    [records[rep, i, p] for i in group], 30
+                                ).items()
+                                if k
+                                in (
+                                    "solved",
+                                    "outcomes",
+                                    "mean_PAR2_seconds",
+                                    "median_RSS_KiB",
+                                    "max_RSS_KiB",
+                                )
+                            }
+                            for rep in range(3)
+                        ]
+                        for p in profiles
+                    },
+                }
+                for family, group in sorted(groups.items())
+            }
     report = {
         "status": "qualified pilot only",
         "source": c["git"],
         "native_sha256": c["sha256"],
+        "analysis_script_sha256": sha(Path(__file__)),
         "campaign_sha256": sha(args.configs / "campaign.json"),
         "native_rows": len(records),
         "SAT_Dolmen_pass": passed,
         "receipts": receipts,
         "summaries": summaries,
+        "families": families,
         "scope": "Selected40-input30sdevelopmentpilot, no global optimum/defaultclaim; all original scores intact.",
     }
     args.out.mkdir(parents=True, exist_ok=True)
@@ -342,6 +386,9 @@ def rows(args):
     fields = [
         "repetition",
         "allocation",
+        "pilot_slot",
+        "parent_slot",
+        "rows",
         "profile",
         "logic",
         "file",
@@ -363,6 +410,9 @@ def rows(args):
                     **{k: r[k] for k in fields if k in r},
                     "repetition": rep,
                     "allocation": i,
+                    "pilot_slot": i // 2,
+                    "parent_slot": selection["cases"][i // 2]["parent_slot"],
+                    "rows": i % 2,
                     "solved": solved(r),
                     "PAR2_seconds": penalty(r, 30),
                     **{k: observed_metric(r, k) for k in METRICS},
@@ -370,7 +420,11 @@ def rows(args):
             )
     print(
         json.dumps(
-            {k: v for k, v in report.items() if k not in ("receipts", "summaries")},
+            {
+                k: v
+                for k, v in report.items()
+                if k not in ("receipts", "summaries", "families")
+            },
             indent=2,
         )
     )
