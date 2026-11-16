@@ -1,0 +1,428 @@
+{
+  "parent_selection": "benchmarks/bound-propagation-20261113/selection.json",
+  "parent_selection_sha256": "c76acbe0c55381a0e4db6a141427d5e8cc5daa59803fa0810af0b8e8640077c9",
+  "scope": "Target-enriched development pilot,20inputs/logic; not a representative ranking or global tuning set.",
+  "mandatory_parent_slots": {
+    "QF_LIA": [
+      8,
+      24,
+      40,
+      61,
+      85,
+      95
+    ],
+    "QF_UFLIA": [
+      210,
+      213,
+      229,
+      253,
+      255
+    ]
+  },
+  "excluded_timing_canaries": {
+    "2/17/460": "Previously slow but no private-node/split activity in completed controls; excluded only from this targeted timing pilot, not regression correctness gates."
+  },
+  "fill": "Deterministic family round-robin using first2pathcomponents; candidates ordered by SHA256(20261116:inputSHA).",
+  "cases": [
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "convert/convert-jpg2gif-query-1178.smt2",
+      "sha256": "6e34dc2c445a0b0c2ed4c19f8e003a0b2d24593747d9a0f24635954857ce0065",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 8,
+      "parent_slot": 8
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "dillig/20-1.smt2",
+      "sha256": "7fdc79d919e76a485c72b1ec2959820fc789ead480cfc1676784c7e43f3765d1",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 24,
+      "parent_slot": 24
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "slacks/15-7.slack.smt2",
+      "sha256": "4cd68e73c0f59387d21d664a69c3507a1a591a2d4447364be21f593207aa3cd5",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 40,
+      "parent_slot": 40
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "pb2010/normalized-j301_4-unsat.smt2",
+      "sha256": "c602a95ea2a48e9d60836f69e6d772f3ca8faf96a466cc58187a22d104e26291",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 61,
+      "parent_slot": 61
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_005.smt2",
+      "sha256": "06195c12bc59be27657308ce6211a76928fcc3f5b7a5ab5cbc7d43396e9a0208",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 85,
+      "parent_slot": 85
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_010.smt2",
+      "sha256": "5f48a250bcf6bfc3ce26c178451d529a3ffd827f54f1877088b3195e8159d508",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 95,
+      "parent_slot": 95
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "20180326-Bromberger/more_slacked/cut_lemmas/15-vars/cut_lemma_01_002.smt2.slack.smt2",
+      "sha256": "45155a89f9ab6b44998d979e07f28e7eb12b6ffc862ed0168a25450c702ea347",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 66,
+      "parent_slot": 66
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "2019-cmodelsdiff/boundsmodels/dp_6.formula1-s-O2-b7.smo2.smt2",
+      "sha256": "6020dc14ca1df7a1f61fac423c74737cfb191656d482338fb46e52133ffc3973",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 151,
+      "parent_slot": 151
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "2019-cmodelsdiff/hamiltonianCircuit/17.lp.smt2",
+      "sha256": "b3fdbea110493c713042e8df22cbf4a73ad6fb4e400130832b3bb4de588aef4b",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 178,
+      "parent_slot": 178
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "2019-ezsmt/incrementalScheduling/138-incremental_scheduling-17280-0.smt2",
+      "sha256": "17d00537ff4f5c206f880331dbf2d463c3cf22a272ce2aa0934ee1722a55979b",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 30,
+      "parent_slot": 30
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "2019-ezsmt/routingMin/SCC/d100.1.smt2",
+      "sha256": "5eb2fe6ec48476408df6f2cbf86609b00f36d35a1db9a462a85a86b94a5b0e9b",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 179,
+      "parent_slot": 179
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "20210219-Dartagnan/ConcurrencySafety-Main/45_monabsex1_vs-O0.smt2",
+      "sha256": "0631dcf008b12f9dc85fe8f402aaedfbdf5dde0a855a16b89dc1f6d8bbfb237e",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 52,
+      "parent_slot": 52
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "20220307-SMPT/2PhLockVParam/RC-00.smt2",
+      "sha256": "1f751f8b7773c11495b1998d32df0908d81cead0ff8da3ebeb53dec2cee644f2",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 153,
+      "parent_slot": 153
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "20220307-SMPT/BART-PT-040/RC-05.smt2",
+      "sha256": "1005739a98ea8a89138ad2e582cd617a27ca7920e8984f7b7af9e0b0b3e06c39",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 53,
+      "parent_slot": 53
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "20220307-SMPT/BART-PT-060/RC-13.smt2",
+      "sha256": "175d863e937c9040e8e1678d5f1349a70cdbac589ce03ec5a5a3eb9bd45630df",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 68,
+      "parent_slot": 68
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "20220307-SMPT/Referendum-PT-0050/RC-03.smt2",
+      "sha256": "5c0bcc80f2a690fde587a276fc03bf584048a2f196d24e95a58143eb3810809b",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 3,
+      "parent_slot": 3
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "20220307-SMPT/Referendum-PT-0100/RC-02.smt2",
+      "sha256": "1339c958f7b58e092aa4c918fe71deb5c422fb354c0d0fb4353d4ff8c47b6cd3",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 32,
+      "parent_slot": 32
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "20220307-SMPT/Referendum-PT-1000/RF-04.smt2",
+      "sha256": "5f2fe8701f17cbd81c4856d838e6682dc19d4ec6d8d79aa7bcbb02547cc4e0e1",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 93,
+      "parent_slot": 93
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "20230321-UltimateAutomizerSvcomp2023/jain_5-2.c_1.smt2",
+      "sha256": "cea09d2215d5fb306f950350cdd13637789aa20f3226bc009a9994081309e190",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 154,
+      "parent_slot": 154
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "20230321-UltimateAutomizerSvcomp2023/jain_5-2.c_7.smt2",
+      "sha256": "1eab602a02f7402987806319c9d9d884d85c8afd0de0b24f02a9af242ca7877d",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 181,
+      "parent_slot": 181
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_58_QF_UFLIA.smt2",
+      "sha256": "47f6d84bcf95f569f885d5d8987cd849df0e9598d8e07b11c6154d6816cab6c7",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 210,
+      "parent_slot": 210
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+      "sha256": "c68e77db3bc6cd15daebe8fcffb9d445bca654c6b2fcc47a8b65d27c3074e182",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 213,
+      "parent_slot": 213
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_8_QF_UFLIA.smt2",
+      "sha256": "48746a0b6a27dbb481e113f0a674e9d18793b7f76cb30132732c1222625d69f1",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 229,
+      "parent_slot": 229
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/EufLaArithmetic/medium/medium13.smt2",
+      "sha256": "a7bf9b5b53f8edd829d0d5c3db912dcb67137888b6e5a90f85bbacc1fb740731",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 253,
+      "parent_slot": 253
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/EufLaArithmetic/medium/medium16.smt2",
+      "sha256": "c120db6ca94b1d0022698355f3b44a52ff1e8ac580d360422fafef5168d358fe",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 255,
+      "parent_slot": 255
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/11775_ad46e5b8db4748c51973_42_QF_UFLIA.smt2",
+      "sha256": "f4cc823860e071958e59b1afe722fd19470e6356a3850f5eb2c5a632ba45c86c",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 200,
+      "parent_slot": 200
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/11775_ad46e5b8db4748c51973_43_QF_UFLIA.smt2",
+      "sha256": "7fd2f8cd8c2576817946803317849e4d2dbcdf362f829d5d098c5d6e5290f5db",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 201,
+      "parent_slot": 201
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/17512_5c1021b0faa6b6e1791b_19_QF_UFLIA.smt2",
+      "sha256": "0bb659a31f8142a31083d1b5ec885e6d63404bbc14965819b531a191f5830622",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 202,
+      "parent_slot": 202
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/25959_5dee2e2f6ef44465a2bea4b085818948_68_QF_UFLIA.smt2",
+      "sha256": "b01958761d0f7093a66051e2fdefcfdae553166cbd7046c550b13ed74fb0e0dd",
+      "expected": "unknown",
+      "repetition": 0,
+      "original_slot": 203,
+      "parent_slot": 203
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/25959_5dee2e2f6ef44465a2bea4b085818948_69_QF_UFLIA.smt2",
+      "sha256": "6d2dadddaadc276c8fe9905039faa658ae7ca337aba6fa9193b23f6e172d801b",
+      "expected": "unknown",
+      "repetition": 0,
+      "original_slot": 204,
+      "parent_slot": 204
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/3106_1c933134166dbad31f79_39_QF_UFLIA.smt2",
+      "sha256": "c474d10ddc77c47197f2e8f02b2c8ef57ba0a78057d87c88c3553ae05c89f29b",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 205,
+      "parent_slot": 205
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/3106_1c933134166dbad31f79_40_QF_UFLIA.smt2",
+      "sha256": "af5785ae63572a08110b92c4028e597b9c2abd44eeab05374e20e0fb1ad67859",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 206,
+      "parent_slot": 206
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/3106_afb7bc55417e43d7a22790c3576f04fc_37_QF_UFLIA.smt2",
+      "sha256": "e64811b8004b5cc81ea3f0666c033952d7b948c53cc2dfb1bdc6114883981e12",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 207,
+      "parent_slot": 207
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_55_QF_UFLIA.smt2",
+      "sha256": "e260c6a85d4afc553cfe1adc836a85fa6ad53c9fda0d7d57c8da47bf47cc21d0",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 208,
+      "parent_slot": 208
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_57_QF_UFLIA.smt2",
+      "sha256": "b5054a31b5ce191119c23a24ceb2e0b783a93c91e39d762e2dfc3cbf8178063a",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 209,
+      "parent_slot": 209
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/38347_525a1ca0331f2bcbf520_54_QF_UFLIA.smt2",
+      "sha256": "d554cc5c6531499ae35d97fe6e43d7bd01b7a92f178cadec632d374028766058",
+      "expected": "unknown",
+      "repetition": 0,
+      "original_slot": 211,
+      "parent_slot": 211
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_1c7158801cd59dc13f05_46_QF_UFLIA.smt2",
+      "sha256": "12e1b63a48e6ac45f7276b747a1aaeb7f2729b9ac38efce99a73bd1b178f9a0f",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 212,
+      "parent_slot": 212
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+      "sha256": "936f197c41d37113cb50d53fa0e57f4926941c1a03d048e77d6cbcc1e0db7825",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 214,
+      "parent_slot": 214
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/41958_32933c5a1384696720a2_61_QF_UFLIA.smt2",
+      "sha256": "ee71cb3cf78de89006874deaacf6a31b801d09f94b3cbb8531f2d9640ebba697",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 215,
+      "parent_slot": 215
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/41958_45c688a4814eb926c254_60_QF_UFLIA.smt2",
+      "sha256": "dda858a8f778c637f7d34244643b4de5f9c6d3064cc63c1db77618d656d1438b",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 216,
+      "parent_slot": 216
+    }
+  ]
+}

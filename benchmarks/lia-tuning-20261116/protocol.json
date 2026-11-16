@@ -1,0 +1,762 @@
+{
+  "scope": "Bounded exploratory existing-option pilot; no solver/default changes, no global optimum claim.",
+  "selection_sha256": "d8773b6d4cff7624295f643fd7aed5faa0356278e6de438888ded4eda534a6db",
+  "inputs": 40,
+  "row_contexts": 2,
+  "policies": {
+    "PVT": [
+      "private",
+      1,
+      100000
+    ],
+    "H0": [
+      "hybrid",
+      0,
+      100000
+    ],
+    "H1k": [
+      "hybrid",
+      1,
+      1024
+    ],
+    "H1": [
+      "hybrid",
+      1,
+      100000
+    ],
+    "H16k": [
+      "hybrid",
+      16,
+      1024
+    ],
+    "H16": [
+      "hybrid",
+      16,
+      100000
+    ],
+    "H4096k": [
+      "hybrid",
+      4096,
+      1024
+    ],
+    "H4096": [
+      "hybrid",
+      4096,
+      100000
+    ]
+  },
+  "tasks": [
+    {
+      "logic": "QF_LIA",
+      "label": "r0-PVT",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "PVT",
+        "mode": "private",
+        "factor": 1,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r0-H0",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H0",
+        "mode": "hybrid",
+        "factor": 0,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r0-H1k",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=1024"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H1k",
+        "mode": "hybrid",
+        "factor": 1,
+        "node_cap": 1024
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r0-H1",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H1",
+        "mode": "hybrid",
+        "factor": 1,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r0-H16k",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=16",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=1024"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H16k",
+        "mode": "hybrid",
+        "factor": 16,
+        "node_cap": 1024
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r0-H16",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=16",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H16",
+        "mode": "hybrid",
+        "factor": 16,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r0-H4096k",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=4096",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=1024"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H4096k",
+        "mode": "hybrid",
+        "factor": 4096,
+        "node_cap": 1024
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r0-H4096",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=4096",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H4096",
+        "mode": "hybrid",
+        "factor": 4096,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r1-PVT",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "PVT",
+        "mode": "private",
+        "factor": 1,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r1-H0",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H0",
+        "mode": "hybrid",
+        "factor": 0,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r1-H1k",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=1024"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H1k",
+        "mode": "hybrid",
+        "factor": 1,
+        "node_cap": 1024
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r1-H1",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H1",
+        "mode": "hybrid",
+        "factor": 1,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r1-H16k",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=16",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=1024"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H16k",
+        "mode": "hybrid",
+        "factor": 16,
+        "node_cap": 1024
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r1-H16",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=16",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H16",
+        "mode": "hybrid",
+        "factor": 16,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r1-H4096k",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=4096",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=1024"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H4096k",
+        "mode": "hybrid",
+        "factor": 4096,
+        "node_cap": 1024
+      }
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "r1-H4096",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=4096",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H4096",
+        "mode": "hybrid",
+        "factor": 4096,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r0-PVT",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "PVT",
+        "mode": "private",
+        "factor": 1,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r0-H0",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H0",
+        "mode": "hybrid",
+        "factor": 0,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r0-H1k",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=1024"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H1k",
+        "mode": "hybrid",
+        "factor": 1,
+        "node_cap": 1024
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r0-H1",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H1",
+        "mode": "hybrid",
+        "factor": 1,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r0-H16k",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=16",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=1024"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H16k",
+        "mode": "hybrid",
+        "factor": 16,
+        "node_cap": 1024
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r0-H16",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=16",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H16",
+        "mode": "hybrid",
+        "factor": 16,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r0-H4096k",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=4096",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=1024"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H4096k",
+        "mode": "hybrid",
+        "factor": 4096,
+        "node_cap": 1024
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r0-H4096",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=4096",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": false,
+        "policy": "H4096",
+        "mode": "hybrid",
+        "factor": 4096,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r1-PVT",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=private",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "PVT",
+        "mode": "private",
+        "factor": 1,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r1-H0",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H0",
+        "mode": "hybrid",
+        "factor": 0,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r1-H1k",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=1024"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H1k",
+        "mode": "hybrid",
+        "factor": 1,
+        "node_cap": 1024
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r1-H1",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=1",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H1",
+        "mode": "hybrid",
+        "factor": 1,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r1-H16k",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=16",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=1024"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H16k",
+        "mode": "hybrid",
+        "factor": 16,
+        "node_cap": 1024
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r1-H16",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=16",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H16",
+        "mode": "hybrid",
+        "factor": 16,
+        "node_cap": 100000
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r1-H4096k",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=4096",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=1024"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H4096k",
+        "mode": "hybrid",
+        "factor": 4096,
+        "node_cap": 1024
+      }
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "r1-H4096",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lra-propagation",
+        "--lra-row-propagation",
+        "--lra-bidirectional-row-propagation",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=4096",
+        "--lia-split-atom-limit=0",
+        "--lia-branch-limit=100000"
+      ],
+      "parameters": {
+        "rows": true,
+        "policy": "H4096",
+        "mode": "hybrid",
+        "factor": 4096,
+        "node_cap": 100000
+      }
+    }
+  ],
+  "repetitions": 3,
+  "native_measurements": 1920,
+  "seconds": 30,
+  "address_space_bytes": 8589934592,
+  "native_source": "4f02a8b7",
+  "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+  "build": "Reuse immutable Release binary prepared via --build-via-slurm,build401293/check401294. Preflight immediately before each new submission.",
+  "generated_seed_base": 2026114000,
+  "mutation_seed_base": 2026114100,
+  "qualification": "1000fresh generated/ref cases and exact-option tracked regressions per32logic/context/policy tasks; real-seed mutations per task; all nativeSAT independently Dolmen checked. Resource-only incomplete outcomes separate; stop on wronganswer/crash/invalidmodel/unexplained disagreement.",
+  "resource_probes": {
+    "parent_slots": {
+      "r0": [
+        48,
+        198,
+        376,
+        332
+      ],
+      "r1": [
+        48,
+        198,
+        368,
+        453
+      ]
+    },
+    "atom_caps": [
+      0,
+      1,
+      8,
+      64
+    ],
+    "factor": 1,
+    "node_cap": 100000,
+    "seconds": 30,
+    "rows": 32,
+    "kind": "Correctness probes, not tuning scores; known unlimited prefixes require multiple splits; capped unknown must have exact resource diagnostic. All successfulSAT separately Dolmen."
+  },
+  "schedule": "32generated+32seed+32mutation gate tasks; audit all before80case/context timing tasks in3sequential arrays,64concurrency; model arrays32each only after last timing. No own gates/models compete with timings.",
+  "analysis": "Perlogic/context solved,meanPAR2(unsolved60s),perrepmedian summaries,memory,private work/splits/SATresumes; paired candidates vsH1 andPVT, gains/losses and cutoff sensitivity. Scores descriptive for enriched pilot only; model time excluded.",
+  "defaults": "Unchanged; later independent global tuning required."
+}
