@@ -7,11 +7,11 @@
       "date": "2026-11-16",
       "branch": "lia-integrality",
       "kind": "Bounded hybrid-parameter correctness and tuning pilot",
-      "evidence_status": "Qualified bounded parameter pilot; all1920 primary rows and663 SAT timing-model replays audited; final narrative/review/render pending. No default promotion.",
+      "evidence_status": "Complete qualified bounded pilot, retained as development evidence; no solver/default/profile selection change. Global tuning deferred as requested.",
       "native_source": "4f02a8b7",
       "native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
       "build_provenance": "Reuse immutable helper --build-via-slurm Release build/check;49 native groups/357 Python pass; no solver/build changes. Helper --check-only immediately before each submission.",
-      "reporting_source": "784e0290",
+      "reporting_source": "35e680fd",
       "protocol": "benchmarks/lia-tuning-20261116/protocol.json",
       "selection": "benchmarks/lia-tuning-20261116/selection.json",
       "scope": "Factors0,1,16,4096; caps1024/100000;zero-factor duplicatecollapsed;privatecontrol=8policies;rowsoff/on,Poff;40target-enriched inputs20perlogic;3reps30s/8GiB=1920primarynative rows; notglobaltuning.",
@@ -21,8 +21,8 @@
         "mutation_base": 2026114100
       },
       "raw_artifacts": "results/lia-tuning-20261116; privateSSH/rootmapping outsidetrackedfiles",
-      "checks": "Three pure profile/dependency tests pass; make lint, make docs and make docs-check-links pass; 304 pages, 45677 local links, 1361 Git links, zero failures. Native source/build inputs unchanged from qualified 4f snapshot; no fresh C++ static/ASan run.",
-      "remaining": "Summarize paired parameter tradeoffs, final independent documentation review/build/render and evidence commit. No default promotion.",
+      "checks": "Three pure profile/dependency tests pass; make lint, full timing/gate/probe/unknown auditors, make docs and make docs-check-links pass;304pages/45695local links/1362Git links/zero failures;524externalURLsdeferred. Native source/build inputs unchanged from qualified4f snapshot; no fresh C++ makecheck/ASan/static run.",
+      "remaining": "None for this bounded pilot. Global tuning/default selection explicitly deferred; all submitted experiment jobs terminal and local experiment process audit clean.",
       "documentation_review": {
         "reviewer": "lia_tuning_docs_review (independent read-only)",
         "verdict": "Protocol/tooling ready; LT-DOC-01/02/03 and LT-S01 resolved; final qualification/results/rendering outside acceptance.",
@@ -30,6 +30,14 @@
         "qualification": {
           "verdict": "Ready; exact96 receipts/options/campaign and29767directSATmodels independently verified; timings/render outside acceptance.",
           "accepted_page_sha256": "3bf19f84c05c42984bc7eec646b8f3bd8b56edd5bde312e4dd0d01cc4ab9e247"
+        },
+        "methods_completion": {
+          "verdict": "Ready;240allocation/provenance/modelcoverage hashes,1920CSV rows and all663SAT models independently checked; family summaries recomputed.",
+          "accepted_page_sha256": "ead5511eb48fbe0d0706c66b5c4059e69f3c82a16d0c205c16ab0ccf0c6bb45d"
+        },
+        "final": {
+          "verdict": "Ready; LT-DOC-01\u201304 resolved. Tables/interpretation/qualification/artifacts accepted; reviewer did not inspect rendering.",
+          "accepted_page_sha256": "53dfa0d9cb9773b3a6b9d09e904338c9ecea9a3a3b6fff88e06693a59faddee7"
         }
       },
       "qualification_artifact": "benchmarks/lia-tuning-20261116/qualification.json",
@@ -69,7 +77,32 @@
         "crash": 0,
         "invalid_model": 0
       },
-      "environment": "240 timing allocations across8x86_64nodes with identical recorded topology:56logicalCPUs,2sockets,14cores/socket,2threads/core,SLURM RealMemory257525;affinity2logicalCPUs/allallocations;physical isolation not established. Immutable Z3/Dolmen SHA256 freshly rechecked under qualification PATH."
+      "environment": "240 timing allocations across8x86_64nodes with identical recorded topology:56logicalCPUs,2sockets,14cores/socket,2threads/core,SLURM RealMemory257525;affinity2logicalCPUs/allallocations;physical isolation not established. Immutable Z3/Dolmen SHA256 freshly rechecked under qualification PATH.",
+      "analysis_sha256": "96f4b176facf4e54f5742775d5a072083ba04ada379bbb9c0ec65356d903eef8",
+      "analysis_script_sha256": "04f4899f0245aaedeea34e76bf362001b913b13db4d7821914b6a0f495cd7346",
+      "result_decision": {
+        "LIA": "Both factor4096 policies18/20eachrep/bothrowcontexts, versusH117/20andprivate15/20; recoverparent85/95butlose40relativeH1. Nodecap1024leaves solvedsets unchanged, reducesparent61private2613to1781nodes/oneSATresume and~3s.",
+        "UF": "RowsoffH05/20versusothers4/20; rowsonall3/20. Short30sdeadline heavilycensorsUF; no generalranking.",
+        "mechanism": "Recoveredrefutations614/729nodes vsprivate70539/19806; selection policy also changes vsprivate. SlackH0/H1/H16 private nodes0/98/1075, private-completion median0.074/0.551/22.950s;4096timeouts.",
+        "interpretation": "Real targeted budget effects, not uniform speedup; no optimum or significance claim. Keep both earlyhandoff/largerprivate regimes for later heldout/longer/globaltuning.",
+        "timeout_snapshots_with_printed_private_nodes": 375,
+        "max_native_RSS_MiB": 890.19921875
+      },
+      "rendered_inspection": {
+        "method": "Headless Chrome PDF from freshly assembled site; manually inspected rendered result/case tables on pages3/4 and extracted full8-page text.",
+        "local_artifact": "/tmp/primo-lia-tuning.pdf",
+        "scope": "Primary agent rendered review; independent reviewer accepted source/artifacts/tables/interpretation only.",
+        "result": "Readable tables with all columns; no clipping observed."
+      },
+      "verification_commands": [
+        "python3 -m unittest tests.python.test_lia_tuning_pilot",
+        "make lint",
+        "python3 scripts/qualification/lia_tuning/audit.py gates --configs results/lia-tuning-20261116/configs --rows results/lia-tuning-20261116/raw/qualification --out results/lia-tuning-20261116/gate-audit.json",
+        "python3 scripts/qualification/lia_tuning/probes.py analyze --configs results/lia-tuning-20261116/probe-configs --rows results/lia-tuning-20261116/raw/probes --out results/lia-tuning-20261116/probe-audit.json",
+        "python3 scripts/qualification/lia_tuning/probes.py unknowns --gates results/lia-tuning-20261116/gate-audit.json --configs results/lia-tuning-20261116/unknown-configs --rows results/lia-tuning-20261116/raw/unknowns --out benchmarks/lia-tuning-20261116/resource-unknowns.json",
+        "python3 scripts/qualification/lia_tuning/audit.py timings --configs results/lia-tuning-20261116/configs --rows results/lia-tuning-20261116/raw/timings --selection benchmarks/lia-tuning-20261116/selection.json --out benchmarks/lia-tuning-20261116/full",
+        "make docs-check-links"
+      ]
     },
     {
       "id": "2026-11-15-arithmetic-combinations",

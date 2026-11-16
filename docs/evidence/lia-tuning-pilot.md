@@ -40,6 +40,106 @@ produce **1,920 primary native measurements**, at **30 seconds**, with an
 is a pilot, not a statistical significance test. A later full-budget and
 independent global evaluation is required before selecting defaults.
 
+## Measured results
+
+The larger private factor has a real effect on the targeted LIA bottleneck.
+Both factor-4,096 policies solve 18/20 LIA cases in every repetition, versus
+17/20 for factor one and 15/20 for private mode, in both row contexts. Relative
+to factor one, they recover the two cut-lemma refutations and lose one slack
+instance. This is a changed solved set, not a broad uniform runtime speedup.
+
+The cap is also active: 1,024 reduces private work on one pseudo-Boolean LIA
+instance and saves about three seconds. It does not change the solved set in
+this pilot. UF evidence is weaker at this short deadline: factor zero with
+rows off solves one additional case; all row-on policies solve only 3/20.
+There is no setting that wins on every targeted input. No defaults change.
+
+Counts below are identical in all three repetitions. PAR2 cells give the mean
+of the three per-repetition means, in seconds per input. Each unsolved row costs
+60 seconds. The full audit retains each repetition, its runtime distribution,
+paired conditional runtimes, gains/losses, family summaries and memory/counters.
+These selected 40 inputs do not support a global ranking or significance claim.
+Three repetitions do not fully balance eight profile positions.
+
+### QF_LIA
+
+| Policy | Rows off solved /20 | Mean PAR2 (s) | Rows on solved /20 | Mean PAR2 (s) |
+| --- | ---: | ---: | ---: | ---: |
+| PVT | 15 | 17.07 | 15 | 16.36 |
+| H0 | 15 | 16.48 | 15 | 15.76 |
+| H1k | 17 | 11.76 | 17 | 11.06 |
+| H1 | 17 | 11.92 | 17 | 11.21 |
+| H16k | 17 | 12.88 | 17 | 12.18 |
+| H16 | 17 | 13.04 | 17 | 12.33 |
+| H4096k | 18 | 8.75 | 18 | 8.05 |
+| H4096 | 18 | 8.90 | 18 | 8.20 |
+
+### QF_UFLIA
+
+| Policy | Rows off solved /20 | Mean PAR2 (s) | Rows on solved /20 | Mean PAR2 (s) |
+| --- | ---: | ---: | ---: | ---: |
+| PVT | 4 | 51.87 | 3 | 51.93 |
+| H0 | 5 | 50.12 | 3 | 51.93 |
+| H1k | 4 | 51.85 | 3 | 51.93 |
+| H1 | 4 | 51.88 | 3 | 51.93 |
+| H16k | 4 | 51.87 | 3 | 51.95 |
+| H16 | 4 | 51.87 | 3 | 51.93 |
+| H4096k | 4 | 51.85 | 3 | 51.92 |
+| H4096 | 4 | 51.86 | 3 | 51.92 |
+
+### What changed in search
+
+These rows-off times are medians of the three primary repetitions; **TO**
+means the 30-second deadline expired. Cleanup makes stored timeout wall times
+about 31 seconds; the score remains 60 seconds. Parent slots identify inputs
+in the published selection and measurement CSV.
+
+| Input (parent slot) | PVT (s) | H0 (s) | H1 (s) | H16 (s) | H4096k (s) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| `cut_lemma_01_005` (85) | 9.638 | TO | TO | TO | 0.233 |
+| `cut_lemma_01_010` (95) | 2.646 | TO | TO | TO | 0.310 |
+| `slacks/15-7` (40) | TO | 0.086 | 0.564 | 22.962 | TO |
+| `normalized-j301_4-unsat` (61) | TO | TO | 27.644 | 27.523 | 24.450 |
+
+The recovered refutations use exactly **614 and 729 private nodes** with both
+factor-4,096 policies, with no external split request. Private mode uses 70,539
+and 19,806 nodes. Comparing with private mode also changes variable selection:
+hybrid uses the history policy, so this comparison does not isolate budget
+size from selection. Factors one and 16 time out on these two inputs.
+
+On `slacks/15-7`, H0 uses zero private nodes and three SAT resumes; H1 uses 98
+nodes and three resumes; H16 uses 1,075 nodes and two resumes. Their median
+private-completion timers are 0.074, 0.551 and 22.950 seconds respectively.
+This exposes private arithmetic work directly, rather than inferring it from
+small PAR2 differences. The factor-4,096 runs time out without final counters;
+no unfinished-search counters are imputed.
+
+On `normalized-j301_4-unsat`, compare **H1k with H1** to isolate the cap: medians
+are 24.470 versus 27.644 seconds, with 1,781 versus 2,613 private nodes. The
+lower cap causes one external split/SAT resume; the higher cap completes
+privately. The same counter change occurs at factors 16 and 4,096. The cap
+applies per completion attempt, so total private nodes can exceed 1,024.
+
+The extra UF completion is parent slot 210, Certora `38347..._58_QF_UFLIA`:
+H0 with rows off returns SAT in a median 25.144 seconds with one generated atom
+and zero private nodes; H1 and private mode time out. Rows on loses this gain.
+Most selected UF inputs remain censored at 30 seconds, and its common-case
+runtime differences are small. This pilot cannot rank UF settings generally.
+
+Peak observed native RSS is 890.2 MiB; per-profile/context medians and maxima
+are in the full audit. Successful-row counter totals exclude incomplete search;
+normal resource-return snapshots remain separate. Printed cancellation snapshots
+on timeout rows remain in the CSV. Phase timers overlap and
+must not be added as disjoint costs. All 663 SAT timing rows passed separate
+Dolmen checks; correctness qualification and finite-cap probes are described
+below.
+
+The decision is to retain these results as development evidence. Both early
+SAT handoff and a larger private-search regime belong in the later global
+tuning effort, which needs independent inputs and longer deadlines. This study
+uses the existing default engine/equality settings; it does not evaluate an
+alternate online/offline or equality-producer matrix, nor choose a new profile.
+
 ## Correctness and execution
 
 The immutable binary is source `4f02a8b7`, SHA256
@@ -124,8 +224,9 @@ The {download}`measurement CSV <../../benchmarks/lia-tuning-20261116/full/measur
 retains every repetition, parent input slot, row context, outcome, RSS and
 available counter. Family summaries use the first two path components.
 Paired comparisons include changes to one factor or cap, in addition to
-H1/PVT controls. Counter totals are conditional on successful completion;
-timeout counters are unavailable. Defaults remain unchanged.
+H1/PVT controls. Counter totals are conditional on successful completion. Printed timeout
+snapshots are retained in the CSV and excluded from successful-row totals;
+unprinted timeout counters remain unavailable. Defaults remain unchanged.
 
 The native budget and history belong to
 {arithmeticcombsource}`lia_branch_and_bound.cpp <src/theory/arithmetic/lia_branch_and_bound.cpp>`;
