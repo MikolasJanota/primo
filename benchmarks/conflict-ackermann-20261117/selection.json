@@ -1,0 +1,727 @@
+{
+  "scope": "Target-enriched40inputs/logic, not representative or global tuning.",
+  "method": "20family-round-robin priority inputs then20hash-ordered family-round-robin fill; family=first path component.",
+  "UF_priority": "Historical native/reference gap with any reference<=5s and native>=1s/timeout; sourceuniform120 archive.",
+  "UFLIA_priority": "Printed congruence-explanation edge counts from qualified combinations B rep0; includes explanation work, not necessarily conflict-only.",
+  "historical_uniform_sha256": "50a095267f0649fbaea10195a3d7e263b545ba7d1d821b727893e2652cad4b51",
+  "cases": [
+    {
+      "logic": "QF_UF",
+      "file": "2018-Goel-hwbench/QF_UF_sokoban.3.prop1_ab_br_max.smt2",
+      "sha256": "0cdaf516495f28d82f2282338487c472ba2db91a23865e7cfd7fffa4aed2f70b",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "NEQ/NEQ016_size8.smt2",
+      "sha256": "39b444601016b3ed40aefcc5f71dd54b069af4dca1edfce2d4987991ca396e0a",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "PEQ/PEQ011_size8.smt2",
+      "sha256": "5beaa9e86fa2355fa51156b467ca8a290a54ebe1a003caea4383900159761fb3",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "QG-classification/qg7/iso_icl_repgen003.smt2",
+      "sha256": "24fbda1849824eb9f7fb731b65065d3c12bee84090f6654e88b841f981076d75",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "SEQ/SEQ035_size6.smt2",
+      "sha256": "12fdbd1a5e547daeb1e313f6cb6ec1bcda1736d5e0f080b63a767f1ec828e8eb",
+      "expected": "sat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "2018-Goel-hwbench/QF_UF_rushhour.2.prop1_ab_reg_max.smt2",
+      "sha256": "c9468e4d242d4f588b3b63cf719219076e1d8c1d80d230270a3d8d30f8c92b49",
+      "expected": "sat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "NEQ/NEQ033_size6.smt2",
+      "sha256": "cdf36b42d90a5489b2391b801157a1ab5cd53c35a7ef7fb785646f426e0487cf",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "PEQ/PEQ019_size7.smt2",
+      "sha256": "2a0946dc0623144c59356710290dada3813ced95c3aaef0e754cd2204f6b5e6e",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "QG-classification/qg7/gensys_icl001.smt2",
+      "sha256": "6fbd8090d743a61312b44fdf58208760771fcb57b6a3b0f74f723307bb108a69",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "SEQ/SEQ026_size7.smt2",
+      "sha256": "e3c649d9b385db01cc363150214f7af57497dc61b9ac636156d5b0c7bed4509d",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "2018-Goel-hwbench/QF_UF_peg_solitaire.3.prop1_ab_reg_max.smt2",
+      "sha256": "5a9f6e6e135c80b2e3dc3f11cc9d36aca38f7e3bce0212e702946dc2af2083b0",
+      "expected": "sat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "NEQ/NEQ033_size5.smt2",
+      "sha256": "6ee87dd672d7c62d540afb1949ef712e7c3184aa3b80b32551ae3bbf29990a2d",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "PEQ/PEQ011_size7.smt2",
+      "sha256": "77c81c97ba5faf34b3d22bdadc82b5bdffaf34b2a8642ba488728bb416816db4",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "QG-classification/qg7/gensys_icl003.smt2",
+      "sha256": "a57fafad05d0b8b6e2d39cb37b8c1a190462d8daf4b9edefe08fcc0275a121f3",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "SEQ/SEQ026_size6.smt2",
+      "sha256": "15bb3a7bbc908d02d590b7e93467eeeb9432409893bcbfb41316ce119eb223b5",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "2018-Goel-hwbench/QF_UF_rushhour.1.prop1_ab_reg_max.smt2",
+      "sha256": "2afead139963d2f30e98e143a08378b65ecc099466b539d723e950aa3b7c1be5",
+      "expected": "sat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "NEQ/NEQ031_size8.smt2",
+      "sha256": "61c3b50d9abf505e37ee649b993af5dd8a099d2c86e6d916c0e37877521abc9d",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "PEQ/PEQ002_size8.smt2",
+      "sha256": "688b9986fb15d9a52389204c8bd5c3b69cb8d908bd0b1350c826021fbee34a62",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "QG-classification/qg7/iso_icl_repgen001.smt2",
+      "sha256": "78ab77e8b84ff92f3c572b01b451e0229239b1729354d76e4608642eadbb0d56",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "SEQ/SEQ035_size5.smt2",
+      "sha256": "f80ae9c8d44f54dd64b95d12249c00eac02f61ce0e936839de197ee88e698396",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "20170829-Rodin/smt6377531776677660648.smt2",
+      "sha256": "37246d9e622de85a4eff6d8f352d78ce51d95c5104e68321efff9f7e49595c16",
+      "expected": "sat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "2018-Goel-hwbench/QF_UF_pgm_protocol.4.prop6_ab_cti_max.smt2",
+      "sha256": "3a847368e0ef76488e905fa5db7c6dbbaf78157850772bd08cc900e6d3369a29",
+      "expected": "sat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "20190906-CLEARSY/0016/00402.smt2",
+      "sha256": "a576a6719d5b0602bc164c50e06c7689491c53ba0fbc2c277f528059e8aa8154",
+      "expected": "sat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "NEQ/NEQ023_size6.smt2",
+      "sha256": "bed087db3b0587a3ac855790e82589622ad7e0248f2103d80934baaa8a938cd1",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "PEQ/PEQ014_size9.smt2",
+      "sha256": "0476ea28ab2227e35ed09153bb2da47c4b48d0f16f82b5d835b5a01b2d8519ca",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "QG-classification/qg5/dead_dnd044.smt2",
+      "sha256": "651330942865471d8a1313a1abfe00418851a5f7216a5e4eba8c27afa8c7bbff",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "SEQ/SEQ026_size5.smt2",
+      "sha256": "3b9cb5b4d571b7b081fd78f98c8d246b31ade7e98fe768399ee2b3ed7f65aaaf",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "TypeSafe/z3.1184163.smt2",
+      "sha256": "b9f7f1d6254ef94dd6472cfd24690e0652e30d2c734c219b69e4ee508fccf578",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "eq_diamond/eq_diamond4.smt2",
+      "sha256": "7a7bbee7bac2d53b4302c1140c3222158b816fa26e7bf27056164dc6e31f74c8",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "20170829-Rodin/smt8855268942650190404.smt2",
+      "sha256": "111344aa2ba3693efbd64827ecf8750db1c76d32e42d3b52bf583f20dcbddb34",
+      "expected": "sat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "2018-Goel-hwbench/QF_UF_needham.3.prop4_ab_cti_max.smt2",
+      "sha256": "94eacf7e928cdadc8c611b3ec6423b87b1d9d3f21a93dce6b51c96f629c69971",
+      "expected": "sat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "20190906-CLEARSY/0001/00304.smt2",
+      "sha256": "72d655eb90ab4348e539f81358e54d0231102f041e34183c59d604b03eee3273",
+      "expected": "sat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "NEQ/NEQ006_size4.smt2",
+      "sha256": "9df39cb79676b3e81296a46c7ebadd7d2cec7a3de4963a3670534d3bfac09567",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "PEQ/PEQ012_size6.smt2",
+      "sha256": "b3ef5c792f5df9f55bddc92062262b75b3f53aeae51609cde0b301c8f973b139",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "QG-classification/qg5/iso_icl089.smt2",
+      "sha256": "2aef99000dfca6278124cd411cada506544980414841391d699043c6a8d609b2",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "SEQ/SEQ019_size4.smt2",
+      "sha256": "288af8a90cb3184eca2b533b61b14659fe3c70df817ac0cece5dec212a67e7ef",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "TypeSafe/z3.1184147.smt2",
+      "sha256": "4007748020eba2d65405264892e728528cb46d28800731e22072f17649632532",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "eq_diamond/eq_diamond12.smt2",
+      "sha256": "e213d4fc977e334cb351282a66975ecf2423707f6f5b7ce14ef5a82c609be82a",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "20170829-Rodin/smt2080745738819601301.smt2",
+      "sha256": "0846ff4baa5c8a4adcf7547740715b3f0a9dde24d098742ae326367127db1a62",
+      "expected": "unsat"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "2018-Goel-hwbench/QF_UF_train-gate.4.prop1_ab_cti_max.smt2",
+      "sha256": "ae9e606536f985835d50c2c17887607dcbac8e2975b72efddc1de39f11fcdc76",
+      "expected": "sat"
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_8_QF_UFLIA.smt2",
+      "sha256": "48746a0b6a27dbb481e113f0a674e9d18793b7f76cb30132732c1222625d69f1",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 229
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/EufLaArithmetic/hard/hard14.smt2",
+      "sha256": "fecb718a709581b7dbd3acc341d9fbe9d46f907b3386eccf2e179a28b81bf6c1",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 239
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_23_43.smt2",
+      "sha256": "f8cc3c756811c7e0e3bd843c2f426647615674edde1db27e26d76e21f6340743",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 460
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/11775_ad46e5b8db4748c51973_43_QF_UFLIA.smt2",
+      "sha256": "7fd2f8cd8c2576817946803317849e4d2dbcdf362f829d5d098c5d6e5290f5db",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 201
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/EufLaArithmetic/hard/hard15.smt2",
+      "sha256": "13bf02dd0c0cee00bbf92e376d06b435eb49dae5b6ccbd0b8943392340b0431c",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 240
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_21_41.smt2",
+      "sha256": "f0a0de44d386eb4e3bbe105511f037075239a0fcca4990e2087e2bed7e6ada0f",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 458
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/11775_ad46e5b8db4748c51973_42_QF_UFLIA.smt2",
+      "sha256": "f4cc823860e071958e59b1afe722fd19470e6356a3850f5eb2c5a632ba45c86c",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 200
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/EufLaArithmetic/hard/hard13.smt2",
+      "sha256": "1a5611fd1eca111c84fa3989c1a3f872ba9c629002b35c58076ea4040ee6b4e5",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 238
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_10_20.smt2",
+      "sha256": "5328d4402bb86583b8eb11c092dadd15350b063022f7f2699a0a301192b746b0",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 440
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2",
+      "sha256": "c68e77db3bc6cd15daebe8fcffb9d445bca654c6b2fcc47a8b65d27c3074e182",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 213
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/EufLaArithmetic/hard/hard11.smt2",
+      "sha256": "9967bc1abcfd9ee2b6e53aa5fdb54c0046890b1296798e6049baa453754cc5c0",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 237
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_11_11.smt2",
+      "sha256": "136234cd3f708e879692872432a16e7d5f38c4fbc8e3ac4bf04372482c498d3e",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 441
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2",
+      "sha256": "936f197c41d37113cb50d53fa0e57f4926941c1a03d048e77d6cbcc1e0db7825",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 214
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/EufLaArithmetic/hard/hard18.smt2",
+      "sha256": "d56cb93eb85e7e50aaa3a3831ee4d399c2f944e500a8b32a6913504c61fc59fb",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 242
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_10_15.smt2",
+      "sha256": "69464841b781fc72d9018d72508e41d51efb581f5117175c65dd379fbc26122a",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 439
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/EufLaArithmetic/hard/hard17.smt2",
+      "sha256": "77aa1d51b62c48d1fc70af6aa2bba15c67f7cd5c4d316101a00026b199f3e025",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 241
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_14_19.smt2",
+      "sha256": "be3571282fd94e83d9c7775e17a0e0df4bf2fc28e2674f4bf88c46f7d919a2c4",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 446
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/EufLaArithmetic/medium/medium10.smt2",
+      "sha256": "3a4ed76c548922dd4e11204ac7031720a222bba2b5d69c34332dd267c1bf3988",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 250
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_12_17.smt2",
+      "sha256": "d7543778885fc4f929bc27e868ccc6e00043084e8102bfa467c56cbb0ca71b91",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 443
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/EufLaArithmetic/medium/medium11.smt2",
+      "sha256": "03f568be40c65a0f48761c530d531f68baec9fc6b5ea1b05a29840cc90c4058a",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 251
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_57_QF_UFLIA.smt2",
+      "sha256": "b5054a31b5ce191119c23a24ceb2e0b783a93c91e39d762e2dfc3cbf8178063a",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 209
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Wisa/xs-20-13-2-5-2-3.smt2",
+      "sha256": "24b9f5a37f3e6ad6fb33211c48af123721835b4e9a7f5e8110b80e30e9476e9f",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 433
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_27_47.smt2",
+      "sha256": "3e0ad654e08a68996ea025d4d53838e9717bd08f1ecd4b0a67059df6d88202a5",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 466
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/38347_092cc73601c78e45f4f9_55_QF_UFLIA.smt2",
+      "sha256": "e260c6a85d4afc553cfe1adc836a85fa6ad53c9fda0d7d57c8da47bf47cc21d0",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 208
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Wisa/xs-11-08-3-4-3-5.smt2",
+      "sha256": "33ee8e3b9ab7c1e925ec806ed7da892798d518d74c2e8174bb7a4dfa3f4e2dc4",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 354
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_8_8.smt2",
+      "sha256": "cad3a158240e69802daa0fbbf8bca94088ba24837a216fc03f0c248441185828",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 496
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_4_UFLIA.smt2",
+      "sha256": "6dd90ca24cfc1078ebf7e02024b837d83445e93d3d208aefaafb5350e73b9701",
+      "expected": "unknown",
+      "repetition": 0,
+      "original_slot": 235
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Wisa/xs-18-20-1-4-2-1.smt2",
+      "sha256": "cce5a040d2eaf94906645f640595c5c113efefbc79d96f34d2f2be692e0608da",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 420
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_24_44.smt2",
+      "sha256": "8f45e31163fef6ba6af7f197d8a8ccdd932f38140ca86035f3e0cf032b9c440e",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 461
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/44289_4066055e0f64d96da11a_14_QF_UFLIA.smt2",
+      "sha256": "0843493b20bf1e97f728fa7d8285ecbc0c83742d5c052e343113d18495bdc036",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 217
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Wisa/xs-07-18-1-1-4-1.smt2",
+      "sha256": "8cfee1abfcaedfd275d9c6acea2f1b6310e4430e3cffbe1946e8d93d077680f9",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 326
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_20_30.smt2",
+      "sha256": "8a82b95142cb0bcf613aa54456e9e3ee7ca0a2443b4413e509c3de2ad7e8cfa8",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 456
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/44289_b077fc096b3d41cba49f8628caff7fa5_16_QF_UFLIA.smt2",
+      "sha256": "c0a83a2a03e670ee63cecb6c6498be219d7dc1dd92bc1952a6fa49b907bde6b8",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 219
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Wisa/xs-10-17-5-2-2-5.smt2",
+      "sha256": "a143020c00d1b33a63ed92048a92da3097616091f2f0a9351bfd9333d958647f",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 351
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_28_28.smt2",
+      "sha256": "a33717f40d074a269be11d2a1500009319e379c548f9dfc6eaec4eaacbd80f52",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 467
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/83314_a702bf8b823398c9e37a_1_UFLIA.smt2",
+      "sha256": "cc0c1a914787bc0033acf894e5ccd58bbdd7606c2bb837caebe261851e26a782",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 234
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Wisa/xs-10-16-3-5-2-4.smt2",
+      "sha256": "9a05dad5a81164f474d945f5399a7e5b1301bff1d82c5c8239abed54a1217262",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 350
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "wisas/xs_14_24.smt2",
+      "sha256": "47929afe8ff752079ea9673ad1eea06859bac1e181d0655b37cba550b605d7d4",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 447
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "20230314-Jaroslav-Bendik-Certora/44788_1965f0d6d94d5d8054ba_35_QF_UFLIA.smt2",
+      "sha256": "bc2200ca50bf59ea91570e663e393eab2dd872cd29fbb27faf78992121e3e74b",
+      "expected": "unsat",
+      "repetition": 0,
+      "original_slot": 220
+    },
+    {
+      "group": "uflia",
+      "logic": "QF_UFLIA",
+      "file": "mathsat/Hash/hash_sat_07_16.smt2",
+      "sha256": "f9940ecfafa0f517e4d8903561a8e4b46bfd78c3a93c6b46a50d72eb50ca0320",
+      "expected": "sat",
+      "repetition": 0,
+      "original_slot": 271
+    }
+  ],
+  "prior_activity": {
+    "20230314-Jaroslav-Bendik-Certora/65782_cd31513fdcd15701933b_8_QF_UFLIA.smt2": {
+      "edges": 631,
+      "rows_sha256": "886c6cb7d1e4813a8e8d36775bda488a44321798d5b9abb838555440d70b995d"
+    },
+    "mathsat/EufLaArithmetic/hard/hard14.smt2": {
+      "edges": 12016,
+      "rows_sha256": "92116286c9db6abe1ac2d008125caea71730d5b77c9b644e966c355073ac3ca8"
+    },
+    "wisas/xs_23_43.smt2": {
+      "edges": 116,
+      "rows_sha256": "acffdc02fb2031722960b06a55965d5f630d05af7488e61f51ea98743f9d81f8"
+    },
+    "20230314-Jaroslav-Bendik-Certora/11775_ad46e5b8db4748c51973_43_QF_UFLIA.smt2": {
+      "edges": 272,
+      "rows_sha256": "2ad38d25e3385e45092d2111b4f8a3d2fe1048ee5ea9db2340d6bcc42821a872"
+    },
+    "mathsat/EufLaArithmetic/hard/hard15.smt2": {
+      "edges": 10549,
+      "rows_sha256": "9ecaa68710c92d84626afc0f5917fcfef548e453b53d4b5ac7d0ef2ec45316ba"
+    },
+    "wisas/xs_21_41.smt2": {
+      "edges": 101,
+      "rows_sha256": "6bd05da28307a585d7c357a97959135601a9aac926ad37faa76c7ecb6d9eed6d"
+    },
+    "20230314-Jaroslav-Bendik-Certora/11775_ad46e5b8db4748c51973_42_QF_UFLIA.smt2": {
+      "edges": 147,
+      "rows_sha256": "bd56daaae5a0cb0bf7697583bfaa9adc7e83bbd0a8ff71e1f7061138d739e43f"
+    },
+    "mathsat/EufLaArithmetic/hard/hard13.smt2": {
+      "edges": 7141,
+      "rows_sha256": "67952dde01f4fd19f7f7d64562a850ca095951b56a5927b43f96ad17d3b86e73"
+    },
+    "wisas/xs_10_20.smt2": {
+      "edges": 77,
+      "rows_sha256": "cc8d8145a4618eebb32fd79d5c161fece66632ac7f33bbe3b01b68d0df25af97"
+    },
+    "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_47_QF_UFLIA.smt2": {
+      "edges": 144,
+      "rows_sha256": "53f83e51c88658669dd48f3ab4f5d02684c20ba7f329cf01ea2d092cd7ad1f80"
+    },
+    "mathsat/EufLaArithmetic/hard/hard11.smt2": {
+      "edges": 6419,
+      "rows_sha256": "328e1f008c63d3238924561789f5f53b36a9110f1ab8f400082613a419768b63"
+    },
+    "wisas/xs_11_11.smt2": {
+      "edges": 65,
+      "rows_sha256": "5730cdc7423606a64d6956f4bf738cfbd179cba7d07230fbcf7038b478bcb167"
+    },
+    "20230314-Jaroslav-Bendik-Certora/39657_2866defdd1f2434b69ab_48_QF_UFLIA.smt2": {
+      "edges": 23,
+      "rows_sha256": "24f0674af08871198bdb9979391db0075bae22d641c02553323d4799b4e9e8a5"
+    },
+    "mathsat/EufLaArithmetic/hard/hard18.smt2": {
+      "edges": 5115,
+      "rows_sha256": "1e3f20f546e6d9dc775f5c7119cd208d4eb6379239a482bce4d4b7fb63ed48eb"
+    },
+    "wisas/xs_10_15.smt2": {
+      "edges": 61,
+      "rows_sha256": "67fd822fe6895ad24f653aabdfe6bb502d3ae489d49e422fa4b18dfead4f7808"
+    },
+    "mathsat/EufLaArithmetic/hard/hard17.smt2": {
+      "edges": 3773,
+      "rows_sha256": "9a5ebec5e3adf8acc64890ba5a71017ce19d8cf60fa9952956243c8b9242f805"
+    },
+    "wisas/xs_14_19.smt2": {
+      "edges": 59,
+      "rows_sha256": "35a0a2fa855ad2d8d16462407fdda18d9271199551fe052bdd9f76c6610a54ea"
+    },
+    "mathsat/EufLaArithmetic/medium/medium10.smt2": {
+      "edges": 3471,
+      "rows_sha256": "859c97d668a18032729a86477281cc0a216ee13db7d193a4f5590976bea51959"
+    },
+    "wisas/xs_12_17.smt2": {
+      "edges": 49,
+      "rows_sha256": "5548d38a831c24f8555a7966949e5fd2017aed05736ac0ac66985d363c1ee67e"
+    },
+    "mathsat/EufLaArithmetic/medium/medium11.smt2": {
+      "edges": 3373,
+      "rows_sha256": "5920f0229cb41a08f049df3cd5d3aa3f5ebb2b2e1a27b535ea16b37722a1a667"
+    },
+    "mathsat/Wisa/xs-20-13-2-5-2-3.smt2": {
+      "edges": 6,
+      "rows_sha256": "c24e28279c2a1940563c1d180e1fb3da78fd53b56c204deb51fad713d6c841e6"
+    },
+    "mathsat/Wisa/xs-11-08-3-4-3-5.smt2": {
+      "edges": 2,
+      "rows_sha256": "8cd44accea12ef97fa0344f2ffc27e517a40a7ec030d09aa516cd308c327e492"
+    },
+    "wisas/xs_8_8.smt2": {
+      "edges": 8,
+      "rows_sha256": "e908aeecfe7312ecaab7eca4ded5afca70b325502259b6aa4f88e9df60a54740"
+    },
+    "mathsat/Wisa/xs-07-18-1-1-4-1.smt2": {
+      "edges": 23,
+      "rows_sha256": "72881b2daf896e38ab4ab3a479652b87923e856cc44ed3c43ce79c6223ff6c6f"
+    },
+    "mathsat/Wisa/xs-10-17-5-2-2-5.smt2": {
+      "edges": 15,
+      "rows_sha256": "4fc178bc4c93b1773e1ccb6af8831c54169ffd8043e768a2dc0ee981fb8c4dae"
+    },
+    "wisas/xs_28_28.smt2": {
+      "edges": 5,
+      "rows_sha256": "4b8ecba79573d0569aaf7c59b5f15f0f0dbae7f0e636fd5dd8c3c62552e35f8d"
+    },
+    "mathsat/Wisa/xs-10-16-3-5-2-4.smt2": {
+      "edges": 29,
+      "rows_sha256": "7cfe303361c36d9a26f100fca7b201b52aaea093d559ff36ee5f86cd41661c8a"
+    },
+    "wisas/xs_14_24.smt2": {
+      "edges": 8,
+      "rows_sha256": "afc9da7814939e975d7d18bd8736681d6748f705736e5402966923599f17d862"
+    },
+    "mathsat/Hash/hash_sat_07_16.smt2": {
+      "edges": 154,
+      "rows_sha256": "3612f3510ee5373ac9b5b3dd5fd854f3adb3861611c9dbbf609f117a01ad627a"
+    }
+  }
+}

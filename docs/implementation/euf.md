@@ -492,7 +492,7 @@ records opportunities without adding clauses, unless the emitting option is
 also enabled. Both default off. This is the existing-atom subset of Dutertre
 and de Moura (2006), §2 p. 3, not the complete Yices policy.
 
-{source}`ConflictAckermannSelector <src/smt/conflict_ackermann.hpp>` owns the
+{conflictacksource}`ConflictAckermannSelector <src/smt/conflict_ackermann.hpp>` owns the
 equality-pair index and bounded selection catalogue; the online propagator
 owns queued SAT clauses. The closure's optional owning trace is checkpointed
 and only active during conflict explanation. Curry-prefix nodes are rejected

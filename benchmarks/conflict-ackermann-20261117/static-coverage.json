@@ -1,0 +1,73 @@
+{
+  "source": "13230b6d",
+  "original_scan": {
+    "source": "427f5618",
+    "translation_units": 141,
+    "status": "incomplete",
+    "reason": "One Clang compilation error, fixed by132; original aggregate failure retained, never relabeled clean."
+  },
+  "changed_owned_inputs": [
+    "src/smt/conflict_ackermann.cpp",
+    "src/theory/equality/flat_congruence_closure.cpp"
+  ],
+  "repair_scan": {
+    "tidy": {
+      "translation_units": 3,
+      "exit_code": 0,
+      "unique_advisories": 110,
+      "categories": {
+        "portability-avoid-pragma-once": 37,
+        "performance-enum-size": 43,
+        "misc-include-cleaner": 6,
+        "performance-move-const-arg": 15,
+        "bugprone-easily-swappable-parameters": 5,
+        "clang-analyzer-cplusplus.NewDeleteLeaks": 1,
+        "performance-unnecessary-value-param": 1,
+        "performance-inefficient-vector-operation": 1,
+        "clang-analyzer-optin.performance.Padding": 1
+      },
+      "log_sha256": "7f1a4449b90d9a2df1fc15b4a508430d61febe6438c150e829b843bba1f6297b",
+      "new_selector_findings": 0
+    },
+    "includes": {
+      "translation_units": 3,
+      "exit_code": 0,
+      "unique_advisories": 6,
+      "categories": {
+        "misc-include-cleaner": 6
+      },
+      "log_sha256": "e82bfcfda63293bc9c1b43168215131f7ab466c4d61f9c69d8152f1a97db6654",
+      "new_selector_findings": 0
+    }
+  },
+  "scope": "138 original translation units have unchanged source/header inputs; two changed bodies and main.cpp (generated revision consumer) rescanned at132. This composed coverage is not a fresh successful whole-tree aggregate invocation. Baseline advisories remain, not a clean static-analysis claim.",
+  "original_advisory_inventory": {
+    "unique_diagnostics_including_repaired_error": 881,
+    "categories": {
+      "portability-avoid-pragma-once": 109,
+      "performance-enum-size": 87,
+      "misc-include-cleaner": 407,
+      "performance-inefficient-vector-operation": 8,
+      "bugprone-unchecked-optional-access": 113,
+      "performance-unnecessary-copy-initialization": 6,
+      "clang-analyzer-optin.performance.Padding": 1,
+      "performance-inefficient-string-concatenation": 14,
+      "bugprone-use-after-move": 1,
+      "bugprone-easily-swappable-parameters": 42,
+      "bugprone-exception-escape": 11,
+      "bugprone-branch-clone": 5,
+      "performance-faster-string-find": 3,
+      "performance-unnecessary-value-param": 15,
+      "clang-analyzer-cplusplus.NewDeleteLeaks": 2,
+      "performance-move-const-arg": 23,
+      "bugprone-implicit-widening-of-multiplication-result": 4,
+      "bugprone-assert-side-effect": 6,
+      "clang-diagnostic-error": 1,
+      "performance-no-automatic-move": 1,
+      "bugprone-optional-value-conversion": 2,
+      "clang-analyzer-optin.core.EnumCastOutOfRange": 20
+    },
+    "unused_include_gate": "passed"
+  },
+  "review_dispositions": "Existing warning families inspected against docs/evidence/static-analysis.md and current code: direct-provider includes, unchecked optional engagement contracts, layout, copies/moves, explicit invalid-enum tests. CLI11 leak and shared_ptr Goal constructor warning do not establish leaks. Repeated visitor forwarding is baseline generic-callable API caveat; current replay callers do not consume visitor state. Optional wrapping sites are guarded. No new blocking issue found in selector/trace/queue/lifetimes; prior warnings remain advisory backlog."
+}

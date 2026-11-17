@@ -1322,3 +1322,10 @@ pairs are deduplicated; missing pairs can be retried after index growth. Deliver
 is not evidence that the backend retained/reused a clause. Diagnostic-only
 mode queues and sends none. These counters are experimental, default off, and
 currently undergoing qualification.
+
+The {conflictacksource}`selector <src/smt/conflict_ackermann.cpp>` owns catalogue/outcome
+increments. The {conflictacksource}`incremental assignment state and online propagator
+<src/smt/solver_engines.cpp>` own, respectively, `conflict_application_pairs`
+trace extraction and `cb_add_external_clause_lit` complete-stream delivery
+accounting. See the
+[prototype checklist](../leads/conflict-ackermann-prototype.md) for limits.

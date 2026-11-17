@@ -44,7 +44,10 @@ the lead, not a complete implementation of Yices dynamic Ackermannization.
    the same function symbol and arity. Omit reflexive argument pairs, retain
    the n-ary disjunction, deduplicate literals and discard tautologies.
 6. Retain at most 4,096 semantic pairs per propagator and consider clauses
-   with at most 32 literals before deduplication. Record budget exits. A
+   with arity at most 31: the conservative arity+1 width check happens
+   before removing reflexive argument positions or deduplicating literals.
+   Thus some high-arity pairs whose simplified clause would fit are skipped.
+   Record budget exits. A
    missing pair may be retried after atom registration changes; a ready pair
    is not repeatedly reconstructed. These are engineering bounds.
 7. Deliver the ordinary EUF conflict first. Queue auxiliary clauses until a
@@ -121,14 +124,14 @@ Before declaring the prototype implemented and evaluated:
 ## Sources and implementation status
 
 The existing owners/hooks are
-{source}`FlatCongruenceClosure <src/theory/equality/flat_congruence_closure.hpp>`,
-{source}`FlatTermIndex <src/theory/equality/flat_terms.hpp>`, and
-{source}`IncrementalFlatAssignmentState / OnlineEufPropagator <src/smt/solver_engines.cpp>`.
+{conflictacksource}`FlatCongruenceClosure <src/theory/equality/flat_congruence_closure.hpp>`,
+{conflictacksource}`FlatTermIndex <src/theory/equality/flat_terms.hpp>`, and
+{conflictacksource}`IncrementalFlatAssignmentState / OnlineEufPropagator <src/smt/solver_engines.cpp>`.
 The latter file also owns generated-equality registration and callback scheduling.
-The {source}`external-clause adapter <src/sat/cadical_backend.cpp>` retains backend
-watching/learning responsibilities; {source}`assumptions admission <src/smt/smt_session.cpp>`
+The {conflictacksource}`external-clause adapter <src/sat/cadical_backend.cpp>` retains backend
+watching/learning responsibilities; {conflictacksource}`assumptions admission <src/smt/smt_session.cpp>`
 keeps this prototype out of persistent assumptions sessions. The new
-{source}`ConflictAckermannSelector <src/smt/conflict_ackermann.hpp>` owns only semantic
+{conflictacksource}`ConflictAckermannSelector <src/smt/conflict_ackermann.hpp>` owns only semantic
 pair keys, existing equality literals and visit-generation metadata. These
 additions are implemented in the working prototype; native qualification and
 performance evidence are still pending. The first GCC build/native checks and

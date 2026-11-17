@@ -1,0 +1,93 @@
+{
+  "scope": "Bounded opt-in existing-atom prototype; no default or global tuning decision.",
+  "baseline_source": "4f02a8b7 (production-equivalent to pre-change fca39be2)",
+  "baseline_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
+  "candidate_source": "13230b6d",
+  "profiles": {
+    "OFF": [
+      "--quiet",
+      "--stats"
+    ],
+    "DIAG": [
+      "--quiet",
+      "--stats",
+      "--euf-conflict-ackermann-diagnostics"
+    ],
+    "ON": [
+      "--quiet",
+      "--stats",
+      "--euf-conflict-ackermann"
+    ]
+  },
+  "tasks": [
+    {
+      "logic": "QF_UF",
+      "label": "OFF",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    },
+    {
+      "logic": "QF_UF",
+      "label": "DIAG",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--euf-conflict-ackermann-diagnostics"
+      ]
+    },
+    {
+      "logic": "QF_UF",
+      "label": "ON",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--euf-conflict-ackermann"
+      ]
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "OFF",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "DIAG",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--euf-conflict-ackermann-diagnostics"
+      ]
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "ON",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--euf-conflict-ackermann"
+      ]
+    }
+  ],
+  "cases": 80,
+  "repetitions": 3,
+  "timeout": 30,
+  "address_space_bytes": 8589934592,
+  "native_rows": 960,
+  "generated_count_per_task": 1000,
+  "generated_seed_base": 2026121700,
+  "mutation_seed_base": 2026121800,
+  "gate_model_limits_seconds": [
+    30,
+    30
+  ],
+  "timing_model_limits_seconds": [
+    180,
+    60
+  ],
+  "selection_sha256": "d45a1b7b777a3aea9ad1b6b321f4249a9e1a25b3a012795da62549a75d2d2100"
+}

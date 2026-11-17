@@ -1,0 +1,199 @@
+{
+  "source": "13230b6d",
+  "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
+  "counts": {
+    "generated_inputs": 6000,
+    "generated_PASS": 5999,
+    "generated_UNKNOWN_INVOLVED": 1,
+    "tracked_regression_measurements": 87,
+    "mutations_inputs": 1951,
+    "mutations_PASS": 1935,
+    "mutations_INCOMPLETE": 16
+  },
+  "SAT_Dolmen_pass": 5416,
+  "receipt_inventory": [
+    {
+      "phase": "generated",
+      "slot": 0,
+      "logic": "QF_UF",
+      "profile": "OFF",
+      "receipt_sha256": "bc8e3e5d3ffc874740530f5953c8a67a35c06e352ecd57379e1378d47fbb1c41",
+      "cases": 1000,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "generated",
+      "slot": 1,
+      "logic": "QF_UF",
+      "profile": "DIAG",
+      "receipt_sha256": "e27a5165a018e20267f2ccb71da926cdb661e7a3207fa0752672f1cf529f5f77",
+      "cases": 1000,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "generated",
+      "slot": 2,
+      "logic": "QF_UF",
+      "profile": "ON",
+      "receipt_sha256": "eb42c65256b9b83d8b20ab0d2c8a44c28d9ccb39029fc34bb3820649201b9bdd",
+      "cases": 1000,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "generated",
+      "slot": 3,
+      "logic": "QF_UFLIA",
+      "profile": "OFF",
+      "receipt_sha256": "23496f38a4751e5bae8c26bb74d0716654db6c7c8924811026f9a0465080bab0",
+      "cases": 1000,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "generated",
+      "slot": 4,
+      "logic": "QF_UFLIA",
+      "profile": "DIAG",
+      "receipt_sha256": "b410a2ecd554288d74dbb33121c509f3034cc0c28390e23277eb3226cd1d0be6",
+      "cases": 1000,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "generated",
+      "slot": 5,
+      "logic": "QF_UFLIA",
+      "profile": "ON",
+      "receipt_sha256": "a29eaa70517e134afdfef4f7498fe61fa7ccd8bd75ad63daedb7fc435ee92d1e",
+      "cases": 1000,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "seeds",
+      "slot": 0,
+      "logic": "QF_UF",
+      "profile": "OFF",
+      "receipt_sha256": "145c466fbcbb1c3877020d8ea418f5276eb0865e0fca3670cb42b1b0dfeefcfe",
+      "cases": 21,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "seeds",
+      "slot": 1,
+      "logic": "QF_UF",
+      "profile": "DIAG",
+      "receipt_sha256": "e1468738796bb379cbbeb40e0b2428e115cda89916224168f43bc3d40323de72",
+      "cases": 21,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "seeds",
+      "slot": 2,
+      "logic": "QF_UF",
+      "profile": "ON",
+      "receipt_sha256": "e991064a752a38976b3b295c8ff03eccd610db18082c83338b40f2286a7cfcf6",
+      "cases": 21,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "seeds",
+      "slot": 3,
+      "logic": "QF_UFLIA",
+      "profile": "OFF",
+      "receipt_sha256": "619269522029c39740929d504a871d542157db946197d5455f41594f35e32de3",
+      "cases": 8,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "seeds",
+      "slot": 4,
+      "logic": "QF_UFLIA",
+      "profile": "DIAG",
+      "receipt_sha256": "c73e822a0c20400a4c897a75b8676d62e0f3d1bee7fb95b83bd90c284556e764",
+      "cases": 8,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "seeds",
+      "slot": 5,
+      "logic": "QF_UFLIA",
+      "profile": "ON",
+      "receipt_sha256": "4487dbfccc3486d039908f25ec927eaf06b0213737335e12ee293fb49044f8a6",
+      "cases": 8,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "mutations",
+      "slot": 0,
+      "logic": "QF_UF",
+      "profile": "OFF",
+      "receipt_sha256": "5fbd492a1a0ffd09adef8684531bc4151c37d295728272589ea6c3684279338b",
+      "cases": 288,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "mutations",
+      "slot": 1,
+      "logic": "QF_UF",
+      "profile": "DIAG",
+      "receipt_sha256": "50295b9dc3118a0a432040e462a09d7c0c4cfcdf52102af597acfbe82d5b1ce7",
+      "cases": 290,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "mutations",
+      "slot": 2,
+      "logic": "QF_UF",
+      "profile": "ON",
+      "receipt_sha256": "a6c0f9b1542709f071b948ce264b537ea0ff47007b54bcee5d8803072d51a745",
+      "cases": 293,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "mutations",
+      "slot": 3,
+      "logic": "QF_UFLIA",
+      "profile": "OFF",
+      "receipt_sha256": "4deee0ad6601298cd39da6643de94cf17e2fbe7929227d8b4802f7544232da5e",
+      "cases": 360,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "mutations",
+      "slot": 4,
+      "logic": "QF_UFLIA",
+      "profile": "DIAG",
+      "receipt_sha256": "d9644d75c814410925f5f16ee157c012e1b223d3ac6a60e7a2c2becca416d037",
+      "cases": 360,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    },
+    {
+      "phase": "mutations",
+      "slot": 5,
+      "logic": "QF_UFLIA",
+      "profile": "ON",
+      "receipt_sha256": "bc596901cec91b95f6d5b093953cf2c9d6737de11541fe11f3fd0404e6203eec",
+      "cases": 360,
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e"
+    }
+  ],
+  "scope": "Audited current132 correctness qualification; no timing/default claim. Resource incompletes distinct from passes.",
+  "generated_seed_base": 2026121700,
+  "mutation_seed_base": 2026121800
+}

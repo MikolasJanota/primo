@@ -7,21 +7,60 @@
       "date": "2026-11-16",
       "branch": "lia-integrality",
       "kind": "Bounded existing-atom conflict-selected Ackermann prototype",
-      "evidence_status": "Source prototype/static syntax checks complete; SLURM native qualification and evaluation pending; no default/performance claim.",
+      "evidence_status": "Implemented opt-in prototype; repaired native correctness gates audited; bounded profiling and paired pilot pending. No default/performance claim.",
       "baseline_source": "fca39be2; native implementation equivalent to frozen4f02a8b7",
       "baseline_native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
       "design": "docs/leads/conflict-ackermann-prototype.md",
       "scope": "QF_UF/QF_UFLIA incremental online/conflict path; one-sided/bidirectional/oldproof-forest; existing equality atoms only;64traceprefix/4096catalogue/32rawwidth engineering limits; bothflagsdefaultoff; freshatomgrowth and optimizedprooftracing deferred.",
-      "planned_gates": "Fresh exact-option candidateoff/diagnostic/emitting \u00d72logics \u00d71000generated +trackedregressions +12realseeds/task mutations; allSAT directDolmen before timings.",
+      "planned_gates": "Fresh exact-option candidateoff/diagnostic/emitting ×2logics ×1000generated +trackedregressions +12realseeds/task mutations; allSAT directDolmen before timings.",
       "planned_evaluation": "Freeze target-enriched40cases/logic before runs; frozenbaseline/candidateoff/diagnostic/emitting,3reps30s/8GiB=960native timings; allSATseparatelyDolmen; memory/mechanism and qualified accepted/rejected decision; no globaltuning.",
-      "checks": "Changed theory/SMT translationunits and added tests pass g++ C++20 syntax-only with IPASIR enabled;make lint and make docs pass; CLI header unavailable locally, to be built through helper/SLURM. Native tests/ASan/static/fuzz/evaluation pending.",
+      "checks": "make lint;3 new mocked workflow/metadata tests; public protocol byte-for-byte regeneration; make docs; fresh assembled site305pages/46026local links/1369Git links/zero failures;526external URLs deferred; lead rendered toPDF and visually inspected. Static coverage composition in public artifact: original141TU aggregate failed on repaired compiler error; current3TU repair succeeds, baseline advisories retained, not a clean aggregate claim.",
       "documentation_review": {
         "reviewer": "conflict_ack_docs_review (independent read-only)",
-        "verdict": "Design unit ready;CAD-1/2/3 resolved;implementation/qualification/rendering/adjacent docs outside acceptance.",
-        "accepted_design_blob": "a2a83335603db0346dedd8fe1a89f1340a8825ab"
+        "verdict": "Implementation/methods ready;CAD-1..6 resolved;S3 matched counters/S4 mutation seeds addressed. Qualification/results outside acceptance.",
+        "accepted_blobs": {
+          "lead": "9afc70d2",
+          "euf": "0a83cf30",
+          "statistics": "ea8ba3cb",
+          "source_role_configuration": "66a516e9",
+          "preparation": "caf55fcd",
+          "audit": "9a0dd2c9"
+        }
       },
       "raw_artifacts": "results/conflict-ackermann-20261116; private connection/workspace metadata excluded from tracked files",
-      "remaining": "SLURM helper build/check/ASan/whole-tree static; native/option regressions; freshgates;profile/pairedpilot/allSATmodels;reportdocsreview/render; finalcommits."
+      "remaining": "Paired960row pilot/allSATmodels; final analysis/docs review/render/commits. Successful bounded profile capture awaits analysis.",
+      "native_source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
+      "protocol": "benchmarks/conflict-ackermann-20261117/protocol.json",
+      "selection": "benchmarks/conflict-ackermann-20261117/selection.json",
+      "build_provenance": "Helper --build-via-slurm --reuse-dependencies --extra-target all; Release/GCC; CaDiCaL3.0.0-7b99c07; current132 --check-only before submissions. Repaired make check:49 native groups +369 Python tests; ASan49/49 pass.",
+      "correctness": {
+        "source": "13230b6d",
+        "generated": {
+          "inputs": 6000,
+          "pass": 5999,
+          "existing_integer_node_limit": 1,
+          "seed_base": 2026121700
+        },
+        "tracked_regression_measurements": 87,
+        "real_seed_measurements": 72,
+        "mutations": {
+          "inputs": 1951,
+          "pass": 1935,
+          "resource_incomplete": 16,
+          "seed_base": 2026121800
+        },
+        "SAT_Dolmen_pass": 5416,
+        "wrong_answers": 0,
+        "crashes": 0,
+        "invalid_models": 0,
+        "reference_disagreements": 0,
+        "mutation_unknown_replays_needed": 0,
+        "scope": "Six exact logic/profile tasks; all nativeSAT generated/regression/original/mutant rows validated separately, scoped sessions querywise; resource incompletes are not passes."
+      },
+      "superseded_stage": "427f5618 initial GCC build/check/ASan passed; first static inventory failed on historical root logs omitted from source staging. Retry covered141TUs, exposed one Clang aggregate-initialization error; repair132 fixes it and8 new selector missing-include suggestions. Initial generated6000/regressions87/mutants1954 were superseded by fresh132 gates; no performance claim uses427.",
+      "static_coverage": "benchmarks/conflict-ackermann-20261117/static-coverage.json",
+      "profiling_attempts": "Initial Callgrind100conflict/300s attempts reached deadline;60s termination attempt failed to flush while remote debug-symbol fetching was enabled. Final captures disable debuginfod, bound collection60s and explicitly dump before termination. Failed attempts preserved separately; never used as native timings."
     },
     {
       "id": "2026-11-16-lia-tuning-pilot",
