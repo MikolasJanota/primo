@@ -505,6 +505,6 @@ results without existing equality atoms, optimized proof forests, QF_UFLRA and
 assumptions sessions are outside this bounded experiment. Rebuild sessions
 remain supported. Clauses are theory-valid independently of the selecting
 assertions and may survive SAT backtracking. A new catalogue is created when
-a QF_UFLIA component is rebuilt after atom registration. Native tests, fresh
-fuzz/model gates and performance qualification are pending; no default change
-or performance improvement is claimed yet.
+a QF_UFLIA component is rebuilt after atom registration. The
+[bounded pilot](../evidence/conflict-ackermann.md) records native tests, fresh
+fuzz/model qualification and timing evidence. No default change is made.

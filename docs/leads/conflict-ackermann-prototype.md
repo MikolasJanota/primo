@@ -1,6 +1,6 @@
 # Conflict-selected Ackermann prototype
 
-**Status: checklist written before implementation; prototype in qualification. Both options remain off by default.**
+**Status: bounded prototype implemented; evaluation in the [pilot report](../evidence/conflict-ackermann.md). Both options remain off by default.**
 
 This bounded experiment follows the conflict-selected congruence clause in
 Dutertre and de Moura, *The Yices SMT Solver* (2006), §2, printed p. 3
@@ -15,12 +15,12 @@ functions is the ordinary congruence clause
 ```
 
 The paper motivates this selection rule, not the budgets below. This prototype
-will use only existing SAT equality atoms. Missing atoms, Boolean-result
+uses only existing SAT equality atoms. Missing atoms, Boolean-result
 encodings without a result-equality atom, general fresh-atom registration and
 a new clause-retention/deletion policy remain outside it. It is a subset of
 the lead, not a complete implementation of Yices dynamic Ackermannization.
 
-## Representation and operations to implement
+## Implemented representation and operations
 
 1. `FlatCongruenceClosure` optionally records at most 64 congruence-edge pairs
    visited by the **actual conflict explanation**. Propagation explanations
@@ -133,11 +133,10 @@ watching/learning responsibilities; {conflictacksource}`assumptions admission <s
 keeps this prototype out of persistent assumptions sessions. The new
 {conflictacksource}`ConflictAckermannSelector <src/smt/conflict_ackermann.hpp>` owns only semantic
 pair keys, existing equality literals and visit-generation metadata. These
-additions are implemented in the working prototype; native qualification and
-performance evidence are still pending. The first GCC build/native checks and
-ASan passed; whole-tree Clang analysis found a trace-state initialization
-compatibility issue. Explicit aggregate initialization replaces `optional::emplace`;
-qualification must use the repaired build.
+additions are implemented in native source `13230b6d`. The
+[pilot report](../evidence/conflict-ackermann.md) records qualification, the
+Clang repair and measured coverage. Missing-atom creation and backend
+retention/reuse measurement remain separate work.
 
 For binary f, the clause is `(a≠b) ∨ (c≠d) ∨ (f(a,c)=f(b,d))`. With false
 result equality and `a=b`, only `c≠d` is forced. Trace steps involving internal `f(a)`/`f(b)` curry prefixes are always skipped:

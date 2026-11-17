@@ -6,8 +6,11 @@ architecture and theory combination; the 2016 talk explains representation,
 lazy explanations, and selective retention of theory lemmas. These are
 descriptions of the Yices designs at their respective publication dates.
 
-Primo has an optional, restricted Ackermann propagation mechanism. It does
-not implement the whole conflict-driven selection policy described in 2006.
+Primo has optional, restricted Ackermann propagation and conflict-selected
+clause mechanisms. The latter is an existing-atom subset, described in the
+[prototype checklist](../leads/conflict-ackermann-prototype.md) and
+[bounded pilot](../evidence/conflict-ackermann.md). It does not implement
+the whole policy described in 2006.
 For lemma caching, the first question is what CaDiCaL already retains: the
 presence of a reason callback alone does not answer that question.
 
@@ -67,10 +70,11 @@ it does not prove a better worst-case pair bound.
 | SAT-visible candidate discovery | **Implemented, restricted.** {source}`build_dynamic_ackermann_candidate_index <src/smt/solver_engines.cpp#L965-L1048>` starts from an existing equality between same-symbol applications and requires SAT atoms for every argument equality. It skips missing atoms. |
 | Dynamic Ackermann shadow mode | **Implemented, diagnostic only.** `--euf-dynamic-ackermann-shadow` measures candidate states without adding the corresponding clauses. See {source}`shadow tests <tests/unit/boolean_solver_tests.cpp#L2202-L2274>`. |
 | Watched argument-disequality propagation | **Implemented subset; off by default.** `--euf-diseq-ackermann` queues existing candidates by affected SAT variables and uses the clause as a propagation reason or conflict. {source}`Watch construction <src/smt/solver_engines.cpp#L2090-L2126>` applies width/per-symbol caps; {source}`candidate evaluation <src/smt/solver_engines.cpp#L2378-L2490>` requires the result equality to be false. |
-| Selecting congruence steps from conflicts, then retaining their clauses for reuse | **Open lead.** The existing candidate index and assignment queue are not the conflict-explanation selector described by the paper. Missing-atom creation and a deletion policy also need designs. |
+| Selecting congruence steps from conflicts, then retaining their clauses for reuse | **Implemented bounded prototype; off by default.** {conflictacksource}`ConflictAckermannSelector <src/smt/conflict_ackermann.hpp>` constructs congruence clauses over existing atoms from copied online conflict witnesses; `OnlineEufPropagator` owns and queues the clauses. Missing-atom creation and a new deletion policy remain open; delivery counters do not establish backend retention/reuse. |
 | Earlier scan-based dynamic clause experiment | **Not adopted; reverted.** `f83828f` introduced `--euf-dynamic-ackermann`; `160ce4e` reverted it. This old option is not the current `--euf-diseq-ackermann` mechanism. |
 
-`DynamicAckermannCandidate` owns atom indices and a copied `sat::Clause`;
+For the assignment-indexed propagation modes, `DynamicAckermannCandidate`
+owns atom indices and a copied `sat::Clause`;
 `OnlineEufPropagator` owns the candidate index, per-variable occurrence lists,
 queue, and reasons. Repeated negative literals are removed when constructing
 a candidate. Backtracking clears queued work and the pending external clause;
@@ -229,10 +233,10 @@ retention cost, and deletion safety.
 
 ## Open investigations and acceptance conditions
 
-**Dynamic Ackermannization:** investigate a selector driven by congruence steps
-in conflict explanations, separately from the existing assignment-indexed
-propagator. Specify how absent equality atoms are created and registered, how
-clauses are deduplicated and budgeted, and whether they can be forgotten while
+**Dynamic Ackermannization:** evaluate the next extension beyond the bounded
+existing-atom conflict selector, separately from the assignment-indexed
+propagator. Specify how absent equality atoms are created and registered,
+how growth interacts with existing deduplication/budgets, and whether clauses can be forgotten while
 the complete EUF checker remains responsible for consistency. Preserve the
 n-ary disjunction and stable term/atom identities across allocation and scope
 changes. Do not restart the rejected repeated-scan design without addressing

@@ -7,14 +7,14 @@
       "date": "2026-11-16",
       "branch": "lia-integrality",
       "kind": "Bounded existing-atom conflict-selected Ackermann prototype",
-      "evidence_status": "Implemented opt-in prototype; repaired native correctness gates and bounded profiling audited; paired timing/model pilot running. No default/performance claim.",
+      "evidence_status": "Complete qualified bounded prototype pilot; retained experimental/default-off, not adopted as performance profile. No benefit demonstrated; no default promotion.",
       "baseline_source": "fca39be2; native implementation equivalent to frozen4f02a8b7",
       "baseline_native_sha256": "08948789d787e2a81e76ad671738f29ac192dde34b4c9276789dff55b03a44ff",
       "design": "docs/leads/conflict-ackermann-prototype.md",
       "scope": "QF_UF/QF_UFLIA incremental online/conflict path; one-sided/bidirectional/oldproof-forest; existing equality atoms only;64traceprefix/4096catalogue/32rawwidth engineering limits; bothflagsdefaultoff; freshatomgrowth and optimizedprooftracing deferred.",
       "planned_gates": "Fresh exact-option candidateoff/diagnostic/emitting ×2logics ×1000generated +trackedregressions +12realseeds/task mutations; allSAT directDolmen before timings.",
       "planned_evaluation": "Freeze target-enriched40cases/logic before runs; frozenbaseline/candidateoff/diagnostic/emitting,3reps30s/8GiB=960native timings; allSATseparatelyDolmen; memory/mechanism and qualified accepted/rejected decision; no globaltuning.",
-      "checks": "make lint;3 new mocked workflow/metadata tests; public protocol byte-for-byte regeneration; make docs; fresh assembled site305pages/46026local links/1369Git links/zero failures;526external URLs deferred; lead rendered toPDF and visually inspected. Static coverage composition in public artifact: original141TU aggregate failed on repaired compiler error; current3TU repair succeeds, baseline advisories retained, not a clean aggregate claim.",
+      "checks": "Helper/SLURM make check49native+369Python andASan49/49 pass; make lint;3 new mocked workflow/metadata tests; exact public-protocol and242private timing-card regeneration; final gate reaudit byte-identical; all960 timings/348SAT model rows audited. make docs and make docs-check-links pass:306pages/46378local links/1369Git links/0failures;528externalURLsdeferred. Final evidence PDF pages3/5/6 and lead inspected. Whole-tree lint/static inventory plus focused soundness/borrow/mutation/rollback/queue/hygiene and efficiency review found no new blocker. Static original141TU aggregate failure remains recorded; current3TU repair succeeds, baseline advisories retained, not a clean aggregate claim.",
       "documentation_review": {
         "reviewer": "conflict_ack_docs_review (independent read-only)",
         "verdict": "Implementation/methods ready;CAD-1..6 resolved;S3 matched counters/S4 mutation seeds addressed. Qualification/results outside acceptance.",
@@ -25,10 +25,28 @@
           "source_role_configuration": "66a516e9",
           "preparation": "caf55fcd",
           "audit": "9a0dd2c9"
+        },
+        "qualification_profiles": {
+          "verdict": "Ready;CAE-1/2 resolved; raw18receipts/5416SATmodels/static/profile/tool identities checked independently; private timing cards reconstructed.",
+          "accepted_evidence_blob_before_final_results": "f7151062"
+        },
+        "final": {
+          "verdict": "Ready;CAD-1..7 andCAE-1..4 resolved; reviewed implementation/methods,qualification,profiles,finaltimings and default-off/reject-performance-profile decision; rendering/process/commit bookkeeping outside independent acceptance.",
+          "accepted_git_blobs": {
+            "evidence": "db0ed4bde081",
+            "prototype": "4d36e792b86f",
+            "euf": "2784bfdaba29",
+            "statistics": "a22e13d05db6",
+            "theory_lemmas": "321a97418144",
+            "yices": "afdb703cfae2",
+            "ledger_before_final_bookkeeping": "f6d972b8f0a5",
+            "analysis": "788df088ee50",
+            "measurements": "bfc5ff0ba08f"
+          }
         }
       },
       "raw_artifacts": "results/conflict-ackermann-20261116; private connection/workspace metadata excluded from tracked files",
-      "remaining": "Paired960row pilot/allSATmodels; final analysis/docs review/render/commits.",
+      "remaining": "None for the bounded opt-in prototype/evaluation. Fresh atom registration,optimized-proof tracing,backend reuse/retention measurement and global tuning are separate work. Commits are local; no push requested. Unrelated untracked resume left untouched.",
       "native_source": "13230b6d",
       "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
       "protocol": "benchmarks/conflict-ackermann-20261117/protocol.json",
@@ -66,7 +84,33 @@
         "status": "Four successful capped OFF/DIAG Callgrind3.22.0 captures; each returns diagnosed100theory-conflict unknown before60s; no native timing inference.",
         "finding": "UF preproc54.24% incl/symmetry26.74%/explain_equal_into6.54%; UFLIA modelreconcile34.95% incl; DIAG instructions +0.69%/+1.33% in one capped pair each. UF717semanticpairs with716missingresult events; UFLIA3pairs allmissingresult. Overlapping inclusive costs and missing-event outcomes; not full-query speed/coverage inference."
       },
-      "tools": "benchmarks/conflict-ackermann-20261117/tools.json; exact Z3/Dolmen hashes match prior qualified tool receipts; current version query confirms Z3 5.1.0/Dolmen0.10/YinYang0.3.0/Valgrind3.22.0."
+      "tools": "benchmarks/conflict-ackermann-20261117/tools.json; exact Z3/Dolmen hashes match prior qualified tool receipts; current version query confirms Z3 5.1.0/Dolmen0.10/YinYang0.3.0/Valgrind3.22.0.",
+      "report": "docs/evidence/conflict-ackermann.md",
+      "timings": {
+        "artifacts": "benchmarks/conflict-ackermann-20261117/full/{analysis.json,measurements.csv}",
+        "rows": 960,
+        "allocations": 240,
+        "SAT_Dolmen_pass": 348,
+        "timeout_rows": 216,
+        "normal_unknown_rows": 0,
+        "errors": 0,
+        "wrong_answers": 0,
+        "reference_disagreements": 0,
+        "solved_every_profile_every_repetition": {
+          "QF_UF": 34,
+          "QF_UFLIA": 28
+        },
+        "cases_per_logic": 40,
+        "limits": "30s native/8GiB address space; allocation request1CPU/10GiB;actual affinity2logicalCPUs;three sequential replications,4profiles each;separate allSAT native180s/Dolmen60s replays",
+        "ON_over_OFF_conditional_geomean_paired_median_ratios": {
+          "QF_UF": 1.0290081308365606,
+          "QF_UFLIA": 1.0077855332632795
+        },
+        "scope": "Slow common solved inputs: OFF median>=1s;14UF/12UFLIA;target-enriched pilot, descriptive not significance test; no pair meets>=10% and>=0.5s regression in all3 reps."
+      },
+      "mechanism": "Successful UF ON:590685 tracedconflicts/121364325 congruencesteps/138723 catalogueentries;138681missingresult events;30sentclauses60lits on2QGinputs over3reps;236319truncatedtraces/7575603cataloguelimitexits;peak4096pairs/1pending. Separate6timedoutQG snapshots send174clauses. Successful UFLIA:50298entries,allmissingresult events;no printed ready/sentclause;some incomplete counters unavailable. Counts acrossrepeatedsolves/catalogues,overlapping outcomes,notgloballydistinct or backendreuse evidence.",
+      "decision": "Retain qualified research prototype and diagnostics defaultoff; reject as a performance profile on this pilot. Missing atoms and saturated bounded catalogues explain limited existing-atom coverage; fresh atom growth requires separate design/gates. No budget/global tuning.",
+      "process_audit": "All experiment allocations terminal; all480primary timing/model allocations completed0:0;6failed preliminary infrastructure/profiling allocations retained/classified. No remaining local experiment descendants; no native local solver batch was run. Private receipts/job/process audit excluded from tracked files."
     },
     {
       "id": "2026-11-16-lia-tuning-pilot",

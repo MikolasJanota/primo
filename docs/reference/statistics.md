@@ -1321,7 +1321,7 @@ index, not every congruence merge or hypothetical all-pairs reduction. Completed
 pairs are deduplicated; missing pairs can be retried after index growth. Delivery
 is not evidence that the backend retained/reused a clause. Diagnostic-only
 mode queues and sends none. These counters are experimental, default off, and
-currently undergoing qualification.
+covered by the [bounded pilot](../evidence/conflict-ackermann.md).
 
 The {conflictacksource}`selector <src/smt/conflict_ackermann.cpp>` owns catalogue/outcome
 increments. The {conflictacksource}`incremental assignment state and online propagator
