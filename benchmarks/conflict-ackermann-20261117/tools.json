@@ -1,0 +1,17 @@
+{
+  "z3": {
+    "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "version": "Z3 version 5.1.0 - 64 bit"
+  },
+  "dolmen": {
+    "sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+    "version": "0.10"
+  },
+  "valgrind": {
+    "sha256": "43486f29e8e2381f45649abf9838c2e4329fcaa8ce423238911cd621b7190afc",
+    "version": "valgrind-3.22.0"
+  },
+  "yinyang": {
+    "version": "0.3.0"
+  }
+}

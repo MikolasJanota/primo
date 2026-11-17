@@ -1,0 +1,175 @@
+{
+  "tool": "Valgrind Callgrind3.22.0; remote debug-symbol fetching disabled",
+  "source": "13230b6d",
+  "limits": "SLURM1CPU/10GiB;100theory-conflict cap;60s instrumented deadline (not reached);no address-space cap under Valgrind",
+  "scope": "Diagnostic execution ending unknown at100reported theory conflicts. Inclusive function costs overlap; no sum or full-query speed inference. OFF/DIAG same input/cap; instruction differences are one run each, not benchmark timings. Unknown rows have no candidate SAT model.",
+  "records": [
+    {
+      "case": {
+        "logic": "QF_UF",
+        "file": "PEQ/PEQ011_size8.smt2",
+        "sha256": "5beaa9e86fa2355fa51156b467ca8a290a54ebe1a003caea4383900159761fb3",
+        "expected": "unsat"
+      },
+      "profile": "OFF",
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--max-theory-conflicts=100"
+      ],
+      "answer": "unknown",
+      "diagnostic": "theory conflict limit reached",
+      "instruction_total": 917190074,
+      "inclusive_functions": {
+        "preprocessing": {
+          "inclusive_instructions": 497478588,
+          "printed_percent": 54.24
+        },
+        "symmetry_breaking": {
+          "inclusive_instructions": 245237398,
+          "printed_percent": 26.74
+        },
+        "merge_classes": {
+          "inclusive_instructions": 74888467,
+          "printed_percent": 8.16
+        },
+        "explain_equal_into": {
+          "inclusive_instructions": 59962247,
+          "printed_percent": 6.54
+        }
+      },
+      "mechanism_counters": {},
+      "annotation_sha256": "399000aaa1c611ae028d81f55cc07d23961ac4022d8f5330c341edbb3cea094d"
+    },
+    {
+      "case": {
+        "logic": "QF_UF",
+        "file": "PEQ/PEQ011_size8.smt2",
+        "sha256": "5beaa9e86fa2355fa51156b467ca8a290a54ebe1a003caea4383900159761fb3",
+        "expected": "unsat"
+      },
+      "profile": "DIAG",
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--euf-conflict-ackermann-diagnostics",
+        "--max-theory-conflicts=100"
+      ],
+      "answer": "unknown",
+      "diagnostic": "theory conflict limit reached",
+      "instruction_total": 923552063,
+      "inclusive_functions": {
+        "preprocessing": {
+          "inclusive_instructions": 497502891,
+          "printed_percent": 53.87
+        },
+        "symmetry_breaking": {
+          "inclusive_instructions": 245104159,
+          "printed_percent": 26.54
+        },
+        "merge_classes": {
+          "inclusive_instructions": 75297819,
+          "printed_percent": 8.15
+        },
+        "explain_equal_into": {
+          "inclusive_instructions": 61921616,
+          "printed_percent": 6.7
+        }
+      },
+      "mechanism_counters": {
+        ":euf.conflict-ack.conflicts": 100,
+        ":euf.conflict-ack.trace-steps": 18438,
+        ":euf.conflict-ack.trace-kept": 3897,
+        ":euf.conflict-ack.prefix-steps": 988,
+        ":euf.conflict-ack.semantic-pairs": 717,
+        ":euf.conflict-ack.peak-pairs": 717,
+        ":euf.conflict-ack.missing-argument": 340,
+        ":euf.conflict-ack.missing-result": 716,
+        ":euf.conflict-ack.trace-truncations": 42,
+        ":euf.conflict-ack.duplicate-pairs": 2192
+      },
+      "annotation_sha256": "e8aa4e0570b06b2089dc312ab71c967ce7efb85d7860679cb24e1471673d9ee6"
+    },
+    {
+      "case": {
+        "group": "uflia",
+        "logic": "QF_UFLIA",
+        "file": "mathsat/EufLaArithmetic/hard/hard14.smt2",
+        "sha256": "fecb718a709581b7dbd3acc341d9fbe9d46f907b3386eccf2e179a28b81bf6c1",
+        "expected": "unsat",
+        "repetition": 0,
+        "original_slot": 239
+      },
+      "profile": "OFF",
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--max-theory-conflicts=100"
+      ],
+      "answer": "unknown",
+      "diagnostic": "theory conflict limit reached",
+      "instruction_total": 1073491569,
+      "inclusive_functions": {
+        "merge_classes": {
+          "inclusive_instructions": 70757814,
+          "printed_percent": 6.59
+        },
+        "model_reconciliation": {
+          "inclusive_instructions": 375181843,
+          "printed_percent": 34.95
+        }
+      },
+      "mechanism_counters": {},
+      "annotation_sha256": "9093a8ecff776d2dcd05335f6e8ea0a92e5883152927dd6225b572ae9e6dc8c5"
+    },
+    {
+      "case": {
+        "group": "uflia",
+        "logic": "QF_UFLIA",
+        "file": "mathsat/EufLaArithmetic/hard/hard14.smt2",
+        "sha256": "fecb718a709581b7dbd3acc341d9fbe9d46f907b3386eccf2e179a28b81bf6c1",
+        "expected": "unsat",
+        "repetition": 0,
+        "original_slot": 239
+      },
+      "profile": "DIAG",
+      "source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--euf-conflict-ackermann-diagnostics",
+        "--max-theory-conflicts=100"
+      ],
+      "answer": "unknown",
+      "diagnostic": "theory conflict limit reached",
+      "instruction_total": 1087780843,
+      "inclusive_functions": {
+        "merge_classes": {
+          "inclusive_instructions": 70599924,
+          "printed_percent": 6.49
+        },
+        "model_reconciliation": {
+          "inclusive_instructions": 374961744,
+          "printed_percent": 34.47
+        }
+      },
+      "mechanism_counters": {
+        ":euf.conflict-ack.conflicts": 3,
+        ":euf.conflict-ack.trace-steps": 3,
+        ":euf.conflict-ack.trace-kept": 3,
+        ":euf.conflict-ack.semantic-pairs": 3,
+        ":euf.conflict-ack.peak-pairs": 1,
+        ":euf.conflict-ack.missing-result": 3,
+        ":euf.conflict-ack.missing-argument": 1
+      },
+      "annotation_sha256": "4d48c78f90b88f88a08ff37a4dab80419d3664a0efd4667b3184e5fef7c81388"
+    }
+  ]
+}

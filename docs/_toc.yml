@@ -123,6 +123,7 @@ parts:
       - file: evidence/propagation-redundancy
       - file: evidence/arithmetic-combinations
       - file: evidence/lia-tuning-pilot
+      - file: evidence/conflict-ackermann
       - file: evidence/bound-behavior
       - file: evidence/bound-repairs
       - file: evidence/arithmetic-efficiency-20261108
