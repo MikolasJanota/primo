@@ -3,6 +3,48 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-17-conflict-ackermann-performance-review",
+      "date": "2026-11-17",
+      "branch": "lia-integrality",
+      "kind": "Read-only solver performance review plus full-query stack samples",
+      "evidence_status": "Complete code/performance review with eight audited full-query UNSAT stack captures. Findings CAR-1..6 remain unimplemented;no solver behavior/default or new native timing claim.",
+      "reviewed_head": "a67acd37",
+      "native_source": "13230b6d",
+      "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
+      "report": "docs/evidence/conflict-ackermann.md#performance-code-review-and-full-search-follow-up",
+      "artifact": "benchmarks/conflict-ackermann-20261117/review/full-search-samples.json",
+      "workload": "scripts/qualification/conflict_ackermann/review_profile.sbatch",
+      "auditor": "scripts/qualification/conflict_ackermann/review_audit.py",
+      "protocol": "PEQ011_size8 andSEQ026_size7;OFF/ON,two rotated repetitions each;90s GDB deadline/0.05s jittered wall-stack observations;10GiB SLURM allocation,no native address-space cap under GDB;no100conflict cutoff;seeds2026111710+2slot+rep;not CPU events or benchmark timings.",
+      "results": {
+        "completed_unsat_profiles": 8,
+        "wall_stack_observations": 3242,
+        "PEQ_OFF_closure_update_group_percent": 71.73,
+        "PEQ_OFF_explanation_group_percent": 13.09,
+        "SEQ_OFF_closure_update_group_percent": 81.61,
+        "SEQ_OFF_explanation_group_percent": 38.38,
+        "scope": "Inclusive groups overlap;up to41frames,inlining may hide frames;no overhead confidence intervals or causal attribution to individual copy sites."
+      },
+      "findings": "CAR-1 avoid unchanged disequality unions/snapshots;CAR-2 move use-list undo payload instead of copying then discarding original;CAR-3 fixed selector counters;CAR-4 reuse trace/semantic scratch;CAR-5 result-missing fast-fail with explicit diagnostic-contract change;CAR-6 bounded negative-cache admission/starvation. All proposals,not implemented repairs or measured speedups.",
+      "superseded_attempt": "First workload answer guard expected quotedMI output;nativeGDB emitted plainunsat. Both initial tasks failed the reporting assertion after their first normalUNSAT;no cancelled task is counted. Fresh repaired two-task workload supplies all8audited profiles;no failure treated as a solver defect.",
+      "correctness": "No production source/options/default changes;reuse current132native/ASan/generated/mutation/model evidence from prior entry. All new sampledqueriesUNSAT;noSAT timing/model rows added.",
+      "raw_artifacts": "results/conflict-ackermann-20261116/raw/review-profiles-repaired;privateconfig/submission receipts outside tracked files",
+      "remaining": "None for requested review. CAR-1..6 implementation/measurement and fresh-atom design remain future tasks;no proposed repair is claimed implemented. Unrelated untracked resume preserved;no push requested.",
+      "documentation_review": {
+        "reviewer": "conflict_ack_docs_review (independent read-only)",
+        "verdict": "Ready;CAE-5 precision repair and initial-attempt receipt evidence gap resolved;no required findings. Source findings/proposed-vs-implemented status/raw counts and limitations accepted. Final rendering/commit/process bookkeeping outside independent acceptance.",
+        "accepted_git_blobs": {
+          "evidence_page": "45ef4c47033f",
+          "ledger_before_bookkeeping": "ede45361e3d6",
+          "stack_inventory": "5637d58535df",
+          "workload": "868248660fad",
+          "auditor": "d4071a829f14"
+        }
+      },
+      "checks": "Workload SLURM validator,bash-n,Python heredoc AST;strict source/input/profile/seed/log/sample audits;make lint;make docs;make docs-check-links:306pages/46393local links/1378Git links/zero failures;528externalURLsdeferred. Appended evidence renderedPDF and visually inspected pages8/10. SolverCPPunchanged;nativeASan/fulltest/fuzz gates not rerun for this read-only review.",
+      "process_audit": "Both repaired SLURM tasks completed0:0;both initial tasks failed answer-transport reporting assertions after normal nativeUNSAT;all terminal,no active local experiments. Private scheduler/job logs preserved outside tracked files."
+    },
+    {
       "id": "2026-11-16-conflict-ackermann-prototype",
       "date": "2026-11-16",
       "branch": "lia-integrality",

@@ -1,0 +1,490 @@
+{
+  "native_source": "13230b6d",
+  "native_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
+  "sampler_sha256": "11e12eb28df2bc297decdbd7ecbd73f813dd0513e8040f22c9d25414e42ef4b1",
+  "workload_sha256": "6d22a8af5abf3e4b94c6dfdfeccb57f7054331fcb67bb6ed12df4d34d7898240",
+  "scope": "Two completed UNSAT QF_UF queries,OFF/ON,two rotated repetitions;GDB wall-stack observations,0.05s jitter/90s deadline,10GiB allocation,no native address-space cap. Inclusive groups overlap;top41frames may truncate deep stacks;inlined functions may be absent. No CPU percentages or benchmark timing inference.",
+  "groups": {
+    "explanation": [
+      "FlatCongruenceClosure::explain",
+      "FlatCongruenceClosure::append_edge_reason"
+    ],
+    "closure_update": [
+      "FlatCongruenceClosure::propagate",
+      "FlatCongruenceClosure::merge_classes"
+    ],
+    "selector": [
+      "ConflictAckermannSelector::",
+      "conflict_application_pairs"
+    ],
+    "statistics": [
+      "Statistics::increment",
+      "ConflictAckermannSelector::count"
+    ],
+    "preprocessing": [
+      "prepare_and_execute_preprocessing",
+      "UfSymmetryBreaker::"
+    ],
+    "sat": [
+      "CaDiCaL::"
+    ]
+  },
+  "records": [
+    {
+      "case": {
+        "logic": "QF_UF",
+        "file": "PEQ/PEQ011_size8.smt2",
+        "sha256": "5beaa9e86fa2355fa51156b467ca8a290a54ebe1a003caea4383900159761fb3",
+        "expected": "unsat"
+      },
+      "profile": "OFF",
+      "repetition": 0,
+      "samples": 262,
+      "seed": 2026111710,
+      "group_samples": {
+        "explanation": 33,
+        "closure_update": 196,
+        "selector": 0,
+        "statistics": 0,
+        "preprocessing": 2,
+        "sat": 259
+      },
+      "top_frames": [
+        [
+          "primo::theory::equality::FlatCongruenceClosure::process_use_list(unsigned long, unsigned long)",
+          57
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::merge_classes(primo::theory::equality::FlatCongruenceClosure::PendingMerge)",
+          48
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::explain_equal_into(unsigned long, unsigned long, std::vector<primo::sat::Lit, std::allocator<primo::sat::Lit> >&, unsigned long) const",
+          26
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::restore_trail_entry(primo::theory::equality::FlatCongruenceClosure::TrailEntry&)",
+          21
+        ],
+        [
+          "std::pair<std::__detail::_Node_iterator<std::pair<primo::theory::equality::FlatCongruenceClosure::ApplyKey const, unsigned long>, false, true>, bool> std::_Hashtable<primo::theory::equality::FlatCongruenceClosure::ApplyKey, std::pair<primo::theory::equality::FlatCongruenceClosure::ApplyKey const, unsigned long>, std::allocator<std::pair<primo::theory::equality::FlatCongruenceClosure::ApplyKey const, unsigned long> >, std::__detail::_Select1st, std::equal_to<primo::theory::equality::FlatCongruenceClosure::ApplyKey>, primo::theory::equality::FlatCongruenceClosure::ApplyKeyHash, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_emplace<primo::theory::equality::FlatCongruenceClosure::ApplyKey const&, unsigned long const&>(std::integral_constant<bool, true>, primo::theory::equality::FlatCongruenceClosure::ApplyKey const&, unsigned long const&) [clone .isra.0]",
+          12
+        ],
+        [
+          "_int_malloc",
+          12
+        ],
+        [
+          "primo::smt::(anonymous namespace)::OnlineEufPropagator::apply_assignment(std::vector<int, std::allocator<int> > const&)",
+          12
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::check_disequalities_touching(unsigned long, unsigned long) [clone .part.0]",
+          10
+        ]
+      ],
+      "samples_sha256": "c11567c91d6706b6a328d9065ad74eaf944c3828d74e923ab651d69f1d6e1cd9",
+      "summary_sha256": "7d4d17a08c0c981df48725d9f55107f8cef4251293b8f65a9762d923a3027599",
+      "log_sha256": "a9570e34514ef6a8d0deb6aca1c7335ef6124153c9179590d408acc2c3154d96"
+    },
+    {
+      "case": {
+        "logic": "QF_UF",
+        "file": "PEQ/PEQ011_size8.smt2",
+        "sha256": "5beaa9e86fa2355fa51156b467ca8a290a54ebe1a003caea4383900159761fb3",
+        "expected": "unsat"
+      },
+      "profile": "ON",
+      "repetition": 0,
+      "samples": 270,
+      "seed": 2026111710,
+      "group_samples": {
+        "explanation": 45,
+        "closure_update": 195,
+        "selector": 1,
+        "statistics": 2,
+        "preprocessing": 2,
+        "sat": 267
+      },
+      "top_frames": [
+        [
+          "primo::theory::equality::FlatCongruenceClosure::merge_classes(primo::theory::equality::FlatCongruenceClosure::PendingMerge)",
+          51
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::process_use_list(unsigned long, unsigned long)",
+          43
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::explain_equal_into(unsigned long, unsigned long, std::vector<primo::sat::Lit, std::allocator<primo::sat::Lit> >&, unsigned long) const",
+          31
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::restore_trail_entry(primo::theory::equality::FlatCongruenceClosure::TrailEntry&)",
+          26
+        ],
+        [
+          "__memmove_avx_unaligned_erms_rtm",
+          12
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::append_use_tracked(unsigned long, unsigned long)",
+          10
+        ],
+        [
+          "_int_malloc",
+          9
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::check_disequalities_touching(unsigned long, unsigned long) [clone .part.0]",
+          6
+        ]
+      ],
+      "samples_sha256": "154722aa164fef331f2671a71b7db2264214149ee4fda8b9581b408788dc93bb",
+      "summary_sha256": "69089fa2f83afc656261cfcbb036652c1378d5121cc0afe9c4bc82a245f1170c",
+      "log_sha256": "51cb7f35b6c6f0de9c490c1144775656432619664a6e6177ba95cae5a32b0ea2"
+    },
+    {
+      "case": {
+        "logic": "QF_UF",
+        "file": "PEQ/PEQ011_size8.smt2",
+        "sha256": "5beaa9e86fa2355fa51156b467ca8a290a54ebe1a003caea4383900159761fb3",
+        "expected": "unsat"
+      },
+      "profile": "ON",
+      "repetition": 1,
+      "samples": 272,
+      "seed": 2026111711,
+      "group_samples": {
+        "explanation": 39,
+        "closure_update": 192,
+        "selector": 4,
+        "statistics": 1,
+        "preprocessing": 2,
+        "sat": 269
+      },
+      "top_frames": [
+        [
+          "primo::theory::equality::FlatCongruenceClosure::process_use_list(unsigned long, unsigned long)",
+          60
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::merge_classes(primo::theory::equality::FlatCongruenceClosure::PendingMerge)",
+          43
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::explain_equal_into(unsigned long, unsigned long, std::vector<primo::sat::Lit, std::allocator<primo::sat::Lit> >&, unsigned long) const",
+          33
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::restore_trail_entry(primo::theory::equality::FlatCongruenceClosure::TrailEntry&)",
+          31
+        ],
+        [
+          "_int_malloc",
+          13
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::append_use_tracked(unsigned long, unsigned long)",
+          9
+        ],
+        [
+          "std::pair<std::__detail::_Node_iterator<std::pair<primo::theory::equality::FlatCongruenceClosure::ApplyKey const, unsigned long>, false, true>, bool> std::_Hashtable<primo::theory::equality::FlatCongruenceClosure::ApplyKey, std::pair<primo::theory::equality::FlatCongruenceClosure::ApplyKey const, unsigned long>, std::allocator<std::pair<primo::theory::equality::FlatCongruenceClosure::ApplyKey const, unsigned long> >, std::__detail::_Select1st, std::equal_to<primo::theory::equality::FlatCongruenceClosure::ApplyKey>, primo::theory::equality::FlatCongruenceClosure::ApplyKeyHash, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_emplace<primo::theory::equality::FlatCongruenceClosure::ApplyKey const&, unsigned long const&>(std::integral_constant<bool, true>, primo::theory::equality::FlatCongruenceClosure::ApplyKey const&, unsigned long const&) [clone .isra.0]",
+          9
+        ],
+        [
+          "primo::smt::(anonymous namespace)::OnlineEufPropagator::apply_assignment(std::vector<int, std::allocator<int> > const&)",
+          7
+        ]
+      ],
+      "samples_sha256": "0a379e911c6362cd4829e7074ff7b01b82fa6c172ffb926aa54273b1e92a18d9",
+      "summary_sha256": "ef813529824107e99749ce9a288341e593d97bdb8b9eadf99b3bf17371a35b1d",
+      "log_sha256": "0736b8b3f2c614eebf9bec309380bbfc6973222403dfb90d250afd49cf580408"
+    },
+    {
+      "case": {
+        "logic": "QF_UF",
+        "file": "PEQ/PEQ011_size8.smt2",
+        "sha256": "5beaa9e86fa2355fa51156b467ca8a290a54ebe1a003caea4383900159761fb3",
+        "expected": "unsat"
+      },
+      "profile": "OFF",
+      "repetition": 1,
+      "samples": 265,
+      "seed": 2026111711,
+      "group_samples": {
+        "explanation": 36,
+        "closure_update": 182,
+        "selector": 0,
+        "statistics": 0,
+        "preprocessing": 2,
+        "sat": 262
+      },
+      "top_frames": [
+        [
+          "primo::theory::equality::FlatCongruenceClosure::process_use_list(unsigned long, unsigned long)",
+          48
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::merge_classes(primo::theory::equality::FlatCongruenceClosure::PendingMerge)",
+          39
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::restore_trail_entry(primo::theory::equality::FlatCongruenceClosure::TrailEntry&)",
+          31
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::explain_equal_into(unsigned long, unsigned long, std::vector<primo::sat::Lit, std::allocator<primo::sat::Lit> >&, unsigned long) const",
+          30
+        ],
+        [
+          "std::pair<std::__detail::_Node_iterator<std::pair<primo::theory::equality::FlatCongruenceClosure::ApplyKey const, unsigned long>, false, true>, bool> std::_Hashtable<primo::theory::equality::FlatCongruenceClosure::ApplyKey, std::pair<primo::theory::equality::FlatCongruenceClosure::ApplyKey const, unsigned long>, std::allocator<std::pair<primo::theory::equality::FlatCongruenceClosure::ApplyKey const, unsigned long> >, std::__detail::_Select1st, std::equal_to<primo::theory::equality::FlatCongruenceClosure::ApplyKey>, primo::theory::equality::FlatCongruenceClosure::ApplyKeyHash, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, false, true> >::_M_emplace<primo::theory::equality::FlatCongruenceClosure::ApplyKey const&, unsigned long const&>(std::integral_constant<bool, true>, primo::theory::equality::FlatCongruenceClosure::ApplyKey const&, unsigned long const&) [clone .isra.0]",
+          13
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::append_use_tracked(unsigned long, unsigned long)",
+          12
+        ],
+        [
+          "primo::smt::(anonymous namespace)::OnlineEufPropagator::apply_assignment(std::vector<int, std::allocator<int> > const&)",
+          10
+        ],
+        [
+          "_int_malloc",
+          9
+        ]
+      ],
+      "samples_sha256": "f84569198407f741986b82bc19cf5579feb541f4aa5283ab32ec08bf1693e199",
+      "summary_sha256": "28320d9e100841e1e31f72155776920ba28607547ff21bd2915d00ceb24ebdf3",
+      "log_sha256": "e39fa8de927e2fa1e1a8808e1052b011bd511261a3b2f33a5447640a696cdc54"
+    },
+    {
+      "case": {
+        "logic": "QF_UF",
+        "file": "SEQ/SEQ026_size7.smt2",
+        "sha256": "e3c649d9b385db01cc363150214f7af57497dc61b9ac636156d5b0c7bed4509d",
+        "expected": "unsat"
+      },
+      "profile": "OFF",
+      "repetition": 0,
+      "samples": 537,
+      "seed": 2026111712,
+      "group_samples": {
+        "explanation": 203,
+        "closure_update": 438,
+        "selector": 0,
+        "statistics": 0,
+        "preprocessing": 4,
+        "sat": 530
+      },
+      "top_frames": [
+        [
+          "primo::theory::equality::FlatCongruenceClosure::explain_equal_into(unsigned long, unsigned long, std::vector<primo::sat::Lit, std::allocator<primo::sat::Lit> >&, unsigned long) const",
+          185
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::process_use_list(unsigned long, unsigned long)",
+          113
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::merge_classes(primo::theory::equality::FlatCongruenceClosure::PendingMerge)",
+          52
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::restore_trail_entry(primo::theory::equality::FlatCongruenceClosure::TrailEntry&)",
+          33
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::append_use_tracked(unsigned long, unsigned long)",
+          28
+        ],
+        [
+          "primo::smt::(anonymous namespace)::OnlineEufPropagator::apply_assignment(std::vector<int, std::allocator<int> > const&)",
+          19
+        ],
+        [
+          "_int_malloc",
+          11
+        ],
+        [
+          "_int_free",
+          10
+        ]
+      ],
+      "samples_sha256": "58f1fa082929dd76794cc29991a8429c60051c8cba405e90924c31c62372a545",
+      "summary_sha256": "b98b32a0026eef9e2da6b826cefc429e619eb7d2715315c96b0a4f7293a0b165",
+      "log_sha256": "6b5c994c2b8b42bb336f3e1f128ae67db9896026dd7470eed49bb8f1e90d1271"
+    },
+    {
+      "case": {
+        "logic": "QF_UF",
+        "file": "SEQ/SEQ026_size7.smt2",
+        "sha256": "e3c649d9b385db01cc363150214f7af57497dc61b9ac636156d5b0c7bed4509d",
+        "expected": "unsat"
+      },
+      "profile": "ON",
+      "repetition": 0,
+      "samples": 552,
+      "seed": 2026111712,
+      "group_samples": {
+        "explanation": 209,
+        "closure_update": 446,
+        "selector": 6,
+        "statistics": 7,
+        "preprocessing": 4,
+        "sat": 546
+      },
+      "top_frames": [
+        [
+          "primo::theory::equality::FlatCongruenceClosure::explain_equal_into(unsigned long, unsigned long, std::vector<primo::sat::Lit, std::allocator<primo::sat::Lit> >&, unsigned long) const",
+          186
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::process_use_list(unsigned long, unsigned long)",
+          132
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::merge_classes(primo::theory::equality::FlatCongruenceClosure::PendingMerge)",
+          43
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::restore_trail_entry(primo::theory::equality::FlatCongruenceClosure::TrailEntry&)",
+          31
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::append_use_tracked(unsigned long, unsigned long)",
+          23
+        ],
+        [
+          "primo::smt::(anonymous namespace)::OnlineEufPropagator::apply_assignment(std::vector<int, std::allocator<int> > const&)",
+          15
+        ],
+        [
+          "_int_malloc",
+          11
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::enqueue_congruence(primo::theory::equality::FlatCongruenceClosure::Definition const&, primo::theory::equality::FlatCongruenceClosure::Definition const&)",
+          10
+        ]
+      ],
+      "samples_sha256": "a78813b38c02c170b33de3d0e8f4e2be150b933a22d96ecb78aeb72278586ed5",
+      "summary_sha256": "81ae357bcfb7660e7b6bcc5299b1ea975fa2f624f3f8df9f68eaa5c98cc75d8b",
+      "log_sha256": "9c5f0d216f4071496525588b5bd3e72e16c1c7987cc51d4e6ca1a0a16f838b60"
+    },
+    {
+      "case": {
+        "logic": "QF_UF",
+        "file": "SEQ/SEQ026_size7.smt2",
+        "sha256": "e3c649d9b385db01cc363150214f7af57497dc61b9ac636156d5b0c7bed4509d",
+        "expected": "unsat"
+      },
+      "profile": "ON",
+      "repetition": 1,
+      "samples": 550,
+      "seed": 2026111713,
+      "group_samples": {
+        "explanation": 229,
+        "closure_update": 444,
+        "selector": 10,
+        "statistics": 8,
+        "preprocessing": 5,
+        "sat": 544
+      },
+      "top_frames": [
+        [
+          "primo::theory::equality::FlatCongruenceClosure::explain_equal_into(unsigned long, unsigned long, std::vector<primo::sat::Lit, std::allocator<primo::sat::Lit> >&, unsigned long) const",
+          205
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::process_use_list(unsigned long, unsigned long)",
+          105
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::merge_classes(primo::theory::equality::FlatCongruenceClosure::PendingMerge)",
+          47
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::restore_trail_entry(primo::theory::equality::FlatCongruenceClosure::TrailEntry&)",
+          31
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::append_use_tracked(unsigned long, unsigned long)",
+          24
+        ],
+        [
+          "primo::smt::(anonymous namespace)::OnlineEufPropagator::apply_assignment(std::vector<int, std::allocator<int> > const&)",
+          12
+        ],
+        [
+          "_int_malloc",
+          12
+        ],
+        [
+          "_int_free",
+          10
+        ]
+      ],
+      "samples_sha256": "8056914537af922dd8b309c89005c8a085ed5594678c48dd1f0a3a9beed6f50c",
+      "summary_sha256": "067a015de6591e5d796730d6ec6ed9cf1a85ab78dc2a3327c80dfd3600df6216",
+      "log_sha256": "1a1ce01c695d66c535b99be201e7fc8147b554dd6d66d86524fb7c326872a5ba"
+    },
+    {
+      "case": {
+        "logic": "QF_UF",
+        "file": "SEQ/SEQ026_size7.smt2",
+        "sha256": "e3c649d9b385db01cc363150214f7af57497dc61b9ac636156d5b0c7bed4509d",
+        "expected": "unsat"
+      },
+      "profile": "OFF",
+      "repetition": 1,
+      "samples": 534,
+      "seed": 2026111713,
+      "group_samples": {
+        "explanation": 208,
+        "closure_update": 436,
+        "selector": 0,
+        "statistics": 0,
+        "preprocessing": 5,
+        "sat": 525
+      },
+      "top_frames": [
+        [
+          "primo::theory::equality::FlatCongruenceClosure::explain_equal_into(unsigned long, unsigned long, std::vector<primo::sat::Lit, std::allocator<primo::sat::Lit> >&, unsigned long) const",
+          183
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::process_use_list(unsigned long, unsigned long)",
+          130
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::merge_classes(primo::theory::equality::FlatCongruenceClosure::PendingMerge)",
+          42
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::restore_trail_entry(primo::theory::equality::FlatCongruenceClosure::TrailEntry&)",
+          31
+        ],
+        [
+          "primo::theory::equality::FlatCongruenceClosure::append_use_tracked(unsigned long, unsigned long)",
+          23
+        ],
+        [
+          "primo::smt::(anonymous namespace)::OnlineEufPropagator::apply_assignment(std::vector<int, std::allocator<int> > const&)",
+          16
+        ],
+        [
+          "malloc",
+          10
+        ],
+        [
+          "_int_malloc",
+          8
+        ]
+      ],
+      "samples_sha256": "70ae425daee2072e5e0040709b3df2746cac3f44714495545d51ca7da87c6482",
+      "summary_sha256": "0abe61d41cd3a19c4f5d42e5b9f64fd6535d971973ad3adbd7f7ba6908319955",
+      "log_sha256": "1ea0ed4494cbc00a99a2af2e1eef5f5ce09483aa43f88a93fd3d1c32746b1ed4"
+    }
+  ]
+}

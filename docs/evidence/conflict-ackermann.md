@@ -222,3 +222,156 @@ campaign and the frozen selection; byte-for-byte reproduction was checked.
 Private SSH configuration,
 cluster workspace mappings, hostnames and job identifiers remain outside tracked
 files; raw artifacts are under `results/conflict-ackermann-20261116/`.
+
+## Performance code review and full-search follow-up
+
+This review examines the implementation at `a67acd37`; its native solver
+remains `13230b6d`. It changes no solver behavior or default. The existing-atom
+pilot is not a test of the complete Yices policy: the 2006 paper's §2 describes
+both dynamic literal creation and conflict-selected congruence clauses. Missing
+atoms and the bounded selection policy are explicit Primo restrictions, not
+requirements attributed to Yices. This review uses the paper and Primo code;
+no other solver's implementation was read or copied.
+
+### Full-search samples
+
+The earlier hundred-conflict Callgrind captures cannot identify the dominant
+cost of a complete query. In the full PEQ011_size8 OFF timing at repetition
+zero, printed preprocessing time is 95,586 microseconds against 13.490735
+seconds process time, about 0.71%. The capped profile's 54.24% inclusive
+preprocessing instruction share concerns a different execution prefix and
+quantity. It should not direct whole-query optimization toward preprocessing.
+
+The {download}`full-search stack inventory <../../benchmarks/conflict-ackermann-20261117/review/full-search-samples.json>`
+contains eight completed UNSAT GDB/MI captures: PEQ011_size8 and SEQ026_size7,
+OFF/ON, two repetitions with reversed profile order. The native is the same
+qualified binary. Sampling uses jittered 0.05-second intervals, a ninety-second
+profiler deadline per query, one requested CPU and 10 GiB allocation memory;
+there is no native address-space cap under GDB. All eight complete normally.
+These are 3,242 wall-stack observations, not CPU events or fresh native timings.
+The {conflictacksource}`sampler <scripts/profile_gdb_samples.py>`,
+{download}`workload <../../scripts/qualification/conflict_ackermann/review_profile.sbatch>`
+and {download}`auditor <../../scripts/qualification/conflict_ackermann/review_audit.py>`
+record the command, input identity and output hashes.
+A group counts each stack at most once; groups overlap, inlining can hide
+frames, and stacks are limited to forty-one frames.
+
+| Input | Profile | Samples | Closure-update group | Explanation group | Selector group |
+| --- | --- | ---: | ---: | ---: | ---: |
+| PEQ011_size8 | OFF | 527 | 71.73% | 13.09% | 0.00% |
+| PEQ011_size8 | ON | 542 | 71.40% | 15.50% | 0.92% |
+| SEQ026_size7 | OFF | 1,071 | 81.61% | 38.38% | 0.00% |
+| SEQ026_size7 | ON | 1,102 | 80.76% | 39.75% | 1.45% |
+
+Closure-update means a `propagate` or `merge_classes` frame; explanation means
+an explanation or `append_edge_reason` frame; selector means a selector method
+or semantic-pair extraction frame. Explanations can be nested inside closure
+updates, and both inside the SAT callback stack. Their percentages must not be
+added. Frequently sampled top frames include `process_use_list`,
+`merge_classes`, `explain_equal_into` and `restore_trail_entry`. This points to
+closure maintenance and explanation work as the larger follow-up investigation;
+it does not attribute their inclusive cost to one allocation or prove a Yices
+implementation comparison.
+
+An initial workload guard assumed quoted MI target output; native GDB instead
+printed a plain `unsat` line. Both initial tasks failed that reporting assertion
+after their first query completed normally. Both were rerun in a fresh output
+directory with a guard accepting either transport. Only the final eight
+complete captures enter this inventory. No SAT model is produced in these UNSAT
+profiling runs, and no new solver/fuzz correctness claim is made.
+
+### Located findings and proposed checks
+
+**CAR-1 — baseline performance: avoid full disequality-list work for an empty
+losing list.** In {conflictacksource}`merge_classes
+<src/theory/equality/flat_congruence_closure.cpp#L522-L547>`, every nonconflicting
+merge constructs a union vector and merges both sorted lists. With active
+checkpoints it also snapshots both lists for rollback. An empty union need
+not allocate. If the losing class has no disequalities and the surviving
+class has D entries, the live list is unchanged, yet the operation copies and
+scans O(D) data. Repeating k singleton merges into that class can cost O(kD)
+for this bookkeeping alone. Add the no-op fast path, then consider reversible
+moves for empty-destination cases. A focused probe should attach D unrelated
+disequalities to one class, merge k disequality-free terms into it, verify
+nested rollback/conflict explanations, and count copied entries. These are
+proposed repairs, not implemented speedups. The samples identify the containing
+function as hot, not this individual copy's measured share.
+
+**CAR-2 — baseline performance: retain the existing use-list buffer for undo.**
+{conflictacksource}`process_use_list
+<src/theory/equality/flat_congruence_closure.cpp#L550-L561>` copies the losing
+use list into `flat_vector_trail_`, swaps its original buffer into a local
+vector and then destroys that original buffer. This adds a full allocation/copy
+for each checkpointed nonempty list. Consider moving the original buffer into
+the undo payload and iterating the saved payload by a stable index. First prove
+that iteration cannot cross an invalidating outer-vector mutation; current
+`enqueue_congruence` only queues work, but a future helper could change that.
+A high-fanout merge/pop probe should verify identical notifications, signatures
+and explanations while distinguishing copied from moved list entries.
+
+**CAR-3 — opt-in overhead: use fixed counters in the hot selector.**
+{conflictacksource}`ConflictAckermannSelector::count
+<src/smt/conflict_ackermann.cpp#L20-L22>` constructs a fresh concatenated
+`std::string` and uses a hashed string-key lookup for every event. Successful
+UF ON rows contain 8,723,238 duplicate-pair events and 7,575,603 catalogue-limit
+events across the pilot's three repetitions. These long, repeatedly constructed
+keys add avoidable allocation/hashing work even when statistics printing is off.
+Use the existing dense `StatKey` path or explicit numeric counters with a safe
+flush boundary. Check identical counters, resource-return snapshots and query
+reset behavior; measure actual allocation reduction before attributing a share
+of the observed three-percent overhead to this change.
+
+**CAR-4 — opt-in overhead: reuse conflict scratch storage.**
+{conflictacksource}`check_disequality
+<src/theory/equality/flat_congruence_closure.cpp#L686-L689>` assigns an empty
+trace aggregate before each conflict explanation, and
+{conflictacksource}`pop <src/theory/equality/flat_congruence_closure.cpp#L143-L146>`
+move-assigns its checkpoint trace. This discards trace-vector capacity on common
+conflict/backtrack paths. In addition,
+{conflictacksource}`conflict_application_pairs
+<src/smt/solver_engines.cpp#L1498-L1515>` grows a fresh semantic-pair vector.
+Keep reusable storage or a bounded representation while retaining the existing
+ownership/rollback invariant, including push/pop while already inconsistent.
+A repeated conflict/pop probe should show allocations stabilizing after warm-up;
+ASan and the existing nested-conflict test remain required.
+
+**CAR-5 — opt-in overhead: do not construct a doomed emitting clause.**
+{conflictacksource}`consider <src/smt/conflict_ackermann.cpp#L66-L88>` continues
+through all argument equalities and can allocate a clause after discovering
+that the result equality has no SAT literal. Successful UF ON rows have 138,681
+missing-result events among 138,723 catalogue entries; every successful UFLIA
+entry has a missing result. A cheap emitting path could return at that point,
+with full overlapping missing-argument diagnostics retained only in an explicitly
+detailed diagnostic path. Such a change must deliberately update the documented
+counter contract; silently dropping diagnostics is not an accepted repair.
+Test that an absent result literal performs no clause allocation in the cheap
+path, while a subsequent registration can still make the pair eligible.
+
+**CAR-6 — selection-policy limitation: misses consume the useful-pair budget.**
+{conflictacksource}`consider <src/smt/conflict_ackermann.cpp#L34-L49>` inserts
+first-seen pairs before testing eligibility. After 4,096 missing pairs fill the
+catalogue, a new pair is rejected before checking whether every required atom
+exists. Later conflicts can therefore lose all new opportunities while repeatedly
+paying the failed-admission cost. This is a documented bounded-policy limitation,
+not unsoundness or a violation of the previous prototype scope. Separate a
+bounded evictable negative cache from admitted/emitted-pair deduplication, or
+compare another explicit bounded admission policy. Extend the current saturation
+test with a fully eligible pair arriving after the missing pairs. Similarly,
+the raw sixty-four-step prefix is filled before semantic/prefix filtering and
+pair deduplication; a useful later witness can be excluded. Evaluate eligibility
+coverage and processing cost together rather than simply increasing both caps.
+
+### Review disposition
+
+No new soundness defect was identified in clause construction, signed equality
+literals, n-ary disjunctions, stable term ownership, conflict-first delivery or
+backtracking of the reviewed feature. Performance findings remain unimplemented
+and separately testable. Prior native/ASan/fuzz/model qualification still covers
+the unchanged solver; this follow-up adds sampling and static review only.
+
+The next small implementation candidates are CAR-1/2 for the hot default EUF
+core and CAR-3/4 for the opt-in overhead. Their payoff is not yet measured.
+Missing-atom registration is a separate algorithm/integration milestone needed
+to evaluate a less restricted conflict-selected policy. Neither this pilot nor
+two sampled problems establish why current Yices is fast in general, or that
+adding these repairs would close its performance gap.
