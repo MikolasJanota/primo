@@ -20,9 +20,14 @@ def execute(command):
 def submit(a, run=execute):
     assert a.count > 0 and not a.receipt.exists()
     ssh = ["ssh", "-F", str(a.ssh_config), "-o", "ControlPath=none", a.remote]
-    if a.after:
-        info = run([*ssh, "scontrol show job " + a.after])
-        assert re.search(r"\bArrayJobId=" + a.after + r"\b", info)
+    parents = a.after.split(":") if a.after else []
+    assert all(re.fullmatch("[0-9]+", job) for job in parents)
+    assert len(set(parents)) == len(parents)
+    dependency_kind = getattr(a, "dependency_kind", "afterok")
+    assert dependency_kind in ("afterok", "afterany")
+    for parent in parents:
+        info = run([*ssh, "scontrol show job " + parent])
+        assert re.search(r"\bArrayJobId=" + parent + r"\b", info)
     run(
         [
             "python3",
@@ -42,12 +47,13 @@ def submit(a, run=execute):
         "sbatch",
         "--parsable",
         "--hold",
+        "--kill-on-invalid-dep=yes",
         "--exclude=node-01",
         f"--array=0-{a.count - 1}%{min(a.count, a.concurrency)}",
         "--time=" + a.job_time,
     ]
     if a.after:
-        flags.append("--dependency=afterok:" + a.after)
+        flags.append("--dependency=" + dependency_kind + ":" + a.after)
     flags.append(a.batch_script)
     command = "\n".join(
         [
@@ -66,14 +72,25 @@ def submit(a, run=execute):
             re.search(r"\bArrayJobId=" + job + r"\b", info)
             and "Reason=JobHeldUser" in info
         )
-        assert dependency and re.findall(r"afterok:([0-9]+)", dependency[1]) == (
-            [a.after] if a.after else []
-        )
+        assert dependency
+        # Accept grouped or repeated dependency kinds, with state annotations.
+        actual = []
+        if not parents:
+            assert dependency[1] == "(null)"
+        plain = re.sub(r"\([^)]*\)", "", dependency[1])
+        if plain != "(null)" and parents:
+            for group in plain.split(","):
+                kind, *ids = group.split(":")
+                assert kind == dependency_kind and ids
+                assert all(re.fullmatch(r"[0-9]+(?:_\*)?", job) for job in ids)
+                actual.extend((kind, parent.removesuffix("_*")) for parent in ids)
+        assert actual == [(dependency_kind, parent) for parent in parents]
         a.receipt.parent.mkdir(parents=True, exist_ok=True)
         receipt = {
             "state": "held",
             "job": job,
             "parent": a.after,
+            "dependency_kind": dependency_kind,
             "count": a.count,
             "phase": a.phase,
         }
@@ -83,6 +100,19 @@ def submit(a, run=execute):
         a.receipt.write_text(json.dumps(receipt, indent=2) + "\n")
     except BaseException:
         run([*ssh, "scancel " + job])
+        a.receipt.parent.mkdir(parents=True, exist_ok=True)
+        a.receipt.write_text(
+            json.dumps(
+                {
+                    "state": "cancelled-after-validation-failure",
+                    "job": job,
+                    "parent": a.after,
+                    "dependency_kind": dependency_kind,
+                },
+                indent=2,
+            )
+            + "\n"
+        )
         raise
     return job
 
@@ -97,7 +127,10 @@ def main():
     p.add_argument("--count", type=int, required=True)
     p.add_argument("--concurrency", type=int, default=16)
     p.add_argument("--job-time", default="00:30:00")
-    p.add_argument("--after")
+    p.add_argument("--after", help="Colon-separated parent array IDs")
+    p.add_argument(
+        "--dependency-kind", choices=("afterok", "afterany"), default="afterok"
+    )
     a = p.parse_args()
     a.exports = json.loads(a.exports_json.read_text()) if a.exports_json else {}
     assert all(

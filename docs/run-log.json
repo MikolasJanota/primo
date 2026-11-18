@@ -3,6 +3,97 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-18-euf-smtcomp2026",
+      "date": "2026-11-18",
+      "branch": "lia-integrality",
+      "kind": "Full official UF/UFLIA selection paired followup before merge review",
+      "evidence_status": "Running:full official1104UF/300UFLIA pairedtimings;all modeljobs wait for successfulglobaltimingaudit. No new performanceclaim.",
+      "source": "6e53a710e30b8cb15aa3c330adb16a03ecd13189",
+      "native_sha256": "8cf501e1752a4f5eeaa2909af42395af504d5ebb22dc9abaaa3ac29da276e875",
+      "baseline_source": "13230b6d",
+      "baseline_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
+      "arguments": [
+        "--quiet",
+        "--stats"
+      ],
+      "selection": "benchmarks/euf-smtcomp2026-20261118/selection.json",
+      "protocol": "benchmarks/euf-smtcomp2026-20261118/protocol.json",
+      "counts": {
+        "QF_UF": 1104,
+        "QF_UFLIA": 300,
+        "repetitions": 3,
+        "profiles": 2,
+        "native_rows": 8424
+      },
+      "limits": "Native120s/8GiB addressspace;1requestedCPU/task;6arrays702tasks each/throttle12;threepairedreps;global timing audit before independentnative180s/Dolmen60s SATreplay.",
+      "reference_policy": "No new Yices or other reference benchmark executions; frozen official decisive-answer consensus and declared statuses.",
+      "qualification_basis": "Source6e helperbuild414939;checkASan414940;freshgenerated414943/mutations414945/seed414942;allSAT models19,125; no CPP/option changes since. Native/mechanism experiment prior evidence in2026-11-18-euf-performance-implementation.",
+      "methods": "scripts/qualification/euf_smtcomp/{configure,launch,audit}.py; sharedlia_hybrid/run.py; conflict_ackermann/submit.py global parent validation.",
+      "correctness": "AllSAT exactprofile directDolmen required separately; disagreement/crash/unexplainederror/missingcoverage blocks finalacceptance; timeout/handledresource staysunsolved.",
+      "review_next": "User requests review of all changes againstmain after evaluation;235commits atstart,mergebasefcc274c23ff5b146cc43d80b1b0317faf91c7f08;allsource/tests/scripts/docs/defaults/evidence; no merge authorization inferred.",
+      "remaining": "Submit and completeSLURM timings/modelaudit;analyze andcommit evidence;thenperformfullbranchmergereadiness review.",
+      "jobs": {
+        "timing": [
+          "424295",
+          "424296",
+          "424297",
+          "424334",
+          "424335",
+          "424336"
+        ],
+        "models": [
+          "424386",
+          "424387",
+          "424548",
+          "424549",
+          "424550",
+          "424551"
+        ],
+        "status": "submitted; all models wait for global timing audit",
+        "native_rows": 8424,
+        "timing_audit": "424338",
+        "final_audit": "424592"
+      },
+      "raw_artifacts": "results/euf-smtcomp2026-20261118/attempt2;full raw timing/model outputs also retained in SLURM workspace",
+      "first_attempt": {
+        "status": "Cancelled afterhelddependencyformatcheck;partialnative rows excluded;no modelstage ran.",
+        "timing_jobs": [
+          424242,
+          424243,
+          424244,
+          424245,
+          424246,
+          424247
+        ],
+        "cause": "SLURM reports wholearray dependenciesasID_*;initial parser acceptednumericIDs only. Threeheldmetadata-only probes confirmedformatandwerecancelled;controller nowverifiesfullarray wildcard and rejects elementIDs;regressionadded.",
+        "probe_jobs": [
+          424291,
+          424292,
+          424293
+        ]
+      },
+      "reference_reuse": {
+        "artifact": "benchmarks/euf-smtcomp2026-20261118/archived-references.csv",
+        "provenance": "benchmarks/euf-smtcomp2026-20261118/reference-provenance.json",
+        "rows": 5616,
+        "profiles": [
+          "z3",
+          "cvc5",
+          "yices",
+          "opensmt"
+        ],
+        "policy": "All1404selectedinputSHA match eachprofile;singlearchived1200s timingscensored120s/enforced8GiB;contextonly;zero referenceexecutions;decisivesource andcensoredanswers/crossreferenceagreement checked."
+      },
+      "workflow_checks": "14metadata tests;make lint;SLURMbatchvalidator;helper--check-only onqualified6e source;make docs/localGitlinks. NativeCPPunchanged;no newnative qualification required for metadata-only workflow changes.",
+      "documentation_review": {
+        "reviewer": "conflict_ack_docs_review independent read-only",
+        "verdict": "Methods/selection/protocol/scheduling accepted;EFS1 correctednonexistentCSVkeys;wholearraywildcardsourceagreement accepted. Archivecontext selectedall5616rows/exacthashbindings/censoring accepted;active results pending. EFS-S1 originalansweraudit/crossrefunknown hardening added with regression, sameCSVbytes.",
+        "auditor_blob": "e8a9329bef14",
+        "controller_blob": "e3f035abbd42",
+        "archived_csv_blob": "eca138a98169"
+      }
+    },
+    {
       "id": "2026-11-18-euf-performance-implementation",
       "date": "2026-11-18",
       "branch": "lia-integrality",

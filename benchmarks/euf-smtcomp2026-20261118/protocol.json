@@ -1,0 +1,30 @@
+{
+  "timeout_seconds": 120,
+  "address_space_bytes": 8589934592,
+  "repetitions": 3,
+  "chunk_size": 702,
+  "cases": 1404,
+  "native_rows": 8424,
+  "sources": {
+    "BASE": {
+      "git": "13230b6d",
+      "sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    },
+    "OFF": {
+      "git": "6e53a710",
+      "sha256": "8cf501e1752a4f5eeaa2909af42395af504d5ebb22dc9abaaa3ac29da276e875",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    }
+  },
+  "selection_sha256": "af8c31ab36ce6181fe50847850adb1aef0c5c012b358adf244b4397527289e5e",
+  "runner_sha256": "8f6a3a546a755455a941d52df57a97fe7d577735241c1864f15cf2e1364935e3",
+  "configure_sha256": "05990262a8d292a07972e660867b19e25507cc09a86147086c4a52b7e8dacafd",
+  "model_stage": "All successful SAT rows exact-option replay/check-model/direct Dolmen after global timing audit; native180s/Dolmen60s. No model time in speed rows."
+}

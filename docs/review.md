@@ -308,3 +308,25 @@ common-solved ratios. Accepted blobs: evidence `a0427ef64d1c`, follow-up summary
 The writer reran lint, six metadata tests, documentation and local/Git links,
 and inspected the rendered follow-up section. All experiment arrays are
 terminal and the SLURM queue is empty; no local native experiments remain.
+
+## 2026-11-18 full SMT-COMP UF/UFLIA follow-up methods
+
+Independent read-only reviewer `conflict_ack_docs_review` accepted the methods,
+full official 1,104 UF / 300 UFLIA selection, four undecided UFLIA cases, hashes,
+paired order, 120-second/8-GiB limits and global timing/model audit barriers.
+EFS-1 replaced two nonexistent CSV counter keys with the registered congruence
+and BFS explanation-edge counters. The controller's whole-array wildcard repair
+matches saved SLURM metadata; selected array elements remain rejected. Accepted
+auditor/controller blobs were `e8a9329bef14` / `e3f035abbd42`.
+
+Archive reuse was independently checked for all 5,616 rows: four reference
+profiles covering all 1,404 unique input hashes, byte-identical selected rows,
+no original decisive-answer disagreements, and correct censoring of 83 runs
+beyond 120 seconds. CSV blob `eca138a98169`. Optional EFS-S1 was implemented:
+the exporter checks original answers before censoring and cross-reference
+agreement for expected-unknown inputs; a negative regression covers a hidden
+original disagreement. The exported CSV is unchanged. Fourteen workflow tests,
+lint, batch syntax/validation, qualified-binary helper preflight and documentation
+checks pass. Native source remains qualified `6e53a710`; no new native/default
+behavior is introduced by these workflow changes. Active performance/model
+results and the subsequent whole-branch review remain outside this acceptance.

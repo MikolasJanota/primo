@@ -296,3 +296,70 @@ Only explicitly printed successful-row mechanism counters are totaled; missing
 values remain unavailable, and peaks use a maximum. The full analysis retains
 incomplete-row snapshots separately. Follow-up comparisons use the same paired
 thresholds as the initial selection.
+
+## Full SMT-COMP selection follow-up
+
+Status: broader native timing arrays are running before the branch's
+merge-readiness review. This stage reuses the already qualified source `6e53a710`, with default
+options and `--quiet --stats`; both conflict Ackermann emission and demand atoms
+remain disabled. The comparator is the same frozen pre-change `13230b6d`
+binary. Both executable identities are frozen by SHA-256. No new Yices or other
+reference-solver benchmark is scheduled.
+
+The {download}`frozen selection <../../benchmarks/euf-smtcomp2026-20261118/selection.json>`
+contains every QF_UF and QF_UFLIA name in the archived SMT-COMP 2026 SingleQuery
+results snapshot: 1,104 UF and 300 UFLIA problems. All names resolve in the
+existing content-hashed corpora. Decisive archived answers agree; four UFLIA
+inputs have no decisive archived answer and retain expected status `unknown`.
+This replays the original SMT-LIB inputs without competition scrambling and
+does not reproduce competition-machine timings. It is the full selected set
+for these two logics, not the complete SMT-LIB corpus or all competition logics.
+
+Each problem receives three paired BASE/OFF repetitions at 120 seconds and
+8 GiB per native process: 8,424 measurements. Pair order reverses by problem
+index and repetition. Six 702-case arrays request one CPU per task, with twelve
+concurrent tasks per array. Native timings, RSS, outcomes and printed mechanism
+counters are retained per row. Unsolved outcomes receive a 240-second PAR2
+penalty. Results will include both logic- and family-level summaries, paired
+runtimes, gains/losses and repeatable regressions.
+
+The {download}`configuration generator <../../scripts/qualification/euf_smtcomp/configure.py>`
+creates public selection/protocol records and private run cards. The
+{download}`launcher <../../scripts/qualification/euf_smtcomp/launch.py>`
+stages experiment metadata only; it does not rebuild or mutate the helper-built,
+correctness-qualified native source. The existing held-job submission controller
+checks every parent dependency before releasing an array. Its multiple-parent
+support creates a global timing barrier: model arrays depend on a successful
+{download}`timing audit <../../scripts/qualification/euf_smtcomp/audit.py>`
+after all six timing arrays terminate. A final audit follows all six model
+arrays. Every successful native SAT row requires its own exact-option replay,
+`--check-model` and direct Dolmen pass; model time remains separate. Missing
+coverage, unexplained errors, crashes or answer disagreements block acceptance.
+The earlier fresh default-profile generated/mutation/seed gates qualify this
+unchanged native source and option set; new reference executions are unnecessary.
+
+The branch review follows this evaluation. Its scope is the full diff from the
+merge base with `main`, including solver ownership/invalidation invariants,
+integer explanations and SAT resumption, option defaults, all new tests and
+scripts, documentation claims and the applicability of qualification evidence.
+Review findings and remaining merge blockers will be recorded before any merge.
+
+
+Archived Z3, cvc5, Yices and OpenSMT rows match the input SHA-256 for all 1,404
+problems. The {download}`reference subset <../../benchmarks/euf-smtcomp2026-20261118/archived-references.csv>`
+and {download}`reuse provenance <../../benchmarks/euf-smtcomp2026-20261118/reference-provenance.json>`
+retain 5,616 rows from the audited uniform120 export. These are single archived
+reference runs, originally measured with a 1,200-second limit and censored to
+120 seconds, with the matching 8 GiB address-space cap. They provide context
+alongside the fresh three-repetition Primo comparison; no fresh paired-reference
+speed claim is intended. The stdlib-only
+{download}`reuse exporter <../../scripts/qualification/euf_smtcomp/references.py>`
+rejects input-hash mismatches, duplicate rows and decisive-answer disagreements.
+
+The first submission attempt was canceled by its held-job dependency check:
+SLURM printed whole-array parent IDs as `ID_*`. A metadata-only held-job probe
+confirmed that format, and the controller now verifies and normalizes that
+suffix while rejecting element-specific dependencies. The regression test uses
+the observed form. A fresh result directory isolates the retry; no partial
+first-attempt timing enters the accepted comparison and no model stage ran in
+that attempt.
