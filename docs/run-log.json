@@ -3,6 +3,58 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-19-uf-symmetry-composition-repair",
+      "date": "2026-11-19",
+      "branch": "lia-integrality",
+      "kind": "Correctness repair after full SMT-COMP selected-set wrong answer",
+      "source": "59d81fee55ae861ea7fe022b5602450013a57cd0",
+      "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03",
+      "evidence_status": "Candidate correctness qualification complete; corrected comparator qualification and fresh full timing comparison pending; no merge acceptance.",
+      "design": "docs/leads/uf-symmetry-composition.md",
+      "artifact": "benchmarks/euf-smtcomp2026-20261118/symmetry-candidate-qualification.json",
+      "baseline_patch": "benchmarks/euf-smtcomp2026-20261118/baseline-correctness.patch",
+      "counts": {
+        "generated_inputs": 7000,
+        "generated_PASS": 6978,
+        "generated_TIMEOUT": 22,
+        "tracked_regression_measurements": 129,
+        "mutations_inputs": 2142,
+        "mutations_PASS": 2132,
+        "mutations_INCOMPLETE": 10
+      },
+      "targeted_PASS": 3000,
+      "focused_SAT_Dolmen_pass": 8,
+      "SAT_Dolmen_pass_total": 8409,
+      "verification": "SLURM helper build; make check49native/391Python; make asan-test49native; whole141CPP tidy/includes880/407advisories,no new normalized signatures,no unused includes. make lint and metadata tests pass locally.",
+      "profiles": "UF default/paper/strong; UFLIA/LIA/LRA/UFLRA defaults. --check-model on generated/mutated cases; allSAT separately Dolmen.",
+      "seeds": {
+        "generated": 2026111930,
+        "targeted": 2026111900,
+        "mutation": 2026111940,
+        "rule": "base+task slot"
+      },
+      "limits": "Generated native/reference5s; targeted3..8values1000/profile; real mutation12original seeds/task,600s/30iterations/5s. Complete commands/configSHA/model receipts in artifact and private raw records.",
+      "raw_artifacts": "results/euf-smtcomp2026-20261118/symmetry-repair and baseline-repair; exact SLURM job ids/submission receipts remain in private jobs.json files.",
+      "remaining": "Finish comparator qualification; restart full paired selection and allSAT replay; summarize evidence and complete requested whole-branch merge review.",
+      "paper": "Deharbe et al. CADE2011 sections3-4,Theorem5/Lemma6/Algorithm1/Theorem7; primary sections read/checklist written before code. Default precedence separately justified by first-occurrence renaming.",
+      "documentation_review": {
+        "reviewer": "conflict_ack_docs_review, independent read-only",
+        "verdict": "Ready; no required findings. UFS-1/UFS-2 source links and separate default value-precedence proof resolved. Candidate evidence/methods only; comparator/timing/whole-branch acceptance excluded.",
+        "accepted_blobs": {
+          "lead": "433469ddfc58",
+          "preprocessing": "94e06da3f848",
+          "evidence": "e00a8b041d0a",
+          "qualification": "78283502f666",
+          "baseline_patch": "24ce5e0d3d32",
+          "auditor": "aa2049619f1d"
+        },
+        "patch_recheck": "Four empty unified-diff context lines normalized to avoid artifact whitespace warnings; independent reviewer reaccepted. Private-index git apply reconstructs exact0647d85a tree d7d4ccce2a5e670d4eaec48561d51d0921693efc."
+      },
+      "documentation_checks": "make docs; strict make docs-check-links:309pages/47470local/1384Git links/zero failures;534externalURLs deferred. Proof/qualification/status rendered in Chromium and visually inspected. Initial unassembled html-only link check found three expected archive routes; canonical assembled-site check passes.",
+      "metadata_checks": "13 focused pure metadata tests pass; make lint; SLURM batch validation; git diff --check. Native CPP/unit fixture byte-identical to qualified59d81fee.",
+      "code_review": "Repair soundness/lifetime/counter/rejection coverage reviewed; no blocking issue found in repair. Whole-tree static completed with unchanged advisories; requested full branch review still pending."
+    },
+    {
       "id": "2026-11-18-euf-smtcomp2026",
       "date": "2026-11-18",
       "branch": "lia-integrality",

@@ -1,0 +1,451 @@
+{
+  "scope": "Correctness qualification of the evolving-formula UF symmetry guard; no speed or merge-readiness claim. All submitted candidate jobs completed successfully. Resource timeouts remain unsolved.",
+  "source": "59d81fee55ae861ea7fe022b5602450013a57cd0",
+  "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03",
+  "native_version": {
+    "build": "Release",
+    "cadical": "cadical-3.0.0-7b99c07"
+  },
+  "build": "Repository preparation helper, --build-via-slurm --reuse-dependencies --target primo --extra-target primo_boolean_solver_tests; first optional target spelling failed after native compilation, corrected helper build succeeded.",
+  "verification": {
+    "native_groups": 49,
+    "python_tests": 391,
+    "ASan_groups": 49,
+    "log_sha256": {
+      "check.log": "64285c96dc383ebf0eb5de34c241c7b85bdadacd58e6cac61d60eb2ca6fc607a",
+      "asan.log": "ad9bed2e0ac64a0acafbc9dcd78e7e5d1473e8b5cee8e7cc4ec75ce48a042778",
+      "asan-version.txt": "90bcc1b33654961e22e55fe959820028b9ce79b4e666e04e9a6d10ed71c215ee",
+      "asan.sha256": "525d4bf2ae0db48a027b6e3a301040513d27b9f9b3ab46e0778ff3726133cfea"
+    },
+    "local": "make lint; metadata-only audit/test checks; make docs and link/render checks recorded separately."
+  },
+  "general_gate": {
+    "source": "59d81fee",
+    "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03",
+    "counts": {
+      "generated_inputs": 7000,
+      "generated_PASS": 6978,
+      "generated_TIMEOUT": 22,
+      "tracked_regression_measurements": 129,
+      "mutations_inputs": 2142,
+      "mutations_PASS": 2132,
+      "mutations_INCOMPLETE": 10
+    },
+    "SAT_Dolmen_pass": 6901,
+    "receipt_inventory": [
+      {
+        "phase": "generated",
+        "slot": 0,
+        "logic": "QF_UF",
+        "profile": "OFF",
+        "receipt_sha256": "0639f6efcd778f968a643424e70e3f49c88274ff4af5f8761280c26090bcd5bd",
+        "cases": 1000,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "generated",
+        "slot": 1,
+        "logic": "QF_UF",
+        "profile": "PAPER",
+        "receipt_sha256": "12a71bcacea3da92f97cbe715d8fc0f2fe11c8f2578945bf2011f3a8b172a8bb",
+        "cases": 1000,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "generated",
+        "slot": 2,
+        "logic": "QF_UF",
+        "profile": "STRONG",
+        "receipt_sha256": "509c133464e4c57ea0c63d57710d2cdf82a4d2952a6a74bd15fed7e5d3544291",
+        "cases": 1000,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "generated",
+        "slot": 3,
+        "logic": "QF_UFLIA",
+        "profile": "OFF",
+        "receipt_sha256": "2153873a6e24401f1e42ddb5abb6d0507ef746522b5db8524e4de7e32a804037",
+        "cases": 1000,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "generated",
+        "slot": 4,
+        "logic": "QF_LIA",
+        "profile": "OFF",
+        "receipt_sha256": "5f6f1be314851da6b35c1b9c48e05a19919772ed7aaa576aabb45023a96dc942",
+        "cases": 1000,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "generated",
+        "slot": 5,
+        "logic": "QF_LRA",
+        "profile": "OFF",
+        "receipt_sha256": "dbf73f3f31cfeb92648e6883d09cc1ee869c6db5989f87e97b27b6c05717d104",
+        "cases": 1000,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "generated",
+        "slot": 6,
+        "logic": "QF_UFLRA",
+        "profile": "OFF",
+        "receipt_sha256": "65a2fa6cdf27bc59ded1245bbc72139ed9b37d2a21ac650cef4e96144b1d05cd",
+        "cases": 1000,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "seeds",
+        "slot": 0,
+        "logic": "QF_UF",
+        "profile": "OFF",
+        "receipt_sha256": "508039794ddc3c96bd04871a1eb8eb6ac0915dbd271362e55cef245523b5934c",
+        "cases": 23,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "seeds",
+        "slot": 1,
+        "logic": "QF_UF",
+        "profile": "PAPER",
+        "receipt_sha256": "718ea7ae0fef943854a44293dbc1a60b80d053558cbb77639451acf1b5df7399",
+        "cases": 23,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "seeds",
+        "slot": 2,
+        "logic": "QF_UF",
+        "profile": "STRONG",
+        "receipt_sha256": "bba47d9b1687b3df08ae9984a8f081c88725d2656ad976ca8b1f8d06ca61b96d",
+        "cases": 23,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "seeds",
+        "slot": 3,
+        "logic": "QF_UFLIA",
+        "profile": "OFF",
+        "receipt_sha256": "91cddebe813f4bb252cb9b8de2fe43bd4d706304dea525fc48f47057bf72774b",
+        "cases": 10,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "seeds",
+        "slot": 4,
+        "logic": "QF_LIA",
+        "profile": "OFF",
+        "receipt_sha256": "d20a16aaa5566439b66c955b66f4b01f1df94dc4ae71332b7235d055e78a4e19",
+        "cases": 9,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "seeds",
+        "slot": 5,
+        "logic": "QF_LRA",
+        "profile": "OFF",
+        "receipt_sha256": "3c8e75a1a03edc18599de77ed6f285aa29b4b147401b23c37cd00805b1118ae8",
+        "cases": 21,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "seeds",
+        "slot": 6,
+        "logic": "QF_UFLRA",
+        "profile": "OFF",
+        "receipt_sha256": "bfcdddb04bc32efafc9be9101bad55c142c229ebfbab45a6a3a9d672c1bb2a69",
+        "cases": 20,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "mutations",
+        "slot": 0,
+        "logic": "QF_UF",
+        "profile": "OFF",
+        "receipt_sha256": "6db57eb1352b6cb8982ede75e3f3b9ca563d89c87fd9a31867a0197711d712a5",
+        "cases": 296,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "mutations",
+        "slot": 1,
+        "logic": "QF_UF",
+        "profile": "PAPER",
+        "receipt_sha256": "763a04d2ae0769b04fad80c6641e99f5f9536aa26b4b48e8c620f64773967fe5",
+        "cases": 293,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "mutations",
+        "slot": 2,
+        "logic": "QF_UF",
+        "profile": "STRONG",
+        "receipt_sha256": "8f270f7ab913f809785896c09ae8ea45a6c7ca8574f414aa7fea35c60de6f46a",
+        "cases": 293,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "mutations",
+        "slot": 3,
+        "logic": "QF_UFLIA",
+        "profile": "OFF",
+        "receipt_sha256": "997879b4247c63a02cdf797fdeb5ac845bc3951075640cfb6d8e35049ebcec51",
+        "cases": 360,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "mutations",
+        "slot": 4,
+        "logic": "QF_LIA",
+        "profile": "OFF",
+        "receipt_sha256": "3801bc01c13fbd6a2854710635ad6f40dd2d9d1ac28235df3250bd1abc177a49",
+        "cases": 360,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "mutations",
+        "slot": 5,
+        "logic": "QF_LRA",
+        "profile": "OFF",
+        "receipt_sha256": "4de918528c023707f22376649e9ef678768417ea3745b1c35a77eccea13176eb",
+        "cases": 360,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      },
+      {
+        "phase": "mutations",
+        "slot": 6,
+        "logic": "QF_UFLRA",
+        "profile": "OFF",
+        "receipt_sha256": "6472afc5372954fd4212f40b91d64302abff8f811916b8a39012cba7194d12c4",
+        "cases": 180,
+        "source": "59d81fee",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03"
+      }
+    ],
+    "mutation_unknown_replays_needed": []
+  },
+  "focused_gate": {
+    "source": "59d81fee55ae861ea7fe022b5602450013a57cd0",
+    "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03",
+    "focused_replays": [
+      {
+        "input": "original",
+        "profile": "DEFAULT",
+        "answer": "sat",
+        "model_metadata_sha256": "e07c1a8a51f96c9c4fea2254167419f12177991bed4673f71c9fad8040700ee5"
+      },
+      {
+        "input": "original",
+        "profile": "PAPER",
+        "answer": "sat",
+        "model_metadata_sha256": "8629cad1d4d37cccb623fecd8de86f7fc4c0f3494f67c66ab484f1bf14e5f2f5"
+      },
+      {
+        "input": "original",
+        "profile": "NOSYM",
+        "answer": "sat",
+        "model_metadata_sha256": "0a1863b83e48776f25445f497745fcae64ea33013053a335b7c4889580add27a"
+      },
+      {
+        "input": "original",
+        "profile": "OFF",
+        "answer": "sat",
+        "model_metadata_sha256": "79724092f57156fc73ce256253f8ad95e5fdb117732cabf3c766c7029b44aab5"
+      },
+      {
+        "input": "reduced",
+        "profile": "DEFAULT",
+        "answer": "sat",
+        "model_metadata_sha256": "e07c1a8a51f96c9c4fea2254167419f12177991bed4673f71c9fad8040700ee5"
+      },
+      {
+        "input": "reduced",
+        "profile": "PAPER",
+        "answer": "sat",
+        "model_metadata_sha256": "8629cad1d4d37cccb623fecd8de86f7fc4c0f3494f67c66ab484f1bf14e5f2f5"
+      },
+      {
+        "input": "reduced",
+        "profile": "NOSYM",
+        "answer": "sat",
+        "model_metadata_sha256": "0a1863b83e48776f25445f497745fcae64ea33013053a335b7c4889580add27a"
+      },
+      {
+        "input": "reduced",
+        "profile": "OFF",
+        "answer": "sat",
+        "model_metadata_sha256": "79724092f57156fc73ce256253f8ad95e5fdb117732cabf3c766c7029b44aab5"
+      }
+    ],
+    "targeted": [
+      {
+        "profile": {
+          "label": "DEFAULT",
+          "args": [
+            "--quiet",
+            "--stats"
+          ]
+        },
+        "seed": 2026111900,
+        "PASS": 1000,
+        "SAT_Dolmen_pass": 500,
+        "SAT_guard_activations": 500,
+        "receipt_sha256": "a5c2142cd99438d9a85e3f3ccc32a4bd285cd8585a1d876cc48575bb745093b3",
+        "model_metadata_sha256": "d2c0730e7fef7f0400567aa0cb5a6bb9d4e562e855ef4dd73b4b99b9d7905941"
+      },
+      {
+        "profile": {
+          "label": "PAPER",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--no-finite-domain-value-precedence"
+          ]
+        },
+        "seed": 2026111901,
+        "PASS": 1000,
+        "SAT_Dolmen_pass": 500,
+        "SAT_guard_activations": 500,
+        "receipt_sha256": "413ed8fe47be0a8f2d8e1a7935bbe8ff6261d7a139c35eecec3a53d54d8af034",
+        "model_metadata_sha256": "dce1e66375065b6f40cf2a10b1022a317e528a4e93faa0fec3fbd97d2862bd4e"
+      },
+      {
+        "profile": {
+          "label": "STRONG",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--preprocessing-mode=strong"
+          ]
+        },
+        "seed": 2026111902,
+        "PASS": 1000,
+        "SAT_Dolmen_pass": 500,
+        "SAT_guard_activations": 500,
+        "receipt_sha256": "d303341a49e120b1b90820d12d0a2263b9fdaf2c653002c66ec836afcc02cb06",
+        "model_metadata_sha256": "a231e3ee8445f32bfee248fad3262351fa66ac19ac8c994792313647e59dca98"
+      }
+    ],
+    "targeted_PASS": 3000,
+    "SAT_Dolmen_pass": 1508
+  },
+  "SAT_Dolmen_pass_total": 8409,
+  "static": {
+    "tidy": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 141,
+      "analyzed_translation_units": 141,
+      "missing": [],
+      "changed_inputs": [],
+      "tool_exit_code": 0,
+      "diagnostic_occurrences": 4031,
+      "unique_diagnostics": 880,
+      "counts": {
+        "portability-avoid-pragma-once": 109,
+        "performance-enum-size": 88,
+        "misc-include-cleaner": 407,
+        "clang-analyzer-optin.performance.Padding": 1,
+        "performance-unnecessary-value-param": 15,
+        "performance-inefficient-string-concatenation": 14,
+        "bugprone-unchecked-optional-access": 116,
+        "bugprone-exception-escape": 11,
+        "bugprone-use-after-move": 1,
+        "bugprone-easily-swappable-parameters": 42,
+        "performance-unnecessary-copy-initialization": 3,
+        "performance-faster-string-find": 3,
+        "performance-inefficient-vector-operation": 8,
+        "bugprone-branch-clone": 5,
+        "bugprone-implicit-widening-of-multiplication-result": 4,
+        "clang-analyzer-cplusplus.NewDeleteLeaks": 2,
+        "performance-move-const-arg": 23,
+        "bugprone-optional-value-conversion": 1,
+        "performance-no-automatic-move": 1,
+        "bugprone-assert-side-effect": 6,
+        "clang-analyzer-optin.core.EnumCastOutOfRange": 20
+      },
+      "scope": "Diagnostic inventory; completed analysis is not a claim that findings are benign.",
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      },
+      "summary_sha256": "e47915fe7a87b079e37a7718d777743e0617659965ff7d1c9213d6d165d91e91",
+      "new_normalized_diagnostics": 0,
+      "comparison_source": "6e53a710"
+    },
+    "includes": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 141,
+      "analyzed_translation_units": 141,
+      "missing": [],
+      "changed_inputs": [],
+      "tool_exit_code": 0,
+      "diagnostic_occurrences": 407,
+      "unique_diagnostics": 407,
+      "counts": {
+        "misc-include-cleaner": 407
+      },
+      "scope": "Diagnostic inventory; completed analysis is not a claim that findings are benign.",
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      },
+      "summary_sha256": "efa36c88587b17685bacce9f9b9c5af7c30e52e3c055e0611127abebfd85d2e9",
+      "new_normalized_diagnostics": 0,
+      "comparison_source": "6e53a710"
+    }
+  },
+  "commands": {
+    "gate": "scripts/qualification/conflict_ackermann/qualify.sbatch phases seeds/generated/mutations, exact campaign profiles; audit.py gates",
+    "focused": "scripts/qualification/euf_smtcomp/triage.sbatch and symmetry_gate.sbatch; symmetry_audit.py with exact source/native/config bindings",
+    "generated": "Fresh 1000 per task vs Z3; seeds2026111930+slot; UF default/paper/strong plus UFLIA/LIA/LRA/UFLRA defaults, native --check-model; independent Dolmen on every SAT.",
+    "targeted": "1000 per profile DEFAULT/PAPER/STRONG; seeds2026111900+slot; shuffled 3..8-value permutation/derangement cases, SAT cycle witness or explicit injectivity contradiction; SAT guard counter positive on every SAT case; native/reference5s; allSAT Dolmen.",
+    "mutations": "YinYang real seeds, seeds2026111940+slot; 12 originals/task including original SEQ004_size7 and own overlap fixture in each UF profile;600s,30iterations,5s process deadline; separate post-answer comparison/model stages."
+  },
+  "timeout_classification": {
+    "generated": {
+      "native_timeout_reference_sat": 20,
+      "both_timeout": 2
+    },
+    "mutations": {
+      "native_timeout_reference_unsat": 10
+    },
+    "wrong_answers": 0,
+    "crashes": 0,
+    "invalid_models": 0,
+    "unexplained_disagreements": 0,
+    "resource_unknowns": 0
+  },
+  "raw_artifacts": "results/euf-smtcomp2026-20261118/symmetry-repair; complete inputs/models and private scheduler receipts also retained on SLURM",
+  "methods_sha256": {
+    "scripts/qualification/euf_smtcomp/triage.py": "a2e110bc7d7cf80eb62bafb41f9d58c4c8e1fb2b445e2dc46486b9ec8c8eca0e",
+    "scripts/qualification/euf_smtcomp/symmetry_gate.py": "037ab3f6670faf42f4cd8503bd4d1130cc7034ab30cbbe15db6810d662155d77",
+    "scripts/qualification/euf_smtcomp/symmetry_audit.py": "660d41c3b956bc16d38586c8542efc66fcc2166aa5cc94b55c500e2a1b52a4a5",
+    "scripts/qualification/conflict_ackermann/qualify.sbatch": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f"
+  }
+}

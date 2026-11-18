@@ -307,10 +307,12 @@ thresholds as the initial selection.
 
 Status: stopped on a confirmed wrong answer before model validation or
 performance acceptance. The comparison is incomplete and must not be used for a
-speed claim. See the [symmetry-composition repair](../leads/uf-symmetry-composition.md). This stage reuses the already qualified source `6e53a710`, with default
+speed claim. The [symmetry-composition repair](../leads/uf-symmetry-composition.md)
+is qualified in `59d81fee`; a corrected comparator is still being qualified.
+The canceled attempt used source `6e53a710`, with default
 options and `--quiet --stats`; both conflict Ackermann emission and demand atoms
-remain disabled. The comparator is the same frozen pre-change `13230b6d`
-binary. Both executable identities are frozen by SHA-256. No new Yices or other
+remain disabled. The canceled comparator was frozen pre-change `13230b6d`; it also gives
+the wrong answer and must receive the shared correctness repairs before reuse. Both executable identities are frozen by SHA-256. No new Yices or other
 reference-solver benchmark is scheduled.
 
 The {download}`frozen selection <../../benchmarks/euf-smtcomp2026-20261118/selection.json>`
@@ -342,8 +344,10 @@ after all six timing arrays terminate. A final audit follows all six model
 arrays. Every successful native SAT row requires its own exact-option replay,
 `--check-model` and direct Dolmen pass; model time remains separate. Missing
 coverage, unexplained errors, crashes or answer disagreements block acceptance.
-The earlier fresh default-profile generated/mutation/seed gates qualify this
-unchanged native source and option set; new reference executions are unnecessary.
+Fresh generated/mutation/seed gates now qualify the repaired candidate. The
+corrected baseline needs its own gates before resumption; the earlier source
+qualification alone is insufficient. Archived reference context remains reusable
+when input hashes and resource provenance match.
 
 The branch review follows this evaluation. Its scope is the full diff from the
 merge base with `main`, including solver ownership/invalidation invariants,

@@ -12,9 +12,60 @@ from pathlib import Path
 from scripts.qualification.bound_propagation.analyze import sha
 from scripts.qualification.euf_smtcomp.audit import ROOT, audit, describe
 from scripts.qualification.euf_smtcomp.references import export as reference_export
+from scripts.qualification.euf_smtcomp.symmetry_audit import decisive, sat_models
 
 
 class EufSmtcompTests(unittest.TestCase):
+    def test_focused_replay_requires_correct_answer_and_clean_process(self):
+        decisive({"status": "ok", "exit_code": 0, "answer": "sat"}, "sat")
+        for row in (
+            {"status": "ok", "exit_code": 0, "answer": "unsat"},
+            {"status": "ok", "exit_code": 1, "answer": "sat"},
+            {"status": "timeout", "exit_code": 124, "answer": "sat"},
+        ):
+            with self.subTest(row=row), self.assertRaises(AssertionError):
+                decisive(row, "sat")
+
+    def test_focused_models_require_same_profile_and_complete_dolmen_coverage(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            row = {
+                "file": "input.smt2",
+                "answer": "sat",
+                "outcome": "pass",
+                "validator": "dolmen",
+                "solver_exit": "0",
+                "dolmen_exit": "0",
+            }
+            with (directory / "summary.csv").open("w") as stream:
+                writer = csv.DictWriter(stream, fieldnames=list(row))
+                writer.writeheader()
+                writer.writerow(row)
+            meta = {
+                "status": "complete",
+                "completed": 1,
+                "solver": "frozen/primo",
+                "solver_args": ["--check-model"],
+                "require_dolmen_pass": True,
+                "expect_sat": True,
+            }
+            path = directory / "metadata.json"
+            path.write_text(json.dumps(meta))
+            sat_models(directory, {"input.smt2"}, "frozen/primo", ["--check-model"])
+            with self.assertRaises(AssertionError):
+                sat_models(directory, {"other.smt2"}, "frozen/primo", ["--check-model"])
+            with self.assertRaises(AssertionError):
+                sat_models(
+                    directory,
+                    {"input.smt2"},
+                    "frozen/primo",
+                    ["--no-uf-symmetry-breaking", "--check-model"],
+                )
+            meta["completed"] = 0
+            path.write_text(json.dumps(meta))
+            with self.assertRaises(AssertionError):
+                sat_models(directory, {"input.smt2"}, "frozen/primo", ["--check-model"])
+
     def test_timeout_par2_and_missing_counters(self):
         rows = [
             {

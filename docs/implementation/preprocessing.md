@@ -469,7 +469,7 @@ for every possible term pair. Enabling these clauses in `auto` mode is a
 separate option, off by default, with limits on domain size, generated clauses,
 and formula size.
 
-{source}`UfSymmetryBreaker <src/smt/preprocessing.cpp#L5197-L5241>` attempts to check
+[UfSymmetryBreaker](https://github.com/primo-solver/primo/blob/59d81fee55ae861ea7fe022b5602450013a57cd0/src/smt/preprocessing.cpp#L5202) attempts to check
 whether permuting a recognized set of uninterpreted constants leaves the
 assertions unchanged. It treats equality, `and`, and `or` as commutative when
 comparing formulas. Checking a cycle through the constants and a swap of the
@@ -482,8 +482,8 @@ With **value precedence**, a term may take value $c_i$, for $i>0$, only if
 an earlier term in the sequence takes value $c_{i-1}$. Disabling value
 precedence uses weaker restrictions on the values allowed at each position.
 A group with no fixed candidate term is rejected. Before admitting each later
-group, the pass also checks that its cycle/swap permutations preserve every
-restriction emitted for earlier groups. This maintains the evolving-formula
+group, the pass also checks that its cycle/swap permutations preserve the conjunction of
+restrictions emitted for earlier groups. This maintains the evolving-formula
 precondition of Algorithm 1; separately valid restrictions can be incompatible
 when composed. The typed counter
 `:preprocessing.uf-symmetry.rejected-prior-constraints` identifies groups that

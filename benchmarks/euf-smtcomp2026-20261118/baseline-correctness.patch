@@ -1,0 +1,176 @@
+diff --git a/benchmarks/regressions/qf_uf_overlapping_symmetry_groups.smt2 b/benchmarks/regressions/qf_uf_overlapping_symmetry_groups.smt2
+new file mode 100644
+index 00000000..cae380c9
+--- /dev/null
++++ b/benchmarks/regressions/qf_uf_overlapping_symmetry_groups.smt2
+@@ -0,0 +1,16 @@
++(set-logic QF_UF)
++(set-info :status sat)
++(declare-sort U 0)
++(declare-const a U)
++(declare-const b U)
++(declare-const c U)
++(declare-fun f (U) U)
++(assert (distinct a b c))
++(assert (or (= (f a) a) (= (f a) b) (= (f a) c)))
++(assert (or (= (f b) a) (= (f b) b) (= (f b) c)))
++(assert (or (= (f c) a) (= (f c) b) (= (f c) c)))
++(assert (distinct (f a) (f b) (f c)))
++(assert (not (= (f a) a)))
++(assert (not (= (f b) b)))
++(assert (not (= (f c) c)))
++(check-sat)
+diff --git a/src/smt/preprocessing.cpp b/src/smt/preprocessing.cpp
+index 95b73a0e..92b016cd 100644
+--- a/src/smt/preprocessing.cpp
++++ b/src/smt/preprocessing.cpp
+@@ -5218,6 +5218,16 @@ UfSymmetryBreakingResult UfSymmetryBreaker::break_symmetries(
+       continue;
+     }
+
++    // Theorem 5 applies to the evolving formula (Deharbe et al., CADE 2011,
++    // Algorithm 1). Independently valid groups can choose incompatible model
++    // representatives. Preserve restrictions emitted for all earlier groups.
++    if (!result.constraints.empty() && !formulas_are_invariant_under_value_permutations(
++                                           terms_, result.constraints, group.values)) {
++      ++result.rejected_noninvariant;
++      ++result.rejected_prior_constraints;
++      continue;
++    }
++
+     std::vector<SymmetryTerm> fixed_terms = fixed_symmetry_terms(group);
+     if (fixed_terms.empty()) {
+       ++result.rejected_noninvariant;
+diff --git a/src/smt/preprocessing.hpp b/src/smt/preprocessing.hpp
+index fac7e523..8b9eb92b 100644
+--- a/src/smt/preprocessing.hpp
++++ b/src/smt/preprocessing.hpp
+@@ -457,6 +457,7 @@ struct UfSymmetryBreakingResult {
+   std::size_t value_precedence_terms = 0;
+   std::size_t value_precedence_constraints = 0;
+   std::size_t rejected_noninvariant = 0;
++  std::size_t rejected_prior_constraints = 0;
+ };
+
+ struct UfSymmetryBreakingOptions {
+diff --git a/src/smt/preprocessing_tactics.cpp b/src/smt/preprocessing_tactics.cpp
+index 28e80a51..61c82686 100644
+--- a/src/smt/preprocessing_tactics.cpp
++++ b/src/smt/preprocessing_tactics.cpp
+@@ -425,6 +425,8 @@ Tactic make_finite_domain_preprocess(FiniteDomainPreprocessOptions options,
+                                  symmetry.value_precedence_constraints);
+             statistics.increment(util::StatKey::UfSymmetryRejectedNoninvariant,
+                                  symmetry.rejected_noninvariant);
++            statistics.increment(util::StatKey::UfSymmetryRejectedPriorConstraints,
++                                 symmetry.rejected_prior_constraints);
+           }
+           if (options.generate_at_most_one) {
+             FiniteDomainAtMostOneResult refreshed_raw;
+diff --git a/src/smt/solver_engines.cpp b/src/smt/solver_engines.cpp
+index 423c25c2..de64bf5c 100644
+--- a/src/smt/solver_engines.cpp
++++ b/src/smt/solver_engines.cpp
+@@ -10640,6 +10640,9 @@ class EufTheoryComponent final : public ComponentAdapterSupport {
+     execution_.reset();
+     if (online_ && options_.euf_engine == EufEngine::Incremental) {
+       online_options_ = options_;
++      // Match the complete component's model-fact contract for both polarities.
++      // This correctness-only backport is shared with the current comparator.
++      online_options_.pure_theory_filter = PureTheoryFilterMode::Off;
+       online_options_.euf_propagation =
+           resolve_euf_propagation_mode(options_, atoms_.size(), statistics_);
+       execution_ = std::make_unique<OnlineEufPropagator>(
+diff --git a/src/util/statistics.cpp b/src/util/statistics.cpp
+index 250225b2..dce24fa1 100644
+--- a/src/util/statistics.cpp
++++ b/src/util/statistics.cpp
+@@ -73,6 +73,7 @@ constexpr std::array<std::string_view, static_cast<std::size_t>(StatKey::Count)>
+     ":preprocessing.uf-symmetry.value-precedence-terms"sv,
+     ":preprocessing.uf-symmetry.value-precedence-constraints"sv,
+     ":preprocessing.uf-symmetry.rejected-noninvariant"sv,
++    ":preprocessing.uf-symmetry.rejected-prior-constraints"sv,
+     ":preprocessing.auto.single-assertion"sv,
+     ":preprocessing.auto.strong"sv,
+     ":preprocessing.auto.basic-single"sv,
+diff --git a/src/util/statistics.hpp b/src/util/statistics.hpp
+index 56eef0e7..5705a05b 100644
+--- a/src/util/statistics.hpp
++++ b/src/util/statistics.hpp
+@@ -73,6 +73,7 @@ enum class StatKey : std::size_t {
+   UfSymmetryValuePrecedenceTerms,
+   UfSymmetryValuePrecedenceConstraints,
+   UfSymmetryRejectedNoninvariant,
++  UfSymmetryRejectedPriorConstraints,
+   AutoSingleAssertion,
+   AutoStrong,
+   AutoBasicSingle,
+diff --git a/tests/unit/boolean_solver_tests.cpp b/tests/unit/boolean_solver_tests.cpp
+index e37ff7ff..e98d8b1d 100644
+--- a/tests/unit/boolean_solver_tests.cpp
++++ b/tests/unit/boolean_solver_tests.cpp
+@@ -18,6 +18,7 @@
+ #include "smt/conflict_ackermann.hpp"
+ #include "smt/inconclusive_reason.hpp"
+ #include "smt/preprocessing.hpp"
++#include "util/statistics.hpp"
+
+ using primo::smt::CheckSatOptions;
+ using primo::smt::CheckSatResult;
+@@ -1903,6 +1904,48 @@ void qg_shape_uses_fixed_terms_but_not_moving_table_terms_for_symmetry() {
+   assert(result.statistics.get(":preprocessing.uf-symmetry.value-precedence-constraints") == 4);
+ }
+
++void overlapping_symmetry_groups_preserve_a_derangement_model() {
++  const std::string input =
++      read_text_file("../benchmarks/regressions/qf_uf_overlapping_symmetry_groups.smt2");
++  for (const bool value_precedence : {false, true}) {
++    for (const auto mode :
++         {primo::smt::PreprocessingMode::Auto, primo::smt::PreprocessingMode::Strong}) {
++      CheckSatOptions options;
++      options.finite_domain_value_precedence = value_precedence;
++      options.preprocessing_mode = mode;
++      const auto result = check_sat_smtlib(input, options);
++      assert(result.result == CheckSatResult::Sat);
++      assert(result.statistics.get(primo::util::StatKey::UfSymmetryAcceptedSets) == 1);
++      assert(result.statistics.get(primo::util::StatKey::UfSymmetryRejectedPriorConstraints) >= 1);
++    }
++  }
++}
++
++void compatible_symmetry_groups_both_retain_restrictions() {
++  CheckSatOptions options;
++  options.preprocessing_mode = primo::smt::PreprocessingMode::Strong;
++  const auto result = check_sat_smtlib(R"(
++    (set-logic QF_UF)
++    (declare-sort U 0)
++    (declare-sort V 0)
++    (declare-const a U)
++    (declare-const b U)
++    (declare-const x U)
++    (declare-const c V)
++    (declare-const d V)
++    (declare-const y V)
++    (assert (distinct a b))
++    (assert (distinct c d))
++    (assert (or (= x a) (= x b)))
++    (assert (or (= y c) (= y d)))
++    (check-sat)
++  )",
++                                       options);
++  assert(result.result == CheckSatResult::Sat);
++  assert(result.statistics.get(primo::util::StatKey::UfSymmetryAcceptedSets) == 2);
++  assert(result.statistics.get(primo::util::StatKey::UfSymmetryRejectedPriorConstraints) == 0);
++}
++
+ void no_symmetry_breaking_disables_strong_preset_symmetry_only() {
+   primo::smt::CheckSatOptions options;
+   options.preprocessing_mode = primo::smt::PreprocessingMode::Strong;
+@@ -3394,6 +3437,8 @@ int main() {
+   moving_only_symmetry_terms_are_rejected_from_smtlib();
+   symmetry_ignores_preprocessing_residual_domains();
+   qg_shape_uses_fixed_terms_but_not_moving_table_terms_for_symmetry();
++  overlapping_symmetry_groups_preserve_a_derangement_model();
++  compatible_symmetry_groups_both_retain_restrictions();
+   no_symmetry_breaking_disables_strong_preset_symmetry_only();
+   theory_phase_option_can_leave_backend_phase_unset();
+   default_theory_phase_keeps_negative_phase();
