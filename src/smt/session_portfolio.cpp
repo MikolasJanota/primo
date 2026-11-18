@@ -28,14 +28,15 @@ CheckSatOutcome execute_qf_uf_session_portfolio(std::string_view input, CheckSat
       options.max_theory_conflicts ? std::min(portfolio_conflicts, *options.max_theory_conflicts)
                                    : portfolio_conflicts;
   CheckSatOutcome first = executor.execute(input, std::move(first_options));
-  first.statistics.set(":portfolio.qf-uf.attempts", 1);
-  first.statistics.set(":portfolio.qf-uf.basic-polarity.attempted", 1);
-  first.statistics.set(":portfolio.qf-uf.basic-polarity.conflict-budget", portfolio_conflicts);
-  first.statistics.set(":portfolio.qf-uf.basic-polarity.first-conflicts",
-                       first.statistics.get(util::StatKey::TheoryConflicts));
+  first.statistics.set_dynamic(":portfolio.qf-uf.attempts", 1);
+  first.statistics.set_dynamic(":portfolio.qf-uf.basic-polarity.attempted", 1);
+  first.statistics.set_dynamic(":portfolio.qf-uf.basic-polarity.conflict-budget",
+                               portfolio_conflicts);
+  first.statistics.set_dynamic(":portfolio.qf-uf.basic-polarity.first-conflicts",
+                               first.statistics.get(util::StatKey::TheoryConflicts));
   if (first.result != CheckSatResult::Unknown ||
       first.reason != InconclusiveReason::ResourceLimit) {
-    first.statistics.set(":portfolio.qf-uf.basic-polarity.solved", 1);
+    first.statistics.set_dynamic(":portfolio.qf-uf.basic-polarity.solved", 1);
     return first;
   }
 
@@ -46,12 +47,13 @@ CheckSatOutcome execute_qf_uf_session_portfolio(std::string_view input, CheckSat
   fallback_options.qf_uf_portfolio = QfUfPortfolioMode::Off;
   CheckSatOutcome fallback = executor.execute(input, std::move(fallback_options));
   fallback.statistics.increment(util::StatKey::TheoryConflictCount, consumed);
-  fallback.statistics.set(":portfolio.qf-uf.attempts", 2);
-  fallback.statistics.set(":portfolio.qf-uf.basic-polarity.attempted", 1);
-  fallback.statistics.set(":portfolio.qf-uf.basic-polarity.fell-back", 1);
-  fallback.statistics.set(":portfolio.qf-uf.basic-polarity.conflict-budget", portfolio_conflicts);
-  fallback.statistics.set(":portfolio.qf-uf.basic-polarity.first-conflicts",
-                          first.statistics.get(util::StatKey::TheoryConflicts));
+  fallback.statistics.set_dynamic(":portfolio.qf-uf.attempts", 2);
+  fallback.statistics.set_dynamic(":portfolio.qf-uf.basic-polarity.attempted", 1);
+  fallback.statistics.set_dynamic(":portfolio.qf-uf.basic-polarity.fell-back", 1);
+  fallback.statistics.set_dynamic(":portfolio.qf-uf.basic-polarity.conflict-budget",
+                                  portfolio_conflicts);
+  fallback.statistics.set_dynamic(":portfolio.qf-uf.basic-polarity.first-conflicts",
+                                  first.statistics.get(util::StatKey::TheoryConflicts));
   return fallback;
 }
 

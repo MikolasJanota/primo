@@ -399,13 +399,13 @@ util::Statistics::Value elapsed_microseconds(PhaseClock::time_point start,
 
 class ScopedStatisticsTimer {
  public:
-  ScopedStatisticsTimer(util::Statistics& statistics, std::string_view key)
+  ScopedStatisticsTimer(util::Statistics& statistics, std::optional<util::StatKey> key)
       : statistics_(statistics),
         key_(key),
-        start_(key.empty() ? PhaseClock::time_point{} : PhaseClock::now()) {}
+        start_(key ? PhaseClock::now() : PhaseClock::time_point{}) {}
 
   ~ScopedStatisticsTimer() {
-    if (!key_.empty()) statistics_.increment(key_, elapsed_microseconds(start_, PhaseClock::now()));
+    if (key_) statistics_.increment(*key_, elapsed_microseconds(start_, PhaseClock::now()));
   }
 
   ScopedStatisticsTimer(const ScopedStatisticsTimer&) = delete;
@@ -413,7 +413,7 @@ class ScopedStatisticsTimer {
 
  private:
   util::Statistics& statistics_;
-  std::string_view key_;
+  std::optional<util::StatKey> key_;
   PhaseClock::time_point start_;
 };
 
@@ -1384,6 +1384,7 @@ class IncrementalFlatAssignmentState {
           throw std::logic_error("prepared EUF atom identity mismatch");
         flat_atom_by_var_.emplace(std::abs(theory_atoms[i].lit.value), i);
       }
+      prepare_conflict_trace_metadata(conflict_ackermann);
       publish_stats();
       return;
     }
@@ -1398,6 +1399,7 @@ class IncrementalFlatAssignmentState {
     }
 
     initialize_base_closure();
+    prepare_conflict_trace_metadata(conflict_ackermann);
     publish_stats();
   }
 
@@ -1510,9 +1512,12 @@ class IncrementalFlatAssignmentState {
     if (!trace) return result;
     statistics_.increment(util::StatKey::EufConflictAckConflicts);
     statistics_.increment(util::StatKey::EufConflictAckTraceSteps, trace->visited_steps);
-    statistics_.increment(util::StatKey::EufConflictAckTraceKept, trace->steps.size());
-    if (trace->steps.size() < trace->visited_steps)
-      statistics_.increment(util::StatKey::EufConflictAckTraceTruncations);
+    statistics_.increment(util::StatKey::EufConflictAckV2SemanticWitnesses, trace->steps.size());
+    statistics_.increment(util::StatKey::EufConflictAckV2PrefixVisits, trace->prefix_steps);
+    statistics_.increment(util::StatKey::EufConflictAckV2DuplicateWitnesses,
+                          trace->duplicate_steps);
+    statistics_.increment(util::StatKey::EufConflictAckV2WitnessBudgetVisits,
+                          trace->budget_full_visits);
     for (const auto step : trace->steps) {
       const auto lhs = flat_.original_term(step.lhs);
       const auto rhs = flat_.original_term(step.rhs);
@@ -1528,6 +1533,16 @@ class IncrementalFlatAssignmentState {
   std::vector<std::pair<core::TermId, core::TermId>> conflict_pairs_scratch_;
 
  public:
+  void prepare_conflict_trace_metadata(bool enabled) {
+    if (!enabled) return;
+    std::vector<unsigned char> complete(flat_.size(), 0);
+    for (std::size_t id = 0; id < complete.size(); ++id) {
+      const auto term = flat_.original_term(id);
+      complete[id] = term && terms_.get(*term).kind == core::TermKind::Application;
+    }
+    closure_.set_conflict_trace_semantic_results(std::move(complete));
+  }
+
   bool model_scope_active() const { return model_scope_active_; }
 
   ModelScope begin_model_scope() {
@@ -1701,7 +1716,8 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
                       core::TermId true_term, core::TermId false_term,
                       const CheckSatOptions& options, bool adaptive_propagation,
                       util::Statistics& statistics, const PreparedFlatTheory* prepared = nullptr,
-                      bool count_conflicts = true)
+                      bool count_conflicts = true, AckermannGrowthState* growth = nullptr,
+                      ConflictAckermannSelector* selector = nullptr)
       : terms_(terms),
         theory_atoms_(theory_atoms),
         true_term_(true_term),
@@ -1709,7 +1725,8 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
         options_(options),
         adaptive_propagation_(adaptive_propagation),
         statistics_(statistics),
-        count_conflicts_(count_conflicts) {
+        count_conflicts_(count_conflicts),
+        ackermann_growth_(growth) {
     int max_theory_var = 0;
     for (const BooleanClausifier::TheoryAtom& atom : theory_atoms_) {
       max_theory_var =
@@ -1744,9 +1761,17 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
     if (options_.euf_conflict_ackermann || options_.euf_conflict_ackermann_diagnostics) {
       if (!incremental_state_)
         throw std::invalid_argument("conflict Ackermann prototype requires incremental online EUF");
-      conflict_ackermann_.emplace(terms_, statistics_);
-      for (const auto& atom : theory_atoms_)
+      if (selector) {
+        conflict_ackermann_ = selector;
+      } else {
+        owned_conflict_ackermann_.emplace(terms_, statistics_,
+                                          options_.euf_conflict_ackermann_diagnostics);
+        conflict_ackermann_ = &*owned_conflict_ackermann_;
+      }
+      for (const auto& atom : theory_atoms_) {
         conflict_ackermann_->register_atom(atom.term, atom.lit);
+        if (ackermann_growth_) ackermann_growth_->register_atom(atom.term);
+      }
     }
   }
 
@@ -1773,6 +1798,7 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
     generated_theory_atoms_.push_back(generated_atom);
     if (conflict_ackermann_)
       conflict_ackermann_->register_atom(generated_atom.term, generated_atom.lit);
+    if (ackermann_growth_) ackermann_growth_->register_atom(generated_atom.term);
     atom_index_by_var_[var_index] = atom_index;
     observed_vars_[var_index] = 1;
     queued_candidate_indices_.push_back(0);
@@ -1918,6 +1944,8 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
     record_dynamic_ackermann_shadow(dynamic_ackermann_candidates_, atom_values, statistics_);
   }
 
+  bool clause_stream_open() const { return !external_clause_.empty(); }
+
   int cb_propagate() override {
     if (conflict_budget_exhausted()) return 0;
     if (options_.euf_propagation == EufPropagationMode::Conflict) {
@@ -1995,6 +2023,7 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
       }
       external_clause_.clear();
       external_clause_index_ = 0;
+      if (ackermann_growth_) ackermann_growth_->clause_finished();
       external_clause_forgettable_ = false;
       return 0;
     }
@@ -2589,14 +2618,16 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
     if (conflict_ackermann_ && !conflict_ackermann_processed_) {
       conflict_ackermann_processed_ = true;
       for (const auto& [lhs, rhs] : incremental_state_->conflict_application_pairs()) {
-        auto clause = conflict_ackermann_->consider(lhs, rhs);
+        bool missing_atoms = false;
+        auto clause = conflict_ackermann_->consider(lhs, rhs, &missing_atoms);
+        if (missing_atoms && ackermann_growth_) ackermann_growth_->request(lhs, rhs);
         if (clause && options_.euf_conflict_ackermann) {
-          conflict_ackermann_queue_.push_back(std::move(*clause));
+          conflict_ackermann_->enqueue(std::move(*clause));
           statistics_.increment(util::StatKey::EufConflictAckQueuedClauses);
           statistics_.set(
               util::StatKey::EufConflictAckPeakPending,
               std::max<std::uint64_t>(statistics_.get(util::StatKey::EufConflictAckPeakPending),
-                                      conflict_ackermann_queue_.size()));
+                                      conflict_ackermann_->pending_clauses()));
         }
       }
     }
@@ -2607,11 +2638,10 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
   }
 
   void maybe_store_conflict_ackermann_clause() {
-    if (conflict_budget_exhausted() || !external_clause_.empty() ||
-        conflict_ackermann_queue_.empty())
+    if (conflict_budget_exhausted() || !external_clause_.empty() || !conflict_ackermann_ ||
+        conflict_ackermann_->pending_clauses() == 0)
       return;
-    external_clause_ = std::move(conflict_ackermann_queue_.front());
-    conflict_ackermann_queue_.pop_front();
+    external_clause_ = conflict_ackermann_->take_clause();
     external_clause_index_ = 0;
     external_clause_forgettable_ = true;
   }
@@ -2690,9 +2720,10 @@ class OnlineEufPropagator final : public sat::ExternalPropagator {
   std::vector<unsigned char> queued_diseq_ackermann_candidates_;
   std::vector<std::vector<std::size_t>> diseq_ackermann_indices_by_var_;
   std::optional<IncrementalFlatAssignmentState> incremental_state_;
-  std::optional<ConflictAckermannSelector> conflict_ackermann_;
-  std::deque<sat::Clause> conflict_ackermann_queue_;
+  std::optional<ConflictAckermannSelector> owned_conflict_ackermann_;
+  ConflictAckermannSelector* conflict_ackermann_ = nullptr;
   bool conflict_ackermann_processed_ = false;
+  AckermannGrowthState* ackermann_growth_ = nullptr;
   bool external_clause_forgettable_ = false;
   sat::Clause external_clause_;
   std::size_t external_clause_index_ = 0;
@@ -2816,8 +2847,8 @@ std::optional<sat::Clause> find_incremental_theory_conflict(
   }
 
   add_incremental_stats(statistics, closure.stats());
-  if (closure.conflict().has_value()) {
-    return closure.conflict().value();
+  if (auto conflict = closure.conflict(); conflict.has_value()) {
+    return conflict;
   }
   return std::nullopt;
 }
@@ -2943,8 +2974,25 @@ std::vector<core::TermId> interface_equality_terms(
   return result;
 }
 
+enum class InterfacePropagationSource { EufToLra, LraToEuf, LraOpportunistic };
+constexpr util::StatKey kInterfacePropagationKeys[3][6] = {
+    {util::StatKey::NoInterfaceEufToLraCandidates, util::StatKey::NoInterfaceEufToLraExistingAtoms,
+     util::StatKey::NoInterfaceEufToLraMissingAtoms, util::StatKey::NoInterfaceEufToLraCreatedAtoms,
+     util::StatKey::NoInterfaceEufToLraClauses, util::StatKey::NoInterfaceEufToLraRechecks},
+    {util::StatKey::NoInterfaceLraToEufCandidates, util::StatKey::NoInterfaceLraToEufExistingAtoms,
+     util::StatKey::NoInterfaceLraToEufMissingAtoms, util::StatKey::NoInterfaceLraToEufCreatedAtoms,
+     util::StatKey::NoInterfaceLraToEufClauses, util::StatKey::NoInterfaceLraToEufRechecks},
+    {util::StatKey::NoInterfaceLraOpportunisticCandidates,
+     util::StatKey::NoInterfaceLraOpportunisticExistingAtoms,
+     util::StatKey::NoInterfaceLraOpportunisticMissingAtoms,
+     util::StatKey::NoInterfaceLraOpportunisticCreatedAtoms,
+     util::StatKey::NoInterfaceLraOpportunisticClauses,
+     util::StatKey::NoInterfaceLraOpportunisticRechecks},
+};
+
 void publish_interface_propagation_result(const InterfacePropagationResult& result,
-                                          std::string_view prefix, util::Statistics& statistics) {
+                                          InterfacePropagationSource source,
+                                          util::Statistics& statistics) {
   statistics.increment(util::StatKey::NoInterfaceEqualityCandidates, result.candidates);
   statistics.increment(util::StatKey::NoInterfaceEqualityExistingAtoms,
                        result.deliverable_existing);
@@ -2958,13 +3006,18 @@ void publish_interface_propagation_result(const InterfacePropagationResult& resu
     statistics.increment(util::StatKey::NoInterfaceEqualityRechecks);
   }
 
-  statistics.increment(std::string{prefix} + "-candidates", result.candidates);
-  statistics.increment(std::string{prefix} + "-existing-atoms", result.deliverable_existing);
-  statistics.increment(std::string{prefix} + "-missing-atoms", result.missing_atoms);
-  statistics.increment(std::string{prefix} + "-created-atoms", result.created_atoms);
-  statistics.increment(std::string{prefix} + "-clauses", result.clauses);
+  statistics.increment(kInterfacePropagationKeys[static_cast<std::size_t>(source)][0],
+                       result.candidates);
+  statistics.increment(kInterfacePropagationKeys[static_cast<std::size_t>(source)][1],
+                       result.deliverable_existing);
+  statistics.increment(kInterfacePropagationKeys[static_cast<std::size_t>(source)][2],
+                       result.missing_atoms);
+  statistics.increment(kInterfacePropagationKeys[static_cast<std::size_t>(source)][3],
+                       result.created_atoms);
+  statistics.increment(kInterfacePropagationKeys[static_cast<std::size_t>(source)][4],
+                       result.clauses);
   if (result.triggered_recheck()) {
-    statistics.increment(std::string{prefix} + "-rechecks");
+    statistics.increment(kInterfacePropagationKeys[static_cast<std::size_t>(source)][5]);
   }
 }
 
@@ -3077,7 +3130,7 @@ bool clause_mentions_interface_equality(const sat::Clause& clause,
 }
 
 void record_interface_conflict(const std::optional<sat::Clause>& conflict,
-                               const TheoryCombinationManager& manager, std::string_view source_key,
+                               const TheoryCombinationManager& manager, util::StatKey source_key,
                                util::Statistics& statistics) {
   if (!conflict.has_value() || !clause_mentions_interface_equality(conflict.value(), manager)) {
     return;
@@ -3793,7 +3846,7 @@ util::Rational choose_concrete_delta(const PreparedLraTheory& prepared,
     if (!prepared_atom.is_arithmetic || assigned_atoms.at(i).filtered) {
       continue;
     }
-    const theory::arithmetic::DeltaRational value = tableau.assignment(prepared_atom.bound_var);
+    const auto& value = tableau.assignment(prepared_atom.bound_var);
     if (prepared_atom.relation == theory::arithmetic::LraRelation::Eq) {
       continue;
     }
@@ -4776,8 +4829,8 @@ std::optional<sat::Clause> lra_assignment_conflict_with_extra_atom(
     const std::vector<AssignedTheoryAtom>& lra_assignments, core::TermId extra_atom,
     const CheckSatOptions& options, util::Statistics* statistics = nullptr) {
   if (statistics != nullptr) {
-    statistics->increment(":no.interface.lra-extra-atom-probes");
-    statistics->increment(":no.interface.lra-extra-atoms-probed");
+    statistics->increment(util::StatKey::NoInterfaceLraExtraAtomProbes);
+    statistics->increment(util::StatKey::NoInterfaceLraExtraAtomsProbed);
   }
   std::vector<BooleanClausifier::TheoryAtom> augmented_lra_atoms = lra_atoms;
   augmented_lra_atoms.push_back(BooleanClausifier::TheoryAtom{sat::Lit{0}, extra_atom});
@@ -4817,7 +4870,7 @@ std::optional<LraEqualityProbeContext> prepare_lra_equality_probe_context(
   const auto rhs_var = prepared.variables_by_term.find(rhs);
   if (lhs_var == prepared.variables_by_term.end() || rhs_var == prepared.variables_by_term.end()) {
     if (statistics != nullptr) {
-      statistics->increment(":no.interface.lra-probe-reuse-mapping-fallbacks");
+      statistics->increment(util::StatKey::NoInterfaceLraProbeReuseMappingFallbacks);
     }
     return std::nullopt;
   }
@@ -4871,14 +4924,15 @@ std::optional<LraEqualityProbeContext> prepare_lra_equality_probe_context(
   }
   if (statistics != nullptr) {
     statistics->set(
-        ":no.interface.lra-probe-reuse-checked-tableau-max-difference-terms",
+        util::StatKey::NoInterfaceLraProbeReuseCheckedTableauMaxDifferenceTerms,
         std::max<std::uint64_t>(
-            statistics->get(":no.interface.lra-probe-reuse-checked-tableau-max-difference-terms"),
+            statistics->get(
+                util::StatKey::NoInterfaceLraProbeReuseCheckedTableauMaxDifferenceTerms),
             difference_row.size()));
     statistics->set(
-        ":no.interface.lra-probe-reuse-checked-tableau-max-pivot-term-ops",
+        util::StatKey::NoInterfaceLraProbeReuseCheckedTableauMaxPivotTermOps,
         std::max<std::uint64_t>(
-            statistics->get(":no.interface.lra-probe-reuse-checked-tableau-max-pivot-term-ops"),
+            statistics->get(util::StatKey::NoInterfaceLraProbeReuseCheckedTableauMaxPivotTermOps),
             checked_tableau.row_term_op_count()));
   }
 
@@ -4894,12 +4948,14 @@ std::optional<LraEqualityProbeContext> prepare_lra_equality_probe_context(
       use_checked_tableau ? checked_tableau : prepared.base_tableau;
   if (!use_checked_tableau) {
     if (statistics != nullptr) {
-      statistics->increment(":no.interface.lra-probe-reuse-checked-tableau-fallbacks");
+      statistics->increment(util::StatKey::NoInterfaceLraProbeReuseCheckedTableauFallbacks);
       if (!difference_is_sparse) {
-        statistics->increment(":no.interface.lra-probe-reuse-checked-tableau-difference-fallbacks");
+        statistics->increment(
+            util::StatKey::NoInterfaceLraProbeReuseCheckedTableauDifferenceFallbacks);
       }
       if (!basis_has_bounded_pivot_cost) {
-        statistics->increment(":no.interface.lra-probe-reuse-checked-tableau-basis-cost-fallbacks");
+        statistics->increment(
+            util::StatKey::NoInterfaceLraProbeReuseCheckedTableauBasisCostFallbacks);
       }
     }
     difference_row = {{lhs_var->second, util::Rational(1)}, {rhs_var->second, util::Rational(-1)}};
@@ -4924,14 +4980,14 @@ std::optional<LraEqualityProbeContext> prepare_lra_equality_probe_context(
         continue;
       }
       if (statistics != nullptr) {
-        statistics->increment(":no.interface.lra-probe-reuse-assignment-bounds");
+        statistics->increment(util::StatKey::NoInterfaceLraProbeReuseAssignmentBounds);
       }
       const std::optional<sat::Clause> conflict = assert_lra_atom_bound(
           tableau, prepared_atom.bound_var, prepared_atom.relation, prepared_atom.rhs,
           assignment.value, prepared_atom.asserts_lower_when_true, blocking_lit(assignment));
       if (conflict.has_value()) {
         if (statistics != nullptr) {
-          statistics->increment(":no.interface.lra-probe-reuse-context-conflicts");
+          statistics->increment(util::StatKey::NoInterfaceLraProbeReuseContextConflicts);
         }
         throw std::logic_error(
             "internal LRA equality probe context conflicts after an accepted assignment");
@@ -4939,16 +4995,16 @@ std::optional<LraEqualityProbeContext> prepare_lra_equality_probe_context(
     }
     if (tableau.check().has_value()) {
       if (statistics != nullptr) {
-        statistics->increment(":no.interface.lra-probe-reuse-context-conflicts");
+        statistics->increment(util::StatKey::NoInterfaceLraProbeReuseContextConflicts);
       }
       throw std::logic_error(
           "internal LRA equality probe context conflicts after an accepted assignment");
     }
   }
   if (statistics != nullptr) {
-    statistics->increment(":no.interface.lra-probe-reuse-pairs");
+    statistics->increment(util::StatKey::NoInterfaceLraProbeReusePairs);
     if (use_checked_tableau) {
-      statistics->increment(":no.interface.lra-probe-reuse-checked-tableau-copies");
+      statistics->increment(util::StatKey::NoInterfaceLraProbeReuseCheckedTableauCopies);
     }
   }
   return LraEqualityProbeContext{std::move(tableau), difference_var};
@@ -4958,9 +5014,9 @@ std::optional<sat::Clause> probe_lra_equality_orientation(LraEqualityProbeContex
                                                           bool lhs_less_than_rhs,
                                                           util::Statistics* statistics) {
   if (statistics != nullptr) {
-    statistics->increment(":no.interface.lra-extra-atom-probes");
-    statistics->increment(":no.interface.lra-extra-atoms-probed");
-    statistics->increment(":no.interface.lra-probe-reuse-orientations");
+    statistics->increment(util::StatKey::NoInterfaceLraExtraAtomProbes);
+    statistics->increment(util::StatKey::NoInterfaceLraExtraAtomsProbed);
+    statistics->increment(util::StatKey::NoInterfaceLraProbeReuseOrientations);
   }
   const std::size_t checkpoint = context.tableau.push();
   const theory::arithmetic::DeltaRational strict_zero{util::Rational(0),
@@ -5192,8 +5248,8 @@ bool lra_assignment_conflicts_with_extra_atoms(
     const std::vector<core::TermId>& extra_atoms, const CheckSatOptions& options,
     util::Statistics* statistics = nullptr) {
   if (statistics != nullptr) {
-    statistics->increment(":no.interface.lra-extra-atom-probes");
-    statistics->increment(":no.interface.lra-extra-atoms-probed", extra_atoms.size());
+    statistics->increment(util::StatKey::NoInterfaceLraExtraAtomProbes);
+    statistics->increment(util::StatKey::NoInterfaceLraExtraAtomsProbed, extra_atoms.size());
   }
   std::vector<BooleanClausifier::TheoryAtom> augmented_lra_atoms = lra_atoms;
   augmented_lra_atoms.reserve(lra_atoms.size() + extra_atoms.size());
@@ -7902,7 +7958,7 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
   void scan_variable_equalities_if_needed() {
     if (!equality_scan_dirty_ || conflict_.has_value() || equality_targets_.empty()) return;
     equality_scan_dirty_ = false;
-    ScopedStatisticsTimer timer(statistics_, ":time.lra-equality-propagation-us");
+    ScopedStatisticsTimer timer(statistics_, util::StatKey::TimeLraEqualityPropagationUs);
     statistics_.increment(util::StatKey::LraEqualityPropagationScans);
     const auto query = tableau_.model_filtered_unit_equalities(equality_variables_);
     statistics_.increment(util::StatKey::LraEqualityPropagationEqualities, query.equalities.size());
@@ -8977,9 +9033,9 @@ bool is_euf_component_atom(const core::TermManager& terms, core::TermId term_id)
 
 // Recipes own instrumentation policy. Empty keys disable timers entirely.
 struct LiaComponentTiming {
-  std::string_view check;
-  std::string_view rational;
-  std::string_view integer;
+  std::optional<util::StatKey> check;
+  std::optional<util::StatKey> rational;
+  std::optional<util::StatKey> integer;
 };
 
 struct LiaComponentCheck {
@@ -9004,7 +9060,8 @@ LiaComponentCheck complete_lia_integer_model(
     theory::arithmetic::LiaBranchHistory& history,
     const std::vector<theory::arithmetic::LraVarId>& original_vars) {
   ScopedStatisticsTimer integer_timer(statistics, timing.integer);
-  ScopedStatisticsTimer private_timer(statistics, ":time.lia.branching.private-completion-us");
+  ScopedStatisticsTimer private_timer(statistics,
+                                      util::StatKey::TimeLiaBranchingPrivateCompletionUs);
   std::optional<theory::arithmetic::LiaCubeProblem> cube_problem;
   if (settings.cube_mode != theory::arithmetic::LiaCubeMode::Off &&
       std::ranges::any_of(integer_vars, [&](theory::arithmetic::LraVarId variable) {
@@ -9093,7 +9150,7 @@ std::optional<theory::TheoryModelProjection> project_lia_integer_model(
     if (variable == prepared.variables_by_term.end()) {
       return std::nullopt;
     }
-    const auto value = tableau.assignment(variable->second);
+    const auto& value = tableau.assignment(variable->second);
     auto equal_class =
         std::ranges::find_if(classes, [&](const theory::SharedModelClass& candidate) {
           const auto representative = prepared.variables_by_term.find(candidate.terms.front());
@@ -10007,7 +10064,7 @@ class EufComponentAdapter final : public theory::TheorySolver {
                       std::vector<core::TermId> shared_terms, std::uint64_t assignment_epoch,
                       bool produce_model_projection, EufExplainSearchMode explain_search_mode,
                       bool proof_forest_diagnostics, util::Statistics& statistics,
-                      std::string_view check_timer)
+                      std::optional<util::StatKey> check_timer)
       : properties_{.id = "euf",
                     .shared_sorts = {shared_sort},
                     .stably_infinite = theory::StableInfiniteness::Yes,
@@ -10127,7 +10184,7 @@ class EufComponentAdapter final : public theory::TheorySolver {
   std::uint64_t assignment_epoch_ = 0;
   bool produce_model_projection_ = false;
   util::Statistics& statistics_;
-  std::string_view check_timer_;
+  std::optional<util::StatKey> check_timer_;
   std::optional<theory::TheoryModelToken> last_care_token_;
   std::vector<theory::InterfacePair> last_care_pairs_;
 };
@@ -10250,12 +10307,14 @@ class LiaComponentAdapter final : public theory::TheorySolver {
       // repair an owned snapshot rather than relying on callback history.
       // This same snapshot is moved into completion if discovery returns none.
       auto feasible = [&] {
-        ScopedStatisticsTimer repair_timer(statistics_, ":time.lia.equality-feasibility-us");
+        ScopedStatisticsTimer repair_timer(statistics_,
+                                           util::StatKey::TimeLiaEqualityFeasibilityUs);
         return theory::arithmetic::LraTableau(rational_model);
       }();
       std::optional<sat::Clause> conflict;
       {
-        ScopedStatisticsTimer repair_timer(statistics_, ":time.lia.equality-feasibility-us");
+        ScopedStatisticsTimer repair_timer(statistics_,
+                                           util::StatKey::TimeLiaEqualityFeasibilityUs);
         const auto pivots_before = feasible.pivot_count();
         conflict = feasible.check();
         statistics_.increment(util::StatKey::LiaEqualityModelUnitFeasibilityChecks);
@@ -10292,7 +10351,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
       std::span<const theory::AssignedTheoryLiteral> assignment,
       std::span<const theory::InterfaceRelation> arrangement) {
     if (!propagate_equalities_ || shared_terms_.empty()) return std::nullopt;
-    ScopedStatisticsTimer timer(statistics_, ":time.lia.equality-scan-us");
+    ScopedStatisticsTimer timer(statistics_, util::StatKey::TimeLiaEqualityScanUs);
     statistics_.increment(util::StatKey::LiaEqualityScans);
     std::vector<theory::arithmetic::LraVarId> variables;
     std::unordered_map<theory::arithmetic::LraVarId, core::TermId> term_by_variable;
@@ -10322,7 +10381,7 @@ class LiaComponentAdapter final : public theory::TheorySolver {
     result.status = theory::TheoryCheckStatus::EntailedEqualities;
     std::vector<theory::arithmetic::LraTableau::EntailedEquality> equalities;
     {
-      ScopedStatisticsTimer discovery_timer(statistics_, ":time.lia.equality-discovery-us");
+      ScopedStatisticsTimer discovery_timer(statistics_, util::StatKey::TimeLiaEqualityDiscoveryUs);
       if (equality_producer_ == QfUfliaEqualityProducer::ModelUnit) {
         // Bjorner/Nachmanson, CAV 2024 Section 3.2. Equal model values only
         // filter candidates; fixed/unit-row identities justify every proof.
@@ -10628,9 +10687,16 @@ class EufTheoryComponent final : public ComponentAdapterSupport {
  public:
   EufTheoryComponent(core::TermManager& terms, const CheckSatOptions& options,
                      util::Statistics& statistics, bool online, bool produce_model_projection,
-                     std::string_view check_timer)
+                     std::optional<util::StatKey> check_timer,
+                     AckermannGrowthState* growth = nullptr)
       : ComponentAdapterSupport(terms, options, statistics, online, produce_model_projection),
-        check_timer_(check_timer) {
+        check_timer_(check_timer),
+        ackermann_growth_(growth) {
+    // A recursive complete fallback has a new SAT backend and a new component.
+    // Retain selectors over execution rebuilds, never across SAT literal spaces.
+    if (options.euf_conflict_ackermann || options.euf_conflict_ackermann_diagnostics)
+      ackermann_selector_.emplace(terms, statistics, options.euf_conflict_ackermann_diagnostics);
+    if (ackermann_growth_) ackermann_growth_->begin_registry();
     descriptor_.id = "euf";
     descriptor_.fragment = "uninterpreted symbols and equality; shared Int only";
     descriptor_.signature_families = {"uninterpreted-functions"};
@@ -10689,11 +10755,16 @@ class EufTheoryComponent final : public ComponentAdapterSupport {
     execution_.reset();
     if (online_ && options_.euf_engine == EufEngine::Incremental) {
       online_options_ = options_;
+      // The component protocol exports every registered assignment as a model
+      // fact. Unlike standalone UF it has no filtered-fact reconstruction path;
+      // enforce both polarities online too (docs/implementation/euf.md).
+      online_options_.pure_theory_filter = PureTheoryFilterMode::Off;
       online_options_.euf_propagation =
           resolve_euf_propagation_mode(options_, atoms_.size(), statistics_);
       execution_ = std::make_unique<OnlineEufPropagator>(
           terms_, atoms_, terms_.mk_bool(true), terms_.mk_bool(false), online_options_,
-          options_.euf_propagation == EufPropagationMode::Auto, statistics_, nullptr, false);
+          options_.euf_propagation == EufPropagationMode::Auto, statistics_, nullptr, false,
+          ackermann_growth_, ackermann_selector_ ? &*ackermann_selector_ : nullptr);
       execution_->bind_assignment_view(assignment_view());
     }
   }
@@ -10756,7 +10827,9 @@ class EufTheoryComponent final : public ComponentAdapterSupport {
   }
 
  private:
-  std::string_view check_timer_;
+  std::optional<util::StatKey> check_timer_;
+  AckermannGrowthState* ackermann_growth_;
+  std::optional<ConflictAckermannSelector> ackermann_selector_;
   std::unique_ptr<EufComponentAdapter> full_;
   // OnlineEufPropagator borrows these options and atoms_; both must outlive it.
   // Destroy execution before changing its borrowed preparation or configuration.
@@ -10931,7 +11004,13 @@ CheckSatOutcome solve_qf_lia_impl(core::TermManager& terms,
   recipe.online = true;
   recipe.forgettable_clauses = false;
   recipe.online_order = {0};
-  recipe.timing_prefix = ":time.qf-lia.";
+  recipe.timing_keys = {util::StatKey::TimeQfLiaComponentRebuildUs,
+                        util::StatKey::TimeQfLiaComponentGrowthUs,
+                        util::StatKey::TimeQfLiaCompleteFallbackUs,
+                        util::StatKey::TimeQfLiaSatUs,
+                        util::StatKey::TimeQfLiaLemmaUs,
+                        util::StatKey::TimeQfLiaAssignmentExtractionUs,
+                        util::StatKey::TimeQfLiaModelReconciliationUs};
   bool published_atom_statistics = false;
   recipe.prepare_boolean = [&](BooleanClausifier& clausifier) {
     if (!published_atom_statistics) {
@@ -10965,7 +11044,19 @@ CheckSatOutcome solve_qf_uflia_engine_impl(
   const bool online =
       options.qf_uflia_online_components && options.euf_engine == EufEngine::Incremental;
   validate_conflict_ackermann_path(options, online);
+  std::optional<AckermannGrowthState> growth;
+  if (options.euf_conflict_ackermann_demand_atoms &&
+      (options.euf_conflict_ackermann || options.euf_conflict_ackermann_diagnostics))
+    growth.emplace(terms, statistics, options.euf_conflict_ackermann_atom_limit,
+                   options.euf_conflict_ackermann);
   CombinationRecipe recipe;
+  if (growth) {
+    recipe.growth_ready = [&] { return growth->ready(); };
+    recipe.growth_pending = [&] { return growth->pending(); };
+    recipe.grow = [&](BooleanClausifier& clausifier, const auto& bridge) {
+      growth->drain(clausifier, bridge);
+    };
+  }
   recipe.model_guided = options.qf_uflia_model_combination;
   recipe.integer_split_atom_limit = settings.split_atom_limit;
   recipe.integer_splits = settings.hybrid_branching;
@@ -10975,22 +11066,29 @@ CheckSatOutcome solve_qf_uflia_engine_impl(
       options.qf_uflia_equality_policy != QfUfliaEqualityPolicy::Names;
   recipe.online = online;
   recipe.online_order = {1, 0};
-  recipe.timing_prefix = ":time.qf-uflia.";
+  recipe.timing_keys = {util::StatKey::TimeQfUfliaComponentRebuildUs,
+                        util::StatKey::TimeQfUfliaComponentGrowthUs,
+                        util::StatKey::TimeQfUfliaCompleteFallbackUs,
+                        util::StatKey::TimeQfUfliaSatUs,
+                        util::StatKey::TimeQfUfliaLemmaUs,
+                        util::StatKey::TimeQfUfliaAssignmentExtractionUs,
+                        util::StatKey::TimeQfUfliaModelReconciliationUs};
   recipe.prepare_boolean = [&](BooleanClausifier& clausifier) {
     register_euf_boolean_arguments(clausifier, statistics);
   };
-  recipe.factories = {
-      [&](bool guided) {
-        return std::make_unique<LiaTheoryComponent>(
-            terms, options, settings, statistics, online, guided,
-            LiaComponentTiming{":time.qf-uflia.lia-check-us", ":time.qf-uflia.lia-rational-us",
-                               ":time.qf-uflia.lia-integer-us"},
-            false);
-      },
-      [&](bool guided) {
-        return std::make_unique<EufTheoryComponent>(terms, options, statistics, online, guided,
-                                                    ":time.qf-uflia.euf-check-us");
-      }};
+  recipe.factories = {[&](bool guided) {
+                        return std::make_unique<LiaTheoryComponent>(
+                            terms, options, settings, statistics, online, guided,
+                            LiaComponentTiming{util::StatKey::TimeQfUfliaLiaCheckUs,
+                                               util::StatKey::TimeQfUfliaLiaRationalUs,
+                                               util::StatKey::TimeQfUfliaLiaIntegerUs},
+                            false);
+                      },
+                      [&](bool guided) {
+                        return std::make_unique<EufTheoryComponent>(
+                            terms, options, statistics, online, guided,
+                            util::StatKey::TimeQfUfliaEufCheckUs, growth ? &*growth : nullptr);
+                      }};
   return solve_component_recipe(terms, assertions, conversions, options, statistics, recipe);
 #else
   static_cast<void>(terms);
@@ -11103,6 +11201,14 @@ CheckSatOutcome solve_qf_uf_engine_impl(core::TermManager& terms,
                                         util::Statistics& statistics,
                                         const ModelConversionChain& conversions) {
   statistics.increment(kStatSolverQfUf);
+  std::optional<ConflictAckermannSelector> selector;
+  if (options.euf_conflict_ackermann || options.euf_conflict_ackermann_diagnostics)
+    selector.emplace(terms, statistics, options.euf_conflict_ackermann_diagnostics);
+  std::optional<AckermannGrowthState> growth;
+  if (options.euf_conflict_ackermann_demand_atoms &&
+      (options.euf_conflict_ackermann || options.euf_conflict_ackermann_diagnostics))
+    growth.emplace(terms, statistics, options.euf_conflict_ackermann_atom_limit,
+                   options.euf_conflict_ackermann);
   sat::CadicalBackend backend(options.cadical_options);
   SolveTerminator terminator(options.cancelled, statistics, options.max_theory_conflicts);
   const ScopedTerminatorConnection terminator_connection(backend, terminator);
@@ -11184,7 +11290,8 @@ CheckSatOutcome solve_qf_uf_engine_impl(core::TermManager& terms,
       euf_propagation == EufPropagationMode::Conflict) {
     online_propagator.emplace(terms, clausifier.theory_atoms(), true_term, false_term,
                               resolved_options, options.euf_propagation == EufPropagationMode::Auto,
-                              statistics);
+                              statistics, nullptr, true, growth ? &*growth : nullptr,
+                              selector ? &*selector : nullptr);
     assignment_connection.emplace(backend, *online_propagator);
     for (const BooleanClausifier::TheoryAtom& atom : clausifier.theory_atoms()) {
       const int var = atom.lit.value > 0 ? atom.lit.value : -atom.lit.value;
@@ -11200,6 +11307,13 @@ CheckSatOutcome solve_qf_uf_engine_impl(core::TermManager& terms,
   }
 #endif
 
+#if PRIMO_HAVE_IPASIR
+  if (growth) {
+    terminator.set_yield([&] {
+      return growth->ready() && (!online_propagator || !online_propagator->clause_stream_open());
+    });
+  }
+#endif
   while (true) {
     if (auto stop = terminator.stop_outcome()) return *stop;
     statistics.increment(kStatSatSolveCalls);
@@ -11211,6 +11325,30 @@ CheckSatOutcome solve_qf_uf_engine_impl(core::TermManager& terms,
 #endif
     publish_sat_stats(backend.statistics(), statistics);
     if (auto stop = terminator.stop_outcome()) return *stop;
+#if PRIMO_HAVE_IPASIR
+    if (sat_result != sat::SatResult::Unsat && growth && growth->pending()) {
+      // All callbacks have unwound. Destroy every borrower before registry growth.
+      assignment_connection.reset();
+      online_propagator.reset();
+      prepared_flat_theory.reset();
+      completed_assignment.clear();
+      growth->drain(clausifier);
+      register_euf_boolean_arguments(clausifier, statistics);
+      prepared_flat_theory.emplace(terms, clausifier.theory_atoms(), true_term, false_term,
+                                   options.euf_explain_search,
+                                   options.euf_proof_forest_diagnostics);
+      online_propagator.emplace(terms, clausifier.theory_atoms(), true_term, false_term,
+                                resolved_options,
+                                options.euf_propagation == EufPropagationMode::Auto, statistics,
+                                nullptr, true, &*growth, selector ? &*selector : nullptr);
+      assignment_connection.emplace(backend, *online_propagator);
+      for (const auto& atom : clausifier.theory_atoms())
+        backend.add_observed_var(std::abs(atom.lit.value));
+      statistics.set(kStatTheoryAtoms, clausifier.theory_atoms().size());
+      statistics.increment(util::StatKey::EufConflictAckDemandSatResumes);
+      continue;
+    }
+#endif
     if (sat_result != sat::SatResult::Sat) {
       return CheckSatOutcome{map_sat_result(sat_result), "", statistics, ""};
     }
@@ -11486,7 +11624,8 @@ ForcedModelEqualityResult compute_forced_model_equalities(
     const InterfacePropagationResult propagation = force_implied_interface_equalities(
         terms, clausifier, backend, no_manager, filtered_equalities.forced_equalities,
         inputs.check.assignments, InterfaceEqualityClassification::LraImplied, statistics);
-    publish_interface_propagation_result(propagation, ":no.interface.lra-to-euf", statistics);
+    publish_interface_propagation_result(propagation, InterfacePropagationSource::LraToEuf,
+                                         statistics);
     if (propagation.triggered_recheck()) {
       if (arrangement.has_active_branch()) {
         arrangement.record_rejection(std::nullopt, statistics);
@@ -12145,7 +12284,7 @@ CheckSatOutcome solve_qf_uflra_engine_impl(core::TermManager& terms,
     if (euf_conflict.has_value()) {
       statistics.increment(kStatTheoryConflicts);
       record_theory_conflict(statistics);
-      record_interface_conflict(euf_conflict, no_manager, ":no.interface.euf-conflicts",
+      record_interface_conflict(euf_conflict, no_manager, util::StatKey::NoInterfaceEufConflicts,
                                 statistics);
       model_equality_arrangement.record_theory_conflict(active_model_equality_propagation_start,
                                                         statistics);
@@ -12250,7 +12389,7 @@ CheckSatOutcome solve_qf_uflra_engine_impl(core::TermManager& terms,
       record_theory_conflict(statistics);
       if (auto stop = terminator.stop_outcome()) return *stop;
       statistics.increment(util::StatKey::NoInterfaceLraConflictLits, lra_conflict->size());
-      record_interface_conflict(lra_conflict, no_manager, ":no.interface.lra-conflicts",
+      record_interface_conflict(lra_conflict, no_manager, util::StatKey::NoInterfaceLraConflicts,
                                 statistics);
       model_equality_arrangement.record_theory_conflict(active_model_equality_propagation_start,
                                                         statistics);
@@ -12369,7 +12508,8 @@ CheckSatOutcome solve_qf_uflra_engine_impl(core::TermManager& terms,
       const InterfacePropagationResult propagation = force_implied_interface_equalities(
           terms, clausifier, backend, no_manager, implied_equalities, euf_assignments_for_check,
           InterfaceEqualityClassification::EufImplied, statistics);
-      publish_interface_propagation_result(propagation, ":no.interface.euf-to-lra", statistics);
+      publish_interface_propagation_result(propagation, InterfacePropagationSource::EufToLra,
+                                           statistics);
       if (propagation.triggered_recheck()) {
         if (model_equality_arrangement.has_active_branch()) {
           model_equality_arrangement.record_rejection(std::nullopt, statistics);
@@ -12419,8 +12559,8 @@ CheckSatOutcome solve_qf_uflra_engine_impl(core::TermManager& terms,
             force_implied_interface_equalities(
                 terms, clausifier, backend, no_manager, opportunistic_filtered.forced_equalities,
                 lra_assignments_for_check, InterfaceEqualityClassification::LraImplied, statistics);
-        publish_interface_propagation_result(opportunistic_propagation,
-                                             ":no.interface.lra-opportunistic", statistics);
+        publish_interface_propagation_result(
+            opportunistic_propagation, InterfacePropagationSource::LraOpportunistic, statistics);
         if (opportunistic_propagation.triggered_recheck()) {
           if (model_equality_arrangement.has_active_branch()) {
             model_equality_arrangement.record_rejection(std::nullopt, statistics);
@@ -12681,7 +12821,8 @@ CheckSatOutcome solve_qf_uflra_engine_impl(core::TermManager& terms,
         const InterfacePropagationResult propagation = force_implied_interface_equalities(
             terms, clausifier, backend, no_manager, filtered_equalities.forced_equalities,
             lra_assignments_for_check, InterfaceEqualityClassification::LraImplied, statistics);
-        publish_interface_propagation_result(propagation, ":no.interface.lra-to-euf", statistics);
+        publish_interface_propagation_result(propagation, InterfacePropagationSource::LraToEuf,
+                                             statistics);
         if (propagation.triggered_recheck()) {
           if (model_equality_arrangement.has_active_branch()) {
             model_equality_arrangement.record_rejection(std::nullopt, statistics);
@@ -12723,7 +12864,8 @@ CheckSatOutcome solve_qf_uflra_engine_impl(core::TermManager& terms,
         const InterfacePropagationResult propagation = force_implied_interface_equalities(
             terms, clausifier, backend, no_manager, filtered_equalities.forced_equalities,
             lra_assignments_for_check, InterfaceEqualityClassification::LraImplied, statistics);
-        publish_interface_propagation_result(propagation, ":no.interface.lra-to-euf", statistics);
+        publish_interface_propagation_result(propagation, InterfacePropagationSource::LraToEuf,
+                                             statistics);
         if (propagation.triggered_recheck()) {
           if (model_equality_arrangement.has_active_branch()) {
             model_equality_arrangement.record_rejection(std::nullopt, statistics);
@@ -13325,7 +13467,7 @@ std::unique_ptr<theory::TheoryComponent> make_uf_euf_component(core::TermManager
 #if PRIMO_HAVE_IPASIR
   return std::make_unique<EufTheoryComponent>(terms, options, statistics, online,
                                               options.qf_uflia_model_combination,
-                                              ":time.qf-uflia.euf-check-us");
+                                              util::StatKey::TimeQfUfliaEufCheckUs);
 #else
   static_cast<void>(terms);
   static_cast<void>(options);

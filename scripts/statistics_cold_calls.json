@@ -1,1137 +1,982 @@
 [
   {
-    "call": "src/smt/component_model_assembler.cpp:increment(\":time.model.reconstruction-us\")",
+    "call": "src/smt/component_model_assembler.cpp:increment_dynamic(\":time.model.reconstruction-us\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "ComponentModelAssembler publishes the complete reconstruction duration after producing a candidate model; no per-term updates."
   },
   {
-    "call": "src/smt/component_solver.cpp:increment(key_)",
+    "call": "src/smt/component_solver.cpp:set_dynamic(key)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Atom installation publishes owner-specific registry sizes once per growth boundary, with callbacks detached; not per assigned literal or kernel operation."
   },
   {
-    "call": "src/smt/component_solver.cpp:set(key)",
+    "call": "src/smt/component_solver.cpp:set_dynamic(\":no.mixed.\"+id+\"-atoms\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Atom installation publishes owner-specific registry sizes once per growth boundary, with callbacks detached; not per assigned literal or kernel operation."
   },
   {
-    "call": "src/smt/component_solver.cpp:set(\":no.mixed.\"+id+\"-atoms\")",
+    "call": "src/smt/component_solver.cpp:increment_dynamic(\":combination.components.incremental-\"+id+\"-atoms\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Atom installation publishes owner-specific registry sizes once per growth boundary, with callbacks detached; not per assigned literal or kernel operation."
   },
   {
-    "call": "src/smt/component_solver.cpp:increment(\":combination.components.incremental-\"+id+\"-atoms\")",
+    "call": "src/smt/experimental_tactics.cpp:increment_dynamic(\":experimental.split-bools.input-goals\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "split-bools tactic publishes input, selected and output goal counts once per tactic invocation."
   },
   {
-    "call": "src/smt/component_solver.cpp:increment(first?\":combination.components.full-builds\":\":combination.components.incremental-growths\")",
+    "call": "src/smt/experimental_tactics.cpp:increment_dynamic(\":experimental.split-bools.selected\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "split-bools tactic publishes input, selected and output goal counts once per tactic invocation."
   },
   {
-    "call": "src/smt/component_solver.cpp:increment(reason)",
+    "call": "src/smt/experimental_tactics.cpp:increment_dynamic(\":experimental.split-bools.output-goals\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "split-bools tactic publishes input, selected and output goal counts once per tactic invocation."
   },
   {
-    "call": "src/smt/experimental_tactics.cpp:increment(\":experimental.split-bools.input-goals\")",
+    "call": "src/smt/preprocess_bound_tightening.cpp:set_dynamic(std::string(\":preprocessing.bounds.\")+key)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "The bound pass publishes numeric aggregates after preprocessing completes, outside row/term worklists."
   },
   {
-    "call": "src/smt/experimental_tactics.cpp:increment(\":experimental.split-bools.selected\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":no.purification.definitions\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/experimental_tactics.cpp:increment(\":experimental.split-bools.output-goals\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":no.purification.arithmetic-uf-definitions\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocess_bound_tightening.cpp:set(std::string(\":preprocessing.bounds.\")+key)",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":no.purification.euf-real-term-definitions\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.definitions\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":no.purification.reused-applications\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.arithmetic-uf-definitions\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":no.purification.reused-real-terms\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.euf-real-term-definitions\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":no.purification.memoized-formula-rewrites\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.reused-applications\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":no.purification.memoized-arithmetic-rewrites\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.reused-real-terms\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":no.purification.memoized-euf-rewrites\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.memoized-formula-rewrites\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":no.purification.skipped-no-sites\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.memoized-arithmetic-rewrites\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.boolean-flatten-post.attempts\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.memoized-euf-rewrites\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.boolean-flatten-post.accepted\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.skipped-no-sites\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.boolean-flatten-post.threshold-stops\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.boolean-flatten-post.attempts\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.boolean-flatten-post.rewrites\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.boolean-flatten-post.accepted\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.boolean-flatten-post.max-arity\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.boolean-flatten-post.threshold-stops\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.structural.conjunct-occurrences\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.boolean-flatten-post.rewrites\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.structural.unique-conjuncts\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.boolean-flatten-post.max-arity\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.structural.clause-like-conjuncts\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.structural.conjunct-occurrences\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.structural.implication-clause-candidates\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.structural.unique-conjuncts\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.selector.structural\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.structural.clause-like-conjuncts\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.limit.large-conjuncts\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.structural.implication-clause-candidates\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.limit.compact-terms\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.selector.structural\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.limit.compact-min-conjuncts\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.limit.large-conjuncts\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.limit.finite-domain-terms\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.limit.compact-terms\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.limit.finite-domain-min-domains\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.limit.compact-min-conjuncts\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.limit.finite-domain-max-symmetry-terms\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.limit.finite-domain-terms\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.selector.shadow-evaluated\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.limit.finite-domain-min-domains\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.selector.legacy-disagreement\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.limit.finite-domain-max-symmetry-terms\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.profile.large-skip\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.selector.shadow-evaluated\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.profile.finite-domain-basic\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.selector.legacy-disagreement\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.profile.compact-clause-basic\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.profile.large-skip\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.profile.strong\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.profile.finite-domain-basic\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.analysis.finite-domain-domains\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.profile.compact-clause-basic\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.analysis.finite-domain-choices\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.profile.strong\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.auto.analysis.predicted-amo-clauses\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.analysis.finite-domain-domains\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.finite-domain.explicit-disequality-choices\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.analysis.finite-domain-choices\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.finite-domain.integer-numeral-choices\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.analysis.predicted-amo-clauses\")",
+    "call": "src/smt/preprocessing_strategy.cpp:set_dynamic(\":preprocessing.finite-domain.rejected-missing-distinctness\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.finite-domain.explicit-disequality-choices\")",
+    "call": "src/smt/preprocessing_strategy.cpp:increment_dynamic(\":tactic.preprocessing-pass.invocations\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Strategy selection publishes preparation features and initializes absent-stage summaries once per frontend boundary."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.finite-domain.integer-numeral-choices\")",
+    "call": "src/smt/preprocessing_tactics.cpp:increment_dynamic(\":preprocessing.symmetry.cache-hits\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.finite-domain.rejected-missing-distinctness\")",
+    "call": "src/smt/preprocessing_tactics.cpp:increment_dynamic(\":preprocessing.symmetry.cache-refreshes\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_strategy.cpp:increment(\":tactic.preprocessing-pass.invocations\")",
+    "call": "src/smt/preprocessing_tactics.cpp:increment_dynamic(\":preprocessing.finite-domain.raw-cache-refreshes\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:increment(\":preprocessing.symmetry.cache-hits\")",
+    "call": "src/smt/preprocessing_tactics.cpp:increment_dynamic(\":preprocessing.finite-domain.raw-cache-hits\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:increment(\":preprocessing.symmetry.cache-refreshes\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.finite-domain.explicit-disequality-choices\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:increment(\":preprocessing.finite-domain.raw-cache-refreshes\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.finite-domain.integer-numeral-choices\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:increment(\":preprocessing.finite-domain.raw-cache-hits\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.finite-domain.rejected-missing-distinctness\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.finite-domain.explicit-disequality-choices\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.boolean-nnf.visited\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.finite-domain.integer-numeral-choices\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.boolean-nnf.rewritten\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.finite-domain.rejected-missing-distinctness\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.boolean-nnf.terms-created\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-nnf.visited\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.boolean-implies.visited\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-nnf.rewritten\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.boolean-implies.clause-candidates\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-nnf.terms-created\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.boolean-implies.rewritten\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.visited\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.boolean-implies.all-mode-rewrites\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.clause-candidates\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.boolean-implies.widened-operands\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.rewritten\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.boolean-implies.threshold-stops\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.all-mode-rewrites\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(\":preprocessing.boolean-implies.terms-created\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.widened-operands\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(prefix+\"attempts\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.threshold-stops\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(prefix+\"accepted\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.terms-created\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(prefix+\"threshold-stops\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(prefix+\"attempts\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(prefix+\"operands-copied\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(prefix+\"accepted\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(prefix+\"rewrites\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(prefix+\"threshold-stops\")",
+    "call": "src/smt/preprocessing_tactics.cpp:set_dynamic(prefix+\"max-arity\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "A tactic publishes the returned pass aggregate (or one cache access result) after that whole pass; pass-internal term visits use numeric fields."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(prefix+\"operands-copied\")",
+    "call": "src/smt/quantifiers/pool_export.cpp:set_dynamic(\":quant.export.constants\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Quantifier pool export publishes aggregate exported records once after formatting the requested export."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(prefix+\"rewrites\")",
+    "call": "src/smt/quantifiers/pool_export.cpp:set_dynamic(\":quant.export.skolem-lemmas\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Quantifier pool export publishes aggregate exported records once after formatting the requested export."
   },
   {
-    "call": "src/smt/preprocessing_tactics.cpp:set(prefix+\"max-arity\")",
+    "call": "src/smt/quantifiers/pool_export.cpp:set_dynamic(\":quant.export.skolem-roots\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Quantifier pool export publishes aggregate exported records once after formatting the requested export."
   },
   {
-    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.constants\")",
+    "call": "src/smt/quantifiers/pool_export.cpp:set_dynamic(\":quant.export.skipped-lemmas\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Quantifier pool export publishes aggregate exported records once after formatting the requested export."
   },
   {
-    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.skolem-lemmas\")",
+    "call": "src/smt/quantifiers/pool_export.cpp:set_dynamic(\":quant.export.tuples\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Quantifier pool export publishes aggregate exported records once after formatting the requested export."
   },
   {
-    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.skolem-roots\")",
+    "call": "src/smt/quantifiers/pool_export.cpp:set_dynamic(\":quant.export.skipped-tuples\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Quantifier pool export publishes aggregate exported records once after formatting the requested export."
   },
   {
-    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.skipped-lemmas\")",
+    "call": "src/smt/quantifiers/pool_export.cpp:set_dynamic(\":quant.export.pools\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Quantifier pool export publishes aggregate exported records once after formatting the requested export."
   },
   {
-    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.tuples\")",
+    "call": "src/smt/root_bound_diagnostics.cpp:set_dynamic(std::string(\":arithmetic.root-bounds.\")+key)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "The diagnostic pass initializes/publishes summary fields and elapsed time outside its row loop; row-loop increments use StatKey."
   },
   {
-    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.skipped-tuples\")",
+    "call": "src/smt/root_bound_diagnostics.cpp:set_dynamic(\":arithmetic.root-bounds.cancelled\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "The diagnostic pass initializes/publishes summary fields and elapsed time outside its row loop; row-loop increments use StatKey."
   },
   {
-    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.pools\")",
+    "call": "src/smt/root_bound_diagnostics.cpp:set_dynamic(\":arithmetic.root-bounds.time-us\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "The diagnostic pass initializes/publishes summary fields and elapsed time outside its row loop; row-loop increments use StatKey."
   },
   {
-    "call": "src/smt/root_bound_diagnostics.cpp:increment(std::string(\":arithmetic.root-bounds.\")+key)",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/root_bound_diagnostics.cpp:set(std::string(\":arithmetic.root-bounds.\")+key)",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/root_bound_diagnostics.cpp:set(\":arithmetic.root-bounds.cancelled\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/root_bound_diagnostics.cpp:set(\":arithmetic.root-bounds.time-us\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/session_portfolio.cpp:set(\":portfolio.qf-uf.attempts\")",
+    "call": "src/smt/session_portfolio.cpp:set_dynamic(\":portfolio.qf-uf.attempts\")",
     "count": 2,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "The portfolio annotates the completed first/fallback result once per query, outside each solver attempt."
   },
   {
-    "call": "src/smt/session_portfolio.cpp:set(\":portfolio.qf-uf.basic-polarity.attempted\")",
+    "call": "src/smt/session_portfolio.cpp:set_dynamic(\":portfolio.qf-uf.basic-polarity.attempted\")",
     "count": 2,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "The portfolio annotates the completed first/fallback result once per query, outside each solver attempt."
   },
   {
-    "call": "src/smt/session_portfolio.cpp:set(\":portfolio.qf-uf.basic-polarity.conflict-budget\")",
+    "call": "src/smt/session_portfolio.cpp:set_dynamic(\":portfolio.qf-uf.basic-polarity.conflict-budget\")",
     "count": 2,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "The portfolio annotates the completed first/fallback result once per query, outside each solver attempt."
   },
   {
-    "call": "src/smt/session_portfolio.cpp:set(\":portfolio.qf-uf.basic-polarity.first-conflicts\")",
+    "call": "src/smt/session_portfolio.cpp:set_dynamic(\":portfolio.qf-uf.basic-polarity.first-conflicts\")",
     "count": 2,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "The portfolio annotates the completed first/fallback result once per query, outside each solver attempt."
   },
   {
-    "call": "src/smt/session_portfolio.cpp:set(\":portfolio.qf-uf.basic-polarity.solved\")",
+    "call": "src/smt/session_portfolio.cpp:set_dynamic(\":portfolio.qf-uf.basic-polarity.solved\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "The portfolio annotates the completed first/fallback result once per query, outside each solver attempt."
   },
   {
-    "call": "src/smt/session_portfolio.cpp:set(\":portfolio.qf-uf.basic-polarity.fell-back\")",
+    "call": "src/smt/session_portfolio.cpp:set_dynamic(\":portfolio.qf-uf.basic-polarity.fell-back\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "The portfolio annotates the completed first/fallback result once per query, outside each solver attempt."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":time.model.check-and-print-us\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":time.model.check-and-print-us\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":session.engine-builds\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":session.engine-builds\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":session.translated-assertions\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":session.translated-assertions\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":session.incremental-assumptions\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":session.incremental-assumptions\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":session.safe-rewrite-pipeline\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":session.safe-rewrite-pipeline\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":session.pipeline.lower-extended-terms\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":session.pipeline.lower-extended-terms\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":session.pipeline.lower-real-equalities\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":session.pipeline.lower-real-equalities\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(key)",
+    "call": "src/smt/smt_session.cpp:set_dynamic(key)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
     "call": "src/smt/smt_session.cpp:get(key)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":time.preprocessing-us\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":time.preprocessing-us\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":time.total-us\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":time.total-us\")",
     "count": 2,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":session.queries\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":session.queries\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":session.frontend-builds\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":session.frontend-builds\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":time.parse-us\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":time.parse-us\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/smt_session.cpp:set(\":time.frontend-us\")",
+    "call": "src/smt/smt_session.cpp:set_dynamic(\":time.frontend-us\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
     "call": "src/smt/smt_session.cpp:get(\":time.total-us\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Session/query completion merges preparation summaries and publishes elapsed times after the solve; no callbacks or term loops."
   },
   {
-    "call": "src/smt/solver_engines.cpp:increment(key_)",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(key)",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(width<=3?kStatEufDynamicAckShadowWidthLe3:kStatEufDynamicAckShadowWidthGt3)",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(atom_value?kStatEufEqAssignments:kStatEufDiseqAssignments)",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(std::string{prefix}+\"-candidates\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(std::string{prefix}+\"-existing-atoms\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(std::string{prefix}+\"-missing-atoms\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(std::string{prefix}+\"-created-atoms\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(std::string{prefix}+\"-clauses\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(std::string{prefix}+\"-rechecks\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(source_key)",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-extra-atom-probes\")",
-    "count": 3,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-extra-atoms-probed\")",
-    "count": 3,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-mapping-fallbacks\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:set(\":no.interface.lra-probe-reuse-checked-tableau-max-difference-terms\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:get(\":no.interface.lra-probe-reuse-checked-tableau-max-difference-terms\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:set(\":no.interface.lra-probe-reuse-checked-tableau-max-pivot-term-ops\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:get(\":no.interface.lra-probe-reuse-checked-tableau-max-pivot-term-ops\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-checked-tableau-fallbacks\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-checked-tableau-difference-fallbacks\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-checked-tableau-basis-cost-fallbacks\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-assignment-bounds\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-context-conflicts\")",
-    "count": 2,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-pairs\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-checked-tableau-copies\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-orientations\")",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(found->second?kStatEufDiseqPropSourceUnaryArgAtomTrue:kStatEufDiseqPropSourceUnaryArgAtomFalse)",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_engines.cpp:increment(argument_equality->second?kStatEufDiseqPropFlatSameFunctionArgAtomTrue:kStatEufDiseqPropFlatSameFunctionArgAtomFalse)",
-    "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
-  },
-  {
-    "call": "src/smt/solver_session.cpp:set(kStatTimeTotalUs)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatTimeTotalUs)",
     "count": 5,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatTimeParseUs)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatTimeParseUs)",
     "count": 2,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatTimeFrontendUs)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatTimeFrontendUs)",
     "count": 2,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatTimePreprocessingUs)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatTimePreprocessingUs)",
     "count": 6,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatTimeSolveUs)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatTimeSolveUs)",
     "count": 3,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-flatten.attempts\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-flatten.attempts\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-flatten.accepted\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-flatten.accepted\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-flatten.threshold-stops\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-flatten.threshold-stops\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-flatten.operands-copied\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-flatten.operands-copied\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-flatten.rewrites\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-flatten.rewrites\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-flatten.max-arity\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-flatten.max-arity\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.visited\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-implies.visited\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.clause-candidates\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-implies.clause-candidates\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.rewritten\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-implies.rewritten\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.all-mode-rewrites\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-implies.all-mode-rewrites\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.widened-operands\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-implies.widened-operands\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.threshold-stops\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-implies.threshold-stops\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.terms-created\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-implies.terms-created\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropAssignedAppDisequalities)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqPropAssignedAppDisequalities)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropSourceUnaryCandidates)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqPropSourceUnaryCandidates)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropSourceUnaryExistingArgAtom)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqPropSourceUnaryExistingArgAtom)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropSourceUnaryArgAtomTrue)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqPropSourceUnaryArgAtomTrue)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropSourceUnaryArgAtomFalse)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqPropSourceUnaryArgAtomFalse)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropFlatSameFunctionCandidates)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqPropFlatSameFunctionCandidates)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropFlatSameFunctionExistingArgAtom)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqPropFlatSameFunctionExistingArgAtom)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropFlatSameFunctionArgAtomTrue)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqPropFlatSameFunctionArgAtomTrue)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropFlatSameFunctionArgAtomFalse)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqPropFlatSameFunctionArgAtomFalse)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropGuardedFunctionGuardCandidates)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqPropGuardedFunctionGuardCandidates)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropGuardedArgumentGuardCandidates)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqPropGuardedArgumentGuardCandidates)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannApplications)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannApplications)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannFunctionSymbols)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannFunctionSymbols)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannEligibleSymbols)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannEligibleSymbols)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannUnarySymbols)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannUnarySymbols)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannNarySymbols)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannNarySymbols)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannEstimatedConstraints)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannEstimatedConstraints)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannEstimatedEqualities)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannEstimatedEqualities)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannEstimatedClauseLits)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannEstimatedClauseLits)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannMaxSymbolApplications)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannMaxSymbolApplications)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannMaxSymbolArity)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannMaxSymbolArity)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannSymbolsCostLe100)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannSymbolsCostLe100)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannSymbolsCostLe1000)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannSymbolsCostLe1000)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannSymbolsCostLe10000)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufAckermannSymbolsCostLe10000)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowInvocations)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowInvocations)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowResultPairs)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowResultPairs)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowArgAtomsMissing)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowArgAtomsMissing)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowSatVisibleClauses)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowSatVisibleClauses)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowSatisfied)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowSatisfied)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowUnit)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowUnit)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowConflicting)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowConflicting)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowResultDiseqAssigned)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowResultDiseqAssigned)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowAllArgsEqAssigned)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowAllArgsEqAssigned)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowWidthTotal)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowWidthTotal)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowMaxWidth)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowMaxWidth)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowWidthLe3)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowWidthLe3)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowWidthGt3)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDynamicAckShadowWidthGt3)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckCandidates)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckCandidates)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckQueuePushes)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckQueuePushes)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckQueuePops)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckQueuePops)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckWidthSkips)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckWidthSkips)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckMissingArgAtom)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckMissingArgAtom)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckSatisfiedSkips)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckSatisfiedSkips)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckUnit)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckUnit)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckConflict)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckConflict)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckPropagated)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckPropagated)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckReturned)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckReturned)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckPendingCleared)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckPendingCleared)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckReasonLits)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckReasonLits)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckQueueBudgetCutoffs)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckQueueBudgetCutoffs)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckPerSymbolCutoffs)",
+    "call": "src/smt/solver_session.cpp:set_dynamic(kStatEufDiseqAckPerSymbolCutoffs)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":frontend.define-fun.nullary-direct-uses\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":frontend.define-fun.nullary-direct-uses\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":frontend.define-fun.nullary-eager-compiles\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":frontend.define-fun.nullary-eager-compiles\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":frontend.define-fun.nullary-side-assertions\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":frontend.define-fun.nullary-side-assertions\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":frontend.define-fun.nullary-cache-hits\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":frontend.define-fun.nullary-cache-hits\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":frontend.define-fun.nullary-cache-misses\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":frontend.define-fun.nullary-cache-misses\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":frontend.define-fun.nullary-cache-entries\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":frontend.define-fun.nullary-cache-entries\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":time.model.check-us\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":time.model.check-us\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":time.model.serialization-us\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":time.model.serialization-us\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":no.interface.terms\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":no.interface.terms\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":no.interface.sorts\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":no.interface.sorts\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":no.interface.candidate-pairs\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":no.interface.candidate-pairs\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":no.interface.registry-entries\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":no.interface.registry-entries\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":no.interface.visible-equalities\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":no.interface.visible-equalities\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":no.interface.missing-visible-equalities\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":no.interface.missing-visible-equalities\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":no.purification.sites\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":no.purification.sites\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":no.purification.euf-real-terms\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":no.purification.euf-real-terms\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":no.purification.arithmetic-uf-apps\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":no.purification.arithmetic-uf-apps\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-shape.or-nodes\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-shape.or-nodes\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-shape.not-nodes\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-shape.not-nodes\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-shape.top-level-or-nodes\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-shape.top-level-or-nodes\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-shape.max-top-level-or-children\")",
+    "call": "src/smt/solver_session.cpp:set_dynamic(\":preprocessing.boolean-shape.max-top-level-or-children\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/solver_session.cpp:increment(\":sat.top-level-or-tseitin.auto\")",
+    "call": "src/smt/solver_session.cpp:increment_dynamic(\":sat.top-level-or-tseitin.auto\")",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Frontend/query phase completion publishes already computed pipeline and Boolean-shape summaries; numeric work is collected by the pass."
   },
   {
-    "call": "src/smt/typed_model_builder.cpp:increment(\":model.congruence.disequality-checks\")",
+    "call": "src/smt/tactic.cpp:increment_dynamic(implementation_->invocation_stat)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Tactic::operator() publishes cached tactic-name invocation and duration fields once per complete tactic invocation, outside the tactic implementation worklists."
   },
   {
-    "call": "src/smt/typed_model_builder.cpp:increment(\":time.model.reconstruction-us\")",
+    "call": "src/smt/tactic.cpp:increment_dynamic(implementation_->time_stat)",
     "count": 1,
-    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+    "reason": "Tactic::operator() publishes cached tactic-name invocation and duration fields once per complete tactic invocation, outside the tactic implementation worklists."
   },
   {
-    "call": "src/util/statistics.cpp:get(key)",
+    "call": "src/smt/typed_model_builder.cpp:increment_dynamic(\":model.congruence.disequality-checks\")",
     "count": 1,
-    "reason": "Compatibility/string reporting boundary; no recurring name construction permitted."
+    "reason": "Model completion publishes aggregate congruence-disequality checks and reconstruction duration once per candidate model, outside congruence/term loops."
+  },
+  {
+    "call": "src/smt/typed_model_builder.cpp:increment_dynamic(\":time.model.reconstruction-us\")",
+    "count": 1,
+    "reason": "Model completion publishes aggregate congruence-disequality checks and reconstruction duration once per candidate model, outside congruence/term loops."
   }
 ]

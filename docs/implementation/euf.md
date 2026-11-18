@@ -291,7 +291,11 @@ an assigned literal from EUF while leaving it in SAT. For an atom occurring
 only positively in the asserted Boolean structure, it omits a false
 assignment; for a negative-only atom, it omits a true assignment. Mixed-polarity
 atoms are retained. `--pure-theory-filter=auto|on|off` controls this rule;
-`auto` currently enables it. This is the assignment-filtering technique of
+`auto` enables it on the standalone UF route and the legacy routes that reconstruct
+filtered facts. The QF_UFLIA `EufTheoryComponent` disables this filter in its
+online execution, including explicit `on`: the component protocol exports every
+registered assignment as a required model fact and has no filtered-fact replay
+contract. Its full checker already enforces every assignment. This is the assignment-filtering technique of
 [Sebastiani, *Lazy Satisfiability Modulo Theories*](https://disi.unitn.it/rseba/papers/JSAT-2007.pdf),
 §6.10 and Proposition 2.3, rather than SAT pure-literal elimination.
 
@@ -485,26 +489,79 @@ audit; solver changes still require the [correctness gates](../development/corre
 
 ## Conflict-selected Ackermann prototype
 
-The opt-in `--euf-conflict-ackermann` selects congruence steps traversed by an
-online EUF conflict explanation and queues the corresponding full congruence
-clause over existing equality atoms. `--euf-conflict-ackermann-diagnostics`
-records opportunities without adding clauses, unless the emitting option is
-also enabled. Both default off. This is the existing-atom subset of Dutertre
-and de Moura (2006), §2 p. 3, not the complete Yices policy.
+Both `--euf-conflict-ackermann` (emission) and
+`--euf-conflict-ackermann-diagnostics` (full missing-atom diagnostics) default off.
+They select congruence steps used by an online conflict explanation, following
+Dutertre and de Moura (2006), §2 p.3 {cite:p}`dutertre2006yices`.
+Primo implements a bounded subset of that policy, without offset equalities
+or Yices's full core implementation. Ordinary EUF checking and explanations
+remain authoritative. No performance benefit is claimed for the revised policy
+until its qualification is recorded.
 
-{conflictacksource}`ConflictAckermannSelector <src/smt/conflict_ackermann.hpp>` owns the
-equality-pair index and bounded selection catalogue; the online propagator
-owns queued SAT clauses. The closure's optional owning trace is checkpointed
-and only active during conflict explanation. Curry-prefix nodes are rejected
-by checking their complete original-term mapping. No terms/atoms are created
-in callbacks, and ordinary EUF explanations/checking stay authoritative.
+The {download}`closure <../../src/theory/equality/flat_congruence_closure.cpp>`
+owns a checkpointed trace. A prepared bitmap identifies complete application
+results: curry prefixes are filtered before the 64 distinct-witness budget.
+An owning 128-slot generation table deduplicates retained flat pairs without
+per-witness allocation. Visits after the budget fills are counted but not hashed.
+The {download}`selector <../../src/smt/conflict_ackermann.cpp>` owns the equality
+index, a 4096-entry admitted set, and a separate 4096-entry FIFO negative cache.
+A miss cannot consume positive admission capacity. New equality registration
+invalidates negative entries. Emission alone stops at a missing result atom;
+full diagnostics also scan the arguments. The selector also owns the queued
+existing-atom SAT clauses; `OnlineEufPropagator` streams them after the ordinary
+conflict. Selection and its queue survive execution rebuilds within one SAT
+backend. A complete recipe fallback creates a new backend and a fresh selector,
+so SAT literals are never reused across backend identities. The separate semantic
+growth queue and cumulative budget survive that fallback; the diagnostic equality
+snapshot is rebuilt for the new registry.
 
-The [implementation checklist](../leads/conflict-ackermann-prototype.md) gives
-limits, ownership, supported modes and proof obligations. Missing atoms, Boolean
-results without existing equality atoms, optimized proof forests, QF_UFLRA and
-assumptions sessions are outside this bounded experiment. Rebuild sessions
-remain supported. Clauses are theory-valid independently of the selecting
-assertions and may survive SAT backtracking. A new catalogue is created when
-a QF_UFLIA component is rebuilt after atom registration. The
-[bounded pilot](../evidence/conflict-ackermann.md) records native tests, fresh
-fuzz/model qualification and timing evidence. No default change is made.
+`--euf-conflict-ackermann-atoms=existing|demand` defaults to `existing`.
+The mode takes effect only when emission or diagnostics is enabled separately.
+Demand mode can name missing non-Boolean equalities for QF_UF and online
+QF_UFLIA. It skips Boolean-result applications and any non-reflexive Boolean
+argument pair, including pairs whose equality atom already exists. The query's `AckermannGrowthState` owns copied application/argument IDs,
+settled-pair deduplication (4096 instances), pending instances (64 per batch),
+and cumulative fresh-equality consumption. It survives propagator rebuilds;
+a new query starts a new state. Each instance asserts precisely
+`result_equal OR NOT argument_1_equal OR ...`, so an n-ary clause permits any
+argument to differ. Naming an equality does not assert its truth.
+
+Callbacks copy requests only. After the ordinary external-clause stream finishes,
+an internal yield can unwind SAT. It is distinct from cancellation and resource
+limits. The {download}`standalone driver <../../src/smt/solver_engines.cpp>` and
+{download}`component driver <../../src/smt/component_solver.cpp>` drain requests
+only after detaching callbacks. They preflight the whole instance, reuse
+semantic equality pairs including reversed existing atoms, then register atoms
+and the complete valid formula. The mixed driver passes missing pairs to its existing interface
+wrapper, whose internal membership check admits only eligible shared pairs;
+general equality registration does not bypass Nelson–Oppen membership. Interface encodings use arithmetic preparation;
+this change does not relax the tableau's row-addition contract.
+
+Mixed online execution must enforce both polarities of generated atoms. An
+optional congruence clause can give a fresh result equality only positive
+occurrences; its false SAT assignment could otherwise be filtered from online
+EUF, then incorrectly exported as a required disequality. The component's
+`online_options_` therefore turns purity filtering off before constructing each
+`OnlineEufPropagator`. Standalone UF keeps its existing filtered-assignment
+model reconstruction. This is a protocol consistency fix, not a change to the
+congruence clause or the interface membership rule.
+
+`--euf-conflict-ackermann-atom-limit` defaults to 4096; zero is unlimited.
+It bounds genuinely fresh equality atoms, excluding auxiliary Boolean/arithmetic
+encoding atoms. A whole instance exceeding the remaining budget is skipped
+without partial atom registration, without an `unknown` result, and without
+an UNSAT inference. Skipped pairs are settled to prevent retry loops. Registry
+growth destroys stale assignment/preparation borrowers, recreates the dispatcher
+or online propagator, observes the complete registry, and rejects the candidate
+model until the resumed check succeeds. Previously assigned or reused requests
+are settled as well. User cancellation and theory-conflict limits retain priority.
+
+Diagnostic-only demand mode records independent per-instance missing-atom
+counts and whether that instance fits the configured limit; it creates no atoms,
+does not simulate cumulative consumption, and does not yield or resume SAT.
+Demand requests involving Boolean results or differing Boolean arguments,
+optimized proof-forest tracing, QF_UFLRA and assumptions
+sessions remain outside this prototype; rebuild sessions remain supported.
+The [current checklist](../leads/euf-performance-fixes.md) records the integration
+obligations. The [earlier pilot](../evidence/conflict-ackermann.md) qualifies the
+older existing-atom policy only. Defaults are unchanged.

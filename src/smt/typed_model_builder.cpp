@@ -351,8 +351,9 @@ std::shared_ptr<const core::Model> build_typed_model(
   auto model = builder.build(assertions, assignments, numeric_values, conversions,
                              completed_integers, std::move(visible_symbols));
   if (statistics != nullptr) {
-    statistics->increment(":model.congruence.disequality-checks", builder.disequality_checks());
-    statistics->increment(
+    statistics->increment_dynamic(":model.congruence.disequality-checks",
+                                  builder.disequality_checks());
+    statistics->increment_dynamic(
         ":time.model.reconstruction-us",
         static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::microseconds>(
                                        std::chrono::steady_clock::now() - start)

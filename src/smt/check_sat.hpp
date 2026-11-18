@@ -248,6 +248,8 @@ struct CheckSatOptions {
   bool euf_diseq_ackermann = false;
   bool euf_conflict_ackermann = false;
   bool euf_conflict_ackermann_diagnostics = false;
+  bool euf_conflict_ackermann_demand_atoms = false;
+  std::size_t euf_conflict_ackermann_atom_limit = 4096;
   AutoBudget euf_propagation_budget;
   AutoBudget euf_propagation_delivery{AutoBudget::Kind::Fixed, 1000};
   // QF_LRA same-slack bound propagation (Milestone 3b: Dutertre & de Moura

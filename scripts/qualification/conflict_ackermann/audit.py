@@ -140,7 +140,7 @@ def paired(records, slots, before, after):
 def gates(args):
     campaign = json.loads((args.configs / "campaign.json").read_text())
     assert campaign["tasks"] == campaign["protocol"]["tasks"]
-    assert len(campaign["tasks"]) == 6
+    assert len(campaign["tasks"]) >= 6
     records = []
     totals = collections.Counter()
     models = 0
@@ -254,7 +254,7 @@ def gates(args):
                     "native_sha256": r["native_sha256"],
                 }
             )
-    assert len(records) == 18
+    assert len(records) == 3 * len(campaign["tasks"])
     private = {
         "source": campaign["git"],
         "native_sha256": campaign["sha256"],

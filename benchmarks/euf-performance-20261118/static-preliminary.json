@@ -1,0 +1,73 @@
+{
+  "scope": "Preliminary full-tree source6 scan; not final source7 qualification",
+  "source": "d1f71fb6",
+  "jobs": [
+    414826
+  ],
+  "coverage": {
+    "tidy": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 141,
+      "analyzed_translation_units": 141,
+      "missing": [],
+      "changed_inputs": [],
+      "tool_exit_code": 0,
+      "unique_diagnostics": 886,
+      "counts": {
+        "portability-avoid-pragma-once": 109,
+        "performance-enum-size": 88,
+        "misc-include-cleaner": 409,
+        "clang-analyzer-optin.performance.Padding": 1,
+        "performance-inefficient-vector-operation": 8,
+        "performance-unnecessary-value-param": 15,
+        "bugprone-easily-swappable-parameters": 42,
+        "bugprone-unchecked-optional-access": 116,
+        "performance-inefficient-string-concatenation": 14,
+        "bugprone-exception-escape": 11,
+        "performance-faster-string-find": 3,
+        "performance-move-const-arg": 23,
+        "performance-unnecessary-copy-initialization": 6,
+        "bugprone-implicit-widening-of-multiplication-result": 4,
+        "bugprone-assert-side-effect": 6,
+        "bugprone-use-after-move": 1,
+        "bugprone-branch-clone": 5,
+        "clang-analyzer-optin.core.EnumCastOutOfRange": 20,
+        "clang-analyzer-cplusplus.NewDeleteLeaks": 2,
+        "bugprone-optional-value-conversion": 2,
+        "performance-no-automatic-move": 1
+      },
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      }
+    },
+    "includes": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 141,
+      "analyzed_translation_units": 141,
+      "missing": [],
+      "changed_inputs": [],
+      "tool_exit_code": 0,
+      "unique_diagnostics": 409,
+      "counts": {
+        "misc-include-cleaner": 409
+      },
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      }
+    }
+  },
+  "disposition": {
+    "unused_includes": "No blocking unused includes in either complete141-TU pass; missing direct includes are advisory.",
+    "copy_findings": "Removed three unnecessary copies from touched runtime/frontend code after checking const-owner lifetimes; simplified checked optional conflict return to avoid repeated copies. New source7 remains separately qualified.",
+    "model_visitor_forwarding": "Existing callers use ordinary lambdas; forwarding casts the callable category without moving it. Generic reusable-rvalue visitor API warning recorded, no current caller consumes the callable.",
+    "goal_shared_ownership": "Goal Data owns shared immutable assertion/model-conversion storage with RAII and no back-reference to Goal; analyzer reports libstdc++ shared-count ownership through the aggregate. No raw allocation introduced. Address/leak checks run separately.",
+    "external_CLI": "One external CLI library ownership warning retained; dependency code unchanged.",
+    "remaining": "Advisory inventory includes portability, padding, parameters and guarded optionals. Completed analysis is not a clean-code proof."
+  }
+}

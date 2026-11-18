@@ -135,7 +135,13 @@ CheckSatOutcome solve_quantified_uf(
   recipe.online = true;
   recipe.model_guided = false;
   recipe.online_order = {0, 1};
-  recipe.timing_prefix = ":time.quantified-uf.";
+  recipe.timing_keys = {util::StatKey::TimeQuantifiedUfComponentRebuildUs,
+                        util::StatKey::TimeQuantifiedUfComponentGrowthUs,
+                        util::StatKey::TimeQuantifiedUfCompleteFallbackUs,
+                        util::StatKey::TimeQuantifiedUfSatUs,
+                        util::StatKey::TimeQuantifiedUfLemmaUs,
+                        util::StatKey::TimeQuantifiedUfAssignmentExtractionUs,
+                        util::StatKey::TimeQuantifiedUfModelReconciliationUs};
   recipe.prepare_boolean = [&](BooleanClausifier& clausifier) {
     register_euf_boolean_arguments(clausifier, statistics);
   };

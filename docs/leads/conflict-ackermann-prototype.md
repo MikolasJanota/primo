@@ -1,6 +1,11 @@
 # Conflict-selected Ackermann prototype
 
-**Status: bounded prototype implemented; evaluation in the [pilot report](../evidence/conflict-ackermann.md). Both options remain off by default.**
+**Historical V1 checklist:** native source `13230b6d`, evaluated in the
+[pilot report](../evidence/conflict-ackermann.md). Both options remain off by
+default. The [revised checklist](euf-performance-fixes.md) and
+[current EUF representation](../implementation/euf.md#conflict-selected-ackermann-prototype)
+describe V2 admission and demand atoms; the existing-only limits and lifetime
+claims below describe V1.
 
 This bounded experiment follows the conflict-selected congruence clause in
 Dutertre and de Moura, *The Yices SMT Solver* (2006), §2, printed p. 3

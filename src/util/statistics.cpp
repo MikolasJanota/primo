@@ -801,6 +801,81 @@ constexpr std::array<std::string_view, static_cast<std::size_t>(StatKey::Count)>
     ":euf.conflict-ack.missing-argument"sv,
     ":euf.conflict-ack.tautologies"sv,
     ":euf.conflict-ack.ready-clauses"sv,
+    ":arithmetic.root-bounds.ignored-formulas"sv,
+    ":arithmetic.root-bounds.atoms"sv,
+    ":arithmetic.root-bounds.unsupported-atoms"sv,
+    ":arithmetic.root-bounds.supported-atoms"sv,
+    ":arithmetic.root-bounds.compound-rows"sv,
+    ":arithmetic.root-bounds.wide-rows-skipped"sv,
+    ":arithmetic.root-bounds.explicit-bounds"sv,
+    ":arithmetic.root-bounds.candidate-directions"sv,
+    ":arithmetic.root-bounds.missing-premises"sv,
+    ":arithmetic.root-bounds.integer-roundings"sv,
+    ":arithmetic.root-bounds.rows-with-improvements"sv,
+    ":arithmetic.root-bounds.stronger-bounds"sv,
+    ":arithmetic.root-bounds.new-finite-bounds"sv,
+    ":arithmetic.root-bounds.improved-variables"sv,
+    ":arithmetic.root-bounds.variables"sv,
+    ":time.lra-equality-propagation-us"sv,
+    ":time.lia.branching.private-completion-us"sv,
+    ":time.lia.equality-feasibility-us"sv,
+    ":time.lia.equality-scan-us"sv,
+    ":time.lia.equality-discovery-us"sv,
+    ":time.qf-uflia.lia-check-us"sv,
+    ":time.qf-uflia.lia-rational-us"sv,
+    ":time.qf-uflia.lia-integer-us"sv,
+    ":time.qf-uflia.euf-check-us"sv,
+    ":combination.model.fallback-budget"sv,
+    ":combination.model.fallback-unsupported"sv,
+    ":combination.model.fallback-unknown"sv,
+    ":combination.model.fallback-resource-limit"sv,
+    ":combination.components.incremental-growths"sv,
+    ":euf.conflict-ack.v2.negative-evictions"sv,
+    ":euf.conflict-ack.v2.peak-negative-pairs"sv,
+    ":euf.conflict-ack.v2.policy-version"sv,
+    ":euf.conflict-ack.v2.candidate-visits"sv,
+    ":euf.conflict-ack.v2.admitted-hits"sv,
+    ":euf.conflict-ack.v2.negative-hits"sv,
+    ":euf.conflict-ack.v2.admission-limit"sv,
+    ":euf.conflict-ack.v2.admitted-pairs"sv,
+    ":euf.conflict-ack.v2.peak-admitted-pairs"sv,
+    ":euf.conflict-ack.v2.semantic-witnesses"sv,
+    ":euf.conflict-ack.v2.prefix-visits"sv,
+    ":euf.conflict-ack.v2.duplicate-witnesses"sv,
+    ":euf.conflict-ack.v2.witness-budget-visits"sv,
+    ":euf.conflict-ack.demand.request-limit"sv,
+    ":euf.conflict-ack.demand.boolean-skips"sv,
+    ":euf.conflict-ack.demand.requests"sv,
+    ":euf.conflict-ack.demand.reused-atoms"sv,
+    ":euf.conflict-ack.demand.budget-skips"sv,
+    ":euf.conflict-ack.demand.dry-run-instances"sv,
+    ":euf.conflict-ack.demand.fresh-atoms"sv,
+    ":euf.conflict-ack.demand.peak-fresh-atoms"sv,
+    ":euf.conflict-ack.demand.installed-instances"sv,
+    ":euf.conflict-ack.v2.missing-argument-with-result"sv,
+    ":euf.conflict-ack.demand.sat-resumes"sv,
+    ":time.qf-lia.component-rebuild-us"sv,
+    ":time.qf-lia.component-growth-us"sv,
+    ":time.qf-lia.complete-fallback-us"sv,
+    ":time.qf-lia.sat-us"sv,
+    ":time.qf-lia.lemma-us"sv,
+    ":time.qf-lia.assignment-extraction-us"sv,
+    ":time.qf-lia.model-reconciliation-us"sv,
+    ":time.qf-uflia.component-rebuild-us"sv,
+    ":time.qf-uflia.component-growth-us"sv,
+    ":time.qf-uflia.complete-fallback-us"sv,
+    ":time.qf-uflia.sat-us"sv,
+    ":time.qf-uflia.lemma-us"sv,
+    ":time.qf-uflia.assignment-extraction-us"sv,
+    ":time.qf-uflia.model-reconciliation-us"sv,
+    ":time.quantified-uf.component-rebuild-us"sv,
+    ":time.quantified-uf.component-growth-us"sv,
+    ":time.quantified-uf.complete-fallback-us"sv,
+    ":time.quantified-uf.sat-us"sv,
+    ":time.quantified-uf.lemma-us"sv,
+    ":time.quantified-uf.assignment-extraction-us"sv,
+    ":time.quantified-uf.model-reconciliation-us"sv,
+    ":euf.conflict-ack.demand.dry-run-missing-atoms"sv,
 };
 
 const std::unordered_map<std::string_view, StatKey>& stat_keys_by_name() {
@@ -849,7 +924,7 @@ void Statistics::set(StatKey key, Value value) {
   values_[index(key)] = value;
 }
 
-void Statistics::set(std::string_view name, Value value) {
+void Statistics::set_dynamic(std::string_view name, Value value) {
   if (const auto extra = extra_values_.find(name); extra != extra_values_.end()) {
     extra->second = value;
     return;
@@ -869,7 +944,7 @@ void Statistics::increment(StatKey key, Value delta) {
   values_[index(key)] += delta;
 }
 
-void Statistics::increment(std::string_view name, Value delta) {
+void Statistics::increment_dynamic(std::string_view name, Value delta) {
   if (const auto extra = extra_values_.find(name); extra != extra_values_.end()) {
     extra->second += delta;
     return;

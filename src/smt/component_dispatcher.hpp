@@ -44,6 +44,9 @@ class ComponentDispatcher final : public sat::ExternalPropagator {
   bool cb_has_external_clause() override;
   int cb_add_external_clause_lit() override;
   [[nodiscard]] const std::optional<theory::TheoryCheckResult>& failure() const { return failure_; }
+  // Internal growth yields must wait for the backend's complete clause stream,
+  // not merely the component-to-dispatcher copy of that clause.
+  bool clause_stream_open() const { return external_clause_.has_value(); }
   // Online index of the component whose check reported LemmasPending, if any.
   [[nodiscard]] const std::optional<std::size_t>& lemmas_pending() const { return lemmas_pending_; }
   [[nodiscard]] const ComponentDispatchStatistics& statistics() const { return statistics_; }

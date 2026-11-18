@@ -467,7 +467,7 @@ void exhaustive_three_and_four_component_sat() {
           recipe.online = online;
           recipe.model_guided = guided;
           recipe.decision_budget = 100;
-          recipe.timing_prefix = ":time.partition-test.";
+
           std::vector<core::TermId> assertions;
           for (std::size_t index = 0; index < count; ++index) {
             assertions.push_back(f.atoms[index].term);
@@ -615,8 +615,11 @@ void external_clause_retention_follows_recipe_policy() {
     bool observed = !forgettable;
     assert(dispatcher.cb_has_external_clause(observed));
     assert(observed == forgettable);
+    assert(dispatcher.clause_stream_open());
     assert(dispatcher.cb_add_external_clause_lit() == -1);
+    assert(dispatcher.clause_stream_open());  // The terminating zero is part of the protocol.
     assert(dispatcher.cb_add_external_clause_lit() == 0);
+    assert(!dispatcher.clause_stream_open());
   }
 }
 
@@ -960,7 +963,7 @@ void queued_lemmas_are_drained_at_the_growth_boundary() {
     if (scenario == Scenario::NotConsultedMidSearch) {
       recipe.online_order = {1, 0};
     }
-    recipe.timing_prefix = ":time.lemma-test.";
+
     bool prepared_new_atom = false;
     recipe.prepare_boolean = [&](smt::BooleanClausifier& clausifier) {
       for (const auto& atom : clausifier.theory_atoms()) {
@@ -1071,6 +1074,40 @@ void driver_owned_booleans_are_observed_without_component_routing() {
   }
 }
 
+void component_resource_failure_precedes_optional_growth() {
+  Fixture f;
+  const auto marker = f.variable("marker", f.symbols.bool_sort());
+  smt::CombinationRecipe recipe;
+  recipe.online = true;
+  recipe.online_order = {0};
+  recipe.model_guided = false;
+  bool pending = true;
+  std::size_t grows = 0;
+  recipe.growth_pending = [&] { return pending; };
+  recipe.grow = [&](smt::BooleanClausifier&, const auto&) {
+    ++grows;
+    pending = false;
+  };
+  recipe.factories = {[&](bool) {
+    auto component = std::make_unique<PartitionComponent>(f.terms, "resource", marker,
+                                                          std::vector<Restriction>{});
+    component->corrupt = [](theory::TheoryCheckResult& result) {
+      result.status = theory::TheoryCheckStatus::ResourceLimit;
+      result.diagnostic = "test component resource limit";
+    };
+    return component;
+  }};
+  smt::CheckSatOptions options;
+  util::Statistics statistics;
+  const std::vector assertions{marker};
+  const auto result =
+      smt::solve_component_recipe(f.terms, assertions, {}, options, statistics, recipe);
+  assert(result.result == smt::CheckSatResult::Unknown);
+  assert(result.reason == smt::InconclusiveReason::ResourceLimit);
+  assert(result.message == "test component resource limit");
+  assert(grows == 0);
+}
+
 void empty_component_conflicts_respect_the_aggregate_budget() {
   for (const bool online : {false, true}) {
     for (const bool limited : {false, true}) {
@@ -1080,7 +1117,7 @@ void empty_component_conflicts_respect_the_aggregate_budget() {
       recipe.online = online;
       recipe.online_order = {0};
       recipe.model_guided = false;
-      recipe.timing_prefix = ":time.empty-conflict-test.";
+
       recipe.factories = {[&](bool) {
         auto component = std::make_unique<PartitionComponent>(f.terms, "empty-conflict", marker,
                                                               std::vector<Restriction>{});
@@ -1246,6 +1283,7 @@ void integer_split_is_forwarded_without_model_acceptance() {
 }  // namespace
 
 int main() {
+  component_resource_failure_precedes_optional_growth();
   integer_split_is_forwarded_without_model_acceptance();
   explained_batches_validate_scope_reasons_and_progress();
   explained_batches_materialize_before_learning_without_model_queries();

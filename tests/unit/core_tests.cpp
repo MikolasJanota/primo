@@ -274,9 +274,9 @@ void statistics_preserve_fixed_and_dynamic_counters() {
   // Promoted fixed counters must retain their old position among extra keys.
   {
     Statistics ordered;
-    ordered.increment(":custom.before");
+    ordered.increment_dynamic(":custom.before");
     ordered.increment(primo::util::StatKey::EufConflictAckDuplicatePairs);
-    ordered.increment(":custom.after");
+    ordered.increment_dynamic(":custom.after");
     ordered.increment(primo::util::StatKey::AssertionsInitial);
     assert((ordered.keys() == std::vector<std::string>{":input.assertions", ":custom.before",
                                                        ":euf.conflict-ack.duplicate-pairs",
@@ -285,10 +285,10 @@ void statistics_preserve_fixed_and_dynamic_counters() {
   }
   Statistics statistics;
   statistics.increment(StatKey::AssertionsInitial);
-  statistics.increment(":input.assertions", 2);
-  statistics.increment(":test.dynamic", 3);
-  statistics.increment(":test.dynamic", 4);
-  statistics.set(":test.dynamic", 9);
+  statistics.increment_dynamic(":input.assertions", 2);
+  statistics.increment_dynamic(":test.dynamic", 3);
+  statistics.increment_dynamic(":test.dynamic", 4);
+  statistics.set_dynamic(":test.dynamic", 9);
 
   assert(statistics.get(StatKey::AssertionsInitial) == 3);
   assert(statistics.get(":input.assertions") == 3);

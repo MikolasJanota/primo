@@ -198,13 +198,13 @@ void write_pool_export(const core::TermManager& terms, std::span<const core::Ter
   file << out.str();
   if (!file) throw std::runtime_error("cannot write the quantifier pool export to " + path);
 
-  statistics.set(":quant.export.constants", record.constants.size());
-  statistics.set(":quant.export.skolem-lemmas", printed_lemmas);
-  statistics.set(":quant.export.skolem-roots", skolem_roots);
-  statistics.set(":quant.export.skipped-lemmas", skipped_lemmas);
-  statistics.set(":quant.export.tuples", exported_tuples);
-  statistics.set(":quant.export.skipped-tuples", skipped_tuples);
-  statistics.set(":quant.export.pools", pools.size());
+  statistics.set_dynamic(":quant.export.constants", record.constants.size());
+  statistics.set_dynamic(":quant.export.skolem-lemmas", printed_lemmas);
+  statistics.set_dynamic(":quant.export.skolem-roots", skolem_roots);
+  statistics.set_dynamic(":quant.export.skipped-lemmas", skipped_lemmas);
+  statistics.set_dynamic(":quant.export.tuples", exported_tuples);
+  statistics.set_dynamic(":quant.export.skipped-tuples", skipped_tuples);
+  statistics.set_dynamic(":quant.export.pools", pools.size());
 }
 
 }  // namespace primo::smt

@@ -89,9 +89,9 @@ AnyOf split_goal(TacticContext& context, const Goal& goal,
   const std::vector<core::TermId> selected =
       select_boolean_atoms(context.terms(), goal, options.max_bools);
   const std::size_t goal_count = std::size_t{1} << selected.size();
-  context.statistics().increment(":experimental.split-bools.input-goals");
-  context.statistics().increment(":experimental.split-bools.selected", selected.size());
-  context.statistics().increment(":experimental.split-bools.output-goals", goal_count);
+  context.statistics().increment_dynamic(":experimental.split-bools.input-goals");
+  context.statistics().increment_dynamic(":experimental.split-bools.selected", selected.size());
+  context.statistics().increment_dynamic(":experimental.split-bools.output-goals", goal_count);
 
   if (selected.empty()) {
     return AnyOf::single(goal);

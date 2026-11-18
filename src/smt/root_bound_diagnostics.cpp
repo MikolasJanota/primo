@@ -91,19 +91,19 @@ void record_root_bound_diagnostics(const core::TermManager& terms,
                                    util::Statistics& statistics,
                                    const std::function<bool()>& cancelled) {
   const auto start = std::chrono::steady_clock::now();
-  const auto increment = [&statistics](const char* key, std::size_t value = 1) {
-    statistics.increment(std::string(":arithmetic.root-bounds.") + key, value);
+  const auto increment = [&statistics](util::StatKey key, std::size_t value = 1) {
+    statistics.increment(key, value);
   };
   for (const char* key :
        {"atoms", "supported-atoms", "unsupported-atoms", "ignored-formulas", "compound-rows",
         "wide-rows-skipped", "explicit-bounds", "variables", "candidate-directions",
         "missing-premises", "rows-with-improvements", "stronger-bounds", "new-finite-bounds",
         "improved-variables", "integer-roundings", "cancelled", "time-us"}) {
-    statistics.set(std::string(":arithmetic.root-bounds.") + key, 0);
+    statistics.set_dynamic(std::string(":arithmetic.root-bounds.") + key, 0);
   }
   const auto interrupted = [&] {
     if (!cancelled || !cancelled()) return false;
-    statistics.set(":arithmetic.root-bounds.cancelled", 1);
+    statistics.set_dynamic(":arithmetic.root-bounds.cancelled", 1);
     return true;
   };
   BoundMap explicit_bounds;
@@ -131,14 +131,14 @@ void record_root_bound_diagnostics(const core::TermManager& terms,
         (negative && node.kind == core::TermKind::Equality) ||
         (terms.get(node.children.at(0)).sort != terms.symbols().int_sort() &&
          terms.get(node.children.at(0)).sort != terms.symbols().real_sort())) {
-      increment("ignored-formulas");
+      increment(util::StatKey::ArithmeticRootBoundsIgnoredFormulas);
       continue;
     }
-    increment("atoms");
+    increment(util::StatKey::ArithmeticRootBoundsAtoms);
     if (!supported_polynomial(terms, node.children.at(0), cancelled) ||
         !supported_polynomial(terms, node.children.at(1), cancelled)) {
       if (interrupted()) break;
-      increment("unsupported-atoms");
+      increment(util::StatKey::ArithmeticRootBoundsUnsupportedAtoms);
       continue;
     }
     auto atom = theory::arithmetic::normalize_atom(terms, id);
@@ -148,7 +148,7 @@ void record_root_bound_diagnostics(const core::TermManager& terms,
       atom.rhs = -atom.rhs;
       strict = !strict;
     }
-    increment("supported-atoms");
+    increment(util::StatKey::ArithmeticRootBoundsSupportedAtoms);
     const auto size = atom.polynomial.terms().size();
     if (size == 1) {
       // This borrows atom's owned map; endpoint mutates only explicit_bounds.
@@ -164,9 +164,9 @@ void record_root_bound_diagnostics(const core::TermManager& terms,
       endpoint(upper, strict);
       if (atom.relation == LraRelation::Eq) endpoint(!upper, false);
     } else if (size > 1) {
-      increment("compound-rows");
+      increment(util::StatKey::ArithmeticRootBoundsCompoundRows);
       if (size > 64) {
-        increment("wide-rows-skipped");
+        increment(util::StatKey::ArithmeticRootBoundsWideRowsSkipped);
       } else {
         rows.push_back(Constraint{std::move(atom), strict});
       }
@@ -174,8 +174,9 @@ void record_root_bound_diagnostics(const core::TermManager& terms,
   }
   for (const auto& [variable, bounds] : explicit_bounds) {
     (void)variable;
-    increment("explicit-bounds", static_cast<std::size_t>(bounds.lower.has_value()) +
-                                     static_cast<std::size_t>(bounds.upper.has_value()));
+    increment(util::StatKey::ArithmeticRootBoundsExplicitBounds,
+              static_cast<std::size_t>(bounds.lower.has_value()) +
+                  static_cast<std::size_t>(bounds.upper.has_value()));
   }
   BoundMap candidates = explicit_bounds;
   std::unordered_set<core::TermId> variables;
@@ -190,7 +191,7 @@ void record_root_bound_diagnostics(const core::TermManager& terms,
         // CAV 2006 §4.5 interval refinement, applied to an original input
         // constraint. Equality supplies both <= directions. Candidate bounds
         // never become premises, so this is not fixed-point propagation.
-        increment("candidate-directions");
+        increment(util::StatKey::ArithmeticRootBoundsCandidateDirections);
         const Rational sign(direction == 0 ? 1 : -1);
         DeltaRational remainder{row.atom.rhs * sign, Rational(row.strict ? -1 : 0)};
         bool available = true;
@@ -209,7 +210,7 @@ void record_root_bound_diagnostics(const core::TermManager& terms,
           remainder = remainder - (**bound).scaled(other_coefficient * sign);
         }
         if (!available) {
-          increment("missing-premises");
+          increment(util::StatKey::ArithmeticRootBoundsMissingPremises);
           continue;
         }
         const auto signed_coefficient = coefficient * sign;
@@ -217,7 +218,7 @@ void record_root_bound_diagnostics(const core::TermManager& terms,
         auto value = remainder.scaled(Rational(1) / signed_coefficient);
         if (terms.get(target).sort == terms.symbols().int_sort()) {
           const auto rounded = integer_endpoint(value, upper);
-          if (rounded != value) increment("integer-roundings");
+          if (rounded != value) increment(util::StatKey::ArithmeticRootBoundsIntegerRoundings);
           value = rounded;
         } else {
           // Count semantic Real endpoints, not different positive multiples
@@ -232,7 +233,7 @@ void record_root_bound_diagnostics(const core::TermManager& terms,
         tighten(candidates[target], upper, value);
       }
     }
-    if (improves) increment("rows-with-improvements");
+    if (improves) increment(util::StatKey::ArithmeticRootBoundsRowsWithImprovements);
   }
   for (const auto& [variable, bounds] : candidates) {
     variables.insert(variable);
@@ -244,18 +245,19 @@ void record_root_bound_diagnostics(const core::TermManager& terms,
                                  ? std::optional<DeltaRational>{}
                                  : (upper ? found->second.upper : found->second.lower);
       if (candidate && (!baseline || (upper ? *candidate < *baseline : *baseline < *candidate))) {
-        increment("stronger-bounds");
-        if (!baseline) increment("new-finite-bounds");
+        increment(util::StatKey::ArithmeticRootBoundsStrongerBounds);
+        if (!baseline) increment(util::StatKey::ArithmeticRootBoundsNewFiniteBounds);
         improves = true;
       }
     }
-    if (improves) increment("improved-variables");
+    if (improves) increment(util::StatKey::ArithmeticRootBoundsImprovedVariables);
   }
-  increment("variables", variables.size());
+  increment(util::StatKey::ArithmeticRootBoundsVariables, variables.size());
   const auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
                            std::chrono::steady_clock::now() - start)
                            .count();
-  statistics.set(":arithmetic.root-bounds.time-us", static_cast<util::Statistics::Value>(elapsed));
+  statistics.set_dynamic(":arithmetic.root-bounds.time-us",
+                         static_cast<util::Statistics::Value>(elapsed));
 }
 
 }  // namespace primo::smt

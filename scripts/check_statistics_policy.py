@@ -14,7 +14,10 @@ TOKEN = re.compile(
 )
 
 
-def calls(text):
+def call_sites(text):
+    matches = [
+        m for m in TOKEN.finditer(text) if not m.group().startswith(("//", "/*"))
+    ]
     tokens = [
         m.group()
         for m in TOKEN.finditer(text)
@@ -23,9 +26,18 @@ def calls(text):
     typed = set(
         re.findall(r"(?:StatKey|auto)\s+(kStat\w+)\s*=\s*(?:util::)?StatKey::", text)
     )
+    typed.update(re.findall(r"\bStatKey(?:>)?\s+([A-Za-z_]\w*)", text))
     for i, token in enumerate(tokens):
         if (
-            token not in {"increment", "set", "get", "contains"}
+            token
+            not in {
+                "increment",
+                "set",
+                "get",
+                "contains",
+                "increment_dynamic",
+                "set_dynamic",
+            }
             or i < 2
             or i + 1 >= len(tokens)
         ):
@@ -44,11 +56,33 @@ def calls(text):
         if not arg:
             continue
         key = "".join(arg)
-        if "StatKey::" in key or key in typed:
+        if not token.endswith("_dynamic") and (
+            "StatKey::" in key
+            or key in typed
+            or arg[0] in typed
+            or (len(arg) > 1 and arg[0] == "*" and arg[1] in typed)
+            or (
+                "?" in arg
+                and not any(part.startswith('"') for part in arg)
+                and any(part in typed for part in arg)
+            )
+        ):
             continue
-        if "stat" not in receiver.lower() and not any(x.startswith('":') for x in arg):
+        if (
+            "stat" not in receiver.lower()
+            and not (
+                receiver == ")" and i >= 4 and tokens[i - 4] in {"statistics", "stats"}
+            )
+            and not token.endswith("_dynamic")
+            and not any(x.startswith('":') for x in arg)
+        ):
             continue
-        yield token + "(" + key + ")"
+        yield matches[i].start(), matches[i].end(), token + "(" + key + ")"
+
+
+def calls(text):
+    for _, _, call in call_sites(text):
+        yield call
 
 
 def inventory(root):
@@ -65,6 +99,8 @@ def check(root, manifest):
     observed = inventory(root)
     expected = {row["call"]: row["count"] for row in manifest}
     problems = []
+    if len(expected) != len(manifest):
+        problems.append("duplicate manifest entry")
     for row in manifest:
         if not row.get("reason"):
             problems.append("missing rationale: " + row["call"])

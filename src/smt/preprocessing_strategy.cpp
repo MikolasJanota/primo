@@ -47,20 +47,20 @@ void initialize_skippable_legacy_statistics(util::Statistics& statistics) {
   // sequences stop at terminal goals, so establish the same observable zero/default values before
   // execution; stages that run overwrite them with their actual results.
   statistics.set(util::StatKey::GuardedRealEqualityDistributed, 0);
-  statistics.set(":no.purification.definitions", 0);
-  statistics.set(":no.purification.arithmetic-uf-definitions", 0);
-  statistics.set(":no.purification.euf-real-term-definitions", 0);
-  statistics.set(":no.purification.reused-applications", 0);
-  statistics.set(":no.purification.reused-real-terms", 0);
-  statistics.set(":no.purification.memoized-formula-rewrites", 0);
-  statistics.set(":no.purification.memoized-arithmetic-rewrites", 0);
-  statistics.set(":no.purification.memoized-euf-rewrites", 0);
-  statistics.set(":no.purification.skipped-no-sites", 1);
-  statistics.set(":preprocessing.boolean-flatten-post.attempts", 0);
-  statistics.set(":preprocessing.boolean-flatten-post.accepted", 0);
-  statistics.set(":preprocessing.boolean-flatten-post.threshold-stops", 0);
-  statistics.set(":preprocessing.boolean-flatten-post.rewrites", 0);
-  statistics.set(":preprocessing.boolean-flatten-post.max-arity", 0);
+  statistics.set_dynamic(":no.purification.definitions", 0);
+  statistics.set_dynamic(":no.purification.arithmetic-uf-definitions", 0);
+  statistics.set_dynamic(":no.purification.euf-real-term-definitions", 0);
+  statistics.set_dynamic(":no.purification.reused-applications", 0);
+  statistics.set_dynamic(":no.purification.reused-real-terms", 0);
+  statistics.set_dynamic(":no.purification.memoized-formula-rewrites", 0);
+  statistics.set_dynamic(":no.purification.memoized-arithmetic-rewrites", 0);
+  statistics.set_dynamic(":no.purification.memoized-euf-rewrites", 0);
+  statistics.set_dynamic(":no.purification.skipped-no-sites", 1);
+  statistics.set_dynamic(":preprocessing.boolean-flatten-post.attempts", 0);
+  statistics.set_dynamic(":preprocessing.boolean-flatten-post.accepted", 0);
+  statistics.set_dynamic(":preprocessing.boolean-flatten-post.threshold-stops", 0);
+  statistics.set_dynamic(":preprocessing.boolean-flatten-post.rewrites", 0);
+  statistics.set_dynamic(":preprocessing.boolean-flatten-post.max-arity", 0);
 }
 
 std::string profile_name(PreprocessingProfileKind kind) {
@@ -149,30 +149,32 @@ struct LargeInputSolveEqsOptions {
 void record_profile_statistics(const PreprocessingProfile& profile, const CheckSatOptions& options,
                                util::Statistics& statistics) {
   const ImplicitConjunctionAnalysis& conjunction = profile.conjunction_analysis;
-  statistics.set(":preprocessing.auto.structural.conjunct-occurrences",
-                 conjunction.conjunct_occurrences);
-  statistics.set(":preprocessing.auto.structural.unique-conjuncts", conjunction.unique_conjuncts);
-  statistics.set(":preprocessing.auto.structural.clause-like-conjuncts",
-                 conjunction.clause_like_conjunct_occurrences);
-  statistics.set(":preprocessing.auto.structural.implication-clause-candidates",
-                 conjunction.implication_clause_candidates);
-  statistics.set(":preprocessing.auto.selector.structural", profile.structural_selector ? 1 : 0);
-  statistics.set(":preprocessing.auto.limit.large-conjuncts",
-                 options.auto_preprocess_tuning.large_conjunct_limit);
-  statistics.set(":preprocessing.auto.limit.compact-terms",
-                 options.auto_preprocess_tuning.compact_term_limit);
-  statistics.set(":preprocessing.auto.limit.compact-min-conjuncts",
-                 options.auto_preprocess_tuning.compact_min_conjuncts);
-  statistics.set(":preprocessing.auto.limit.finite-domain-terms",
-                 options.auto_preprocess_tuning.finite_domain_term_limit);
-  statistics.set(":preprocessing.auto.limit.finite-domain-min-domains",
-                 options.auto_preprocess_tuning.finite_domain_min_domains);
-  statistics.set(":preprocessing.auto.limit.finite-domain-max-symmetry-terms",
-                 options.auto_preprocess_tuning.finite_domain_max_symmetry_terms);
-  statistics.set(":preprocessing.auto.selector.shadow-evaluated",
-                 profile.selector_shadow_evaluated ? 1 : 0);
-  statistics.set(":preprocessing.auto.selector.legacy-disagreement",
-                 profile.selector_legacy_disagreement ? 1 : 0);
+  statistics.set_dynamic(":preprocessing.auto.structural.conjunct-occurrences",
+                         conjunction.conjunct_occurrences);
+  statistics.set_dynamic(":preprocessing.auto.structural.unique-conjuncts",
+                         conjunction.unique_conjuncts);
+  statistics.set_dynamic(":preprocessing.auto.structural.clause-like-conjuncts",
+                         conjunction.clause_like_conjunct_occurrences);
+  statistics.set_dynamic(":preprocessing.auto.structural.implication-clause-candidates",
+                         conjunction.implication_clause_candidates);
+  statistics.set_dynamic(":preprocessing.auto.selector.structural",
+                         profile.structural_selector ? 1 : 0);
+  statistics.set_dynamic(":preprocessing.auto.limit.large-conjuncts",
+                         options.auto_preprocess_tuning.large_conjunct_limit);
+  statistics.set_dynamic(":preprocessing.auto.limit.compact-terms",
+                         options.auto_preprocess_tuning.compact_term_limit);
+  statistics.set_dynamic(":preprocessing.auto.limit.compact-min-conjuncts",
+                         options.auto_preprocess_tuning.compact_min_conjuncts);
+  statistics.set_dynamic(":preprocessing.auto.limit.finite-domain-terms",
+                         options.auto_preprocess_tuning.finite_domain_term_limit);
+  statistics.set_dynamic(":preprocessing.auto.limit.finite-domain-min-domains",
+                         options.auto_preprocess_tuning.finite_domain_min_domains);
+  statistics.set_dynamic(":preprocessing.auto.limit.finite-domain-max-symmetry-terms",
+                         options.auto_preprocess_tuning.finite_domain_max_symmetry_terms);
+  statistics.set_dynamic(":preprocessing.auto.selector.shadow-evaluated",
+                         profile.selector_shadow_evaluated ? 1 : 0);
+  statistics.set_dynamic(":preprocessing.auto.selector.legacy-disagreement",
+                         profile.selector_legacy_disagreement ? 1 : 0);
   if (profile.auto_single_assertion) {
     statistics.increment(util::StatKey::AutoSingleAssertion);
   }
@@ -188,25 +190,25 @@ void record_profile_statistics(const PreprocessingProfile& profile, const CheckS
   if (profile.auto_large_assertion_skip) {
     statistics.increment(util::StatKey::AutoLargeAssertionSkip);
   }
-  statistics.set(":preprocessing.auto.profile.large-skip",
-                 profile.auto_large_assertion_skip ? 1 : 0);
-  statistics.set(":preprocessing.auto.profile.finite-domain-basic",
-                 profile.auto_basic_single ? 1 : 0);
-  statistics.set(":preprocessing.auto.profile.compact-clause-basic",
-                 profile.auto_basic_multi ? 1 : 0);
-  statistics.set(":preprocessing.auto.profile.strong", profile.auto_strong ? 1 : 0);
-  statistics.set(":preprocessing.auto.analysis.finite-domain-domains",
-                 profile.finite_domain_analysis.domains);
-  statistics.set(":preprocessing.auto.analysis.finite-domain-choices",
-                 profile.finite_domain_analysis.choices);
-  statistics.set(":preprocessing.auto.analysis.predicted-amo-clauses",
-                 profile.finite_domain_analysis.predicted_amo_clauses);
-  statistics.set(":preprocessing.finite-domain.explicit-disequality-choices",
-                 profile.finite_domain_analysis.explicit_disequality_choices);
-  statistics.set(":preprocessing.finite-domain.integer-numeral-choices",
-                 profile.finite_domain_analysis.integer_numeral_choices);
-  statistics.set(":preprocessing.finite-domain.rejected-missing-distinctness",
-                 profile.finite_domain_analysis.rejected_missing_distinctness);
+  statistics.set_dynamic(":preprocessing.auto.profile.large-skip",
+                         profile.auto_large_assertion_skip ? 1 : 0);
+  statistics.set_dynamic(":preprocessing.auto.profile.finite-domain-basic",
+                         profile.auto_basic_single ? 1 : 0);
+  statistics.set_dynamic(":preprocessing.auto.profile.compact-clause-basic",
+                         profile.auto_basic_multi ? 1 : 0);
+  statistics.set_dynamic(":preprocessing.auto.profile.strong", profile.auto_strong ? 1 : 0);
+  statistics.set_dynamic(":preprocessing.auto.analysis.finite-domain-domains",
+                         profile.finite_domain_analysis.domains);
+  statistics.set_dynamic(":preprocessing.auto.analysis.finite-domain-choices",
+                         profile.finite_domain_analysis.choices);
+  statistics.set_dynamic(":preprocessing.auto.analysis.predicted-amo-clauses",
+                         profile.finite_domain_analysis.predicted_amo_clauses);
+  statistics.set_dynamic(":preprocessing.finite-domain.explicit-disequality-choices",
+                         profile.finite_domain_analysis.explicit_disequality_choices);
+  statistics.set_dynamic(":preprocessing.finite-domain.integer-numeral-choices",
+                         profile.finite_domain_analysis.integer_numeral_choices);
+  statistics.set_dynamic(":preprocessing.finite-domain.rejected-missing-distinctness",
+                         profile.finite_domain_analysis.rejected_missing_distinctness);
 }
 
 }  // namespace
@@ -502,7 +504,7 @@ Strategy make_preprocessing_strategy(const CheckSatOptions& options,
           // Keep the historical public statistic even though preprocessing-pass is no longer an
           // executable tactic. The repeat observer is the compatibility boundary for one
           // completed preprocessing pass.
-          context.statistics().increment(":tactic.preprocessing-pass.invocations");
+          context.statistics().increment_dynamic(":tactic.preprocessing-pass.invocations");
         },
         "preprocessing-fixed-point"));
   }

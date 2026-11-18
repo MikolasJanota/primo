@@ -33,6 +33,19 @@ using primo::theory::equality::ProofForestObligation;
 namespace primo::theory::equality {
 class FlatCongruenceClosureTestAccess {
  public:
+  static void trace_witness(FlatCongruenceClosure& closure, FlatTermId lhs, FlatTermId rhs) {
+    auto& state = *closure.conflict_trace_;
+    state.collecting = true;
+    state.generation = 1;
+    FlatCongruenceClosure::Edge edge;
+    edge.lhs_definition.result = lhs;
+    edge.rhs_definition.result = rhs;
+    closure.trace_conflict_congruence(edge);
+    state.collecting = false;
+  }
+  static const auto& retained_trace(const FlatCongruenceClosure& closure) {
+    return closure.conflict_trace_->current;
+  }
   static std::size_t disequality_undo_entries(const FlatCongruenceClosure& closure) {
     return closure.size_vector_trail_.size();
   }
@@ -1606,7 +1619,22 @@ void conflict_trace_reuses_storage_after_rollback() {
   }
 }
 
+void conflict_trace_filters_prefixes_and_duplicates_before_retention() {
+  FlatCongruenceClosure closure(200);
+  closure.enable_conflict_congruence_trace(2);
+  std::vector<unsigned char> semantic(200, 0);
+  for (auto id : {100U, 101U, 102U, 103U}) semantic[id] = 1;
+  closure.set_conflict_trace_semantic_results(std::move(semantic));
+  for (int i = 0; i < 70; ++i) FlatCongruenceClosureTestAccess::trace_witness(closure, 0, 1);
+  for (int i = 0; i < 70; ++i) FlatCongruenceClosureTestAccess::trace_witness(closure, 100, 101);
+  FlatCongruenceClosureTestAccess::trace_witness(closure, 102, 103);
+  const auto& trace = FlatCongruenceClosureTestAccess::retained_trace(closure);
+  check(trace.visited_steps == 141 && trace.prefix_steps == 70);
+  check(trace.duplicate_steps == 69 && trace.steps.size() == 2);
+}
+
 int main() {
+  conflict_trace_filters_prefixes_and_duplicates_before_retention();
   empty_losing_disequalities_preserve_undo_and_conflicts();
   conflict_trace_reuses_storage_after_rollback();
   conflict_congruence_trace_selects_only_explained_steps();

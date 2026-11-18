@@ -69,20 +69,56 @@ void FlatCongruenceClosure::enable_conflict_congruence_trace(std::size_t limit) 
         "conflict Ackermann prototype requires BFS or proof-forest explanations");
   // Explicit aggregate construction avoids Clang/libstdc++'s default-
   // constructibility trait issue for this private nested state type.
+  if (limit > 64) throw std::invalid_argument("conflict witness limit exceeds 64");
   conflict_trace_ = ConflictTraceState{};
   conflict_trace_->limit = limit;
+  conflict_trace_->seen.resize(128);
 }
 
 const ConflictCongruenceTrace* FlatCongruenceClosure::conflict_congruence_trace() const {
   return conflict_ && conflict_trace_ ? &conflict_trace_->current : nullptr;
 }
 
+void FlatCongruenceClosure::set_conflict_trace_semantic_results(
+    std::vector<unsigned char> complete_results) {
+  if (!conflict_trace_ || conflict_ || !checkpoints_.empty())
+    throw std::logic_error("trace metadata requires an enabled consistent closure");
+  conflict_trace_->semantic_results = std::move(complete_results);
+}
+
 void FlatCongruenceClosure::trace_conflict_congruence(const Edge& edge) const {
   if (!conflict_trace_ || !conflict_trace_->collecting) return;
-  auto& trace = conflict_trace_->current;
+  auto& state = *conflict_trace_;
+  auto& trace = state.current;
   ++trace.visited_steps;
-  if (trace.steps.size() < conflict_trace_->limit)
-    trace.steps.push_back({edge.lhs_definition.result, edge.rhs_definition.result});
+  FlatTermId lhs = edge.lhs_definition.result, rhs = edge.rhs_definition.result;
+  if (!state.semantic_results.empty() &&
+      (lhs >= state.semantic_results.size() || rhs >= state.semantic_results.size() ||
+       !state.semantic_results[lhs] || !state.semantic_results[rhs])) {
+    ++trace.prefix_steps;
+    return;
+  }
+  // After the retained budget fills, count raw/filtered visits without further hashing.
+  if (trace.steps.size() == state.limit) {
+    ++trace.budget_full_visits;
+    return;
+  }
+  if (rhs < lhs) std::swap(lhs, rhs);
+  auto bucket = (lhs * 0x9e3779b97f4a7c15ULL ^ rhs) & 127U;
+  for (std::size_t probe = 0; probe < 128; ++probe) {
+    auto& slot = state.seen[bucket];
+    if (slot.generation != state.generation) {
+      slot = {lhs, rhs, state.generation};
+      trace.steps.push_back({lhs, rhs});
+      return;
+    }
+    if (slot.lhs == lhs && slot.rhs == rhs) {
+      ++trace.duplicate_steps;
+      return;
+    }
+    bucket = (bucket + 1) & 127U;
+  }
+  throw std::logic_error("bounded conflict witness table is unexpectedly full");
 }
 
 std::size_t FlatCongruenceClosure::push() {
@@ -144,6 +180,9 @@ void FlatCongruenceClosure::pop(std::size_t checkpoint) {
   if (conflict_trace_) {
     const auto& saved = conflict_trace_->checkpoints.at(checkpoint);
     conflict_trace_->current.visited_steps = saved.visited_steps;
+    conflict_trace_->current.prefix_steps = saved.prefix_steps;
+    conflict_trace_->current.duplicate_steps = saved.duplicate_steps;
+    conflict_trace_->current.budget_full_visits = saved.budget_full_visits;
     conflict_trace_->current.steps.assign(saved.steps.begin(), saved.steps.end());
     conflict_trace_->checkpoints.resize(checkpoint);
   }
@@ -695,8 +734,16 @@ bool FlatCongruenceClosure::check_disequality(const Disequality& disequality) {
   std::vector<sat::Lit> reason;
   begin_reason_collection(reason);
   if (conflict_trace_) {
-    conflict_trace_->current.visited_steps = 0;
-    conflict_trace_->current.steps.clear();
+    auto& state = *conflict_trace_;
+    state.current.visited_steps = 0;
+    state.current.prefix_steps = 0;
+    state.current.duplicate_steps = 0;
+    state.current.budget_full_visits = 0;
+    state.current.steps.clear();
+    if (++state.generation == 0) {
+      for (auto& slot : state.seen) slot.generation = 0;
+      ++state.generation;
+    }
   }
   ConflictTraceScope trace_scope(conflict_trace_ ? &conflict_trace_->collecting : nullptr);
   if (!explain_equal_into(disequality.lhs, disequality.rhs, reason, edges_.size())) {

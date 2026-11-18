@@ -30,6 +30,10 @@ below supplies accepted values and defaults.
 | `--lia-branching=MODE` | `private` | Opt-in `hybrid` hands bounded private integer exploration to SAT; see {ref}`lia-hybrid-branching`. Applies to QF_LIA and QF_UFLIA. |
 | `--lia-private-branch-factor=N` | `1` | Hybrid private-node factor per original Int term; zero hands off after the preceding integer stages. |
 | `--lia-split-atom-limit=N` | `0` | Fresh hybrid SAT-bound cap per solve; zero is unlimited, exhaustion returns `unknown`. |
+| `--euf-conflict-ackermann` | Off | Emit bounded conflict-selected congruence clauses in QF_UF and online QF_UFLIA; ordinary checking remains authoritative. |
+| `--euf-conflict-ackermann-diagnostics` | Off | Inspect full missing-atom opportunities; alone it emits no clauses. |
+| `--euf-conflict-ackermann-atoms=MODE` | `existing` | Opt-in `demand` can name missing non-Boolean equalities at a detached driver boundary; see [scope and ownership](../implementation/euf.md#conflict-selected-ackermann-prototype). |
+| `--euf-conflict-ackermann-atom-limit=N` | `4096` | Per-query fresh equality-atom budget in demand mode; zero is unlimited. Whole instances over budget are skipped; this optional cap does not return `unknown`. Auxiliary encoding atoms are excluded. |
 | `--cancel-grace-seconds=N` | `1` | Cooperative cancellation grace period after SIGINT/SIGTERM, from 1 to 3600 seconds. This is not a solve-time limit. |
 
 For example:
@@ -157,3 +161,8 @@ as explained in [tactics](tactics.md).
 ```{literalinclude} ../examples/primo-help.txt
 :language: text
 ```
+
+The QF_UFLIA component route enforces all registered EUF assignments online,
+including both polarities of demand atoms. `--pure-theory-filter` does not
+weaken that component contract; standalone UF retains its documented filtering
+and filtered-fact model reconstruction. See [EUF filtering](../implementation/euf.md#when-pure-theory-filtering-is-sound).

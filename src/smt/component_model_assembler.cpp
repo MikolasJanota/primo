@@ -577,7 +577,7 @@ std::shared_ptr<const core::Model> assemble_component_model(
     }
   }
   if (statistics != nullptr) {
-    statistics->increment(
+    statistics->increment_dynamic(
         ":time.model.reconstruction-us",
         static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::microseconds>(
                                        std::chrono::steady_clock::now() - start)

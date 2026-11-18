@@ -404,11 +404,11 @@ Tactic make_finite_domain_preprocess(FiniteDomainPreprocessOptions options,
           if (options.symmetry_breaking) {
             UfSymmetryBreakingResult symmetry;
             if (same_source && input.analyzed_symmetry.has_value()) {
-              statistics.increment(":preprocessing.symmetry.cache-hits");
+              statistics.increment_dynamic(":preprocessing.symmetry.cache-hits");
               symmetry = input.analyzed_symmetry.value();
             } else {
               UfSymmetryBreaker symmetry_breaker(context.terms());
-              statistics.increment(":preprocessing.symmetry.cache-refreshes");
+              statistics.increment_dynamic(":preprocessing.symmetry.cache-refreshes");
               symmetry = symmetry_breaker.break_symmetries(
                   assertions,
                   UfSymmetryBreakingOptions{.value_precedence = options.value_precedence});
@@ -433,9 +433,9 @@ Tactic make_finite_domain_preprocess(FiniteDomainPreprocessOptions options,
               FiniteDomainAtMostOne generator(context.terms());
               refreshed_raw = generator.generate(goal.assertions());
               raw = &refreshed_raw;
-              statistics.increment(":preprocessing.finite-domain.raw-cache-refreshes");
+              statistics.increment_dynamic(":preprocessing.finite-domain.raw-cache-refreshes");
             } else {
-              statistics.increment(":preprocessing.finite-domain.raw-cache-hits");
+              statistics.increment_dynamic(":preprocessing.finite-domain.raw-cache-hits");
             }
             FiniteDomainAtMostOneResult post;
             if (options.generate_post_at_most_one) {
@@ -461,12 +461,13 @@ Tactic make_finite_domain_preprocess(FiniteDomainPreprocessOptions options,
             emit(post.clauses);
             statistics.increment(util::StatKey::FiniteDomainDomains,
                                  std::max(raw->domains, post.domains));
-            statistics.set(
+            statistics.set_dynamic(
                 ":preprocessing.finite-domain.explicit-disequality-choices",
                 std::max(raw->explicit_disequality_choices, post.explicit_disequality_choices));
-            statistics.set(":preprocessing.finite-domain.integer-numeral-choices",
-                           std::max(raw->integer_numeral_choices, post.integer_numeral_choices));
-            statistics.set(
+            statistics.set_dynamic(
+                ":preprocessing.finite-domain.integer-numeral-choices",
+                std::max(raw->integer_numeral_choices, post.integer_numeral_choices));
+            statistics.set_dynamic(
                 ":preprocessing.finite-domain.rejected-missing-distinctness",
                 std::max(raw->rejected_missing_distinctness, post.rejected_missing_distinctness));
             statistics.increment(util::StatKey::FiniteDomainAmoClauses, added);
@@ -506,39 +507,41 @@ Tactic make_normalize_boolean(NormalizeBooleanOptions options) {
           const BooleanNegationRewriteResult negations =
               rewrite_boolean_negations_to_nnf(context.terms(), assertions, options.negation_mode);
           assertions = negations.assertions;
-          statistics.set(":preprocessing.boolean-nnf.visited", negations.visited);
-          statistics.set(":preprocessing.boolean-nnf.rewritten", negations.rewritten);
-          statistics.set(":preprocessing.boolean-nnf.terms-created", negations.terms_created);
+          statistics.set_dynamic(":preprocessing.boolean-nnf.visited", negations.visited);
+          statistics.set_dynamic(":preprocessing.boolean-nnf.rewritten", negations.rewritten);
+          statistics.set_dynamic(":preprocessing.boolean-nnf.terms-created",
+                                 negations.terms_created);
         }
         if (options.stage == BooleanNormalizationStage::Final) {
           const BooleanImpliesRewriteResult implication = rewrite_boolean_implications(
               context.terms(), assertions, options.implication_mode, options.flatten_threshold);
           assertions = implication.assertions;
-          statistics.set(":preprocessing.boolean-implies.visited", implication.visited);
-          statistics.set(":preprocessing.boolean-implies.clause-candidates",
-                         implication.clause_candidates);
-          statistics.set(":preprocessing.boolean-implies.rewritten", implication.rewritten);
-          statistics.set(":preprocessing.boolean-implies.all-mode-rewrites",
-                         implication.all_mode_rewrites);
-          statistics.set(":preprocessing.boolean-implies.widened-operands",
-                         implication.widened_operands);
-          statistics.set(":preprocessing.boolean-implies.threshold-stops",
-                         implication.threshold_stops);
-          statistics.set(":preprocessing.boolean-implies.terms-created", implication.terms_created);
+          statistics.set_dynamic(":preprocessing.boolean-implies.visited", implication.visited);
+          statistics.set_dynamic(":preprocessing.boolean-implies.clause-candidates",
+                                 implication.clause_candidates);
+          statistics.set_dynamic(":preprocessing.boolean-implies.rewritten", implication.rewritten);
+          statistics.set_dynamic(":preprocessing.boolean-implies.all-mode-rewrites",
+                                 implication.all_mode_rewrites);
+          statistics.set_dynamic(":preprocessing.boolean-implies.widened-operands",
+                                 implication.widened_operands);
+          statistics.set_dynamic(":preprocessing.boolean-implies.threshold-stops",
+                                 implication.threshold_stops);
+          statistics.set_dynamic(":preprocessing.boolean-implies.terms-created",
+                                 implication.terms_created);
         }
         const BooleanFlatteningResult flattened =
             flatten_associative_booleans(context.terms(), assertions, options.flatten_threshold);
         const std::string prefix = options.stage == BooleanNormalizationStage::Initial
                                        ? ":preprocessing.boolean-flatten."
                                        : ":preprocessing.boolean-flatten-post.";
-        statistics.set(prefix + "attempts", flattened.attempts);
-        statistics.set(prefix + "accepted", flattened.accepted);
-        statistics.set(prefix + "threshold-stops", flattened.threshold_stops);
+        statistics.set_dynamic(prefix + "attempts", flattened.attempts);
+        statistics.set_dynamic(prefix + "accepted", flattened.accepted);
+        statistics.set_dynamic(prefix + "threshold-stops", flattened.threshold_stops);
         if (options.stage == BooleanNormalizationStage::Initial) {
-          statistics.set(prefix + "operands-copied", flattened.operands_copied);
+          statistics.set_dynamic(prefix + "operands-copied", flattened.operands_copied);
         }
-        statistics.set(prefix + "rewrites", flattened.rewrites);
-        statistics.set(prefix + "max-arity", flattened.max_arity);
+        statistics.set_dynamic(prefix + "rewrites", flattened.rewrites);
+        statistics.set_dynamic(prefix + "max-arity", flattened.max_arity);
         return AnyOf::single(goal.with_assertions(std::move(flattened.assertions)));
       },
       IncrementalSafety::ContextIndependent);

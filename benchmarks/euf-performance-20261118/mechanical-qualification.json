@@ -1,0 +1,288 @@
+{
+  "source": "66ebec78",
+  "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de",
+  "counts": {
+    "generated_inputs": 9000,
+    "generated_PASS": 8980,
+    "generated_TIMEOUT": 20,
+    "tracked_regression_measurements": 137,
+    "mutations_inputs": 2855,
+    "mutations_PASS": 2843,
+    "mutations_INCOMPLETE": 12
+  },
+  "SAT_Dolmen_pass": 8617,
+  "receipt_inventory": [
+    {
+      "phase": "generated",
+      "slot": 0,
+      "logic": "QF_UF",
+      "profile": "OFF",
+      "receipt_sha256": "7b3061da7e734c2b80422b2f2eccab9591d3d6051cd033924e91b8f67bb7def1",
+      "cases": 1000,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "generated",
+      "slot": 1,
+      "logic": "QF_UF",
+      "profile": "DIAG",
+      "receipt_sha256": "3e24d6936f15cb4a3ec642295cfcb5fb2c86f389c6560b9a7585a22929799180",
+      "cases": 1000,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "generated",
+      "slot": 2,
+      "logic": "QF_UF",
+      "profile": "ON",
+      "receipt_sha256": "5cd75730c0d73c710da6467b78cc62e09cd5c8e41c676ba862a8c738ea9cbde6",
+      "cases": 1000,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "generated",
+      "slot": 3,
+      "logic": "QF_UFLIA",
+      "profile": "OFF",
+      "receipt_sha256": "dccccf380f4dba5ec82b2a8fed53faee3c169efb2c70533885693b22b27936d6",
+      "cases": 1000,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "generated",
+      "slot": 4,
+      "logic": "QF_UFLIA",
+      "profile": "DIAG",
+      "receipt_sha256": "907c23cd42ab50bf9fe087abf5cdefd610208f51b4da01519ddd59bd98edc4ce",
+      "cases": 1000,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "generated",
+      "slot": 5,
+      "logic": "QF_UFLIA",
+      "profile": "ON",
+      "receipt_sha256": "b9345cf4188d556631584e1f1aa1c4b53ad4ae7e06290d95c05d0d54ed2473c9",
+      "cases": 1000,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "generated",
+      "slot": 6,
+      "logic": "QF_LIA",
+      "profile": "OFF",
+      "receipt_sha256": "f47bb7aa80c922d70d0c613175f257a450ed469fef90fe2d63f6fec86ae1617b",
+      "cases": 1000,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "generated",
+      "slot": 7,
+      "logic": "QF_LRA",
+      "profile": "OFF",
+      "receipt_sha256": "b1b3f171d269c9f527492c5d9095c84f8d64e5ab80eb72e786f804ac136cc469",
+      "cases": 1000,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "generated",
+      "slot": 8,
+      "logic": "QF_UFLRA",
+      "profile": "OFF",
+      "receipt_sha256": "45c82b6d8be67b6abdb050fab8211112b4e590ac6726297b3b8a427ecb1dc4f5",
+      "cases": 1000,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "seeds",
+      "slot": 0,
+      "logic": "QF_UF",
+      "profile": "OFF",
+      "receipt_sha256": "59dd9bc88beb8306e837b333cb885c7119f5a8af7bbfe18125f5955d61c0819b",
+      "cases": 21,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "seeds",
+      "slot": 1,
+      "logic": "QF_UF",
+      "profile": "DIAG",
+      "receipt_sha256": "b55d5c10be3c0462f00523b701e58e8808be92ad1024f95f1eb4cbbba8d608b6",
+      "cases": 21,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "seeds",
+      "slot": 2,
+      "logic": "QF_UF",
+      "profile": "ON",
+      "receipt_sha256": "9175037bd4e6ad185088d7be956877728123de036fe638bd932b9d6b7b68af81",
+      "cases": 21,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "seeds",
+      "slot": 3,
+      "logic": "QF_UFLIA",
+      "profile": "OFF",
+      "receipt_sha256": "543d2b7040b7300c46d92701b539ca7d6f5488f4789b8a4b6572b96abd953870",
+      "cases": 8,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "seeds",
+      "slot": 4,
+      "logic": "QF_UFLIA",
+      "profile": "DIAG",
+      "receipt_sha256": "fff485061704574834ba1907ca8ab6698277a7427702d1fc2d1ea7c996b57e26",
+      "cases": 8,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "seeds",
+      "slot": 5,
+      "logic": "QF_UFLIA",
+      "profile": "ON",
+      "receipt_sha256": "749bd70746bb9ee0fba1b1ffe3f53593507a3e6f4e026dcbcd3d7019b0cbc3ba",
+      "cases": 8,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "seeds",
+      "slot": 6,
+      "logic": "QF_LIA",
+      "profile": "OFF",
+      "receipt_sha256": "bbb27653a74940b214704f5f570bbed2be05e943293c3e50850bf116ab3cc7eb",
+      "cases": 9,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "seeds",
+      "slot": 7,
+      "logic": "QF_LRA",
+      "profile": "OFF",
+      "receipt_sha256": "b1856b0176532fccaf968d3390d69822a2acb3cd8b8658236950b285d2d8d6cb",
+      "cases": 21,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "seeds",
+      "slot": 8,
+      "logic": "QF_UFLRA",
+      "profile": "OFF",
+      "receipt_sha256": "99a319db158d4fc5134f551705d7196048bb2b9f7457894877615cbb3e92ef38",
+      "cases": 20,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "mutations",
+      "slot": 0,
+      "logic": "QF_UF",
+      "profile": "OFF",
+      "receipt_sha256": "1fd219a01992ebda6e1f7effc0395765f00c00f380c7a74f6b9bd17d25bb6c9c",
+      "cases": 292,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "mutations",
+      "slot": 1,
+      "logic": "QF_UF",
+      "profile": "DIAG",
+      "receipt_sha256": "e52db718c074af3ec52b0ccc4876067496ba09f1721bcea03fb9685d4935690b",
+      "cases": 291,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "mutations",
+      "slot": 2,
+      "logic": "QF_UF",
+      "profile": "ON",
+      "receipt_sha256": "e7e925617d1e5903afcdab484e734b507cfa90c60d787da5950e5859d3392929",
+      "cases": 292,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "mutations",
+      "slot": 3,
+      "logic": "QF_UFLIA",
+      "profile": "OFF",
+      "receipt_sha256": "94053c824690b501a9c822d879c4c28187cdb58304233375b8254af931daaaec",
+      "cases": 360,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "mutations",
+      "slot": 4,
+      "logic": "QF_UFLIA",
+      "profile": "DIAG",
+      "receipt_sha256": "34bc9ff2538647457524d655983e0d03be6f9e17360c94f4c13091ceb7061f25",
+      "cases": 360,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "mutations",
+      "slot": 5,
+      "logic": "QF_UFLIA",
+      "profile": "ON",
+      "receipt_sha256": "c06e1d07e2f11312e1366c24a75319d1074e78c8458e7ddf8a3efb96cdb06182",
+      "cases": 360,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "mutations",
+      "slot": 6,
+      "logic": "QF_LIA",
+      "profile": "OFF",
+      "receipt_sha256": "859816ff88fc6ff6ee6ce444831f44cc24bd51d7d418ad7d27d8f859c0a6c0de",
+      "cases": 360,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "mutations",
+      "slot": 7,
+      "logic": "QF_LRA",
+      "profile": "OFF",
+      "receipt_sha256": "8fcdd4c1168849e8bf728e77339b5b10af147aeebea7b179b03667739ee1b0f3",
+      "cases": 360,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    },
+    {
+      "phase": "mutations",
+      "slot": 8,
+      "logic": "QF_UFLRA",
+      "profile": "OFF",
+      "receipt_sha256": "e747da7369c31ac8b589fc15e392cd8c647d9c05502e1a5dce2e2b5455924166",
+      "cases": 180,
+      "source": "66ebec78",
+      "native_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de"
+    }
+  ],
+  "mutation_unknown_replays_needed": [],
+  "scope": "First mechanical/typed-key snapshot only; no V2/demand qualification or native speed claim."
+}

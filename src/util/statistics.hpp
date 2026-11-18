@@ -802,6 +802,81 @@ enum class StatKey : std::size_t {
   EufConflictAckMissingArgument,
   EufConflictAckTautologies,
   EufConflictAckReadyClauses,
+  ArithmeticRootBoundsIgnoredFormulas,
+  ArithmeticRootBoundsAtoms,
+  ArithmeticRootBoundsUnsupportedAtoms,
+  ArithmeticRootBoundsSupportedAtoms,
+  ArithmeticRootBoundsCompoundRows,
+  ArithmeticRootBoundsWideRowsSkipped,
+  ArithmeticRootBoundsExplicitBounds,
+  ArithmeticRootBoundsCandidateDirections,
+  ArithmeticRootBoundsMissingPremises,
+  ArithmeticRootBoundsIntegerRoundings,
+  ArithmeticRootBoundsRowsWithImprovements,
+  ArithmeticRootBoundsStrongerBounds,
+  ArithmeticRootBoundsNewFiniteBounds,
+  ArithmeticRootBoundsImprovedVariables,
+  ArithmeticRootBoundsVariables,
+  TimeLraEqualityPropagationUs,
+  TimeLiaBranchingPrivateCompletionUs,
+  TimeLiaEqualityFeasibilityUs,
+  TimeLiaEqualityScanUs,
+  TimeLiaEqualityDiscoveryUs,
+  TimeQfUfliaLiaCheckUs,
+  TimeQfUfliaLiaRationalUs,
+  TimeQfUfliaLiaIntegerUs,
+  TimeQfUfliaEufCheckUs,
+  CombinationModelFallbackBudget,
+  CombinationModelFallbackUnsupported,
+  CombinationModelFallbackUnknown,
+  CombinationModelFallbackResourceLimit,
+  CombinationComponentsIncrementalGrowths,
+  EufConflictAckV2NegativeEvictions,
+  EufConflictAckV2PeakNegativePairs,
+  EufConflictAckV2PolicyVersion,
+  EufConflictAckV2CandidateVisits,
+  EufConflictAckV2AdmittedHits,
+  EufConflictAckV2NegativeHits,
+  EufConflictAckV2AdmissionLimit,
+  EufConflictAckV2AdmittedPairs,
+  EufConflictAckV2PeakAdmittedPairs,
+  EufConflictAckV2SemanticWitnesses,
+  EufConflictAckV2PrefixVisits,
+  EufConflictAckV2DuplicateWitnesses,
+  EufConflictAckV2WitnessBudgetVisits,
+  EufConflictAckDemandRequestLimit,
+  EufConflictAckDemandBooleanSkips,
+  EufConflictAckDemandRequests,
+  EufConflictAckDemandReusedAtoms,
+  EufConflictAckDemandBudgetSkips,
+  EufConflictAckDemandDryRunInstances,
+  EufConflictAckDemandFreshAtoms,
+  EufConflictAckDemandPeakFreshAtoms,
+  EufConflictAckDemandInstalledInstances,
+  EufConflictAckV2MissingArgumentWithResult,
+  EufConflictAckDemandSatResumes,
+  TimeQfLiaComponentRebuildUs,
+  TimeQfLiaComponentGrowthUs,
+  TimeQfLiaCompleteFallbackUs,
+  TimeQfLiaSatUs,
+  TimeQfLiaLemmaUs,
+  TimeQfLiaAssignmentExtractionUs,
+  TimeQfLiaModelReconciliationUs,
+  TimeQfUfliaComponentRebuildUs,
+  TimeQfUfliaComponentGrowthUs,
+  TimeQfUfliaCompleteFallbackUs,
+  TimeQfUfliaSatUs,
+  TimeQfUfliaLemmaUs,
+  TimeQfUfliaAssignmentExtractionUs,
+  TimeQfUfliaModelReconciliationUs,
+  TimeQuantifiedUfComponentRebuildUs,
+  TimeQuantifiedUfComponentGrowthUs,
+  TimeQuantifiedUfCompleteFallbackUs,
+  TimeQuantifiedUfSatUs,
+  TimeQuantifiedUfLemmaUs,
+  TimeQuantifiedUfAssignmentExtractionUs,
+  TimeQuantifiedUfModelReconciliationUs,
+  EufConflictAckDemandDryRunMissingAtoms,
   Count,
 };
 
@@ -812,9 +887,17 @@ class Statistics {
   using Value = std::uint64_t;
 
   void set(StatKey key, Value value);
-  void set(std::string_view name, Value value);
+  void set_dynamic(std::string_view name, Value value);
+  [[deprecated("use StatKey in solver work or explicit cold set_dynamic")]]
+  void set(std::string_view name, Value value) {
+    set_dynamic(name, value);
+  }
   void increment(StatKey key, Value delta = 1);
-  void increment(std::string_view name, Value delta = 1);
+  void increment_dynamic(std::string_view name, Value delta = 1);
+  [[deprecated("use StatKey in solver work or explicit cold increment_dynamic")]]
+  void increment(std::string_view name, Value delta = 1) {
+    increment_dynamic(name, delta);
+  }
 
   Value get(StatKey key) const;
   Value get(std::string_view name) const;

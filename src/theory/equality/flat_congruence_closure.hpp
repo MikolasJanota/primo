@@ -18,6 +18,9 @@ class FlatCongruenceClosureTestAccess;
 struct ConflictCongruenceTrace {
   std::vector<FlatEquality> steps;
   std::size_t visited_steps = 0;
+  std::size_t prefix_steps = 0;
+  std::size_t duplicate_steps = 0;
+  std::size_t budget_full_visits = 0;
 };
 
 enum class FlatExplanationSearchMode {
@@ -67,6 +70,8 @@ class FlatCongruenceClosure {
   // conflict explanations. Bounded observation only; it never changes reasons.
   void enable_conflict_congruence_trace(std::size_t limit = 64);
   const ConflictCongruenceTrace* conflict_congruence_trace() const;
+  // Prepared semantic metadata, never borrowed from the term/SAT layers.
+  void set_conflict_trace_semantic_results(std::vector<unsigned char> complete_results);
   void drain_changed_terms(std::vector<FlatTermId>& out);
   const IncrementalCongruenceClosureStats& stats() const { return stats_; }
   std::size_t checkpoint_depth() const { return checkpoints_.size(); }
@@ -220,6 +225,14 @@ class FlatCongruenceClosure {
   struct ConflictTraceState {
     std::size_t limit = 0;
     bool collecting = false;
+    struct SeenPair {
+      FlatTermId lhs = 0;
+      FlatTermId rhs = 0;
+      std::size_t generation = 0;
+    };
+    std::vector<SeenPair> seen;
+    std::size_t generation = 0;
+    std::vector<unsigned char> semantic_results;
     ConflictCongruenceTrace current;
     std::vector<ConflictCongruenceTrace> checkpoints;
   };

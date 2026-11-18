@@ -335,6 +335,7 @@ int run_main(int argc, char** argv) {
   bool euf_diseq_ackermann = solver_options.euf_diseq_ackermann;
   bool euf_conflict_ackermann = solver_options.euf_conflict_ackermann;
   bool euf_conflict_ackermann_diagnostics = solver_options.euf_conflict_ackermann_diagnostics;
+  std::string conflict_ackermann_atoms = "existing";
   std::string euf_prop_budget = format_auto_budget(solver_options.euf_propagation_budget);
   std::string euf_prop_delivery = format_auto_budget(solver_options.euf_propagation_delivery);
   std::size_t nelson_oppen_arrangement_probe_limit = 0;
@@ -820,10 +821,17 @@ int run_main(int argc, char** argv) {
   add_flag_with_default(app, "--euf-diseq-ackermann", euf_diseq_ackermann,
                         "Enable watched QF_UF disequality Ackermann propagation");
   add_flag_with_default(app, "--euf-conflict-ackermann", euf_conflict_ackermann,
-                        "Emit bounded conflict-selected congruence clauses over existing atoms");
+                        "Emit bounded conflict-selected congruence clauses");
   add_flag_with_default(app, "--euf-conflict-ackermann-diagnostics",
                         euf_conflict_ackermann_diagnostics,
                         "Measure conflict-selected congruence clauses without emitting them");
+  app.add_option("--euf-conflict-ackermann-atoms", conflict_ackermann_atoms,
+                 "Conflict-selected equality atoms: existing or demand")
+      ->check(CLI::IsMember({"existing", "demand"}));
+  app.add_option("--euf-conflict-ackermann-atom-limit",
+                 solver_options.euf_conflict_ackermann_atom_limit,
+                 "Fresh equality atoms per query in demand mode (0: unlimited)")
+      ->check(CLI::Range(0, 1000000000));
   app.add_option("--euf-diseq-ackermann-max-width", solver_options.euf_diseq_ackermann_max_width,
                  "Maximum width of watched disequality Ackermann clauses")
       ->check(CLI::Range(2, 1000));
@@ -1233,6 +1241,7 @@ int run_main(int argc, char** argv) {
   solver_options.euf_dynamic_ackermann_shadow = euf_dynamic_ackermann_shadow;
   solver_options.euf_diseq_ackermann = euf_diseq_ackermann;
   solver_options.euf_conflict_ackermann = euf_conflict_ackermann;
+  solver_options.euf_conflict_ackermann_demand_atoms = conflict_ackermann_atoms == "demand";
   solver_options.euf_conflict_ackermann_diagnostics = euf_conflict_ackermann_diagnostics;
   if (theory_phase_option->count() > 0) {
     solver_options.auto_basic_single_predicate_polarity = false;

@@ -261,10 +261,10 @@ AnyOf Tactic::operator()(TacticContext& context, const AnyOf& input) const {
   }
 
   const TacticClock::time_point start = TacticClock::now();
-  context.statistics().increment(implementation_->invocation_stat);
+  context.statistics().increment_dynamic(implementation_->invocation_stat);
   AnyOf output = implementation_->function(context, input);
-  context.statistics().increment(implementation_->time_stat,
-                                 elapsed_microseconds(start, TacticClock::now()));
+  context.statistics().increment_dynamic(implementation_->time_stat,
+                                         elapsed_microseconds(start, TacticClock::now()));
   return output;
 }
 

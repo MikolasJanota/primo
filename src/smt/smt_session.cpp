@@ -179,22 +179,22 @@ struct SmtSession::Implementation final : SessionExecutor {
         }
       }
       outcome.model = smtlib::print_model(*outcome.typed_model);
-      outcome.statistics.set(":time.model.check-and-print-us", micros(start));
+      outcome.statistics.set_dynamic(":time.model.check-and-print-us", micros(start));
     }
-    outcome.statistics.set(":session.engine-builds", engine_builds);
-    outcome.statistics.set(":session.translated-assertions", translated_assertions);
-    outcome.statistics.set(":session.incremental-assumptions", 1);
-    outcome.statistics.set(":session.safe-rewrite-pipeline",
-                           options.preprocessing_mode == PreprocessingMode::Auto ? 1 : 0);
-    outcome.statistics.set(":session.pipeline.lower-extended-terms", 1);
-    outcome.statistics.set(":session.pipeline.lower-real-equalities",
-                           logic->logic == "QF_LRA" ? 1 : 0);
+    outcome.statistics.set_dynamic(":session.engine-builds", engine_builds);
+    outcome.statistics.set_dynamic(":session.translated-assertions", translated_assertions);
+    outcome.statistics.set_dynamic(":session.incremental-assumptions", 1);
+    outcome.statistics.set_dynamic(":session.safe-rewrite-pipeline",
+                                   options.preprocessing_mode == PreprocessingMode::Auto ? 1 : 0);
+    outcome.statistics.set_dynamic(":session.pipeline.lower-extended-terms", 1);
+    outcome.statistics.set_dynamic(":session.pipeline.lower-real-equalities",
+                                   logic->logic == "QF_LRA" ? 1 : 0);
     for (const auto& key : preprocessing_statistics.keys())
-      outcome.statistics.set(key, preprocessing_statistics.get(key));
+      outcome.statistics.set_dynamic(key, preprocessing_statistics.get(key));
     preprocessing_statistics = {};
-    outcome.statistics.set(":time.preprocessing-us", preprocessing_us);
+    outcome.statistics.set_dynamic(":time.preprocessing-us", preprocessing_us);
     preprocessing_us = 0;
-    outcome.statistics.set(":time.total-us", micros(check_start));
+    outcome.statistics.set_dynamic(":time.total-us", micros(check_start));
     return outcome;
   }
 
@@ -344,12 +344,12 @@ struct SmtSession::Implementation final : SessionExecutor {
                          ? execute({}, selected)
                          : execute_qf_uf_session_portfolio({}, selected, *this);
       ++queries;
-      outcome.statistics.set(":session.queries", queries);
-      outcome.statistics.set(":session.frontend-builds", rebuilds);
-      outcome.statistics.set(":time.parse-us", parse_us);
-      outcome.statistics.set(":time.frontend-us", frontend_us);
-      outcome.statistics.set(":time.total-us",
-                             outcome.statistics.get(":time.total-us") + parse_us + frontend_us);
+      outcome.statistics.set_dynamic(":session.queries", queries);
+      outcome.statistics.set_dynamic(":session.frontend-builds", rebuilds);
+      outcome.statistics.set_dynamic(":time.parse-us", parse_us);
+      outcome.statistics.set_dynamic(":time.frontend-us", frontend_us);
+      outcome.statistics.set_dynamic(
+          ":time.total-us", outcome.statistics.get(":time.total-us") + parse_us + frontend_us);
       parse_us = 0;
       frontend_us = 0;
       last = std::make_shared<CheckSatOutcome>(std::move(outcome));

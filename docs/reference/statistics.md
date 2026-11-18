@@ -1303,40 +1303,70 @@ candidate may unwind the backend; the runtime must replace that candidate with
 
 ## Conflict-selected Ackermann prototype
 
-Both conflict-Ackermann options record `:euf.conflict-ack.*` counters on the
-actual incremental online EUF path. `conflicts`, `trace-steps`, `trace-kept`,
-`trace-truncations` describe conflict-explanation visits and its bounded prefix.
-`prefix-steps` counts retained flat pairs without two complete semantic terms.
-`semantic-pairs` counts new catalogue entries per propagator instance;
-`duplicate-pairs`, `catalog-limit`, `width-skips`, `nonmatching-pairs` and
-`tautologies` describe selector outcomes. `missing-result` counts absent result
-equalities; `missing-argument` counts absent argument-equality occurrences on
-examined pairs, so repeated argument positions can contribute repeatedly.
-`ready-clauses`, `queued-clauses`, `sent-clauses`, `sent-lits` distinguish
-construction, queue insertion and complete external-clause streaming.
-`peak-pairs` and `peak-pending` are maxima across propagator instances.
+The historical [pilot](../evidence/conflict-ackermann.md) used the original
+`:euf.conflict-ack.*` catalogue/trace policy. Its `trace-kept`,
+`trace-truncations`, `prefix-steps`, `semantic-pairs`, `duplicate-pairs`,
+`catalog-limit` and `peak-pairs` are retired in the revised implementation;
+missing keys are unavailable, not measured zeros. The revision emits
+`:euf.conflict-ack.v2.policy-version = 2` when candidates are considered.
 
-Missing-atom coverage concerns the retained trace prefix and current equality
-index, not every congruence merge or hypothetical all-pairs reduction. Completed
-pairs are deduplicated; missing pairs can be retried after index growth. Delivery
-is not evidence that the backend retained/reused a clause. Diagnostic-only
-mode queues and sends none. These counters are experimental, default off, and
-covered by the [bounded pilot](../evidence/conflict-ackermann.md).
+V2 `semantic-witnesses`, `prefix-visits`, `duplicate-witnesses` and
+`witness-budget-visits` describe complete-result filtering and deduplication
+before the 64-witness limit. After the limit fills, distinctness is not checked;
+the latter counter counts visits, not unique omitted pairs. V2 `candidate-visits`,
+`admitted-hits`, `negative-hits`, `admission-limit`, `admitted-pairs`,
+`negative-evictions`, `peak-admitted-pairs` and `peak-negative-pairs` describe the
+two independent bounded sets, retained across execution rebuilds within one
+backend. `admitted-pairs` counts admission events; a fresh backend may admit the
+same semantic pair again. Peaks are maxima across selector instances.
+`conflicts` and `trace-steps` retain their raw conflict/visit meaning.
 
-The {conflictacksource}`selector <src/smt/conflict_ackermann.cpp>` owns catalogue/outcome
-increments. The {conflictacksource}`incremental assignment state and online propagator
-<src/smt/solver_engines.cpp>` own, respectively, `conflict_application_pairs`
-trace extraction and `cb_add_external_clause_lit` complete-stream delivery
-accounting. See the
-[prototype checklist](../leads/conflict-ackermann-prototype.md) for limits.
+`missing-result` counts absent result equalities. Legacy `missing-argument`
+occurrence accounting is available only with full diagnostics enabled;
+emitting-only mode reports V2 `missing-argument-with-result`, after the cheap
+result check succeeds. Repeated argument positions can contribute repeatedly.
+`width-skips`, `nonmatching-pairs`, `tautologies`, `ready-clauses`,
+`queued-clauses`, `sent-clauses`, `sent-lits` and `peak-pending` retain their
+original meanings. Complete streaming does not show backend retention or use.
+
+Demand mode adds `:euf.conflict-ack.demand.*`: `requests`, `request-limit`,
+`boolean-skips`, `reused-atoms`, `budget-skips`, `fresh-atoms`, `peak-fresh-atoms`,
+`installed-instances` and `sat-resumes`. Fresh counts are query-cumulative
+*equality* atoms; peak is a maximum. `requests` counts queued emitting instances;
+`request-limit` counts candidates rejected at the 64-pending or 4096-settled
+bounds. `boolean-skips` counts rejection on a differing Boolean argument,
+not rejection of Boolean-result applications. `dry-run-instances` counts
+independent diagnostic candidates that fit the configured atom limit. Reuse counts requested positions less
+unique missing equalities, so repeated positions may count repeatedly.
+Diagnostic-only demand uses `dry-run-instances`, `dry-run-missing-atoms` and
+`budget-skips` for independent candidates, without atom creation or a simulated
+cumulative budget. Coverage is the retained conflict trace, not all congruence
+merges or a complete all-pairs reduction. The
+{download}`selector and growth state <../../src/smt/conflict_ackermann.cpp>` and
+{download}`runtime delivery <../../src/smt/solver_engines.cpp>` own these counters.
 
 ## Typed instrumentation policy
 
 The agent guide and code-review checklist require typed or numeric recurring
-instrumentation, including helper calls. `make lint` checks the explicit string
-call inventory; that inventory is not proof that a call is cold. New exceptions
-need a phase/lifetime rationale. See the
-[performance checklist](../leads/euf-performance-fixes.md) for the current
-migration and its pending qualification. Newly promoted fixed counters preserve
-their previous extra-counter output order; name construction occurs at reporting,
-not on their typed increments.
+instrumentation, including helper calls. `Statistics::set(StatKey, ...)` and
+`increment(StatKey, ...)` update indexed arrays without string construction or
+name lookup. Fixed scoped timers and interface-propagation groups also use typed
+keys. Output names and pre-migration print ordering remain compatible: newly
+promoted keys occupy an enum-or-string extra-order vector at first use.
+String construction happens when reporting those typed entries.
+
+Cold summaries explicitly call `set_dynamic` or `increment_dynamic`.
+The compatible implicit string mutation overloads are deprecated, so owned
+warnings-as-errors builds reject their use, including through helper aliases.
+String reads remain available for reporting and public lookup.
+`make lint` checks each remaining string-call expression and occurrence count
+against `scripts/statistics_cold_calls.json`, with a phase/lifetime rationale.
+The lexical scanner is not type analysis or proof of coldness; helper review
+and compiler checks remain required. Tests and documentation examples also use
+the explicit cold mutation API where appropriate.
+
+Fixed arrays grow with the registry, once per owning `Statistics` object.
+Closure checkpoints contain `IncrementalCongruenceClosureStats`, not this registry.
+Memory and copy costs still require measurement; no zero-cost claim is made.
+See the [implementation checklist](../leads/euf-performance-fixes.md) for the
+qualification status and the {download}`implementation <../../src/util/statistics.cpp>`.

@@ -350,11 +350,11 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
   const PhaseClock::time_point total_start = PhaseClock::now();
   util::Statistics statistics;
   statistics = util::Statistics{};
-  statistics.set(kStatTimeTotalUs, 0);
-  statistics.set(kStatTimeParseUs, 0);
-  statistics.set(kStatTimeFrontendUs, 0);
-  statistics.set(kStatTimePreprocessingUs, 0);
-  statistics.set(kStatTimeSolveUs, 0);
+  statistics.set_dynamic(kStatTimeTotalUs, 0);
+  statistics.set_dynamic(kStatTimeParseUs, 0);
+  statistics.set_dynamic(kStatTimeFrontendUs, 0);
+  statistics.set_dynamic(kStatTimePreprocessingUs, 0);
+  statistics.set_dynamic(kStatTimeSolveUs, 0);
   statistics.set(kStatAssertionsInitial, 0);
   statistics.set(kStatAssertionsFinal, 0);
   statistics.set(kStatPreprocessingPasses, 0);
@@ -362,19 +362,19 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
   statistics.set(kStatPreprocessingAdaptivePasses, 0);
   statistics.set(kStatPreprocessingTermSizeInitial, 0);
   statistics.set(kStatPreprocessingTermSizeFinal, 0);
-  statistics.set(":preprocessing.boolean-flatten.attempts", 0);
-  statistics.set(":preprocessing.boolean-flatten.accepted", 0);
-  statistics.set(":preprocessing.boolean-flatten.threshold-stops", 0);
-  statistics.set(":preprocessing.boolean-flatten.operands-copied", 0);
-  statistics.set(":preprocessing.boolean-flatten.rewrites", 0);
-  statistics.set(":preprocessing.boolean-flatten.max-arity", 0);
-  statistics.set(":preprocessing.boolean-implies.visited", 0);
-  statistics.set(":preprocessing.boolean-implies.clause-candidates", 0);
-  statistics.set(":preprocessing.boolean-implies.rewritten", 0);
-  statistics.set(":preprocessing.boolean-implies.all-mode-rewrites", 0);
-  statistics.set(":preprocessing.boolean-implies.widened-operands", 0);
-  statistics.set(":preprocessing.boolean-implies.threshold-stops", 0);
-  statistics.set(":preprocessing.boolean-implies.terms-created", 0);
+  statistics.set_dynamic(":preprocessing.boolean-flatten.attempts", 0);
+  statistics.set_dynamic(":preprocessing.boolean-flatten.accepted", 0);
+  statistics.set_dynamic(":preprocessing.boolean-flatten.threshold-stops", 0);
+  statistics.set_dynamic(":preprocessing.boolean-flatten.operands-copied", 0);
+  statistics.set_dynamic(":preprocessing.boolean-flatten.rewrites", 0);
+  statistics.set_dynamic(":preprocessing.boolean-flatten.max-arity", 0);
+  statistics.set_dynamic(":preprocessing.boolean-implies.visited", 0);
+  statistics.set_dynamic(":preprocessing.boolean-implies.clause-candidates", 0);
+  statistics.set_dynamic(":preprocessing.boolean-implies.rewritten", 0);
+  statistics.set_dynamic(":preprocessing.boolean-implies.all-mode-rewrites", 0);
+  statistics.set_dynamic(":preprocessing.boolean-implies.widened-operands", 0);
+  statistics.set_dynamic(":preprocessing.boolean-implies.threshold-stops", 0);
+  statistics.set_dynamic(":preprocessing.boolean-implies.terms-created", 0);
   statistics.set(kStatEqBridgeEqualities, 0);
   statistics.set(kStatEqBridgeSkippedOrNodes, 0);
   statistics.set(kStatBooleanUnitFacts, 0);
@@ -462,57 +462,57 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
   statistics.set(kStatEufPropagationAutoOnline, 0);
   statistics.set(kStatEufPropagationAutoConflict, 0);
   statistics.set(kStatEufPropagationAutoOff, 0);
-  statistics.set(kStatEufDiseqPropAssignedAppDisequalities, 0);
-  statistics.set(kStatEufDiseqPropSourceUnaryCandidates, 0);
-  statistics.set(kStatEufDiseqPropSourceUnaryExistingArgAtom, 0);
-  statistics.set(kStatEufDiseqPropSourceUnaryArgAtomTrue, 0);
-  statistics.set(kStatEufDiseqPropSourceUnaryArgAtomFalse, 0);
-  statistics.set(kStatEufDiseqPropFlatSameFunctionCandidates, 0);
-  statistics.set(kStatEufDiseqPropFlatSameFunctionExistingArgAtom, 0);
-  statistics.set(kStatEufDiseqPropFlatSameFunctionArgAtomTrue, 0);
-  statistics.set(kStatEufDiseqPropFlatSameFunctionArgAtomFalse, 0);
-  statistics.set(kStatEufDiseqPropGuardedFunctionGuardCandidates, 0);
-  statistics.set(kStatEufDiseqPropGuardedArgumentGuardCandidates, 0);
-  statistics.set(kStatEufAckermannApplications, 0);
-  statistics.set(kStatEufAckermannFunctionSymbols, 0);
-  statistics.set(kStatEufAckermannEligibleSymbols, 0);
-  statistics.set(kStatEufAckermannUnarySymbols, 0);
-  statistics.set(kStatEufAckermannNarySymbols, 0);
-  statistics.set(kStatEufAckermannEstimatedConstraints, 0);
-  statistics.set(kStatEufAckermannEstimatedEqualities, 0);
-  statistics.set(kStatEufAckermannEstimatedClauseLits, 0);
-  statistics.set(kStatEufAckermannMaxSymbolApplications, 0);
-  statistics.set(kStatEufAckermannMaxSymbolArity, 0);
-  statistics.set(kStatEufAckermannSymbolsCostLe100, 0);
-  statistics.set(kStatEufAckermannSymbolsCostLe1000, 0);
-  statistics.set(kStatEufAckermannSymbolsCostLe10000, 0);
-  statistics.set(kStatEufDynamicAckShadowInvocations, 0);
-  statistics.set(kStatEufDynamicAckShadowResultPairs, 0);
-  statistics.set(kStatEufDynamicAckShadowArgAtomsMissing, 0);
-  statistics.set(kStatEufDynamicAckShadowSatVisibleClauses, 0);
-  statistics.set(kStatEufDynamicAckShadowSatisfied, 0);
-  statistics.set(kStatEufDynamicAckShadowUnit, 0);
-  statistics.set(kStatEufDynamicAckShadowConflicting, 0);
-  statistics.set(kStatEufDynamicAckShadowResultDiseqAssigned, 0);
-  statistics.set(kStatEufDynamicAckShadowAllArgsEqAssigned, 0);
-  statistics.set(kStatEufDynamicAckShadowWidthTotal, 0);
-  statistics.set(kStatEufDynamicAckShadowMaxWidth, 0);
-  statistics.set(kStatEufDynamicAckShadowWidthLe3, 0);
-  statistics.set(kStatEufDynamicAckShadowWidthGt3, 0);
-  statistics.set(kStatEufDiseqAckCandidates, 0);
-  statistics.set(kStatEufDiseqAckQueuePushes, 0);
-  statistics.set(kStatEufDiseqAckQueuePops, 0);
-  statistics.set(kStatEufDiseqAckWidthSkips, 0);
-  statistics.set(kStatEufDiseqAckMissingArgAtom, 0);
-  statistics.set(kStatEufDiseqAckSatisfiedSkips, 0);
-  statistics.set(kStatEufDiseqAckUnit, 0);
-  statistics.set(kStatEufDiseqAckConflict, 0);
-  statistics.set(kStatEufDiseqAckPropagated, 0);
-  statistics.set(kStatEufDiseqAckReturned, 0);
-  statistics.set(kStatEufDiseqAckPendingCleared, 0);
-  statistics.set(kStatEufDiseqAckReasonLits, 0);
-  statistics.set(kStatEufDiseqAckQueueBudgetCutoffs, 0);
-  statistics.set(kStatEufDiseqAckPerSymbolCutoffs, 0);
+  statistics.set_dynamic(kStatEufDiseqPropAssignedAppDisequalities, 0);
+  statistics.set_dynamic(kStatEufDiseqPropSourceUnaryCandidates, 0);
+  statistics.set_dynamic(kStatEufDiseqPropSourceUnaryExistingArgAtom, 0);
+  statistics.set_dynamic(kStatEufDiseqPropSourceUnaryArgAtomTrue, 0);
+  statistics.set_dynamic(kStatEufDiseqPropSourceUnaryArgAtomFalse, 0);
+  statistics.set_dynamic(kStatEufDiseqPropFlatSameFunctionCandidates, 0);
+  statistics.set_dynamic(kStatEufDiseqPropFlatSameFunctionExistingArgAtom, 0);
+  statistics.set_dynamic(kStatEufDiseqPropFlatSameFunctionArgAtomTrue, 0);
+  statistics.set_dynamic(kStatEufDiseqPropFlatSameFunctionArgAtomFalse, 0);
+  statistics.set_dynamic(kStatEufDiseqPropGuardedFunctionGuardCandidates, 0);
+  statistics.set_dynamic(kStatEufDiseqPropGuardedArgumentGuardCandidates, 0);
+  statistics.set_dynamic(kStatEufAckermannApplications, 0);
+  statistics.set_dynamic(kStatEufAckermannFunctionSymbols, 0);
+  statistics.set_dynamic(kStatEufAckermannEligibleSymbols, 0);
+  statistics.set_dynamic(kStatEufAckermannUnarySymbols, 0);
+  statistics.set_dynamic(kStatEufAckermannNarySymbols, 0);
+  statistics.set_dynamic(kStatEufAckermannEstimatedConstraints, 0);
+  statistics.set_dynamic(kStatEufAckermannEstimatedEqualities, 0);
+  statistics.set_dynamic(kStatEufAckermannEstimatedClauseLits, 0);
+  statistics.set_dynamic(kStatEufAckermannMaxSymbolApplications, 0);
+  statistics.set_dynamic(kStatEufAckermannMaxSymbolArity, 0);
+  statistics.set_dynamic(kStatEufAckermannSymbolsCostLe100, 0);
+  statistics.set_dynamic(kStatEufAckermannSymbolsCostLe1000, 0);
+  statistics.set_dynamic(kStatEufAckermannSymbolsCostLe10000, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowInvocations, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowResultPairs, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowArgAtomsMissing, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowSatVisibleClauses, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowSatisfied, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowUnit, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowConflicting, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowResultDiseqAssigned, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowAllArgsEqAssigned, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowWidthTotal, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowMaxWidth, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowWidthLe3, 0);
+  statistics.set_dynamic(kStatEufDynamicAckShadowWidthGt3, 0);
+  statistics.set_dynamic(kStatEufDiseqAckCandidates, 0);
+  statistics.set_dynamic(kStatEufDiseqAckQueuePushes, 0);
+  statistics.set_dynamic(kStatEufDiseqAckQueuePops, 0);
+  statistics.set_dynamic(kStatEufDiseqAckWidthSkips, 0);
+  statistics.set_dynamic(kStatEufDiseqAckMissingArgAtom, 0);
+  statistics.set_dynamic(kStatEufDiseqAckSatisfiedSkips, 0);
+  statistics.set_dynamic(kStatEufDiseqAckUnit, 0);
+  statistics.set_dynamic(kStatEufDiseqAckConflict, 0);
+  statistics.set_dynamic(kStatEufDiseqAckPropagated, 0);
+  statistics.set_dynamic(kStatEufDiseqAckReturned, 0);
+  statistics.set_dynamic(kStatEufDiseqAckPendingCleared, 0);
+  statistics.set_dynamic(kStatEufDiseqAckReasonLits, 0);
+  statistics.set_dynamic(kStatEufDiseqAckQueueBudgetCutoffs, 0);
+  statistics.set_dynamic(kStatEufDiseqAckPerSymbolCutoffs, 0);
   statistics.set(kStatEufIncrementalTerms, 0);
   statistics.set(kStatEufIncrementalFlatDefinitions, 0);
   statistics.set(kStatEufIncrementalMerges, 0);
@@ -566,7 +566,7 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
 
   const auto finish = [&](CheckSatResult result, std::string message = "",
                           InconclusiveReason reason = InconclusiveReason::None) {
-    statistics.set(kStatTimeTotalUs, elapsed_microseconds(total_start, PhaseClock::now()));
+    statistics.set_dynamic(kStatTimeTotalUs, elapsed_microseconds(total_start, PhaseClock::now()));
     if (reason == InconclusiveReason::None) {
       if (result == CheckSatResult::Unknown) {
         reason = InconclusiveReason::Unknown;
@@ -586,7 +586,8 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
       const PhaseClock::time_point parse_start = PhaseClock::now();
       smtlib::Parser parser(input);
       const std::vector<smtlib::Command> commands = parser.parse_commands();
-      statistics.set(kStatTimeParseUs, elapsed_microseconds(parse_start, PhaseClock::now()));
+      statistics.set_dynamic(kStatTimeParseUs,
+                             elapsed_microseconds(parse_start, PhaseClock::now()));
       const PhaseClock::time_point frontend_start = PhaseClock::now();
       owned_frontend = std::make_unique<Frontend>();
       bool checked = false;
@@ -599,29 +600,30 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
         if (command.kind == smtlib::CommandKind::CheckSat) checked = true;
         owned_frontend->process_command(command, assertions);
       }
-      statistics.set(kStatTimeFrontendUs, elapsed_microseconds(frontend_start, PhaseClock::now()));
+      statistics.set_dynamic(kStatTimeFrontendUs,
+                             elapsed_microseconds(frontend_start, PhaseClock::now()));
       if (!owned_frontend->saw_check_sat()) {
         return finish(CheckSatResult::Unsupported, "missing check-sat command");
       }
     }
     Frontend& frontend = *owned_frontend;
     statistics.set(kStatAssertionsInitial, assertions.size());
-    statistics.set(":frontend.define-fun.nullary-direct-uses",
-                   frontend.nullary_definition_direct_uses());
-    statistics.set(":frontend.define-fun.nullary-eager-compiles",
-                   frontend.nullary_definition_eager_compiles());
-    statistics.set(":frontend.define-fun.nullary-side-assertions",
-                   frontend.nullary_definition_side_assertions());
+    statistics.set_dynamic(":frontend.define-fun.nullary-direct-uses",
+                           frontend.nullary_definition_direct_uses());
+    statistics.set_dynamic(":frontend.define-fun.nullary-eager-compiles",
+                           frontend.nullary_definition_eager_compiles());
+    statistics.set_dynamic(":frontend.define-fun.nullary-side-assertions",
+                           frontend.nullary_definition_side_assertions());
     // Retain the old names for benchmark compatibility. A cache hit is now a
     // direct use, while a miss/entry corresponds to eager declaration-time compilation.
-    statistics.set(":frontend.define-fun.nullary-cache-hits",
-                   frontend.nullary_definition_direct_uses());
-    statistics.set(":frontend.define-fun.nullary-cache-misses",
-                   frontend.nullary_definition_eager_compiles());
-    statistics.set(":frontend.define-fun.nullary-cache-entries",
-                   frontend.nullary_definition_eager_compiles());
+    statistics.set_dynamic(":frontend.define-fun.nullary-cache-hits",
+                           frontend.nullary_definition_direct_uses());
+    statistics.set_dynamic(":frontend.define-fun.nullary-cache-misses",
+                           frontend.nullary_definition_eager_compiles());
+    statistics.set_dynamic(":frontend.define-fun.nullary-cache-entries",
+                           frontend.nullary_definition_eager_compiles());
     if (options.euf_conflict_ackermann || options.euf_conflict_ackermann_diagnostics) {
-      const auto logic = frontend.logic();
+      const auto& logic = frontend.logic();
       if (logic != std::optional<std::string>("QF_UF") &&
           logic != std::optional<std::string>("QF_UFLIA"))
         return finish(CheckSatResult::Unsupported,
@@ -656,8 +658,10 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
                               [&frontend](core::SortId sort, std::string_view prefix) {
                                 return frontend.fresh_internal_constant(sort, prefix);
                               });
-      statistics.set(kStatTimeSolveUs, elapsed_microseconds(solve_start, PhaseClock::now()));
-      statistics.set(kStatTimeTotalUs, elapsed_microseconds(total_start, PhaseClock::now()));
+      statistics.set_dynamic(kStatTimeSolveUs,
+                             elapsed_microseconds(solve_start, PhaseClock::now()));
+      statistics.set_dynamic(kStatTimeTotalUs,
+                             elapsed_microseconds(total_start, PhaseClock::now()));
       outcome.statistics = statistics;
       return outcome;
     }
@@ -686,12 +690,13 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
                                    std::to_string(assertion));
           }
         }
-        statistics.set(":time.model.check-us", elapsed_microseconds(start, PhaseClock::now()));
+        statistics.set_dynamic(":time.model.check-us",
+                               elapsed_microseconds(start, PhaseClock::now()));
       }
       const auto start = PhaseClock::now();
       outcome.model = smtlib::print_model(*outcome.typed_model);
-      statistics.set(":time.model.serialization-us",
-                     elapsed_microseconds(start, PhaseClock::now()));
+      statistics.set_dynamic(":time.model.serialization-us",
+                             elapsed_microseconds(start, PhaseClock::now()));
     };
     const PhaseClock::time_point preprocessing_start = PhaseClock::now();
     // The session is what owns symbol creation, so it is the session that hands
@@ -710,16 +715,16 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
     PreprocessedAlternatives triaged =
         triage_preprocessed_alternatives(frontend.terms(), prepared.result);
     if (triaged.any_inconclusive) {
-      statistics.set(kStatTimePreprocessingUs,
-                     elapsed_microseconds(preprocessing_start, PhaseClock::now()));
+      statistics.set_dynamic(kStatTimePreprocessingUs,
+                             elapsed_microseconds(preprocessing_start, PhaseClock::now()));
       CheckSatOutcome interrupted =
           outcome_from_tactic_result(prepared.result, preprocessing_context);
       return finish(interrupted.result, std::move(interrupted.message), interrupted.reason);
     }
     if (triaged.surviving.empty()) {
       // Every alternative reduced to false.
-      statistics.set(kStatTimePreprocessingUs,
-                     elapsed_microseconds(preprocessing_start, PhaseClock::now()));
+      statistics.set_dynamic(kStatTimePreprocessingUs,
+                             elapsed_microseconds(preprocessing_start, PhaseClock::now()));
       return finish(CheckSatResult::Unsat);
     }
     // Statistics, diagnostics, and the Boolean-shape heuristics describe the
@@ -740,16 +745,19 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
       TheoryCombinationManager no_manager(frontend.terms());
       no_manager.rebuild(assertions);
       const NelsonOppenInterfaceSummary& no_interface = no_manager.summary();
-      statistics.set(":no.interface.terms", no_interface.terms.size());
-      statistics.set(":no.interface.sorts", no_interface.sort_count);
-      statistics.set(":no.interface.candidate-pairs", no_interface.candidate_pairs);
-      statistics.set(":no.interface.registry-entries", no_interface.equality_registry.size());
-      statistics.set(":no.interface.visible-equalities", no_interface.visible_equalities.size());
-      statistics.set(":no.interface.missing-visible-equalities", no_interface.missing_equalities);
-      statistics.set(":no.purification.sites", no_interface.purification_sites.size());
-      statistics.set(":no.purification.euf-real-terms", no_interface.euf_real_terms);
-      statistics.set(":no.purification.arithmetic-uf-apps",
-                     no_interface.arithmetic_uninterpreted_applications);
+      statistics.set_dynamic(":no.interface.terms", no_interface.terms.size());
+      statistics.set_dynamic(":no.interface.sorts", no_interface.sort_count);
+      statistics.set_dynamic(":no.interface.candidate-pairs", no_interface.candidate_pairs);
+      statistics.set_dynamic(":no.interface.registry-entries",
+                             no_interface.equality_registry.size());
+      statistics.set_dynamic(":no.interface.visible-equalities",
+                             no_interface.visible_equalities.size());
+      statistics.set_dynamic(":no.interface.missing-visible-equalities",
+                             no_interface.missing_equalities);
+      statistics.set_dynamic(":no.purification.sites", no_interface.purification_sites.size());
+      statistics.set_dynamic(":no.purification.euf-real-terms", no_interface.euf_real_terms);
+      statistics.set_dynamic(":no.purification.arithmetic-uf-apps",
+                             no_interface.arithmetic_uninterpreted_applications);
     }
     if (options.euf_ackermann_diagnostics) {
       record_ackermann_cost_diagnostics_for_session(frontend.terms(), assertions, statistics);
@@ -762,44 +770,47 @@ CheckSatOutcome run_query(std::string_view input, CheckSatOptions options,
         [](const Goal& alternative) { return alternative.assertions().empty(); });
     if (trivially_true != triaged.surviving.end() && !options.preprocess_only) {
       const ModelReconstruction reconstruction = trivially_true->reconstruction();
-      statistics.set(kStatTimePreprocessingUs,
-                     elapsed_microseconds(preprocessing_start, PhaseClock::now()));
+      statistics.set_dynamic(kStatTimePreprocessingUs,
+                             elapsed_microseconds(preprocessing_start, PhaseClock::now()));
       CheckSatOutcome outcome = finish(CheckSatResult::Sat);
       if (options.produce_model) {
         outcome.typed_model = build_typed_model(frontend.terms(), {}, {}, {},
                                                 reconstruction.conversions, nullptr, &statistics);
       }
       finalize_model(outcome);
-      statistics.set(kStatTimeTotalUs, elapsed_microseconds(total_start, PhaseClock::now()));
+      statistics.set_dynamic(kStatTimeTotalUs,
+                             elapsed_microseconds(total_start, PhaseClock::now()));
       outcome.statistics = statistics;
       return outcome;
     }
     if (options.preprocess_only) {
-      statistics.set(kStatTimePreprocessingUs,
-                     elapsed_microseconds(preprocessing_start, PhaseClock::now()));
+      statistics.set_dynamic(kStatTimePreprocessingUs,
+                             elapsed_microseconds(preprocessing_start, PhaseClock::now()));
       return finish(CheckSatResult::Unknown, "preprocess-only");
     }
 
     CheckSatOptions solve_options = options;
     const BooleanShape final_boolean_shape = boolean_shape(frontend.terms(), assertions);
-    statistics.set(":preprocessing.boolean-shape.or-nodes", final_boolean_shape.or_nodes);
-    statistics.set(":preprocessing.boolean-shape.not-nodes", final_boolean_shape.not_nodes);
-    statistics.set(":preprocessing.boolean-shape.top-level-or-nodes",
-                   final_boolean_shape.top_level_or_nodes);
-    statistics.set(":preprocessing.boolean-shape.max-top-level-or-children",
-                   final_boolean_shape.max_top_level_or_children);
+    statistics.set_dynamic(":preprocessing.boolean-shape.or-nodes", final_boolean_shape.or_nodes);
+    statistics.set_dynamic(":preprocessing.boolean-shape.not-nodes", final_boolean_shape.not_nodes);
+    statistics.set_dynamic(":preprocessing.boolean-shape.top-level-or-nodes",
+                           final_boolean_shape.top_level_or_nodes);
+    statistics.set_dynamic(":preprocessing.boolean-shape.max-top-level-or-children",
+                           final_boolean_shape.max_top_level_or_children);
     if (should_use_auto_top_level_or_tseitin(options, raw_finite_domain_result,
                                              final_boolean_shape)) {
       solve_options.top_level_or_tseitin = true;
-      statistics.increment(":sat.top-level-or-tseitin.auto");
+      statistics.increment_dynamic(":sat.top-level-or-tseitin.auto");
     }
-    statistics.set(kStatTimePreprocessingUs,
-                   elapsed_microseconds(preprocessing_start, PhaseClock::now()));
+    statistics.set_dynamic(kStatTimePreprocessingUs,
+                           elapsed_microseconds(preprocessing_start, PhaseClock::now()));
 
     const auto finish_solve = [&](CheckSatOutcome outcome, PhaseClock::time_point solve_start) {
       finalize_model(outcome);
-      statistics.set(kStatTimeSolveUs, elapsed_microseconds(solve_start, PhaseClock::now()));
-      statistics.set(kStatTimeTotalUs, elapsed_microseconds(total_start, PhaseClock::now()));
+      statistics.set_dynamic(kStatTimeSolveUs,
+                             elapsed_microseconds(solve_start, PhaseClock::now()));
+      statistics.set_dynamic(kStatTimeTotalUs,
+                             elapsed_microseconds(total_start, PhaseClock::now()));
       outcome.statistics = statistics;
       return outcome;
     };

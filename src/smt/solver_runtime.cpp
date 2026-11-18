@@ -45,8 +45,10 @@ bool SolveTerminator::conflict_limit_reached() const {
 }
 
 std::optional<CheckSatOutcome> SolveTerminator::stop_outcome() {
-  if (!terminate()) return std::nullopt;
+  // Deliberately exclude the internal growth yield from cancellation outcomes.
   if (conflict_limit_reached()) return limit_outcome(statistics_);
+  if (!(cancelled_reached_ || (cancelled_ && cancelled_()))) return std::nullopt;
+  cancelled_reached_ = true;
   return CheckSatOutcome{CheckSatResult::Unknown, "cancelled", statistics_, "",
                          InconclusiveReason::Cancelled};
 }
@@ -57,7 +59,7 @@ bool SolveTerminator::terminate() {
     return true;
   }
   if (conflict_limit_reached()) return true;
-  return false;
+  return yield_ && yield_();
 }
 
 ScopedTerminatorConnection::ScopedTerminatorConnection(sat::IpasirUpBackend& backend,

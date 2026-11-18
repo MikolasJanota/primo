@@ -371,7 +371,7 @@ Tactic make_preprocess_bound_tightening(PreprocessBoundOptions options) {
                                      [&context] { return context.interrupted(); });
     auto& statistics = context.statistics();
     const auto set = [&statistics](const char* key, std::size_t value) {
-      statistics.set(std::string(":preprocessing.bounds.") + key, value);
+      statistics.set_dynamic(std::string(":preprocessing.bounds.") + key, value);
     };
     set("work", result.work);
     set("constraints", result.normalized_constraints);
