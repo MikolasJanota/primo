@@ -5,7 +5,9 @@ follow-up stopped on `SEQ/SEQ004_size7.smt2`: both frozen `13230b6d` and prior
 current `6e53a710` returned UNSAT on this SAT input. Disabling symmetry produced
 independently validated SAT models; older `7dd8874c` also returned SAT. The
 repair now returns validated SAT under all four focused preprocessing settings.
-Broad timing remains suspended until the corrected comparator is qualified.
+Both corrected executables are qualified; the full paired timing comparison
+has restarted under fresh identities. Its results remain unaccepted until the
+separate model stage and final audit finish.
 
 ## Paper basis and implemented subset
 
@@ -114,6 +116,17 @@ The {download}`correctness-only comparator patch <../../benchmarks/euf-smtcomp20
 applies to `13230b6d`. It adds this guard and its tests/counter, plus the same
 mixed-component complete-fact filtering repair already present in the current
 candidate. It excludes the EUF mechanical optimizations being measured.
-Its own build, correctness gates and independent SAT-model checks must finish
-before the full selected-set timing comparison restarts. Qualification of this
-repair does not certify the full branch for merging with `main`.
+The {download}`comparator qualification <../../benchmarks/euf-smtcomp2026-20261118/baseline-qualification.json>`
+records its separate helper build, 49 native groups, 369 Python tests and 49
+ASan groups. Fresh broader gates yield 6,979 generated passes, 20 timeouts and
+one confirmed integer branch-limit unknown; 129 regression measurements pass.
+The 2,151 mutants yield 2,149 passes and two native timeouts. Its three targeted
+UF profiles pass all 3,000 cases, and its separate model stage accepts 8,558
+SAT models/queries including the eight focused replays. No wrong answer, crash,
+invalid model or unexplained disagreement was found in this scope.
+
+The {download}`restarted protocol <../../benchmarks/euf-smtcomp2026-20261118/protocol-repaired.json>`
+freezes both corrected native identities for the full selection. This compares
+the subsequent EUF changes with the corrected `13230b6d` baseline; it does not
+measure the entire branch against `main`. Qualification of this repair does not
+certify the full branch for merging.

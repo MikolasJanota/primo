@@ -3,13 +3,64 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-19-euf-smtcomp2026-repaired",
+      "date": "2026-11-19",
+      "branch": "lia-integrality",
+      "kind": "Restart full UF/UFLIA SMT-COMP selected-set comparison on independently qualified repaired sources",
+      "evidence_status": "Running; no accepted new speed claim. All model jobs wait for global timing audit.",
+      "selection": "benchmarks/euf-smtcomp2026-20261118/selection.json",
+      "protocol": "benchmarks/euf-smtcomp2026-20261118/protocol-repaired.json",
+      "native_profiles": {
+        "BASE": {
+          "git": "0647d85a04965982328130f457c264209daad6fa",
+          "sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc",
+          "args": [
+            "--quiet",
+            "--stats"
+          ]
+        },
+        "OFF": {
+          "git": "59d81fee55ae861ea7fe022b5602450013a57cd0",
+          "sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03",
+          "args": [
+            "--quiet",
+            "--stats"
+          ]
+        }
+      },
+      "counts": {
+        "QF_UF": 1104,
+        "QF_UFLIA": 300,
+        "repetitions": 3,
+        "profiles": 2,
+        "native_rows": 8424
+      },
+      "qualification": "2026-11-19-uf-symmetry-composition-repair; both sources fresh correctness qualified before launch.",
+      "execution": "SLURM only; helper --check-only before every held/verified/released array;120s/8GiB/native;three paired repetitions;separate allSAT native180s/Dolmen60s checks after all timing; archived references only, no new reference benchmark executions.",
+      "baseline_scope": "13230b6d plus shared symmetry/mixed-fact correctness repairs; subsequent EUF optimization comparison, not whole branch against main.",
+      "raw_artifacts": "results/euf-smtcomp2026-20261118/attempt3, configs-attempt3; private jobs.json/submission receipts/watch log; no rows from canceled attempts reused.",
+      "correctness_policy": "Cancel on wrong answer/crash/unexplained error/reference disagreement/invalid model; missing model coverage blocks full acceptance.",
+      "remaining": "Await native and model audits; analyze solved/PAR2/paired runtime/RSS/counters and regressions; publish qualified evidence then complete full branch review.",
+      "documentation_review": {
+        "reviewer": "conflict_ack_docs_review, independent read-only",
+        "verdict": "Ready; no required findings. Separately recomputed baseline counts, model total, resource unknown guard and active protocol/global model dependencies. Candidate proof acceptance retained. Timing and whole-branch readiness outside scope.",
+        "accepted_blobs": {
+          "lead": "858d32fa9f66",
+          "evidence": "79cb190e5f45",
+          "baseline_qualification": "8983caa9e06e",
+          "repaired_protocol": "9dfedff298c1"
+        }
+      },
+      "checks": "make lint; make docs; assembled-site local/Git links309pages/47473local/1384Git/zero failures;534externalURLs deferred. Updated status/qualification rendered and visually inspected. SourceCPPunchanged from qualified59d81fee; separate baseline native/ASan/gates in linked artifact."
+    },
+    {
       "id": "2026-11-19-uf-symmetry-composition-repair",
       "date": "2026-11-19",
       "branch": "lia-integrality",
       "kind": "Correctness repair after full SMT-COMP selected-set wrong answer",
       "source": "59d81fee55ae861ea7fe022b5602450013a57cd0",
       "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03",
-      "evidence_status": "Candidate correctness qualification complete; corrected comparator qualification and fresh full timing comparison pending; no merge acceptance.",
+      "evidence_status": "Candidate and correctness-only comparator separately qualified; full selected-set paired comparison restarted under fresh identities. No new timing or merge-readiness claim.",
       "design": "docs/leads/uf-symmetry-composition.md",
       "artifact": "benchmarks/euf-smtcomp2026-20261118/symmetry-candidate-qualification.json",
       "baseline_patch": "benchmarks/euf-smtcomp2026-20261118/baseline-correctness.patch",
@@ -35,7 +86,7 @@
       },
       "limits": "Generated native/reference5s; targeted3..8values1000/profile; real mutation12original seeds/task,600s/30iterations/5s. Complete commands/configSHA/model receipts in artifact and private raw records.",
       "raw_artifacts": "results/euf-smtcomp2026-20261118/symmetry-repair and baseline-repair; exact SLURM job ids/submission receipts remain in private jobs.json files.",
-      "remaining": "Finish comparator qualification; restart full paired selection and allSAT replay; summarize evidence and complete requested whole-branch merge review.",
+      "remaining": "Complete fresh8424native rows plus allSAT replay/final audit; summarize performance and regressions; complete requested whole-branch merge review.",
       "paper": "Deharbe et al. CADE2011 sections3-4,Theorem5/Lemma6/Algorithm1/Theorem7; primary sections read/checklist written before code. Default precedence separately justified by first-occurrence renaming.",
       "documentation_review": {
         "reviewer": "conflict_ack_docs_review, independent read-only",
@@ -52,7 +103,22 @@
       },
       "documentation_checks": "make docs; strict make docs-check-links:309pages/47470local/1384Git links/zero failures;534externalURLs deferred. Proof/qualification/status rendered in Chromium and visually inspected. Initial unassembled html-only link check found three expected archive routes; canonical assembled-site check passes.",
       "metadata_checks": "13 focused pure metadata tests pass; make lint; SLURM batch validation; git diff --check. Native CPP/unit fixture byte-identical to qualified59d81fee.",
-      "code_review": "Repair soundness/lifetime/counter/rejection coverage reviewed; no blocking issue found in repair. Whole-tree static completed with unchanged advisories; requested full branch review still pending."
+      "code_review": "Repair soundness/lifetime/counter/rejection coverage reviewed; no blocking issue found in repair. Whole-tree static completed with unchanged advisories; requested full branch review still pending.",
+      "baseline_qualification": "benchmarks/euf-smtcomp2026-20261118/baseline-qualification.json",
+      "baseline_source": "0647d85a04965982328130f457c264209daad6fa",
+      "baseline_native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc",
+      "baseline_counts": {
+        "generated_inputs": 7000,
+        "generated_PASS": 6979,
+        "generated_UNKNOWN_INVOLVED": 1,
+        "generated_TIMEOUT": 20,
+        "tracked_regression_measurements": 129,
+        "mutations_inputs": 2151,
+        "mutations_PASS": 2149,
+        "mutations_INCOMPLETE": 2
+      },
+      "baseline_SAT_Dolmen_pass_total": 8558,
+      "restarted_protocol": "benchmarks/euf-smtcomp2026-20261118/protocol-repaired.json"
     },
     {
       "id": "2026-11-18-euf-smtcomp2026",

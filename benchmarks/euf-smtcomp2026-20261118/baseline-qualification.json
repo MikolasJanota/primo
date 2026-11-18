@@ -1,0 +1,386 @@
+{
+  "scope": "Independent correctness qualification of the frozen13230b6d comparator plus shared correctness repairs; excludes EUF mechanical optimizations. No speed claim.",
+  "source": "0647d85a04965982328130f457c264209daad6fa",
+  "parent": "13230b6d",
+  "tree": "d7d4ccce2a5e670d4eaec48561d51d0921693efc",
+  "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc",
+  "patch": "benchmarks/euf-smtcomp2026-20261118/baseline-correctness.patch",
+  "patch_sha256": "f7130b044aade4adcf650a16b0a5b62fd6e928893e96cdc70af5c3ca9f78c6e5",
+  "reconstruction": "Apply patch to13230b6d; standard git apply verified in isolated index to reconstruct exact source tree. Bare empty patch context lines preserve source bytes. Git revision identifies local evaluation branch; published patch is sufficient to reconstruct production sources.",
+  "build": "Repository preparation helper --build-via-slurm --reuse-dependencies --target primo --extra-target primo_boolean_solver_tests, Release, CaDiCaL3.0.0-7b99c07.",
+  "verification": {
+    "native_groups": 49,
+    "python_tests": 369,
+    "ASan_groups": 49,
+    "log_sha256": {
+      "check.log": "a64a9cf146837e8e9f9f2a6c4ce4493b351999628be8246512af93f7d160d9e4",
+      "asan.log": "b821509ca6243110811c5ef1386498d1bfc34deaf27ef97fcbbbf3fd59aff6d1",
+      "asan-version.txt": "505275a09b2c95aef302a2c602cf39fafc879ff25f7d3fc18e8643b5f831e887",
+      "asan.sha256": "df29f56b897d382bafa90cea3340e2c16361c8a6bbd028f6bf219286fa52b0ea"
+    }
+  },
+  "general_gate": {
+    "source": "0647d85a",
+    "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc",
+    "counts": {
+      "generated_inputs": 7000,
+      "generated_PASS": 6979,
+      "generated_UNKNOWN_INVOLVED": 1,
+      "generated_TIMEOUT": 20,
+      "tracked_regression_measurements": 129,
+      "mutations_inputs": 2151,
+      "mutations_PASS": 2149,
+      "mutations_INCOMPLETE": 2
+    },
+    "SAT_Dolmen_pass": 7050,
+    "receipt_inventory": [
+      {
+        "phase": "generated",
+        "slot": 0,
+        "logic": "QF_UF",
+        "profile": "OFF",
+        "receipt_sha256": "dc7b6d7101658c6fd5cbcd74c2a7dda56124d7aa71970df219265b3977905dbf",
+        "cases": 1000,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "generated",
+        "slot": 1,
+        "logic": "QF_UF",
+        "profile": "PAPER",
+        "receipt_sha256": "6dbe77ef05411cd9a18d7ef223331e19f8bca6080c0a503eb3ebcf12319db03d",
+        "cases": 1000,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "generated",
+        "slot": 2,
+        "logic": "QF_UF",
+        "profile": "STRONG",
+        "receipt_sha256": "50d6c91c37f2d724a2ba4cf811daf211ba03740b7e3dd0a5dcf00aa3a056302e",
+        "cases": 1000,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "generated",
+        "slot": 3,
+        "logic": "QF_UFLIA",
+        "profile": "OFF",
+        "receipt_sha256": "eceb9cbdda36480b243b2947670faccaeca1f8bb34d5d8d5fe8d1edab3049fdb",
+        "cases": 1000,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "generated",
+        "slot": 4,
+        "logic": "QF_LIA",
+        "profile": "OFF",
+        "receipt_sha256": "171b005146d8ff5b25330a3a5ea033505896b370b8372b5adc3c18777d094847",
+        "cases": 1000,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "generated",
+        "slot": 5,
+        "logic": "QF_LRA",
+        "profile": "OFF",
+        "receipt_sha256": "f197d92ae1d404760888f56eb53f871ce1ccd73e9435576354c428f292731934",
+        "cases": 1000,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "generated",
+        "slot": 6,
+        "logic": "QF_UFLRA",
+        "profile": "OFF",
+        "receipt_sha256": "8940b7efa6130fe621b82d93379276176d2b6fb39369596ad44e1d66d10f3a6a",
+        "cases": 1000,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "seeds",
+        "slot": 0,
+        "logic": "QF_UF",
+        "profile": "OFF",
+        "receipt_sha256": "ac80c990ef491400d2b93677d2c671d78bcbf4a3b4544d3e693aee1a41cf73ea",
+        "cases": 23,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "seeds",
+        "slot": 1,
+        "logic": "QF_UF",
+        "profile": "PAPER",
+        "receipt_sha256": "2276e9bd7805292b20e5a88ee07a1fad9418aa3bb20388b704ff00c61c85cc49",
+        "cases": 23,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "seeds",
+        "slot": 2,
+        "logic": "QF_UF",
+        "profile": "STRONG",
+        "receipt_sha256": "bac4fe24b0075fa9b1f621a18a22f66358fec3fe112d3df26b327b6a0e91fa8b",
+        "cases": 23,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "seeds",
+        "slot": 3,
+        "logic": "QF_UFLIA",
+        "profile": "OFF",
+        "receipt_sha256": "ba76ef0eb02d04626809c350b58aef1e1a78abe399ea50f926989a4aecca27bd",
+        "cases": 10,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "seeds",
+        "slot": 4,
+        "logic": "QF_LIA",
+        "profile": "OFF",
+        "receipt_sha256": "0938bc4b46a98519383065f0d1783a2548c4b1cdf23a4c3fa9292ff8455d5511",
+        "cases": 9,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "seeds",
+        "slot": 5,
+        "logic": "QF_LRA",
+        "profile": "OFF",
+        "receipt_sha256": "8f182cf312343a731278db27da0043d363b86982ff328ffec50bcaa771f037df",
+        "cases": 21,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "seeds",
+        "slot": 6,
+        "logic": "QF_UFLRA",
+        "profile": "OFF",
+        "receipt_sha256": "7277f75f2ef100823087817dcecd3edc9d5d7a5395ab7d6c7a777f8d1e31e586",
+        "cases": 20,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "mutations",
+        "slot": 0,
+        "logic": "QF_UF",
+        "profile": "OFF",
+        "receipt_sha256": "b1ddd1c342e3a6737b8af8cfe603360f25132fcff3b2fbed7beee118f7dc93a5",
+        "cases": 295,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "mutations",
+        "slot": 1,
+        "logic": "QF_UF",
+        "profile": "PAPER",
+        "receipt_sha256": "3dba3860992c6e58d35b8293ab29ec4e91c5634bbf82d3018fcc77b7e890f561",
+        "cases": 298,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "mutations",
+        "slot": 2,
+        "logic": "QF_UF",
+        "profile": "STRONG",
+        "receipt_sha256": "75c8c8cc8143acfee03d3b56391b5846ce3934a04e85c16d38e9c1a7b1ce535f",
+        "cases": 298,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "mutations",
+        "slot": 3,
+        "logic": "QF_UFLIA",
+        "profile": "OFF",
+        "receipt_sha256": "b984a7e4902002d2f35ccd3bb5171db1a56e4a5b3e9338b6d87ba00aa321846e",
+        "cases": 360,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "mutations",
+        "slot": 4,
+        "logic": "QF_LIA",
+        "profile": "OFF",
+        "receipt_sha256": "6e1a9a767ee7fdc793ec83be074e4fc204d5980dd5b7fdf88bd8c160b9c52030",
+        "cases": 360,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "mutations",
+        "slot": 5,
+        "logic": "QF_LRA",
+        "profile": "OFF",
+        "receipt_sha256": "0d6280d2e98b7ad849919fcc042263a7fa4dba97b79f2328aa38cf7d387e2bc8",
+        "cases": 360,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      },
+      {
+        "phase": "mutations",
+        "slot": 6,
+        "logic": "QF_UFLRA",
+        "profile": "OFF",
+        "receipt_sha256": "2ebb98e3fc611bc27a5ef04f0eecf76f3295c3712604ed86d23f0f417a109890",
+        "cases": 180,
+        "source": "0647d85a",
+        "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc"
+      }
+    ],
+    "mutation_unknown_replays_needed": []
+  },
+  "focused_gate": {
+    "source": "0647d85a04965982328130f457c264209daad6fa",
+    "native_sha256": "8d1757113f88959be4e097b8a16e341cdabda5bb526a6cca68e025430c2533bc",
+    "focused_replays": [
+      {
+        "input": "original",
+        "profile": "DEFAULT",
+        "answer": "sat",
+        "model_metadata_sha256": "90636e5c177d7469968f46e7d803bcf5f260f5513c3534dd3f8823ce9e311ff6"
+      },
+      {
+        "input": "original",
+        "profile": "PAPER",
+        "answer": "sat",
+        "model_metadata_sha256": "5b99a520ed00c275832db7288b2fc88ef592ade2a89eb5c8636147727bf00f1b"
+      },
+      {
+        "input": "original",
+        "profile": "NOSYM",
+        "answer": "sat",
+        "model_metadata_sha256": "845ac99c67853574345acd2a9554408fd69acc604e14401bfa5f6946f943a6dd"
+      },
+      {
+        "input": "original",
+        "profile": "OFF",
+        "answer": "sat",
+        "model_metadata_sha256": "4fc9c2886d749c415968fb016a0942763f83c9a6f3a49f6f4fcf51c3f826c7a6"
+      },
+      {
+        "input": "reduced",
+        "profile": "DEFAULT",
+        "answer": "sat",
+        "model_metadata_sha256": "90636e5c177d7469968f46e7d803bcf5f260f5513c3534dd3f8823ce9e311ff6"
+      },
+      {
+        "input": "reduced",
+        "profile": "PAPER",
+        "answer": "sat",
+        "model_metadata_sha256": "5b99a520ed00c275832db7288b2fc88ef592ade2a89eb5c8636147727bf00f1b"
+      },
+      {
+        "input": "reduced",
+        "profile": "NOSYM",
+        "answer": "sat",
+        "model_metadata_sha256": "845ac99c67853574345acd2a9554408fd69acc604e14401bfa5f6946f943a6dd"
+      },
+      {
+        "input": "reduced",
+        "profile": "OFF",
+        "answer": "sat",
+        "model_metadata_sha256": "4fc9c2886d749c415968fb016a0942763f83c9a6f3a49f6f4fcf51c3f826c7a6"
+      }
+    ],
+    "targeted": [
+      {
+        "profile": {
+          "label": "DEFAULT",
+          "args": [
+            "--quiet",
+            "--stats"
+          ]
+        },
+        "seed": 2026112000,
+        "PASS": 1000,
+        "SAT_Dolmen_pass": 500,
+        "SAT_guard_activations": 500,
+        "receipt_sha256": "f097b4aae271f2066d94f205ad3062f6ce7d216319493bd074e7636f5d0d627f",
+        "model_metadata_sha256": "89c6106306fe8edc1659a63608e5a89b8faa218eeac45c834b09d7e0dc8c8ef9"
+      },
+      {
+        "profile": {
+          "label": "PAPER",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--no-finite-domain-value-precedence"
+          ]
+        },
+        "seed": 2026112001,
+        "PASS": 1000,
+        "SAT_Dolmen_pass": 500,
+        "SAT_guard_activations": 500,
+        "receipt_sha256": "52a3c5509f5243b905e9b9b94fd75380f4a735979c62bff9d28439e74a2b95b1",
+        "model_metadata_sha256": "38fc145a3329758dffbf1ba88353f2abaf0e5ba2d9fd6079002c53750235f047"
+      },
+      {
+        "profile": {
+          "label": "STRONG",
+          "args": [
+            "--quiet",
+            "--stats",
+            "--preprocessing-mode=strong"
+          ]
+        },
+        "seed": 2026112002,
+        "PASS": 1000,
+        "SAT_Dolmen_pass": 500,
+        "SAT_guard_activations": 500,
+        "receipt_sha256": "dc0d0abb7fe1789a35c1086c458ead3bb9a411acfe6688a912a6d643df78bbd7",
+        "model_metadata_sha256": "ec0adc0d0103e1312acb23f7383a00229e315d17cc7bc0706a238c3c5a1f8edf"
+      }
+    ],
+    "targeted_PASS": 3000,
+    "SAT_Dolmen_pass": 1508
+  },
+  "SAT_Dolmen_pass_total": 8558,
+  "seeds": {
+    "generated_base": 2026112030,
+    "targeted_base": 2026112000,
+    "mutation_base": 2026112040,
+    "rule": "base+task slot"
+  },
+  "profiles": "Same UF default/paper/strong and four other ground-logic defaults as candidate; fresh seeds; allSAT independent Dolmen.",
+  "limits": "Same five-second generated native/reference limits,12original real seeds/task and600-second/30-iteration YinYang budget as candidate; same separate model checks.",
+  "classification": {
+    "generated_timeouts": {
+      "native_timeout_reference_sat": 18,
+      "both_timeout": 2
+    },
+    "confirmed_resource_unknowns": [
+      {
+        "logic": "QF_UFLIA",
+        "input_sha256": "85e8a4c7a31ced4c8370ddf5147d31494c23d00b82b1ad3e891096e3696e4a46",
+        "reason": "integer branch-and-bound node limit",
+        "confirmation": "Fresh30s replay returns handledunknown with matching diagnostic and positive budget-exit counter."
+      }
+    ],
+    "mutation_timeouts": {
+      "native_timeout_reference_sat": 2
+    },
+    "wrong_answers": 0,
+    "crashes": 0,
+    "invalid_models": 0,
+    "unexplained_disagreements": 0
+  },
+  "raw_artifacts": "results/euf-smtcomp2026-20261118/baseline-repair; complete inputs/models and private scheduler receipts also retained on SLURM"
+}

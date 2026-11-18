@@ -305,10 +305,11 @@ thresholds as the initial selection.
 
 ## Full SMT-COMP selection follow-up
 
-Status: stopped on a confirmed wrong answer before model validation or
-performance acceptance. The comparison is incomplete and must not be used for a
-speed claim. The [symmetry-composition repair](../leads/uf-symmetry-composition.md)
-is qualified in `59d81fee`; a corrected comparator is still being qualified.
+Status: restarted after repairing a confirmed wrong answer. The earlier
+comparison stopped before model validation or performance acceptance and must
+not be used for a speed claim. The [symmetry-composition repair](../leads/uf-symmetry-composition.md)
+is qualified in `59d81fee`; corrected comparator `0647d85a` has passed its own
+fresh correctness gates and independent model checks.
 The canceled attempt used source `6e53a710`, with default
 options and `--quiet --stats`; both conflict Ackermann emission and demand atoms
 remain disabled. The canceled comparator was frozen pre-change `13230b6d`; it also gives
@@ -344,9 +345,13 @@ after all six timing arrays terminate. A final audit follows all six model
 arrays. Every successful native SAT row requires its own exact-option replay,
 `--check-model` and direct Dolmen pass; model time remains separate. Missing
 coverage, unexplained errors, crashes or answer disagreements block acceptance.
-Fresh generated/mutation/seed gates now qualify the repaired candidate. The
-corrected baseline needs its own gates before resumption; the earlier source
-qualification alone is insufficient. Archived reference context remains reusable
+Fresh generated/mutation/seed gates qualify both repaired executables, with
+separate qualification records in the repair note. The
+{download}`restarted protocol <../../benchmarks/euf-smtcomp2026-20261118/protocol-repaired.json>`
+freezes the new identities; the earlier protocol remains a record of the
+canceled attempt. Full timing and model results remain pending. This measures
+subsequent EUF changes against the corrected `13230b6d` baseline, rather than
+the entire branch against `main`. Archived reference context remains reusable
 when input hashes and resource provenance match.
 
 The branch review follows this evaluation. Its scope is the full diff from the
