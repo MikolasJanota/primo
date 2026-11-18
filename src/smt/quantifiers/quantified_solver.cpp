@@ -98,7 +98,7 @@ CheckSatOutcome solve_quantified_uf(
     core::TermManager& terms, const std::vector<core::TermId>& assertions,
     const CheckSatOptions& requested, util::Statistics& statistics,
     const std::function<core::TermId(core::SortId, std::string_view)>& fresh_constant) {
-  statistics.increment(":solver.quantified-uf");
+  statistics.increment(util::StatKey::SolverQuantifiedUf);
   CheckSatOptions options = requested;
   // The pure-theory filter skips theory assignments against an atom's only
   // polarity, which presumes the clause set is final. Instance lemmas keep

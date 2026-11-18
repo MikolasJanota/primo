@@ -74,6 +74,7 @@ parts:
       - file: leads/statistics-instrumentation
       - file: leads/theory-lemmas
       - file: leads/conflict-ackermann-prototype
+      - file: leads/euf-performance-fixes
       - file: leads/theory-lemma-forgetting
       - file: leads/arithmetic-symmetry
       - file: leads/lra-floating-point

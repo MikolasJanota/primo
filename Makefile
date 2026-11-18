@@ -105,6 +105,7 @@ archive: docs-site
 	$(PYTHON) scripts/create_source_archive.py
 
 lint:
+	$(PYTHON) scripts/check_statistics_policy.py
 	$(PYTHON) -m py_compile scripts/*.py contrib/*.py tests/python/*.py
 	@if command -v clang-format >/dev/null 2>&1; then \
 		clang-format --dry-run --Werror $(CPP_FORMAT_FILES); \

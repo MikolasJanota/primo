@@ -80,7 +80,7 @@ void QuantifierComponent::assign(std::span<const AssignedTheoryLiteral> delta) {
 TheoryCheckResult QuantifierComponent::check(TheoryCheckEffort effort,
                                              std::uint64_t assignment_epoch,
                                              std::span<const InterfaceRelation>) {
-  statistics_.increment(":quant.checks");
+  statistics_.increment(util::StatKey::QuantChecks);
   TheoryCheckResult result;
   result.model.token = {descriptor_.id, assignment_epoch, ++revision_};
   if (!queue_.empty()) {
@@ -117,7 +117,7 @@ TheoryCheckResult QuantifierComponent::check(TheoryCheckEffort effort,
       result.status = TheoryCheckStatus::ResourceLimit;
       result.diagnostic = "quantifier instantiation budget reached";
     } else {
-      statistics_.increment(":quant.exhausted");
+      statistics_.increment(util::StatKey::QuantExhausted);
       result.status = TheoryCheckStatus::Unknown;
       result.diagnostic = "enumerative instantiation found no new instance";
     }
@@ -127,7 +127,7 @@ TheoryCheckResult QuantifierComponent::check(TheoryCheckEffort effort,
   // Skolem lemmas already give SAT new work. Do not hold them while searching
   // a universal's tuple product for another useful instance.
   if (!queue_.empty()) {
-    statistics_.increment(":quant.rounds");
+    statistics_.increment(util::StatKey::QuantRounds);
     result.status = TheoryCheckStatus::LemmasPending;
     return result;
   }
@@ -144,7 +144,7 @@ TheoryCheckResult QuantifierComponent::check(TheoryCheckEffort effort,
     next_obligation_ = (next_obligation_ + 1) % universal.size();
   }
   if (!queue_.empty()) {
-    statistics_.increment(":quant.rounds");
+    statistics_.increment(util::StatKey::QuantRounds);
     result.status = TheoryCheckStatus::LemmasPending;
     return result;
   }
@@ -165,7 +165,7 @@ std::vector<core::TermId> QuantifierComponent::take_lemmas(std::size_t limit) {
   for (const core::TermId lemma : taken) {
     add_pool_terms(lemma);
   }
-  statistics_.increment(":quant.lemmas", taken.size());
+  statistics_.increment(util::StatKey::QuantLemmas, taken.size());
   return taken;
 }
 
@@ -189,7 +189,7 @@ void QuantifierComponent::add_pool_terms(core::TermId root) {
     if ((node.kind == core::TermKind::Constant || node.kind == core::TermKind::Application) &&
         node.sort != boolean && terms_.loose_index(current) == 0) {
       pools_[node.sort].push_back(current);
-      statistics_.increment(":quant.pool-terms");
+      statistics_.increment(util::StatKey::QuantPoolTerms);
     }
     pending.insert(pending.end(), node.children.begin(), node.children.end());
   }
@@ -213,17 +213,17 @@ bool QuantifierComponent::add_instance(core::TermId atom, bool value, core::Term
   // Different tuples can yield the same instance, for example when a variable
   // does not occur in the body.
   if (!raw_instances_.insert({atom, value, instance}).second) {
-    statistics_.increment(":quant.instances.raw-duplicates");
+    statistics_.increment(util::StatKey::QuantInstancesRawDuplicates);
     return false;
   }
   if (options_.simplify_instances) {
     const core::TermId simplified = simplifier_.simplify(instance);
     if (simplified != instance) {
-      statistics_.increment(":quant.instances.simplified");
+      statistics_.increment(util::StatKey::QuantInstancesSimplified);
     }
     // Distinct as instantiated, equal after normalization: generated before.
     if (!canonical_instances_.insert({atom, value, simplified}).second) {
-      statistics_.increment(":quant.instances.simplified-duplicates");
+      statistics_.increment(util::StatKey::QuantInstancesSimplifiedDuplicates);
       return false;
     }
     instance = simplified;
@@ -236,11 +236,11 @@ bool QuantifierComponent::add_instance(core::TermId atom, bool value, core::Term
   // either is valid outright when the instance has that value.
   if (const core::Term& node = terms_.get(instance);
       node.kind == core::TermKind::BoolValue && node.bool_value == value) {
-    statistics_.increment(":quant.instances.trivial");
+    statistics_.increment(util::StatKey::QuantInstancesTrivial);
     return false;
   }
   if (!enqueue(canonical(lemma_for(atom, value, instance)))) {
-    statistics_.increment(":quant.instances.duplicate-lemmas");
+    statistics_.increment(util::StatKey::QuantInstancesDuplicateLemmas);
     return false;
   }
   return true;
@@ -276,7 +276,7 @@ void QuantifierComponent::skolemize(core::TermId atom, bool value) {
   const core::TermId lemma = canonical(lemma_for(atom, value, instance));
   const bool queued = enqueue(lemma);
   if (queued) {
-    statistics_.increment(":quant.skolem-lemmas");
+    statistics_.increment(util::StatKey::QuantSkolemLemmas);
   }
   if (options_.export_sink != nullptr) {
     auto& sink = *options_.export_sink;
@@ -313,7 +313,7 @@ std::size_t QuantifierComponent::enumerate(core::TermId atom, bool value, std::s
       tuple[position] = pools[position][indices[position]];
     }
     if (instances_ < options_.max_instances && state.tried.insert(tuple).second) {
-      statistics_.increment(":quant.instances");
+      statistics_.increment(util::StatKey::QuantInstances);
       if (add_instance(atom, value, core::instantiate(terms_, atom, tuple))) {
         idle = 0;
         if (options_.export_sink != nullptr)
@@ -326,7 +326,7 @@ std::size_t QuantifierComponent::enumerate(core::TermId atom, bool value, std::s
     // instance. The queue stays empty until this round queues a lemma, so a
     // round still delivers one or enumerates to the end.
     if (options_.stall_tuples != 0 && !queue_.empty() && ++idle >= options_.stall_tuples) {
-      statistics_.increment(":quant.stalls");
+      statistics_.increment(util::StatKey::QuantStalls);
       return false;
     }
     return instances_ < options_.max_instances;

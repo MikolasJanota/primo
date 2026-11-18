@@ -1,0 +1,1137 @@
+[
+  {
+    "call": "src/smt/component_model_assembler.cpp:increment(\":time.model.reconstruction-us\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/component_solver.cpp:increment(key_)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/component_solver.cpp:set(key)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/component_solver.cpp:set(\":no.mixed.\"+id+\"-atoms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/component_solver.cpp:increment(\":combination.components.incremental-\"+id+\"-atoms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/component_solver.cpp:increment(first?\":combination.components.full-builds\":\":combination.components.incremental-growths\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/component_solver.cpp:increment(reason)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/experimental_tactics.cpp:increment(\":experimental.split-bools.input-goals\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/experimental_tactics.cpp:increment(\":experimental.split-bools.selected\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/experimental_tactics.cpp:increment(\":experimental.split-bools.output-goals\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocess_bound_tightening.cpp:set(std::string(\":preprocessing.bounds.\")+key)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.definitions\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.arithmetic-uf-definitions\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.euf-real-term-definitions\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.reused-applications\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.reused-real-terms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.memoized-formula-rewrites\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.memoized-arithmetic-rewrites\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.memoized-euf-rewrites\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":no.purification.skipped-no-sites\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.boolean-flatten-post.attempts\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.boolean-flatten-post.accepted\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.boolean-flatten-post.threshold-stops\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.boolean-flatten-post.rewrites\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.boolean-flatten-post.max-arity\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.structural.conjunct-occurrences\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.structural.unique-conjuncts\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.structural.clause-like-conjuncts\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.structural.implication-clause-candidates\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.selector.structural\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.limit.large-conjuncts\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.limit.compact-terms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.limit.compact-min-conjuncts\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.limit.finite-domain-terms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.limit.finite-domain-min-domains\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.limit.finite-domain-max-symmetry-terms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.selector.shadow-evaluated\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.selector.legacy-disagreement\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.profile.large-skip\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.profile.finite-domain-basic\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.profile.compact-clause-basic\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.profile.strong\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.analysis.finite-domain-domains\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.analysis.finite-domain-choices\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.auto.analysis.predicted-amo-clauses\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.finite-domain.explicit-disequality-choices\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.finite-domain.integer-numeral-choices\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:set(\":preprocessing.finite-domain.rejected-missing-distinctness\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_strategy.cpp:increment(\":tactic.preprocessing-pass.invocations\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:increment(\":preprocessing.symmetry.cache-hits\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:increment(\":preprocessing.symmetry.cache-refreshes\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:increment(\":preprocessing.finite-domain.raw-cache-refreshes\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:increment(\":preprocessing.finite-domain.raw-cache-hits\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.finite-domain.explicit-disequality-choices\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.finite-domain.integer-numeral-choices\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.finite-domain.rejected-missing-distinctness\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-nnf.visited\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-nnf.rewritten\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-nnf.terms-created\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.visited\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.clause-candidates\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.rewritten\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.all-mode-rewrites\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.widened-operands\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.threshold-stops\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(\":preprocessing.boolean-implies.terms-created\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(prefix+\"attempts\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(prefix+\"accepted\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(prefix+\"threshold-stops\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(prefix+\"operands-copied\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(prefix+\"rewrites\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/preprocessing_tactics.cpp:set(prefix+\"max-arity\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.constants\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.skolem-lemmas\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.skolem-roots\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.skipped-lemmas\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.tuples\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.skipped-tuples\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/quantifiers/pool_export.cpp:set(\":quant.export.pools\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/root_bound_diagnostics.cpp:increment(std::string(\":arithmetic.root-bounds.\")+key)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/root_bound_diagnostics.cpp:set(std::string(\":arithmetic.root-bounds.\")+key)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/root_bound_diagnostics.cpp:set(\":arithmetic.root-bounds.cancelled\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/root_bound_diagnostics.cpp:set(\":arithmetic.root-bounds.time-us\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/session_portfolio.cpp:set(\":portfolio.qf-uf.attempts\")",
+    "count": 2,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/session_portfolio.cpp:set(\":portfolio.qf-uf.basic-polarity.attempted\")",
+    "count": 2,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/session_portfolio.cpp:set(\":portfolio.qf-uf.basic-polarity.conflict-budget\")",
+    "count": 2,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/session_portfolio.cpp:set(\":portfolio.qf-uf.basic-polarity.first-conflicts\")",
+    "count": 2,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/session_portfolio.cpp:set(\":portfolio.qf-uf.basic-polarity.solved\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/session_portfolio.cpp:set(\":portfolio.qf-uf.basic-polarity.fell-back\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":time.model.check-and-print-us\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":session.engine-builds\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":session.translated-assertions\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":session.incremental-assumptions\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":session.safe-rewrite-pipeline\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":session.pipeline.lower-extended-terms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":session.pipeline.lower-real-equalities\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(key)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:get(key)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":time.preprocessing-us\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":time.total-us\")",
+    "count": 2,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":session.queries\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":session.frontend-builds\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":time.parse-us\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:set(\":time.frontend-us\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/smt_session.cpp:get(\":time.total-us\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(key_)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(key)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(width<=3?kStatEufDynamicAckShadowWidthLe3:kStatEufDynamicAckShadowWidthGt3)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(atom_value?kStatEufEqAssignments:kStatEufDiseqAssignments)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(std::string{prefix}+\"-candidates\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(std::string{prefix}+\"-existing-atoms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(std::string{prefix}+\"-missing-atoms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(std::string{prefix}+\"-created-atoms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(std::string{prefix}+\"-clauses\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(std::string{prefix}+\"-rechecks\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(source_key)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-extra-atom-probes\")",
+    "count": 3,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-extra-atoms-probed\")",
+    "count": 3,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-mapping-fallbacks\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:set(\":no.interface.lra-probe-reuse-checked-tableau-max-difference-terms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:get(\":no.interface.lra-probe-reuse-checked-tableau-max-difference-terms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:set(\":no.interface.lra-probe-reuse-checked-tableau-max-pivot-term-ops\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:get(\":no.interface.lra-probe-reuse-checked-tableau-max-pivot-term-ops\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-checked-tableau-fallbacks\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-checked-tableau-difference-fallbacks\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-checked-tableau-basis-cost-fallbacks\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-assignment-bounds\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-context-conflicts\")",
+    "count": 2,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-pairs\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-checked-tableau-copies\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(\":no.interface.lra-probe-reuse-orientations\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(found->second?kStatEufDiseqPropSourceUnaryArgAtomTrue:kStatEufDiseqPropSourceUnaryArgAtomFalse)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_engines.cpp:increment(argument_equality->second?kStatEufDiseqPropFlatSameFunctionArgAtomTrue:kStatEufDiseqPropFlatSameFunctionArgAtomFalse)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatTimeTotalUs)",
+    "count": 5,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatTimeParseUs)",
+    "count": 2,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatTimeFrontendUs)",
+    "count": 2,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatTimePreprocessingUs)",
+    "count": 6,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatTimeSolveUs)",
+    "count": 3,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-flatten.attempts\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-flatten.accepted\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-flatten.threshold-stops\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-flatten.operands-copied\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-flatten.rewrites\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-flatten.max-arity\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.visited\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.clause-candidates\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.rewritten\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.all-mode-rewrites\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.widened-operands\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.threshold-stops\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-implies.terms-created\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropAssignedAppDisequalities)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropSourceUnaryCandidates)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropSourceUnaryExistingArgAtom)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropSourceUnaryArgAtomTrue)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropSourceUnaryArgAtomFalse)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropFlatSameFunctionCandidates)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropFlatSameFunctionExistingArgAtom)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropFlatSameFunctionArgAtomTrue)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropFlatSameFunctionArgAtomFalse)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropGuardedFunctionGuardCandidates)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqPropGuardedArgumentGuardCandidates)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannApplications)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannFunctionSymbols)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannEligibleSymbols)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannUnarySymbols)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannNarySymbols)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannEstimatedConstraints)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannEstimatedEqualities)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannEstimatedClauseLits)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannMaxSymbolApplications)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannMaxSymbolArity)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannSymbolsCostLe100)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannSymbolsCostLe1000)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufAckermannSymbolsCostLe10000)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowInvocations)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowResultPairs)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowArgAtomsMissing)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowSatVisibleClauses)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowSatisfied)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowUnit)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowConflicting)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowResultDiseqAssigned)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowAllArgsEqAssigned)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowWidthTotal)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowMaxWidth)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowWidthLe3)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDynamicAckShadowWidthGt3)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckCandidates)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckQueuePushes)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckQueuePops)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckWidthSkips)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckMissingArgAtom)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckSatisfiedSkips)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckUnit)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckConflict)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckPropagated)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckReturned)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckPendingCleared)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckReasonLits)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckQueueBudgetCutoffs)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(kStatEufDiseqAckPerSymbolCutoffs)",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":frontend.define-fun.nullary-direct-uses\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":frontend.define-fun.nullary-eager-compiles\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":frontend.define-fun.nullary-side-assertions\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":frontend.define-fun.nullary-cache-hits\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":frontend.define-fun.nullary-cache-misses\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":frontend.define-fun.nullary-cache-entries\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":time.model.check-us\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":time.model.serialization-us\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":no.interface.terms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":no.interface.sorts\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":no.interface.candidate-pairs\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":no.interface.registry-entries\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":no.interface.visible-equalities\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":no.interface.missing-visible-equalities\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":no.purification.sites\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":no.purification.euf-real-terms\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":no.purification.arithmetic-uf-apps\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-shape.or-nodes\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-shape.not-nodes\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-shape.top-level-or-nodes\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:set(\":preprocessing.boolean-shape.max-top-level-or-children\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/solver_session.cpp:increment(\":sat.top-level-or-tseitin.auto\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/typed_model_builder.cpp:increment(\":model.congruence.disequality-checks\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/smt/typed_model_builder.cpp:increment(\":time.model.reconstruction-us\")",
+    "count": 1,
+    "reason": "Query, preparation or session reporting boundary; reassess if moved into recurring work."
+  },
+  {
+    "call": "src/util/statistics.cpp:get(key)",
+    "count": 1,
+    "reason": "Compatibility/string reporting boundary; no recurring name construction permitted."
+  }
+]

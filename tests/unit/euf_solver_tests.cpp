@@ -33,6 +33,12 @@ using primo::theory::equality::ProofForestObligation;
 namespace primo::theory::equality {
 class FlatCongruenceClosureTestAccess {
  public:
+  static std::size_t disequality_undo_entries(const FlatCongruenceClosure& closure) {
+    return closure.size_vector_trail_.size();
+  }
+  static std::size_t trace_capacity(const FlatCongruenceClosure& closure) {
+    return closure.conflict_trace_->current.steps.capacity();
+  }
   static std::size_t representative_proof_storage(const FlatCongruenceClosure& closure) {
     return closure.proof_parent_.capacity() + closure.proof_parent_label_endpoint_.capacity() +
            closure.proof_parent_edge_.capacity();
@@ -1564,7 +1570,45 @@ void flat_terms_do_not_export_curry_prefixes() {
   check(flat.original_term(flat.existing_flat_term(ta).value()).value() == ta);
 }
 
+void empty_losing_disequalities_preserve_undo_and_conflicts() {
+  FlatCongruenceClosure closure(160);
+  for (std::size_t i = 64; i < 128; ++i) closure.assert_distinct(0, i, {{-1}});
+  auto root = closure.push();
+  const auto before = FlatCongruenceClosureTestAccess::disequality_undo_entries(closure);
+  for (std::size_t i = 1; i < 64; ++i) closure.assert_equal(i, 0, {{2}});
+  check(FlatCongruenceClosureTestAccess::disequality_undo_entries(closure) == before);
+  auto nested = closure.push();
+  closure.assert_equal(1, 64, {{3}});
+  check(closure.conflict().has_value());
+  closure.pop(nested);
+  check(!closure.conflict().has_value() && closure.are_equal(1, 0));
+  closure.pop(root);
+  check(!closure.are_equal(1, 0));
+  closure.assert_equal(0, 65, {{4}});
+  check(closure.conflict().has_value());
+}
+
+void conflict_trace_reuses_storage_after_rollback() {
+  FlatCongruenceClosure closure(5);
+  closure.enable_conflict_congruence_trace();
+  closure.add_definition({0, 1, 3});
+  closure.add_definition({0, 2, 4});
+  std::size_t capacity = 0;
+  for (int round = 0; round < 20; ++round) {
+    auto checkpoint = closure.push();
+    closure.assert_equal(1, 2, {{1}});
+    closure.assert_distinct(3, 4, {{-2}});
+    check(closure.conflict().has_value());
+    if (round == 0) capacity = FlatCongruenceClosureTestAccess::trace_capacity(closure);
+    check(capacity > 0 && FlatCongruenceClosureTestAccess::trace_capacity(closure) == capacity);
+    closure.pop(checkpoint);
+    check(FlatCongruenceClosureTestAccess::trace_capacity(closure) == capacity);
+  }
+}
+
 int main() {
+  empty_losing_disequalities_preserve_undo_and_conflicts();
+  conflict_trace_reuses_storage_after_rollback();
   conflict_congruence_trace_selects_only_explained_steps();
   flat_terms_do_not_export_curry_prefixes();
   congruent_applications_are_merged();

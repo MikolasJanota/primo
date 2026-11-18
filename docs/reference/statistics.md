@@ -1329,3 +1329,14 @@ increments. The {conflictacksource}`incremental assignment state and online prop
 trace extraction and `cb_add_external_clause_lit` complete-stream delivery
 accounting. See the
 [prototype checklist](../leads/conflict-ackermann-prototype.md) for limits.
+
+## Typed instrumentation policy
+
+The agent guide and code-review checklist require typed or numeric recurring
+instrumentation, including helper calls. `make lint` checks the explicit string
+call inventory; that inventory is not proof that a call is cold. New exceptions
+need a phase/lifetime rationale. See the
+[performance checklist](../leads/euf-performance-fixes.md) for the current
+migration and its pending qualification. Newly promoted fixed counters preserve
+their previous extra-counter output order; name construction occurs at reporting,
+not on their typed increments.

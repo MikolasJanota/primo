@@ -213,6 +213,18 @@ In particular:
   source changes from it, then commit the reproducibility artifact or note that
   records why it was rejected when that artifact is part of the benchmark trail.
 
+## Statistics performance policy
+
+Recurring solver operations must use `util::StatKey` or numeric component-local
+counters. Do not construct, concatenate, format, hash or look up statistics names
+inside SAT callbacks, propagation/explanation loops, branching, merges or rollback.
+This applies to helper functions too. `--stats` controls printing, not collection.
+String-based reporting is allowed only at documented cold/dynamic boundaries.
+Local counters require explicit publication on completion, resource exits and
+reset. Preserve public names, meanings and missing-versus-zero behavior; use new
+keys when semantics change. Review statistics storage/copy cost as well as CPU cost.
+New exceptions to the statistics lint policy require a cold-path rationale.
+
 ## Solver performance and benchmark discipline
 
 Correctness comes before performance: stop tuning on wrong answers, invalid

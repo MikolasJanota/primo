@@ -26,7 +26,6 @@ class ConflictAckermannSelector {
     bool ready = false;
   };
   static std::uint64_t pair_key(core::TermId lhs, core::TermId rhs);
-  void count(const char* suffix);
   const core::TermManager& terms_;
   util::Statistics& statistics_;
   std::unordered_map<std::uint64_t, sat::Lit> equalities_;

@@ -142,7 +142,9 @@ void FlatCongruenceClosure::pop(std::size_t checkpoint) {
   structural_proof_forest_.pop(checkpoint);
   conflict_ = std::move(state.conflict);
   if (conflict_trace_) {
-    conflict_trace_->current = std::move(conflict_trace_->checkpoints.at(checkpoint));
+    const auto& saved = conflict_trace_->checkpoints.at(checkpoint);
+    conflict_trace_->current.visited_steps = saved.visited_steps;
+    conflict_trace_->current.steps.assign(saved.steps.begin(), saved.steps.end());
     conflict_trace_->checkpoints.resize(checkpoint);
   }
   stats_ = state.stats;
@@ -519,6 +521,8 @@ void FlatCongruenceClosure::merge_classes(PendingMerge pending) {
     return;
   }
   process_use_list(lhs_repr, rhs_repr);
+  // Union with the empty losing list changes no state and needs no undo payload.
+  if (disequality_lists_[lhs_repr].empty()) return;
   std::vector<std::size_t> merged_disequalities;
   merged_disequalities.reserve(disequality_lists_[rhs_repr].size() +
                                disequality_lists_[lhs_repr].size());
@@ -549,22 +553,27 @@ void FlatCongruenceClosure::merge_classes(PendingMerge pending) {
 
 void FlatCongruenceClosure::process_use_list(FlatTermId old_repr, FlatTermId new_repr) {
   std::vector<FlatTermId> affected;
+  if (checkpoints_.empty()) affected.swap(use_lists_[old_repr]);
   if (!checkpoints_.empty()) {
     TrailEntry entry;
     entry.kind = TrailKind::UseListRestore;
     entry.index = old_repr;
     entry.payload_index = flat_vector_trail_.size();
-    flat_vector_trail_.push_back(use_lists_[old_repr]);
+    flat_vector_trail_.push_back(std::move(use_lists_[old_repr]));
+    use_lists_[old_repr].clear();
     trail_.push_back(std::move(entry));
     ++stats_.trail_entries;
   }
-  affected.swap(use_lists_[old_repr]);
+  // enqueue_congruence only queues: the payload arena cannot grow during this loop.
+  // Save its index rather than retaining a reference across the insertion above.
+  const auto& affected_uses =
+      checkpoints_.empty() ? affected : flat_vector_trail_[trail_.back().payload_index];
   ++use_list_generation_;
   if (use_list_generation_ == 0) {
     std::fill(use_list_marks_.begin(), use_list_marks_.end(), 0);
     ++use_list_generation_;
   }
-  for (const FlatTermId result : affected) {
+  for (const FlatTermId result : affected_uses) {
     if (use_list_marks_[result] == use_list_generation_) {
       ++stats_.affected_use_list_dedup;
       ++stats_.use_list_duplicate_skips;
@@ -685,7 +694,10 @@ bool FlatCongruenceClosure::check_disequality(const Disequality& disequality) {
   }
   std::vector<sat::Lit> reason;
   begin_reason_collection(reason);
-  if (conflict_trace_) conflict_trace_->current = {};
+  if (conflict_trace_) {
+    conflict_trace_->current.visited_steps = 0;
+    conflict_trace_->current.steps.clear();
+  }
   ConflictTraceScope trace_scope(conflict_trace_ ? &conflict_trace_->collecting : nullptr);
   if (!explain_equal_into(disequality.lhs, disequality.rhs, reason, edges_.size())) {
     throw std::logic_error("flat congruence closure failed to explain disequality conflict");

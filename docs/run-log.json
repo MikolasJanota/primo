@@ -3,6 +3,19 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-18-euf-performance-implementation",
+      "date": "2026-11-18",
+      "branch": "lia-integrality",
+      "kind": "Statistics policy, EUF mechanical fixes, bounded admission and demand atoms",
+      "evidence_status": "Implementation in progress; mechanical/first typed-stat migration syntax and lint checks pass; native qualification pending; no speed claim.",
+      "baseline": "690ddc7f; native13230b6d SHA39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
+      "design": "docs/leads/euf-performance-fixes.md",
+      "implemented_pending_qualification": "Empty-losing disequality union bypass; moved use-list undo buffers; trace/semantic scratch reuse; promoted fixed runtime counters preserving display ordering; statistics policy/inventory lint.",
+      "checks": "g++ C++20 syntax-only changed kernels/runtime and new regressions;five pure scanner tests;make lint and make docs pass. Initial broad syntax pass caught two concatenated dynamic names accidentally promoted; repaired narrow pass succeeds. Native build/check/ASan/fresh gates pending.",
+      "remaining": "Full helper/cold-call classification;nativequalification;versioned admission;safe-boundary demand atoms;five-logic fresh gates and realmutations;paired pilot and broader controls;allSATDolmen;independentdocsreview/render;commits.",
+      "execution": "SLURM required;private route/workspace/receipts excluded from tracked files"
+    },
+    {
       "id": "2026-11-17-conflict-ackermann-performance-review",
       "date": "2026-11-17",
       "branch": "lia-integrality",

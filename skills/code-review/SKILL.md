@@ -148,6 +148,13 @@ Check:
 - values respect equivalence classes
 - model validation script accepts produced models where possible
 
+### Statistics hot paths
+
+Require typed keys or numeric counters in recurring solver work, including helper
+calls. Reject constructed/string-keyed instrumentation in callbacks and loops.
+Check publication at resource exits, reset, stable output names and storage cost.
+Review any cold/dynamic lint exception explicitly.
+
 ### Old-fashioned C++ hygiene
 
 Check every tracked non-generated C++ file:

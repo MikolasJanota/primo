@@ -51,21 +51,21 @@ theory::ComponentAtom component_atom(const BooleanClausifier::TheoryAtom& atom) 
 }
 
 void publish(const ComponentModelStatistics& source, util::Statistics& statistics) {
-  statistics.set(":combination.component-checks", source.component_checks);
-  statistics.set(":combination.learned-clauses", source.learned_clauses);
-  statistics.set(":combination.model.component-checks", source.component_checks);
-  statistics.set(":combination.model.snapshots", source.snapshots);
-  statistics.set(":combination.model.mutations", source.mutations);
-  statistics.set(":combination.model.fixed-points", source.fixed_points);
-  statistics.set(":combination.model.care-pairs", source.care_pairs);
-  statistics.set(":combination.model.care-pair-agreements", source.care_pair_agreements);
-  statistics.set(":combination.model.spanning-pair-checks", source.spanning_pair_checks);
-  statistics.set(":combination.model.disagreements", source.disagreements);
-  statistics.set(":combination.model.learned-clauses", source.learned_clauses);
-  statistics.set(":combination.model.decisions", source.model_decisions);
-  statistics.set(":combination.model.fresh-decisions", source.fresh_decisions);
-  statistics.set(":combination.model.stale-snapshots", source.stale_snapshots);
-  statistics.set(":combination.model.rejected-mutations", source.rejected_mutations);
+  statistics.set(util::StatKey::CombinationComponentChecks, source.component_checks);
+  statistics.set(util::StatKey::CombinationLearnedClauses, source.learned_clauses);
+  statistics.set(util::StatKey::CombinationModelComponentChecks, source.component_checks);
+  statistics.set(util::StatKey::CombinationModelSnapshots, source.snapshots);
+  statistics.set(util::StatKey::CombinationModelMutations, source.mutations);
+  statistics.set(util::StatKey::CombinationModelFixedPoints, source.fixed_points);
+  statistics.set(util::StatKey::CombinationModelCarePairs, source.care_pairs);
+  statistics.set(util::StatKey::CombinationModelCarePairAgreements, source.care_pair_agreements);
+  statistics.set(util::StatKey::CombinationModelSpanningPairChecks, source.spanning_pair_checks);
+  statistics.set(util::StatKey::CombinationModelDisagreements, source.disagreements);
+  statistics.set(util::StatKey::CombinationModelLearnedClauses, source.learned_clauses);
+  statistics.set(util::StatKey::CombinationModelDecisions, source.model_decisions);
+  statistics.set(util::StatKey::CombinationModelFreshDecisions, source.fresh_decisions);
+  statistics.set(util::StatKey::CombinationModelStaleSnapshots, source.stale_snapshots);
+  statistics.set(util::StatKey::CombinationModelRejectedMutations, source.rejected_mutations);
 }
 
 }  // namespace
@@ -196,11 +196,11 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
     }
   }
 
-  statistics.set(":combination.components", components.size());
-  statistics.set(":combination.shared-terms", shared_terms);
-  statistics.set(":combination.arrangement-pairs", total_pairs);
-  statistics.set(":combination.model.enabled", guided ? 1 : 0);
-  statistics.set(":combination.model.total-pairs", total_pairs);
+  statistics.set(util::StatKey::CombinationComponents, components.size());
+  statistics.set(util::StatKey::CombinationSharedTerms, shared_terms);
+  statistics.set(util::StatKey::CombinationArrangementPairs, total_pairs);
+  statistics.set(util::StatKey::CombinationModelEnabled, guided ? 1 : 0);
+  statistics.set(util::StatKey::CombinationModelTotalPairs, total_pairs);
   for (const auto* key :
        {":combination.model.complete-fallbacks", ":combination.model.fallback-budget",
         ":combination.model.fallback-unsupported", ":combination.model.fallback-unknown",
@@ -236,7 +236,7 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
     // Every producer uses this boundary, including generated interface
     // encodings. Complete the registry before taking any view of its storage.
     if (recipe.prepare_boolean) recipe.prepare_boolean(clausifier);
-    const bool first = statistics.get(":combination.components.full-builds") == 0;
+    const bool first = statistics.get(util::StatKey::CombinationComponentsFullBuilds) == 0;
     CombinationTimer timer(statistics, recipe.timing_prefix + (first ? "component-rebuild-us"
                                                                      : "component-growth-us"));
     std::vector<std::vector<theory::ComponentAtom>> additions(components.size());
@@ -312,7 +312,7 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
             backend.add_observed_var(atom.lit.value < 0 ? -atom.lit.value : atom.lit.value);
         }
       }
-      statistics.increment(":combination.online-components.rebuilds");
+      statistics.increment(util::StatKey::CombinationOnlineComponentsRebuilds);
     } else {
       for (auto* component : components)
         component->bind_assignment_view(sat::TrailView(completed_assignment));
@@ -321,12 +321,12 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
                                : ":combination.components.incremental-growths");
     installed_atoms = all.size();
     installed_pairs = registered.size();
-    statistics.set(":combination.arrangement-bridge-clauses", bridge_clauses);
-    statistics.set(":combination.model.materialized-pairs", installed_pairs);
+    statistics.set(util::StatKey::CombinationArrangementBridgeClauses, bridge_clauses);
+    statistics.set(util::StatKey::CombinationModelMaterializedPairs, installed_pairs);
     statistics.set(util::StatKey::TheoryAtoms, all.size());
   };
   install_atoms();
-  statistics.set(":combination.online-components.enabled", recipe.online ? 1 : 0);
+  statistics.set(util::StatKey::CombinationOnlineComponentsEnabled, recipe.online ? 1 : 0);
   std::vector<sat::Lit> active_choices;
   std::size_t decision_batches = 0;
   std::uint64_t epoch = 0;
@@ -340,8 +340,8 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
       outcome =
           solve_component_recipe(terms, assertions, conversions, options, statistics, complete);
     }
-    statistics.set(":combination.model.enabled", 1);
-    statistics.increment(":combination.model.complete-fallbacks");
+    statistics.set(util::StatKey::CombinationModelEnabled, 1);
+    statistics.increment(util::StatKey::CombinationModelCompleteFallbacks);
     statistics.increment(reason);
     outcome.statistics = statistics;
     return outcome;
@@ -358,9 +358,9 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
       CombinationTimer timer(statistics, recipe.timing_prefix + "sat-us");
       const auto resume_start = std::chrono::steady_clock::now();
       sat_result = backend.solve();
-      if (statistics.get(":lia.branching.sat-resumes") != 0)
+      if (statistics.get(util::StatKey::LiaBranchingSatResumes) != 0)
         statistics.increment(
-            ":time.lia.branching.resumed-sat-us",
+            util::StatKey::TimeLiaBranchingResumedSatUs,
             static_cast<std::uint64_t>(std::chrono::duration_cast<std::chrono::microseconds>(
                                            std::chrono::steady_clock::now() - resume_start)
                                            .count()));
@@ -384,8 +384,8 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
         throw std::logic_error("a component reported queued lemmas but supplied none");
       }
       detach_dispatcher();
-      statistics.increment(":combination.lemmas.batches");
-      statistics.increment(":combination.lemmas.formulas", lemmas.size());
+      statistics.increment(util::StatKey::CombinationLemmasBatches);
+      statistics.increment(util::StatKey::CombinationLemmasFormulas, lemmas.size());
       {
         CombinationTimer timer(statistics, recipe.timing_prefix + "lemma-us");
         for (const auto formula : recipe.prepare_lemmas(std::move(lemmas))) {
@@ -412,7 +412,7 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
             return backend.failed(choice) &&
                    integer_choice_variables.contains(std::abs(choice.value));
           }))
-        statistics.increment(":lia.branching.choice-conflicts");
+        statistics.increment(util::StatKey::LiaBranchingChoiceConflicts);
       sat::Clause clause;
       std::vector<sat::Lit> surviving;
       for (const auto choice : active_choices) {
@@ -427,12 +427,12 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
       }
       backend.add_clause(clause);
       active_choices = std::move(surviving);
-      statistics.increment(":no.interface.model-equality-blocking-clauses");
+      statistics.increment(util::StatKey::NoInterfaceModelEqualityBlockingClauses);
       continue;
     }
     if (sat_result != sat::SatResult::Sat) return {map_sat_result(sat_result), "", statistics, ""};
     ++epoch;
-    statistics.increment(":combination.rounds");
+    statistics.increment(util::StatKey::CombinationRounds);
     std::vector<theory::InterfaceRelation> arrangement;
     for (const auto& [key, relation] : registered) {
       static_cast<void>(key);
@@ -515,7 +515,7 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
           conflicts.push_back(literal != 0 && actual == -literal);
         }
         detach_dispatcher();
-        statistics.increment(":combination.equality.batches");
+        statistics.increment(util::StatKey::CombinationEqualityBatches);
         for (std::size_t index = 0; index < combined.equalities.size(); ++index) {
           const auto& equality = combined.equalities[index];
           const auto before = registered.size();
@@ -523,17 +523,18 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
           if (!literal.has_value()) {
             throw std::logic_error("validated equality could not be materialized");
           }
-          statistics.increment(":combination.equality.fresh-pairs", registered.size() - before);
+          statistics.increment(util::StatKey::CombinationEqualityFreshPairs,
+                               registered.size() - before);
           if (!recipe.learn_exported_equalities) {
-            statistics.increment(":combination.equality.named-without-proof");
+            statistics.increment(util::StatKey::CombinationEqualityNamedWithoutProof);
             continue;
           }
           sat::Clause clause{*literal};
           for (const auto reason : equality.reasons) clause.push_back(sat::Lit{-reason.value});
           backend.add_clause(clause);
-          statistics.increment(":combination.equality.clauses");
+          statistics.increment(util::StatKey::CombinationEqualityClauses);
           if (conflicts[index]) {
-            statistics.increment(":combination.equality.conflicts");
+            statistics.increment(util::StatKey::CombinationEqualityConflicts);
             statistics.increment(util::StatKey::TheoryConflicts);
             record_theory_conflict(statistics);
           }
@@ -557,14 +558,14 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
           throw std::logic_error("invalid ordinary integer split request");
         const BoundKey key{request.term, request.floor};
         if (const auto found = integer_bounds.find(key); found != integer_bounds.end()) {
-          statistics.increment(":lia.branching.reused-atoms");
+          statistics.increment(util::StatKey::LiaBranchingReusedAtoms);
           // Complete checks receive every registered atom. Either polarity
           // excludes this open integer gap, so requesting it again is a bug.
           throw std::logic_error("assigned integer split made no arithmetic progress");
         }
         if (recipe.integer_split_atom_limit != 0 &&
             fresh_integer_atoms >= recipe.integer_split_atom_limit) {
-          statistics.increment(":lia.branching.split-budget-exhaustions");
+          statistics.increment(util::StatKey::LiaBranchingSplitBudgetExhaustions);
           return {CheckSatResult::Unknown, "integer split atom limit", statistics, "",
                   InconclusiveReason::ResourceLimit};
         }
@@ -575,12 +576,12 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
         const auto literal = clausifier.ensure_theory_atom(bound).lit;
         integer_bounds.emplace(key, literal);
         ++fresh_integer_atoms;
-        statistics.increment(":lia.branching.unique-atoms");
-        statistics.set(":lia.branching.peak-generated-atoms", fresh_integer_atoms);
+        statistics.increment(util::StatKey::LiaBranchingUniqueAtoms);
+        statistics.set(util::StatKey::LiaBranchingPeakGeneratedAtoms, fresh_integer_atoms);
         install_atoms();
         active_choices.push_back(literal);
         integer_choice_variables.insert(std::abs(literal.value));
-        statistics.increment(":lia.branching.sat-resumes");
+        statistics.increment(util::StatKey::LiaBranchingSatResumes);
         continue;
       }
       case ModelBasedCombinationStatus::FreshDecision:

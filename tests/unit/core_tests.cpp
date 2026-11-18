@@ -271,6 +271,18 @@ void rational_primitive_integer_scale_clears_denominators_and_content() {
 }
 
 void statistics_preserve_fixed_and_dynamic_counters() {
+  // Promoted fixed counters must retain their old position among extra keys.
+  {
+    Statistics ordered;
+    ordered.increment(":custom.before");
+    ordered.increment(primo::util::StatKey::EufConflictAckDuplicatePairs);
+    ordered.increment(":custom.after");
+    ordered.increment(primo::util::StatKey::AssertionsInitial);
+    assert((ordered.keys() == std::vector<std::string>{":input.assertions", ":custom.before",
+                                                       ":euf.conflict-ack.duplicate-pairs",
+                                                       ":custom.after"}));
+    assert(ordered.get(":euf.conflict-ack.duplicate-pairs") == 1);
+  }
   Statistics statistics;
   statistics.increment(StatKey::AssertionsInitial);
   statistics.increment(":input.assertions", 2);
