@@ -20,6 +20,7 @@
 #include "smt/conflict_ackermann.hpp"
 #include "smt/inconclusive_reason.hpp"
 #include "smt/preprocessing.hpp"
+#include "util/statistics.hpp"
 
 using primo::smt::CheckSatOptions;
 using primo::smt::CheckSatResult;
@@ -1905,6 +1906,48 @@ void qg_shape_uses_fixed_terms_but_not_moving_table_terms_for_symmetry() {
   assert(result.statistics.get(":preprocessing.uf-symmetry.value-precedence-constraints") == 4);
 }
 
+void overlapping_symmetry_groups_preserve_a_derangement_model() {
+  const std::string input =
+      read_text_file("../benchmarks/regressions/qf_uf_overlapping_symmetry_groups.smt2");
+  for (const bool value_precedence : {false, true}) {
+    for (const auto mode :
+         {primo::smt::PreprocessingMode::Auto, primo::smt::PreprocessingMode::Strong}) {
+      CheckSatOptions options;
+      options.finite_domain_value_precedence = value_precedence;
+      options.preprocessing_mode = mode;
+      const auto result = check_sat_smtlib(input, options);
+      assert(result.result == CheckSatResult::Sat);
+      assert(result.statistics.get(primo::util::StatKey::UfSymmetryAcceptedSets) == 1);
+      assert(result.statistics.get(primo::util::StatKey::UfSymmetryRejectedPriorConstraints) >= 1);
+    }
+  }
+}
+
+void compatible_symmetry_groups_both_retain_restrictions() {
+  CheckSatOptions options;
+  options.preprocessing_mode = primo::smt::PreprocessingMode::Strong;
+  const auto result = check_sat_smtlib(R"(
+    (set-logic QF_UF)
+    (declare-sort U 0)
+    (declare-sort V 0)
+    (declare-const a U)
+    (declare-const b U)
+    (declare-const x U)
+    (declare-const c V)
+    (declare-const d V)
+    (declare-const y V)
+    (assert (distinct a b))
+    (assert (distinct c d))
+    (assert (or (= x a) (= x b)))
+    (assert (or (= y c) (= y d)))
+    (check-sat)
+  )",
+                                       options);
+  assert(result.result == CheckSatResult::Sat);
+  assert(result.statistics.get(primo::util::StatKey::UfSymmetryAcceptedSets) == 2);
+  assert(result.statistics.get(primo::util::StatKey::UfSymmetryRejectedPriorConstraints) == 0);
+}
+
 void no_symmetry_breaking_disables_strong_preset_symmetry_only() {
   primo::smt::CheckSatOptions options;
   options.preprocessing_mode = primo::smt::PreprocessingMode::Strong;
@@ -3625,6 +3668,8 @@ int main() {
   moving_only_symmetry_terms_are_rejected_from_smtlib();
   symmetry_ignores_preprocessing_residual_domains();
   qg_shape_uses_fixed_terms_but_not_moving_table_terms_for_symmetry();
+  overlapping_symmetry_groups_preserve_a_derangement_model();
+  compatible_symmetry_groups_both_retain_restrictions();
   no_symmetry_breaking_disables_strong_preset_symmetry_only();
   theory_phase_option_can_leave_backend_phase_unset();
   default_theory_phase_keeps_negative_phase();

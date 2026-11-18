@@ -7,7 +7,7 @@
       "date": "2026-11-18",
       "branch": "lia-integrality",
       "kind": "Full official UF/UFLIA selection paired followup before merge review",
-      "evidence_status": "Running:full official1104UF/300UFLIA pairedtimings;all modeljobs wait for successfulglobaltimingaudit. No new performanceclaim.",
+      "evidence_status": "Stopped:confirmedwrongUNSAT onSAT SEQ004_size7 inBASE andcurrent;allperformance/modeljobs cancelled. No speedclaim;mergeblocker.",
       "source": "6e53a710e30b8cb15aa3c330adb16a03ecd13189",
       "native_sha256": "8cf501e1752a4f5eeaa2909af42395af504d5ebb22dc9abaaa3ac29da276e875",
       "baseline_source": "13230b6d",
@@ -31,7 +31,7 @@
       "methods": "scripts/qualification/euf_smtcomp/{configure,launch,audit}.py; sharedlia_hybrid/run.py; conflict_ackermann/submit.py global parent validation.",
       "correctness": "AllSAT exactprofile directDolmen required separately; disagreement/crash/unexplainederror/missingcoverage blocks finalacceptance; timeout/handledresource staysunsolved.",
       "review_next": "User requests review of all changes againstmain after evaluation;235commits atstart,mergebasefcc274c23ff5b146cc43d80b1b0317faf91c7f08;allsource/tests/scripts/docs/defaults/evidence; no merge authorization inferred.",
-      "remaining": "Submit and completeSLURM timings/modelaudit;analyze andcommit evidence;thenperformfullbranchmergereadiness review.",
+      "remaining": "Fixandqualifysymmetrycomposition;correct/replaceknownwrongbaseline;restartfullbenchmarkunderfreshidentities;thenwholebranchreviewandmergeblockeraccount.",
       "jobs": {
         "timing": [
           "424295",
@@ -91,6 +91,20 @@
         "auditor_blob": "e8a9329bef14",
         "controller_blob": "e3f035abbd42",
         "archived_csv_blob": "eca138a98169"
+      },
+      "correctness_blocker": {
+        "case": "SEQ/SEQ004_size7.smt2",
+        "input_sha256": "b4d8340c7915d7dff8eee459963ce3af9bad86bbe2fe572e86b8bf5463af461a",
+        "failing_timing_task": "424296_376",
+        "expected": "sat",
+        "observed": "BASE132unsat0.559075s exit0;focused current6e alsounsatexit0",
+        "triage_jobs": [
+          425596,
+          425599
+        ],
+        "isolation": "Bothdefaultandno-value-precedencewrong;bothno-UFsymmetrySATwithDolmenpasses;old7ddarchiveSATDolmenpass. Reduced3valuefixture reproduces;preprocessingoffcorrect. Originaltriage had2invalid--preprocess noneCLIprofiles;thoseexits109diagnostic-only,corrected--preprocessing-mode off inreducedmatrix.",
+        "design": "docs/leads/uf-symmetry-composition.md",
+        "cause": "Candidate groups checked againstoriginalformula butnotpriorrestrictions;overlappinggroups cancomposeincompatiblecanonical choices. Branch cache-refreshchange exposes underlyingcompositionbug. PrimaryCADE2011Theorem5/Algorithm1requiresupdatedformula invariance."
       }
     },
     {

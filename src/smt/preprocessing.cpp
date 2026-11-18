@@ -5218,6 +5218,16 @@ UfSymmetryBreakingResult UfSymmetryBreaker::break_symmetries(
       continue;
     }
 
+    // Theorem 5 applies to the evolving formula (Deharbe et al., CADE 2011,
+    // Algorithm 1). Independently valid groups can choose incompatible model
+    // representatives. Preserve restrictions emitted for all earlier groups.
+    if (!result.constraints.empty() && !formulas_are_invariant_under_value_permutations(
+                                           terms_, result.constraints, group.values)) {
+      ++result.rejected_noninvariant;
+      ++result.rejected_prior_constraints;
+      continue;
+    }
+
     std::vector<SymmetryTerm> fixed_terms = fixed_symmetry_terms(group);
     if (fixed_terms.empty()) {
       ++result.rejected_noninvariant;

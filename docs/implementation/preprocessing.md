@@ -481,7 +481,14 @@ unchanged when the constants are renamed.
 With **value precedence**, a term may take value $c_i$, for $i>0$, only if
 an earlier term in the sequence takes value $c_{i-1}$. Disabling value
 precedence uses weaker restrictions on the values allowed at each position.
-A group with no fixed candidate term is rejected. Arithmetic numerals are
+A group with no fixed candidate term is rejected. Before admitting each later
+group, the pass also checks that its cycle/swap permutations preserve every
+restriction emitted for earlier groups. This maintains the evolving-formula
+precondition of Algorithm 1; separately valid restrictions can be incompatible
+when composed. The typed counter
+`:preprocessing.uf-symmetry.rejected-prior-constraints` identifies groups that
+pass the input check but fail this additional guard. See the
+[symmetry-composition repair](../leads/uf-symmetry-composition.md). Arithmetic numerals are
 never permuted.
 Unlike AMO consequences, symmetry constraints need not hold in every original
 model; the justification is that some equivalent renamed model satisfies them.

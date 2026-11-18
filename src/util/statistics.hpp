@@ -74,6 +74,7 @@ enum class StatKey : std::size_t {
   UfSymmetryValuePrecedenceTerms,
   UfSymmetryValuePrecedenceConstraints,
   UfSymmetryRejectedNoninvariant,
+  UfSymmetryRejectedPriorConstraints,
   AutoSingleAssertion,
   AutoStrong,
   AutoBasicSingle,

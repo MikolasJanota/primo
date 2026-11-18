@@ -425,6 +425,8 @@ Tactic make_finite_domain_preprocess(FiniteDomainPreprocessOptions options,
                                  symmetry.value_precedence_constraints);
             statistics.increment(util::StatKey::UfSymmetryRejectedNoninvariant,
                                  symmetry.rejected_noninvariant);
+            statistics.increment(util::StatKey::UfSymmetryRejectedPriorConstraints,
+                                 symmetry.rejected_prior_constraints);
           }
           if (options.generate_at_most_one) {
             FiniteDomainAtMostOneResult refreshed_raw;

@@ -73,6 +73,7 @@ constexpr std::array<std::string_view, static_cast<std::size_t>(StatKey::Count)>
     ":preprocessing.uf-symmetry.value-precedence-terms"sv,
     ":preprocessing.uf-symmetry.value-precedence-constraints"sv,
     ":preprocessing.uf-symmetry.rejected-noninvariant"sv,
+    ":preprocessing.uf-symmetry.rejected-prior-constraints"sv,
     ":preprocessing.auto.single-assertion"sv,
     ":preprocessing.auto.strong"sv,
     ":preprocessing.auto.basic-single"sv,

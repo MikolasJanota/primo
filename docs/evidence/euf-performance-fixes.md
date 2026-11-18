@@ -8,6 +8,12 @@ full audit. Mechanical changes give a modest targeted UF gain; demand atoms
 regress. Additional paired regression repetitions confirm the demand regressions.
 Defaults stay unchanged.
 
+**New correctness blocker:** the later full SMT-COMP selection found a wrong
+UNSAT answer in UF symmetry preprocessing, shared by both compared binaries.
+The broader evaluation is stopped. The historical pilot below remains evidence
+for its tested inputs, not merge readiness; the
+[symmetry-composition repair](../leads/uf-symmetry-composition.md) is being qualified.
+
 The [implementation checklist](../leads/euf-performance-fixes.md) and
 [EUF representation](../implementation/euf.md#conflict-selected-ackermann-prototype)
 map the changes to their owners and limitations. Dutertre and de Moura's
@@ -299,8 +305,9 @@ thresholds as the initial selection.
 
 ## Full SMT-COMP selection follow-up
 
-Status: broader native timing arrays are running before the branch's
-merge-readiness review. This stage reuses the already qualified source `6e53a710`, with default
+Status: stopped on a confirmed wrong answer before model validation or
+performance acceptance. The comparison is incomplete and must not be used for a
+speed claim. See the [symmetry-composition repair](../leads/uf-symmetry-composition.md). This stage reuses the already qualified source `6e53a710`, with default
 options and `--quiet --stats`; both conflict Ackermann emission and demand atoms
 remain disabled. The comparator is the same frozen pre-change `13230b6d`
 binary. Both executable identities are frozen by SHA-256. No new Yices or other

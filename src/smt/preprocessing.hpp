@@ -457,6 +457,7 @@ struct UfSymmetryBreakingResult {
   std::size_t value_precedence_terms = 0;
   std::size_t value_precedence_constraints = 0;
   std::size_t rejected_noninvariant = 0;
+  std::size_t rejected_prior_constraints = 0;
 };
 
 struct UfSymmetryBreakingOptions {
