@@ -7,10 +7,10 @@
       "date": "2026-11-18",
       "branch": "lia-integrality",
       "kind": "Statistics policy, EUF mechanical fixes, bounded admission and demand atoms",
-      "evidence_status": "Source6e correctness-qualified; full5862native/2753SAT-model timing audit complete. Mechanical targetedUF gain; arithmeticnearneutral; demandregresses; extra regression repetitions active. No default promotion.",
+      "evidence_status": "Source6e correctness-qualified; full5862native/2753SAT-model timing audit complete. Mechanical targetedUF gain; arithmeticnearneutral; demandregresses; 225extra regression rows/50SATmodels pass and confirm demand regressions. No default promotion.",
       "baseline": "690ddc7f; native13230b6d SHA39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
       "design": "docs/leads/euf-performance-fixes.md",
-      "remaining": "Complete225native regression followup rows and allSAT replays; final independent artifact/documentation/render review and evidence commit.",
+      "remaining": "None; final evidence commit/process bookkeeping recorded at completion.",
       "execution": "SLURM required;private route/workspace/receipts excluded from tracked files",
       "mechanical_source": "66ebec78",
       "mechanical_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de",
@@ -107,11 +107,29 @@
         "cases": 25,
         "native_rows_expected": 225,
         "method": "All25distinct demand stable-loss or repeated >=10% and >=0.5s slowdown cases fromON/DEMAND andOFF/DEMAND;threeadditionalrotatedOFF/ON/DEMAND repetitions;30s8GiB;25tasks/array. Models separately after allfollowupnative jobs finish.",
-        "status": "Native active; models pending"
+        "status": "Complete:225native rows and50exact-profile directDolmenSAT replays pass;4stablelosses repeated;20of21slowdowns repeat threshold;no stablegain.",
+        "models_jobs": [
+          419995,
+          419996,
+          420021
+        ],
+        "SAT_Dolmen_pass": 50,
+        "artifact": "benchmarks/euf-performance-20261118/evaluation/followups.json",
+        "receipts": "benchmarks/euf-performance-20261118/evaluation/followup-receipts.json",
+        "conditional_DEMAND_OFF_ratio": 3.16895521226467,
+        "conditional_DEMAND_ON_ratio": 3.0749376185383426,
+        "eligible_common_solved_cases": 14,
+        "native_csv": "benchmarks/euf-performance-20261118/evaluation/followup-native-rows.csv",
+        "remaining_case": "Certora39657 demandtimeoutrep0;28.7\u201329.6s inotherreps vsOFF24.8\u201325.4s;excludedcommon-solvedmetric.",
+        "sha256": {
+          "followups.json": "e2bf259a6a1e9e2cbca568203eda5ef930ae487cbf63d35e8da09cd428dd8fa6",
+          "followup-receipts.json": "27cac68445bb5a4c441b2d8da2c68753a4fdd9dcb519c01c95b54a4635c36fd3",
+          "followup-native-rows.csv": "5bccdda4556ca17cc08eb98476ba4efed51bfc30ac2dfd47473e5ef8696979bb"
+        }
       },
       "documentation_review": {
         "reviewer": "conflict_ack_docs_review (read-only independent)",
-        "verdict": "Main timing/evidence ready; EPR1 timeout-censoring and EPR2 allocation/affinity corrections accepted.5862native,2753models,19comparisons,22rollups and allhashes checked. Followups outside acceptance until completed.",
+        "verdict": "Main and followup evaluation ready; EPR1/EPR2 resolved.5862mainnative/2753models and225followupnative/50models independently checked;paired results/CSV/counters/provenance accepted. Writer renders andbook/linkchecks passed.",
         "artifact_blobs": {
           "csv": "e36b77a7bb73",
           "paired": "62635206efb2",
@@ -120,8 +138,16 @@
           "provenance": "c1a62cad5d66",
           "receipts": "c87db047499e"
         },
-        "writer_checks": "make lint;6puremetadata tests;make docs;make docs-check-links308pages47112local1380Git0failures;532external deferred;rendered timing/pilot/controls inspected."
-      }
+        "writer_checks": "make lint;6puremetadata tests;make docs;make docs-check-links full; finalincremental book/localGitlinks308pages47121local1380Git0failures;532external deferred;rendered timing/pilot/controls/followup inspected.",
+        "followup_accepted_blobs": {
+          "evidence": "a0427ef64d1c",
+          "summary": "fccbf2200648",
+          "receipts": "6995124d64f9",
+          "csv": "6dd8189abb8e",
+          "auditor": "f69050e86b25"
+        }
+      },
+      "process_audit": "Allnative/model/timing/followup SLURM arrays terminalCOMPLETEDexit0; userSLURMqueue empty at14:14UTC; no local nativeexperiment processes. Localplot/docs/metadataonly. Unrelateduntrackedresume untouched;no pushauthorized."
     },
     {
       "id": "2026-11-17-conflict-ackermann-performance-review",

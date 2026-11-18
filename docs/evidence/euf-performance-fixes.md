@@ -5,8 +5,8 @@ gates. The integrated gate checks 21,000 generated cases, 6,826 real-seed
 mutations and 318 regression measurements; 19,125 separate SAT models pass
 Dolmen. All 5,862 native timing rows and 2,753 separate SAT-model replays pass the
 full audit. Mechanical changes give a modest targeted UF gain; demand atoms
-regress. Additional paired regression repetitions are running. Defaults stay
-unchanged.
+regress. Additional paired regression repetitions confirm the demand regressions.
+Defaults stay unchanged.
 
 The [implementation checklist](../leads/euf-performance-fixes.md) and
 [EUF representation](../implementation/euf.md#conflict-selected-ackermann-prototype)
@@ -194,6 +194,29 @@ Conflict Ackermann emission remains opt-in and equality atoms default to
 `existing`. Demand is retained as a bounded experimental prototype, without a
 performance recommendation or default promotion. Batching growth and reducing
 rebuild work require a separate correctness and performance evaluation.
+
+## Additional paired regression repetitions
+
+All 25 selected cases completed three additional rotated OFF/ON/DEMAND
+repetitions: 225 native measurements, followed by 50 successful SAT measurements
+passing separate direct Dolmen checks. Native jobs 419920–419922 and model jobs
+419995, 419996 and 420021 completed successfully. The four lost solves recur in
+all three additional repetitions. Of the 21 original repeated-slowdown cases,
+20 again meet the 10% and 0.5-second threshold in every repetition against both
+OFF and ON. The remaining original slowdown case, Certora `39657`, has a
+DEMAND timeout in repetition zero and takes 28.7–29.6 seconds in the other
+two, against OFF at 24.8–25.4 seconds; it is excluded from the common-solved
+slowdown calculation. No case gains a stable solve. This confirms a substantial demand
+regression on the selected problems; it is not machine noise.
+
+On the 14 eligible common-solved cases in this regression sample, the geometric
+mean paired ratio is 3.169 for DEMAND/OFF and 3.075 for DEMAND/ON. These
+selection-conditioned ratios are diagnostic and must not be extrapolated to a
+corpus-wide slowdown. The {download}`follow-up comparison <../../benchmarks/euf-performance-20261118/evaluation/followups.json>`,
+the {download}`225 native measurements <../../benchmarks/euf-performance-20261118/evaluation/followup-native-rows.csv>`
+and {download}`model receipts <../../benchmarks/euf-performance-20261118/evaluation/followup-receipts.json>`
+preserve all selected cases and results. The main tables/plots below retain the
+original repetitions; follow-up timings are not pooled into them.
 
 ## Audited measurements and cactus plots
 

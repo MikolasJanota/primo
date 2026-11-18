@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import collections
+import csv
 import json
 import sys
 from pathlib import Path
@@ -110,6 +111,30 @@ def main():
         + "\n"
     )
     (args.out / "receipts.json").write_text(json.dumps(receipts, indent=2) + "\n")
+    fields = (
+        "repetition",
+        "slot",
+        "profile",
+        "logic",
+        "file",
+        "seconds",
+        "status",
+        "answer",
+        "exit_code",
+        "peak_rss_kib",
+    )
+    with (args.out / "native-rows.csv").open("w", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=fields)
+        writer.writeheader()
+        for (rep, slot, label), row in sorted(records.items()):
+            writer.writerow(
+                {
+                    **{k: row[k] for k in fields if k in row},
+                    "repetition": rep,
+                    "slot": slot,
+                }
+            )
+
     print(json.dumps({"native_rows": 225, "SAT_Dolmen_pass": sat}))
 
 

@@ -297,3 +297,14 @@ zero failures; 532 external URLs deferred). Native C++ remains source
 `6e53a710`; its SLURM native/ASan/generated/mutation/static gates remain the
 qualification basis. No new solver timing/default promotion is inferred from
 near-neutral arithmetic differences.
+
+The additional regression stage is now independently accepted by the same
+read-only reviewer: 225 native rows, 75 receipt groups and all 50 exact-profile
+Dolmen replays. Four stable losses recur; 20 repeated slowdowns recur; the
+remaining Certora case has an additional demand timeout and is excluded from
+common-solved ratios. Accepted blobs: evidence `a0427ef64d1c`, follow-up summary
+`fccbf2200648`, receipts `6995124d64f9`, native CSV `6dd8189abb8e`, auditor/exporter
+`f69050e86b25`. Follow-up results remain separate from the main plots/tables.
+The writer reran lint, six metadata tests, documentation and local/Git links,
+and inspected the rendered follow-up section. All experiment arrays are
+terminal and the SLURM queue is empty; no local native experiments remain.
