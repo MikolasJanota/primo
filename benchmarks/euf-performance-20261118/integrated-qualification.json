@@ -689,5 +689,13 @@
     }
   ],
   "mutation_incomplete_classification": "All31 mutant incomplete rows are native timeout(exit124); references returnSAT11/UNSAT20. No native unknown or non-timeout solver error. Original seed outcomes separately audited below.",
-  "original_seed_incomplete_patterns": []
+  "original_seed_incomplete_patterns": [],
+  "mutation_limits": {
+    "original_and_saved_mutant_answer_check_seconds": 10,
+    "YinYang_solver_seconds": 5,
+    "YinYang_campaign_seconds_per_profile": 600,
+    "iterations_per_seed": 30,
+    "original_seeds_per_profile": 12,
+    "mutant_file_size_bytes": 2000000
+  }
 }

@@ -7,11 +7,10 @@
       "date": "2026-11-18",
       "branch": "lia-integrality",
       "kind": "Statistics policy, EUF mechanical fixes, bounded admission and demand atoms",
-      "evidence_status": "Integrated6e53a710 correctness-qualified:49native/382Python/49ASan;21000generated+6826mutations+318regressions;19125SATDolmen plus20focusedreplays. Static141/141 bothscans,advisoriesremain. Pairedtimingunsubmitted;no speed claim.",
+      "evidence_status": "Source6e correctness-qualified; full5862native/2753SAT-model timing audit complete. Mechanical targetedUF gain; arithmeticnearneutral; demandregresses; extra regression repetitions active. No default promotion.",
       "baseline": "690ddc7f; native13230b6d SHA39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
       "design": "docs/leads/euf-performance-fixes.md",
-      "implemented_pending_qualification": "Empty-losing disequality union bypass; moved use-list undo buffers; trace/semantic scratch reuse; promoted fixed runtime counters preserving display ordering; statistics policy/inventory lint.",
-      "remaining": "Paired80pilot+737five-logiccontrols;allSATDolmen validation and regression followups;final performance analysis/docs independent review/render and evidence commit.",
+      "remaining": "Complete225native regression followup rows and allSAT replays; final independent artifact/documentation/render review and evidence commit.",
       "execution": "SLURM required;private route/workspace/receipts excluded from tracked files",
       "mechanical_source": "66ebec78",
       "mechanical_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de",
@@ -73,7 +72,56 @@
       "historical_source7_checks": "Helper SLURM build414833; check/ASan414844 pass49 native groups/382Python/49ASan groups. Whole-tree static414845 scans141/141 translation units with advisories and zero tool errors. Integrated regression414846 and generated414847 arrays pass21/21 tasks. Mutation414848 passes20/21; slot19 model replay fails3/241 SAT rows. Timings withheld.",
       "checks": "Helper414939;makecheck/makeasan414940PASS49native+382Python+49ASan;static414941complete141/141both,zero toolerrors/no newnormalizeddiagnostics/unusedinclude gatePASS;freshseeds414942/generated414943/mutations414945audited63receipts;focusedmodels41494620PASS;documentationexamples41498712PASS.",
       "qualification_artifact": "benchmarks/euf-performance-20261118/integrated-qualification.json",
-      "static_artifact": "benchmarks/euf-performance-20261118/static-final.json"
+      "static_artifact": "benchmarks/euf-performance-20261118/static-final.json",
+      "timing_stage": {
+        "jobs": [
+          415008,
+          415009,
+          415010
+        ],
+        "source": "6e53a710",
+        "native_rows": 5862,
+        "pilot": "80UF/UFLIA cases x6profiles x3rotatedrepetitions=1440rows",
+        "controls": "737five-ground-logic cases xBASE/OFF x3=4422rows",
+        "limits": "native30s,8GiBaddressspace,one requestedCPU percase/repetition allocation; recordedaffinity2logicalCPUs; pairedprofilessequential;12concurrenttasks/array",
+        "protocol_sha256": "2414325c09b52fbc2ea6af6fb3a1012a199a7dcd968128266422fc9aaef67ca3",
+        "models": "Separate exact-profile replays completed after allnative timing; native180s/Dolmen60s,817slotsx3arrays,35minallocationlimit; throttle initially12 later24 tasks/array, no overlap with originalnative measurements.",
+        "status": "All2451native allocation tasks and2451modeltasks COMPLETEDexit0;5862rows/2753SATDolmen pass fullanswer/resource/provenance/cross-repetition/model audit.",
+        "models_jobs": [
+          417467,
+          417468,
+          417469
+        ],
+        "SAT_Dolmen_pass": 2753,
+        "artifact": "benchmarks/euf-performance-20261118/evaluation",
+        "native_csv_sha256": "dd13afe8a7b9b1e02b6e4a63220ef25c7eeb2f22eb59af10562d6493fd8ff1ff"
+      },
+      "implemented_qualified": "Empty-losing disequality union bypass; moved use-list undo buffers; trace/semantic scratch reuse; promoted fixed runtime counters preserving display ordering; statistics policy/inventory lint.",
+      "timing_findings": "UFpilot34solved each BASE/MECH/OFF/ON vs31DEMAND;UFLIA28vs27;MECH/BASE conditionalpairedgeomean0.925826 on15UFcases baseline median>=1s,0.993158 on12UFLIA; no default stable losses or threshold regressions in737controls; demand4stablelostsolves. Experimentalexisting-atomdefault retained; no performance/defaultpromotion.",
+      "regression_followups": {
+        "jobs": [
+          419920,
+          419921,
+          419922
+        ],
+        "cases": 25,
+        "native_rows_expected": 225,
+        "method": "All25distinct demand stable-loss or repeated >=10% and >=0.5s slowdown cases fromON/DEMAND andOFF/DEMAND;threeadditionalrotatedOFF/ON/DEMAND repetitions;30s8GiB;25tasks/array. Models separately after allfollowupnative jobs finish.",
+        "status": "Native active; models pending"
+      },
+      "documentation_review": {
+        "reviewer": "conflict_ack_docs_review (read-only independent)",
+        "verdict": "Main timing/evidence ready; EPR1 timeout-censoring and EPR2 allocation/affinity corrections accepted.5862native,2753models,19comparisons,22rollups and allhashes checked. Followups outside acceptance until completed.",
+        "artifact_blobs": {
+          "csv": "e36b77a7bb73",
+          "paired": "62635206efb2",
+          "rollup": "452181617c7d",
+          "tables": "d91ec396be4a",
+          "provenance": "c1a62cad5d66",
+          "receipts": "c87db047499e"
+        },
+        "writer_checks": "make lint;6puremetadata tests;make docs;make docs-check-links308pages47112local1380Git0failures;532external deferred;rendered timing/pilot/controls inspected."
+      }
     },
     {
       "id": "2026-11-17-conflict-ackermann-performance-review",

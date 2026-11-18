@@ -248,6 +248,15 @@ def audit(a):
                 comparison["case_identity"] = {str(i): cases[i] for i in indices}
                 report["comparisons"][before + "->" + after] = comparison
             summary[group][logic] = report
+    # Reject disagreements across repetitions/cohorts even in an early audit.
+    # A declared-unknown input must not hide opposite answers in different runs.
+    answers = collections.defaultdict(set)
+    for row in records.values():
+        if solved(row):
+            answers[row["logic"], row["file"]].add(row["answer"])
+    assert all(len(values) <= 1 for values in answers.values()), {
+        key: sorted(values) for key, values in answers.items() if len(values) > 1
+    }
     if a.partial:
         print(
             json.dumps(

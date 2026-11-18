@@ -9,6 +9,7 @@ from pathlib import Path
 
 from scripts.qualification.euf_performance.audit import describe
 from scripts.qualification.euf_performance.configure import configure
+from scripts.qualification.euf_performance.report import rollup
 from scripts.qualification.lia_hybrid.run import measurement_order
 
 
@@ -108,6 +109,41 @@ class EufPerformanceCardsTests(unittest.TestCase):
         self.assertEqual(
             result["successful_printed_counters"][":euf.incremental.max-use-list-size"],
             {"rows": 2, "value": 4},
+        )
+
+    def test_published_rollup_penalizes_failure_without_counting_failed_work(self):
+        fresh = ":euf.conflict-ack.demand.fresh-atoms"
+        peak = ":euf.conflict-ack.demand.peak-fresh-atoms"
+        rows = [
+            {
+                "group": "pilot",
+                "logic": "QF_UF",
+                "profile": "DEMAND",
+                "repetition": rep,
+                "status": "ok" if rep < 2 else "timeout",
+                "answer": "sat",
+                "seconds": seconds,
+                "peak_rss_kib": rss,
+                "stats": stats,
+            }
+            for rep, seconds, rss, stats in (
+                (0, 1.0, 100, {fresh: "3", peak: "3"}),
+                (1, 3.0, 200, {peak: "2"}),
+                (2, 30.0, 800, {fresh: "1000", peak: "1000"}),
+            )
+        ]
+        (result,) = rollup(rows)
+        self.assertEqual(result["solved_by_repetition"], [1, 1, 0])
+        self.assertAlmostEqual(result["mean_PAR2_seconds"], 64 / 3)
+        self.assertEqual(result["median_RSS_KiB"], 200)
+        self.assertEqual(result["max_RSS_KiB"], 800)
+        self.assertEqual(
+            result["successful_printed_mechanisms"][fresh],
+            {"reporting_successful_rows": 1, "value": 3},
+        )
+        self.assertEqual(
+            result["successful_printed_mechanisms"][peak],
+            {"reporting_successful_rows": 2, "value": 3},
         )
 
 

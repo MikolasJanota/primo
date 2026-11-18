@@ -3,8 +3,10 @@
 Status: repaired source `6e53a710` passes native, ASan and fresh correctness
 gates. The integrated gate checks 21,000 generated cases, 6,826 real-seed
 mutations and 318 regression measurements; 19,125 separate SAT models pass
-Dolmen. Paired timing cards are prepared but unsubmitted. No speed conclusion
-or default promotion is recorded yet.
+Dolmen. All 5,862 native timing rows and 2,753 separate SAT-model replays pass the
+full audit. Mechanical changes give a modest targeted UF gain; demand atoms
+regress. Additional paired regression repetitions are running. Defaults stay
+unchanged.
 
 The [implementation checklist](../leads/euf-performance-fixes.md) and
 [EUF representation](../implementation/euf.md#conflict-selected-ackermann-prototype)
@@ -43,8 +45,9 @@ inputs remain excluded, as recorded in the frozen parent selection. UF controls
 are the enriched pilot subset; this is not a uniform full-corpus ranking.
 
 Each measurement has a 30-second wall limit, an 8 GiB native address-space cap,
-and a separate one-CPU SLURM allocation. Paired profiles run sequentially within
-that allocation. Timeouts, resource returns and unsupported results count as
+and one requested CPU per case/repetition SLURM allocation. Profiles run
+sequentially within that allocation; recorded process affinity contains two
+logical CPUs. Timeouts, resource returns and unsupported results count as
 unsolved in PAR2, even if an answer was printed during termination. RSS is the
 fresh native child's high-water mark. Solved counts, paired runtimes, PAR2,
 RSS and mechanism counters are reported by logic, with stable gains/losses and
@@ -130,4 +133,143 @@ branch-node resource limit, and 12 time out. Of 6,826 mutated inputs, 6,795 matc
 and 31 time out; all original seed checks pass. There are no unresolved native
 unknowns in mutations, wrong answers, crashes or invalid models. The separate
 SAT-model total is 19,125, with the 20 focused repair replays recorded separately.
-All 12 documentation examples/help checks pass. Timings remain unsubmitted.
+All 12 documentation examples/help checks pass. Native timing arrays
+415008–415010 and separate SAT-model arrays 417467–417469 completed. All 5,862
+native rows and all 2,753 successful SAT measurements pass the full audit.
+
+
+## Timing findings
+
+The six-profile pilot preserves the solved count for the mechanical fixes and
+existing-atom emission. On 40 UF inputs, BASE/MECH/OFF/ON each solve 34 in every
+repetition; DEMAND solves 31. On 40 UFLIA inputs the corresponding counts are
+28 and 27. The pooled mean PAR2 values are:
+
+| Logic | BASE | MECH | OFF | OLDON | ON | DEMAND |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| QF_UF | 11.060 | 10.930 | 10.921 | 11.140 | 10.972 | 17.470 |
+| QF_UFLIA | 21.148 | 21.132 | 21.100 | 21.148 | 21.141 | 22.764 |
+
+The mechanical UF effect is clearer on the 15 common-solved
+cases whose BASE median is at least one second: the geometric mean of each
+case's median paired MECH/BASE ratio is 0.926. OFF/BASE is 0.925 on the same
+subset. No extra solves result. On the 12 eligible UFLIA cases MECH/BASE is
+0.993: this provides little evidence of a useful UFLIA improvement. These are
+conditional ratios on an enriched selection, without a significance estimate,
+not a full-corpus speedup.
+
+Revised existing-atom emission is also not an overall win over current OFF:
+ON/OFF is 1.024 on 13 eligible UF cases and 1.008 on 12 UFLIA cases. Demand is
+substantially worse: four stable lost solves, and ON-to-DEMAND ratios of 3.220
+on ten common-solved UF cases and 1.448 on eleven UFLIA cases. The 25 distinct
+stable-loss or repeated-slowdown inputs were selected for three additional
+paired OFF/ON/DEMAND repetitions. Selection includes every stable loss and every
+common-solved slowdown of at least 10% and 0.5 seconds in each initial
+repetition; it is a regression follow-up, not a new unbiased performance sample.
+
+The five-logic default controls have unchanged solved counts between BASE and
+OFF in each matched repetition. Pooled PAR2 changes are small: LIA
+34.103 to 34.100 seconds, LRA 13.852 to 13.847, UFLIA 10.861 to 10.853 and UFLRA
+8.039 to 8.043. UF controls are the same enriched 40 inputs measured again;
+their PAR2 changes from 11.057 to 10.913. These arithmetic differences do not
+establish a performance benefit. There are no stable lost solves or cases
+meeting the repeated slowdown threshold in the default controls.
+
+The demand path is active, rather than silently falling back to existing atoms.
+In `solve_qf_uf_engine_impl`, a growth handoff destroys the online propagator and
+prepared flat theory, installs pending equalities, reconstructs both owners and
+re-registers observed SAT variables. Among successful UF measurements, 63 rows explicitly print demand activity:
+124,533 fresh atoms and 29,340 SAT resumes in total, with a peak of 4,096 fresh
+atoms in one query. The corresponding 69 reporting UFLIA rows total 20,031 atoms
+and 9,189 resumes, with a peak of 1,196. These totals span three repetitions;
+unprinted values remain unavailable, and incomplete measurements are summarized
+separately. The counters are consistent with repeated rebuild cost and extra
+Boolean choices.
+This is an implementation-based explanation to investigate; the experiment
+does not isolate rebuild time from the changed search. It does not demonstrate
+Yices-style performance, and no reference-solver timing ranking is added here.
+Z3 is the correctness oracle in the fresh gates.
+
+Conflict Ackermann emission remains opt-in and equality atoms default to
+`existing`. Demand is retained as a bounded experimental prototype, without a
+performance recommendation or default promotion. Batching growth and reducing
+rebuild work require a separate correctness and performance evaluation.
+
+## Audited measurements and cactus plots
+
+Download the {download}`native CSV <../../benchmarks/euf-performance-20261118/evaluation/native-rows.csv>`,
+{download}`paired comparisons <../../benchmarks/euf-performance-20261118/evaluation/paired-analysis.json>`,
+{download}`rollup <../../benchmarks/euf-performance-20261118/evaluation/rollup.json>`,
+{download}`model/audit receipts <../../benchmarks/euf-performance-20261118/evaluation/audit-receipts.json>`
+and {download}`export provenance <../../benchmarks/euf-performance-20261118/evaluation/provenance.json>`.
+
+```{figure} ../_static/euf-performance-20261118/pilot-cactus.svg
+:alt: Median runtime cactus plots for the six profiles on UF and UFLIA pilot inputs.
+
+Pilot: median of three runs, with at least two successful repetitions required.
+```
+
+```{figure} ../_static/euf-performance-20261118/controls-cactus.svg
+:alt: BASE and OFF median runtime cactus plots for all five ground logics.
+
+Default controls: BASE and OFF nearly overlap. UF is the enriched pilot subset.
+```
+
+| Cohort | Logic | Profile | Solved (three repetitions) | Mean PAR2 (s) | Median / max RSS (MiB) |
+| --- | --- | --- | --- | ---: | ---: |
+| pilot | QF_UF | BASE | 34/34/34 / 40 | 11.060 | 20.2 / 189.6 |
+| pilot | QF_UF | MECH | 34/34/34 / 40 | 10.930 | 19.8 / 194.1 |
+| pilot | QF_UF | OFF | 34/34/34 / 40 | 10.921 | 20.0 / 191.3 |
+| pilot | QF_UF | OLDON | 34/34/34 / 40 | 11.140 | 20.3 / 193.4 |
+| pilot | QF_UF | ON | 34/34/34 / 40 | 10.972 | 20.3 / 193.4 |
+| pilot | QF_UF | DEMAND | 31/31/31 / 40 | 17.470 | 30.1 / 208.3 |
+| pilot | QF_UFLIA | BASE | 28/28/28 / 40 | 21.148 | 15.7 / 672.8 |
+| pilot | QF_UFLIA | MECH | 28/28/28 / 40 | 21.132 | 15.7 / 675.1 |
+| pilot | QF_UFLIA | OFF | 28/28/28 / 40 | 21.100 | 15.7 / 669.6 |
+| pilot | QF_UFLIA | OLDON | 28/28/28 / 40 | 21.148 | 15.7 / 676.7 |
+| pilot | QF_UFLIA | ON | 28/28/28 / 40 | 21.141 | 15.7 / 675.0 |
+| pilot | QF_UFLIA | DEMAND | 27/27/27 / 40 | 22.764 | 18.2 / 686.3 |
+| controls | QF_LIA | BASE | 91/90/90 / 200 | 34.103 | 17.2 / 4352.3 |
+| controls | QF_LIA | OFF | 91/90/90 / 200 | 34.100 | 17.3 / 4355.4 |
+| controls | QF_LRA | BASE | 80/80/80 / 100 | 13.852 | 18.4 / 1509.4 |
+| controls | QF_LRA | OFF | 80/80/80 / 100 | 13.847 | 18.8 / 1505.9 |
+| controls | QF_UF | BASE | 34/34/34 / 40 | 11.057 | 19.9 / 192.6 |
+| controls | QF_UF | OFF | 34/34/34 / 40 | 10.913 | 20.1 / 194.7 |
+| controls | QF_UFLIA | BASE | 255/255/255 / 300 | 10.861 | 11.8 / 1035.2 |
+| controls | QF_UFLIA | OFF | 255/255/255 / 300 | 10.853 | 12.2 / 1046.2 |
+| controls | QF_UFLRA | BASE | 88/88/88 / 97 | 8.039 | 21.5 / 5047.6 |
+| controls | QF_UFLRA | OFF | 88/88/88 / 97 | 8.043 | 21.4 / 5048.3 |
+
+
+Demand also increases native memory: pilot UF median RSS increases from 20.0 MiB OFF to 30.1 MiB DEMAND, with maxima 191.3 and 208.3 MiB.
+UFLIA increases from 15.7 to 18.2 MiB, with maxima 669.6 and 686.3 MiB. These are
+pooled native measurements across all outcomes and repetitions, separate from
+model replay memory. The full table preserves the other profiles and controls.
+
+## Reproducing the report
+
+Run-card generation and native/model execution use the frozen selections and
+source hashes above. Private corpus roots, binaries and cluster routes remain
+outside the repository. After collecting the complete metadata and separate
+model receipts, run:
+
+```sh
+python3 scripts/qualification/euf_performance/audit.py \
+  --configs "$CARDS" --rows "$ROWS" --out "$AUDIT"
+python3 scripts/qualification/euf_performance/report.py \
+  --configs "$CARDS" --rows "$ROWS" --analysis "$AUDIT" \
+  --out "$EXPORT" --figures "$FIGURES"
+python3 scripts/qualification/euf_performance/followups.py \
+  --configs "$FOLLOWUP_CARDS" --rows "$FOLLOWUP_ROWS" --out "$FOLLOWUP_AUDIT"
+```
+
+The exporter requires all 5,862 audited native rows and their hash-bound model
+receipts. CSV and tables use only Python's standard library; optional SVG
+rendering uses Matplotlib in a separate plotting environment. The plots use the
+median of three runtimes with unsolved repetitions censored at infinity: a case
+appears only if at least two repetitions succeed. Tables show each repetition's
+solved count, pooled mean PAR2 and median/maximum native RSS over all outcomes.
+Only explicitly printed successful-row mechanism counters are totaled; missing
+values remain unavailable, and peaks use a maximum. The full analysis retains
+incomplete-row snapshots separately. Follow-up comparisons use the same paired
+thresholds as the initial selection.

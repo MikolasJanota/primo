@@ -1,0 +1,11 @@
+{
+  "native_rows": 5862,
+  "SAT_Dolmen_pass": 2753,
+  "audit_receipts_sha256": "c98c10509f3413d9ebebc8489bf866265da0ab7f5357874547d12a780c015f56",
+  "analysis_sha256": "a2de9d45e0bc3b3f70f3e80fad4ec672f04d742433b8070bff70d5d7e4d39b33",
+  "csv_sha256": "dd13afe8a7b9b1e02b6e4a63220ef25c7eeb2f22eb59af10562d6493fd8ff1ff",
+  "script_sha256": "97af030c9ec8814411c3688ef134e50ba0594d077865e2702e668501e5a33682",
+  "cactus": "Median of three runtimes with unsolved repetitions censored at infinity; requires at least two successful repetitions. Every successful SAT row separately validated.",
+  "counter_scope": "Only explicitly printed successful-row values; missing is unavailable. Peaks use maximum. Failed/interrupted snapshots remain in the full audited analysis.",
+  "matplotlib_version": "3.11.2"
+}

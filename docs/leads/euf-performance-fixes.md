@@ -1,6 +1,6 @@
 # EUF performance and demand-atom implementation checklist
 
-Status: integrated repaired source `6e53a710` passes native/ASan, fresh generated and real-seed correctness gates. The paired timing evaluation is pending; no speed claim. See the [qualification evidence](../evidence/euf-performance-fixes.md).
+Status: integrated repaired source `6e53a710` passes native/ASan, fresh generated and real-seed correctness gates. The audited paired evaluation shows a modest targeted UF gain for the mechanical fixes, nearly neutral arithmetic controls and demand-atom regressions. Additional regression repetitions are running; defaults stay unchanged. See the [qualification evidence](../evidence/euf-performance-fixes.md).
 Baseline: `690ddc7f`; qualified pre-change native `13230b6d`.
 
 ## Basis and obligations

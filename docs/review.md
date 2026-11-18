@@ -277,3 +277,23 @@ only argv0 and trailing display whitespace are normalized. Neither this review
 nor the correctness gate accepts a performance improvement. Paired timings and
 their independent SAT-model validation are the next stage; defaults remain
 experimental/off for conflict-selected Ackermann emission and demand naming.
+
+## 2026-11-18 EUF mechanical/demand main timing evaluation
+
+Read-only reviewer `conflict_ack_docs_review` accepted the main evaluation:
+5,862 native rows, 2,753 exact-option Dolmen replays, all receipt hashes,
+19 paired comparisons, 22 rollups, table cells, printed-counter coverage,
+PAR2 censoring and reproduction instructions. EPR-1 fixed timeout rows carrying
+a printed unknown; EPR-2 corrected allocation ownership and the recorded
+logical-CPU affinity. Accepted artifact blobs: CSV `e36b77a7bb73`, paired analysis
+`62635206efb2`, rollup `452181617c7d`, tables `d91ec396be4a`, provenance
+`c1a62cad5d66`, receipts `c87db047499e`. The writer inspected rendered timing prose
+and both SVG figures. This accepts the main comparison only; the 225 extra
+regression measurements and their separate SAT models are still running.
+
+Validation: `make lint`; six focused Python metadata tests; `make docs`;
+`make docs-check-links` (308 pages, 47,112 local links, 1,380 unique Git links,
+zero failures; 532 external URLs deferred). Native C++ remains source
+`6e53a710`; its SLURM native/ASan/generated/mutation/static gates remain the
+qualification basis. No new solver timing/default promotion is inferred from
+near-neutral arithmetic differences.

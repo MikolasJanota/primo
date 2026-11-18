@@ -1,0 +1,416 @@
+[
+  {
+    "group": "pilot",
+    "logic": "QF_UF",
+    "profile": "BASE",
+    "cases": 40,
+    "solved_by_repetition": [
+      34,
+      34,
+      34
+    ],
+    "mean_PAR2_seconds": 11.060187375,
+    "median_RSS_KiB": 20656.0,
+    "max_RSS_KiB": 194200,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "pilot",
+    "logic": "QF_UF",
+    "profile": "MECH",
+    "cases": 40,
+    "solved_by_repetition": [
+      34,
+      34,
+      34
+    ],
+    "mean_PAR2_seconds": 10.929920641666667,
+    "median_RSS_KiB": 20256.0,
+    "max_RSS_KiB": 198764,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "pilot",
+    "logic": "QF_UF",
+    "profile": "OFF",
+    "cases": 40,
+    "solved_by_repetition": [
+      34,
+      34,
+      34
+    ],
+    "mean_PAR2_seconds": 10.920529283333334,
+    "median_RSS_KiB": 20472.0,
+    "max_RSS_KiB": 195940,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "pilot",
+    "logic": "QF_UF",
+    "profile": "OLDON",
+    "cases": 40,
+    "solved_by_repetition": [
+      34,
+      34,
+      34
+    ],
+    "mean_PAR2_seconds": 11.140448641666667,
+    "median_RSS_KiB": 20748.0,
+    "max_RSS_KiB": 198084,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "pilot",
+    "logic": "QF_UF",
+    "profile": "ON",
+    "cases": 40,
+    "solved_by_repetition": [
+      34,
+      34,
+      34
+    ],
+    "mean_PAR2_seconds": 10.971737741666667,
+    "median_RSS_KiB": 20750.0,
+    "max_RSS_KiB": 198084,
+    "successful_printed_mechanisms": {
+      ":euf.conflict-ack.v2.candidate-visits": {
+        "reporting_successful_rows": 75,
+        "value": 18668286
+      },
+      ":euf.conflict-ack.v2.admitted-pairs": {
+        "reporting_successful_rows": 6,
+        "value": 30
+      },
+      ":euf.conflict-ack.v2.negative-evictions": {
+        "reporting_successful_rows": 27,
+        "value": 1388754
+      }
+    }
+  },
+  {
+    "group": "pilot",
+    "logic": "QF_UF",
+    "profile": "DEMAND",
+    "cases": 40,
+    "solved_by_repetition": [
+      31,
+      31,
+      31
+    ],
+    "mean_PAR2_seconds": 17.470286241666667,
+    "median_RSS_KiB": 30860.0,
+    "max_RSS_KiB": 213332,
+    "successful_printed_mechanisms": {
+      ":euf.conflict-ack.v2.candidate-visits": {
+        "reporting_successful_rows": 66,
+        "value": 14769444
+      },
+      ":euf.conflict-ack.v2.admitted-pairs": {
+        "reporting_successful_rows": 57,
+        "value": 55005
+      },
+      ":euf.conflict-ack.v2.negative-evictions": {
+        "reporting_successful_rows": 24,
+        "value": 1045428
+      },
+      ":euf.conflict-ack.demand.requests": {
+        "reporting_successful_rows": 63,
+        "value": 122004
+      },
+      ":euf.conflict-ack.demand.installed-instances": {
+        "reporting_successful_rows": 63,
+        "value": 87078
+      },
+      ":euf.conflict-ack.demand.fresh-atoms": {
+        "reporting_successful_rows": 63,
+        "value": 124533
+      },
+      ":euf.conflict-ack.demand.peak-fresh-atoms": {
+        "reporting_successful_rows": 63,
+        "value": 4096
+      },
+      ":euf.conflict-ack.demand.sat-resumes": {
+        "reporting_successful_rows": 63,
+        "value": 29340
+      },
+      ":euf.conflict-ack.demand.budget-skips": {
+        "reporting_successful_rows": 27,
+        "value": 34923
+      }
+    }
+  },
+  {
+    "group": "pilot",
+    "logic": "QF_UFLIA",
+    "profile": "BASE",
+    "cases": 40,
+    "solved_by_repetition": [
+      28,
+      28,
+      28
+    ],
+    "mean_PAR2_seconds": 21.147734891666666,
+    "median_RSS_KiB": 16076.0,
+    "max_RSS_KiB": 688908,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "pilot",
+    "logic": "QF_UFLIA",
+    "profile": "MECH",
+    "cases": 40,
+    "solved_by_repetition": [
+      28,
+      28,
+      28
+    ],
+    "mean_PAR2_seconds": 21.131903016666666,
+    "median_RSS_KiB": 16082.0,
+    "max_RSS_KiB": 691284,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "pilot",
+    "logic": "QF_UFLIA",
+    "profile": "OFF",
+    "cases": 40,
+    "solved_by_repetition": [
+      28,
+      28,
+      28
+    ],
+    "mean_PAR2_seconds": 21.100021466666668,
+    "median_RSS_KiB": 16096.0,
+    "max_RSS_KiB": 685664,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "pilot",
+    "logic": "QF_UFLIA",
+    "profile": "OLDON",
+    "cases": 40,
+    "solved_by_repetition": [
+      28,
+      28,
+      28
+    ],
+    "mean_PAR2_seconds": 21.147667883333334,
+    "median_RSS_KiB": 16082.0,
+    "max_RSS_KiB": 692968,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "pilot",
+    "logic": "QF_UFLIA",
+    "profile": "ON",
+    "cases": 40,
+    "solved_by_repetition": [
+      28,
+      28,
+      28
+    ],
+    "mean_PAR2_seconds": 21.140838208333335,
+    "median_RSS_KiB": 16070.0,
+    "max_RSS_KiB": 691236,
+    "successful_printed_mechanisms": {
+      ":euf.conflict-ack.v2.candidate-visits": {
+        "reporting_successful_rows": 72,
+        "value": 96006
+      }
+    }
+  },
+  {
+    "group": "pilot",
+    "logic": "QF_UFLIA",
+    "profile": "DEMAND",
+    "cases": 40,
+    "solved_by_repetition": [
+      27,
+      27,
+      27
+    ],
+    "mean_PAR2_seconds": 22.764464583333332,
+    "median_RSS_KiB": 18648.0,
+    "max_RSS_KiB": 702748,
+    "successful_printed_mechanisms": {
+      ":euf.conflict-ack.v2.candidate-visits": {
+        "reporting_successful_rows": 69,
+        "value": 169284
+      },
+      ":euf.conflict-ack.v2.admitted-pairs": {
+        "reporting_successful_rows": 63,
+        "value": 10647
+      },
+      ":euf.conflict-ack.demand.requests": {
+        "reporting_successful_rows": 69,
+        "value": 16308
+      },
+      ":euf.conflict-ack.demand.installed-instances": {
+        "reporting_successful_rows": 69,
+        "value": 16296
+      },
+      ":euf.conflict-ack.demand.fresh-atoms": {
+        "reporting_successful_rows": 69,
+        "value": 20031
+      },
+      ":euf.conflict-ack.demand.peak-fresh-atoms": {
+        "reporting_successful_rows": 69,
+        "value": 1196
+      },
+      ":euf.conflict-ack.demand.sat-resumes": {
+        "reporting_successful_rows": 69,
+        "value": 9189
+      }
+    }
+  },
+  {
+    "group": "controls",
+    "logic": "QF_LIA",
+    "profile": "BASE",
+    "cases": 200,
+    "solved_by_repetition": [
+      91,
+      90,
+      90
+    ],
+    "mean_PAR2_seconds": 34.10340292,
+    "median_RSS_KiB": 17602.0,
+    "max_RSS_KiB": 4456752,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "controls",
+    "logic": "QF_LIA",
+    "profile": "OFF",
+    "cases": 200,
+    "solved_by_repetition": [
+      91,
+      90,
+      90
+    ],
+    "mean_PAR2_seconds": 34.1000499,
+    "median_RSS_KiB": 17702.0,
+    "max_RSS_KiB": 4459944,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "controls",
+    "logic": "QF_LRA",
+    "profile": "BASE",
+    "cases": 100,
+    "solved_by_repetition": [
+      80,
+      80,
+      80
+    ],
+    "mean_PAR2_seconds": 13.852289396666666,
+    "median_RSS_KiB": 18816.0,
+    "max_RSS_KiB": 1545620,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "controls",
+    "logic": "QF_LRA",
+    "profile": "OFF",
+    "cases": 100,
+    "solved_by_repetition": [
+      80,
+      80,
+      80
+    ],
+    "mean_PAR2_seconds": 13.847415453333333,
+    "median_RSS_KiB": 19264.0,
+    "max_RSS_KiB": 1542092,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "controls",
+    "logic": "QF_UF",
+    "profile": "BASE",
+    "cases": 40,
+    "solved_by_repetition": [
+      34,
+      34,
+      34
+    ],
+    "mean_PAR2_seconds": 11.057155116666667,
+    "median_RSS_KiB": 20328.0,
+    "max_RSS_KiB": 197260,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "controls",
+    "logic": "QF_UF",
+    "profile": "OFF",
+    "cases": 40,
+    "solved_by_repetition": [
+      34,
+      34,
+      34
+    ],
+    "mean_PAR2_seconds": 10.913286125,
+    "median_RSS_KiB": 20590.0,
+    "max_RSS_KiB": 199408,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "controls",
+    "logic": "QF_UFLIA",
+    "profile": "BASE",
+    "cases": 300,
+    "solved_by_repetition": [
+      255,
+      255,
+      255
+    ],
+    "mean_PAR2_seconds": 10.86084876111111,
+    "median_RSS_KiB": 12096.0,
+    "max_RSS_KiB": 1060036,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "controls",
+    "logic": "QF_UFLIA",
+    "profile": "OFF",
+    "cases": 300,
+    "solved_by_repetition": [
+      255,
+      255,
+      255
+    ],
+    "mean_PAR2_seconds": 10.853184662222223,
+    "median_RSS_KiB": 12544.0,
+    "max_RSS_KiB": 1071280,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "controls",
+    "logic": "QF_UFLRA",
+    "profile": "BASE",
+    "cases": 97,
+    "solved_by_repetition": [
+      88,
+      88,
+      88
+    ],
+    "mean_PAR2_seconds": 8.0385455395189,
+    "median_RSS_KiB": 22044,
+    "max_RSS_KiB": 5168784,
+    "successful_printed_mechanisms": {}
+  },
+  {
+    "group": "controls",
+    "logic": "QF_UFLRA",
+    "profile": "OFF",
+    "cases": 97,
+    "solved_by_repetition": [
+      88,
+      88,
+      88
+    ],
+    "mean_PAR2_seconds": 8.04327687628866,
+    "median_RSS_KiB": 21952,
+    "max_RSS_KiB": 5169488,
+    "successful_printed_mechanisms": {}
+  }
+]
