@@ -1,10 +1,10 @@
 # EUF mechanical fixes and demand-atom evaluation
 
-Status: implementation and qualification in progress. Native source `abb4d19c`
-passes 49 native test groups, 382 Python tests, and 49 ASan/leak test groups.
-The mutation gate found three model replay errors in demand mode;
-qualification is blocked and the paired timing campaign has not been submitted.
-No new speed conclusion or default promotion is recorded yet.
+Status: repaired source `6e53a710` passes native, ASan and fresh correctness
+gates. The integrated gate checks 21,000 generated cases, 6,826 real-seed
+mutations and 318 regression measurements; 19,125 separate SAT models pass
+Dolmen. Paired timing cards are prepared but unsubmitted. No speed conclusion
+or default promotion is recorded yet.
 
 The [implementation checklist](../leads/euf-performance-fixes.md) and
 [EUF representation](../implementation/euf.md#conflict-selected-ackermann-prototype)
@@ -20,10 +20,10 @@ measured the older existing-atom policy, not the revised implementation.
 | --- | --- | --- |
 | BASE | `13230b6d` | Frozen pre-change production binary; source behavior agrees with pre-change HEAD `690ddc7f`. Default options, with statistics. |
 | MECH | `66ebec78` | First mechanical/typed-statistics milestone; default options. |
-| OFF | `abb4d19c` | Integrated implementation; conflict Ackermann remains disabled. |
+| OFF | `6e53a710` | Integrated implementation; conflict Ackermann remains disabled. |
 | OLDON | `13230b6d` | Frozen original conflict-Ackermann emission policy. |
-| ON | `abb4d19c` | Revised selection, using existing equality atoms. |
-| DEMAND | `abb4d19c` | Revised emission plus demand atoms, default fresh-equality limit 4096. |
+| ON | `6e53a710` | Revised selection, using existing equality atoms. |
+| DEMAND | `6e53a710` | Revised emission plus demand atoms, default fresh-equality limit 4096. |
 
 All timing commands use `--quiet --stats`. ON and OLDON add
 `--euf-conflict-ackermann`; DEMAND also adds
@@ -94,10 +94,13 @@ The preliminary full-tree {download}`static inventory <../../benchmarks/euf-perf
 completed both scans over 141 C++ translation units, with no missing/changed
 inputs or tool errors and no blocking unused includes. It records advisory
 findings and their inspected scope; it is not a claim that the whole tree is
-warning-free. The final integrated scan also completed 141/141 units with zero tool errors;
-its advisory disposition and the evaluation remain pending.
+warning-free. The `abb4d19c` integrated scan also completed 141/141 units with zero tool
+errors. The repaired-source {download}`final scan <../../benchmarks/euf-performance-20261118/static-final.json>`
+also covers 141/141 units in both tools with zero tool errors, no new normalized
+diagnostic messages and no blocking unused includes. The 880 tidy and 407
+include-cleaner advisories remain; the source is not warning-free.
 
-## Integrated correctness blocker
+## Model-fact failure and repair
 
 Source `abb4d19c` passed 21 regression and 21 generated-input tasks, but the
 real-seed mutation array passed only 20 of 21 tasks. The model-unit mixed profile
@@ -106,6 +109,25 @@ had 241 SAT replays: 238 passed Dolmen and three exited with
 agreed with Z3. Isolation job 414923 reproduces all three errors with demand
 and the default or legacy equality producer too. One case validates with both
 the frozen baseline and current existing-atom mode; the other two time out
-without demand at 30 seconds. The root cause is unresolved; this is an integration blocker, not accepted
-performance evidence. Raw task-19 artifacts and the failing inputs are retained;
-timing cards are prepared but unsubmitted while diagnosis continues.
+without demand at 30 seconds.
+
+The diagnostic build found a pure EUF contradiction in exported facts: an
+optional positive-only equality's false assignment had been filtered online
+and subsequently exported as a required disequality. The full checker already
+enforces all assignments; the complete-arrangement online path must do so too.
+
+Repaired source `6e53a710` disables filtering in the mixed component's owned
+online options, matching its full-check/export contract. Standalone filtering
+is unchanged. The reduced {download}`regression <../../benchmarks/regressions/qf_uflia_demand_filtered_model_fact.smt2>`
+requires fresh demand atoms, complete fallback and a checked SAT model, under
+both automatic and explicit-on filtering requests. All four inputs pass five
+independent profiles in {download}`focused replays <../../benchmarks/euf-performance-20261118/model-fact-repair.json>`
+(job 414946): default, model-unit, explicit on/off, and complete arrangement.
+The original failure artifacts are preserved. The repaired source passes its
+{download}`fresh integrated gate <../../benchmarks/euf-performance-20261118/integrated-qualification.json>`:
+20,986 generated answers match Z3, two generated runs return a confirmed integer
+branch-node resource limit, and 12 time out. Of 6,826 mutated inputs, 6,795 match
+and 31 time out; all original seed checks pass. There are no unresolved native
+unknowns in mutations, wrong answers, crashes or invalid models. The separate
+SAT-model total is 19,125, with the 20 focused repair replays recorded separately.
+All 12 documentation examples/help checks pass. Timings remain unsubmitted.

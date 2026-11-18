@@ -7,12 +7,11 @@
       "date": "2026-11-18",
       "branch": "lia-integrality",
       "kind": "Statistics policy, EUF mechanical fixes, bounded admission and demand atoms",
-      "evidence_status": "Correctness blocker in integrated demand source abb4d19c; mechanical milestone66ebec78 qualified. No timings submitted or speed claim.",
+      "evidence_status": "Integrated6e53a710 correctness-qualified:49native/382Python/49ASan;21000generated+6826mutations+318regressions;19125SATDolmen plus20focusedreplays. Static141/141 bothscans,advisoriesremain. Pairedtimingunsubmitted;no speed claim.",
       "baseline": "690ddc7f; native13230b6d SHA39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
       "design": "docs/leads/euf-performance-fixes.md",
       "implemented_pending_qualification": "Empty-losing disequality union bypass; moved use-list undo buffers; trace/semantic scratch reuse; promoted fixed runtime counters preserving display ordering; statistics policy/inventory lint.",
-      "checks": "Helper SLURM build414833; check/ASan414844 pass49 native groups/382Python/49ASan groups. Whole-tree static414845 scans141/141 translation units with advisories and zero tool errors. Integrated regression414846 and generated414847 arrays pass21/21 tasks. Mutation414848 passes20/21; slot19 model replay fails3/241 SAT rows. Timings withheld.",
-      "remaining": "Diagnose and fix demand model replay, repeat current-source correctness gates; paired evaluation and independent all-SAT Dolmen stage; documentation review/render and verified integrated/evidence commits.",
+      "remaining": "Paired80pilot+737five-logiccontrols;allSATDolmen validation and regression followups;final performance analysis/docs independent review/render and evidence commit.",
       "execution": "SLURM required;private route/workspace/receipts excluded from tracked files",
       "mechanical_source": "66ebec78",
       "mechanical_sha256": "8c85f10505ab3baf731f32b70c62f2bc2329cab34f67dd6f09fd5586841fe6de",
@@ -38,8 +37,8 @@
       "mechanical_verification": "make check:49native groups+377Python;make asan-test:49native groups;make lint;make docs;all terminal, no wrong answer/crash/reference disagreement/invalid model found.",
       "mechanical_gate_commands": "scripts/qualification/conflict_ackermann/qualify.sbatch phases seeds/generated/mutations;9 exact profiles:UF/UFLIA OFF/DIAG/ON plus LIA/LRA/UFLRA OFF;generated FuzzSMT(UF/LIA),qf_uflia_fuzz.py(UFLIA),qf_lra_boolean_arithmetic_fuzz.py(LRA),qf_uflra_smoke_fuzz.py(UFLRA) vs z3 1000/task,seed2026111800+slot,timeout5s;YinYang real-seed mutants seed2026111900+slot,12original seeds/task;native--check-model and independent Dolmen allSAT.",
       "build_failure": "414815:c48db471 strict build rejected two implicit string mutations in Tactic::operator();fixed as explicit cold summaries and added accessor coverage;superseded by e226626a helper build.",
-      "candidate_source": "abb4d19c6bc5539ac58468859c5dd8ea38d5d692",
-      "candidate_native_sha256": "3b0c8a8b7904018b28e58baa74fb4449e8f5303da7fa121cf518645bee7d1246",
+      "candidate_source": "6e53a710e30b8cb15aa3c330adb16a03ecd13189",
+      "candidate_native_sha256": "8cf501e1752a4f5eeaa2909af42395af504d5ebb22dc9abaaa3ac29da276e875",
       "correctness_blocker": {
         "jobs": [
           "414848",
@@ -55,8 +54,26 @@
         "diagnostic": "model: inconsistent final component equalities; solver exit2 during separate get-model replay",
         "isolation": "414923: all three fail demand with default/legacy/model-unit equality producers. VdMO9 passes baseline132 and current OFF/ON with model-unit; other two OFF profiles timeout30s. Original answer comparison agrees SAT withZ3. No claim of pre-existing failure.",
         "artifacts": "results/euf-performance-20261118/raw/qualification-final/mutations/task-19; results/euf-performance-20261118/triage/model-unit; remote model-triage receipt",
-        "status": "blocks qualification and timing"
-      }
+        "status": "Historical sourceabb4 failure; diagnosed and repaired in6e53a710. Current-source broad qualification is complete; timing evaluation remains pending.",
+        "cause": "Mixed online pure filtering omitted false positive-only generated equalities; complete-arrangement reused the filtered closure but model export retained every assignment. Full checker already usesOff; repaired online_options_ also usesOff, including explicitOn, while standalone behavior is unchanged.",
+        "repair_artifact": "benchmarks/euf-performance-20261118/model-fact-repair.json"
+      },
+      "current_verification": {
+        "build": 414939,
+        "native_asan": 414940,
+        "static": 414941,
+        "seeds": 414942,
+        "generated": 414943,
+        "mutations": 414945,
+        "model_replays": 414946,
+        "generated_seed_base": 2026120100,
+        "mutation_seed_base": 2026120200,
+        "status": "Alljobs terminalPASS;generated20986PASS+2confirmedresourceUNKNOWN+12TIMEOUT;mutants6795PASS+31nativeTIMEOUT;318regressionmeasurements;19125SATDolmen plus20focused."
+      },
+      "historical_source7_checks": "Helper SLURM build414833; check/ASan414844 pass49 native groups/382Python/49ASan groups. Whole-tree static414845 scans141/141 translation units with advisories and zero tool errors. Integrated regression414846 and generated414847 arrays pass21/21 tasks. Mutation414848 passes20/21; slot19 model replay fails3/241 SAT rows. Timings withheld.",
+      "checks": "Helper414939;makecheck/makeasan414940PASS49native+382Python+49ASan;static414941complete141/141both,zero toolerrors/no newnormalizeddiagnostics/unusedinclude gatePASS;freshseeds414942/generated414943/mutations414945audited63receipts;focusedmodels41494620PASS;documentationexamples41498712PASS.",
+      "qualification_artifact": "benchmarks/euf-performance-20261118/integrated-qualification.json",
+      "static_artifact": "benchmarks/euf-performance-20261118/static-final.json"
     },
     {
       "id": "2026-11-17-conflict-ackermann-performance-review",

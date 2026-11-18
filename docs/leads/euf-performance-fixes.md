@@ -1,6 +1,6 @@
 # EUF performance and demand-atom implementation checklist
 
-Status: mechanical snapshot `66ebec78` passes native/ASan and fresh correctness gates; revised admission, statistics API and demand implementation await native qualification. No speed claim.
+Status: integrated repaired source `6e53a710` passes native/ASan, fresh generated and real-seed correctness gates. The paired timing evaluation is pending; no speed claim. See the [qualification evidence](../evidence/euf-performance-fixes.md).
 Baseline: `690ddc7f`; qualified pre-change native `13230b6d`.
 
 ## Basis and obligations
@@ -56,7 +56,7 @@ Demand requests with Boolean results or differing Boolean arguments,
 optimized proof tracing, assumptions sessions and
 any default promotion remain outside the demand milestone. Implementation docs,
 run-log provenance, independent documentation review and verified commits are
-required before completion. Current work is not yet qualified.
+required before completion. Integrated correctness qualification is recorded below; performance qualification remains separate.
 
 The intended `AckermannGrowthState` is query-owned in the SMT driver and keeps
 semantic requests, settled-request deduplication and generated-atom consumption
@@ -71,7 +71,7 @@ The existing {conflictacksource}`clausifier and registration callers
 are the integration owners. Factor ordinary equality registration from the
 interface-specific wrapper; call
 {conflictacksource}`Nelson–Oppen registration <src/smt/theory_combination.cpp>`
-only when both terms really are interface members. This mapping is implemented by the query-owned growth hooks in `CombinationRecipe`; native qualification is pending.
+only when both terms really are interface members. This mapping is implemented by the query-owned growth hooks in `CombinationRecipe`; integrated correctness qualification passes on `6e53a710`.
 
 ## Mechanical milestone qualified for correctness
 
@@ -86,7 +86,7 @@ extra-order vector, preserving their prior public display position without
 constructing strings on typed updates. The fixed arrays grow with the key
 registry; closure checkpoints contain `IncrementalCongruenceClosureStats`, not
 `Statistics`, so that change does not multiply the array growth by SAT depth.
-The later working migration uses explicit cold mutation APIs and typed timer/group keys; its native qualification is separate from this mechanical snapshot.
+The integrated migration uses explicit cold mutation APIs and typed timer/group keys; its qualification on `6e53a710` is separate from this mechanical snapshot.
 
 Current mechanical owners are the
 {download}`closure implementation <../../src/theory/equality/flat_congruence_closure.cpp>`
@@ -127,4 +127,4 @@ checks reuse the execution closure. The fix disables filtering in this mixed
 component's owned `online_options_`, matching the full-check/export contract.
 Standalone UF retains its filtered-fact reconstruction. Three failing real-seed
 model replays pass direct Dolmen when filtering is disabled (SLURM 414934);
-qualification of the source fix is still required.
+the repaired source passes the integrated gate: 21,000 generated checks, 6,826 mutations, 318 regression measurements and 19,125 separate SAT-model validations. Two generated resource limits, 12 generated timeouts and 31 mutation timeouts remain unsolved, with no unresolved correctness failure.

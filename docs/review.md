@@ -255,3 +255,25 @@ all ten successful native SAT timing rows passed separate Dolmen replay.
 Initial setup job `365583` failed before any solver run and is not performance
 evidence. No experiment process remains locally, and none of these jobs is
 active. Reader acceptance and implementation of the proposals remain separate.
+
+## EUF performance implementation and correctness, 18 November
+
+A separate read-only reviewer checked the V2 selector, semantic witness budget,
+query/backend lifetimes, typed statistics policy, mixed model-fact repair and
+qualification prose against source `6e53a710` and the recorded artifacts.
+Required EFP-1–7 and EPFE-1–7 repairs were rechecked. Acceptance covers the
+correctness/method stage: 63 fresh gate receipts, 21,000 generated checks,
+6,826 mutations, 318 regression measurements, 19,125 Dolmen validations and
+20 focused repair replays. Resource/timeout outcomes are separated from passes.
+The whole-tree scans cover 141 translation units each; their existing advisory
+warnings remain documented. Native 49/382 and ASan 49 test-group totals, plus
+12/12 manual examples/help checks, agree with the retained logs.
+
+The writer built the strict documentation, assembled the site, checked local
+and pinned Git links, and inspected the rendered evidence table. Captured help
+comes from native source `6e53a710`, SHA-256
+`8cf501e1752a4f5eeaa2909af42395af504d5ebb22dc9abaaa3ac29da276e875`;
+only argv0 and trailing display whitespace are normalized. Neither this review
+nor the correctness gate accepts a performance improvement. Paired timings and
+their independent SAT-model validation are the next stage; defaults remain
+experimental/off for conflict-selected Ackermann emission and demand naming.

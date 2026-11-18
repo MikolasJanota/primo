@@ -149,6 +149,15 @@ QF_UF / EUF theory options:
                               adding them
           --euf-diseq-ackermann [default: off]
                               Enable watched QF_UF disequality Ackermann propagation
+          --euf-conflict-ackermann [default: off]
+                              Emit bounded conflict-selected congruence clauses
+          --euf-conflict-ackermann-diagnostics [default: off]
+                              Measure conflict-selected congruence clauses without emitting
+                              them
+          --euf-conflict-ackermann-atoms TEXT:{existing,demand} [existing]
+                              Conflict-selected equality atoms: existing or demand
+          --euf-conflict-ackermann-atom-limit UINT:INT in [0 - 1000000000] [4096]
+                              Fresh equality atoms per query in demand mode (0: unlimited)
           --euf-diseq-ackermann-max-width UINT:INT in [2 - 1000] [3]
                               Maximum width of watched disequality Ackermann clauses
           --euf-diseq-ackermann-queue-budget UINT:INT in [0 - 1000000000] [4096]

@@ -1,0 +1,93 @@
+{
+  "scope": "Focused model-fact repair evidence; not full qualification or timing",
+  "candidate_source": "6e53a710e30b8cb15aa3c330adb16a03ecd13189",
+  "candidate_native_sha256": "8cf501e1752a4f5eeaa2909af42395af504d5ebb22dc9abaaa3ac29da276e875",
+  "failed_source": "abb4d19c",
+  "jobs": {
+    "diagnostic": 414933,
+    "filter_disabled_control": 414934,
+    "candidate_replays": 414946
+  },
+  "receipt_sha256": "0a114a08dd997e8a7ab823382de7284b159ba9a3495752c7e95267263097329f",
+  "profiles": {
+    "DEMAND-DEFAULT": {
+      "source": "6e53a710",
+      "sha256": "8cf501e1752a4f5eeaa2909af42395af504d5ebb22dc9abaaa3ac29da276e875",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--euf-conflict-ackermann",
+        "--euf-conflict-ackermann-atoms=demand"
+      ]
+    },
+    "DEMAND-MU": {
+      "source": "6e53a710",
+      "sha256": "8cf501e1752a4f5eeaa2909af42395af504d5ebb22dc9abaaa3ac29da276e875",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--euf-conflict-ackermann",
+        "--euf-conflict-ackermann-atoms=demand",
+        "--qf-uflia-tableau-equalities=all",
+        "--qf-uflia-lia-equality-producer=model-unit"
+      ]
+    },
+    "DEMAND-ON": {
+      "source": "6e53a710",
+      "sha256": "8cf501e1752a4f5eeaa2909af42395af504d5ebb22dc9abaaa3ac29da276e875",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--euf-conflict-ackermann",
+        "--euf-conflict-ackermann-atoms=demand",
+        "--pure-theory-filter=on"
+      ]
+    },
+    "DEMAND-OFF": {
+      "source": "6e53a710",
+      "sha256": "8cf501e1752a4f5eeaa2909af42395af504d5ebb22dc9abaaa3ac29da276e875",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--euf-conflict-ackermann",
+        "--euf-conflict-ackermann-atoms=demand",
+        "--pure-theory-filter=off"
+      ]
+    },
+    "DEMAND-COMPLETE": {
+      "source": "6e53a710",
+      "sha256": "8cf501e1752a4f5eeaa2909af42395af504d5ebb22dc9abaaa3ac29da276e875",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--euf-conflict-ackermann",
+        "--euf-conflict-ackermann-atoms=demand",
+        "--no-qf-uflia-model-combination"
+      ]
+    }
+  },
+  "inputs": [
+    {
+      "name": "010-Uy0Bw-A4XIh.smt2",
+      "sha256": "49891c5ad1bfde9d98aca219a33799af5953fbb739942eee3eddc18ae2b3652f"
+    },
+    {
+      "name": "010-Uy0Bw-L4zRk.smt2",
+      "sha256": "ae6d69c36106c1fd31358753e28a166bc73583e7b387cf18457978b27e036262"
+    },
+    {
+      "name": "010-Uy0Bw-VdMO9.smt2",
+      "sha256": "f5c1821f5e6533d565c8ff7cbea1020931103e0dd92845c80e702bb81ae9d797"
+    },
+    {
+      "name": "qf_uflia_demand_filtered_model_fact.smt2",
+      "sha256": "e2406ad75e4d899c8a991932cb7ca4645fbb846fc4235c441c86c9a7ef119943"
+    }
+  ],
+  "counts": {
+    "inputs": 4,
+    "profiles": 5,
+    "SAT_Dolmen_pass": 20
+  },
+  "oracle": "Every profile/input validated independently via validate_model.py --check-model --expect-sat --require-dolmen-pass, solver30s/validator30s. Model times are diagnostics, not benchmark timing."
+}

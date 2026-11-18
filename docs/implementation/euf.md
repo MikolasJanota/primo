@@ -564,4 +564,7 @@ optimized proof-forest tracing, QF_UFLRA and assumptions
 sessions remain outside this prototype; rebuild sessions remain supported.
 The [current checklist](../leads/euf-performance-fixes.md) records the integration
 obligations. The [earlier pilot](../evidence/conflict-ackermann.md) qualifies the
-older existing-atom policy only. Defaults are unchanged.
+older existing-atom policy only. Both conflict-Ackermann flags remain disabled
+by default, and atom naming defaults to `existing`. The mixed online purity
+correction is described above; current [correctness qualification](../evidence/euf-performance-fixes.md)
+does not yet establish a performance benefit.

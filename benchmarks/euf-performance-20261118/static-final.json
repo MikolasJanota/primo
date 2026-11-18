@@ -1,0 +1,70 @@
+{
+  "scope": "Whole-tree static scan of repaired6e53a710; advisories remain, not a warning-free claim",
+  "source": "6e53a710",
+  "job": 414941,
+  "coverage": {
+    "tidy": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 141,
+      "analyzed_translation_units": 141,
+      "missing": [],
+      "changed_inputs": [],
+      "tool_exit_code": 0,
+      "diagnostic_occurrences": 4031,
+      "unique_diagnostics": 880,
+      "counts": {
+        "portability-avoid-pragma-once": 109,
+        "performance-enum-size": 88,
+        "misc-include-cleaner": 407,
+        "clang-analyzer-optin.performance.Padding": 1,
+        "bugprone-unchecked-optional-access": 116,
+        "performance-inefficient-vector-operation": 8,
+        "bugprone-exception-escape": 11,
+        "performance-faster-string-find": 3,
+        "performance-inefficient-string-concatenation": 14,
+        "performance-unnecessary-copy-initialization": 3,
+        "performance-move-const-arg": 23,
+        "clang-analyzer-optin.core.EnumCastOutOfRange": 20,
+        "bugprone-easily-swappable-parameters": 42,
+        "performance-unnecessary-value-param": 15,
+        "bugprone-implicit-widening-of-multiplication-result": 4,
+        "bugprone-assert-side-effect": 6,
+        "bugprone-use-after-move": 1,
+        "performance-no-automatic-move": 1,
+        "bugprone-branch-clone": 5,
+        "clang-analyzer-cplusplus.NewDeleteLeaks": 2,
+        "bugprone-optional-value-conversion": 1
+      },
+      "scope": "Diagnostic inventory; completed analysis is not a claim that findings are benign.",
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      },
+      "summary_sha256": "269345680deb55c5ff4dd37305b84af61fbb26ab15eaf72850d61b15d600dcc2"
+    },
+    "includes": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 141,
+      "analyzed_translation_units": 141,
+      "missing": [],
+      "changed_inputs": [],
+      "tool_exit_code": 0,
+      "diagnostic_occurrences": 407,
+      "unique_diagnostics": 407,
+      "counts": {
+        "misc-include-cleaner": 407
+      },
+      "scope": "Diagnostic inventory; completed analysis is not a claim that findings are benign.",
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      },
+      "summary_sha256": "271997818c141354d3dce31e87faa9c9f4315f0d655f7d811fd51a466ebc5dfc"
+    }
+  },
+  "review": "No new normalized(file,check,message) diagnostics relative to source7. No missing/changed inputs or tool errors; unused-include gate passed. Prior inspected advisory dispositions are recorded in static-preliminary.json. Full diagnostic inventory retained privately; existing advisory warnings are not declared universally benign."
+}
