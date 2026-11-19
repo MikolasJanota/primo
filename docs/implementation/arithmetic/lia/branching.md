@@ -1,8 +1,8 @@
 # Integer branching, explanations and limits
 
-This chapter explains private branching and SAT-visible hybrid handoff, how integer conflicts retain their premises, and why bounded completion may remain inconclusive.
+Private branching explores integer bounds inside the arithmetic solver. Hybrid branching can suspend that search and ask SAT to decide a bound. This chapter explains both modes, the premises retained in integer conflicts, and the limits that can leave completion inconclusive.
 
-Start with the [LIA overview](../../lia.md) for route responsibilities and defaults.
+Start with the [LIA overview](../../lia.md) for integration with SAT and default settings.
 
 (lia-branching)=
 ## Branching and backtracking
@@ -56,8 +56,9 @@ The solve-scoped {hybridsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>
 {hybridsource}`LiaBranchHistory <src/theory/arithmetic/lia_branch_and_bound.hpp>`.
 For each stable numerical variable it records separate left/right observation
 counts and exact sums of the number of fractional integer obligations after
-feasible branch checks. The selection score is the smaller side's mean;
-an unobserved side scores zero and ties use the smallest variable ID.
+feasible branch checks. The selection score is the smaller side's mean. The fractional variable with
+the **lowest score** is selected; an unobserved side scores zero, and ties use
+the smallest variable ID.
 Immediately infeasible sides increment a conflict counter without supplying
 an observation. History survives SAT backtracking and atom registration but
 starts empty in a new solving invocation. Both scoring and counting scan
@@ -77,11 +78,15 @@ and are discarded at handoff. No persistent row-insertion contract changes.
 
 The adapter translates that request into
 {hybridsource}`IntegerSplitRequest <src/theory/theory_solver.hpp>`, which owns a
-semantic `TermId` and exact threshold. `TheoryCheckStatus::IntegerSplit` and
+core `TermId` identifying the original term, plus an exact threshold. `TheoryCheckStatus::IntegerSplit` and
 `ModelBasedCombinationStatus::IntegerSplit` carry it through the coordinator;
 neither denotes a conflict or an entailed bound. The
 {hybridsource}`component driver <src/smt/component_solver.cpp>` installs
-one SAT atom $p\leftrightarrow(x\le k)$ at its detached growth boundary.
+one SAT atom $p\leftrightarrow(x\le k)$ after SAT has returned and outside
+its callbacks. Before creating or registering the atom, the driver destroys
+the assignment connection and callback dispatcher; registration rebuilds them
+before SAT resumes. The [interface-equality procedure](../../combination.md#materializing-an-interface-equality)
+uses the same sequence.
 False means $x\ge k+1$. For example, at $x=-3-\delta$, the exact floor is
 $-4$: the choices are $x\le-4$ and $x\ge-3$.
 
@@ -121,7 +126,7 @@ atoms, generated-atom peak, SAT resumes, rejected assumption batches containing 
 exhaustions. Existing-coordinate registrations record ordinary bounds added
 without arithmetic variables. Reuse counts currently diagnose a nonprogress
 request; ordinary successful handoffs introduce a fresh threshold.
-`:time.lia.branching.private-completion-us` covers the private waterfall and
+`:time.lia.branching.private-completion-us` covers the private integer-completion stages and
 cube-problem preparation, excluding the incoming tableau copy, while
 `:time.lia.branching.resumed-sat-us` sums SAT calls after the first handoff.
 These elapsed timers are nested in route timers and must not be added to them.
@@ -196,7 +201,7 @@ Each route resolves its own values, as described in {ref}`lia-settings`.
 | Option | Default | Meaning per integer completion |
 | --- | --- | --- |
 | `--lia-cube` | `uniform` for QF_LIA; ignored by QF_UFLIA | Pure QF_LIA only: `uniform` or `difference` model attempt before cuts; failure falls through. |
-| `--lia-cube-steps` | `1000` | Optional LP repair-step cap; zero allows only an already feasible center. |
+| `--lia-cube-steps` | `1000` | Optional rational-repair step cap; zero allows only an already feasible center. |
 | `--lia-patch-limit` | `100` | Maximum accepted patch moves; zero disables patching. |
 | `--lia-gomory-cut-limit` | `100` | Maximum cut-and-recheck iterations; zero disables cuts. Exhaustion falls through to branching. |
 | `--lia-branch-limit` | `100000` | Maximum private split nodes. Private-mode exhaustion returns a resource-limit result; hybrid mode repairs and hands off to SAT. |
@@ -234,7 +239,7 @@ eligible initial Gomory row. Patching cannot produce an integer model, and
 branching can keep translating the fractional assignment along the unbounded
 direction. The {source}`node-limit regression
 <tests/unit/qf_lia_solver_tests.cpp#L252-L274>` preserves this incomplete case.
-Adding GCD checks and cuts before DFS does not supply a completeness proof.
+Adding GCD checks and cuts before depth-first search does not supply a completeness proof.
 
 QF_LIA's default refutes this example during preparation. Primitive rows
 store the row as $x+y$ with bounds $[1/2, 3/4]$, and rounding them inward
@@ -283,4 +288,4 @@ admission and combined model construction still need design and validation.
 
 ## Sources and regression map
 
-The overview collects [primary sources and implementation status](../../lia.md#sources-and-implementation-status) and [regression obligations](../../lia.md#models-regression-coverage-and-retained-evidence). The sections here retain their algorithm-specific derivations, examples and source links.
+The overview collects [primary sources and implementation status](../../lia.md#sources-and-implementation-status) and [regression obligations](../../lia.md#models-regression-coverage-and-retained-evidence).

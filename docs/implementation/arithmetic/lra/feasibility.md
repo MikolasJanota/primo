@@ -1,8 +1,8 @@
 # Rational feasibility and conflicts
 
-This chapter follows a rational consistency check from an asserted bound to assignment repair or an explaining conflict. Integer completion is a separate step.
+This chapter follows a rational consistency check from an asserted bound to assignment repair or a conflict clause explaining failure. Integer completion is a separate step.
 
-Start with the [LRA overview](../../lra.md) for route responsibilities and defaults. The [tableau notation](tableau.md#tableau-equations-and-bounds) defines basic/nonbasic variables, the assignment $\beta$ and bounds $l,u$.
+Start with the [LRA overview](../../lra.md) for integration with SAT and default settings. The [tableau notation](tableau.md#tableau-equations-and-bounds) defines basic/nonbasic variables, the assignment $\beta$ and bounds $l,u$.
 
 ## Check consistency
 
@@ -60,7 +60,7 @@ threshold. If no basic variable remains violated, `check()` succeeds. If a
 row is blocked, [conflict explanation](#explain-theory-conflicts) identifies
 the assertions responsible. The complete rational feasibility procedure
 can therefore decide inconsistency without enabling theory propagation or
-SOI. This completeness claim concerns linear real arithmetic; the
+[sum of infeasibilities](search.md#optional-sum-of-infeasibilities). This completeness claim concerns linear real arithmetic; the
 [integer relaxation](../../lia.md) needs additional integer reasoning.
 
 ### Deferred consistency checks
@@ -149,8 +149,8 @@ graph of internal derived bounds. The survey distinguishes these cases from
 
 The optional [SOI minimizer](search.md#optional-sum-of-infeasibilities) reduces selected violated rows. It is
 separate from arithmetic bound weakening and from SAT learned-clause
-minimization. Classical SAT minimization deletes literals; all-UIP shrinking
-can introduce replacement antecedents. King's thesis §2.2.9 describes another
+minimization. Classical SAT minimization deletes literals; shrinking based on unique
+implication points (all-UIP) can introduce replacement antecedents. King's thesis §2.2.9 describes another
 choice: weaken bound premises while preserving the numerical contradiction.
 These distinctions, current implementation limits and worked examples are
 in the [literature survey and proposed probe](../../../papers/conflict-explanation-minimization.md).
@@ -258,4 +258,4 @@ by delta rationals, and $\delta$ itself is never the optimization variable.
 
 ## Sources and regression map
 
-The overview collects [primary sources and implementation status](../../lra.md#sources-and-implementation-status) and [regression obligations](../../lra.md#invariants-exercised-by-existing-tests). The sections here retain their algorithm-specific derivations, examples and source links.
+The overview collects [primary sources and implementation status](../../lra.md#sources-and-implementation-status) and [regression obligations](../../lra.md#invariants-exercised-by-existing-tests).

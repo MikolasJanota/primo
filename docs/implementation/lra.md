@@ -40,7 +40,7 @@ input, result, default method and correctness condition.
 
 Conflict detection and explanation are sufficient for the arithmetic
 consistency decision; theory propagation is an additional search aid.
-[SOI](arithmetic/lra/search.md#optional-sum-of-infeasibilities) is an optional alternative feasibility procedure. The
+[sum of infeasibilities (SOI)](arithmetic/lra/search.md#optional-sum-of-infeasibilities) is an optional alternative feasibility procedure. The
 [implementation details](#optional-algorithms-and-implementation-details)
 also cover pivot policies, sparse storage and theory-combination mechanisms.
 

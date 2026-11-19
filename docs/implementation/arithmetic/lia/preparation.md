@@ -2,7 +2,7 @@
 
 This chapter explains the integer preparation contract: supported translations, exact bound normalization, integer obligations and the remaining infinitesimal cases.
 
-Start with the [LIA overview](../../lia.md) for route responsibilities and defaults.
+Start with the [LIA overview](../../lia.md) for integration with SAT and default settings.
 
 (lia-input)=
 ## Input lowering and integer bounds
@@ -62,8 +62,9 @@ integer-valued variables also get rounded non-strict bounds,
 $$x\le r\iff x\le\lfloor r\rfloor,\qquad x\ge r\iff x\ge\lceil r\rceil,$$
 
 so every bound on such a variable is integral (King §4.3; Achterberg et al.
-§4.2 {cite:p}`achterberg2020presolve`). The bound keeps the atom's own
-literal as its reason. Each prepared atom stores an `IntegerBoundRounding`
+§4.2 {cite:p}`achterberg2020presolve`). The bound stores the **negation of the asserting SAT literal** as its reason,
+including when the assignment makes the original atom false. If `p` names
+the atom, a true assignment stores `¬p`, while a false assignment stores `p`. Each prepared atom stores an `IntegerBoundRounding`
 mode (`None`, `StrictOnly` or `All`), and every assertion, entailment check,
 propagation and model-phase hint reads it through `bound_assertion`, so all
 uses agree. In `3*x <= 5`, `3*y <= 5`, `x + y >= 3` the rounded bounds
@@ -103,7 +104,7 @@ them because its first commitment is fractional and cheap to refute.
 A slack marked integer this way can also become an integer obligation of
 completion. `--lia-integer-slacks` puts such slacks (Achterberg et al. §7.6
 call them implied integers) at the front of `integer_vars`. Patching, the GCD
-test and Gomory row selection may then use their rows, and branch-and-bound,
+test and Gomory row selection may then use their rows, and private branch-and-bound,
 which splits the first fractional variable, can split a constraint
 expression: for $13/2\le2x+3y\le27/4$, the single split $s\le6\lor s\ge7$
 refutes the candidate, with the two bound literals as its explanation, while
@@ -112,7 +113,8 @@ the inputs would never be split, because it is integral whenever they are.
 On QF_LIA at 60 s, this option together with the two above solves 197 fewer
 files than all options off, and 301 fewer than the two above alone. Adding
 `--lia-patch-integral-moves` as well gives 9,798 solved files, the most of any
-configuration ({ref}`integrality evaluation <integrality-evaluation>`).
+configuration in that historical comparison
+({ref}`integrality evaluation <integrality-evaluation>`).
 
 (lia-infinitesimals)=
 ### Why the relaxation can still contain infinitesimals
@@ -168,4 +170,4 @@ inequality and is not a valid replacement.
 
 ## Sources and regression map
 
-The overview collects [primary sources and implementation status](../../lia.md#sources-and-implementation-status) and [regression obligations](../../lia.md#models-regression-coverage-and-retained-evidence). The sections here retain their algorithm-specific derivations, examples and source links.
+The overview collects [primary sources and implementation status](../../lia.md#sources-and-implementation-status) and [regression obligations](../../lia.md#models-regression-coverage-and-retained-evidence).

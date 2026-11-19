@@ -1,8 +1,10 @@
 # Linear arithmetic
 
-Primo's arithmetic implementation has a shared rational tableau and an integer
-completion procedure. The tableau checks the bounds selected by SAT; integer
-completion additionally requires designated values to be integral. The
+Primo's linear real arithmetic (LRA) solver maintains a tableau: linear equations,
+an assignment and the currently active variable bounds. Linear integer arithmetic
+(LIA) uses the same tableau representation as a rational relaxation, temporarily
+ignoring integrality. Integer completion then seeks a satisfying assignment in
+which the required variables have integer values. The
 [capability summary](../../capabilities.md#implemented-mechanisms-and-defaults)
 and [effective policies](../../reference/policies.md) distinguish available
 mechanisms from route defaults.
@@ -13,7 +15,7 @@ Read the LRA state and feasibility chapters before the integer stages. Integer
 completion reuses the exact tableau, bounds and explanations; it does not define
 another rational solver.
 
-| Question | Authoritative explanation |
+| Question | Chapter |
 | --- | --- |
 | What state is prepared, and how do models and rollback work? | [LRA overview](../lra.md) → [tableau state, models and rollback](lra/tableau.md). |
 | How does arithmetic establish rational feasibility or explain failure? | [Rational feasibility and conflicts](lra/feasibility.md). |

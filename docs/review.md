@@ -582,3 +582,38 @@ papers, solver algorithms or the entire manual. No solver source, defaults,
 executable examples or measurements change; no fresh solver/fuzz/model campaign
 is claimed or needed for this documentation-only restructuring. Prior source
 qualification keeps its original revision and limits.
+
+## 2026-11-19 arithmetic terminology and exposition pass
+
+Independent read-only reviewer `arithmetic_language_review` accepts thirteen
+modified documentation files against `4a62e87b`: the arithmetic guide and eight
+child chapters, LRA/LIA overviews, the affected combination paragraph and the
+authoring conventions. The accepted pre-bookkeeping `git diff` SHA-256 is
+`76a275ee2592d9d1a1d3e767be5e876da42bb945fa70d131589704c1acd0e28b`.
+This subsequent ledger entry records acceptance and writer verification only.
+
+AR-01–10 correct the normalization qualification and bound-reason sign,
+introduce cube coordinates and centers, distinguish candidate-value groups from
+proved-equality components, explain callback disconnection before atom creation,
+replace unexplained metaphors, define model projection, specify lowest-score
+branch selection and show the conditional cube stage in the completion order.
+AR-11 separates the number of original coordinates from the number remaining
+after fixed substitution in the revised cube explanation. AR-S01–03 expand SOI,
+introduce the local slack-variable convention and clarify which historical
+experiment used one-shot queries. First-use reminders, concrete operation names
+and shorter editorial text accompany those fixes. No required finding remains.
+
+The terminology verdict is scoped: essential local vocabulary and notation in
+these chapters are introduced or precisely linked. The review checks relevant
+owners/callers and the revised cube argument, including holding substituted
+coordinates fixed. It does not recertify the primary papers, historical benchmark
+evidence or the rest of the manual.
+
+Writer verification passes `make lint`, `make docs`, both strict books through
+`make docs-check-links`, and assembled local/Git link checks with zero failures.
+External links are deferred. All existing headings and named targets in the
+unit are unchanged, as are twelve LRA and eleven LIA display formulas. Chromium
+inspection covers the cube notation and rounding explanation, the corrected
+five-stage completion table and the signed bound-reason example. No solver
+source, defaults or executable examples change; no native/fuzz/model campaign
+is rerun or claimed by this documentation-only pass.

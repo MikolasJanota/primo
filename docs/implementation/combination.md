@@ -532,10 +532,12 @@ at least one bound false, letting arithmetic enforce the disequality. The
 component supplies the meaning of equality; the SMT layer owns clausification
 and SAT calls.
 
-New atoms are registered at a detached preparation boundary. The
-{source}`installation path <src/smt/component_solver.cpp#L215-L271>` updates
-the owning components, rebuilds callback routing, and observes the resulting
-SAT variables before search resumes. The dispatcher routes assignment changes
+New atoms are created and registered outside SAT calls and their callbacks. Before
+modifying terms or the atom registry, the driver destroys the assignment
+connection and callback dispatcher, so no active callback borrows the storage
+being changed. The {source}`installation path <src/smt/component_solver.cpp#L215-L271>`
+registers the atoms with their theory solvers, rebuilds the dispatcher and
+assignment connection, and observes the resulting SAT variables before search resumes. The dispatcher routes assignment changes
 through the shared trail view and preserves explanations across unrelated
 backtracking.
 

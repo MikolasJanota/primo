@@ -1,8 +1,8 @@
 # Integer completion scheduling and patching
 
-This chapter follows rational repair and integer completion through their integration points, then derives the patching moves and the lifetime of their reusable freedom intervals.
+This chapter explains when SAT search invokes rational repair and integer completion, how patching changes a feasible assignment, and when its cached freedom intervals must be recomputed.
 
-Start with the [LIA overview](../../lia.md) for route responsibilities and defaults.
+Start with the [LIA overview](../../lia.md) for integration with SAT and default settings.
 
 (lia-schedule)=
 ## When integer reasoning runs
@@ -60,6 +60,9 @@ The table also distinguishes the model used by phase advice. When enabled,
 `ComponentLraExecution::model_phase_literal` reads the live rational assignment
 β. `LiaComponentAdapter` keeps the successful completion model separately;
 integer patching does not write its assignment back into that live tableau.
+A **shared model projection** partitions shared terms by their equal values in a
+candidate model. The [combination procedure](../../combination.md#comparing-complete-model-projections)
+compares those partitions from the participating theory solvers.
 Standalone QF_LIA, and an online LIA component not producing a shared model
 projection, start completion from a copy of the checked online tableau. The
 model-guided QF_UFLIA route instead requests a projection and rebuilds a
@@ -86,14 +89,16 @@ At the full-model check boundary, the LIA adapter copies the rationally feasible
 online tableau once, or moves a newly rebuilt rational tableau, into integer
 completion. It passes {integersource}`LiaCompletionLimits
 <src/theory/arithmetic/lia_completion.hpp>` (patch moves, Gomory rounds, and
-branch nodes). Both routes run this pipeline:
+branch nodes). Both routes use the following stage order. The cube attempt is available only
+in standalone QF_LIA:
 
 | Order | Operation | Result used by the caller |
 | --- | --- | --- |
 | 1 | Patch fractional integer values | A feasible assignment with fewer fractional integer variables, or no progress. |
 | 2 | Check row divisibility using GCDs | A conflict, or no contradiction found. |
-| 3 | Add a bounded sequence of Gomory cuts and recheck | A conflict, or a feasible tableau strengthened by the cuts. |
-| 4 | Branch on fractional integer variables | An integer model, exhaustion of all branches, or a node-limit result. |
+| 3 | If enabled, attempt a cube model (QF_LIA only) | A checked integer model, returned immediately; otherwise continue. |
+| 4 | Add a bounded sequence of Gomory cuts and recheck | A conflict, or a feasible tableau strengthened by the cuts. |
+| 5 | Branch on fractional integer variables | An integer model, exhaustion of all branches, or a node-limit result. |
 
 GCD checks and cuts run before branching, not at each branch node. A zero
 cut or patch budget skips that stage. Even if patching makes every required
@@ -172,11 +177,11 @@ With cubes disabled in private mode, the completion boundary preserves the exist
 stage order, variable order, limits, winning assignment, and antecedents from
 cuts used by later branching. Enabling cubes inserts one private model attempt
 between the basic GCD screen and cuts. It adds sparse preparation, a separate
-LP and candidate validation; the other stages keep their existing contracts.
+rational feasibility problem and candidate validation; the other stages keep their existing contracts.
 
 Private mode keeps integer branch choices inside the theory procedure. SAT
 learns the resulting conflict clause, but does not see individual integer
-splits as CDCL decisions. That simplifies the boundary and the lifetime of
+splits as SAT decisions. That simplifies the boundary and the lifetime of
 temporary rows; it also means that internal branch choices and cuts are not
 reused across successive Boolean candidates.
 
@@ -213,7 +218,7 @@ The width is currently the hard-coded `kTargetWindow = 4`; the existing
 `--lia-patch-limit` controls accepted moves, not this width. A
 [separate open lead](../../../leads/lia-patching.md) proposes a window parameter
 and compares more selective candidates with
-[MIP rounding and repair heuristics](../../../papers/lia-primal-heuristics.md).
+[mixed-integer-programming rounding and repair heuristics](../../../papers/lia-primal-heuristics.md).
 
 Every candidate is scored by the total number of required integer variables
 that would remain nonintegral. Only a strict reduction is accepted. Among
@@ -326,4 +331,4 @@ acceptance, not a new search heuristic or an overall reference-gap claim.
 
 ## Sources and regression map
 
-The overview collects [primary sources and implementation status](../../lia.md#sources-and-implementation-status) and [regression obligations](../../lia.md#models-regression-coverage-and-retained-evidence). The sections here retain their algorithm-specific derivations, examples and source links.
+The overview collects [primary sources and implementation status](../../lia.md#sources-and-implementation-status) and [regression obligations](../../lia.md#models-regression-coverage-and-retained-evidence).

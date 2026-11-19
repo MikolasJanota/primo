@@ -49,6 +49,11 @@ Use standard mathematical and solver terminology, with these conventions:
 - Define a technical term or acronym at its first use when the reader needs
   it to understand the next step. For example, explain a strategy leaf as one
   tactic application, and expand CITE before discussing its simplification.
+- Recheck first use at every chapter entry point after splitting a page. A
+  definition earlier in the former combined chapter may no longer be available.
+  Distinguish similarly named objects, such as groups of equal model values
+  and components formed by proved equalities. Describe scheduling operations
+  directly instead of introducing unexplained metaphors for them.
 - Keep code identifiers exact, but describe their behavior in ordinary prose.
   Prefer “clauses generated before simplification” to an unexplained label
   such as “raw clauses.”

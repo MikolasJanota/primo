@@ -1,8 +1,8 @@
 # Arithmetic bound and equality propagation
 
-This chapter owns arithmetic consequence discovery and explanation. The bound rules serve QF_LRA and QF_UFLRA and the rational relaxation in QF_LIA and QF_UFLIA; equality discovery has the route-specific delivery described below.
+This chapter explains how arithmetic proves consequences and supplies their reasons to SAT. The bound rules serve QF_LRA and QF_UFLRA and the rational relaxation in QF_LIA and QF_UFLIA. The later sections explain when proved equalities are submitted to SAT or exchanged with another theory solver.
 
-Start with the [LRA overview](../../lra.md) for route responsibilities and defaults. The [tableau notation](tableau.md#tableau-equations-and-bounds) defines basic/nonbasic variables, the assignment $\beta$ and bounds $l,u$.
+Start with the [LRA overview](../../lra.md) for integration with SAT and default settings. The [tableau notation](tableau.md#tableau-equations-and-bounds) defines basic/nonbasic variables, the assignment $\beta$ and bounds $l,u$.
 
 (propagation-and-online-checking)=
 ## Propagate and explain consequences
@@ -134,7 +134,7 @@ follows `occurs_in(changed_var)` to rows containing the changed variable.
 Forward work needs registered atoms on the row's basic variable. Reverse work
 has no such prerequisite: it tests atoms on other row variables when enabled.
 A notification on a basic variable also scans its own defining row in reverse,
-subject to both fanout caps being nonzero and the reverse row-size cap. Thus the
+subject to both limits on the number of affected rows (fanout caps) being nonzero and the reverse row-size cap. Thus the
 reverse example can propagate when the bound on `s` arrives last. Pivots do not
 themselves trigger exhaustive interval rescanning.
 
@@ -160,7 +160,7 @@ skipped. If the changed variable occurs in more rows than the fanout cap,
 the scan skips all of them for that notification rather than taking a prefix.
 The {source}`default caps <src/smt/check_sat.hpp#L173-L178>` are 64 terms/rows
 for forward work and 32 for reverse work. Within one synchronous row or child
-scan, an {rowcachetrialsource}`owning two-direction cache <src/smt/solver_engines.cpp#L7082>`
+scan, a {rowcachetrialsource}`cache storing separate lower and upper endpoints <src/smt/solver_engines.cpp#L7082>`
 reuses calculated endpoints, including missing
 results, and rounded integer endpoints across target atoms. Explanation vectors
 are built lazily and copied into each pending consequence. Scans only enqueue
@@ -170,14 +170,17 @@ subsequent assignment, pivot, backtrack or atom registration. The
 records its complexity, counters and qualification status.
 
 The {propfilterfinaltrialsource}`execution adapters <src/smt/solver_engines.cpp>`
-classify successful bound insertions as numeric no-ops
-or endpoint changes using the read-only tableau trail offset. The original
+classify successful bound insertions as unchanged bounds
+or tighter endpoints by reading the length of the tableau undo trail. This trail
+records bound changes, so its length identifies whether an insertion changed an
+endpoint without modifying the tableau merely to inspect it. The original
 instrument-only snapshot preserved every duplicate; the following filters are
 implemented in the frozen qualification candidate `c815a0b4`, with final
 correctness and performance acceptance recorded separately in the
 {download}`experiment ledger <../../../run-log.json>`.
 
-Each adapter owns an
+Each arithmetic execution object (`OnlineLraPropagator` or
+`ComponentLraExecution`) owns an
 {propfilterfinaltrialsource}`ArithmeticPropagationQueue <src/smt/arithmetic_propagation_queue.hpp>`.
 Its entries own the signed SAT literal, copied explanation vector and origin
 flags. With the existing row-propagation option enabled, a dense array of two
@@ -185,16 +188,16 @@ Boolean markers per SAT variable records pending presence independently for
 each sign. A repeated signed literal is suppressed before copying reasons;
 the first occurrence retains its position and original explanation. Opposite
 signs remain distinct. Pop moves the owning entry out and clears its marker;
-backtracking clears every remaining marker and entry. Interface-pair
-publications use a separate queue and are excluded. Without row propagation,
+backtracking clears every remaining marker and entry. Shared-equality notifications between theory solvers use a separate queue and
+are excluded from this duplicate filter. Without row propagation,
 the queue preserves duplicates and their order, and never indexes or allocates
 the marker array. Those insertions are explicitly counted as untracked for
 duplicate classification.
 
 Each adapter also owns an
 {propfilterfinaltrialsource}`ArithmeticRowScanMemo <src/smt/arithmetic_row_scan_memo.hpp>`.
-Per arithmetic variable it stores only the last scanned backtrack generation,
-trail offset and cumulative pivot count. A numerical no-op skips row refinement
+Per arithmetic variable it stores only the last scanned backtrack generation
+(a counter incremented on each backtrack), undo-trail length and cumulative pivot count. A numerical no-op skips row refinement
 only when all three match. Every backtrack invalidates stamps, including when
 another branch later reaches the same trail offset; generation wrap clears all
 stamps. A changed endpoint or pivot prevents reuse. The component execution is
@@ -271,8 +274,11 @@ value are equal. For variables related by rows, it checks two shapes:
 
 Current values filter candidate pairs; the bounds fixing the remainders
 supply the explanations. This avoids constructing the large rational offsets
-used by the older producer. The method emits an equality only when it connects
-previously separate groups; transitivity supplies the remaining connections.
+used by the older producer. A separate union-find structure tracks connected components of the equality
+edges already proved during this query. The method emits an edge only when it
+joins two different components; transitivity supplies the remaining equalities.
+These proof components differ from the initial groups of equal model values,
+which only restrict the candidate pairs.
 The surrounding combination solver retains its exact fallback checks.
 
 This is the `model-unit` option. The
@@ -292,8 +298,7 @@ portfolio experiment, not a claim that the paper recommends this setting.
 It requires IPASIR-UP and works independently of `--lra-propagation`.
 Retained sessions keep their existing option restrictions: monotone elimination
 is forbidden in assumptions mode. The combined phase/elimination/equality
-profile therefore requires rebuild mode in an incremental session; this
-campaign measures it one-shot.
+profile therefore requires rebuild mode in an incremental session; the {ref}`retained experiment <pure-lra-equality-portfolio-evidence>` used one-shot queries.
 The {equalityexperiment}`consumer index <src/smt/solver_engines.cpp#L7217-L7245>`,
 {equalityexperiment}`feasible-state scan <src/smt/solver_engines.cpp#L7561-L7634>`,
 and {equalityexperiment}`backtrack repair <src/smt/solver_engines.cpp#L7031-L7068>`
@@ -306,12 +311,14 @@ The implementation follows this checklist:
   existing behavior.
 - The propagator owns an immutable index of existing comparison atoms whose
   canonical polynomial is `x - y`, and the original arithmetic variable IDs.
-  It creates no terms, SAT variables, tableau rows, or all-pairs atom frontier.
+  It creates no terms, SAT variables or tableau rows, and does not introduce
+  comparison atoms for every pair of indexed variables.
   With no indexed targets, it leaves the scan and extra repair scheduling inactive.
 - After an arithmetic assignment or backtrack, repair feasibility before
   querying `LraTableau::model_filtered_unit_equalities`. Equal model values
   alone never justify a propagation. No scan runs again until the state changes.
-- Join the returned explained edges into components. The union of the bound
+- Treat the returned proved equalities as graph edges and join their endpoints
+  into connected components. The union of the bound
   premises on a component's edges justifies equality of any two members;
   these reasons may be larger than a minimal path explanation.
 - For an indexed atom whose endpoints are proved equal, evaluate its comparison
@@ -358,4 +365,4 @@ evidence of extra pivoting or an invalid explanation. Defaults remain unchanged.
 
 ## Sources and regression map
 
-The overview collects [primary sources and implementation status](../../lra.md#sources-and-implementation-status) and [regression obligations](../../lra.md#invariants-exercised-by-existing-tests). The sections here retain their algorithm-specific derivations, examples and source links.
+The overview collects [primary sources and implementation status](../../lra.md#sources-and-implementation-status) and [regression obligations](../../lra.md#invariants-exercised-by-existing-tests).

@@ -1,10 +1,14 @@
 # Pivot policies and optional search methods
 
-This chapter explains pivot selection and optional search controls: sum of infeasibilities, fixed-basic elimination and model phase hints. Each section states its own defaults; these controls do not all run on every route.
+This chapter explains pivot selection and optional search controls: sum of infeasibilities (SOI), fixed-basic elimination and preferred SAT truth values (phase hints). Each section states its own defaults; these controls do not all run on every route.
 
-Start with the [LRA overview](../../lra.md) for route responsibilities and defaults. The [tableau notation](tableau.md#tableau-equations-and-bounds) defines basic/nonbasic variables, the assignment $\beta$ and bounds $l,u$.
+Start with the [LRA overview](../../lra.md) for integration with SAT and default settings. The [tableau notation](tableau.md#tableau-equations-and-bounds) defines basic/nonbasic variables, the assignment $\beta$ and bounds $l,u$.
 
 ## Pivot-selection policies
+
+A feasibility pivot replaces one basic variable (the **leaving** variable) with
+a nonbasic variable (the **entering** variable). The selection policy chooses
+this pair. A variable's violation is its distance beyond its violated bound.
 
 The solver's default is **Sparse**, although a directly constructed
 `LraTableau` defaults to Bland. The
@@ -350,7 +354,7 @@ The operation runs from basic-variable bound assertion. An empty row is left
 for the ordinary consistency check, because forcing a nonzero value onto its
 constant-zero expression can be a real conflict. A row without an admissible
 entering variable is also left unchanged. The rule preserves bound reasons and
-does not implement the full column-deletion/restoration pipeline of LP presolve.
+does not implement the full column-deletion/restoration pipeline of linear-programming presolve.
 
 The {source}`H7 design <docs/qf-lra-heuristics.md#L539-L736>` records the
 original adaptation and the rejected row-freezing extension. Current defaults
@@ -422,4 +426,4 @@ are refreshed and disappear when the option is disabled.
 
 ## Sources and regression map
 
-The overview collects [primary sources and implementation status](../../lra.md#sources-and-implementation-status) and [regression obligations](../../lra.md#invariants-exercised-by-existing-tests). The sections here retain their algorithm-specific derivations, examples and source links.
+The overview collects [primary sources and implementation status](../../lra.md#sources-and-implementation-status) and [regression obligations](../../lra.md#invariants-exercised-by-existing-tests).

@@ -2,14 +2,17 @@
 
 This chapter explains the exact state shared by Real arithmetic and the rational relaxation used for integer solving: preparation, sparse rows, model values and restoration.
 
-Start with the [LRA overview](../../lra.md) for route responsibilities and defaults.
+Start with the [LRA overview](../../lra.md) for integration with SAT and default settings.
 
 ## Setup and maintained state
 
 ### Representation and ownership
 
 The input to arithmetic preparation is typed core terms plus their Boolean
-abstraction. The tableau itself receives variable IDs, exact bounds and reason
+abstraction: SAT literals naming the arithmetic predicates. Preparation may
+introduce an auxiliary variable for a polynomial, such as `s = x + y`. These
+auxiliaries are called **slack variables** here; each represents its defining
+expression rather than an independent input value. The tableau itself receives variable IDs, exact bounds and reason
 literals. It does not parse SMT-LIB or inspect the SAT solver's internals.
 
 | Representation | Owner, identity and lifetime |
@@ -134,7 +137,9 @@ Primo also has a separate, optional
 uses coprime integer coefficients in core terms, so equivalent predicates can
 share a SAT atom. It is
 {source}`off by default <src/smt/check_sat.hpp#L321-L324>`. Even when enabled,
-tableau preparation still applies leading-coefficient division. The
+preparation still applies leading-coefficient division to Real atoms and to
+Int atoms when primitive rows are disabled. With primitive Int rows enabled,
+it uses the coprime-integer form described above. The
 {source}`early canonicalization note <docs/papers/lra-atom-canonicalization.md>`
 describes that separate transformation and its evaluation.
 
@@ -166,14 +171,16 @@ A strict bound uses an exact symbolic infinitesimal.
 two rationals `(q, k)`, interpreted as `q + k*δ`, ordered lexicographically.
 The rational part is compared first; the infinitesimal part breaks ties.
 Thus $0<\delta<r$ for every positive rational $r$, and
-$2-\delta<2<2+\delta$. There is no floating-point tolerance. For an unflipped Real atom:
+$2-\delta<2<2+\delta$. There is no floating-point tolerance. For a Real atom whose true polarity asserts an upper bound:
 
 | Atom | Assigned true | Assigned false |
 | --- | --- | --- |
 | `t <= c` | upper bound `(c, 0)` | lower bound `(c, 1)` |
 | `t < c` | upper bound `(c, -1)` | lower bound `(c, 0)` |
 
-The flipped orientation reverses the bound direction. All cases are centralized
+If normalization reverses the comparison direction, true instead asserts a
+lower bound and false an upper bound; the strict case uses `+δ` for a lower
+bound and `-δ` for an upper bound. All cases are centralized
 in {source}`bound_assertion <src/smt/solver_engines.cpp#L3119-L3187>`.
 Integer tightening is a separate branch of this function; the infinitesimal
 interpretation here is for Real arithmetic. The basis is Dutertre–de Moura
@@ -282,7 +289,7 @@ nor unconditionally runs `check()` inside `pop()`. SAT decision rollback and
 SMT-LIB assertion scopes remain different operations. The latter's reuse
 design is described in the {source}`retained LRA session note <docs/assumption-incremental-lra.md>`.
 
-The [SOI objective](search.md#optional-sum-of-infeasibilities) depends on which basic variables currently
+The [sum of infeasibilities (SOI) objective](search.md#optional-sum-of-infeasibilities) depends on which basic variables currently
 violate which bounds. Restoring bounds alone would leave its cached directions
 and row describing the abandoned state. Primo therefore trails assignments,
 pivoted rows, and objective changes in SOI mode, as selected by
@@ -296,4 +303,4 @@ the objective from the retained basis and restored bounds.
 
 ## Sources and regression map
 
-The overview collects [primary sources and implementation status](../../lra.md#sources-and-implementation-status) and [regression obligations](../../lra.md#invariants-exercised-by-existing-tests). The sections here retain their algorithm-specific derivations, examples and source links.
+The overview collects [primary sources and implementation status](../../lra.md#sources-and-implementation-status) and [regression obligations](../../lra.md#invariants-exercised-by-existing-tests).

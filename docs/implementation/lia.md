@@ -51,7 +51,8 @@ core terms nor SAT atoms. Hybrid handoff instead names an original semantic
 term in a SAT bound, in the [hybrid handoff](arithmetic/lia/branching.md#hybrid-handoff). The working copy is discarded when its Boolean
 candidate is rejected; a winning copy supplies the integer model.
 
-An auxiliary variable for a normalized polynomial need not be integer-valued.
+An auxiliary variable representing a normalized polynomial is called a
+**slack variable**; it need not be integer-valued.
 For example, dividing `2*x + y` by its leading coefficient produces
 $s=x+y/2$. Even with integer $x,y$, $s$ may be a half-integer. Conversely,
 normalizing `3*x <= 5` gives the direct bound $x\le5/3$: **no auxiliary row**

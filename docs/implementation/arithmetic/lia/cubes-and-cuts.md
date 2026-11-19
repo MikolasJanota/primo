@@ -1,43 +1,53 @@
 # Cube models, divisibility checks and cuts
 
-These are distinct integer-completion stages: cubes attempt a checked model, the row GCD test can refute divisibility, and a Gomory cut excludes a fractional point. The [scheduling chapter](repair.md#when-integer-reasoning-runs) explains their order.
+These are distinct integer-completion stages: cubes attempt a checked model, the greatest-common-divisor (GCD) test can refute divisibility, and a Gomory cut excludes a fractional point. The [scheduling chapter](repair.md#when-integer-reasoning-runs) explains their order.
 
-Start with the [LIA overview](../../lia.md) for route responsibilities and defaults.
+Start with the [LIA overview](../../lia.md) for integration with SAT and default settings.
 
 (lia-cubes)=
 ## Optional cube model attempt
 
 `--lia-cube=uniform` enables the sufficient model test in Bjørner and
-Nachmanson, CAV 2024, §4.2. For each integer inequality $a z\le b$, solve
-$a z\le b-\frac12\sum_j|a_j|$ in an isolated rational tableau and round each
-semantic coordinate with $R(t)=\lfloor t+1/2\rfloor$. The rounding error in
-one row is at most half its coefficient 1-norm, so the rounded point satisfies
-the original row. `--lia-cube=difference` leaves primitive integer difference
-rows $x-y\le k$ unstrengthened. Monotonicity and $R(y+k)=R(y)+k$ preserve these
-rows even at negative ties. General octagon refinements are not implemented.
+Nachmanson, CAV 2024, §4.2. Each **coordinate** is the value of an original Int
+term mapped to a tableau variable. Substitute coordinates fixed to integer values
+and write the remaining values as $z=(z_1,\ldots,z_n)$. These are rounded by
+the test; an auxiliary such as $s=2z_1+3z_2$ is evaluated from them, not rounded
+independently. Fixed coordinates keep their substituted values. Write $az=\sum_j a_jz_j$, with integer coefficients
+$a_j$ and integer threshold $b$ after the normalization described below.
+
+For each inequality $az\le b$, the helper solves the strengthened inequality
+$az\le b-\frac12\sum_j|a_j|$ in a separate rational tableau. A feasible
+solution is the **center**. Moving at most $1/2$ in every coordinate changes
+the row's left side by at most $\frac12\sum_j|a_j|$, so the axis-aligned unit
+cube around that center satisfies the original inequality. Rounding each
+coordinate with $R(t)=\lfloor t+1/2\rfloor$ selects an integer point in this
+cube and therefore satisfies the original rows.
+
+`--lia-cube=difference` leaves difference rows $x-y\le k$ with integer $k$
+unstrengthened. Monotonicity and $R(y+k)=R(y)+k$ preserve these rows even at
+negative rounding ties. General octagon refinements are not implemented.
 QF_LIA defaults to `uniform`; `difference` remains an explicit alternative.
 QF_UFLIA ignores these controls and retains its existing pipeline. The
 [default-profile update](../../../evidence/qf-lia-defaults-20261119.md) records the
 combined policy and its qualification status.
 
-The owning numerical snapshot {cubesource}`LiaCubeProblem
-<src/theory/arithmetic/lia_cube.hpp>` contains the ordered semantic integer
-coordinates, sparse definitions of every original variable in those coordinates,
+The numerical copy {cubesource}`LiaCubeProblem
+<src/theory/arithmetic/lia_cube.hpp>` contains the ordered integer
+coordinates defined above, sparse definitions of the original tableau variables in those coordinates,
 and the original basic-variable flags. {cubesource}`SMT preparation <src/smt/solver_engines.cpp>` exports it from the
-pristine `PreparedLraTheory::base_tableau` for a fractional completion input; it contains
+prepared `PreparedLraTheory::base_tableau`, before any pivots or cuts, for a fractional completion input; it contains
 no terms or references into preparation storage. The helper obtains active
-bounds from the rationally feasible working tableau. It substitutes exactly
-fixed integral semantic coordinates, clears coefficient denominators with
-positive primitive scaling, and applies delta-aware floor to normalize strict
+bounds from the rationally feasible working tableau. It substitutes coordinates fixed to
+exact integer values, rescales each row by a positive factor to obtain coprime integer coefficients, and applies delta-aware floor to normalize strict
 or fractional thresholds over integer values. Slacks are affine expressions,
-never independent integer coordinates for computing margins. A fixed fractional
-semantic coordinate skips the attempt, leaving refutation to the existing stages.
+never independent integer coordinates for computing margins. A coordinate fixed to a fractional value skips the attempt, leaving refutation to the existing stages.
 
 {cubesource}`try_cube_model <src/theory/arithmetic/lia_cube.cpp>` builds a
 scratch Bland tableau. {cubesource}`check_bounded
 <src/theory/arithmetic/lra_tableau.cpp>` returns
 `Feasible`, `Infeasible`, or `LimitReached`; its finite repair-step budget also
-counts SOI updates for other callers, although cubes themselves use Bland.
+counts [sum-of-infeasibilities updates](../lra/search.md#optional-sum-of-infeasibilities)
+for other callers. The cube helper uses [Bland pivot selection](../lra/search.md#pivot-selection-policies).
 `--lia-cube-steps=1000` is the initial untuned budget; zero permits only an
 already feasible center. A step cap does not bound exact-arithmetic bit costs
 or construction time. It adds no new global cancellation mechanism.
@@ -51,18 +61,18 @@ Only success replaces the working tableau. Adoption creates a new bound trail;
 checkpoint tokens from the replaced copy must be discarded. SMT completion
 passes a private copy and reads its winning model. Failed, skipped, budgeted, or
 rejected candidates preserve its assignment, basis, bounds and proof state;
-no strengthened-system conflict enters a theory explanation. Ordinary cuts
-and DFS resume after any such failure. The call occurs once after patching
+no strengthened-system conflict enters a theory explanation. After such a failure, completion continues with cut generation and integer
+branching. The call occurs once after patching
 and the basic GCD check, before any cuts, and skips an already integral model.
 
-Snapshot construction sorts $n$ coordinates in $O(n\log n)$ comparisons;
+For $m$ original coordinates, snapshot construction sorts them in
+$O(m\log m)$ comparisons;
 sparse export, normalization and candidate checks then take linear sparse
 work apart from exact-arithmetic costs. Scratch/adoption construction also
-uses the tableau API's row sorting; no total linear-time LP construction is
-claimed. Each fractional enabled completion allocates
-a snapshot and may allocate extra tableaux; no speedup is assumed. {cubesource}`Counters <src/util/statistics.cpp>` named `lia.cube-*`
+uses the tableau API's row sorting; no total linear-time construction bound is claimed. Each fractional enabled completion allocates
+a numerical copy and may allocate extra tableaux; no speedup is assumed. {cubesource}`Counters <src/util/statistics.cpp>` named `lia.cube-*`
 separate calls, skips, constraints, fixed coordinates, difference exemptions,
-pivots, centers, infeasible LPs, exhausted limits, rejected candidates and models.
+pivots, centers, infeasible rational subproblems, exhausted limits, rejected candidates and models.
 `lia.cube-microseconds` times the helper, excluding SMT snapshot construction.
 `lia.branch-nodes` counts subsequent private split nodes. A nonzero rejected
 candidate counter requires investigation; it is not evidence of a successful
@@ -225,4 +235,4 @@ temporary handling of large-coefficient cuts.
 
 ## Sources and regression map
 
-The overview collects [primary sources and implementation status](../../lia.md#sources-and-implementation-status) and [regression obligations](../../lia.md#models-regression-coverage-and-retained-evidence). The sections here retain their algorithm-specific derivations, examples and source links.
+The overview collects [primary sources and implementation status](../../lia.md#sources-and-implementation-status) and [regression obligations](../../lia.md#models-regression-coverage-and-retained-evidence).
