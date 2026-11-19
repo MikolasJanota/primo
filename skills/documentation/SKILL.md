@@ -19,6 +19,13 @@ Use classic Jupyter Book, matching the `llm2smt` `lra` branch documentation setu
 
 ## Documentation types
 
+Keep current behavior, unresolved questions, completed evidence, and project
+work distinct. Follow the placement rules in `docs/development/documentation.md`.
+Close completed investigations in the research index; preserve their stable
+paths as clearly labeled records under evidence navigation. Prefer extending an
+existing topic's evidence page over adding one page per run. Current default
+claims belong to the implementation/reference owner, with linked summaries.
+
 ### Architecture docs
 
 Explain:

@@ -2,8 +2,12 @@
 
 **Status: Open lead. Owner: unassigned.**
 
-Initial code inspection is complete. Whole-tree classification, implementation,
-and overhead measurements remain pending.
+Typed counter IDs and the string-key boundary policy are implemented; see
+[statistics](../reference/statistics.md#typed-instrumentation-policy). This lead concerns the still-unimplemented
+build-time diagnostic switch, separation of control state and diagnostic work,
+and their overhead measurements. The inspection table below predates the typed
+migration; it identifies contracts to recheck, not an outstanding migration of
+all counters to typed IDs.
 
 Primo has counters and timing statements throughout solver code. Investigate
 whether making diagnostic instrumentation optional at compile time improves

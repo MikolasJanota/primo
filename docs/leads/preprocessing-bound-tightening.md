@@ -1,5 +1,7 @@
 # Preprocessing bound tightening
 
+**Document purpose: implemented experimental pass and historical qualification record.** The initial study below remains blocked; the option is off by default. Current behavior is in [preprocessing](../implementation/preprocessing.md); any further acceptance work must distinguish this old study from later [bound repairs](../evidence/bound-repairs.md).
+
 ## Basis and implementation checklist
 
 Before implementation, the interval-refinement paragraph of Dutertre and

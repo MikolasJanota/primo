@@ -1,5 +1,7 @@
 # Detecting bounds before arithmetic search
 
+**Document purpose: completed diagnostic implementation and measurement record.** The diagnostic is implemented and does not strengthen the goal. Current controls belong in [options](../reference/options.md#preprocessing-strengthening-and-diagnostics).
+
 This milestone measures opportunities only. It does not strengthen the goal,
 install tableau bounds, generate SAT atoms, or change a solving answer.
 

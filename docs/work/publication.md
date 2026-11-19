@@ -1,5 +1,11 @@
 # Public launch preparation
 
+This is the October 2026 launch record and owner runbook. Its audit counts and
+reported GitHub settings describe that preparation, not a verification of the
+current branch or hosted configuration. The [merge checklist](merge-readiness.md)
+tracks the later arithmetic branch; recheck publication settings on the approved
+revision before launch.
+
 **Status: symmetry soundness bug and all six technical review follow-ups repaired
 and qualified; owner acceptance and final GitHub publication checks remain pending.**
 
@@ -22,11 +28,11 @@ Repository visibility has not been changed.
 | Consolidated reader acceptance | Pending owner review of the [assembled manual](../review.md). |
 | Institutional/contributor publication authorization | Pending owner resolution. |
 | Imported benchmark publication terms | Resolved for the [19 inventoried imports](../coverage/third-party-inputs.json): byte-identical members of SMT-LIB release 2025.08.04, whose metadata declares CC BY 4.0; attribution recorded. |
-| GitHub configuration and public visibility | Owner reports DCO installed and required with `build-and-test` and `docs`; verify enforcement and remaining settings through the [handoff](github-handoff.md). Visibility remains private. |
+| GitHub configuration and public visibility | Owner reports DCO installed and required with `build-and-test` and `docs`; verify enforcement and remaining settings through the [handoff](github-handoff.md). Visibility was reported private in October. |
 
 ## Remaining publication work
 
-The fresh local secret audit covers 1,700 reachable commits and 8,211 complete
+The 27 October local secret audit covers 1,700 reachable commits and 8,211 complete
 historical file contents, including freshly fetched tips of all 36 remote branches
 and two annotated tags. Four Gitleaks 8.30.1 scans report zero detections: Git patches, the
 1,240 tracked working-tree files, complete historical file contents, and Git
@@ -51,9 +57,9 @@ required checks and DCO, and complete the protected Pages environment and privat
 vulnerability reporting using the handoff. Verify the public clone and deployed site after
 publication. No new numbered release is needed for this launch.
 
-SSH access to the repository works. GitHub CLI/API authentication is unavailable
-in this workspace, so repository settings, hosted artifacts, workflow execution
-and deployment cannot be verified here. The owner can perform those steps with
+During that preparation SSH Git access worked, but GitHub CLI/API authentication
+was unavailable. Repository settings, hosted artifacts, workflow execution and
+deployment were therefore not independently verified here. The owner can perform those steps with
 an authenticated browser or CLI; credentials need not enter this workspace.
 
 The empty-dependency-cache SLURM build timed out downloading CLI11. Builds with

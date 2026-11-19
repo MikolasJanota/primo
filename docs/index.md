@@ -23,6 +23,13 @@ CaDiCaL through IPASIR-UP. Primo-owned code and documentation use the MIT licens
 [Read the paper](https://easychair.org/publications/paper/rPZ9) ·
 [Source code](https://github.com/primo-solver/primo)**
 
+## Current behavior, open questions and results
+
+- [What is implemented and which options are default](capabilities.md#implemented-mechanisms-and-defaults).
+- [What remains open](leads/index.md), with one remaining question per lead.
+- [What was evaluated, accepted or rejected](evidence/index.md), retaining exact historical profiles.
+- [Merge and other project work](work/merge-readiness.md), separate from solver research.
+
 ## Published QF_LRA results
 
 Table 2 of our [2026 paper](https://easychair.org/publications/paper/rPZ9)
@@ -143,7 +150,8 @@ summarizes the paper's benchmark tables. Published configurations and results
 are kept separate from current defaults and qualification evidence.
 
 (work-underway)=
-## Active work
+(active-work)=
+## Project work still open
 
 [Publication preparation](work/publication.md) records the remaining launch
 checks and owner decisions. The [closing review](review.md) records the manual's
@@ -154,8 +162,9 @@ planned storage migration separate from solver implementation.
 
 ## Open leads
 
-The [research register](leads/index.md) links proposed algorithmic and
-engineering investigations and records the outcomes of earlier experiments.
+The [research index](leads/index.md) lists the remaining algorithmic and
+engineering questions. [Evidence and investigation records](evidence/index.md)
+separately identify completed, rejected and blocked studies.
 It includes arithmetic and combination improvements, quantifier instantiation,
 memory reclamation, compact storage, and a public library API. Each lead states
 its current implementation boundary and the evidence needed before acceptance.

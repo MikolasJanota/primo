@@ -1,9 +1,34 @@
 # Writing and checking documentation
 
 Write current explanations under the appropriate implementation, guide, reference,
-or contributor page. Keep active work, research leads and dated evidence separate.
+or contributor page. Keep project work, research leads and dated evidence separate.
 Every implementation chapter needs concrete owners, operations, invariants,
 limitations, an example, source links, and paper/test mappings.
+
+## Where a change belongs
+
+Give each claim one authoritative home:
+
+| Question | Home |
+| --- | --- |
+| What works now, and with which defaults? | The implementation or reference chapter; [capabilities](../capabilities.md) provides a short linked summary. |
+| Which research question is still unresolved? | [Open research questions](../leads/index.md), linked to a focused design note. State the implemented baseline and what evidence would close the remaining question. |
+| What was tested, accepted, rejected or left inconclusive? | The relevant topic under [evidence](../evidence/index.md), with exact provenance in the run ledger. |
+| Which review, publication or maintenance task remains? | [Project work](../work/merge-readiness.md) and the relevant work page. Do not imply every listed task is actively being worked on. |
+
+When an investigation finishes, remove it from the current research navigation.
+Preserve its results, limitations and original checklist as an investigation
+record. Existing paths and anchors can remain: give the page a clear status
+paragraph and place its navigation entry with the relevant evidence. New
+investigation records belong under `evidence/`.
+
+Extend an existing topic's evidence page for follow-up runs unless a distinct
+method or scope needs its own explanation. Avoid a new narrative page for each
+run. Keep commands, hashes, job identities and measurements in evidence or the
+ledger; link them from current implementation documentation. Update navigation,
+status summaries and links together. A completed implementation can still have
+an open research question, but name that residual question explicitly rather
+than leaving the original implementation plan in the backlog.
 
 ## Writing conventions
 

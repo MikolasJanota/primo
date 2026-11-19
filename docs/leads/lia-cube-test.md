@@ -1,5 +1,7 @@
 # A cube test for finding QF_LIA models
 
+**Document purpose: completed cube implementation checklist.** Current behavior and defaults belong in [LIA](../implementation/lia.md#optional-cube-model-attempt); the historical steps below preserve the implemented subset and its original acceptance procedure.
+
 **Status: uniform/difference variants implemented and correctness-qualified;
 200-input and full 13,306-input M124 comparisons complete, including all SAT models;
 this study originally retained the feature off by default.**

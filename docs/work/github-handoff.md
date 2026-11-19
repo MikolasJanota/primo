@@ -1,7 +1,8 @@
 # GitHub publication handoff
 
 The repository and workflows can be prepared without an authenticated GitHub API
-session. SSH Git access has been tested. The steps below are an owner runbook,
+session. SSH Git access was tested during the October preparation; current
+transport availability does not verify hosted settings. The steps below are an owner runbook,
 not independent verification that settings have been applied. Keep credentials outside Git and
 chat. Use an already authenticated browser or run `gh auth login` on a trusted
 machine; never paste a token into an issue, document, or command transcript.
@@ -11,7 +12,7 @@ machine; never paste a token into an issue, document, or command transcript.
 The owner has downloaded the documentation artifact from CI, merged the audit
 and README pull requests, installed DCO for all organization repositories, and
 added `DCO` to the required checks alongside `build-and-test` and `docs` in the
-main-branch ruleset. The repository remains private and Pages deployment is
+main-branch ruleset. At that time the repository was reported private and Pages deployment was
 pending. These reports establish progress; this workspace has no authenticated
 GitHub API session to verify the settings, run URLs or enforcement on the
 publication revision. Use the steps below to verify the remaining launch items.

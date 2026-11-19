@@ -1,5 +1,7 @@
 # Conflict-selected Ackermann prototype
 
+**Document purpose: completed V1 implementation and experiment record.** Current behavior is in [EUF](../implementation/euf.md#conflict-selected-ackermann-prototype); remaining questions are in [theory-lemma research](theory-lemmas.md).
+
 **Historical V1 checklist:** native source `13230b6d`, evaluated in the
 [pilot report](../evidence/conflict-ackermann.md). Both options remain off by
 default. The [revised checklist](euf-performance-fixes.md) and

@@ -1,6 +1,7 @@
 # Documentation replacement
 
-**Status: replacement prepared; consolidated reader acceptance pending.**
+**Status: replacement manual implemented and technically checked; consolidated
+reader acceptance remains pending.**
 
 The current manual is in `docs/`; the historical manual remains editable in
 `docs-history/`. `make docs` builds the current manual in `docs/_build/html`;

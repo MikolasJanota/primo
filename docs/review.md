@@ -495,3 +495,46 @@ The writer passes lint, eleven focused report tests, strict books/local-Git
 links and rendered result/resource-table inspection. Native49/Python400/ASan49
 and twelve CLI/example checks run in SLURM; static scans cover all141 C++ units.
 Existing static advisories and all incomplete outcomes remain recorded.
+
+
+## 2026-11-19 merge-preparation documentation consolidation
+
+Independent read-only reviewer `merge_docs_structure_review` accepts the
+25-file documentation/policy unit against `6e4f0cfd`. The unit includes current
+capabilities and entry points, the research index, the evidence hub and topic
+navigation, status corrections on retained investigation records, equality
+implementation/evidence separation, project-work status and authoring policy.
+No solver source, option defaults, executable examples, measurements or raw
+experiment metadata change in this pass.
+
+DS-01–DS-06 correct mixed research/history navigation, incomplete current-lead
+coverage, stale symmetry/equality evaluation status and old LIA default claims.
+DS-07 preserves renamed current-manual anchors. DS-08 removes an overbroad
+qualification heading that included the still-blocked preprocessing experiment.
+DS-S01–DS-S03 are addressed by topic grouping, the Project work label and moving
+experimental chronology out of the equality implementation chapter. All existing
+TOC pages remain exactly once; only the evidence hub and live merge checklist
+are added. Original still-open numbered questions remain in the research index;
+closed dispositions move to evidence. No required finding remains.
+
+The accepted content SHA-256 is
+`aba6c1b7a7918444e37e749d4536a64f7dfe11f7e692f73f24964a4613658653`,
+computed over sorted path/content pairs with NUL separators. The later checklist
+status, final trailing-blank-line cleanup and this ledger entry record
+acceptance and writer verification only.
+The reviewer checks the policy owners and retained qualification metadata,
+including the qualified source/native identity and object-identical include
+repairs. It does not perform a fresh whole-branch implementation acceptance,
+solver/fuzz/timing campaign, raw remote receipt audit or hosted-settings check.
+The historical preprocessing-bound qualification remains explicitly unresolved.
+
+Writer checks pass: `make lint`, `make docs`, strict `make docs-check-links` and
+`git diff --check`. The assembled check covers 313 pages, 49,075 local links and
+1,391 unique Git links with zero failures; 542 external URLs are deferred to
+Sphinx linkcheck. Navigation preserves every old page exactly once and rendered
+HTML retains eight checked renamed/retained anchors. Chromium inspection covers
+the research and evidence navigation, capability/default table, live checklist
+and revised equality evidence/implementation sections. No new solver batch is
+needed for these documentation-only changes; prior source qualification retains
+its original scope. Current `main` was freshly fetched over HTTPS and remains
+an ancestor at `fcc274c2`; no merge or publication is performed.

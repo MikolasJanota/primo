@@ -118,5 +118,5 @@ is small or ready for implementation.
 - **Use the solver:** [input](guide/input.md), [models](guide/models.md), and [sessions](guide/sessions.md).
 - **Look up exact behavior:** [options](reference/options.md), [effective policies](reference/policies.md), and [tactic inventory](reference/tactics.md).
 - **Understand the design:** [architecture](implementation/architecture.md) and [primary literature](literature.md).
-- **Find proposals and ongoing work:** [open leads](leads/index.md), [documentation work](work/documentation.md), and [results storage](work/results-storage.md).
-- **Assess claims and history:** [evaluation evidence](evidence/evaluation-refresh.md), [documentation review](review.md), and [preservation map](coverage/index.md).
+- **Find remaining questions and project work:** [open leads](leads/index.md), [documentation work](work/documentation.md), and [results storage](work/results-storage.md).
+- **Assess claims and history:** [completed investigations](evidence/index.md), [documentation review](review.md), and [preservation map](coverage/index.md).

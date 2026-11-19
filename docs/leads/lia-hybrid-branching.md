@@ -1,13 +1,15 @@
 # Hybrid integer branching
 
-**Status: original implementation checklist; the ordinary-split subset is now
-qualified as an opt-in policy.** See {ref}`the current representation <lia-hybrid-branching>`
-and {ref}`the gains, regressions and verification evidence <lia-hybrid-evidence>`.
-Plan baseline: `c49585a0`; the original milestone preserved private defaults.
-QF_LIA now selects hybrid in the [default-profile update](../evidence/qf-lia-defaults-20261119.md).
-QF_UFLIA retains private branching.
-The intended outcome is bounded private exploration followed by a SAT-visible
-integer-bound choice, with sound explanations and separately validated models.
+**Status: ordinary-coordinate splitting is implemented; hybrid is the QF_LIA
+default, while QF_UFLIA keeps private branching.** The
+[current representation](../implementation/lia.md#hybrid-handoff) and
+[qualified default profile](../evidence/qf-lia-defaults-20261119.md) describe
+current behavior. Proof-derived combination splits remain unimplemented.
+
+This is the original implementation checklist at baseline `c49585a0`, whose
+milestone retained private defaults. Its prospective instructions and the
+[original opt-in evaluation](../evidence/lia-hybrid-20261111.md) are historical
+records, not a remaining ordinary-split implementation task.
 
 ## Sources and implementation status
 
@@ -111,7 +113,8 @@ The resource-ownership repair is qualified in `2d6daadc`; its
 {download}`fresh SLURM record <../../benchmarks/merge-readiness-20261119/qualification.json>`
 includes 6,000 generated cases, 2,096 mutants and 5,541 separately validated
 SAT models/queries. Timeouts and one diagnosed private node-limit unknown remain
-unsolved. The ordinary-split policy remains opt-in. The
+unsolved. That resource-repair milestone retained opt-in hybrid settings; the later QF_LIA
+default promotion is recorded separately above. The
 {hybridfallbacksource}`driver <src/smt/component_solver.cpp>` and
 {hybridfallbacksource}`focused regression <tests/unit/qf_uflia_solver_tests.cpp>`
 map the checklist to its implementation.

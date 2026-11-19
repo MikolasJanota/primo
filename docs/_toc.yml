@@ -47,7 +47,6 @@ parts:
       - file: implementation/quantifiers
       - file: implementation/combination
       - file: implementation/uflia-equality-propagation
-      - file: implementation/uflia-equality-ablation
   - caption: Literature
     chapters:
       - file: literature
@@ -73,9 +72,6 @@ parts:
       - file: leads/rational-storage
       - file: leads/statistics-instrumentation
       - file: leads/theory-lemmas
-      - file: leads/conflict-ackermann-prototype
-      - file: leads/euf-performance-fixes
-      - file: leads/uf-symmetry-composition
       - file: leads/theory-lemma-forgetting
       - file: leads/arithmetic-symmetry
       - file: leads/lra-floating-point
@@ -84,8 +80,6 @@ parts:
       - file: leads/arithmetic-efficiency-followups
       - file: leads/lra-column-coefficients
       - file: leads/lia-extended-gcd
-      - file: leads/lia-cube-test
-      - file: leads/lia-hybrid-branching
       - file: leads/lia-patching
       - file: leads/lia-infinitesimals
       - file: leads/care-pair-generation
@@ -93,8 +87,6 @@ parts:
       - file: leads/real-combination-migration
       - file: leads/model-based-combination
       - file: leads/search-diversification
-      - file: leads/adaptive-phase-probe
-      - file: leads/phase-region-simulation
       - file: leads/portfolio
       - file: leads/quantifier-instantiation
       - file: leads/quantifier-nnf
@@ -102,55 +94,72 @@ parts:
       - file: leads/quantifier-relevance
       - file: leads/compact-distinct
       - file: leads/incremental-equations
-      - file: leads/root-bound-detection
-      - file: leads/preprocessing-bound-tightening
-      - file: leads/bound-propagation-improvements
       - file: leads/shared-euf-structure
-  - caption: Active work
+  - caption: Project work
     chapters:
+      - file: work/merge-readiness
       - file: work/publication
       - file: work/github-handoff
       - file: work/documentation
       - file: work/evidence
       - file: work/results-storage
-  - caption: Evidence and history
+  - caption: Evidence and completed investigations
     chapters:
-      - file: evidence/ground-comparison
-      - file: evidence/evaluation-refresh
-      - file: evidence/long-limits
-      - file: evidence/qf-lia-progress
-      - file: evidence/lia-cubes
-      - file: evidence/lia-hybrid-20261111
-      - file: evidence/bound-propagation
-      - file: evidence/propagation-redundancy
-      - file: evidence/arithmetic-combinations
-      - file: evidence/lia-tuning-pilot
-      - file: evidence/conflict-ackermann
-      - file: evidence/euf-performance-fixes
-      - file: evidence/merge-readiness-20261119
-      - file: evidence/qf-lia-defaults-20261119
-      - file: evidence/bound-behavior
-      - file: evidence/bound-repairs
-      - file: evidence/arithmetic-efficiency-20261108
-      - file: evidence/arithmetic-overhead-20261109
-      - file: evidence/uniform120
-      - file: evidence/uflia-gaps-20261110
-      - file: evidence/model-repair-20261110
-      - file: evidence/uflia-model-unit-20261111
-      - file: evidence/uflia-smtcomp2026-20261111
-      - file: evidence/certora-paper-20261111
-      - file: evidence/qf-uflia-progress
-      - file: evidence/qf-uflia-equality-sharing
-      - file: evidence/qf-uflia-equality-ablation
-      - file: evidence/publication
-      - file: evidence/publication-followups
-      - file: evidence/static-analysis
-      - file: evidence/assignment
-      - file: evidence/arithmetic
-      - file: evidence/lra-regressions
-      - file: evidence/quantifiers
-      - file: evidence/archive
-      - file: review-history
+      - file: evidence/index
+        sections:
+          - file: evidence/ground-comparison
+            sections:
+              - file: evidence/evaluation-refresh
+              - file: evidence/long-limits
+              - file: evidence/uniform120
+          - file: evidence/qf-lia-progress
+            sections:
+              - file: evidence/qf-lia-defaults-20261119
+              - file: evidence/lia-cubes
+              - file: evidence/lia-hybrid-20261111
+              - file: evidence/lia-tuning-pilot
+              - file: evidence/arithmetic-efficiency-20261108
+              - file: evidence/arithmetic-overhead-20261109
+              - file: leads/lia-cube-test
+              - file: leads/lia-hybrid-branching
+          - file: evidence/bound-propagation
+            sections:
+              - file: evidence/bound-behavior
+              - file: evidence/bound-repairs
+              - file: evidence/propagation-redundancy
+              - file: evidence/arithmetic-combinations
+              - file: leads/root-bound-detection
+              - file: leads/preprocessing-bound-tightening
+              - file: leads/bound-propagation-improvements
+          - file: evidence/euf-performance-fixes
+            sections:
+              - file: evidence/conflict-ackermann
+              - file: leads/conflict-ackermann-prototype
+              - file: leads/euf-performance-fixes
+              - file: leads/uf-symmetry-composition
+          - file: evidence/qf-uflia-progress
+            sections:
+              - file: evidence/qf-uflia-equality-sharing
+              - file: evidence/qf-uflia-equality-ablation
+              - file: implementation/uflia-equality-ablation
+              - file: evidence/uflia-gaps-20261110
+              - file: evidence/model-repair-20261110
+              - file: evidence/uflia-model-unit-20261111
+              - file: evidence/uflia-smtcomp2026-20261111
+              - file: evidence/certora-paper-20261111
+              - file: leads/adaptive-phase-probe
+              - file: leads/phase-region-simulation
+          - file: evidence/publication
+            sections:
+              - file: evidence/publication-followups
+              - file: evidence/static-analysis
+              - file: evidence/assignment
+              - file: evidence/arithmetic
+              - file: evidence/lra-regressions
+              - file: evidence/quantifiers
+              - file: evidence/merge-readiness-20261119
+              - file: evidence/archive
+              - file: review-history
   - caption: Documentation review
     chapters:
       - file: review

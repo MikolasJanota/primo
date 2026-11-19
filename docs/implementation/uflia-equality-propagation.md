@@ -232,66 +232,22 @@ correctness boundaries.
 
 ## Paired evaluation and default policy
 
-The {download}`recorded comparison <../../benchmarks/qf-uflia-tableau-equalities-20261107.json>`
-preserves the initial unconditional `f526ed8e` experiment and a six-arm
-repeat of `8d84fdca`, both against unchanged baseline `1b2cc307`.
-The fixed development selection contains 30 historical M124 losses and 14
-controls, with a 15-second timeout. Arithmetic model phase is `off` in all
-arms. M124 means bound rounding, primitive integer rows and integral patch
-moves, with integer slacks off.
-
-The final repeat gives the following solved counts and PAR2 sums in seconds:
-
-| Profile | Old baseline | New default (off) | Option enabled |
-| --- | ---: | ---: | ---: |
-| Native | 44/44; 32.76 | 44/44; 32.38 | 18/44; 826.16 |
-| M124 | 14/44; 906.57 | 14/44; 906.58 | 16/44; 866.82 |
-
-The disabled path performs no equality scans and has no solved-count gains
-or losses. The small runtime difference is not a speedup claim. Enabling
-export loses 26 native cases, including two controls. M124 recovers
-`wisas/xs_25_35.smt2` and `wisas/xs_26_36.smt2` and loses none. All 114
-successful SAT timing rows passed separate direct Dolmen replay. The timing
-comparison checks declared sat/unsat statuses and inter-arm concrete-answer agreement;
-trusted-reference fuzzing is a separate correctness gate. This development
-selection does not supply full-corpus performance evidence.
-
-The enabled repeat adds 11,483 fresh pairs in native and 15,316 in M124.
-The initial `f526ed8e` diagnostic on `wisas/xs_37_57.smt2` explains why
-promotion was rejected: native grows 274 fresh pairs in ten batches. Equality
-scanning costs about 11 ms, while solve time exceeds 15 seconds, versus
-1.60 seconds in the baseline. Before timeout, LRA pivots grow from 12,704
-to 63,161 and SAT decisions from 24,231 to 75,843. A separate bounded GDB
-sample finds arithmetic work in 17 of 30 candidate stacks, all within SAT
-solving; it is wall-time stack sampling of one input, not CPU attribution.
-
-The option preserves the requested integration for research. Default
-enablement is rejected, and M124 also remains unpromoted. A follow-up lead
-is to share relevant proved equalities without eagerly adding the full
-arithmetic bridge for every fresh pair, and to examine explanation width.
-Direct guarded facts or lazy bridge activation need their own design,
-explanations, lifecycle and paper review; neither is implemented here.
-
+Equality export remains off by default; legacy remains the producer default.
+Both producers and the delivery controls are implemented and qualified. The
+[initial 44-input comparison](../evidence/qf-uflia-equality-sharing.md#initial-44-input-development-comparison)
+retains its original profiles, model checks and search-cost diagnosis.
 
 ## Larger comparison
 
-The [659-input, 60-second follow-up](../evidence/qf-uflia-equality-sharing.md)
-finds a mixed result: native solves 575 cases disabled and 567 enabled;
-M124 solves 545 disabled and 566 enabled. All 3,373 successful Primo rows
-match fresh Z3 answers, and all 2,331 SAT timing rows pass separate direct
-Dolmen replay. The original development sample missed important MathSAT
-gains. Wisas still regresses, while a selected Certora regression enters a
-different, integer-completion bottleneck. The evidence page separates those
-mechanisms, profiling limits and selected controls. No default is promoted.
-
-The [delivery-cost ablation checklist](uflia-equality-ablation.md) documents
-the implemented controls and their completed evaluation.
-
+The [659-input follow-up](../evidence/qf-uflia-equality-sharing.md) records mixed
+family results. It does not justify default promotion. Its measurements are
+complete; they are not evidence that selective delivery or equation-specific
+integer reasoning has been implemented.
 
 ## Delivery ablation follow-up
 
-The [five-policy investigation](../evidence/qf-uflia-equality-ablation.md) separates
-scanning, naming/bridges and proof delivery on all 659 available inputs. It finds
-a narrower fixed-value-only policy worth retaining experimentally, while broad
-naming still causes regressions and integer-limit fallbacks. The original
-all-rule integration and all delivery controls remain default off.
+The [completed five-policy ablation](../evidence/qf-uflia-equality-ablation.md)
+retains fixed-only delivery experimentally. The
+[original checklist](uflia-equality-ablation.md) preserves its design; the
+[remaining equality investigation](../leads/arithmetic-equality-exploitation.md)
+identifies further work beyond those implemented controls.

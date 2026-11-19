@@ -1,13 +1,16 @@
 # Composing UF symmetry restrictions
 
-Status: repaired and correctness-qualified in `59d81fee`. The full SMT-COMP
-follow-up stopped on `SEQ/SEQ004_size7.smt2`: both frozen `13230b6d` and prior
-current `6e53a710` returned UNSAT on this SAT input. Disabling symmetry produced
-independently validated SAT models; older `7dd8874c` also returned SAT. The
-repair now returns validated SAT under all four focused preprocessing settings.
-Both corrected executables are qualified; the full paired timing comparison
-has restarted under fresh identities. Its results remain unaccepted until the
-separate model stage and final audit finish.
+**Status: completed correctness repair and completed paired evaluation.**
+The guard is implemented and qualified in `59d81fee`; the
+[full SMT-COMP comparison](../evidence/euf-performance-fixes.md#completed-120-second-comparison)
+checks 8,424 timing rows and all 4,020 selected SAT models. This page preserves
+the repair's original proof and implementation checklist. The comparison is
+not a whole-branch comparison against `main`; current integration readiness is
+tracked in [the merge checklist](../work/merge-readiness.md).
+
+The follow-up exposed `SEQ/SEQ004_size7.smt2`: both frozen `13230b6d` and prior
+candidate `6e53a710` returned UNSAT on this SAT input. The repair and a separately
+corrected comparator replace those known-wrong experimental identities.
 
 ## Paper basis and implemented subset
 

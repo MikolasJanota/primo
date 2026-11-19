@@ -1,9 +1,11 @@
 # Bound propagation improvements: implementation checklist
 
+**Document purpose: completed repair/optimization checklists and rejected-placement record.** Current behavior is in [LRA](../implementation/lra.md) and [LIA](../implementation/lia.md#bound-propagation-repairs); measured outcomes are in [bound repairs](../evidence/bound-repairs.md) and [redundancy filtering](../evidence/propagation-redundancy.md).
+
 Baseline: `ff303826`. Notification and integer-rounding repairs and scan-local
 endpoint reuse are implemented. The later preprocessing-placement trial was
-rejected and its source changes reverted. Defaults, private branch limits and
-UF fallback remain unchanged.
+rejected and its source changes reverted. That milestone left defaults, private branch limits and UF fallback unchanged;
+QF_LIA defaults changed in the later [profile promotion](../evidence/qf-lia-defaults-20261119.md).
 
 The exact candidate `07ec5ce5` has
 {boundrepairfinalevidence}`fresh correctness qualification <benchmarks/bound-repairs-20261114/final-qualification.json>`:

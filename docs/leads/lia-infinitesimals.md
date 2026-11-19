@@ -1,21 +1,23 @@
 # Avoiding infinitesimals in integer relaxation
 
-**Status: Addressed by the QF_LIA default; open for QF_UFLIA.**
-Under `--lia-primitive-int-rows`, `Int` slacks are integer polynomials, so
-strict compound `Int` atoms get integral bounds without an infinitesimal; see
-the [integrality checklist](../papers/mip-presolve-integrality.md). Since
-`5dec036` the option is on by default for QF_LIA, together with the other
-three integrality options, after a paired rerun measured a net gain of 53
-files for the four. It stays off for QF_UFLIA, where it loses 30 `wisas`
-files. The checklist's evaluation
-traces that loss, in four of the files, to search order rather than to the
-integral bounds being wrong.
-The spacing rule below remains the alternative if the leading-coefficient form
-is kept for `Int` atoms.
+**Remaining question: a discrete-bound alternative for QF_UFLIA's scaled
+auxiliaries. QF_LIA's default primitive rows already address its case.**
+Under `--lia-primitive-int-rows`, integer slacks are integer polynomials, so
+strict compound Int atoms get integral bounds without an infinitesimal. Current
+QF_LIA uses [M124 with uniform cubes and hybrid](../evidence/qf-lia-defaults-20261119.md);
+explicit integer-slack obligations are off. The earlier `5dec036` four-switch
+promotion and its QF_UFLIA regressions remain
+[historical integrality evidence](../papers/mip-presolve-integrality.md).
+Those joint measurements do not isolate the primitive-row option.
+
+QF_UFLIA still leaves primitive rows off. The spacing rule below is a proposed
+alternative for that leading-coefficient representation; its implementation
+and evaluation remain open. Current preparation is described in
+[integer bounds](../implementation/lia.md#input-lowering-and-integer-bounds).
 
 Preserve the discrete values of an integer polynomial when preparing its
 scaled tableau bounds. This could eliminate the strict-bound infinitesimals
-currently introduced by compound integer atoms. It is a proposed change to
+introduced by compound integer atoms on that scaled preparation path. It is a proposed change to
 bound preparation, not an implemented alternative arithmetic representation.
 
 ## Current behavior and the gap
