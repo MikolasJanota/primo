@@ -51,7 +51,7 @@ struct LiaSettings {
   // basic variable integral (docs/papers/mip-presolve-integrality.md).
   bool patch_integral_moves = false;
 
-  // Experimental standalone QF_LIA cube test (CAV 2024, Sect. 4.2).
+  // Standalone QF_LIA cube test (CAV 2024, Sect. 4.2); the route policy enables it.
   theory::arithmetic::LiaCubeMode cube_mode = theory::arithmetic::LiaCubeMode::Off;
   std::size_t cube_steps = 1000;
 

@@ -30,8 +30,8 @@ struct LiaSettingOverrides {
 };
 
 // The settings a route runs with when nothing is overridden. This is the one
-// place that decides route defaults: QF_UFLIA uses LiaSettings{}, and QF_LIA
-// additionally enables the four integrality switches.
+// place that decides route defaults: QF_UFLIA uses LiaSettings{}, while QF_LIA
+// uses M124 with uniform cubes and hybrid branching.
 LiaSettings default_lia_settings(LiaRoute route);
 
 // Apply explicit overrides supported by the route; they win over its defaults.

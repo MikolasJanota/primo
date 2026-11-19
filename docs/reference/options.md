@@ -24,10 +24,10 @@ below supplies accepted values and defaults.
 | `--max-theory-conflicts=N` | Unlimited | Positive budget, up to 1,000,000,000. Counts aggregate SMT-reported conflicts across supported routes; see [conflict-limit accounting](statistics.md#uniform-conflict-budget-implementation-contract). Exhaustion returns `unknown` with `ResourceLimit`. |
 | `--qf-uflia-tableau-equalities[=MODE]` | Off | Experimental pre-integer equality delivery: `off`, `scan`, `names`, `fixed`, or `all`. Bare flag selects `all`; use `=MODE` for explicit values. See [policy meanings and limitations](../implementation/uflia-equality-ablation.md) and [prior results](../implementation/uflia-equality-propagation.md). |
 | `--qf-uflia-lia-equality-producer=MODE` | `legacy` | Select `legacy` exact-offset rules or `model-unit` current-model-filtered unit rows from CAV 2024 §3.2. Requires equality delivery to be enabled separately; see [integration checklist](../implementation/uflia-equality-propagation.md#cav-2024-model-unit-discovery-integration-checklist). |
-| `--lia-cube=MODE` | `off` | Experimental pure QF_LIA model attempt: `off`, `uniform`, or `difference`. QF_UFLIA is unaffected. See {ref}`lia-cubes`. |
+| `--lia-cube=MODE` | `uniform` for QF_LIA | Pure QF_LIA model attempt: `off`, `uniform`, or `difference`. QF_UFLIA is unaffected. See {ref}`lia-cubes`. |
 | `--lia-cube-steps=N` | `1000` | Repair-step cap for the optional cube LP; exhaustion resumes existing integer search. |
 | `--lia-branch-limit=N` | `100000` | Bound integer branch-and-bound nodes; reaching the bound can return `unknown`. See [](../implementation/lia.md). |
-| `--lia-branching=MODE` | `private` | Opt-in `hybrid` hands bounded private integer exploration to SAT; see {ref}`lia-hybrid-branching`. Applies to QF_LIA and QF_UFLIA. |
+| `--lia-branching=MODE` | `hybrid` for QF_LIA; `private` for QF_UFLIA | `hybrid` hands bounded private integer exploration to SAT; see {ref}`lia-hybrid-branching`. Applies to QF_LIA and QF_UFLIA. |
 | `--lia-private-branch-factor=N` | `1` | Hybrid private-node factor per original Int term; zero hands off after the preceding integer stages. |
 | `--lia-split-atom-limit=N` | `0` | Fresh hybrid SAT-bound cap per solve; zero is unlimited, exhaustion returns `unknown`. |
 | `--euf-conflict-ackermann` | Off | Emit bounded conflict-selected congruence clauses in QF_UF and online QF_UFLIA; ordinary checking remains authoritative. |

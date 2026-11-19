@@ -1238,17 +1238,19 @@ void solver_dispatch_uses_formula_tactics() {
 }
 
 // The route policy (lia_settings_policy.hpp) is the only source of LIA
-// engine defaults, and an explicit override always wins on every route.
+// engine defaults; explicit route-supported overrides take precedence.
 void lia_settings_policy_resolves_route_defaults_and_overrides() {
   using primo::smt::LiaRoute;
   using primo::smt::LiaSettings;
-  // QF_UFLIA runs the engine defaults; QF_LIA adds the four integrality
-  // switches (docs/papers/mip-presolve-integrality.md).
+  // QF_UFLIA retains the engine baseline; QF_LIA uses M124, uniform cubes
+  // and hybrid branching (docs/evidence/qf-lia-defaults-20261119.md).
   LiaSettings qf_lia_expected;
   qf_lia_expected.round_integer_bounds = true;
   qf_lia_expected.primitive_int_rows = true;
-  qf_lia_expected.integer_slacks = true;
+  qf_lia_expected.integer_slacks = false;
   qf_lia_expected.patch_integral_moves = true;
+  qf_lia_expected.hybrid_branching = true;
+  qf_lia_expected.cube_mode = primo::theory::arithmetic::LiaCubeMode::Uniform;
   check(primo::smt::default_lia_settings(LiaRoute::QfLia) == qf_lia_expected);
   check(primo::smt::default_lia_settings(LiaRoute::QfUflia) == LiaSettings{});
 
@@ -1259,7 +1261,7 @@ void lia_settings_policy_resolves_route_defaults_and_overrides() {
     // Every override wins, in the direction opposite to the route default.
     primo::smt::LiaSettingOverrides overrides;
     overrides.branch_limit = 7;
-    overrides.hybrid_branching = true;
+    overrides.hybrid_branching = !defaults.hybrid_branching;
     overrides.private_branch_factor = 0;
     overrides.split_atom_limit = 3;
     overrides.gomory_cut_limit = 0;
@@ -1271,10 +1273,9 @@ void lia_settings_policy_resolves_route_defaults_and_overrides() {
     overrides.patch_integral_moves = !defaults.patch_integral_moves;
     const LiaSettings resolved = primo::smt::resolve_lia_settings(route, overrides);
     check(resolved.branch_limit == 7);
-    check(!defaults.hybrid_branching && defaults.private_branch_factor == 1 &&
-          defaults.split_atom_limit == 0);
-    check(resolved.hybrid_branching && resolved.private_branch_factor == 0 &&
-          resolved.split_atom_limit == 3);
+    check(defaults.private_branch_factor == 1 && defaults.split_atom_limit == 0);
+    check(resolved.hybrid_branching == !defaults.hybrid_branching &&
+          resolved.private_branch_factor == 0 && resolved.split_atom_limit == 3);
     check(resolved.gomory_cut_limit == 0);
     check(resolved.patch_limit == 3);
     check(resolved.conflict_generalization == !defaults.conflict_generalization);
@@ -1295,7 +1296,12 @@ void lia_settings_policy_resolves_route_defaults_and_overrides() {
   off.primitive_int_rows = false;
   const LiaSettings resolved = primo::smt::resolve_lia_settings(LiaRoute::QfLia, off);
   check(!resolved.primitive_int_rows);
-  check(resolved.round_integer_bounds && resolved.integer_slacks && resolved.patch_integral_moves);
+  check(resolved.round_integer_bounds && !resolved.integer_slacks && resolved.patch_integral_moves);
+  check(resolved.hybrid_branching);
+  primo::smt::LiaSettingOverrides no_cube;
+  no_cube.cube_mode = primo::theory::arithmetic::LiaCubeMode::Off;
+  check(primo::smt::resolve_lia_settings(LiaRoute::QfLia, no_cube).cube_mode ==
+        primo::theory::arithmetic::LiaCubeMode::Off);
 }
 
 // Each LIA route's resolved settings are part of the dispatch leaf's
@@ -1382,15 +1388,15 @@ void production_solver_strategy_has_stable_typed_identity() {
       primo::smt::make_session_solver_strategy(frontend, options, statistics, context);
   check(strategy.kind() == primo::smt::StrategyKind::Leaf);
   check(strategy.leaf_id() == "solver-dispatch");
-  // QF_LIA defaults the four integrality switches on, QF_UFLIA off.
-  const auto lia = [](std::string_view integrality) {
-    return "(\"branch-limit\" \"100000\") (\"branching\" \"private\") "
-           "(\"conflict-generalization\" \"true\") "
-           "(\"cube\" \"off\") (\"cube-steps\" \"1000\") (\"gomory-cut-limit\" \"100\") "
+  // Keep both routes' full effective settings visible in the identity.
+  const auto lia = [](std::string_view branching, std::string_view cube, std::string_view slacks,
+                      std::string_view integrality) {
+    return "(\"branch-limit\" \"100000\") (\"branching\" \"" + std::string(branching) +
+           "\") (\"conflict-generalization\" \"true\") (\"cube\" \"" + std::string(cube) +
+           "\") (\"cube-steps\" \"1000\") (\"gomory-cut-limit\" \"100\") "
            "(\"integer-slacks\" \"" +
-           std::string(integrality) + "\") (\"patch-integral-moves\" \"" +
-           std::string(integrality) + "\") (\"patch-limit\" \"100\") (\"primitive-int-rows\" \"" +
-           std::string(integrality) +
+           std::string(slacks) + "\") (\"patch-integral-moves\" \"" + std::string(integrality) +
+           "\") (\"patch-limit\" \"100\") (\"primitive-int-rows\" \"" + std::string(integrality) +
            "\") (\"private-branch-factor\" \"1\") "
            "(\"round-integer-bounds\" \"" +
            std::string(integrality) + "\") (\"split-atom-limit\" \"0\")";
@@ -1405,7 +1411,8 @@ void production_solver_strategy_has_stable_typed_identity() {
   check(strategy.canonical() ==
         "(leaf \"solver-dispatch\" (\"has-declared-real-constants\" \"false\") "
         "(\"logic\" \"\") (\"mixed-dispatch\" \"wide\") " +
-            route("qf-lia.", lia("true")) + " " + route("qf-uflia.", lia("false")) + ")");
+            route("qf-lia.", lia("hybrid", "uniform", "false", "true")) + " " +
+            route("qf-uflia.", lia("private", "off", "false", "false")) + ")");
   check(strategy ==
         primo::smt::make_session_solver_strategy(frontend, options, statistics, context));
   check(strategy.fingerprint() ==

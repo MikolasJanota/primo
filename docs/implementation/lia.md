@@ -305,8 +305,10 @@ one row is at most half its coefficient 1-norm, so the rounded point satisfies
 the original row. `--lia-cube=difference` leaves primitive integer difference
 rows $x-y\le k$ unstrengthened. Monotonicity and $R(y+k)=R(y)+k$ preserve these
 rows even at negative ties. General octagon refinements are not implemented.
-Both modes are experimental; `off` remains the default. QF_UFLIA ignores these
-controls and retains its existing pipeline.
+QF_LIA defaults to `uniform`; `difference` remains an explicit alternative.
+QF_UFLIA ignores these controls and retains its existing pipeline. The
+[default-profile update](../evidence/qf-lia-defaults-20261119.md) records the
+combined policy and its qualification status.
 
 The owning numerical snapshot {cubesource}`LiaCubeProblem
 <src/theory/arithmetic/lia_cube.hpp>` contains the ordered semantic integer
@@ -772,7 +774,7 @@ temporary handling of large-coefficient cuts.
 ## Branching and backtracking
 
 {source}`branch_and_bound <src/theory/arithmetic/lia_branch_and_bound.cpp>`
-starts from a rationally feasible tableau. In default private mode it scans `integer_vars` for the
+starts from a rationally feasible tableau. In private mode it scans `integer_vars` for the
 first nonintegral assignment $v$ and splits on
 
 $$x\le\lfloor v\rfloor\quad\lor\quad x\ge\lfloor v\rfloor+1.$$
@@ -814,7 +816,7 @@ original Int terms, including purified terms used by UF, before split atoms
 are generated. Integer slack obligations do not contribute to `N`.
 `--lia-private-branch-factor` defaults to `1`; zero requests immediate handoff
 after the preceding stages. This factor and the zero convention are Primo
-engineering choices. The default policy remains `private`.
+engineering choices. QF_LIA defaults to `hybrid`; QF_UFLIA retains `private`.
 
 The solve-scoped {hybridsource}`LiaComponentAdapter <src/smt/solver_engines.cpp>` owns a
 {hybridsource}`LiaBranchHistory <src/theory/arithmetic/lia_branch_and_bound.hpp>`.
@@ -825,7 +827,7 @@ an unobserved side scores zero and ties use the smallest variable ID.
 Immediately infeasible sides increment a conflict counter without supplying
 an observation. History survives SAT backtracking and atom registration but
 starts empty in a new solving invocation. Both scoring and counting scan
-the integer obligations linearly. The default private policy keeps its
+the integer obligations linearly. The private policy keeps its
 original variable order.
 
 On private budget exhaustion,
@@ -958,22 +960,24 @@ Each route resolves its own values, as described in {ref}`lia-settings`.
 
 | Option | Default | Meaning per integer completion |
 | --- | --- | --- |
-| `--lia-cube` | `off` | Pure QF_LIA only: `uniform` or `difference` model attempt before cuts; failure falls through. |
+| `--lia-cube` | `uniform` for QF_LIA; ignored by QF_UFLIA | Pure QF_LIA only: `uniform` or `difference` model attempt before cuts; failure falls through. |
 | `--lia-cube-steps` | `1000` | Optional LP repair-step cap; zero allows only an already feasible center. |
 | `--lia-patch-limit` | `100` | Maximum accepted patch moves; zero disables patching. |
 | `--lia-gomory-cut-limit` | `100` | Maximum cut-and-recheck iterations; zero disables cuts. Exhaustion falls through to branching. |
 | `--lia-branch-limit` | `100000` | Maximum private split nodes. Private-mode exhaustion returns a resource-limit result; hybrid mode repairs and hands off to SAT. |
-| `--lia-branching` | `private` | `hybrid` enables the optional handoff described in {ref}`lia-hybrid-branching`. |
+| `--lia-branching` | `hybrid` for QF_LIA, `private` for QF_UFLIA | `hybrid` enables the handoff described in {ref}`lia-hybrid-branching`. |
 | `--lia-private-branch-factor` | `1` | Hybrid private-node factor per original Int term; zero skips private split nodes. |
 | `--lia-split-atom-limit` | `0` | Fresh hybrid bound atoms per solve; zero is unlimited and exhaustion returns a resource-limit result. |
 | `--no-lia-conflict-generalization` | Generalization on | Disables the default attempt to replace coarse clauses with accumulated explanations. |
 | `--lia-round-integer-bounds` | On for QF_LIA, off for QF_UFLIA | Rounds non-strict thresholds on integer-valued tableau variables inward. Preparation-time, not a per-completion budget. |
 | `--lia-primitive-int-rows` | On for QF_LIA, off for QF_UFLIA | Stores `Int` rows with coprime integer coefficients, making every `Int` slack integer-valued. Preparation-time. |
-| `--lia-integer-slacks` | On for QF_LIA, off for QF_UFLIA | Adds slacks proved integer to the front of the integer obligations of completion. |
+| `--lia-integer-slacks` | Off for both routes | Adds slacks proved integer to the front of the integer obligations of completion. |
 | `--lia-patch-integral-moves` | On for QF_LIA, off for QF_UFLIA | Keeps integer nonbasic variables integral while patching and adds lattice candidates. |
 
-The four patch/cut/branch/generalization controls apply to both routes. The last four switches are on by
-default for QF_LIA and off for QF_UFLIA, as {ref}`lia-settings` explains.
+The patch/cut/branch/generalization controls apply to both routes. Integer-bound
+rounding, primitive rows and integral patch moves default on for QF_LIA and off
+for QF_UFLIA. Explicit integer-slack obligations default off for both routes, as
+{ref}`lia-settings` explains.
 Each also has a `--no-` form, for example `--no-lia-primitive-int-rows`,
 which turns it off on either route. If both forms are given, the `--no-` form
 wins, as for the legacy `--lra-model-phase` / `--no-lra-model-phase` pair.
@@ -1073,13 +1077,17 @@ Choosing the values is a separate step. In the order the data flows:
    experimental cube controls are applied only to the QF_LIA route.
 
 The {settingssource}`policy <src/smt/lia_settings_policy.cpp#L7-L20>` gives
-QF_UFLIA the engine defaults, `LiaSettings{}`. QF_LIA additionally turns on
-the four integrality switches of the [integrality
-page](../papers/mip-presolve-integrality.md). They are on since `5dec036`.
-The page's {ref}`promotion <integrality-promotion>` section gives the
-evidence: in a paired rerun they solve a net 53
-more QF_LIA files, but they lose 31 QF_UFLIA files, so only the QF_LIA route
-uses them.
+QF_UFLIA the engine defaults, `LiaSettings{}`. QF_LIA uses **M124 + uniform
+cubes + hybrid branching**: integer-bound rounding, primitive rows and integral
+patch moves are on; explicit integer-slack obligations are off. The
+[default-profile update](../evidence/qf-lia-defaults-20261119.md) records the
+current qualification and unchanged budgets.
+
+Historically, `5dec036` enabled all four switches from the [integrality
+page](../papers/mip-presolve-integrality.md). That page's
+{ref}`promotion <integrality-promotion>` section reports a net 53 additional
+QF_LIA solves and 31 lost QF_UFLIA solves in its paired rerun. Those measurements
+explain the earlier policy; they do not measure the current combined default.
 
 Making the policy a separate function did not by itself change any result. A
 paired 10 s run of `5aaca1f`, which split the settings out with both route
@@ -1093,7 +1101,7 @@ wrong answer and no invalid model (run-log entry
 
 The `--help` text takes each switch's default from `default_lia_settings`
 ({settingssource}`lia_route_default_text <src/main.cpp#L200-L209>`). It shows
-`[default: on for QF_LIA, off for QF_UFLIA]` and follows any later policy
+per-route values for the Boolean switches, branching and cube mode, and follows any later policy
 change. The default column of the table above and the CLI help snapshot
 must still be updated by hand. The documentation checks compare the snapshot
 against the binary.
@@ -1179,7 +1187,7 @@ measurements to results for the current source revision.
 
 The [hybrid branching checklist](../leads/lia-hybrid-branching.md) records the
 preimplementation contract and qualification obligations. The optional
-[ordinary-split policy](#lia-hybrid-branching) preserves private-mode defaults.
+[ordinary-split policy](#lia-hybrid-branching) preserves private-mode behavior; QF_LIA now selects hybrid by default.
 
 The local paper-to-code checklist is the stage order, guards, derivations,
 state contracts and regression obligations above. The primary sections used

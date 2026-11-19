@@ -3,8 +3,9 @@
 **Status: original implementation checklist; the ordinary-split subset is now
 qualified as an opt-in policy.** See {ref}`the current representation <lia-hybrid-branching>`
 and {ref}`the gains, regressions and verification evidence <lia-hybrid-evidence>`.
-Baseline:
-`c49585a0`. Preserve private branching as the default for QF_LIA and QF_UFLIA.
+Plan baseline: `c49585a0`; the original milestone preserved private defaults.
+QF_LIA now selects hybrid in the [default-profile update](../evidence/qf-lia-defaults-20261119.md).
+QF_UFLIA retains private branching.
 The intended outcome is bounded private exploration followed by a SAT-visible
 integer-bound choice, with sound explanations and separately validated models.
 

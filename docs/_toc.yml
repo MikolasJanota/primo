@@ -128,6 +128,7 @@ parts:
       - file: evidence/conflict-ackermann
       - file: evidence/euf-performance-fixes
       - file: evidence/merge-readiness-20261119
+      - file: evidence/qf-lia-defaults-20261119
       - file: evidence/bound-behavior
       - file: evidence/bound-repairs
       - file: evidence/arithmetic-efficiency-20261108

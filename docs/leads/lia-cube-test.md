@@ -2,12 +2,15 @@
 
 **Status: uniform/difference variants implemented and correctness-qualified;
 200-input and full 13,306-input M124 comparisons complete, including all SAT models;
-feature remains off by default.**
+this study originally retained the feature off by default.**
 See {ref}`the current evidence <lia-cube-evidence>`.
 Plan baseline: `71a784e6`; implementation baseline: `aeaf2823`. Start with pure QF_LIA; keep the feature opt-in during
 qualification. The immediate target is a cheaper integer-model attempt before
 cuts and branch-and-bound. Dillig's proof-derived splitting remains a separate,
 larger [research direction](../papers/cuts-from-proofs.md).
+
+QF_LIA now selects uniform cubes in the [default-profile update](../evidence/qf-lia-defaults-20261119.md);
+the measurements below retain their original profiles.
 
 ## Paper basis and implemented subset to target
 

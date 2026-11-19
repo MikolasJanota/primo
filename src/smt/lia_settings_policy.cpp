@@ -7,14 +7,14 @@ namespace primo::smt {
 LiaSettings default_lia_settings(LiaRoute route) {
   LiaSettings settings;
   if (route == LiaRoute::QfLia) {
-    // The four integrality switches of docs/papers/mip-presolve-integrality.md
-    // together: in the paired 120 s rerun at 2e120fa they solve a net 53 more
-    // QF_LIA files, cut at 60 s and at 120 s. QF_UFLIA keeps them off, since
-    // there they lose 31 wisas files (search-order effect, same page).
+    // Owner-selected M124 + uniform cubes + hybrid profile. Existing algorithm
+    // subsets and qualification: docs/evidence/qf-lia-defaults-20261119.md.
     settings.round_integer_bounds = true;
     settings.primitive_int_rows = true;
-    settings.integer_slacks = true;
+    settings.integer_slacks = false;
     settings.patch_integral_moves = true;
+    settings.hybrid_branching = true;
+    settings.cube_mode = theory::arithmetic::LiaCubeMode::Uniform;
   }
   return settings;
 }

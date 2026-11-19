@@ -18,12 +18,14 @@ using primo::smt::CheckSatResult;
 
 namespace {
 
-// The engine's own defaults (LiaSettings{}), with the integrality switches
-// off. QF_LIA's route default turns them on (lia_settings_policy.cpp), so
+// The engine's own defaults (LiaSettings{}), with integrality, cubes and hybrid
+// off. QF_LIA's route policy enables a different profile, so
 // tests of the stages below pin these settings explicitly instead of
 // inheriting the route default; the route default is tested separately.
 CheckSatOptions engine_defaults() {
   CheckSatOptions options;
+  options.lia.hybrid_branching = false;
+  options.lia.cube_mode = primo::theory::arithmetic::LiaCubeMode::Off;
   options.lia.round_integer_bounds = false;
   options.lia.primitive_int_rows = false;
   options.lia.integer_slacks = false;
@@ -1052,6 +1054,42 @@ void shared_driver_preserves_typed_limits_and_cancellation() {
   assert(cancelled.reason == primo::smt::InconclusiveReason::Cancelled);
 }
 
+void qf_lia_default_profile_runs_cubes_and_hybrid_with_explicit_opt_outs() {
+  CheckSatOptions options;
+  options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+  options.lia.patch_limit = 0;
+  options.lia.gomory_cut_limit = 0;
+  options.check_model = true;
+  options.produce_model = true;
+  const auto cube = check_sat_smtlib(R"(
+    (set-logic QF_LIA) (declare-const x Int) (declare-const y Int)
+    (assert (<= (+ (* 3 x) y) 9))
+    (assert (not (<= (+ (* 3 x) y) 2))) (check-sat)
+  )",
+                                     options);
+  assert(cube.result == CheckSatResult::Sat);
+  assert(cube.statistics.get(primo::util::StatKey::LiaCubeModels) > 0);
+
+  // Exhaust the cube attempt and the small private budget, so only the route's
+  // default SAT handoff can complete these independent fractional coordinates.
+  options.lia.cube_steps = 0;
+  options.lia.round_integer_bounds = false;
+  options.lia.branch_limit = 1;
+  const std::string gaps = R"(
+    (set-logic QF_LIA) (declare-const x Int) (declare-const y Int)
+    (assert (<= 1 (* 2 x))) (assert (<= (* 2 x) 5))
+    (assert (<= 1 (* 2 y))) (assert (<= (* 2 y) 5)) (check-sat)
+  )";
+  const auto hybrid = check_sat_smtlib(gaps, options);
+  assert(hybrid.result == CheckSatResult::Sat);
+  assert(hybrid.statistics.get(primo::util::StatKey::LiaBranchingUniqueAtoms) > 0);
+  options.lia.hybrid_branching = false;
+  options.lia.cube_mode = primo::theory::arithmetic::LiaCubeMode::Off;
+  const auto private_only = check_sat_smtlib(gaps, options);
+  assert(private_only.result == CheckSatResult::Unknown);
+  assert(private_only.reason == primo::smt::InconclusiveReason::ResourceLimit);
+}
+
 void cube_controls_and_model_reconstruction() {
   using primo::theory::arithmetic::LiaCubeMode;
   primo::smt::LiaSettingOverrides requested;
@@ -1122,6 +1160,7 @@ int main() {
   }
   {
     CheckSatOptions options;
+    options.lia.cube_mode = primo::theory::arithmetic::LiaCubeMode::Off;
     options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
     options.lia.hybrid_branching = true;
     options.lia.private_branch_factor = 0;
@@ -1145,6 +1184,7 @@ int main() {
     assert(limited.result == CheckSatResult::Unknown);
     assert(limited.statistics.get(":lia.branching.split-budget-exhaustions") == 1);
   }
+  qf_lia_default_profile_runs_cubes_and_hybrid_with_explicit_opt_outs();
   cube_controls_and_model_reconstruction();
   shared_driver_preserves_boolean_models_and_recipe_isolation();
   boolean_only_lia_and_solving_without_models();

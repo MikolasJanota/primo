@@ -1,5 +1,8 @@
 # Branch review before merging with main
 
+The subsequent [QF_LIA default-profile update](qf-lia-defaults-20261119.md)
+is separate from this pre-promotion review.
+
 This review compares `lia-integrality` with `main` at `fcc274c2`. It covers the
 branch's solver changes, defaults, tests, active qualification workflows and
 supporting documentation. It does not merge or push either branch. Recheck the
