@@ -1,7 +1,7 @@
 {
   "source_commit": "84654ade537df8473d4ada833a6da5e3e729ca4a",
   "implementation_commit": "65b6f48a",
-  "status": "correctness gates complete; timing/model-replay result pending",
+  "status": "Historical pre-timing correctness qualification receipt; subsequent timing and SAT-model replay are complete in the linked full60 summary.",
   "binaries": {
     "baseline": {
       "sha256": "1c09588a7322b402783c414d33a8c3edb6f25440461d5245c06f384a298dd2e7",
@@ -660,5 +660,14 @@
     "asan": "scripts/qualification/lia_cubes/asan.sbatch",
     "static": "scripts/qualification/uflia_equalities/static.sbatch",
     "check": "scripts/qualification/uflia_equality_ablation/check.sbatch"
+  },
+  "stage": "pre-timing correctness qualification",
+  "subsequent_evidence": {
+    "summary": "benchmarks/lia-cubes-20261108/full60/summary.json",
+    "summary_sha256": "ae86b1c27a64ed331e687b0432b9e6f4e4cfa59290ba8c580737ea65c5f0fd69",
+    "report": "docs/evidence/lia-cubes.md",
+    "original_receipt_sha256": "4fc77ab276c120ac02c5ade9111cb416078ee953bd9da7a13a6154b043e0a9dd",
+    "original_receipt_git_blob": "b4c140f28c05132ac77f18e9e9cdc3700eced4de",
+    "scope": "Only historical stage labeling and completion pointer added; original correctness measurements/source fingerprints unchanged."
   }
 }

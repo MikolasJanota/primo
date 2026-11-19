@@ -63,9 +63,12 @@ basis. A pivot can move a noninteger auxiliary variable into another row as
 an ordinary term. No integer rule may assume that nonbasic variables are
 integers just because the original input used `Int`. Bjørner and Nachmanson
 §4.1 can make that assumption because it also relies on integral bounds and
-integer-valued auxiliaries. Primo's preparation provides neither yet; the
-[integrality checklist](../papers/mip-presolve-integrality.md) lists the four
-gaps, their sources and the counters that measure them.
+integer-valued auxiliaries. Primo's four integrality switches provide those
+preparation conditions and are enabled by default for QF_LIA. QF_UFLIA keeps
+them off by default, so such configurations still require the conservative
+checks described here. The {ref}`input preparation section <lia-input>` and
+[integrality checklist](../papers/mip-presolve-integrality.md) explain the
+implemented switches, their sources and their counters.
 
 (lia-schedule)=
 ## When integer reasoning runs
@@ -397,7 +400,7 @@ Equality lowering, despite its `lower_real_equalities` name, also handles
 lets SAT choose a false non-strict comparison. Integer strictness must account
 for that polarity, not just syntactic `<` atoms.
 
-{source}`bound_assertion <src/smt/solver_engines.cpp#L3193-L3220>` computes
+{settingssource}`bound_assertion <src/smt/solver_engines.cpp#L3193-L3220>` computes
 the bound direction and strictness from the normalized relation, orientation
 and truth value. When the **bounded variable** is known to be integer, it uses
 
@@ -425,7 +428,7 @@ completion. The option is on by default for QF_LIA since `5dec036` and off
 for QF_UFLIA; see the
 [integrality checklist](../papers/mip-presolve-integrality.md).
 
-{source}`PreparedLraTheory::append_atom
+{settingssource}`PreparedLraTheory::append_atom
 <src/smt/solver_engines.cpp#L3529-L3656>` marks direct bounds on `Int` terms
 as integer. For compound polynomials its sufficient condition without
 `--lia-primitive-int-rows` is more
@@ -1011,8 +1014,10 @@ works through this example in coordinates $u=x+y$, $v=y$ and identifies the
 remaining implementation obligations.
 
 Extended bounded-variable GCD reasoning, general Diophantine or
-Hermite-normal-form reasoning, cuts within branch nodes, and CDCL-visible
-integer splits remain outside the implementation. The optional cube test is
+Hermite-normal-form reasoning, cuts within branch nodes, and proof-derived
+splits on linear combinations remain outside the implementation. Ordinary
+semantic-term splits are exposed to SAT by the {ref}`opt-in hybrid handoff
+<lia-hybrid-branching>`. The optional cube test is
 implemented for pure QF_LIA as described below; its failure is never an
 integer-infeasibility proof. The {ref}`cube-test explanation
 <bromberger-unit-cube>` derives its strengthening, rounding guarantee and

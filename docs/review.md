@@ -330,3 +330,34 @@ lint, batch syntax/validation, qualified-binary helper preflight and documentati
 checks pass. Native source remains qualified `6e53a710`; no new native/default
 behavior is introduced by these workflow changes. Active performance/model
 results and the subsequent whole-branch review remain outside this acceptance.
+
+## 2026-11-19 arithmetic consistency review before merge preparation
+
+Independent read-only reviewer `merge_arithmetic_docs_review` compared the
+arithmetic implementation, lead, reference and evidence sections with `main`
+`fcc274c2` and branch snapshot `1b4f9ee3`. Five required findings were repaired:
+
+- ARD-01 distinguishes implemented opt-in ordinary integer splits from absent
+  proof-derived combination splits.
+- ARD-02 labels the propagation-filter checklists as historical and links the
+  completed opt-in acceptance.
+- ARD-03 distinguishes QF_LIA's implemented default integrality preparation
+  from QF_UFLIA's default-off switches.
+- ARD-04 labels the cube qualification as the historical pre-timing receipt,
+  preserving its measurements and source fingerprints while linking the
+  completed full timing/model summary. The original receipt SHA and Git blob
+  remain recorded.
+- ARD-05 repairs two source-role links to the revision containing the intended
+  bound assertion and atom preparation definitions.
+
+The reviewer rechecked every repair and found no required issue remaining in
+this unit. Accepted blobs: integer chapter `ab88c9a01c0f`, propagation lead
+`c4fde8f4cd83`, cube evidence `12c8c965a29d`, historical receipt `26798abfeb1d`.
+All 14 hybrid qualification artifact hashes matched during the review; the
+QF_LIA default-promotion record includes paired evidence, campaign fuzzing,
+7,015 SAT-file model checks and its explicit TypeFuzz tool limitations.
+This is source/checklist and evidence-traceability acceptance, not independent
+certification of every primary-paper argument. Remote raw artifacts, the
+ongoing fresh UF/UFLIA timing run and whole-branch acceptance remain outside
+scope. The route-applicable override comment is a separate source hygiene
+repair, also outside this documentation acceptance.

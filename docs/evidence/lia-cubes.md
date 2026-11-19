@@ -250,7 +250,7 @@ finding was found. This is not a warning-free baseline.
   {download}`audited per-input timing/counter rows <../../benchmarks/lia-cubes-20261108/development/rows.csv>`.
 - {download}`Full summary <../../benchmarks/lia-cubes-20261108/full60/summary.json>`;
   {download}`full per-input rows (gzip) <../../benchmarks/lia-cubes-20261108/full60/rows.csv.gz>`.
-- {download}`Correctness qualification <../../benchmarks/lia-cubes-20261108/qualification.json>`;
+- {download}`Historical pre-timing correctness qualification <../../benchmarks/lia-cubes-20261108/qualification.json>`;
   {download}`full-corpus experiment <../../benchmarks/lia-cubes-20261108/full-experiment.json>`.
 
 The canonical ledger entry is `2026-11-08-lia-cube-implementation` in

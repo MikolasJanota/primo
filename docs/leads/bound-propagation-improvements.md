@@ -228,8 +228,11 @@ duplicate candidate insertions on the two Dartagnan LIA inputs identified in the
 These compare instrument-only `f8845def` with source-equivalent baseline
 `07ec5ce5` in row and combined profiles; all eight retained outcomes are
 resource-limited `unknown`, not completed solving results. This motivates an
-experiment; it is not yet an accepted optimization or a CPU attribution. Keep
-the instrument-only binary as a separate control.
+experiment; these diagnostic observations alone were neither performance
+acceptance nor CPU attribution. The instrument-only binary remains a separate
+control. The checklist below records the original implementation obligations;
+the [completed qualification and opt-in acceptance](../evidence/propagation-redundancy.md#full-results-and-decision)
+records the subsequent final-source decision.
 
 The proposed subset of event scheduling is simple signed-literal queue
 coalescing, motivated by Schulte–Stuckey §5 rather than their finite-domain
@@ -329,7 +332,9 @@ implements the fingerprint and generation invalidation. Its
 {propfiltertrialsource}`execution integration <src/smt/solver_engines.cpp>`
 contains both adapters' `notify_assignment_lit`/`notify_backtrack_delta`, component
 `register_atoms`/`reset`, and the fixed-view legacy construction sites. These
-links identify the qualification trial, not an accepted performance result.
+links identify the historical qualification trial. The
+[completed final-source comparison](../evidence/propagation-redundancy.md#full-results-and-decision)
+subsequently qualified and accepted the filters in opt-in row mode.
 
 ### Default-mode allocation guard
 
@@ -364,5 +369,7 @@ implementation. The
 and {propfilterfinaltrialsource}`focused queue regression <tests/unit/qf_lra_solver_tests.cpp>`
 show the disabled-mode allocation guard and preserved duplicate/reason order.
 The {propfilterfinaltrialsource}`counter registry <src/util/statistics.cpp>`
-defines the untracked category. These links identify a qualification trial;
-source acceptance and broad performance qualification remain pending.
+defines the untracked category. These links identify the final qualification
+trial; the [subsequent broad comparison](../evidence/propagation-redundancy.md#full-results-and-decision)
+completed source qualification and retained the filters in opt-in row mode.
+The obligations above are a historical checklist, not outstanding work.
