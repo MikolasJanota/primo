@@ -695,7 +695,7 @@ int run_main(int argc, char** argv) {
       "Quantified input stops after the frontend");
   add_flag_with_default(
       app, "--arithmetic-bound-diagnostics", solver_options.arithmetic_bound_diagnostics,
-      "Diagnostic: count root-level numeric bound opportunities before preprocessing; "
+      "Diagnostic: count unconditional numeric bound opportunities before preprocessing; "
       "does not install bounds or change search");
   add_flag_with_default(app, "--preprocess-bound-tightening",
                         solver_options.preprocess_bound_tightening,

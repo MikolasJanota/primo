@@ -34,8 +34,8 @@ struct LiaSettingOverrides {
 // additionally enables the four integrality switches.
 LiaSettings default_lia_settings(LiaRoute route);
 
-// The route's default with every set override applied. An override always
-// wins over the default.
+// Apply explicit overrides supported by the route; they win over its defaults.
+// Cube controls remain confined to QF_LIA.
 LiaSettings resolve_lia_settings(LiaRoute route, const LiaSettingOverrides& overrides);
 
 }  // namespace primo::smt

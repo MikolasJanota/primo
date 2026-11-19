@@ -1,0 +1,1636 @@
+{
+  "status": "Qualified optional hybrid fallback resource-accounting repair; source and evidence review complete with stated advisory/coverage limitations. No default promotion.",
+  "native": {
+    "git": "2d6daadc846160756f8633dae41e99cb2a3448c4",
+    "sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+    "work": "/home/janotmik/primo-merge-review-20261119",
+    "snapshot": "/tmp/primo-merge-review-20261119/source"
+  },
+  "verification": {
+    "native_groups": 49,
+    "Python_tests": 393,
+    "ASan_groups": 49,
+    "logs_sha256": {
+      "check.log": "ae1ced71592dceb26f2d456b2f2de193f3fd02a1745358e71d17a6acf56a2df3",
+      "asan.log": "5633811b944854beb8e103b1f14ab51f477221df03e49c6dbe2a2dbb6a610a7c",
+      "asan-version.txt": "d00893854d5a53cb7c932f59bc052f638304ebe42bba6ced8908f4c887ca54be",
+      "asan.sha256": "b36dc18313c43496cf44e238863a473fe65f0c38b7eb6a6c85c3ed9442d24f42"
+    }
+  },
+  "jobs": {
+    "verify": "434125",
+    "static": "434127",
+    "seeds": "434128",
+    "generated": "434129",
+    "mutations": "434130",
+    "static_retry": "434131",
+    "focused": "434133",
+    "resource_unknown": "434150",
+    "test_hygiene": "434151",
+    "final_hygiene": "434152",
+    "helper_build": "434124"
+  },
+  "gate": {
+    "source": "2d6daadc",
+    "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+    "counts": {
+      "generated_inputs": 6000,
+      "generated_PASS": 5956,
+      "generated_TIMEOUT": 44,
+      "tracked_regression_measurements": 74,
+      "mutations_inputs": 2096,
+      "mutations_PASS": 2084,
+      "mutations_INCOMPLETE": 12
+    },
+    "SAT_Dolmen_pass": 5539,
+    "receipt_inventory": [
+      {
+        "phase": "generated",
+        "slot": 0,
+        "logic": "QF_LIA",
+        "profile": "DEFAULT",
+        "receipt_sha256": "16da2d3503802c830ccbe589b589ced4586a8fa8334f205067d361f2ff2873be",
+        "cases": 1000,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "generated",
+        "slot": 1,
+        "logic": "QF_LIA",
+        "profile": "HYBRID",
+        "receipt_sha256": "e6be59d735d0d2adb399b48526ac16ff5be43de8666ffbb0c0ad0ee31f0322a6",
+        "cases": 1000,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "generated",
+        "slot": 2,
+        "logic": "QF_UFLIA",
+        "profile": "DEFAULT",
+        "receipt_sha256": "a6d08a2298fc5a2f124f1b8bb41fda1d6413ee059f01f3a61fa4ade9f2e31d26",
+        "cases": 1000,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "generated",
+        "slot": 3,
+        "logic": "QF_UFLIA",
+        "profile": "HYBRID",
+        "receipt_sha256": "e8355bddf99b0fffd14094b12c37f3e15b09fd13742b7cc7d36633a84670dff5",
+        "cases": 1000,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "generated",
+        "slot": 4,
+        "logic": "QF_UFLIA",
+        "profile": "OFFLINE",
+        "receipt_sha256": "8f303a104f55493709f8e6b9be90c5fbd03c74c17f799cfdc305bfe90f88a840",
+        "cases": 1000,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "generated",
+        "slot": 5,
+        "logic": "QF_UF",
+        "profile": "DEFAULT",
+        "receipt_sha256": "b8b4c28b3a28017a20b8940ab54c3bd7234e7612d501ffac1bdbd8a7369fbf86",
+        "cases": 1000,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "seeds",
+        "slot": 0,
+        "logic": "QF_LIA",
+        "profile": "DEFAULT",
+        "receipt_sha256": "533155eefe1afc0b03a8df5e59b59d603b9bbc2b036e7c17973bca1c26a2c5f5",
+        "cases": 9,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "seeds",
+        "slot": 1,
+        "logic": "QF_LIA",
+        "profile": "HYBRID",
+        "receipt_sha256": "2bc0ec3f511026d26a899d0dcb29a7c4fb71eb2b380e9893c85c77be3c71e357",
+        "cases": 9,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "seeds",
+        "slot": 2,
+        "logic": "QF_UFLIA",
+        "profile": "DEFAULT",
+        "receipt_sha256": "0cc4e1f8624c4dc2e66ae410feaef6596650048e31a4fecf01583dccab3e845c",
+        "cases": 11,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "seeds",
+        "slot": 3,
+        "logic": "QF_UFLIA",
+        "profile": "HYBRID",
+        "receipt_sha256": "0c9c7b83234e19a06b8eaee4ae5623bc18baa2aae9f8641f9dd67c1471c80d05",
+        "cases": 11,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "seeds",
+        "slot": 4,
+        "logic": "QF_UFLIA",
+        "profile": "OFFLINE",
+        "receipt_sha256": "5362ef4d7ae46f4209a72f6a50dce30e30556062c90680f8f34e53f751d10bcd",
+        "cases": 11,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "seeds",
+        "slot": 5,
+        "logic": "QF_UF",
+        "profile": "DEFAULT",
+        "receipt_sha256": "08ea52da4af46df1906cd7a82f89c2beecff184d58a818c7072ca45341ddb756",
+        "cases": 23,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "mutations",
+        "slot": 0,
+        "logic": "QF_LIA",
+        "profile": "DEFAULT",
+        "receipt_sha256": "f4b09d5fd9c8caa76a77d9bceae8b05d0bf2775f7aa3a4d79cfd2f5f37fa6a8d",
+        "cases": 360,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "mutations",
+        "slot": 1,
+        "logic": "QF_LIA",
+        "profile": "HYBRID",
+        "receipt_sha256": "eb0cbaf83c7564e437f56657fd5bdd82de78c710e0301d8deb90d01a79c7e9f8",
+        "cases": 360,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "mutations",
+        "slot": 2,
+        "logic": "QF_UFLIA",
+        "profile": "DEFAULT",
+        "receipt_sha256": "ad7e6ba0cae74f42041827817fc6f5932add02cba77dd447c3bbed7df299e5b6",
+        "cases": 360,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "mutations",
+        "slot": 3,
+        "logic": "QF_UFLIA",
+        "profile": "HYBRID",
+        "receipt_sha256": "a5e19f16288a0f26274353c360d884146a5c2233576a3468f2b7fcf46a7bd1d4",
+        "cases": 360,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "mutations",
+        "slot": 4,
+        "logic": "QF_UFLIA",
+        "profile": "OFFLINE",
+        "receipt_sha256": "4d472c2ec237fae982c00197c0a764f7837c688308364c4c8723befa63b53d60",
+        "cases": 360,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      },
+      {
+        "phase": "mutations",
+        "slot": 5,
+        "logic": "QF_UF",
+        "profile": "DEFAULT",
+        "receipt_sha256": "d8a3e9d192a44fad130df3e7035d7c9483ee10697ea579a7065dd8db33803765",
+        "cases": 296,
+        "source": "2d6daadc",
+        "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f"
+      }
+    ],
+    "mutation_unknown_replays_needed": [
+      {
+        "task_slot": 2,
+        "file": "/home/janotmik/primo-merge-review-20261119/results/qualification/mutations/task-2/scratch/003-lkHMn-6vwiN.smt2",
+        "kind": "mutant"
+      }
+    ]
+  },
+  "receipts": [
+    {
+      "task": {
+        "logic": "QF_LIA",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      "phase": "generated",
+      "job": "434139",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "command": [
+        "/home/janotmik/primo-propagation-repairs-20261114/tmp/yinyang-venv/bin/python3",
+        "scripts/fuzz_external.py",
+        "--fuzzer",
+        "fuzzsmt",
+        "--logic",
+        "QF_LIA",
+        "--solver",
+        "/home/janotmik/primo-merge-review-20261119/build-slurm-rel/primo --quiet --stats --check-model",
+        "--refs",
+        "z3",
+        "--fuzzer-args",
+        "-ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4",
+        "--count",
+        "1000",
+        "--seed",
+        "20261119300",
+        "--timeout",
+        "5",
+        "--out",
+        "/home/janotmik/primo-merge-review-20261119/results/qualification/generated/task-0"
+      ],
+      "seed": 20261119300,
+      "generator_exit": 0,
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 979,
+        "TIMEOUT": 21
+      },
+      "resource_unknowns": [],
+      "summary_sha256": "777a4084a240d23f6e071750530aea8016f47c627130a6b9539d7ae4f6d828fd",
+      "SAT_Dolmen_pass": 873,
+      "model_summary_sha256": "cd9762988432f9d0d454a7e6d0da87c7487f9086e9fc9762e187105e1024df9c",
+      "receipt_sha256": "16da2d3503802c830ccbe589b589ced4586a8fa8334f205067d361f2ff2873be"
+    },
+    {
+      "task": {
+        "logic": "QF_LIA",
+        "label": "HYBRID",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0"
+        ]
+      },
+      "phase": "generated",
+      "job": "434140",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "command": [
+        "/home/janotmik/primo-propagation-repairs-20261114/tmp/yinyang-venv/bin/python3",
+        "scripts/fuzz_external.py",
+        "--fuzzer",
+        "fuzzsmt",
+        "--logic",
+        "QF_LIA",
+        "--solver",
+        "/home/janotmik/primo-merge-review-20261119/build-slurm-rel/primo --quiet --stats --lia-branching=hybrid --lia-private-branch-factor=0 --lia-patch-limit=0 --lia-gomory-cut-limit=0 --check-model",
+        "--refs",
+        "z3",
+        "--fuzzer-args",
+        "-ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4",
+        "--count",
+        "1000",
+        "--seed",
+        "20261119301",
+        "--timeout",
+        "5",
+        "--out",
+        "/home/janotmik/primo-merge-review-20261119/results/qualification/generated/task-1"
+      ],
+      "seed": 20261119301,
+      "generator_exit": 0,
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 978,
+        "TIMEOUT": 22
+      },
+      "resource_unknowns": [],
+      "summary_sha256": "f9b8e673fbae60898378dbcffebc910f05455ffcea03cb6d90e507cf2fe0282c",
+      "SAT_Dolmen_pass": 862,
+      "model_summary_sha256": "1f649238a17bb7deb60a1466ce4219641a2a7029666739152febba7fab171a72",
+      "receipt_sha256": "e6be59d735d0d2adb399b48526ac16ff5be43de8666ffbb0c0ad0ee31f0322a6"
+    },
+    {
+      "task": {
+        "logic": "QF_UFLIA",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      "phase": "generated",
+      "job": "434141",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "command": [
+        "/home/janotmik/primo-propagation-repairs-20261114/tmp/yinyang-venv/bin/python3",
+        "scripts/qf_uflia_fuzz.py",
+        "--solver",
+        "/home/janotmik/primo-merge-review-20261119/build-slurm-rel/primo",
+        "--solver-arg=--quiet",
+        "--solver-arg=--stats",
+        "--solver-arg=--check-model",
+        "--ref",
+        "z3",
+        "--shape",
+        "mixed",
+        "--depth",
+        "3",
+        "--count",
+        "1000",
+        "--seed",
+        "20261119302",
+        "--timeout",
+        "5",
+        "--out",
+        "/home/janotmik/primo-merge-review-20261119/results/qualification/generated/task-2"
+      ],
+      "seed": 20261119302,
+      "generator_exit": 0,
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "summary_sha256": "5710bebeff195233ef611234c8c2a4bb0b6d7496ca68eda1fa2e95fbe2984772",
+      "SAT_Dolmen_pass": 524,
+      "model_summary_sha256": "91316f5cbecac97fcb0616ff5141525bb082f8e092d2edebfc6406c3704c3250",
+      "receipt_sha256": "a6d08a2298fc5a2f124f1b8bb41fda1d6413ee059f01f3a61fa4ade9f2e31d26"
+    },
+    {
+      "task": {
+        "logic": "QF_UFLIA",
+        "label": "HYBRID",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0"
+        ]
+      },
+      "phase": "generated",
+      "job": "434142",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "command": [
+        "/home/janotmik/primo-propagation-repairs-20261114/tmp/yinyang-venv/bin/python3",
+        "scripts/qf_uflia_fuzz.py",
+        "--solver",
+        "/home/janotmik/primo-merge-review-20261119/build-slurm-rel/primo",
+        "--solver-arg=--quiet",
+        "--solver-arg=--stats",
+        "--solver-arg=--lia-branching=hybrid",
+        "--solver-arg=--lia-private-branch-factor=0",
+        "--solver-arg=--lia-patch-limit=0",
+        "--solver-arg=--lia-gomory-cut-limit=0",
+        "--solver-arg=--check-model",
+        "--ref",
+        "z3",
+        "--shape",
+        "mixed",
+        "--depth",
+        "3",
+        "--count",
+        "1000",
+        "--seed",
+        "20261119303",
+        "--timeout",
+        "5",
+        "--out",
+        "/home/janotmik/primo-merge-review-20261119/results/qualification/generated/task-3"
+      ],
+      "seed": 20261119303,
+      "generator_exit": 0,
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 999,
+        "TIMEOUT": 1
+      },
+      "resource_unknowns": [],
+      "summary_sha256": "a7a3a6aa1fd43e4d740bd0fc136574d90dca281fb0bddd167ee4a3ac197ba675",
+      "SAT_Dolmen_pass": 500,
+      "model_summary_sha256": "c0e48b7d7c07cf225d65dcdaab70e894870ecf300fc554b836f085755b5c85ef",
+      "receipt_sha256": "e8355bddf99b0fffd14094b12c37f3e15b09fd13742b7cc7d36633a84670dff5"
+    },
+    {
+      "task": {
+        "logic": "QF_UFLIA",
+        "label": "OFFLINE",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0",
+          "--no-qf-uflia-online-components"
+        ]
+      },
+      "phase": "generated",
+      "job": "434143",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "command": [
+        "/home/janotmik/primo-propagation-repairs-20261114/tmp/yinyang-venv/bin/python3",
+        "scripts/qf_uflia_fuzz.py",
+        "--solver",
+        "/home/janotmik/primo-merge-review-20261119/build-slurm-rel/primo",
+        "--solver-arg=--quiet",
+        "--solver-arg=--stats",
+        "--solver-arg=--lia-branching=hybrid",
+        "--solver-arg=--lia-private-branch-factor=0",
+        "--solver-arg=--lia-patch-limit=0",
+        "--solver-arg=--lia-gomory-cut-limit=0",
+        "--solver-arg=--no-qf-uflia-online-components",
+        "--solver-arg=--check-model",
+        "--ref",
+        "z3",
+        "--shape",
+        "mixed",
+        "--depth",
+        "3",
+        "--count",
+        "1000",
+        "--seed",
+        "20261119304",
+        "--timeout",
+        "5",
+        "--out",
+        "/home/janotmik/primo-merge-review-20261119/results/qualification/generated/task-4"
+      ],
+      "seed": 20261119304,
+      "generator_exit": 0,
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "resource_unknowns": [],
+      "summary_sha256": "cd63e4e014eb6e5381e9d01cde8e903b1d0827c26e37cabe8d2bd6d51137c589",
+      "SAT_Dolmen_pass": 510,
+      "model_summary_sha256": "596d8c4ca7277272a29d6be34eb2b1f1e7b1576d1f8575c95adeec8f8458e597",
+      "receipt_sha256": "8f303a104f55493709f8e6b9be90c5fbd03c74c17f799cfdc305bfe90f88a840"
+    },
+    {
+      "task": {
+        "logic": "QF_UF",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      "phase": "generated",
+      "job": "434129",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "command": [
+        "/home/janotmik/primo-propagation-repairs-20261114/tmp/yinyang-venv/bin/python3",
+        "scripts/fuzz_external.py",
+        "--fuzzer",
+        "fuzzsmt",
+        "--logic",
+        "QF_UF",
+        "--solver",
+        "/home/janotmik/primo-merge-review-20261119/build-slurm-rel/primo --quiet --stats --check-model",
+        "--refs",
+        "z3",
+        "--fuzzer-args",
+        "-ms 1 -Ms 3 -mv 1 -Mv 5 -mf 1 -mp 1 -ma 1 -Ma 4",
+        "--count",
+        "1000",
+        "--seed",
+        "20261119305",
+        "--timeout",
+        "5",
+        "--out",
+        "/home/janotmik/primo-merge-review-20261119/results/qualification/generated/task-5"
+      ],
+      "seed": 20261119305,
+      "generator_exit": 0,
+      "cases": 1000,
+      "outcomes": {
+        "PASS": 1000
+      },
+      "summary_sha256": "7e4fae8931364afc411671740b011ece1e54d6871d924cc2db01023cbb4c42a5",
+      "resource_unknowns": [],
+      "SAT_Dolmen_pass": 917,
+      "model_summary_sha256": "9e715a57efdd62782d0d07043c4ac9f9c4ec1da6004de30bfcfd6bf7b29a1af1",
+      "receipt_sha256": "b8b4c28b3a28017a20b8940ab54c3bd7234e7612d501ffac1bdbd8a7369fbf86"
+    },
+    {
+      "task": {
+        "logic": "QF_LIA",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      "phase": "seeds",
+      "job": "434134",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "profile": "DEFAULT",
+      "solver_args": [
+        "--quiet",
+        "--stats",
+        "--check-model"
+      ],
+      "logics": [
+        "QF_LIA"
+      ],
+      "cases": 9,
+      "scoped_sessions": 2,
+      "single_query_sat_models": 6,
+      "runner_sha256": "8beaa0ac0e0ce35d05412a2fe18b3be4175c2ca0feccdd48c397368db4aef9ba",
+      "manifest_sha256": "12b00d948b672a1edc878ca041b3f4f64b0b216b5eeb793b973f8dfaafed3556",
+      "receipt_sha256": "533155eefe1afc0b03a8df5e59b59d603b9bbc2b036e7c17973bca1c26a2c5f5"
+    },
+    {
+      "task": {
+        "logic": "QF_LIA",
+        "label": "HYBRID",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0"
+        ]
+      },
+      "phase": "seeds",
+      "job": "434135",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "profile": "HYBRID",
+      "solver_args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--check-model"
+      ],
+      "logics": [
+        "QF_LIA"
+      ],
+      "cases": 9,
+      "scoped_sessions": 2,
+      "single_query_sat_models": 6,
+      "runner_sha256": "8beaa0ac0e0ce35d05412a2fe18b3be4175c2ca0feccdd48c397368db4aef9ba",
+      "manifest_sha256": "12b00d948b672a1edc878ca041b3f4f64b0b216b5eeb793b973f8dfaafed3556",
+      "receipt_sha256": "2bc0ec3f511026d26a899d0dcb29a7c4fb71eb2b380e9893c85c77be3c71e357"
+    },
+    {
+      "task": {
+        "logic": "QF_UFLIA",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      "phase": "seeds",
+      "job": "434136",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "profile": "DEFAULT",
+      "solver_args": [
+        "--quiet",
+        "--stats",
+        "--check-model"
+      ],
+      "logics": [
+        "QF_UFLIA"
+      ],
+      "cases": 11,
+      "scoped_sessions": 1,
+      "single_query_sat_models": 8,
+      "runner_sha256": "8beaa0ac0e0ce35d05412a2fe18b3be4175c2ca0feccdd48c397368db4aef9ba",
+      "manifest_sha256": "12b00d948b672a1edc878ca041b3f4f64b0b216b5eeb793b973f8dfaafed3556",
+      "receipt_sha256": "0cc4e1f8624c4dc2e66ae410feaef6596650048e31a4fecf01583dccab3e845c"
+    },
+    {
+      "task": {
+        "logic": "QF_UFLIA",
+        "label": "HYBRID",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0"
+        ]
+      },
+      "phase": "seeds",
+      "job": "434137",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "profile": "HYBRID",
+      "solver_args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--check-model"
+      ],
+      "logics": [
+        "QF_UFLIA"
+      ],
+      "cases": 11,
+      "scoped_sessions": 1,
+      "single_query_sat_models": 8,
+      "runner_sha256": "8beaa0ac0e0ce35d05412a2fe18b3be4175c2ca0feccdd48c397368db4aef9ba",
+      "manifest_sha256": "12b00d948b672a1edc878ca041b3f4f64b0b216b5eeb793b973f8dfaafed3556",
+      "receipt_sha256": "0c9c7b83234e19a06b8eaee4ae5623bc18baa2aae9f8641f9dd67c1471c80d05"
+    },
+    {
+      "task": {
+        "logic": "QF_UFLIA",
+        "label": "OFFLINE",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0",
+          "--no-qf-uflia-online-components"
+        ]
+      },
+      "phase": "seeds",
+      "job": "434138",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "profile": "OFFLINE",
+      "solver_args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--no-qf-uflia-online-components",
+        "--check-model"
+      ],
+      "logics": [
+        "QF_UFLIA"
+      ],
+      "cases": 11,
+      "scoped_sessions": 1,
+      "single_query_sat_models": 8,
+      "runner_sha256": "8beaa0ac0e0ce35d05412a2fe18b3be4175c2ca0feccdd48c397368db4aef9ba",
+      "manifest_sha256": "12b00d948b672a1edc878ca041b3f4f64b0b216b5eeb793b973f8dfaafed3556",
+      "receipt_sha256": "5362ef4d7ae46f4209a72f6a50dce30e30556062c90680f8f34e53f751d10bcd"
+    },
+    {
+      "task": {
+        "logic": "QF_UF",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      "phase": "seeds",
+      "job": "434128",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "profile": "DEFAULT",
+      "solver_args": [
+        "--quiet",
+        "--stats",
+        "--check-model"
+      ],
+      "logics": [
+        "QF_UF"
+      ],
+      "cases": 23,
+      "scoped_sessions": 1,
+      "single_query_sat_models": 11,
+      "runner_sha256": "8beaa0ac0e0ce35d05412a2fe18b3be4175c2ca0feccdd48c397368db4aef9ba",
+      "manifest_sha256": "12b00d948b672a1edc878ca041b3f4f64b0b216b5eeb793b973f8dfaafed3556",
+      "receipt_sha256": "08ea52da4af46df1906cd7a82f89c2beecff184d58a818c7072ca45341ddb756"
+    },
+    {
+      "task": {
+        "logic": "QF_LIA",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      "phase": "mutations",
+      "job": "434145",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "cases": 360,
+      "seed": 20261119400,
+      "outcomes": {
+        "PASS": 360
+      },
+      "original_outcomes": {
+        "PASS": 12
+      },
+      "original_models": {
+        "SAT_Dolmen_pass": 11,
+        "model_summary_sha256": "f074512523fbfc71c55ac4502fc56f55d6838f46a9e5ded75c3a9665195ab246"
+      },
+      "summary_sha256": "c5b4a44277c77e1e04885dce931bfef1c711efb1d2b63d13d5b6ffcfb30bf319",
+      "SAT_Dolmen_pass": 215,
+      "model_summary_sha256": "33ab385146590f5050a5d926f77ed9ec2551d0286acadfc2c8d73d5afdbafdc7",
+      "receipt_sha256": "f4b09d5fd9c8caa76a77d9bceae8b05d0bf2775f7aa3a4d79cfd2f5f37fa6a8d"
+    },
+    {
+      "task": {
+        "logic": "QF_LIA",
+        "label": "HYBRID",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0"
+        ]
+      },
+      "phase": "mutations",
+      "job": "434146",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "cases": 360,
+      "seed": 20261119401,
+      "outcomes": {
+        "PASS": 349,
+        "INCOMPLETE": 11
+      },
+      "original_outcomes": {
+        "PASS": 11,
+        "INCOMPLETE": 1
+      },
+      "original_models": {
+        "SAT_Dolmen_pass": 10,
+        "model_summary_sha256": "d4401626bb7d50100d57c4aaf0904b33edaf0d910dc374bb2617f4428ae5d555"
+      },
+      "summary_sha256": "129f8a2b5f96ac25d58913d42a5f561cf3251bb47c6041177fdfcb286abf221a",
+      "SAT_Dolmen_pass": 228,
+      "model_summary_sha256": "e1337886fa87dd00d6c1cdce1456dcdbce93bacd43d435c689f210d91207578e",
+      "receipt_sha256": "eb0cbaf83c7564e437f56657fd5bdd82de78c710e0301d8deb90d01a79c7e9f8"
+    },
+    {
+      "task": {
+        "logic": "QF_UFLIA",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      "phase": "mutations",
+      "job": "434147",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "cases": 360,
+      "seed": 20261119402,
+      "outcomes": {
+        "PASS": 359,
+        "INCOMPLETE": 1
+      },
+      "original_outcomes": {
+        "PASS": 12
+      },
+      "original_models": {
+        "SAT_Dolmen_pass": 2,
+        "model_summary_sha256": "f04e5575a2fbb6b59187afe34792bfd4863d6df16b3389613b21f36e2d4762bc"
+      },
+      "summary_sha256": "165606a435e3f3b09d76d9dac5274b6f3127aec9fcb060db08c95110dda01581",
+      "SAT_Dolmen_pass": 241,
+      "model_summary_sha256": "7428b4568c6fa0e68fe66131a5ac5e90b65ee2f536f791d3819de095348b59d7",
+      "receipt_sha256": "ad7e6ba0cae74f42041827817fc6f5932add02cba77dd447c3bbed7df299e5b6"
+    },
+    {
+      "task": {
+        "logic": "QF_UFLIA",
+        "label": "HYBRID",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0"
+        ]
+      },
+      "phase": "mutations",
+      "job": "434148",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "cases": 360,
+      "seed": 20261119403,
+      "outcomes": {
+        "PASS": 360
+      },
+      "original_outcomes": {
+        "PASS": 12
+      },
+      "original_models": {
+        "SAT_Dolmen_pass": 2,
+        "model_summary_sha256": "96bf0278c96f58b18554501142e62818268eeecaee3cb082cb39ca40c941abea"
+      },
+      "summary_sha256": "5a028bbe14b615ecd9c34b44c6cad899f9719d494fdeaf2142e917ee3a7a9466",
+      "SAT_Dolmen_pass": 223,
+      "model_summary_sha256": "da0a736ac24973a53ff475fe2ecc08c401a9cccc40ca50e6379da8d5b97a5461",
+      "receipt_sha256": "a5e19f16288a0f26274353c360d884146a5c2233576a3468f2b7fcf46a7bd1d4"
+    },
+    {
+      "task": {
+        "logic": "QF_UFLIA",
+        "label": "OFFLINE",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0",
+          "--no-qf-uflia-online-components"
+        ]
+      },
+      "phase": "mutations",
+      "job": "434149",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "cases": 360,
+      "seed": 20261119404,
+      "outcomes": {
+        "PASS": 360
+      },
+      "original_outcomes": {
+        "PASS": 11,
+        "INCOMPLETE": 1
+      },
+      "original_models": {
+        "SAT_Dolmen_pass": 2,
+        "model_summary_sha256": "2ca29cdd6e32b3deb8c4b1b03ad2bfc9ffe22031be5e8abc858206d0996292ba"
+      },
+      "summary_sha256": "69fdd794eea3132a1270520eba79fc02fc365a8642984755233967a5d9ae6cc2",
+      "SAT_Dolmen_pass": 218,
+      "model_summary_sha256": "350a20bc49199371dc09f8f519e4bc8f1e779c3ed609b377b913bd83b6f845d6",
+      "receipt_sha256": "4d472c2ec237fae982c00197c0a764f7837c688308364c4c8723befa63b53d60"
+    },
+    {
+      "task": {
+        "logic": "QF_UF",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      "phase": "mutations",
+      "job": "434130",
+      "native_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+      "source": "2d6daadc",
+      "campaign_sha256": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "script_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+      "cases": 296,
+      "seed": 20261119405,
+      "outcomes": {
+        "PASS": 296
+      },
+      "original_outcomes": {
+        "PASS": 12
+      },
+      "original_models": {
+        "SAT_Dolmen_pass": 6,
+        "model_summary_sha256": "9866b6d4683fb921dd7cace9e2718aa7f94fafbd5c99b15999031732242e583e"
+      },
+      "summary_sha256": "aeb531e74248309ecc9a5763535b2e2af8b4452a38bf992088e4aef85e95b43e",
+      "SAT_Dolmen_pass": 121,
+      "model_summary_sha256": "89a6949a3990d0d10cb2f34f2c7eea43e05e2d72c5b132d6c1692ce649f32471",
+      "receipt_sha256": "d8a3e9d192a44fad130df3e7035d7c9483ee10697ea579a7065dd8db33803765"
+    }
+  ],
+  "protocol": {
+    "scope": "Hybrid fresh atom cap lifetime across complete fallback; forced hybrid online/offline + ground controls; allSATDolmen",
+    "candidate_source": "2d6daadc846160756f8633dae41e99cb2a3448c4",
+    "profiles": {
+      "DEFAULT": [
+        "--quiet",
+        "--stats"
+      ],
+      "HYBRID": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0"
+      ],
+      "OFFLINE": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--no-qf-uflia-online-components"
+      ]
+    },
+    "tasks": [
+      {
+        "logic": "QF_LIA",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      {
+        "logic": "QF_LIA",
+        "label": "HYBRID",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0"
+        ]
+      },
+      {
+        "logic": "QF_UFLIA",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      {
+        "logic": "QF_UFLIA",
+        "label": "HYBRID",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0"
+        ]
+      },
+      {
+        "logic": "QF_UFLIA",
+        "label": "OFFLINE",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0",
+          "--no-qf-uflia-online-components"
+        ]
+      },
+      {
+        "logic": "QF_UF",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      }
+    ],
+    "generated_count_per_task": 1000,
+    "generated_seed_base": 20261119300,
+    "mutation_seed_base": 20261119400
+  },
+  "profiles": [
+    {
+      "logic": "QF_LIA",
+      "label": "DEFAULT",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "HYBRID",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0"
+      ]
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "DEFAULT",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "HYBRID",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0"
+      ]
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "OFFLINE",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--no-qf-uflia-online-components"
+      ]
+    },
+    {
+      "logic": "QF_UF",
+      "label": "DEFAULT",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    }
+  ],
+  "corpus_roots": {
+    "QF_UF": "/home/janotmik/primo-arithmetic-combinations-20261115/tmp/symmetry-mutation-root",
+    "QF_UFLIA": "/home/janotmik/primo-model-fix/tmp/QF_UFLIA",
+    "QF_LIA": "/home/janotmik/primo-cadical-profile/sandbox/non-incremental/QF_LIA",
+    "QF_LRA": "/home/janotmik/primo-cadical-profile/tmp/QF_LRA",
+    "QF_UFLRA": "/home/janotmik/primo-cadical-profile/tmp/QF_UFLRA"
+  },
+  "limits": {
+    "generated": {
+      "native_reference_seconds": 5,
+      "selected_SAT_native_seconds": 30,
+      "Dolmen_seconds": 30
+    },
+    "tracked_seeds": {
+      "native_reference_seconds": 120,
+      "single_query_model_native_seconds": 120,
+      "scoped_model_command_timeout_seconds": 120,
+      "Dolmen_seconds": 30
+    },
+    "mutations": {
+      "generation_seconds": 600,
+      "iterations_per_seed": 30,
+      "generation_solver_timeout_seconds": 5,
+      "post_answer_timeout_seconds": 10,
+      "selected_SAT_native_seconds": 30,
+      "Dolmen_seconds": 30
+    },
+    "focused": {
+      "native_seconds": 30,
+      "SAT_replay_native_seconds": 180,
+      "Dolmen_seconds": 60
+    },
+    "resource_unknown_replay_native_seconds": 30
+  },
+  "SAT_Dolmen_pass_total": 5541,
+  "focused": [
+    {
+      "profile": "CAP1",
+      "status": "ok",
+      "answer": "unknown",
+      "exit_code": 0,
+      "args": [
+        "--quiet",
+        "--stats",
+        "--check-model",
+        "--preprocessing-mode=off",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--qf-uflia-model-decision-budget=1",
+        "--lia-split-atom-limit=1"
+      ],
+      "unique_atoms": 1,
+      "peak_generated_atoms": 1,
+      "fallbacks": 1
+    },
+    {
+      "profile": "CAP2",
+      "status": "ok",
+      "answer": "unknown",
+      "exit_code": 0,
+      "args": [
+        "--quiet",
+        "--stats",
+        "--check-model",
+        "--preprocessing-mode=off",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--qf-uflia-model-decision-budget=1",
+        "--lia-split-atom-limit=2"
+      ],
+      "unique_atoms": 2,
+      "peak_generated_atoms": 2,
+      "fallbacks": 1
+    },
+    {
+      "profile": "EXACT-CAP4",
+      "status": "ok",
+      "answer": "sat",
+      "exit_code": 0,
+      "args": [
+        "--quiet",
+        "--stats",
+        "--check-model",
+        "--preprocessing-mode=off",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--qf-uflia-model-decision-budget=1",
+        "--lia-split-atom-limit=4"
+      ],
+      "unique_atoms": 4,
+      "peak_generated_atoms": 4,
+      "fallbacks": 1
+    },
+    {
+      "profile": "UNLIMITED",
+      "status": "ok",
+      "answer": "sat",
+      "exit_code": 0,
+      "args": [
+        "--quiet",
+        "--stats",
+        "--check-model",
+        "--preprocessing-mode=off",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--qf-uflia-model-decision-budget=1"
+      ],
+      "unique_atoms": 4,
+      "peak_generated_atoms": 4,
+      "fallbacks": 1
+    },
+    {
+      "profile": "OFFLINE-CAP1",
+      "status": "ok",
+      "answer": "unknown",
+      "exit_code": 0,
+      "args": [
+        "--quiet",
+        "--stats",
+        "--check-model",
+        "--preprocessing-mode=off",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--qf-uflia-model-decision-budget=1",
+        "--lia-split-atom-limit=1",
+        "--no-qf-uflia-online-components"
+      ],
+      "unique_atoms": 1,
+      "peak_generated_atoms": 1,
+      "fallbacks": 1
+    },
+    {
+      "profile": "COMPLETE-CAP1",
+      "status": "ok",
+      "answer": "unknown",
+      "exit_code": 0,
+      "args": [
+        "--quiet",
+        "--stats",
+        "--check-model",
+        "--preprocessing-mode=off",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--qf-uflia-model-decision-budget=1",
+        "--lia-split-atom-limit=1",
+        "--no-qf-uflia-model-combination"
+      ],
+      "unique_atoms": 1,
+      "peak_generated_atoms": 1,
+      "fallbacks": 0
+    }
+  ],
+  "resource_unknown": {
+    "job": "434150",
+    "reason": "integer branch-and-bound node limit",
+    "row_sha256": "2e65fa0596df01f91ca3e70c3e6f07793fd6ae3ebacbf524373d49e7be718f76",
+    "input_sha256": "2369604ef43a81854a745170ffc88527e4ebc0867fa8a71053d33c7b2417df64",
+    "native_status": "ok/unknown/exit0",
+    "reference": "Z3 SAT in mutation comparison; known finite node cap, no wrong-answer claim"
+  },
+  "incomplete_outcomes": {
+    "generated_timeouts": 44,
+    "mutation_native_timeouts": 11,
+    "mutation_diagnosed_node_limit": 1,
+    "wrong_answers": 0,
+    "crashes": 0,
+    "invalid_models": 0,
+    "unexplained_disagreements": 0
+  },
+  "static": {
+    "tidy": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 141,
+      "analyzed_translation_units": 141,
+      "missing": [],
+      "changed_inputs": [],
+      "tool_exit_code": 0,
+      "diagnostic_occurrences": 4032,
+      "unique_diagnostics": 881,
+      "counts": {
+        "portability-avoid-pragma-once": 109,
+        "performance-enum-size": 88,
+        "misc-include-cleaner": 408,
+        "bugprone-easily-swappable-parameters": 42,
+        "clang-analyzer-optin.performance.Padding": 1,
+        "bugprone-unchecked-optional-access": 116,
+        "performance-inefficient-vector-operation": 8,
+        "bugprone-implicit-widening-of-multiplication-result": 4,
+        "bugprone-assert-side-effect": 6,
+        "clang-analyzer-cplusplus.NewDeleteLeaks": 2,
+        "performance-unnecessary-value-param": 15,
+        "performance-move-const-arg": 23,
+        "performance-faster-string-find": 3,
+        "performance-inefficient-string-concatenation": 14,
+        "bugprone-exception-escape": 11,
+        "bugprone-use-after-move": 1,
+        "bugprone-branch-clone": 5,
+        "performance-unnecessary-copy-initialization": 3,
+        "performance-no-automatic-move": 1,
+        "bugprone-optional-value-conversion": 1,
+        "clang-analyzer-optin.core.EnumCastOutOfRange": 20
+      },
+      "scope": "Diagnostic inventory; completed analysis is not a claim that findings are benign.",
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      },
+      "summary_sha256": "8304101fbdad71e6b1225b30ce276d36321d6c4aaa344cdd4df0d9213a03a6b5",
+      "new_signatures": [
+        [
+          "tests/unit/qf_uflia_solver_tests.cpp",
+          "no header providing \"std::size_t\" is directly included",
+          "misc-include-cleaner"
+        ]
+      ],
+      "baseline_source": "59d81fee"
+    },
+    "includes": {
+      "status": "complete-with-findings",
+      "expected_translation_units": 141,
+      "analyzed_translation_units": 141,
+      "missing": [],
+      "changed_inputs": [],
+      "tool_exit_code": 0,
+      "diagnostic_occurrences": 408,
+      "unique_diagnostics": 408,
+      "counts": {
+        "misc-include-cleaner": 408
+      },
+      "scope": "Diagnostic inventory; completed analysis is not a claim that findings are benign.",
+      "unused_include_gate": {
+        "status": "passed",
+        "blocking": [],
+        "paired_self_includes": [],
+        "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+      },
+      "summary_sha256": "8e6ae6ab1501a1d430d89e691cf52d20e535239cbb185c304dea1a453a2b503d",
+      "new_signatures": [
+        [
+          "tests/unit/qf_uflia_solver_tests.cpp",
+          "no header providing \"std::size_t\" is directly included",
+          "misc-include-cleaner"
+        ]
+      ],
+      "baseline_source": "59d81fee"
+    }
+  },
+  "hygiene": {
+    "test_source_sha256": "d6c2331bcfe8646da24469c9e0963419e2cedd19df9525887bce67d1ae3c9499",
+    "qualified_solver_sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+    "solver_unchanged": true,
+    "help_source_sha256": "aac5d74fcf116c30992101f2f8aab1f0a03185ec4cbba67c1dd013fab4a48412",
+    "method_sha256": "bea415be3699f91e641b76727e79cb8cf036d2f964c15ebe4364957adf98cfdc",
+    "job": "434152",
+    "commands": [
+      [
+        "/usr/bin/c++",
+        "-DPRIMO_CADICAL_EXTERNAL_NOTIFY_SCALAR=0",
+        "-DPRIMO_CADICAL_EXTERNAL_NOTIFY_VECTOR=1",
+        "-DPRIMO_CADICAL_HAS_DECLARE_MORE_VARIABLES=1",
+        "-DPRIMO_CADICAL_HAS_RESERVE=0",
+        "-DPRIMO_CADICAL_HAS_RESIZE=1",
+        "-DPRIMO_HAVE_IPASIR=1",
+        "-I/home/janotmik/primo-merge-review-20261119/src",
+        "-isystem",
+        "/home/janotmik/primo-merge-review-20261119/contrib/local/include",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/0",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/1",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/2",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/3",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/4",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/5",
+        "-O3",
+        "-DNDEBUG",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Wconversion",
+        "-Wsign-conversion",
+        "-Wshadow",
+        "-Wold-style-cast",
+        "-Wcast-align",
+        "-Wunused",
+        "-Woverloaded-virtual",
+        "-Wnull-dereference",
+        "-Wdouble-promotion",
+        "-Wformat=2",
+        "-Wimplicit-fallthrough",
+        "-Werror",
+        "/home/janotmik/primo-merge-review-20261119/tmp/qf_uflia_solver_tests.cpp",
+        "-Wl,--start-group",
+        "build-slurm-rel/libprimo_cli_support.a",
+        "build-slurm-rel/libprimo_sat.a",
+        "build-slurm-rel/libprimo_smt.a",
+        "build-slurm-rel/libprimo_smtlib.a",
+        "build-slurm-rel/libprimo_terms.a",
+        "build-slurm-rel/libprimo_theory.a",
+        "build-slurm-rel/libprimo_util.a",
+        "contrib/local/lib/libcadical.a",
+        "contrib/local/lib/libgmpxx.a",
+        "contrib/local/lib/libgmp.a",
+        "-Wl,--end-group",
+        "-pthread",
+        "-ldl",
+        "-o",
+        "/home/janotmik/primo-merge-review-20261119/results/hygiene-final/build-slurm-rel"
+      ],
+      [
+        "/usr/bin/c++",
+        "-DPRIMO_CADICAL_EXTERNAL_NOTIFY_SCALAR=0",
+        "-DPRIMO_CADICAL_EXTERNAL_NOTIFY_VECTOR=1",
+        "-DPRIMO_CADICAL_HAS_DECLARE_MORE_VARIABLES=1",
+        "-DPRIMO_CADICAL_HAS_RESERVE=0",
+        "-DPRIMO_CADICAL_HAS_RESIZE=1",
+        "-DPRIMO_HAVE_IPASIR=1",
+        "-I/home/janotmik/primo-merge-review-20261119/src",
+        "-isystem",
+        "/home/janotmik/primo-merge-review-20261119/contrib/local/include",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/0",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/1",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/2",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/3",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/4",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/5",
+        "-L/home/janotmik/primo-propagation-repairs-20261114/tmp/asan-root/usr/lib64",
+        "-Wl,-rpath,/home/janotmik/primo-propagation-repairs-20261114/tmp/asan-root/usr/lib64",
+        "-g",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Wconversion",
+        "-Wsign-conversion",
+        "-Wshadow",
+        "-Wold-style-cast",
+        "-Wcast-align",
+        "-Wunused",
+        "-Woverloaded-virtual",
+        "-Wnull-dereference",
+        "-Wdouble-promotion",
+        "-Wformat=2",
+        "-Wimplicit-fallthrough",
+        "-Werror",
+        "-fsanitize=address",
+        "-fno-omit-frame-pointer",
+        "/home/janotmik/primo-merge-review-20261119/tmp/qf_uflia_solver_tests.cpp",
+        "-Wl,--start-group",
+        "build-euf-performance-asan-2d6daadc/libprimo_cli_support.a",
+        "build-euf-performance-asan-2d6daadc/libprimo_sat.a",
+        "build-euf-performance-asan-2d6daadc/libprimo_smt.a",
+        "build-euf-performance-asan-2d6daadc/libprimo_smtlib.a",
+        "build-euf-performance-asan-2d6daadc/libprimo_terms.a",
+        "build-euf-performance-asan-2d6daadc/libprimo_theory.a",
+        "build-euf-performance-asan-2d6daadc/libprimo_util.a",
+        "contrib/local/lib/libcadical.a",
+        "contrib/local/lib/libgmpxx.a",
+        "contrib/local/lib/libgmp.a",
+        "-Wl,--end-group",
+        "-pthread",
+        "-ldl",
+        "-o",
+        "/home/janotmik/primo-merge-review-20261119/results/hygiene-final/build-euf-performance-asan-2d6daadc"
+      ],
+      [
+        "/usr/bin/c++",
+        "-DPRIMO_BUILD_TYPE=\"Release\"",
+        "-DPRIMO_CADICAL_EXTERNAL_NOTIFY_SCALAR=0",
+        "-DPRIMO_CADICAL_EXTERNAL_NOTIFY_VECTOR=1",
+        "-DPRIMO_CADICAL_HAS_DECLARE_MORE_VARIABLES=1",
+        "-DPRIMO_CADICAL_HAS_RESERVE=0",
+        "-DPRIMO_CADICAL_HAS_RESIZE=1",
+        "-DPRIMO_HAVE_IPASIR=1",
+        "-DPRIMO_SANITIZERS_BANNER=\"none\"",
+        "-I/home/janotmik/primo-merge-review-20261119/src",
+        "-I/home/janotmik/primo-merge-review-20261119/build-slurm-rel",
+        "-isystem",
+        "/home/janotmik/primo-merge-review-20261119/contrib/local/include",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/0",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/1",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/2",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/3",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/4",
+        "-isystem",
+        "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/5",
+        "-O3",
+        "-DNDEBUG",
+        "-std=c++20",
+        "-Wall",
+        "-Wextra",
+        "-Wpedantic",
+        "-Wconversion",
+        "-Wsign-conversion",
+        "-Wshadow",
+        "-Wold-style-cast",
+        "-Wcast-align",
+        "-Wunused",
+        "-Woverloaded-virtual",
+        "-Wnull-dereference",
+        "-Wdouble-promotion",
+        "-Wformat=2",
+        "-Wimplicit-fallthrough",
+        "-Werror",
+        "/home/janotmik/primo-merge-review-20261119/tmp/main.cpp",
+        "-Wl,--start-group",
+        "build-slurm-rel/libprimo_cli_support.a",
+        "build-slurm-rel/libprimo_sat.a",
+        "build-slurm-rel/libprimo_smt.a",
+        "build-slurm-rel/libprimo_smtlib.a",
+        "build-slurm-rel/libprimo_terms.a",
+        "build-slurm-rel/libprimo_theory.a",
+        "build-slurm-rel/libprimo_util.a",
+        "contrib/local/lib/libcadical.a",
+        "contrib/local/lib/libgmpxx.a",
+        "contrib/local/lib/libgmp.a",
+        "-Wl,--end-group",
+        "-pthread",
+        "-ldl",
+        "-o",
+        "/home/janotmik/primo-merge-review-20261119/results/hygiene-final/primo-help"
+      ]
+    ],
+    "checks": [
+      "Release UFLIA regression suite",
+      "ASan UFLIA regression suite",
+      "focused clang-analyzer/misc-include-cleaner"
+    ],
+    "target_existing_diagnostic_signatures": 51,
+    "new_target_diagnostic_signatures": 0,
+    "provenance_sha256": "34ed263d607182dd9b6bad5fd895e5299fcb435c85bba2bc97426a6fc08ada96",
+    "clang_tidy_sha256": "aeb9461b6d016cd66254303282c73fa415e474f98e968f6a99ffe9eab422ddc3",
+    "whole_scan_new_advisory_fixed": "Direct cstddef include; focused current test native/ASan and analyzer/include-cleaner pass. Existing880/407 baseline advisories remain; whole-tree scan itself recorded881/408 before the include fix.",
+    "runtime_diff_from_qualified_source": [
+      "src/main.cpp",
+      "src/smt/lia_settings.hpp",
+      "src/smt/lia_settings_policy.hpp",
+      "src/smt/solver_engines.cpp"
+    ],
+    "runtime_diff_scope": "main.cpp changes one help-description literal; other runtime source differences are comments only (lexical comparison plus inspected diff). No solver algorithm or option behavior changed after2d6daadc. Test differs only by direct cstddef include."
+  },
+  "audit_commands": [
+    "python3 scripts/qualification/conflict_ackermann/audit.py gates --configs <cards> --rows <collected>/qualification --out <audit.json>",
+    "Current model metadata additionally checked against exact task args/native and strict direct Dolmen coverage; 18 receipts checked."
+  ],
+  "raw_artifacts": "results/merge-readiness-20261118/hybrid-budget-repair",
+  "remote_artifacts": "/home/janotmik/primo-merge-review-20261119/results",
+  "methods_sha256": {
+    "scripts/qualification/conflict_ackermann/qualify.sbatch": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+    "scripts/qualification/conflict_ackermann/audit.py": "59ed160a44c289405e54e3d86c32a4292934a37a46ef60b9a54b4617e979e0c8",
+    "scripts/qualification/euf_smtcomp/triage.py": "a2e110bc7d7cf80eb62bafb41f9d58c4c8e1fb2b445e2dc46486b9ec8c8eca0e",
+    "scripts/qualification/euf_smtcomp/test_hygiene.sbatch": "bea415be3699f91e641b76727e79cb8cf036d2f964c15ebe4364957adf98cfdc"
+  },
+  "pre_fix_jobs": [
+    "434120",
+    "434122"
+  ],
+  "fixture": "benchmarks/regressions/qf_uflia_hybrid_fallback_split_budget.smt2",
+  "fixture_sha256": "1447b8a5c33e8f2bc32e36ef80577f5b22ace1594595af42c8d85473a336afac",
+  "reproduction_cards": {
+    "path": "benchmarks/merge-readiness-20261119/configs",
+    "sha256": {
+      "regression-seeds.json": "12b00d948b672a1edc878ca041b3f4f64b0b216b5eeb793b973f8dfaafed3556",
+      "mutation-candidates.json": "6310714ba67b81f1c47665e458e584f03bdbe53cf0383d86ef8f392b0ab8171e",
+      "campaign.json": "f5a9be336aa2a1342adc7117cb988f575eb7b50b8b2c72578fe111ee342a9f98",
+      "profile-args.json": "822d80e7cee66bfa8128821781c3b8594b29751c62b602ed3eb12f91f488cc29"
+    },
+    "note": "Cards preserve exact recorded bytes and private absolute corpus/output paths. Inherited timing fields in campaign.protocol are unused by qualification; they are not a new comparator/selection/memory-limit claim."
+  }
+}

@@ -21,11 +21,11 @@ struct LiaSettings {
   // Branch-and-bound node cap. Plain branch-and-bound has no completeness
   // argument of its own (an unbounded integer-infeasible polytope can branch
   // forever), so reaching the cap reports Unknown instead of hanging. Not
-  // empirically tuned.
+  // globally tuned.
   std::size_t branch_limit = 100000;
   // Gomory cut-and-recheck rounds per candidate model before falling through
   // to branch-and-bound. Gomory's method has no anti-cycling guarantee as
-  // implemented, so the loop must be bounded. Not empirically tuned.
+  // implemented, so the loop must be bounded. Not globally tuned.
   std::size_t gomory_cut_limit = 100;
   // Patching budget (Bjorner and Nachmanson, Sect. 4.1): nonbasic moves per
   // round that try to find an integer model. 0 disables patching.

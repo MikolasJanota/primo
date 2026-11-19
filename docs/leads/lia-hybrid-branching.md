@@ -106,6 +106,15 @@ resumed SAT search separately. Add an optional fresh-atom cap, default zero
 
 ## Complete-fallback resource ownership checklist
 
+The resource-ownership repair is qualified in `2d6daadc`; its
+{download}`fresh SLURM record <../../benchmarks/merge-readiness-20261119/qualification.json>`
+includes 6,000 generated cases, 2,096 mutants and 5,541 separately validated
+SAT models/queries. Timeouts and one diagnosed private node-limit unknown remain
+unsolved. The ordinary-split policy remains opt-in. The
+{hybridfallbacksource}`driver <src/smt/component_solver.cpp>` and
+{hybridfallbacksource}`focused regression <tests/unit/qf_uflia_solver_tests.cpp>`
+map the checklist to its implementation.
+
 The 2026-11-19 merge review reproduced a resource-accounting defect on a
 bounded QF_UFLIA input: a one-atom cap admitted two generated atoms when the
 model-guided route restarted with a complete arrangement. This is a Primo

@@ -1,0 +1,23 @@
+{
+  "DEFAULT": [
+    "--quiet",
+    "--stats"
+  ],
+  "HYBRID": [
+    "--quiet",
+    "--stats",
+    "--lia-branching=hybrid",
+    "--lia-private-branch-factor=0",
+    "--lia-patch-limit=0",
+    "--lia-gomory-cut-limit=0"
+  ],
+  "OFFLINE": [
+    "--quiet",
+    "--stats",
+    "--lia-branching=hybrid",
+    "--lia-private-branch-factor=0",
+    "--lia-patch-limit=0",
+    "--lia-gomory-cut-limit=0",
+    "--no-qf-uflia-online-components"
+  ]
+}

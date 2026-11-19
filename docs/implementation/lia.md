@@ -870,7 +870,10 @@ of the candidate model, in online/offline UFLIA and standalone LIA alike.
 
 `--lia-split-atom-limit` caps fresh generated bound atoms per solve; its default
 `0` is unlimited. The public `solve_component_recipe` call owns the consumption
-counter and shares it with its internal complete-arrangement fallback. The
+counter and shares it with its internal complete-arrangement fallback
+({hybridfallbacksource}`repaired owner <src/smt/component_solver.cpp>`,
+{hybridfallbacksource}`regression <tests/unit/qf_uflia_solver_tests.cpp>`;
+{download}`fresh qualification <../../benchmarks/merge-readiness-20261119/qualification.json>`). The
 backend-local bound registries remain separate: allocating the same semantic
 bound in a new SAT space consumes another atom. Reaching the cap only blocks
 new atom creation; it does not prevent completion without further growth.

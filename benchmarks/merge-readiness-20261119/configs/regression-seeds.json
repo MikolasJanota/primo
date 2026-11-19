@@ -1,0 +1,426 @@
+{
+  "cases": [
+    {
+      "file": "benchmarks/regression/qf_uflra/opensmt_boolean_disagreement.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "33a3899904c14f4ae9991c3970f2368b0ced543f8492f8aef83044f946120151"
+    },
+    {
+      "file": "benchmarks/regression/qf_uflra/opensmt_boolean_disagreement_original.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "f4d848ee3188829d12f3f3dc242e4fc3075e3e8948ca5c8e48b5ef8c485af5e6"
+    },
+    {
+      "file": "benchmarks/regressions/nelson-oppen-transitive-class-equality.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "3b478f2b37696979e62f8f55c5df50ed06e3593b139c0307cadc4a4b69befe16"
+    },
+    {
+      "file": "benchmarks/regressions/qf_lia_scaled_ite_arena_growth.smt2",
+      "logic": "QF_LIA",
+      "sha256": "05e919500535c949795b9d4c7c01b61d1278f1f255b574a8ff39cc02f8471a40"
+    },
+    {
+      "file": "benchmarks/regressions/qf_uflia_finite_domain_eliminated_argument.smt2",
+      "logic": "QF_UFLIA",
+      "sha256": "39180cb183752b5160ca696340722affe001305e944f94186ef4999719278084"
+    },
+    {
+      "file": "benchmarks/regressions/qf_uflia_model_eliminated_definition.smt2",
+      "logic": "QF_UFLIA",
+      "sha256": "cc3bafc3157c51e9540b0ec006b932966c101a8c03b02d6c687b914c56f0ce83"
+    },
+    {
+      "file": "benchmarks/regressions/qf_uflia_model_evaluated_tuple.smt2",
+      "logic": "QF_UFLIA",
+      "sha256": "c22961fd0dc97cb130501d80e4b6fc35668242f63d141859bfd7bd49357a86ec"
+    },
+    {
+      "file": "benchmarks/regressions/qf_uflia_model_unit_fixed_remainder.smt2",
+      "logic": "QF_UFLIA",
+      "sha256": "eea2641c61ac40a48cb226f99bed10c9fd8786ec0c823a66f20fb1b3831b9622"
+    },
+    {
+      "file": "benchmarks/regressions/soi/zero-fixed.smt2",
+      "logic": "QF_LRA",
+      "sha256": "114fc4dda535ece6b74e6e575389bd5940ada75e15942c2e4f4cf1b43b625192"
+    },
+    {
+      "file": "benchmarks/regressions/soi/zero-inward.smt2",
+      "logic": "QF_LRA",
+      "sha256": "eaa863c16afc8c150541d7190c11375ae6d303f8ee4b5a998aa63189312f9883"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra/seed_basic.smt2",
+      "logic": "QF_LRA",
+      "sha256": "d5d511b3d7d0cc7d75eaffecdd83e0fc80f9e47cda0bda1874a2d4b8b46e68c2"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra/seed_branching.smt2",
+      "logic": "QF_LRA",
+      "sha256": "a64afcd5f09c3f57a64e30d51fa7f9d0e2376e5668061bbe7530e55742736031"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra/seed_unsat_pivot.smt2",
+      "logic": "QF_LRA",
+      "sha256": "1b8806f783fb0fc09f238925ff26429c921c10911299dc00084b5ab329e83e30"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra/variable_equality_conditional_bounds.smt2",
+      "logic": "QF_LRA",
+      "sha256": "9a621a924454958d5b02c77d8b65f7188801871a944644a9d2f2cde7a9bfd1b1"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/DTP-Scheduling_constraints-cooking01.smt2",
+      "logic": "QF_LRA",
+      "sha256": "fa7a5d2cef4daf5da44908dd7ce0d32f6e2d264282a7afd4ddbfc004143effb3"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/DTP-Scheduling_constraints-cooking02.smt2",
+      "logic": "QF_LRA",
+      "sha256": "79abb3011753e7246262046d0dd14acaa83b630b32b8244727e7c987d827198a"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/DTP-Scheduling_constraints-tempo-depth-2.smt2",
+      "logic": "QF_LRA",
+      "sha256": "504f64eb0ae0390c8bba15204bff4c367c5469e640ede51f3b2980a7f2575b23"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/DTP-Scheduling_constraints-tempo-depth-3.smt2",
+      "logic": "QF_LRA",
+      "sha256": "2233c6ca84a88362ffcb09ea4fbc1cd7c5a134c0553f9f9b78d15bfb3b601acb"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/check_bignum_lra1.smt2",
+      "logic": "QF_LRA",
+      "sha256": "e420831670683c464148a12e0acbbcbc8848b32abd0a2d6e083a910c02dc022d"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/check_bignum_lra2.smt2",
+      "logic": "QF_LRA",
+      "sha256": "632aa76309595e0f5736f2c2bd94284ea4ff1ffeb5df1e2de0031043165ed47d"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/gasburner_gasburner-prop3-1.smt2",
+      "logic": "QF_LRA",
+      "sha256": "e72df96aefdcb3f6ecb26092c9e0b57db78e3ad7a34f9dae0c36e8449cc0346e"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/gasburner_gasburner-prop3-2.smt2",
+      "logic": "QF_LRA",
+      "sha256": "3e13b88b92c15002dc8915b8a2e0acc1ca5055c7419f00809dd18ab91030867a"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/gasburner_gasburner-prop3-3.smt2",
+      "logic": "QF_LRA",
+      "sha256": "7e6cc91c917e6b336a2394ee9dee6dd195bfc7af84ada74652bec3d1594fd90c"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/gasburner_gasburner-prop3-4.smt2",
+      "logic": "QF_LRA",
+      "sha256": "0121a19102eadfbd8f8d982d314f59b1155ce43c702f68dd71318e5f96a653b5"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/keymaera_bouncing-ball-inv-node1886.smt2",
+      "logic": "QF_LRA",
+      "sha256": "9a40e72275700974d90ea80778c60055d3f874008dd6ca1c13da1cd824b47fde"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/keymaera_bouncing-ball-inv-node1935.smt2",
+      "logic": "QF_LRA",
+      "sha256": "a79d8ab2176aa8884e1f13fffb50b8fca9aeff5e1641e5308eb6337b28176272"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/keymaera_bouncing-ball-simple-node1628.smt2",
+      "logic": "QF_LRA",
+      "sha256": "1f5637b29ccf421692152522230c0c2e7cbd027633da53a593974de9c6fe06ae"
+    },
+    {
+      "file": "benchmarks/seeds/qf_lra_real/keymaera_bouncing-ball-simple-node1629.smt2",
+      "logic": "QF_LRA",
+      "sha256": "dcefe07ed20bfce1f3c2a4404188e9621b2b1d98c2f17448c68b4ff954058073"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra/finite_real_domain_amo_unsat.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "7cff711d3b531a220ff918283e63fd6b527b33c6e8481bebb30de4e8efc115fc"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra/online_nonpaired_congruence_forced_unsat.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "9d4e94278b46b4db221435ca7acab81a704b8a1f15e5a2af9823a86df2af5db4"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra/real_congruence_forced_unsat.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "d6881f4dc9bfae27becf0348f1d528c14b1258259570a4324764cb11a5ffa12c"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra/seed_bool_application_formula_equality_mixed_unsat.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "14d429d8501e6e5d00107be538fe475f2e8b4c8bef7e524c9f57bad3695d8f3f"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra/seed_bool_application_formula_equality_unsat.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "899297931e84789d8144e1908fd64c5cb73b3334c9283f79babc97d1fc58c0d5"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra/seed_bool_argument_compound.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "0222ec9727b17158e412d4141652b19e11343835de169adf222e22882517cec5"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra/seed_bool_argument_congruence_unsat.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "f8bca8ff7e1b85e0f7cf7d6bcbf2f1ef61fd34d9a140b861ee96dc33d6f98a75"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra/seed_bool_argument_mixed_sort.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "c2e4b8ee4787669ac3709822f562c05bf376567df25b2a4b1a46953bd4dc616d"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra/seed_bool_argument_predicate.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "185cffc64587256fa24df2b2ba3f21afe3dc09047af405c6392e1699d36bb06d"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra/seed_bool_argument_pure_polarity_mixed_unsat.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "4b643c8ea85e6642865ff275d4250cfb5f6e935e87b01aeacd286a7513b42c9d"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra/seed_bool_argument_result_unsat.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "e32dfca4cf44d50ea29696085f723f848f2241753b8e229b46754d4363c34b68"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra/seed_bool_argument_transitive_cnf_unsat.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "6dddf8f7ad0c5429bc08ff68709f8c989a65b912291a6df5617e7cb1bf5c50a4"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra_scale/mathsat_randomdecoupled_pb_real_40_80_60_01.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "de25cbe4e8ba7db7c5377b9652cde01dc95b32df1c44dfb6c82d33ab174c1d3d"
+    },
+    {
+      "file": "benchmarks/seeds/qf_uflra_scale/mathsat_randomdecoupled_pb_real_40_80_60_36.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "2696a128f656eaefa8dd91a9ea3feb042eb70f140b38f09234c93c120ce72a9c"
+    },
+    {
+      "file": "benchmarks/smoke/incremental/monotone_scopes.smt2",
+      "logic": "QF_LIA",
+      "sha256": "7038a2a9d566df225598fcf05e381146a9b0dfa884fbe709394888ff4c4b5c68"
+    },
+    {
+      "file": "benchmarks/smoke/qf_lia/cube_strict_scaled.smt2",
+      "logic": "QF_LIA",
+      "sha256": "f18e78d4052cb591f01a9d0943fbf09487bdd707d3dbf3c6d23075a2f557df07"
+    },
+    {
+      "file": "benchmarks/smoke/qf_lia/hybrid_multiple_splits.smt2",
+      "logic": "QF_LIA",
+      "sha256": "4c6590b4411ea804d1b23d933faec3ab4c2e3d651b7c042f3ba5fcf3b3a73e5f"
+    },
+    {
+      "file": "benchmarks/smoke/qf_lia/hybrid_scopes.smt2",
+      "logic": "QF_LIA",
+      "sha256": "17775550d989fc7626487e1aa3a076275db969b52f1b57bb02e278ecb33fea23"
+    },
+    {
+      "file": "benchmarks/smoke/qf_lia/preprocess-bound-chain.smt2",
+      "logic": "QF_LIA",
+      "sha256": "114d51c5d13f54609b0f3afd068f2f94082c7c63aa82a500aabe0466c4e3eeb5"
+    },
+    {
+      "file": "benchmarks/smoke/qf_lia/root-bound-diagnostics.smt2",
+      "logic": "QF_LIA",
+      "sha256": "4dd482ded98e14cc7da54cb93d9808059c2b456b9115517b6ab1365ba61c61ea"
+    },
+    {
+      "file": "benchmarks/smoke/qf_lia/sat_boolean_integer.smt2",
+      "logic": "QF_LIA",
+      "sha256": "4412b4e6cdb2ae854fcfabfaee34602282b8be16b138d2bfa8405e5f8b31e7f3"
+    },
+    {
+      "file": "benchmarks/smoke/qf_lia/unsat_integer_gap.smt2",
+      "logic": "QF_LIA",
+      "sha256": "4f8ba538abf166123912675551e20a8eecb61326176428634bbef675d7696b4b"
+    },
+    {
+      "file": "benchmarks/smoke/qf_lra/default_heuristics.smt2",
+      "logic": "QF_LRA",
+      "sha256": "6706edeb2c6e87d6ea72f2e3ca29edb24be51ce8407bb9c6ac974d92c280b8bd"
+    },
+    {
+      "file": "benchmarks/smoke/qf_uflia/sat_integer_uf_model.smt2",
+      "logic": "QF_UFLIA",
+      "sha256": "4879f33fb90b707df0b136f20bb33239e84a1e690b2de9bb0af337bd8f00020b"
+    },
+    {
+      "file": "benchmarks/smoke/qf_uflia/unsat_nonconvex_arrangement.smt2",
+      "logic": "QF_UFLIA",
+      "sha256": "4ae2904b03abeb366ce96d0110c2c995797b0c747a9e5a762c127e5b5362cc53"
+    },
+    {
+      "file": "benchmarks/smoke/qf_uflra/sat_symmetry_coefficients.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "e230c05a66cf25296fecb6f143cdd20304ef1ec0ab528748f14ea763782cdce5"
+    },
+    {
+      "file": "benchmarks/smoke/qf_uflra/sat_symmetry_equal_numeric_values.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "3068b015c8c582748f691b1fa506b7b64c7f29f86d639103090b65c4b4387d63"
+    },
+    {
+      "file": "benchmarks/smoke/qf_uflra/sat_symmetry_numeric_values.smt2",
+      "logic": "QF_UFLRA",
+      "sha256": "498a9fc4886f919fbdea74bb1bd971ce6263acd551c8025c3be93feb497dbae7"
+    },
+    {
+      "file": "benchmarks/smoke/quoted_names_model.smt2",
+      "logic": "QF_UFLIA",
+      "sha256": "46658760891a0733d247c2aa268639ed9b934dd31faa0532c2ca0e6fdcf51bd1",
+      "reference": "cvc5",
+      "reference_reason": "Known Z3 quoted |let| invocation parser limitation: rejects assertion then returns SAT on partial input. Never accept its exit1 answer; cvc5 and direct Dolmen cover this unchanged original."
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/qg_symmetry_fixed_terms.smt2",
+      "sha256": "8ecbf1889b0aa04b99420349f6277dbd9428c94e71f3952d580f20b92bacae0b"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/qg_symmetry_residual_domain.smt2",
+      "sha256": "dc2405e35f5f632f43c190a3986b2829e49d46e4b8280a8c9e2e51ed2a663c9f"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/seed_basic.smt2",
+      "sha256": "c347478531edc83d6d8d3a604acd10ed48e8b55c798f3fa26e30249b1d23db1d"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/seed_bool_argument_compound.smt2",
+      "sha256": "038e459bbd50c4c293db9050e320ae698ea431c5583b8d39d5926ba7644eb491"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/seed_bool_argument_congruence_unsat.smt2",
+      "sha256": "634a42d6bc79761f4de2eb915f0e7c78ba44acad6bfe6f3619222010c737b3d8"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/seed_bool_argument_converse_unsat.smt2",
+      "sha256": "2fb0eafde53803e3ccb1a406b35d34332bc1b5d65f3bf78faad109690785e95c"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/seed_bool_argument_domain_unsat.smt2",
+      "sha256": "ea1a1e37f97ae929dacc3eb28f047003efebe603b4cddfd9e188f4d24a3c7a17"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/seed_bool_argument_mixed_sort.smt2",
+      "sha256": "803be3d21bbb3f16d0e27f0e272c77bb2d5e7c0e37de5a79a21737d21f9a42d7"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/seed_bool_argument_predicate.smt2",
+      "sha256": "2019010ac73c88aafae27cc88fd9342309043bdfcef356458233d5f10891bffb"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/seed_bool_argument_pure_polarity_unsat.smt2",
+      "sha256": "0fa34dd683af390abff851464287020f0990c2f53c03d45f1fecdc41928d5c24"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/seed_bool_forward_congruence_unsat.smt2",
+      "sha256": "8010f1188dce46381314440437caa0f0f7474587d546a3d3689cd1503995cd56"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/seed_bool_pigeonhole_unsat.smt2",
+      "sha256": "25164eb789565b8a692586531829a7f174b76040132469902107759878971337"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/seeds/qf_uf/seed_bool_result_congruence_unsat.smt2",
+      "sha256": "eda12debe8b38d485d5e1da3ea1c60153212ffc1dbbad1914401a7e2f3bec686"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/smoke/qf_uf/binary_congruence_contradiction.smt2",
+      "sha256": "1ddc04a8bc86f318e03e53052bded5c11e130e3cc6f981e6b5c100f01c79c3f2"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/smoke/qf_uf/direct_equality_contradiction.smt2",
+      "sha256": "e462cc06f3829d7e262c60d1dc43c4f93310ab5746c8822afe7829525b732f8e"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/smoke/qf_uf/euf_retained_equalities_unsat.smt2",
+      "sha256": "56f5ffeed9b3f16574eda7ec7f52949b20e6ecf05ab49ec19e44111926c65e64"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/smoke/qf_uf/sat_model_solved_constant_preprocessing.smt2",
+      "sha256": "d647e70f083c5580fed8acf4281e5877a5ce8fa8570d2b13f8373f57e53ffda0"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/smoke/qf_uf/sat_nested_functions.smt2",
+      "sha256": "30b1e3f890778546e452e68049bb5a808f8e13d412f8cd2b717532420a4902fb"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/smoke/qf_uf/sat_uninterpreted_constants.smt2",
+      "sha256": "a75a15df5279c308fcd85a139e82a947c31ee39fbe1ed3e59b7c8414be9ab40c"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/smoke/qf_uf/unary_congruence_contradiction.smt2",
+      "sha256": "8f9e4b81e717c705cdf175bce6e147c8d1a86d0e2118856026ab76316ea722f8"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/smoke/uf-conflict-ackermann-scopes.smt2",
+      "sha256": "01e5a419accae9b9dbaeebc6180a92f9182511fb88dc8d35ff1e86f2d5c46eaf"
+    },
+    {
+      "logic": "QF_UFLIA",
+      "file": "benchmarks/smoke/uflia-conflict-ackermann.smt2",
+      "sha256": "4d270e7a82d58027ae68fba2b906ec7bb06e05886e39e6f0f2f2014f3ef237dd"
+    },
+    {
+      "logic": "QF_UFLIA",
+      "file": "benchmarks/smoke/uflia-demand-ackermann-nested.smt2",
+      "sha256": "2b9a30f36582dc4071c0b360fa77ba9f0c1b40cb864d1cc3d6123a6e343f1e7d"
+    },
+    {
+      "logic": "QF_UFLIA",
+      "file": "benchmarks/smoke/uflia-demand-ackermann-scopes.smt2",
+      "sha256": "88cdd29e525e0bb8fc424a774183327600a6886c102e7ac51d9d417f31967ceb"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "benchmarks/regressions/qf_uf_overlapping_symmetry_groups.smt2",
+      "sha256": "1d041628f779934889e47762a70daf85c5c6cbe7663afbbe36f6a4d89d479b83"
+    },
+    {
+      "logic": "QF_UF",
+      "file": "/home/janotmik/primo-cadical-profile/tmp/QF_UF/SEQ/SEQ004_size7.smt2",
+      "sha256": "b4d8340c7915d7dff8eee459963ce3af9bad86bbe2fe572e86b8bf5463af461a"
+    },
+    {
+      "logic": "QF_UFLIA",
+      "file": "benchmarks/regressions/qf_uflia_hybrid_fallback_split_budget.smt2",
+      "sha256": "1447b8a5c33e8f2bc32e36ef80577f5b22ace1594595af42c8d85473a336afac"
+    }
+  ]
+}

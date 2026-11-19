@@ -407,3 +407,61 @@ Final scoped acceptance: evidence `543626bc679f`, summary `a38d18463727`, CSV
 running hybrid-repair entry is outside this acceptance). The writer ran sixteen
 workflow/controller tests, lint, strict books and assembled local/Git checks,
 and inspected the rendered result table, cactus and execution-recovery text.
+
+
+## 2026-11-19 hybrid resource repair and branch review record
+
+Independent read-only reviewer `merge_arithmetic_docs_review` accepted the new
+merge-readiness page, updated limit ownership/checklist and qualification record.
+It independently reran the 18-receipt gate audit: 6,000 generated inputs (5,956
+passes, 44 timeouts), 2,096 mutants (2,084 passes, eleven native timeouts and one
+diagnosed private node-limit unknown), and 74 regression measurements. Model
+coverage is 5,512 ordinary models plus 27 scoped SAT queries and two focused
+bounded-input replays: 5,541 direct Dolmen passes. The reviewer checked exact
+arguments, source/native hashes, all model metadata sets, the resource replay,
+141-unit static reports and the focused include-warning correction. Current
+runtime differences from qualified `2d6daadc` are comments and one help literal;
+the regression differs only by its direct `cstddef` include.
+
+No required findings remain. Accepted blobs: report `6a26b4048de2`, LIA chapter
+`80fbc2125573`, hybrid lead `bb9f806d7e5b`, qualification `c8a66f450fcf`, run log
+`c55b439182a2`, TOC `d107df131567`. Subsequent edits to this ledger record only
+acceptance and writer-check bookkeeping. The report distinguishes root source
+self-review from independent documentation/evidence review; it makes no new
+mathematical proof or whole-branch timing claim against `main`. Existing static
+advisories remain. Main integration/publishing is outside this acceptance.
+
+The writer runs lint, the strict books, assembled local/Git links and rendered
+review/limit sections before the final commit. All 281 tracked/new batch scripts
+pass syntax/heredoc validation; sixteen focused workflow/controller tests pass.
+Qualified native/ASan/gate work runs only in SLURM. The exact test/help hygiene
+supplement is job `434152`; the qualified application hash is preserved.
+
+
+The same reviewer accepted the reproduction follow-up: all four frozen cards
+match retained bytes/hashes; the displayed protocol contains executed
+qualification fields only. Inherited timing fields in the preserved campaign
+were unused and imply no new comparator or resource-limit claim. Updated
+accepted blobs were report `adeca594b860`, qualification `cb68bfa198b7`, README
+`3725d800bda0` and ledger `9c6c9005022c`. Later wording changes only replace the
+vague method-input phrase with “flags, seeds and input manifests” and link the
+repository execution procedure.
+
+
+Final writer checks pass: `make lint`, sixteen focused workflow/controller
+metadata tests, 281 batch syntax/heredoc checks, strict `make docs-check-links`
+and a final incremental assembly/link check (310 pages, 47,851 local links,
+1,388 unique Git links, zero failures; 536 external URLs deferred). Chromium
+inspection covers the review findings/qualification and the current hybrid
+ownership/limit sections; the data figure was inspected separately. The
+review source remains qualified `2d6daadc` plus the documented non-behavior
+hygiene changes. No new profile/default promotion or main merge is performed.
+
+
+Final phase-limit recheck accepted qualification `af3698f9ccfe` and run log
+`7e83823dfdb3`: tracked-seed native/reference/model commands use 120 seconds
+and Dolmen 30; generated/mutation model replays use 30/30; focused replay
+limits remain separate. Counts and raw card hashes are unchanged. Final local
+process inspection finds no native/fuzz/batch experiment processes, and the
+remote queue is empty. The documented initial static metadata preparation
+failure is separate from the 26 successful qualification allocations.

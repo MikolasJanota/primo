@@ -8314,10 +8314,10 @@ class OnlineLraPropagator final : public sat::ExternalPropagator {
   bool propagation_enabled_;
   bool row_propagation_enabled_;
   bool bidirectional_row_propagation_enabled_;
-  // The caps enforced by scan_row_based_propagations and the two
   bool theory_decisions_enabled_;
   bool model_phase_enabled_;
   bool model_phase_backtrack_may_change_beta_;
+  // The caps enforced by scan_row_based_propagations and the two
   // compute_implied_*_bound helpers. Held rather than read from options at
   // each use so the propagator stays independent of CheckSatOptions.
   LraRowPropagationLimits row_propagation_limits_;
@@ -10011,10 +10011,10 @@ class ComponentLraExecution final {
   bool propagation_enabled_;
   bool row_propagation_enabled_;
   bool bidirectional_row_propagation_enabled_;
-  // The caps enforced by scan_row_based_propagations and the two
   bool theory_decisions_enabled_;
   bool model_phase_enabled_;
   bool model_phase_backtrack_may_change_beta_;
+  // The caps enforced by scan_row_based_propagations and the two
   // compute_implied_*_bound helpers. Held rather than read from options at
   // each use so the propagator stays independent of CheckSatOptions.
   LraRowPropagationLimits row_propagation_limits_;

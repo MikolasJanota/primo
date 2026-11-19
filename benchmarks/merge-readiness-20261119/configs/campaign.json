@@ -1,0 +1,189 @@
+{
+  "git": "2d6daadc",
+  "sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+  "solver": "/home/janotmik/primo-merge-review-20261119/build-slurm-rel/primo",
+  "roots": {
+    "QF_UF": "/home/janotmik/primo-arithmetic-combinations-20261115/tmp/symmetry-mutation-root",
+    "QF_UFLIA": "/home/janotmik/primo-model-fix/tmp/QF_UFLIA",
+    "QF_LIA": "/home/janotmik/primo-cadical-profile/sandbox/non-incremental/QF_LIA",
+    "QF_LRA": "/home/janotmik/primo-cadical-profile/tmp/QF_LRA",
+    "QF_UFLRA": "/home/janotmik/primo-cadical-profile/tmp/QF_UFLRA"
+  },
+  "configs": "/home/janotmik/primo-merge-review-20261119/tmp/configs",
+  "results": "/home/janotmik/primo-merge-review-20261119/results/qualification",
+  "protocol": {
+    "scope": "Hybrid fresh atom cap lifetime across complete fallback; forced hybrid online/offline + ground controls; allSATDolmen",
+    "baseline_source": "13230b6d (production-equivalent to 690ddc7f)",
+    "baseline_sha256": "39b346b31f830e7c79aeeb3829e9cd469e2ee9399830a26756b4a2d412f6af7e",
+    "candidate_source": "2d6daadc846160756f8633dae41e99cb2a3448c4",
+    "profiles": {
+      "DEFAULT": [
+        "--quiet",
+        "--stats"
+      ],
+      "HYBRID": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0"
+      ],
+      "OFFLINE": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--no-qf-uflia-online-components"
+      ]
+    },
+    "tasks": [
+      {
+        "logic": "QF_LIA",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      {
+        "logic": "QF_LIA",
+        "label": "HYBRID",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0"
+        ]
+      },
+      {
+        "logic": "QF_UFLIA",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      {
+        "logic": "QF_UFLIA",
+        "label": "HYBRID",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0"
+        ]
+      },
+      {
+        "logic": "QF_UFLIA",
+        "label": "OFFLINE",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=hybrid",
+          "--lia-private-branch-factor=0",
+          "--lia-patch-limit=0",
+          "--lia-gomory-cut-limit=0",
+          "--no-qf-uflia-online-components"
+        ]
+      },
+      {
+        "logic": "QF_UF",
+        "label": "DEFAULT",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      }
+    ],
+    "cases": 80,
+    "repetitions": 3,
+    "timeout": 30,
+    "address_space_bytes": 8589934592,
+    "native_rows": 0,
+    "generated_count_per_task": 1000,
+    "generated_seed_base": 20261119300,
+    "mutation_seed_base": 20261119400,
+    "gate_model_limits_seconds": [
+      30,
+      30
+    ],
+    "timing_model_limits_seconds": [
+      180,
+      60
+    ],
+    "selection_sha256": "d45a1b7b777a3aea9ad1b6b321f4249a9e1a25b3a012795da62549a75d2d2100",
+    "timing_note": "Qualification-only configuration; paired timing cards are separate and unsubmitted."
+  },
+  "tasks": [
+    {
+      "logic": "QF_LIA",
+      "label": "DEFAULT",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "HYBRID",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0"
+      ]
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "DEFAULT",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "HYBRID",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0"
+      ]
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "OFFLINE",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=hybrid",
+        "--lia-private-branch-factor=0",
+        "--lia-patch-limit=0",
+        "--lia-gomory-cut-limit=0",
+        "--no-qf-uflia-online-components"
+      ]
+    },
+    {
+      "logic": "QF_UF",
+      "label": "DEFAULT",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    }
+  ],
+  "regression_seeds": "/home/janotmik/primo-merge-review-20261119/tmp/configs/regression-seeds.json",
+  "mutation_candidates": "/home/janotmik/primo-merge-review-20261119/tmp/configs/mutation-candidates.json"
+}
