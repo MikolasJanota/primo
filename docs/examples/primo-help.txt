@@ -230,8 +230,8 @@ Preprocessing options:
                               proportional Real comparisons and equalities before
                               clausification
           --arithmetic-bound-diagnostics [default: off]
-                              Diagnostic: count root-level numeric bound opportunities before
-                              preprocessing; does not install bounds or change search
+                              Diagnostic: count unconditional numeric bound opportunities
+                              before preprocessing; does not install bounds or change search
           --preprocess-bound-tightening [default: off]
                               Infer and assert unconditional arithmetic bounds after lowering
           --preprocess-bound-work-limit UINT [100000]
@@ -466,8 +466,8 @@ QF_LIA theory options:
                               private mode reports Unknown at the cap; hybrid mode restores
                               private bounds and hands off to SAT. Plain branching has no
                               completeness guarantee on unbounded inputs
-          --lia-branching TEXT:{private,hybrid} [private]
-                              Integer branching policy: private or hybrid (default private)
+          --lia-branching [default: hybrid for QF_LIA, private for QF_UFLIA]
+                              Integer branching policy: private or hybrid
           --lia-private-branch-factor UINT:INT in [0 - 100000000] [1]
                               Hybrid private nodes per original Int term (default 1; zero hands
                               off immediately)
@@ -481,9 +481,8 @@ QF_LIA theory options:
                               QF_LIA patching budget, run before the integer refutation stages
                               on every candidate model: caps how many nonbasic moves are taken
                               to nudge Int variables onto integer values. 0 disables patching
-          --lia-cube TEXT:{off,uniform,difference} [off]
-                              Experimental QF_LIA cube model attempt: off, uniform, or
-                              difference (default off)
+          --lia-cube [default: uniform for QF_LIA, off for QF_UFLIA]
+                              QF_LIA cube model attempt: off, uniform, or difference
           --lia-cube-steps UINT:INT in [0 - 100000000] [1000]
                               Repair-step budget of the optional QF_LIA cube solve (default
                               1000)
@@ -499,7 +498,7 @@ QF_LIA theory options:
                               is integer-valued and its thresholds can be rounded
           --no-lia-primitive-int-rows [default: off]
                               Disable --lia-primitive-int-rows; wins over it
-          --lia-integer-slacks [default: on for QF_LIA, off for QF_UFLIA]
+          --lia-integer-slacks [default: off]
                               Treat QF_LIA/QF_UFLIA slacks whose rows are integer polynomials
                               over Int variables as integer variables in patching, GCD tests,
                               cuts and branching

@@ -1063,8 +1063,8 @@ void qf_lia_default_profile_runs_cubes_and_hybrid_with_explicit_opt_outs() {
   options.produce_model = true;
   const auto cube = check_sat_smtlib(R"(
     (set-logic QF_LIA) (declare-const x Int) (declare-const y Int)
-    (assert (<= (+ (* 3 x) y) 9))
-    (assert (not (<= (+ (* 3 x) y) 2))) (check-sat)
+    (assert (<= (+ (* 3 x) (* 5 y)) 17))
+    (assert (not (<= (+ (* 3 x) (* 5 y)) 6))) (check-sat)
   )",
                                      options);
   assert(cube.result == CheckSatResult::Sat);

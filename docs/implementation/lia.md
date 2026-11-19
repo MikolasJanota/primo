@@ -63,10 +63,10 @@ basis. A pivot can move a noninteger auxiliary variable into another row as
 an ordinary term. No integer rule may assume that nonbasic variables are
 integers just because the original input used `Int`. Bjørner and Nachmanson
 §4.1 can make that assumption because it also relies on integral bounds and
-integer-valued auxiliaries. Primo's four integrality switches provide those
-preparation conditions and are enabled by default for QF_LIA. QF_UFLIA keeps
-them off by default, so such configurations still require the conservative
-checks described here. The {ref}`input preparation section <lia-input>` and
+integer-valued auxiliaries. Primo's integrality switches provide those preparation conditions. QF_LIA
+defaults to integer-bound rounding and primitive rows, with explicit
+integer-slack obligations off. QF_UFLIA keeps all four switches off by default,
+so conservative checks remain necessary. The {ref}`input preparation section <lia-input>` and
 [integrality checklist](../papers/mip-presolve-integrality.md) explain the
 implemented switches, their sources and their counters.
 
@@ -805,7 +805,7 @@ of splits in this call but is not a wall-clock or bit-complexity bound on
 the intervening exact arithmetic.
 
 (lia-hybrid-branching)=
-### Opt-in hybrid handoff
+### Hybrid handoff
 
 `--lia-branching=hybrid` enables a partial implementation of Griggio's
 *A Practical Approach to Satisfiability Modulo Linear Integer Arithmetic*,
@@ -1029,7 +1029,7 @@ remaining implementation obligations.
 Extended bounded-variable GCD reasoning, general Diophantine or
 Hermite-normal-form reasoning, cuts within branch nodes, and proof-derived
 splits on linear combinations remain outside the implementation. Ordinary
-semantic-term splits are exposed to SAT by the {ref}`opt-in hybrid handoff
+semantic-term splits are exposed to SAT by the {ref}`hybrid handoff
 <lia-hybrid-branching>`. The optional cube test is
 implemented for pure QF_LIA as described below; its failure is never an
 integer-infeasibility proof. The {ref}`cube-test explanation
@@ -1050,7 +1050,7 @@ admission and combined model construction still need design and validation.
 ## Settings and who sets them
 
 The engine reads its integer settings from one value,
-{settingssource}`LiaSettings <src/smt/lia_settings.hpp>`. It has one field
+{qfliadefaultsource}`LiaSettings <src/smt/lia_settings.hpp>`. It has one field
 for each row of the {ref}`budget table <lia-limits>`, for example
 `patch_limit` for `--lia-patch-limit` and `primitive_int_rows` for
 `--lia-primitive-int-rows`.
@@ -1071,12 +1071,12 @@ Choosing the values is a separate step. In the order the data flows:
    calls `resolve_lia_settings` once for each route that runs the engine:
    `LiaRoute::QfLia` and `LiaRoute::QfUflia`. The declared logic selects the
    route, so a route default is a per-logic default.
-3. The {settingssource}`policy <src/smt/lia_settings_policy.cpp>` starts from
+3. The {qfliadefaultsource}`policy <src/smt/lia_settings_policy.cpp>` starts from
    `default_lia_settings(route)` and applies every override that is set. An
    explicit value therefore wins over the route default, except that the
    experimental cube controls are applied only to the QF_LIA route.
 
-The {settingssource}`policy <src/smt/lia_settings_policy.cpp#L7-L20>` gives
+The {qfliadefaultsource}`policy <src/smt/lia_settings_policy.cpp#L7-L20>` gives
 QF_UFLIA the engine defaults, `LiaSettings{}`. QF_LIA uses **M124 + uniform
 cubes + hybrid branching**: integer-bound rounding, primitive rows and integral
 patch moves are on; explicit integer-slack obligations are off. The
@@ -1100,7 +1100,7 @@ wrong answer and no invalid model (run-log entry
 {source}`run log <docs/run-log.json>`).
 
 The `--help` text takes each switch's default from `default_lia_settings`
-({settingssource}`lia_route_default_text <src/main.cpp#L200-L209>`). It shows
+({qfliadefaultsource}`lia_route_default_text <src/main.cpp#L201-L209>`). It shows
 per-route values for the Boolean switches, branching and cube mode, and follows any later policy
 change. The default column of the table above and the CLI help snapshot
 must still be updated by hand. The documentation checks compare the snapshot
@@ -1113,7 +1113,7 @@ route runs ({ref}`tactics-lia-settings`). That holds only while
 `lia_strategy_parameters` renders every field, so a new setting must be added
 there too.
 
-Three regressions in {settingssource}`tactic_tests.cpp <tests/unit/tactic_tests.cpp#L1158-L1280>`
+Three regressions in {qfliadefaultsource}`tactic_tests.cpp <tests/unit/tactic_tests.cpp#L1243-L1437>`
 pin this design:
 
 - `lia_settings_policy_resolves_route_defaults_and_overrides` checks both
@@ -1129,9 +1129,9 @@ pin this design:
   patch budget of 0 then disables it.
 
 The stage tests in
-{settingssource}`qf_lia_solver_tests.cpp <tests/unit/qf_lia_solver_tests.cpp#L19-L36>`
+{qfliadefaultsource}`qf_lia_solver_tests.cpp <tests/unit/qf_lia_solver_tests.cpp#L19-L36>`
 run under `set-logic QF_LIA`, but they test the engine's stages with the
-switches off. They therefore build their options from `engine_defaults()`
+switches, cubes and hybrid off. They therefore build their options from `engine_defaults()`
 rather than taking the route default.
 
 (lia-models-evidence)=

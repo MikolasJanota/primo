@@ -56,7 +56,8 @@ paired baseline for a new implementation. M124 enables integer-bound rounding,
 primitive integer rows and integral patch moves, with integer slack obligations
 disabled. Its explicit flags are `--lia-round-integer-bounds`,
 `--lia-primitive-int-rows`, `--no-lia-integer-slacks`, and
-`--lia-patch-integral-moves`. QF_LIA's current default enables all four.
+`--lia-patch-integral-moves`. The default at the original study revision enabled all four; the current
+QF_LIA policy uses M124 with uniform cubes and hybrid branching.
 The [existing comparison](../evidence/qf-lia-progress.md) identifies the
 13,306-file corpus and {download}`benchmark metadata <../../benchmarks/qf-lia-m124-cactus-20261104.json>`.
 Before selecting either manifest, verify the full relative-path/content-hash

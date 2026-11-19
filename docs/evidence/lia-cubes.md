@@ -136,7 +136,7 @@ batch-step RSS of `9717264K` (about 9.27 GiB) for timing and `4861608K` (about
 profiles, not per-instance or cgroup-total measurements. All 1,000 timing and
 1,000 model batch steps completed with exit status zero.
 
-The implementation remains experimental and off by default. The full comparison
+At the measured revision the implementation was experimental and off by default. The full comparison
 covers the M124 configurations; default-setting cubes have the separate
 200-input development evidence below. General octagons, mixed cubes and integer
 equality-basis elimination remain unimplemented.
@@ -200,7 +200,7 @@ processes and post-answer errors cannot count as solved.
 M124 enables integer-bound rounding, primitive integer rows and integral patch
 moves, with integer-slack obligations disabled. Its flags are
 `--lia-round-integer-bounds --lia-primitive-int-rows --no-lia-integer-slacks
---lia-patch-integral-moves`. The QF_LIA default enables rounding, primitive rows,
+--lia-patch-integral-moves`. The QF_LIA default at the measured revision enabled rounding, primitive rows,
 integral patch moves and integer-slack obligations.
 Each cube profile uses `--lia-cube=uniform` or `--lia-cube=difference`, with
 `--lia-cube-steps=1000`. All other completion budgets retain their source defaults.
@@ -218,7 +218,7 @@ when the whole completion returns, so an unfinished cut/branch tail can hide an
 earlier cube attempt. The recorded helper times, about 0.61 seconds total per
 M124 cube arm, also exclude SMT snapshot construction. They do not bound the
 feature's full cost. The full-corpus timings above measure the net benefit;
-the feature remains experimental and off by default.
+the feature was experimental and off by default at that revision.
 
 ## Correctness qualification
 
