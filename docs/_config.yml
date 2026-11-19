@@ -35,6 +35,9 @@ sphinx:
   config:
     bibtex_reference_style: label
     extlinks:
+      eufgrowthsource:
+        - "https://github.com/primo-solver/primo/blob/59d81fee55ae861ea7fe022b5602450013a57cd0/%s"
+        - "%s"
       conflictacksource:
         - "https://github.com/primo-solver/primo/blob/13230b6da2801244baee4d60848ccfda092694e7/%s"
         - "%s"
@@ -77,6 +80,9 @@ sphinx:
       source:
         - "https://github.com/primo-solver/primo/blob/c944fa790c2043ebac93b8d6f63c7b02b0c2c235/%s"
         - "%s"
+      hybridfallbacksource:
+        - 'https://github.com/primo-solver/primo/blob/2d6daadc846160756f8633dae41e99cb2a3448c4/%s'
+        - '%s'
       hybridsource:
         - "https://github.com/primo-solver/primo/blob/cd258f6ae4f690609132a402bb6454ddb40335b7/%s"
         - "%s"

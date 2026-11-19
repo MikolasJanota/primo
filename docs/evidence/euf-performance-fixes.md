@@ -8,11 +8,13 @@ full audit. Mechanical changes give a modest targeted UF gain; demand atoms
 regress. Additional paired regression repetitions confirm the demand regressions.
 Defaults stay unchanged.
 
-**New correctness blocker:** the later full SMT-COMP selection found a wrong
-UNSAT answer in UF symmetry preprocessing, shared by both compared binaries.
-The broader evaluation is stopped. The historical pilot below remains evidence
-for its tested inputs, not merge readiness; the
-[symmetry-composition repair](../leads/uf-symmetry-composition.md) is being qualified.
+**Broader follow-up completed:** the first full SMT-COMP attempt stopped on a
+wrong UNSAT in UF symmetry preprocessing, shared by both compared binaries.
+The [symmetry-composition repair](../leads/uf-symmetry-composition.md) and corrected
+comparator are separately qualified. The fresh full comparison passes all
+8,424 timing-row checks and all 4,020 exact-profile SAT-model validations.
+Its results appear below. The historical pilot below remains
+evidence for its tested inputs, not whole-branch merge readiness.
 
 The [implementation checklist](../leads/euf-performance-fixes.md) and
 [EUF representation](../implementation/euf.md#conflict-selected-ackermann-prototype)
@@ -305,7 +307,7 @@ thresholds as the initial selection.
 
 ## Full SMT-COMP selection follow-up
 
-Status: restarted after repairing a confirmed wrong answer. The earlier
+Status: completed and independently model-validated after repairing a confirmed wrong answer. The earlier
 comparison stopped before model validation or performance acceptance and must
 not be used for a speed claim. The [symmetry-composition repair](../leads/uf-symmetry-composition.md)
 is qualified in `59d81fee`; corrected comparator `0647d85a` has passed its own
@@ -328,10 +330,11 @@ for these two logics, not the complete SMT-LIB corpus or all competition logics.
 Each problem receives three paired BASE/OFF repetitions at 120 seconds and
 8 GiB per native process: 8,424 measurements. Pair order reverses by problem
 index and repetition. Six 702-case arrays request one CPU per task, with twelve
-concurrent tasks per array. Native timings, RSS, outcomes and printed mechanism
+concurrent tasks per array initially; the tail scheduling adjustment is recorded
+below. Native timings, RSS, outcomes and printed mechanism
 counters are retained per row. Unsolved outcomes receive a 240-second PAR2
-penalty. Results will include both logic- and family-level summaries, paired
-runtimes, gains/losses and repeatable regressions.
+penalty. The retained results include logic- and family-level summaries, paired
+runtimes, gains/losses and the predeclared regression selection.
 
 The {download}`configuration generator <../../scripts/qualification/euf_smtcomp/configure.py>`
 creates public selection/protocol records and private run cards. The
@@ -349,7 +352,7 @@ Fresh generated/mutation/seed gates qualify both repaired executables, with
 separate qualification records in the repair note. The
 {download}`restarted protocol <../../benchmarks/euf-smtcomp2026-20261118/protocol-repaired.json>`
 freezes the new identities; the earlier protocol remains a record of the
-canceled attempt. Full timing and model results remain pending. This measures
+canceled attempt. Full timing and model audits now pass. This measures
 subsequent EUF changes against the corrected `13230b6d` baseline, rather than
 the entire branch against `main`. Archived reference context remains reusable
 when input hashes and resource provenance match.
@@ -379,3 +382,106 @@ suffix while rejecting element-specific dependencies. The regression test uses
 the observed form. A fresh result directory isolates the retry; no partial
 first-attempt timing enters the accepted comparison and no model stage ran in
 that attempt.
+
+
+### Completed 120-second comparison
+
+The {download}`final summary <../../benchmarks/euf-smtcomp2026-20261118/summary.json>`,
+{download}`native rows <../../benchmarks/euf-smtcomp2026-20261118/native-rows.csv>`,
+{download}`receipt hashes <../../benchmarks/euf-smtcomp2026-20261118/receipts.json>`
+and {download}`compact tables <../../benchmarks/euf-smtcomp2026-20261118/tables.json>`
+record the accepted coverage. BASE is corrected comparator `0647d85a`; OFF is
+`59d81fee`, with conflict Ackermann disabled. These are the exact binaries
+qualified in the repair note; the later optional hybrid-resource repair was
+not measured here. All 8,424 native rows pass both remote and local audits;
+all 4,020 successful SAT measurements pass separate exact-profile replays,
+internal model checking and Dolmen. No wrong answers, crashes, unsupported
+results or native errors occur; 246 measurements time out, evenly split
+between the two profiles. Model-checking time is excluded from timings.
+
+| Logic | Solved per repetition, BASE / OFF | Mean PAR2 (s), BASE / OFF | Paired ratio on slower cases | Median RSS (MiB), BASE / OFF |
+| --- | ---: | ---: | ---: | ---: |
+| QF_UF | 1104 / 1104 | 0.54738 / 0.52360 | 0.9473 (135 cases) | 11.09 / 11.12 |
+| QF_UFLIA | 259 / 259 | 35.32350 / 35.33311 | 1.0044 (71 cases) | 11.81 / 12.25 |
+
+The conditional ratio is the geometric mean of each case's median paired
+OFF/BASE ratio, restricted to cases solved in all repetitions whose BASE
+median is at least one second. It describes that subset, without a significance
+estimate. Both profiles solve the same 1,363 of 1,404 unique inputs. There are
+no stable gains or losses and no cases meeting the predeclared repeated
+regression threshold, so no extra regression repetitions were required. The
+full-set UF effect supports a modest mechanical gain, not a large new solving
+capability. UFLIA remains neutral at this precision.
+
+Peak RSS is 370.68 / 370.36 MiB for UF and 2866.58 / 2866.95 MiB for UFLIA
+(BASE / OFF). Successful-row counters agree across profiles for merges,
+congruence/BFS explanation edges, SAT conflicts/decisions/propagations, theory
+conflicts and integer branch nodes wherever both print them. The source's
+mechanical changes reduce overhead without changing these measured search
+counts. Counter availability is explicit: for example SAT counters cover
+3,249 of 3,312 successful UF rows and integer branch nodes cover 774 of 777
+successful UFLIA rows. Missing values are unavailable, not zero. Gauge sums in
+the detailed export are diagnostic totals, not event counts.
+
+| Logic / family | Solved / total per repetition (both profiles) | Mean PAR2 (s), BASE / OFF |
+| --- | ---: | ---: |
+| QF_UF / 20170829-Rodin | 2 / 2 | 0.00848 / 0.00840 |
+| QF_UF / 2018-Goel-hwbench | 101 / 101 | 0.28699 / 0.28691 |
+| QF_UF / 20190906-CLEARSY | 3 / 3 | 0.01047 / 0.01068 |
+| QF_UF / NEQ | 7 / 7 | 5.76420 / 5.55414 |
+| QF_UF / PEQ | 4 / 4 | 3.74911 / 3.34827 |
+| QF_UF / QG-classification | 961 / 961 | 0.53915 / 0.51508 |
+| QF_UF / SEQ | 7 / 7 | 0.22962 / 0.22298 |
+| QF_UF / eq_diamond | 19 / 19 | 0.01017 / 0.01042 |
+| QF_UFLIA / 20230314-Jaroslav-Bendik-Certora | 7 / 37 | 198.20190 / 198.19857 |
+| QF_UFLIA / mathsat | 191 / 202 | 15.41679 / 15.42979 |
+| QF_UFLIA / wisas | 61 / 61 | 2.44902 / 2.45523 |
+
+The reference rows are archived context, not fresh paired runs. At the same
+120-second censoring threshold, archived solved counts are:
+
+| Logic | Primo current | Z3 | cvc5 | Yices | OpenSMT |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| QF_UF | 1104 | 1104 | 1103 | 1104 | 1103 |
+| QF_UFLIA | 259 | 282 | 276 | 284 | 277 |
+
+```{figure} ../../benchmarks/euf-smtcomp2026-20261118/cactus.svg
+:name: euf-smtcomp-full-cactus
+:alt: Separate UF and UFLIA cactus curves for two Primo versions and four archived references.
+
+Full selected set at 120 seconds. Primo curves use median runtimes over three
+repetitions, assigning infinity to an unsolved run; at least two successes are
+needed. References use their single archived runs. See the
+{download}`plotter <../../scripts/qualification/euf_smtcomp/plot.py>` and
+{download}`figure provenance <../../benchmarks/euf-smtcomp2026-20261118/cactus.json>`.
+```
+
+### Execution and audit recovery
+
+Native arrays `425674`–`425679` completed all 4,212 paired allocations. Timing
+audit `429904`, model arrays `429905`–`429910` and final audit `430509` completed
+successfully. The {download}`execution notes <../../benchmarks/euf-smtcomp2026-20261118/execution-notes.json>`
+retain limits, job IDs, raw-artifact locations and the recovery details.
+
+The first timing audit (`425720`) encountered a Python 3.9 incompatibility in
+report generation, after checking the native rows. Its model arrays were
+canceled before starting; no native timings were rerun. The audit now uses
+Python 3.11.7. The launcher's `--reuse-completed-native` path verifies every
+native allocation completed successfully and every old model allocation was
+canceled with zero elapsed time before submitting a fresh audit and fresh model
+stages. Tests cover rejection of incomplete native or started old model jobs.
+The terminal local audit independently rechecks native receipts and complete
+model coverage.
+
+Initially six arrays allowed twelve concurrent tasks each (ceiling 72). After
+four arrays finished, the remaining master throttles were 36 and 12 (ceiling
+48). The first scheduling update applied but returned nonzero for already
+finished child ranges, stopping the second update. Per-case CPU, memory and
+time limits did not change. This scheduler diagnostic is separate from native
+outcomes; original run cards and timing data are preserved. The tail throttles
+and nonzero update are contemporaneous operator observations: their `scontrol`
+output was not retained as a standalone receipt, so independent review checks
+the stated ceiling arithmetic rather than recertifying those observations.
+The original {download}`audit traceback <../../benchmarks/euf-smtcomp2026-20261118/old-timing-audit.txt>`
+and {download}`unstarted-model accounting <../../benchmarks/euf-smtcomp2026-20261118/unstarted-model-accounting.txt>`
+are retained separately.

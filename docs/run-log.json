@@ -7,7 +7,7 @@
       "date": "2026-11-19",
       "branch": "lia-integrality",
       "kind": "Restart full UF/UFLIA SMT-COMP selected-set comparison on independently qualified repaired sources",
-      "evidence_status": "Running; no accepted new speed claim. All model jobs wait for global timing audit.",
+      "evidence_status": "Completed native and full SAT-model audits; final independent evidence review accepted after EFS2-3 repairs, with stated tail-scheduling receipt limitation.",
       "selection": "benchmarks/euf-smtcomp2026-20261118/selection.json",
       "protocol": "benchmarks/euf-smtcomp2026-20261118/protocol-repaired.json",
       "native_profiles": {
@@ -33,25 +33,172 @@
         "QF_UFLIA": 300,
         "repetitions": 3,
         "profiles": 2,
-        "native_rows": 8424
+        "native_rows": 8424,
+        "SAT_Dolmen_pass": 4020,
+        "unique_solved_both": 1363,
+        "total_unique": 1404,
+        "native_timeouts": 246,
+        "native_errors": 0,
+        "wrong_answers": 0,
+        "invalid_models": 0
       },
       "qualification": "2026-11-19-uf-symmetry-composition-repair; both sources fresh correctness qualified before launch.",
       "execution": "SLURM only; helper --check-only before every held/verified/released array;120s/8GiB/native;three paired repetitions;separate allSAT native180s/Dolmen60s checks after all timing; archived references only, no new reference benchmark executions.",
       "baseline_scope": "13230b6d plus shared symmetry/mixed-fact correctness repairs; subsequent EUF optimization comparison, not whole branch against main.",
       "raw_artifacts": "results/euf-smtcomp2026-20261118/attempt3, configs-attempt3; private jobs.json/submission receipts/watch log; no rows from canceled attempts reused.",
       "correctness_policy": "Cancel on wrong answer/crash/unexplained error/reference disagreement/invalid model; missing model coverage blocks full acceptance.",
-      "remaining": "Await native and model audits; analyze solved/PAR2/paired runtime/RSS/counters and regressions; publish qualified evidence then complete full branch review.",
+      "remaining": "Finish source review and independently qualified optional hybrid fallback resource repair; commit reviewed evidence. No merge/push.",
       "documentation_review": {
         "reviewer": "conflict_ack_docs_review, independent read-only",
-        "verdict": "Ready; no required findings. Separately recomputed baseline counts, model total, resource unknown guard and active protocol/global model dependencies. Candidate proof acceptance retained. Timing and whole-branch readiness outside scope.",
         "accepted_blobs": {
           "lead": "858d32fa9f66",
           "evidence": "79cb190e5f45",
           "baseline_qualification": "8983caa9e06e",
           "repaired_protocol": "9dfedff298c1"
-        }
+        },
+        "methods_verdict": "Ready; no required findings. Separately recomputed baseline counts, model total, resource unknown guard and active protocol/global model dependencies. Candidate proof acceptance retained. Timing and whole-branch readiness outside scope.",
+        "final_verdict": "Ready; all required findings resolved. Recomputed all8424native/4020Dolmen/4212receipt/CSV/pooled-family/PAR2/RSS/paired/counters/plot facts; tail throttle observations not independently recertified."
       },
-      "checks": "make lint; make docs; assembled-site local/Git links309pages/47473local/1384Git/zero failures;534externalURLs deferred. Updated status/qualification rendered and visually inspected. SourceCPPunchanged from qualified59d81fee; separate baseline native/ASan/gates in linked artifact."
+      "checks": "make lint;16focused workflow/controller tests; strict docs/local-Git links and rendered evidence/cactus checks. Final incremental rebuild/bookkeeping link check follows acceptance.",
+      "artifacts": {
+        "summary": "benchmarks/euf-smtcomp2026-20261118/summary.json",
+        "native_rows": "benchmarks/euf-smtcomp2026-20261118/native-rows.csv",
+        "receipts": "benchmarks/euf-smtcomp2026-20261118/receipts.json",
+        "tables": "benchmarks/euf-smtcomp2026-20261118/tables.json",
+        "cactus": "benchmarks/euf-smtcomp2026-20261118/cactus.svg",
+        "figure_provenance": "benchmarks/euf-smtcomp2026-20261118/cactus.json",
+        "execution_notes": "benchmarks/euf-smtcomp2026-20261118/execution-notes.json"
+      },
+      "jobs": {
+        "native_jobs": [
+          "425674",
+          "425675",
+          "425676",
+          "425677",
+          "425678",
+          "425679"
+        ],
+        "timing_audit": "429904",
+        "model_jobs": [
+          "429905",
+          "429906",
+          "429907",
+          "429908",
+          "429909",
+          "429910"
+        ],
+        "final_audit": "430509",
+        "acceptance": "All 8424 native rows and 4020 exact-profile SAT Dolmen replays pass remote and local final audits.",
+        "native_limits": {
+          "seconds": 120,
+          "address_space_bytes": 8589934592,
+          "requested_CPUs_per_pair": 1,
+          "allocated_logical_CPU_affinity": 2,
+          "SLURM_memory_GiB": 10
+        },
+        "scheduling": {
+          "initial": "Six arrays, twelve concurrent tasks each; ceiling72.",
+          "tail": "Four arrays completed. 425677 master throttle36 applied; 425679 stayed12; actual tail ceiling48. scontrol returned nonzero for completed child ranges after applying the first master update, so second update was not attempted.",
+          "native_limits_changed": false,
+          "evidence_limit": "Tail36+12 and nonzero update are contemporaneous operator observations. The scontrol output was not retained as a standalone receipt; independent review checks arithmetic/limits, not those observations."
+        },
+        "audit_restart": {
+          "old_timing_audit": "425720",
+          "cause": "System Python3.9 rejected zip(strict=True) in report generation after native row checks. No native timing failed or was rerun.",
+          "old_model_jobs": [
+            "425721",
+            "425722",
+            "425763",
+            "425764",
+            "425765",
+            "425766"
+          ],
+          "old_models": "Canceled without starting; every model allocation elapsed0.",
+          "old_final_audit": "425807 failed because coverage was absent.",
+          "repair": "Audit uses Python3.11.7; launcher validates all completed native allocations and unstarted canceled old model allocations before starting fresh audit/model stages.",
+          "local_watch_log": "results/euf-smtcomp2026-20261118/watch-model-restart1.log",
+          "traceback": "old-timing-audit.txt",
+          "old_model_coverage": "unstarted-model-accounting.txt"
+        },
+        "raw_remote": "/home/janotmik/primo-arithmetic-combinations-20261115/results/euf-smtcomp2026-20261118/attempt3/raw",
+        "local_audit": "results/euf-smtcomp2026-20261118/attempt3/local-audit-restart1",
+        "reference_policy": "5616 archived reference rows reused; no new reference benchmarks.",
+        "source_qualification": "symmetry-candidate-qualification.json and baseline-qualification.json",
+        "scope": "Default-private EUF mechanical changes relative to corrected13230b6d; not whole-branch-vs-main performance."
+      },
+      "results": {
+        "QF_UF": {
+          "solved_each_profile_each_repetition": 1104,
+          "mean_PAR2_BASE": 0.5473794353864734,
+          "mean_PAR2_OFF": 0.5235955688405797,
+          "conditional_paired_geomean": 0.9472996187107704,
+          "eligible_cases": 135
+        },
+        "QF_UFLIA": {
+          "solved_each_profile_each_repetition": 259,
+          "mean_PAR2_BASE": 35.32350316666667,
+          "mean_PAR2_OFF": 35.333111958888885,
+          "conditional_paired_geomean": 1.0043630354546058,
+          "eligible_cases": 71
+        },
+        "stable_gains": 0,
+        "stable_losses": 0,
+        "regression_followups": 0,
+        "interpretation": "Modest UF mechanical gain without extra solves; UFLIA neutral. No new default promotion; demand/emission remain off."
+      }
+    },
+    {
+      "id": "2026-11-19-hybrid-fallback-split-budget-review",
+      "date": "2026-11-19",
+      "branch": "lia-integrality",
+      "kind": "Fresh merge review resource-accounting repair",
+      "evidence_status": "Implemented; SLURM qualification running, not yet accepted. Default-private timing evidence remains pinned59d81fee.",
+      "source": {
+        "git": "2d6daadc846160756f8633dae41e99cb2a3448c4",
+        "sha256": "78be87d40ae00fddcecaa6ce4ad6b1da55b98f1277c0072471f094d23a2cb62f",
+        "work": "/home/janotmik/primo-merge-review-20261119",
+        "snapshot": "/tmp/primo-merge-review-20261119/source"
+      },
+      "basis": "Primo resource policy; ownership checklist docs/leads/lia-hybrid-branching.md. No new paper algorithm.",
+      "pre_fix": {
+        "native_git": "59d81fee55ae861ea7fe022b5602450013a57cd0",
+        "native_sha256": "0b555c97c9025cc6ed43ca7833ca253aef5ccd23b82533bd5a1812aa749baf03",
+        "jobs": [
+          "434120",
+          "434122"
+        ],
+        "bounded_fixture": "benchmarks/regressions/qf_uflia_hybrid_fallback_split_budget.smt2",
+        "bounded_outcomes": {
+          "CAP1": "unknown;unique2;peak1;fallback1",
+          "CAP2": "unknown;unique3;peak2;fallback1",
+          "UNLIMITED": "SAT;unique4;peak3;fallback1;Dolmen PASS",
+          "OFFLINE-CAP1": "unknown;unique2;peak1;fallback1",
+          "COMPLETE-CAP1": "unknown;unique1;peak1;fallback0"
+        },
+        "unbounded_probe": "Unlimited timed out at30s; no termination guarantee. Resource probes diagnostic, not timing claims.",
+        "artifacts": "results/merge-readiness-20261118/split-budget-probe{,-bounded}/collected"
+      },
+      "repair": "Top-level public call owns fresh atom consumption shared by recursive complete fallback; semantic-bound maps/literals stay backend-local; peak includes live fallback backends. New public invocation resets consumption.",
+      "jobs": {
+        "verify": "434125",
+        "static": "434127",
+        "seeds": "434128",
+        "generated": "434129",
+        "mutations": "434130"
+      },
+      "static_retry": {
+        "failed_job": "434127",
+        "cause": "Full tracked inventory included archived logs omitted by workspace helper, so git add failed before scanning.",
+        "retry_job": "434131",
+        "repair": "Filter generated/archive-excluded logs/build/results/contrib/src/downloads/tmp; retain all141 tracked non-generated C++ units."
+      },
+      "artifacts": "results/merge-readiness-20261118/hybrid-budget-repair; isolated remote /home/janotmik/primo-merge-review-20261119",
+      "scope": "49 native tests, Python suite,49 ASan groups; all141CPP tidy/include; six fresh1000-case profiles (LIAprivate/hybrid,UFLIAprivate/hybridonline/hybridoffline,UFdefault), real-seed mutations, regression/model gates; focused capped/unlimited/complete replays.",
+      "documentation_review": {
+        "reviewer": "merge_arithmetic_docs_review, read-only",
+        "findings": "HBF-DOC-01 pinned source links and HBF-DOC-02 pending-stage distinction resolved. Ownership claims accepted; qualification pending."
+      },
+      "remaining": "Await verification/generated/mutation/model/static results; update evidence, rerender docs, review and commit."
     },
     {
       "id": "2026-11-19-uf-symmetry-composition-repair",
@@ -276,7 +423,7 @@
         "diagnostic": "model: inconsistent final component equalities; solver exit2 during separate get-model replay",
         "isolation": "414923: all three fail demand with default/legacy/model-unit equality producers. VdMO9 passes baseline132 and current OFF/ON with model-unit; other two OFF profiles timeout30s. Original answer comparison agrees SAT withZ3. No claim of pre-existing failure.",
         "artifacts": "results/euf-performance-20261118/raw/qualification-final/mutations/task-19; results/euf-performance-20261118/triage/model-unit; remote model-triage receipt",
-        "status": "Historical sourceabb4 failure; diagnosed and repaired in6e53a710. Current-source broad qualification is complete; timing evaluation remains pending.",
+        "status": "Historical sourceabb4 failure; diagnosed and repaired in6e53a710. Its broad qualification and subsequent5862-row timing/2753-model audit are complete, as recorded below. The later full-selection symmetry failure/repaired restart is a separate entry.",
         "cause": "Mixed online pure filtering omitted false positive-only generated equalities; complete-arrangement reused the filtered closure but model export retained every assignment. Full checker already usesOff; repaired online_options_ also usesOff, including explicitOn, while standalone behavior is unchanged.",
         "repair_artifact": "benchmarks/euf-performance-20261118/model-fact-repair.json"
       },

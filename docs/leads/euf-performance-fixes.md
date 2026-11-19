@@ -65,13 +65,16 @@ queue after the backend has unwound; the mixed component route hands requests
 to the recipe's existing growth boundary. Existing atoms cost zero budget;
 rebuilding a component preserves query consumption, while a new query resets it.
 
-The existing {conflictacksource}`clausifier and registration callers
-<src/smt/solver_engines.cpp>` and
-{conflictacksource}`component recipe driver <src/smt/component_solver.cpp>`
-are the integration owners. Factor ordinary equality registration from the
-interface-specific wrapper; call
-{conflictacksource}`Nelson–Oppen registration <src/smt/theory_combination.cpp>`
-only when both terms really are interface members. This mapping is implemented by the query-owned growth hooks in `CombinationRecipe`; integrated correctness qualification passes on `6e53a710`.
+The {eufgrowthsource}`standalone registration callers <src/smt/solver_engines.cpp>`,
+{eufgrowthsource}`component recipe driver <src/smt/component_solver.cpp>` and
+{eufgrowthsource}`AckermannGrowthState::drain <src/smt/conflict_ackermann.cpp>`
+own this integration. The component driver delegates shared-pair naming to its
+existing interface materialization path only when both terms are eligible;
+other equalities use ordinary clausifier registration. Query-owned growth hooks
+in `CombinationRecipe` carry requests across execution rebuilds. Integrated
+correctness qualification passes on `6e53a710`; the linked current source also
+contains the separately qualified symmetry repair.
+
 
 ## Mechanical milestone qualified for correctness
 

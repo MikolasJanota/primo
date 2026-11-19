@@ -1,0 +1,11 @@
+{
+  "matplotlib": "3.11.2",
+  "figure": "benchmarks/euf-smtcomp2026-20261118/cactus",
+  "inputs_sha256": {
+    "benchmarks/euf-smtcomp2026-20261118/native-rows.csv": "2fd029fada12b994511bde9cccdd5c3bc13932f65b2090839f903671083846f6",
+    "benchmarks/euf-smtcomp2026-20261118/archived-references.csv": "d38c15626ef3bd6be59a9a40b1e20efb794459ea6849bbf2beb77058a2ad86c5",
+    "benchmarks/euf-smtcomp2026-20261118/summary.json": "2035b1415a75ae8f8b5bf9a2d355d82a982101c8f774cc4fe71dae206f479f2c"
+  },
+  "native_semantics": "Median of three; unsolved infinity; at least two successes.",
+  "reference_semantics": "Archived single runs censored at120s; context only."
+}

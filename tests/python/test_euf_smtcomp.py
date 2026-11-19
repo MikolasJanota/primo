@@ -8,14 +8,122 @@ import tempfile
 import types
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 from scripts.qualification.bound_propagation.analyze import sha
+from scripts.qualification.euf_smtcomp import launch as launch_module
 from scripts.qualification.euf_smtcomp.audit import ROOT, audit, describe
 from scripts.qualification.euf_smtcomp.references import export as reference_export
 from scripts.qualification.euf_smtcomp.symmetry_audit import decisive, sat_models
 
 
 class EufSmtcompTests(unittest.TestCase):
+    def test_native_reuse_requires_every_clean_completed_allocation(self):
+        jobs = [str(n) for n in range(10, 16)]
+        accounting = "".join(f"{j}_{s}|COMPLETED|0:0\n" for j in jobs for s in range(3))
+        launch_module.completed_native(accounting, jobs, 3)
+        for bad in (
+            accounting.split("\n", 1)[1],
+            accounting.replace("COMPLETED", "RUNNING", 1),
+            accounting.replace("0:0", "1:0", 1),
+        ):
+            with self.assertRaises(AssertionError):
+                launch_module.completed_native(bad, jobs, 3)
+
+    def test_model_reuse_requires_complete_unstarted_allocation_coverage(self):
+        jobs = [str(n) for n in range(20, 26)]
+        accounting = "".join(f"{j}_[0-1,2%12]|CANCELLED|0:0|0\n" for j in jobs)
+        launch_module.unstarted_models(accounting, jobs, 3)
+        expanded = "".join(f"{j}_{i}|CANCELLED|0:0|0\n" for j in jobs for i in range(3))
+        launch_module.unstarted_models(expanded, jobs, 3)
+        for bad in (
+            accounting.replace("[0-1,2%12]", "0", 1),
+            accounting.split("\n", 1)[1],
+            accounting.replace("|0\n", "|1\n", 1),
+            accounting.replace("CANCELLED", "RUNNING", 1),
+            accounting + accounting.splitlines()[0] + "\n",
+            accounting.replace("[0-1,2%12]", "[0-3]", 1),
+            accounting.replace("[0-1,2%12]", "[2-0]", 1),
+        ):
+            with self.subTest(accounting=bad), self.assertRaises(AssertionError):
+                launch_module.unstarted_models(bad, jobs, 3)
+
+    def test_native_only_restart_keeps_global_model_barrier_and_saved_timings(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            configs = root / "configs"
+            configs.mkdir()
+            (configs / "protocol.json").write_text(
+                json.dumps({"cases": 1404, "native_rows": 8424, "chunk_size": 702})
+            )
+            jobs = [str(n) for n in range(10, 16)]
+            old = root / "previous.json"
+            old.write_text(
+                json.dumps(
+                    {
+                        "native_rows": 8424,
+                        "timing": jobs,
+                        "models": [str(n) for n in range(20, 26)],
+                    }
+                )
+            )
+            native = "".join(
+                f"{j}_{s}|COMPLETED|0:0\n" for j in jobs for s in range(702)
+            )
+            models = "".join(f"{j}_[0-701]|CANCELLED|0:0|0\n" for j in range(20, 26))
+            args = types.SimpleNamespace(
+                configs=configs,
+                state=root / "restart/jobs.json",
+                reuse_completed_native=old,
+                ssh_config=Path("/cfg"),
+                remote="remote",
+                snapshot=Path("/snapshot"),
+                workdir="/work",
+                environment="/env",
+                remote_configs="/cards",
+                remote_methods="/methods",
+                results="/result",
+                audit_results="/audits",
+            )
+            calls = []
+
+            def submit(namespace):
+                calls.append(namespace)
+                return str(1000 + len(calls))
+
+            with (
+                patch.object(
+                    launch_module.subprocess,
+                    "check_output",
+                    side_effect=[native, models],
+                ),
+                patch.object(launch_module.subprocess, "run"),
+                patch.object(launch_module, "submit", side_effect=submit),
+            ):
+                launch_module.launch(args)
+            self.assertEqual(
+                [x.phase for x in calls],
+                [
+                    "timing-audit",
+                    *[f"models-{r}-{c}" for r in range(3) for c in range(2)],
+                    "final-audit",
+                ],
+            )
+            self.assertIsNone(calls[0].after)
+            self.assertTrue(all(x.after == "1001" for x in calls[1:7]))
+            self.assertEqual(calls[0].exports["PRIMO_EUF_ROWS"], "/result/raw")
+            self.assertEqual(
+                calls[0].exports["PRIMO_EUF_AUDIT_OUT"], "/audits/timing-audit"
+            )
+            self.assertEqual(
+                calls[-1].after, ":".join(str(n) for n in range(1002, 1008))
+            )
+            self.assertEqual(json.loads(args.state.read_text())["timing"], jobs)
+            batch = ROOT / "scripts/qualification/euf_smtcomp/audit.sbatch"
+            self.assertIn(
+                'python3.11 "${PRIMO_EUF_METHODS:?}/audit.py"', batch.read_text()
+            )
+
     def test_focused_replay_requires_correct_answer_and_clean_process(self):
         decisive({"status": "ok", "exit_code": 0, "answer": "sat"}, "sat")
         for row in (

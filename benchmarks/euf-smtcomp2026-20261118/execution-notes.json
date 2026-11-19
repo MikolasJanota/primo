@@ -1,0 +1,57 @@
+{
+  "native_jobs": [
+    "425674",
+    "425675",
+    "425676",
+    "425677",
+    "425678",
+    "425679"
+  ],
+  "timing_audit": "429904",
+  "model_jobs": [
+    "429905",
+    "429906",
+    "429907",
+    "429908",
+    "429909",
+    "429910"
+  ],
+  "final_audit": "430509",
+  "acceptance": "All 8424 native rows and 4020 exact-profile SAT Dolmen replays pass remote and local final audits.",
+  "native_limits": {
+    "seconds": 120,
+    "address_space_bytes": 8589934592,
+    "requested_CPUs_per_pair": 1,
+    "allocated_logical_CPU_affinity": 2,
+    "SLURM_memory_GiB": 10
+  },
+  "scheduling": {
+    "initial": "Six arrays, twelve concurrent tasks each; ceiling72.",
+    "tail": "Four arrays completed. 425677 master throttle36 applied; 425679 stayed12; actual tail ceiling48. scontrol returned nonzero for completed child ranges after applying the first master update, so second update was not attempted.",
+    "native_limits_changed": false,
+    "evidence_limit": "Tail36+12 and nonzero update are contemporaneous operator observations. The scontrol output was not retained as a standalone receipt; independent review checks arithmetic/limits, not those observations."
+  },
+  "audit_restart": {
+    "old_timing_audit": "425720",
+    "cause": "System Python3.9 rejected zip(strict=True) in report generation after native row checks. No native timing failed or was rerun.",
+    "old_model_jobs": [
+      "425721",
+      "425722",
+      "425763",
+      "425764",
+      "425765",
+      "425766"
+    ],
+    "old_models": "Canceled without starting; every model allocation elapsed0.",
+    "old_final_audit": "425807 failed because coverage was absent.",
+    "repair": "Audit uses Python3.11.7; launcher validates all completed native allocations and unstarted canceled old model allocations before starting fresh audit/model stages.",
+    "local_watch_log": "results/euf-smtcomp2026-20261118/watch-model-restart1.log",
+    "traceback": "old-timing-audit.txt",
+    "old_model_coverage": "unstarted-model-accounting.txt"
+  },
+  "raw_remote": "/home/janotmik/primo-arithmetic-combinations-20261115/results/euf-smtcomp2026-20261118/attempt3/raw",
+  "local_audit": "results/euf-smtcomp2026-20261118/attempt3/local-audit-restart1",
+  "reference_policy": "5616 archived reference rows reused; no new reference benchmarks.",
+  "source_qualification": "symmetry-candidate-qualification.json and baseline-qualification.json",
+  "scope": "Default-private EUF mechanical changes relative to corrected13230b6d; not whole-branch-vs-main performance."
+}

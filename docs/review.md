@@ -361,3 +361,49 @@ certification of every primary-paper argument. Remote raw artifacts, the
 ongoing fresh UF/UFLIA timing run and whole-branch acceptance remain outside
 scope. The route-applicable override comment is a separate source hygiene
 repair, also outside this documentation acceptance.
+
+## 2026-11-19 EUF and statistics consistency review before merge preparation
+
+Independent read-only reviewer `merge_euf_stats_docs_review` rechecked current
+EUF/statistics source navigation, lead status, the Yices reference note and
+historical evidence. EUF-DOC-1–4 were repaired: demand naming is implemented
+and rejected as a performance default; symmetry repair is qualified; current
+growth links target `59d81fee`; the old integrated timing entry records its
+completed 5,862-row / 2,753-model scope. A writer regression, EUF-DOC-1a, now
+accurately says callbacks create no core terms or SAT variables; owning queue
+containers can allocate. Required findings are closed. Accepted blobs before
+the later full-evaluation extension were lead `65e470531d9c`, Yices note
+`91fadcfcdab8`, evidence `3b1e1acae535`, growth note `3bf4e326f9f5`, configuration
+`53a834768cd5` and run log `f9a2da180213`.
+
+The reviewer checked code and local paper notes; the Yices primary PDF timed
+out in this fresh review. This does not recertify the original paper proof.
+No new algorithm or default promotion is claimed by these documentation fixes.
+
+## 2026-11-19 completed full SMT-COMP UF/UFLIA comparison
+
+Read-only reviewer `conflict_ack_docs_review` independently recomputed native
+coverage, all 4,212 receipt groups, all 4,020 exact-profile Dolmen records,
+8,424 CSV rows, pooled/family PAR2 and RSS, paired ratios and common printed
+counters. EFS-2 clarified solved/total in the family table. EFS-3 strengthened
+the launcher's restart guard to expand compressed SLURM model-task ranges and
+require complete canceled/unstarted coverage; negatives now cover missing,
+started, duplicate and out-of-range accounting. The actual saved 4,212-element
+accounting passes the stronger guard. The original audit traceback is retained.
+Tail scheduling observations lack a standalone `scontrol` receipt, explicitly
+limiting independent acceptance of that execution-history detail.
+
+Native sources remain repaired candidate `59d81fee` and corrected comparator
+`0647d85a`. The separate hybrid-resource repair is outside these timings and
+this evidence acceptance. No reference benchmark was rerun, and this comparison
+does not measure the entire branch against `main`. Whole-branch readiness and
+any merge remain separate work.
+
+Final scoped acceptance: evidence `543626bc679f`, summary `a38d18463727`, CSV
+`123ad750a124`, receipts `f74e156229bf`, tables `2fd23544710b`, execution notes
+`61725747551c`, SVG `1673bfa8d144`, figure provenance `341249bb9a3e`, launcher
+`669740b4f09b`, plotter `dd19498c24e5`, audit batch `2ef845c04ca8` and tests
+`8bb437f27f00`. Ledger entry accepted at blob `e611c92443c0` (the adjacent
+running hybrid-repair entry is outside this acceptance). The writer ran sixteen
+workflow/controller tests, lint, strict books and assembled local/Git checks,
+and inspected the rendered result table, cactus and execution-recovery text.

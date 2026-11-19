@@ -7,10 +7,13 @@ lazy explanations, and selective retention of theory lemmas. These are
 descriptions of the Yices designs at their respective publication dates.
 
 Primo has optional, restricted Ackermann propagation and conflict-selected
-clause mechanisms. The latter is an existing-atom subset, described in the
-[prototype checklist](../leads/conflict-ackermann-prototype.md) and
-[bounded pilot](../evidence/conflict-ackermann.md). It does not implement
-the whole policy described in 2006.
+clause mechanisms. The original conflict selector was an existing-atom subset,
+described in the [prototype checklist](../leads/conflict-ackermann-prototype.md)
+and [bounded pilot](../evidence/conflict-ackermann.md). The current bounded
+implementation also supports opt-in demand registration of missing equality
+atoms after callbacks unwind. Its [evaluation](../evidence/euf-performance-fixes.md)
+finds repeated demand-mode regressions; defaults remain unchanged. Neither
+subset implements the whole policy described in 2006.
 For lemma caching, the first question is what CaDiCaL already retains: the
 presence of a reason callback alone does not answer that question.
 
@@ -233,14 +236,16 @@ retention cost, and deletion safety.
 
 ## Open investigations and acceptance conditions
 
-**Dynamic Ackermannization:** evaluate the next extension beyond the bounded
-existing-atom conflict selector, separately from the assignment-indexed
-propagator. Specify how absent equality atoms are created and registered,
-how growth interacts with existing deduplication/budgets, and whether clauses can be forgotten while
-the complete EUF checker remains responsible for consistency. Preserve the
-n-ary disjunction and stable term/atom identities across allocation and scope
-changes. Do not restart the rejected repeated-scan design without addressing
-its cost.
+**Dynamic Ackermannization:** bounded demand registration is now implemented
+separately from the assignment-indexed propagator. The callback queues semantic
+requests; query-owned growth creates missing equality atoms and clauses outside
+callbacks, reuses eligible shared-interface naming, and preserves the complete
+EUF check. Further work should investigate unsupported Boolean cases or other
+coverage, admission and scheduling choices while accounting for the measured
+demand regressions. Any extension must preserve the n-ary disjunction and stable
+term/atom identities across allocation and scope changes. Clause forgetting is
+separate work; do not restart the rejected repeated-scan design without
+addressing its cost.
 
 **Lemma retention:** first count explanations built, requested, retained, and
 reused, with clause sizes and memory over long incremental sessions. Audit
@@ -251,7 +256,7 @@ antecedents; consequences depending on scoped assertions must preserve those
 dependencies or guards. A cache must never turn a branch-local fact into an
 unconditional unit.
 
-Before implementing either lead, complete an operation-by-operation design note
+Before implementing further changes in either lead, complete an operation-by-operation design note
 covering data owners, callback phases, lifetime/rollback rules, complexity expectations,
 and proof obligations. Tests must check missing atoms, n-ary reasoning,
 backtracking, repeated checks, scope retirement, and any deletion/rederivation

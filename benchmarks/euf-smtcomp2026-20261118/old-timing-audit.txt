@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/janotmik/primo-arithmetic-combinations-20261115/tmp/euf-smtcomp2026-methods-attempt3/audit.py", line 253, in <module>
+    main()
+  File "/home/janotmik/primo-arithmetic-combinations-20261115/tmp/euf-smtcomp2026-methods-attempt3/audit.py", line 249, in main
+    audit(parser.parse_args())
+  File "/home/janotmik/primo-arithmetic-combinations-20261115/tmp/euf-smtcomp2026-methods-attempt3/audit.py", line 173, in audit
+    comparison = compare(records, indices, "BASE", "OFF", 120)
+  File "/home/janotmik/primo-arithmetic-combinations-20261115/scripts/qualification/arithmetic_combinations/analyze.py", line 168, in compare
+    ratio = st.median(b / a for a, b in zip(old, new, strict=True))
+TypeError: zip() takes no keyword arguments

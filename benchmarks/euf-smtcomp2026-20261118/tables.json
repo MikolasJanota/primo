@@ -1,0 +1,366 @@
+{
+  "native": {
+    "QF_UF": {
+      "BASE": {
+        "measurements": 3312,
+        "solved": 3312,
+        "outcomes": {
+          "sat": 1401,
+          "unsat": 1911
+        },
+        "mean_PAR2_seconds": 0.5473794353864734,
+        "median_RSS_KiB": 11356.0,
+        "max_RSS_KiB": 379572
+      },
+      "OFF": {
+        "measurements": 3312,
+        "solved": 3312,
+        "outcomes": {
+          "sat": 1401,
+          "unsat": 1911
+        },
+        "mean_PAR2_seconds": 0.5235955688405797,
+        "median_RSS_KiB": 11392.0,
+        "max_RSS_KiB": 379248
+      }
+    },
+    "QF_UFLIA": {
+      "BASE": {
+        "measurements": 900,
+        "solved": 777,
+        "outcomes": {
+          "timeout": 123,
+          "sat": 609,
+          "unsat": 168
+        },
+        "mean_PAR2_seconds": 35.32350316666667,
+        "median_RSS_KiB": 12096.0,
+        "max_RSS_KiB": 2935376
+      },
+      "OFF": {
+        "measurements": 900,
+        "solved": 777,
+        "outcomes": {
+          "timeout": 123,
+          "sat": 609,
+          "unsat": 168
+        },
+        "mean_PAR2_seconds": 35.333111958888885,
+        "median_RSS_KiB": 12544.0,
+        "max_RSS_KiB": 2935752
+      }
+    }
+  },
+  "families": {
+    "QF_UF": {
+      "20170829-Rodin": {
+        "BASE": {
+          "measurements": 6,
+          "solved": 6,
+          "outcomes": {
+            "sat": 6
+          },
+          "mean_PAR2_seconds": 0.008479666666666667,
+          "median_RSS_KiB": 11284.0,
+          "max_RSS_KiB": 11304
+        },
+        "OFF": {
+          "measurements": 6,
+          "solved": 6,
+          "outcomes": {
+            "sat": 6
+          },
+          "mean_PAR2_seconds": 0.008404333333333333,
+          "median_RSS_KiB": 11286.0,
+          "max_RSS_KiB": 11304
+        }
+      },
+      "2018-Goel-hwbench": {
+        "BASE": {
+          "measurements": 303,
+          "solved": 303,
+          "outcomes": {
+            "sat": 261,
+            "unsat": 42
+          },
+          "mean_PAR2_seconds": 0.2869860066006601,
+          "median_RSS_KiB": 17356,
+          "max_RSS_KiB": 277940
+        },
+        "OFF": {
+          "measurements": 303,
+          "solved": 303,
+          "outcomes": {
+            "sat": 261,
+            "unsat": 42
+          },
+          "mean_PAR2_seconds": 0.2869115280528053,
+          "median_RSS_KiB": 17692,
+          "max_RSS_KiB": 278592
+        }
+      },
+      "20190906-CLEARSY": {
+        "BASE": {
+          "measurements": 9,
+          "solved": 9,
+          "outcomes": {
+            "unsat": 3,
+            "sat": 6
+          },
+          "mean_PAR2_seconds": 0.010474,
+          "median_RSS_KiB": 11300,
+          "max_RSS_KiB": 11312
+        },
+        "OFF": {
+          "measurements": 9,
+          "solved": 9,
+          "outcomes": {
+            "unsat": 3,
+            "sat": 6
+          },
+          "mean_PAR2_seconds": 0.010678666666666666,
+          "median_RSS_KiB": 11300,
+          "max_RSS_KiB": 11312
+        }
+      },
+      "NEQ": {
+        "BASE": {
+          "measurements": 21,
+          "solved": 21,
+          "outcomes": {
+            "unsat": 21
+          },
+          "mean_PAR2_seconds": 5.764199142857143,
+          "median_RSS_KiB": 49620,
+          "max_RSS_KiB": 150244
+        },
+        "OFF": {
+          "measurements": 21,
+          "solved": 21,
+          "outcomes": {
+            "unsat": 21
+          },
+          "mean_PAR2_seconds": 5.554140095238095,
+          "median_RSS_KiB": 49524,
+          "max_RSS_KiB": 149368
+        }
+      },
+      "PEQ": {
+        "BASE": {
+          "measurements": 12,
+          "solved": 12,
+          "outcomes": {
+            "unsat": 12
+          },
+          "mean_PAR2_seconds": 3.7491090833333334,
+          "median_RSS_KiB": 15340.0,
+          "max_RSS_KiB": 25364
+        },
+        "OFF": {
+          "measurements": 12,
+          "solved": 12,
+          "outcomes": {
+            "unsat": 12
+          },
+          "mean_PAR2_seconds": 3.3482708333333333,
+          "median_RSS_KiB": 15336.0,
+          "max_RSS_KiB": 26236
+        }
+      },
+      "QG-classification": {
+        "BASE": {
+          "measurements": 2883,
+          "solved": 2883,
+          "outcomes": {
+            "unsat": 1764,
+            "sat": 1119
+          },
+          "mean_PAR2_seconds": 0.5391535601803676,
+          "median_RSS_KiB": 11316,
+          "max_RSS_KiB": 379572
+        },
+        "OFF": {
+          "measurements": 2883,
+          "solved": 2883,
+          "outcomes": {
+            "unsat": 1764,
+            "sat": 1119
+          },
+          "mean_PAR2_seconds": 0.5150799271592091,
+          "median_RSS_KiB": 11316,
+          "max_RSS_KiB": 379248
+        }
+      },
+      "SEQ": {
+        "BASE": {
+          "measurements": 21,
+          "solved": 21,
+          "outcomes": {
+            "sat": 9,
+            "unsat": 12
+          },
+          "mean_PAR2_seconds": 0.22962476190476191,
+          "median_RSS_KiB": 12096,
+          "max_RSS_KiB": 24104
+        },
+        "OFF": {
+          "measurements": 21,
+          "solved": 21,
+          "outcomes": {
+            "sat": 9,
+            "unsat": 12
+          },
+          "mean_PAR2_seconds": 0.22297542857142857,
+          "median_RSS_KiB": 12096,
+          "max_RSS_KiB": 24132
+        }
+      },
+      "eq_diamond": {
+        "BASE": {
+          "measurements": 57,
+          "solved": 57,
+          "outcomes": {
+            "unsat": 57
+          },
+          "mean_PAR2_seconds": 0.010165982456140352,
+          "median_RSS_KiB": 11288,
+          "max_RSS_KiB": 11384
+        },
+        "OFF": {
+          "measurements": 57,
+          "solved": 57,
+          "outcomes": {
+            "unsat": 57
+          },
+          "mean_PAR2_seconds": 0.010415631578947369,
+          "median_RSS_KiB": 11288,
+          "max_RSS_KiB": 11388
+        }
+      }
+    },
+    "QF_UFLIA": {
+      "20230314-Jaroslav-Bendik-Certora": {
+        "BASE": {
+          "measurements": 111,
+          "solved": 21,
+          "outcomes": {
+            "timeout": 90,
+            "sat": 18,
+            "unsat": 3
+          },
+          "mean_PAR2_seconds": 198.2018968918919,
+          "median_RSS_KiB": 83376,
+          "max_RSS_KiB": 2935376
+        },
+        "OFF": {
+          "measurements": 111,
+          "solved": 21,
+          "outcomes": {
+            "timeout": 90,
+            "sat": 18,
+            "unsat": 3
+          },
+          "mean_PAR2_seconds": 198.19856592792792,
+          "median_RSS_KiB": 83748,
+          "max_RSS_KiB": 2935752
+        }
+      },
+      "mathsat": {
+        "BASE": {
+          "measurements": 606,
+          "solved": 573,
+          "outcomes": {
+            "unsat": 132,
+            "timeout": 33,
+            "sat": 441
+          },
+          "mean_PAR2_seconds": 15.416786004950495,
+          "median_RSS_KiB": 11648.0,
+          "max_RSS_KiB": 1069388
+        },
+        "OFF": {
+          "measurements": 606,
+          "solved": 573,
+          "outcomes": {
+            "unsat": 132,
+            "timeout": 33,
+            "sat": 441
+          },
+          "mean_PAR2_seconds": 15.429790929042904,
+          "median_RSS_KiB": 12096.0,
+          "max_RSS_KiB": 1077708
+        }
+      },
+      "wisas": {
+        "BASE": {
+          "measurements": 183,
+          "solved": 183,
+          "outcomes": {
+            "sat": 150,
+            "unsat": 33
+          },
+          "mean_PAR2_seconds": 2.449016262295082,
+          "median_RSS_KiB": 12992,
+          "max_RSS_KiB": 61504
+        },
+        "OFF": {
+          "measurements": 183,
+          "solved": 183,
+          "outcomes": {
+            "sat": 150,
+            "unsat": 33
+          },
+          "mean_PAR2_seconds": 2.4552275519125684,
+          "median_RSS_KiB": 13440,
+          "max_RSS_KiB": 61640
+        }
+      }
+    }
+  },
+  "references": {
+    "QF_UF": {
+      "z3": {
+        "cases": 1104,
+        "solved": 1104,
+        "mean_PAR2_seconds": 0.16993177355072464
+      },
+      "cvc5": {
+        "cases": 1104,
+        "solved": 1103,
+        "mean_PAR2_seconds": 0.670436124094203
+      },
+      "yices": {
+        "cases": 1104,
+        "solved": 1104,
+        "mean_PAR2_seconds": 0.06075186231884058
+      },
+      "opensmt": {
+        "cases": 1104,
+        "solved": 1103,
+        "mean_PAR2_seconds": 1.0497091403985508
+      }
+    },
+    "QF_UFLIA": {
+      "z3": {
+        "cases": 300,
+        "solved": 282,
+        "mean_PAR2_seconds": 15.309835796666666
+      },
+      "cvc5": {
+        "cases": 300,
+        "solved": 276,
+        "mean_PAR2_seconds": 21.175999576666666
+      },
+      "yices": {
+        "cases": 300,
+        "solved": 284,
+        "mean_PAR2_seconds": 13.87561413
+      },
+      "opensmt": {
+        "cases": 300,
+        "solved": 277,
+        "mean_PAR2_seconds": 21.631522463333333
+      }
+    }
+  }
+}
