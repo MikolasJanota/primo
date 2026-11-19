@@ -8,6 +8,38 @@ benefits elsewhere. On all 659 available inputs at 60 seconds, equality sharing
 loses eight net solves with native settings and gains 21 with M124. The
 integration remains experimental and default off.
 
+## Qualification path handling
+
+The {download}`comparison runner <../../scripts/qualification/uflia_equalities/run.py>`
+resolves its corpus root once before constructing input paths and relative
+provenance keys. Both `--root tmp/QF_UFLIA --manifest selected.txt` and an
+absolute corpus root therefore produce corpus-relative file names in the
+output. Manifest entries are resolved beneath that root; an entry escaping it
+is rejected, and duplicate resolved paths are rejected.
+
+A focused Python regression executes the actual runner with mocked solver and
+version calls, checking the selected absolute input and all four profiles'
+relative output identities. It launches no solver. This workflow repair
+does not change arithmetic solving or replace the separate solver/model gates.
+
+## Initial integration qualification
+
+The opt-in snapshot `8d84fdca` (API source `6e46d0dd`) passed fresh SLURM
+qualification in both enabled and disabled configurations:
+
+- 45 C++ tests and 311 Python tests, plus lint;
+- all 45 C++ tests under ASan, followed by 150 generated runs;
+- 7,000 generated reference comparisons: 6,998 pass and two `unknown`
+  results in enabled complete-arrangement mode; the latter are not passes;
+- direct Dolmen acceptance for all 3,510 successful generated SAT cases;
+- 200 real-seed mutants and 20 original-input answer checks (10 real-seed
+  checks plus 10 tracked-regression checks), with all SAT outputs in those stages independently validated;
+- clang-tidy/analyzer/include-cleaner coverage of all 133 tracked C++ files.
+  Existing baseline advisories remain; no warning-free-tree claim is made.
+
+The integration does not replace model-guided or complete-arrangement
+correctness boundaries.
+
 ## Initial 44-input development comparison
 
 The {download}`recorded comparison <../../benchmarks/qf-uflia-tableau-equalities-20261107.json>`

@@ -57,7 +57,7 @@ backtracking requirements.
     </article>
     <article class="primo-map-card">
       <p class="primo-map-label">Arithmetic</p>
-      <h3><a href="implementation/lra.html">Real and integer solving</a></h3>
+      <h3><a href="implementation/arithmetic/index.html">Real and integer solving</a></h3>
       <p>Exact linear arithmetic; <a href="implementation/lia.html">integer completion</a> adds patching, cuts, and branching.</p>
       <p class="primo-map-lead">Open leads · <a href="leads/lra-floating-point.html">Guide the Real basis</a> · <a href="leads/lia-patching.html">Improve integer patching</a></p>
     </article>

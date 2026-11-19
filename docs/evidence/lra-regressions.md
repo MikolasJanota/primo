@@ -88,7 +88,7 @@ SPASS-SATT §3, Figure 2 and footnote 3 instead obtain the polarity of the
 selected decision literal through an immediate `GetPhase` query
 {cite:p}`bromberger2019spass`. Primo implements model-satisfaction polarity
 with refresh-and-cache delivery, not that exact callback timing. The
-[implementation page](../implementation/lra.md#model-phase-hints) describes
+[implementation page](../implementation/arithmetic/lra/search.md#model-phase-hints) describes
 that limitation. Persistent cached preferences and their freshness are
 reasonable targets for a controlled policy experiment; these measurements
 do **not** isolate stale preferences as the cause of the cliff.

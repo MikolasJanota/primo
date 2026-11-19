@@ -96,7 +96,7 @@ a comparison at matched actual override counts. Its implementation and
 measurement status are recorded in that report; the thesis remains motivation,
 not the source of Primo's interval/history gate.
 
-The [repair schedule](../implementation/lia.md#repair-schedule-and-phase-advice)
+The [repair schedule](../implementation/arithmetic/lia/repair.md#repair-schedule-and-phase-advice)
 still matters: live rational β and the later private integer-completion model
 are different measurements. A forced bound or an active combination assumption
 cannot be reversed by a phase preference. Narrowness alone must not classify

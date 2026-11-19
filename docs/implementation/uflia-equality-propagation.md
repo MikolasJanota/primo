@@ -11,7 +11,7 @@ has passed the [separate qualification](../evidence/uflia-model-unit-20261111.md
 
 Enable it with `--qf-uflia-tableau-equalities`. The initial unconditional
 candidate passed correctness gates but substantially regressed native search
-on the 44-case development comparison below. The flag controls arithmetic
+on the [initial 44-case comparison](../evidence/qf-uflia-equality-sharing.md#initial-44-input-development-comparison). The flag controls arithmetic
 proof export; existing model-guided arrangement search remains separate.
 
 ## CAV 2024 model-unit discovery: integration checklist
@@ -192,17 +192,9 @@ The integration does not change that component scheduling policy.
 
 ## Qualification path handling
 
-The {download}`comparison runner <../../scripts/qualification/uflia_equalities/run.py>`
-resolves its corpus root once before constructing input paths and relative
-provenance keys. Both `--root tmp/QF_UFLIA --manifest selected.txt` and an
-absolute corpus root therefore produce corpus-relative file names in the
-output. Manifest entries are resolved beneath that root; an entry escaping it
-is rejected, and duplicate resolved paths are rejected.
-
-A focused Python regression executes the actual runner with mocked solver and
-version calls, checking the selected absolute input and all four profiles'
-relative output identities. It launches no solver. This workflow repair
-does not change arithmetic solving or replace the separate solver/model gates.
+The [qualification workflow record](../evidence/qf-uflia-equality-sharing.md#qualification-path-handling)
+owns corpus-relative path handling and its mocked runner regression. This is
+benchmark-tool behavior, separate from the arithmetic integration contract.
 
 ## Counters and current qualification
 
@@ -214,21 +206,10 @@ measures scanning and translation. The SMT driver records
 An existing-false equality counts as a theory conflict; adding a fresh
 consequence does not manufacture a conflict count.
 
-The opt-in snapshot `8d84fdca` (API source `6e46d0dd`) passed fresh SLURM
-qualification in both enabled and disabled configurations:
-
-- 45 C++ tests and 311 Python tests, plus lint;
-- all 45 C++ tests under ASan, followed by 150 generated runs;
-- 7,000 generated reference comparisons: 6,998 pass and two `unknown`
-  results in enabled complete-arrangement mode; the latter are not passes;
-- direct Dolmen acceptance for all 3,510 successful generated SAT cases;
-- 200 real-seed mutants and 20 original-input answer checks (10 real-seed
-  checks plus 10 tracked-regression checks), with all SAT outputs in those stages independently validated;
-- clang-tidy/analyzer/include-cleaner coverage of all 133 tracked C++ files.
-  Existing baseline advisories remain; no warning-free-tree claim is made.
-
-The integration does not replace model-guided or complete-arrangement
-correctness boundaries.
+The [original qualification record](../evidence/qf-uflia-equality-sharing.md#initial-integration-qualification)
+retains the tested revisions, counts and resource-incomplete outcomes. The
+integration does not replace model-guided or complete-arrangement correctness
+boundaries.
 
 ## Paired evaluation and default policy
 

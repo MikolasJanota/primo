@@ -16,7 +16,7 @@ Four operations can improve a conflict, with different objectives:
 | Arithmetic bound weakening | Use weaker sufficient bounds in the conflict, exploiting its remaining numerical margin. Clause length can stay unchanged while the theory lemma becomes more general. | King 2014 §2.2.9. |
 | Arithmetic explanation regression | Expand internal derived constraints to assertions with SAT names while preserving their justifications. | King 2014 §2.2.4. |
 
-These also differ from [SOI row-subset reduction](../implementation/lra.md#optional-sum-of-infeasibilities),
+These also differ from [SOI row-subset reduction](../implementation/arithmetic/lra/search.md#optional-sum-of-infeasibilities),
 which is already implemented as an optional part of SOI. A subset-minimal conflict
 has no removable premise; a minimum-cardinality conflict has the fewest premises
 among all candidates. Neither property by itself chooses the best literals for
@@ -262,7 +262,7 @@ run for these metadata queries.
 | `LraTableau` bound storage | {source}`VarState and bound trail <src/theory/arithmetic/lra_tableau.hpp>` keep one active lower and upper bound, each with a reason. {source}`Bound assertion <src/theory/arithmetic/lra_tableau.cpp#L47-L95>` ignores weaker incoming bounds and trails replaced bounds for rollback. There is no ordered index of all currently asserted alternative bounds for conflict weakening. |
 | Ordinary LRA conflict construction | {source}`build_conflict <src/theory/arithmetic/lra_tableau.cpp#L433-L446>` collects the current row's blocking-bound reasons. No shared-antecedent regression or greedy alternative-bound search follows it. |
 | SOI conflict reduction | {source}`SOI minimization <src/theory/arithmetic/lra_tableau.cpp#L744-L886>` reduces a set of violated rows using a restricted-row conflict test. It does not implement King's §2.2.9 bound weakening. |
-| Dedicated LRA propagation | {source}`Reason delivery <src/smt/solver_engines.cpp#L7147-L7179>` supplies stored external propagation reasons to SAT. [Row propagation](../implementation/lra.md#propagate-and-explain-consequences) proves existing atoms; a numeric derived bound is not installed unless an atom asserting it is assigned. |
+| Dedicated LRA propagation | {source}`Reason delivery <src/smt/solver_engines.cpp#L7147-L7179>` supplies stored external propagation reasons to SAT. [Row propagation](../implementation/arithmetic/lra/propagation.md#propagate-and-explain-consequences) proves existing atoms; a numeric derived bound is not installed unless an atom asserting it is assigned. |
 | SAT integration | {source}`ExternalPropagator <src/sat/ipasir_up.hpp>` and {source}`CaDiCaL adapter <src/sat/cadical_backend.cpp>` delegate reason callbacks and conflict analysis. They do not expose the complete Boolean reason graph to LRA. Installed CLI metadata is recorded above; effective linked-backend settings and reduction coverage remain unaudited. |
 
 This audit reads Primo's code and the stated primary sections; it does not

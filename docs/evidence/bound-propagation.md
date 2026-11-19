@@ -50,7 +50,7 @@ component's {boundpropsource}`ComponentLraExecution through LiaTheoryComponent::
 <src/smt/solver_engines.cpp#L10514>`. They use current SAT-assigned bounds and
 propagate consequences to existing registered atoms. They do not implement
 unrestricted closure over every newly inferred numeric endpoint. See the
-[propagation implementation](../implementation/lra.md#propagate-and-explain-consequences)
+[propagation implementation](../implementation/arithmetic/lra/propagation.md#propagate-and-explain-consequences)
 and [preprocessing worklist](../leads/preprocessing-bound-tightening.md).
 
 ## Selection and execution

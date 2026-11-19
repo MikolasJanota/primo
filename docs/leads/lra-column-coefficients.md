@@ -10,7 +10,7 @@ only the row-to-column half of a cross-linked matrix.
 
 ## Current representation
 
-The [LRA chapter](../implementation/lra.md#sparse-rows-and-reverse-occurrences)
+The [LRA chapter](../implementation/arithmetic/lra/tableau.md#sparse-rows-and-reverse-occurrences)
 describes the layout. A row is a vector of
 {source}`RowEntry {var, coeff, occ_slot} <src/theory/arithmetic/lra_tableau.hpp#L290-L295>`
 sorted by variable ID. The column `occurs_in_[j]` is an unordered vector of

@@ -27,6 +27,9 @@ combination and quantified UF use the general component driver. See
 describes the shared assignment record used by these routes and the theory
 state each solver must undo separately.
 
+The [arithmetic reading guide](implementation/arithmetic/index.md) groups current
+LRA/LIA algorithms and points to their separate options, research and evidence.
+
 ## Implemented mechanisms and defaults
 
 This table distinguishes available code from default policy. The linked

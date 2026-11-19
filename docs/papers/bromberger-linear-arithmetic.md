@@ -23,7 +23,7 @@ implementations, not measurements of Primo.
 | Chapter 5, especially §§5.4–5.7 | Implied equalities, theory combination and bounded directions. | The [equality-basis lead](../leads/lra-equality-basis.md) remains open; current local equality rules are not the complete basis algorithm. |
 | Chapter 6, especially Definition 6.2.1, Lemma 6.2.3 and Corollary 6.3.6 | Why bounded row expressions need not bound variables, and how transformations address divergent integer search. | Not implemented. Primo retains a finite branch budget and can return `unknown`. |
 | §§7.1.3–7.1.4 | Rollback and sparse arithmetic representation. | [LRA](../implementation/lra.md) maps the relevant choices and deviations to Primo's tableau. |
-| §§7.2.3–7.2.4, Figures 7.21–7.22 | Distinguish procedures before branching from procedures at each branch node. | A comparison for [Primo's stage schedule](../implementation/lia.md#when-integer-reasoning-runs), not the schedule Primo implements. |
+| §§7.2.3–7.2.4, Figures 7.21–7.22 | Distinguish procedures before branching from procedures at each branch node. | A comparison for [Primo's stage schedule](../implementation/arithmetic/lia/repair.md#when-integer-reasoning-runs), not the schedule Primo implements. |
 | §§8.2.2–8.2.4 | Term sharing and arithmetic flattening; `ite` transformations; variable definitions; pseudo-Boolean simplification; CNF construction. | The [preprocessing chapter](../implementation/preprocessing.md) maps the implemented transformations and their reconstruction obligations; the thesis's broader preprocessing suite is not implied. |
 
 (efficiency-review-checklist)=
@@ -86,7 +86,7 @@ to one per distinct moved variable per epoch. Tests must include repeated
 variables across targets and stale-cache detection after an accepted move;
 request/computation/hit counters must show that the mechanism is used.
 These counters and the reuse/invalidation regressions now exist; see
-[the representation and worked example](../implementation/lia.md#patching-interval-reuse).
+[the representation and worked example](../implementation/arithmetic/lia/repair.md#patching-interval-reuse).
 This cache is Primo's engineering adaptation of §7.1.4's maintenance principle,
 not the thesis's variable-information implementation. The
 [accepted measurement record](../evidence/arithmetic-overhead-20261109.md) includes
@@ -245,7 +245,7 @@ linear expression has two bounds, from a system in which each variable has
 two bounds. The former need not have a finite search space for branching on
 the original variables.
 
-The [LIA chapter's incomplete example](../implementation/lia.md#budgets-and-incomplete-cases)
+The [LIA chapter's incomplete example](../implementation/arithmetic/lia/branching.md#budgets-and-incomplete-cases)
 has $2\le4x+4y\le3$. The sum is bounded, but $x$ and $y$ can move arbitrarily
 far in opposite directions while satisfying its real relaxation. To see the
 role of coordinates, set $u=x+y$ and $v=y$. The inverse is $x=u-v$, $y=v$,

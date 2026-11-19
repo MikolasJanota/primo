@@ -39,7 +39,7 @@ existing-assignment, zero-extra-pivot idea on routes that produce phase hints.
 "Zero extra pivots" means no pivots performed for the phase recommendation;
 ordinary feasibility checks can still pivot. Primo's cached preference delivery
 differs from consulting the theory at the decision point, as described below
-and in the [implementation documentation](../implementation/lra.md#model-phase-hints).
+and in the [implementation documentation](../implementation/arithmetic/lra/search.md#model-phase-hints).
 The pivoted variant is not implemented or selected for this investigation.
 
 ### SPASS-SATT (CADE 2019), accessible footnote 3
@@ -398,7 +398,7 @@ Neither alternative supports a general probability or solution-density claim.
 No global arithmetic volume, CSP domain store, trial-assumption probing,
 restart policy or new numeric branching is introduced by this design.
 
-The [repair schedule](../implementation/lia.md#repair-schedule-and-phase-advice)
+The [repair schedule](../implementation/arithmetic/lia/repair.md#repair-schedule-and-phase-advice)
 is relevant to either detector: β advice reads the live rational tableau,
 while integer completion works on a separate tableau after a full Boolean
 candidate. A measurement of β's available freedom must not silently substitute

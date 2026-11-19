@@ -46,7 +46,7 @@ Primo does not implement floating-point arithmetic or general nonlinear solving.
 For integer input, `div`, `mod`, and `abs` are accepted extensions, with a
 nonzero literal divisor for division/remainder. Acceptance is not a claim of
 strict QF_LIA grammar conformance. Integer solving can return `unknown` even
-for accepted input. See [integer arithmetic](../implementation/lia.md#input-lowering-and-integer-bounds)
+for accepted input. See [integer arithmetic](../implementation/arithmetic/lia/preparation.md#input-lowering-and-integer-bounds)
 for the lowering and search limitations.
 
 Quoted symbols are supported. A quoted and unquoted spelling of the same

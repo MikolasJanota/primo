@@ -2,7 +2,7 @@
 
 **Status: ordinary-coordinate splitting is implemented; hybrid is the QF_LIA
 default, while QF_UFLIA keeps private branching.** The
-[current representation](../implementation/lia.md#hybrid-handoff) and
+[current representation](../implementation/arithmetic/lia/branching.md#hybrid-handoff) and
 [qualified default profile](../evidence/qf-lia-defaults-20261119.md) describe
 current behavior. Proof-derived combination splits remain unimplemented.
 

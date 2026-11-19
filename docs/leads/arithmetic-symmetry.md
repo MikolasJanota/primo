@@ -17,7 +17,7 @@ enables this clause generation with `--preprocessing-mode=strong`; its default
 profile does not run that stage. The
 {source}`collection pass <src/smt/preprocessing.cpp#L1775-L1838>` does not
 enumerate a domain from inequalities such as $1\le x\le3$. Arithmetic
-[bound handling](../implementation/lia.md#input-lowering-and-integer-bounds)
+[bound handling](../implementation/arithmetic/lia/preparation.md#input-lowering-and-integer-bounds)
 is a separate mechanism.
 
 Recognizing a finite domain does not prove its values interchangeable:

@@ -277,7 +277,7 @@ equalities for each class. A class of `k` terms needs `k - 1` such edges:
 transitivity supplies the remaining equalities.
 
 Arithmetic also propagates ordinary bound predicates within its own solver.
-The [LRA propagation section](lra.md#propagate-and-explain-consequences) derives
+The [LRA propagation section](arithmetic/lra/propagation.md#propagate-and-explain-consequences) derives
 their explanation clauses from individual bounds and tableau rows. Here the
 conclusions cross the theory boundary as shared equalities. Both mechanisms
 must explain entailment from active constraints, not from coincident values
@@ -303,7 +303,7 @@ The equations below are tableau row identities, preserved by every pivot.
 The variables `x` and `y` represent shared terms; helper variables need not
 be shared. A basic variable is the variable defined on the left of a row;
 the right side contains nonbasic variables, as described in
-[LRA's row representation](lra.md#sparse-rows-and-reverse-occurrences).
+[LRA's row representation](arithmetic/lra/tableau.md#sparse-rows-and-reverse-occurrences).
 
 1. **`FixedEq`: two variables fixed at the same value.** Bounds
    `5 <= x <= 5` and `5 <= y <= 5` prove `x = y`. The explanation contains
@@ -344,7 +344,7 @@ still requires scanning row entries and performing exact arithmetic. This
 scan differs from the paper's scheduling of the first three rules eagerly
 and the last before a model-based equality choice. The alternative
 `model-unit` producer is explained in
-[LRA](lra.md#propagating-equalities-between-variables)
+[LRA](arithmetic/lra/propagation.md#propagating-equalities-between-variables)
 and remains opt-in.
 
 These rules are sound but incomplete, and their success depends on the
@@ -425,7 +425,7 @@ This narrow online producer complements the final equality scans and model
 checks. It does not replace the [default row rules](#lra-default-equality-rules)
 or their [exact fallback](#lra-exact-equality-fallback), and the default
 `--nelson-oppen-prop=final` does not enable it. The
-[forward and reverse row derivations](lra.md#deriving-a-bound-from-a-row)
+[forward and reverse row derivations](arithmetic/lra/propagation.md#deriving-a-bound-from-a-row)
 explain how arithmetic can first establish bound literals used in such chains.
 
 ### Reconciling candidate models

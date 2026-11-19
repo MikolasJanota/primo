@@ -1,6 +1,6 @@
 # Bound propagation improvements: implementation checklist
 
-**Document purpose: completed repair/optimization checklists and rejected-placement record.** Current behavior is in [LRA](../implementation/lra.md) and [LIA](../implementation/lia.md#bound-propagation-repairs); measured outcomes are in [bound repairs](../evidence/bound-repairs.md) and [redundancy filtering](../evidence/propagation-redundancy.md).
+**Document purpose: completed repair/optimization checklists and rejected-placement record.** Current behavior is in [shared arithmetic propagation](../implementation/arithmetic/lra/propagation.md#delivery-triggers-and-limits); measured outcomes are in [bound repairs](../evidence/bound-repairs.md) and [redundancy filtering](../evidence/propagation-redundancy.md).
 
 Baseline: `ff303826`. Notification and integer-rounding repairs and scan-local
 endpoint reuse are implemented. The later preprocessing-placement trial was

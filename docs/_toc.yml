@@ -42,11 +42,24 @@ parts:
     chapters:
       - file: implementation/theory-interface
       - file: implementation/euf
-      - file: implementation/lra
-      - file: implementation/lia
+      - file: implementation/arithmetic/index
+        sections:
+          - file: implementation/lra
+            sections:
+              - file: implementation/arithmetic/lra/tableau
+              - file: implementation/arithmetic/lra/feasibility
+              - file: implementation/arithmetic/lra/propagation
+              - file: implementation/arithmetic/lra/search
+          - file: implementation/lia
+            sections:
+              - file: implementation/arithmetic/lia/preparation
+              - file: implementation/arithmetic/lia/repair
+              - file: implementation/arithmetic/lia/cubes-and-cuts
+              - file: implementation/arithmetic/lia/branching
       - file: implementation/quantifiers
       - file: implementation/combination
-      - file: implementation/uflia-equality-propagation
+        sections:
+          - file: implementation/uflia-equality-propagation
   - caption: Literature
     chapters:
       - file: literature
@@ -112,14 +125,17 @@ parts:
               - file: evidence/evaluation-refresh
               - file: evidence/long-limits
               - file: evidence/uniform120
+          - file: evidence/arithmetic
+            sections:
+              - file: evidence/lra-regressions
+              - file: evidence/arithmetic-efficiency-20261108
+              - file: evidence/arithmetic-overhead-20261109
           - file: evidence/qf-lia-progress
             sections:
               - file: evidence/qf-lia-defaults-20261119
               - file: evidence/lia-cubes
               - file: evidence/lia-hybrid-20261111
               - file: evidence/lia-tuning-pilot
-              - file: evidence/arithmetic-efficiency-20261108
-              - file: evidence/arithmetic-overhead-20261109
               - file: leads/lia-cube-test
               - file: leads/lia-hybrid-branching
           - file: evidence/bound-propagation
@@ -154,8 +170,6 @@ parts:
               - file: evidence/publication-followups
               - file: evidence/static-analysis
               - file: evidence/assignment
-              - file: evidence/arithmetic
-              - file: evidence/lra-regressions
               - file: evidence/quantifiers
               - file: evidence/merge-readiness-20261119
               - file: evidence/archive

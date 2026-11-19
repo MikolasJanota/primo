@@ -538,3 +538,47 @@ and revised equality evidence/implementation sections. No new solver batch is
 needed for these documentation-only changes; prior source qualification retains
 its original scope. Current `main` was freshly fetched over HTTPS and remains
 an ancestor at `fcc274c2`; no merge or publication is performed.
+
+## 2026-11-19 arithmetic reading structure
+
+Independent read-only reviewer `arithmetic_tree_review` accepts the 40-file
+restructuring against `d5dd3799`. The accepted content SHA-256 is
+`8d8cd212e6c59f0186d7859e33c3243fcaee3a8776d1de7c7e5776412a4e2c5c`,
+computed over sorted path/content pairs with NUL separators. This subsequent
+ledger entry records acceptance and writer verification only.
+
+The [arithmetic entry point](implementation/arithmetic/index.md) groups LRA and
+LIA overviews with eight focused child chapters. The former 1,434-line LRA and
+1,251-line LIA pages become 195- and 294-line overview/reference pages. Existing
+paths remain, with forwarding entries for moved sections; internal links lead
+directly to the detailed chapters. General preprocessing and theory-combination
+contracts retain their architectural owners. Research and evidence remain
+separate categories, linked from the arithmetic reading guide.
+
+R1–R3 repair the flat reading structure, duplicate propagation ownership and
+rejected CITE chronology inside current preprocessing. R4 corrects an inherited
+claim that hybrid is universally opt-in: QF_LIA selects it by default, while
+QF_UFLIA retains private branching. R5 defines the tableau assignment at its
+first use in the standalone cut derivation. R6 links the Real exact fallback to
+its combination owner using the existing explicit target. S1–S4 move historical
+integer-equality qualification into evidence, add arithmetic gateways, distinguish
+private search from hybrid history, and label the shared propagation destination
+accurately. No required finding remains. Terminology and ownership boundaries
+are accepted within this unit.
+
+Writer checks pass: `make docs`, `make docs-check-links` with both strict books,
+`make lint` and diff whitespace checks. The strict assembled check covers 322
+pages, 52,237 local links and 1,391 unique Git links with zero failures; 560
+external URLs are deferred. A separate TOC inventory retains every previous
+page exactly once and adds nine arithmetic pages. Rendered-ID comparison
+preserves all 132 checked section/named anchors across LRA, LIA, preprocessing
+and integer-equality integration. All twelve LRA and eleven LIA display formulas
+are unchanged. Chromium inspection covers the arithmetic overview, nested LRA
+and LIA navigation, tableau state and the corrected hybrid policy/explanations.
+
+The review checks moved-text preservation, prerequisites, notation, links,
+classification and source/test discoverability. It does not recertify the primary
+papers, solver algorithms or the entire manual. No solver source, defaults,
+executable examples or measurements change; no fresh solver/fuzz/model campaign
+is claimed or needed for this documentation-only restructuring. Prior source
+qualification keeps its original revision and limits.

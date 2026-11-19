@@ -13,7 +13,7 @@ Those joint measurements do not isolate the primitive-row option.
 QF_UFLIA still leaves primitive rows off. The spacing rule below is a proposed
 alternative for that leading-coefficient representation; its implementation
 and evaluation remain open. Current preparation is described in
-[integer bounds](../implementation/lia.md#input-lowering-and-integer-bounds).
+[integer bounds](../implementation/arithmetic/lia/preparation.md#input-lowering-and-integer-bounds).
 
 Preserve the discrete values of an integer polynomial when preparing its
 scaled tableau bounds. This could eliminate the strict-bound infinitesimals

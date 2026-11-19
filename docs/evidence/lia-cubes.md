@@ -4,7 +4,7 @@
 **Status: experimental implementation qualified; development and full 13,306-input
 comparisons complete, including every native SAT model. This study originally retained cubes off by default.**
 Source `84654ade`; implementation `65b6f48a`; workflows and frozen development
-evidence `96355a2a`. The [implementation](../implementation/lia.md#optional-cube-model-attempt)
+evidence `96355a2a`. The [implementation](../implementation/arithmetic/lia/cubes-and-cuts.md#optional-cube-model-attempt)
 describes the sufficient model test from Bjørner–Nachmanson, CAV 2024, §4.2.
 QF_UFLIA keeps its existing policy.
 

@@ -30,6 +30,17 @@ status summaries and links together. A completed implementation can still have
 an open research question, but name that residual question explicitly rather
 than leaving the original implementation plan in the backlog.
 
+For a growing subsystem, group detailed chapters under its implementation
+entry point. Split by the reader's question (state, feasibility, propagation,
+completion or scheduling), rather than by experiment date. A shared mechanism
+needs one detailed owner: integer relaxation links to shared arithmetic
+propagation rather than repeating its queue/cache rules. Keep general
+preprocessing and theory-combination contracts in their owning layers.
+When splitting a page, update internal links to the detailed destinations,
+preserve old page/fragment entry points, and check those fragments against the
+previous rendered book. A successful link check alone does not inventory
+unreferenced legacy anchors.
+
 ## Writing conventions
 
 Explain what an operation does before describing its interface or limitations.
