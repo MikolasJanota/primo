@@ -49,6 +49,55 @@ void check_printed_model(const std::string& declarations,
   assert(checked.result == CheckSatResult::Unsat);
 }
 
+void hybrid_split_budget_survives_complete_fallback() {
+  // x needs an integer split before model guidance falls back. The bounded
+  // a,b arrangement then needs further splits in the new SAT space.
+  const std::string input = R"(
+    (set-logic QF_UFLIA)
+    (declare-sort U 0) (declare-fun f (Int) U)
+    (declare-const x Int) (declare-const y Int)
+    (declare-const a Int) (declare-const b Int)
+    (assert (>= (* 2 x) 1)) (assert (= (* 2 y) (+ a b)))
+    (assert (distinct (f a) (f b)))
+    (assert (>= a 0)) (assert (<= a 2))
+    (assert (>= b 0)) (assert (<= b 2))
+    (check-sat)
+  )";
+  for (const bool online : {false, true}) {
+    for (const bool guided : {false, true}) {
+      CheckSatOptions options;
+      options.preprocessing_mode = primo::smt::PreprocessingMode::Off;
+      options.qf_uflia_online_components = online;
+      options.qf_uflia_model_combination = guided;
+      options.qf_uflia_model_decision_budget = 1;
+      options.lia.hybrid_branching = true;
+      options.lia.private_branch_factor = 0;
+      options.lia.patch_limit = 0;
+      options.lia.gomory_cut_limit = 0;
+      options.produce_model = true;
+      options.check_model = true;
+      for (const std::size_t cap : {1U, 2U, 0U}) {
+        options.lia.split_atom_limit = cap;
+        const auto result = check_sat_smtlib(input, options);
+        const auto generated = result.statistics.get(":lia.branching.unique-atoms");
+        assert(result.statistics.get(":lia.branching.peak-generated-atoms") == generated);
+        if (cap != 0) {
+          assert(result.result == CheckSatResult::Unknown);
+          assert(result.reason == primo::smt::InconclusiveReason::ResourceLimit);
+          assert(result.message == "integer split atom limit");
+          assert(generated == cap);
+          assert(result.statistics.get(":lia.branching.split-budget-exhaustions") == 1);
+        } else {
+          assert(result.result == CheckSatResult::Sat);
+          assert(generated > 2);
+        }
+        assert(result.statistics.get(":combination.model.complete-fallbacks") ==
+               (guided ? 1U : 0U));
+      }
+    }
+  }
+}
+
 void evaluated_argument_tuples_share_one_interpretation() {
   for (const auto mode :
        {primo::smt::PreprocessingMode::Off, primo::smt::PreprocessingMode::Basic,
@@ -874,6 +923,7 @@ int main() {
   integer_model_coincidences_do_not_become_equality_facts();
   equality_delivery_policies_preserve_semantics_and_progress();
 
+  hybrid_split_budget_survives_complete_fallback();
   evaluated_argument_tuples_share_one_interpretation();
   eliminated_integer_definitions_are_evaluated_in_the_printed_model();
   eliminated_integer_definition_chains_have_no_round_limit();

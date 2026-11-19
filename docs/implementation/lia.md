@@ -869,7 +869,13 @@ discarding synthetic private split premises. A pending split prevents acceptance
 of the candidate model, in online/offline UFLIA and standalone LIA alike.
 
 `--lia-split-atom-limit` caps fresh generated bound atoms per solve; its default
-`0` is unlimited. Exhaustion returns `unknown` with a resource-limit reason.
+`0` is unlimited. The public `solve_component_recipe` call owns the consumption
+counter and shares it with its internal complete-arrangement fallback. The
+backend-local bound registries remain separate: allocating the same semantic
+bound in a new SAT space consumes another atom. Reaching the cap only blocks
+new atom creation; it does not prevent completion without further growth.
+The peak includes both backends while recursive fallback keeps them alive.
+Exhaustion returns `unknown` with a resource-limit reason.
 Cancellation and existing limits still apply. Statistics under `:lia.branching.`
 count private nodes/conflicts, budget exits, split requests, unique/reused bound
 atoms, generated-atom peak, SAT resumes, rejected assumption batches containing a failed arithmetic choice, and split-cap

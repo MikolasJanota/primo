@@ -69,13 +69,13 @@ void publish(const ComponentModelStatistics& source, util::Statistics& statistic
   statistics.set(util::StatKey::CombinationModelRejectedMutations, source.rejected_mutations);
 }
 
-}  // namespace
-
-CheckSatOutcome solve_component_recipe(core::TermManager& terms,
-                                       std::span<const core::TermId> assertions,
-                                       const ModelConversionChain& conversions,
-                                       const CheckSatOptions& options, util::Statistics& statistics,
-                                       const CombinationRecipe& recipe) try {
+CheckSatOutcome solve_component_recipe_impl(core::TermManager& terms,
+                                            std::span<const core::TermId> assertions,
+                                            const ModelConversionChain& conversions,
+                                            const CheckSatOptions& options,
+                                            util::Statistics& statistics,
+                                            const CombinationRecipe& recipe,
+                                            std::size_t& fresh_integer_atoms) try {
   sat::CadicalBackend backend(options.cadical_options);
   SolveTerminator terminator(options.cancelled, statistics, options.max_theory_conflicts);
   const ScopedTerminatorConnection terminator_connection(backend, terminator);
@@ -233,7 +233,6 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
   std::vector<theory::ComponentAtom> propositional_atoms;
   using BoundKey = std::pair<core::TermId, util::Rational>;
   std::map<BoundKey, sat::Lit> integer_bounds;
-  std::size_t fresh_integer_atoms = 0;
   std::set<int> integer_choice_variables;
   std::size_t installed_atoms = 0;
   std::size_t installed_pairs = 0;
@@ -342,8 +341,8 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
     CheckSatOutcome outcome;
     {
       CombinationTimer timer(statistics, recipe.timing_keys[2]);
-      outcome =
-          solve_component_recipe(terms, assertions, conversions, options, statistics, complete);
+      outcome = solve_component_recipe_impl(terms, assertions, conversions, options, statistics,
+                                            complete, fresh_integer_atoms);
     }
     statistics.set(util::StatKey::CombinationModelEnabled, 1);
     statistics.increment(util::StatKey::CombinationModelCompleteFallbacks);
@@ -656,6 +655,20 @@ CheckSatOutcome solve_component_recipe(core::TermManager& terms,
 } catch (const UnsupportedCombination& error) {
   return {CheckSatResult::Unsupported, error.what(), statistics, "",
           InconclusiveReason::Unsupported};
+}
+
+}  // namespace
+
+CheckSatOutcome solve_component_recipe(core::TermManager& terms,
+                                       std::span<const core::TermId> assertions,
+                                       const ModelConversionChain& conversions,
+                                       const CheckSatOptions& options, util::Statistics& statistics,
+                                       const CombinationRecipe& recipe) {
+  // Complete fallback creates a second SAT space while the first is still alive.
+  // Charge both spaces to this solve; their bound-to-literal maps remain separate.
+  std::size_t fresh_integer_atoms = 0;
+  return solve_component_recipe_impl(terms, assertions, conversions, options, statistics, recipe,
+                                     fresh_integer_atoms);
 }
 
 }  // namespace primo::smt
