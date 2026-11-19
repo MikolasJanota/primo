@@ -181,7 +181,7 @@ The historical qualification and timings above concern early placement.
 The control used notification/rounding repair snapshot `3c2971a4`; the variant
 added later placement in snapshot `e22299f9`. The combined profile enables
 same-variable, forward and reverse row propagation together with preprocessing
-bounds; integer branching keeps its private default. Here Wisa denotes UFLIA
+bounds; integer branching uses the private default of those snapshots. Here Wisa denotes UFLIA
 `mathsat/Wisa/xs-20-19-2-2-2-5.smt2` from the retained selection.
 
 The trial is rejected and its source changes are reverted. The

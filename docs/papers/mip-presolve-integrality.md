@@ -1,13 +1,15 @@
 # Integral bounds and integral nonbasic variables
 
-**Status: Implemented; the QF_LIA route default since `5dec036`.**
+**Status: implemented. QF_LIA defaults to M124 (gaps 1, 2 and 4); gap 3 remains an explicit option.**
 Prevalence counters are implemented. Gap 1 is implemented by
 `--lia-round-integer-bounds`, gap 2 by `--lia-primitive-int-rows`, gap 3 by
 `--lia-integer-slacks` and gap 4 by `--lia-patch-integral-moves`. Since
-commit `5dec036` all four are on by default for QF_LIA and off for QF_UFLIA;
-the `--no-lia-*` forms turn them off. The {ref}`evaluation
+commit `5dec036` all four were on by default for QF_LIA and off for QF_UFLIA.
+The [subsequent QF_LIA profile](../evidence/qf-lia-defaults-20261119.md) disables
+explicit integer-slack obligations and enables uniform cubes and hybrid branching.
+QF_UFLIA remains unchanged; the `--no-lia-*` forms disable individual switches. The {ref}`evaluation
 <integrality-evaluation>` found no wrong answers. {ref}`The promotion
-<integrality-promotion>` records the evidence for the QF_LIA default.
+<integrality-promotion>` records the evidence for that historical four-switch default.
 
 This note lists the primary sources behind one invariant of integer
 completion. It maps each source step to the Primo function that owns it and

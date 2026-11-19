@@ -37,6 +37,7 @@
 #include "smt/solver_tactic.hpp"
 #include "smt/strategy.hpp"
 #include "smt/tactic.hpp"
+#include "theory/arithmetic/lia_cube_mode.hpp"
 #include "util/statistics.hpp"
 
 namespace {

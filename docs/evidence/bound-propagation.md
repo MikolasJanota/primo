@@ -26,7 +26,9 @@ and opt-in decision below unchanged.
 ## Four profiles
 
 All profiles use one fresh Release binary and enable the existing same-variable
-arithmetic propagation. Integer branching retains its private default.
+arithmetic propagation. Integer branching used the private default at the
+measured revision; the [later QF_LIA default profile](qf-lia-defaults-20261119.md)
+is a separate change.
 
 | Profile | Preprocessing bound worklist | Forward and reverse row propagation |
 |---|---|---|

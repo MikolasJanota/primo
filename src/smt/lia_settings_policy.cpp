@@ -1,6 +1,7 @@
 #include "smt/lia_settings_policy.hpp"
 
 #include "smt/lia_settings.hpp"
+#include "theory/arithmetic/lia_cube_mode.hpp"
 
 namespace primo::smt {
 

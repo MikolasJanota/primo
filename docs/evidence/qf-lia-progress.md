@@ -120,14 +120,17 @@ dates and nodes, so this is not a paired experiment. A {ref}`paired rerun
 conclusions drawn from it: the size of the gap to October, and the `nec-smt`
 part of the integrality options' gain.
 
-Since commit `5dec036` (2026-11-04) the QF_LIA default turns on all four
+Commit `5dec036` (2026-11-04) made the QF_LIA default turn on all four
 integrality options ({ref}`promotion <integrality-promotion>`). In the historical comparison below,
 the "default" series and rows of 2026-11 runs are the options-off
-configuration. The new binary
+configuration. The `5dec036` binary
 reproduces that configuration with the four `--no-lia-*` flags. The "all four
-integrality options" series now describes the QF_LIA default; a paired check
+integrality options" series describes the default at `5dec036`; a paired check
 found the `5dec036` default identical to it in answers and search counters
 on every file both solved within 10 s.
+
+The [subsequent QF_LIA default update](qf-lia-defaults-20261119.md) uses M124,
+uniform cubes and hybrid branching; it does not change these historical series.
 
 ![QF_LIA at 60 seconds: Primo's August baseline, the options-off default and the integrality options, against z3, cvc5 and OpenSMT](../_static/qf-lia-cactus.svg)
 
