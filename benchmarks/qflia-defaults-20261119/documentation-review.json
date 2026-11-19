@@ -1,0 +1,22 @@
+{
+  "reviewer": "qflia_defaults_docs_review, independent read-only",
+  "baseline": "9b7d3bec",
+  "qualified_source": "b3218ec919336110d79ab2dea9f52a0868ca263a",
+  "source_include_hygiene": "c1abfeee",
+  "verdict": "Ready; no required findings remain.",
+  "accepted_unit_sha256": "dc3d903a54834101000fbceca7e312799a2c41c412e3d1eddb40b963ba6ee062",
+  "evidence_page_sha256": "a7833c75d0b0d897a8019c215846a207170aae4e8deaa8e6eb0b4b139ebf1d48",
+  "qualification_sha256": "383ee1fa14e1284da9f138bdfc192bc1665934cf8eefabfa77939e83981dbd36",
+  "findings": {
+    "D1": "Historical four-switch claim qualified",
+    "D2": "Current-contract source references match qualified source",
+    "D3": "Captured per-route help refreshed and12examples verified",
+    "D4": "Hybrid heading no longer opt-in for QF_LIA",
+    "D5": "Ledger synchronized with completed static/include evidence",
+    "S1": "Historical cube default claims qualified",
+    "S2": "Loss interpretation attributes whole profile rather than isolated SAT handoff"
+  },
+  "independent_checks": "832rows,332timingSATmodels,7784totalchecks; profile/paired/family/resource/counter facts; all model-parent dependencies; physical-core sibling masks; hash-matched declared status and resource-limited reference probes; source/include equivalence. No solver execution or source editing.",
+  "writer_checks": "make lint;49native/400Python/49ASan/12docs examples onSLURM;11focused puremetadata tests; full141-unit static scans and include supplement; make docs-check-links0failures; Chrome rendered result/resource tables inspected.",
+  "unchecked_scope": "No full-corpus joint-profile evaluation, global parameter tuning, independent mathematical proof or whole-manual reader acceptance."
+}

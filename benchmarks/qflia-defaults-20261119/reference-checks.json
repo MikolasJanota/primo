@@ -1,0 +1,55 @@
+[
+  {
+    "status": "timeout",
+    "answer": "error",
+    "seconds": "120.050127",
+    "timeout": "true",
+    "exit_code": -15,
+    "stats": {},
+    "stderr_head": "",
+    "file": "cut_lemmas/20-vars/cut_lemma_01_001.smt2",
+    "input_sha256": "493da16a258df4f4a63210937f7dccae99598f70495fb3cc1f4f6d76082f9c44",
+    "command": [
+      "/home/janotmik/primo-lra-bound-structure-fixed-20261026/contrib/local/bin/z3",
+      "smt.arith.solver=2"
+    ],
+    "solver_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "job": "434832",
+    "host": "node-02.ciircluster"
+  },
+  {
+    "status": "timeout",
+    "answer": "error",
+    "seconds": "120.103055",
+    "timeout": "true",
+    "exit_code": -15,
+    "stats": {},
+    "stderr_head": "cvc5 interrupted by SIGTERM.",
+    "file": "cut_lemmas/20-vars/cut_lemma_01_001.smt2",
+    "input_sha256": "493da16a258df4f4a63210937f7dccae99598f70495fb3cc1f4f6d76082f9c44",
+    "command": [
+      "/home/janotmik/primo-cadical-profile/contrib/local/bin/cvc5",
+      "--lang=smt2"
+    ],
+    "solver_sha256": "4a93548398445cf1a774655583f5465b156c26f63f2cdfb94f4728fdf7adde46",
+    "job": "434831",
+    "host": "node-02.ciircluster"
+  },
+  {
+    "status": "timeout",
+    "answer": "error",
+    "seconds": "120.104672",
+    "timeout": "true",
+    "exit_code": -15,
+    "stats": {},
+    "stderr_head": "",
+    "file": "cut_lemmas/20-vars/cut_lemma_01_001.smt2",
+    "input_sha256": "493da16a258df4f4a63210937f7dccae99598f70495fb3cc1f4f6d76082f9c44",
+    "command": [
+      "/home/janotmik/primo-lra-bound-structure-fixed-20261026/contrib/local/bin/z3"
+    ],
+    "solver_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+    "job": "434830",
+    "host": "node-02.ciircluster"
+  }
+]

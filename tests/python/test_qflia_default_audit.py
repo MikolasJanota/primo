@@ -1,8 +1,16 @@
 """The promotion report must retain incomplete outcomes and paired losses."""
 
+import hashlib
+import tempfile
 import unittest
+from pathlib import Path
 
-from scripts.qualification.qflia_defaults.audit import comparison
+from scripts.qualification.qflia_defaults.audit import (
+    assert_single_core,
+    comparison,
+    expected_answer,
+    read_rows,
+)
 
 
 def row(file, answer, seconds=1.0, status="ok", exit_code=0):
@@ -51,3 +59,66 @@ class DefaultComparisonTests(unittest.TestCase):
             [{"file": "a", "before": 3, "after": 6}],
         )
         self.assertIn("not repeat-qualified", result["limitation"])
+
+
+class TimingWireFormatTests(unittest.TestCase):
+    def test_real_harness_decimal_string_is_normalized(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "rows.jsonl"
+            path.write_text('{"seconds":"0.013483","answer":"unsat"}\n')
+            self.assertEqual(
+                read_rows(path), [{"seconds": 0.013483, "answer": "unsat"}]
+            )
+
+    def test_nonfinite_time_cannot_enter_report(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "rows.jsonl"
+            path.write_text('{"seconds":"NaN"}\n')
+            with self.assertRaises(AssertionError):
+                read_rows(path)
+
+
+class CpuTopologyTests(unittest.TestCase):
+    def setUp(self):
+        self.topology = {
+            "host": {
+                "cpus": {
+                    "0": {"physical_package_id": "0", "core_id": "0"},
+                    "28": {"physical_package_id": "0", "core_id": "0"},
+                    "14": {"physical_package_id": "1", "core_id": "0"},
+                }
+            }
+        }
+
+    def test_sibling_threads_share_one_core(self):
+        assert_single_core([0, 28], "host", self.topology)
+
+    def test_same_core_id_on_different_sockets_is_rejected(self):
+        with self.assertRaises(AssertionError):
+            assert_single_core([0, 14], "host", self.topology)
+
+    def test_unrecorded_cpu_cannot_be_assumed_to_be_sibling(self):
+        with self.assertRaises(KeyError):
+            assert_single_core([0, 29], "host", self.topology)
+
+
+class ExpectedStatusTests(unittest.TestCase):
+    def test_unknown_archive_uses_hashed_input_declared_status(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            source = root / "QF_LIA" / "case.smt2"
+            source.parent.mkdir()
+            source.write_text("(set-info :status unsat)\n")
+            case = {
+                "logic": "QF_LIA",
+                "file": "case.smt2",
+                "expected": "unknown",
+                "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+            }
+            self.assertEqual(expected_answer(case, root), "unsat")
+            case["sha256"] = "wrong"
+            with self.assertRaises(AssertionError):
+                expected_answer(case, root)
+
+    def test_known_oracle_does_not_require_fallback_input(self):
+        self.assertEqual(expected_answer({"expected": "sat"}, None), "sat")

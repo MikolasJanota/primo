@@ -1,0 +1,57 @@
+{
+  "purpose": "Requested QF_LIA default promotion, not a global tuning study",
+  "source": "b3218ec919336110d79ab2dea9f52a0868ca263a",
+  "binary_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1",
+  "selection": "Existing frozen 200-case hybrid QF_LIA selection; retained content hashes and expected answers",
+  "selection_sha256": "fee69e38614fa564dd4e696f840e451ef991ef98b46dc9360880bd9e33ff56ec",
+  "cases": 200,
+  "rows": 800,
+  "repetitions": 1,
+  "time_limit_seconds": 120,
+  "address_space_bytes": 8589934592,
+  "profiles": {
+    "OLD": [
+      "--quiet",
+      "--stats",
+      "--lia-branching=private",
+      "--lia-cube=off",
+      "--lia-integer-slacks"
+    ],
+    "NEW": [
+      "--quiet",
+      "--stats"
+    ],
+    "HYBRID": [
+      "--quiet",
+      "--stats",
+      "--lia-cube=off"
+    ],
+    "CUBE": [
+      "--quiet",
+      "--stats",
+      "--lia-branching=private"
+    ]
+  },
+  "order": "Each slot rotates the four profiles; sequential same-core measurement. One pass only: no machine-noise or stable-runtime claim.",
+  "model_validation": "Every successful native SAT row, separate after whole timing array; native180s/Dolmen60s",
+  "qualifier": "Generated/real-seed correctness gate must be complete and audited before timing launch.",
+  "loss_followups": {
+    "selected_primary_slots": [
+      59,
+      62,
+      76,
+      85
+    ],
+    "criterion": "Completed native pairs where NEW loses a solve versus OLD or CUBE; two extra paired rotations, no pooling into200-caseheadline.",
+    "repetitions": [
+      1,
+      2
+    ],
+    "native_rows": 32,
+    "cards": [
+      "followup-1.json",
+      "followup-2.json"
+    ],
+    "model_policy": "After all primary and followup timing arrays, replay every successful native SAT row separately."
+  }
+}

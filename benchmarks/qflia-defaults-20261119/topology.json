@@ -1,0 +1,860 @@
+{
+  "node-02.ciircluster": {
+    "host": "node-02.ciircluster",
+    "job": "434828",
+    "cpus": {
+      "21": {
+        "physical_package_id": "1",
+        "core_id": "8",
+        "thread_siblings_list": "21,49"
+      },
+      "11": {
+        "physical_package_id": "0",
+        "core_id": "12",
+        "thread_siblings_list": "11,39"
+      },
+      "9": {
+        "physical_package_id": "0",
+        "core_id": "10",
+        "thread_siblings_list": "9,37"
+      },
+      "48": {
+        "physical_package_id": "1",
+        "core_id": "6",
+        "thread_siblings_list": "20,48"
+      },
+      "7": {
+        "physical_package_id": "0",
+        "core_id": "8",
+        "thread_siblings_list": "7,35"
+      },
+      "38": {
+        "physical_package_id": "0",
+        "core_id": "11",
+        "thread_siblings_list": "10,38"
+      },
+      "28": {
+        "physical_package_id": "0",
+        "core_id": "0",
+        "thread_siblings_list": "0,28"
+      },
+      "18": {
+        "physical_package_id": "1",
+        "core_id": "4",
+        "thread_siblings_list": "18,46"
+      },
+      "46": {
+        "physical_package_id": "1",
+        "core_id": "4",
+        "thread_siblings_list": "18,46"
+      },
+      "5": {
+        "physical_package_id": "0",
+        "core_id": "5",
+        "thread_siblings_list": "5,33"
+      },
+      "36": {
+        "physical_package_id": "0",
+        "core_id": "9",
+        "thread_siblings_list": "8,36"
+      },
+      "26": {
+        "physical_package_id": "1",
+        "core_id": "13",
+        "thread_siblings_list": "26,54"
+      },
+      "54": {
+        "physical_package_id": "1",
+        "core_id": "13",
+        "thread_siblings_list": "26,54"
+      },
+      "16": {
+        "physical_package_id": "1",
+        "core_id": "2",
+        "thread_siblings_list": "16,44"
+      },
+      "44": {
+        "physical_package_id": "1",
+        "core_id": "2",
+        "thread_siblings_list": "16,44"
+      },
+      "3": {
+        "physical_package_id": "0",
+        "core_id": "3",
+        "thread_siblings_list": "3,31"
+      },
+      "34": {
+        "physical_package_id": "0",
+        "core_id": "6",
+        "thread_siblings_list": "6,34"
+      },
+      "24": {
+        "physical_package_id": "1",
+        "core_id": "11",
+        "thread_siblings_list": "24,52"
+      },
+      "52": {
+        "physical_package_id": "1",
+        "core_id": "11",
+        "thread_siblings_list": "24,52"
+      },
+      "14": {
+        "physical_package_id": "1",
+        "core_id": "0",
+        "thread_siblings_list": "14,42"
+      },
+      "42": {
+        "physical_package_id": "1",
+        "core_id": "0",
+        "thread_siblings_list": "14,42"
+      },
+      "1": {
+        "physical_package_id": "0",
+        "core_id": "1",
+        "thread_siblings_list": "1,29"
+      },
+      "32": {
+        "physical_package_id": "0",
+        "core_id": "4",
+        "thread_siblings_list": "4,32"
+      },
+      "22": {
+        "physical_package_id": "1",
+        "core_id": "9",
+        "thread_siblings_list": "22,50"
+      },
+      "50": {
+        "physical_package_id": "1",
+        "core_id": "9",
+        "thread_siblings_list": "22,50"
+      },
+      "12": {
+        "physical_package_id": "0",
+        "core_id": "13",
+        "thread_siblings_list": "12,40"
+      },
+      "40": {
+        "physical_package_id": "0",
+        "core_id": "13",
+        "thread_siblings_list": "12,40"
+      },
+      "30": {
+        "physical_package_id": "0",
+        "core_id": "2",
+        "thread_siblings_list": "2,30"
+      },
+      "20": {
+        "physical_package_id": "1",
+        "core_id": "6",
+        "thread_siblings_list": "20,48"
+      },
+      "49": {
+        "physical_package_id": "1",
+        "core_id": "8",
+        "thread_siblings_list": "21,49"
+      },
+      "10": {
+        "physical_package_id": "0",
+        "core_id": "11",
+        "thread_siblings_list": "10,38"
+      },
+      "8": {
+        "physical_package_id": "0",
+        "core_id": "9",
+        "thread_siblings_list": "8,36"
+      },
+      "39": {
+        "physical_package_id": "0",
+        "core_id": "12",
+        "thread_siblings_list": "11,39"
+      },
+      "29": {
+        "physical_package_id": "0",
+        "core_id": "1",
+        "thread_siblings_list": "1,29"
+      },
+      "19": {
+        "physical_package_id": "1",
+        "core_id": "5",
+        "thread_siblings_list": "19,47"
+      },
+      "47": {
+        "physical_package_id": "1",
+        "core_id": "5",
+        "thread_siblings_list": "19,47"
+      },
+      "6": {
+        "physical_package_id": "0",
+        "core_id": "6",
+        "thread_siblings_list": "6,34"
+      },
+      "37": {
+        "physical_package_id": "0",
+        "core_id": "10",
+        "thread_siblings_list": "9,37"
+      },
+      "27": {
+        "physical_package_id": "1",
+        "core_id": "14",
+        "thread_siblings_list": "27,55"
+      },
+      "55": {
+        "physical_package_id": "1",
+        "core_id": "14",
+        "thread_siblings_list": "27,55"
+      },
+      "17": {
+        "physical_package_id": "1",
+        "core_id": "3",
+        "thread_siblings_list": "17,45"
+      },
+      "45": {
+        "physical_package_id": "1",
+        "core_id": "3",
+        "thread_siblings_list": "17,45"
+      },
+      "4": {
+        "physical_package_id": "0",
+        "core_id": "4",
+        "thread_siblings_list": "4,32"
+      },
+      "35": {
+        "physical_package_id": "0",
+        "core_id": "8",
+        "thread_siblings_list": "7,35"
+      },
+      "25": {
+        "physical_package_id": "1",
+        "core_id": "12",
+        "thread_siblings_list": "25,53"
+      },
+      "53": {
+        "physical_package_id": "1",
+        "core_id": "12",
+        "thread_siblings_list": "25,53"
+      },
+      "15": {
+        "physical_package_id": "1",
+        "core_id": "1",
+        "thread_siblings_list": "15,43"
+      },
+      "43": {
+        "physical_package_id": "1",
+        "core_id": "1",
+        "thread_siblings_list": "15,43"
+      },
+      "2": {
+        "physical_package_id": "0",
+        "core_id": "2",
+        "thread_siblings_list": "2,30"
+      },
+      "33": {
+        "physical_package_id": "0",
+        "core_id": "5",
+        "thread_siblings_list": "5,33"
+      },
+      "23": {
+        "physical_package_id": "1",
+        "core_id": "10",
+        "thread_siblings_list": "23,51"
+      },
+      "51": {
+        "physical_package_id": "1",
+        "core_id": "10",
+        "thread_siblings_list": "23,51"
+      },
+      "13": {
+        "physical_package_id": "0",
+        "core_id": "14",
+        "thread_siblings_list": "13,41"
+      },
+      "41": {
+        "physical_package_id": "0",
+        "core_id": "14",
+        "thread_siblings_list": "13,41"
+      },
+      "0": {
+        "physical_package_id": "0",
+        "core_id": "0",
+        "thread_siblings_list": "0,28"
+      },
+      "31": {
+        "physical_package_id": "0",
+        "core_id": "3",
+        "thread_siblings_list": "3,31"
+      }
+    }
+  },
+  "node-03.ciircluster": {
+    "host": "node-03.ciircluster",
+    "job": "434828",
+    "cpus": {
+      "21": {
+        "physical_package_id": "1",
+        "core_id": "8",
+        "thread_siblings_list": "21,49"
+      },
+      "11": {
+        "physical_package_id": "0",
+        "core_id": "12",
+        "thread_siblings_list": "11,39"
+      },
+      "9": {
+        "physical_package_id": "0",
+        "core_id": "10",
+        "thread_siblings_list": "9,37"
+      },
+      "48": {
+        "physical_package_id": "1",
+        "core_id": "6",
+        "thread_siblings_list": "20,48"
+      },
+      "7": {
+        "physical_package_id": "0",
+        "core_id": "8",
+        "thread_siblings_list": "7,35"
+      },
+      "38": {
+        "physical_package_id": "0",
+        "core_id": "11",
+        "thread_siblings_list": "10,38"
+      },
+      "28": {
+        "physical_package_id": "0",
+        "core_id": "0",
+        "thread_siblings_list": "0,28"
+      },
+      "18": {
+        "physical_package_id": "1",
+        "core_id": "4",
+        "thread_siblings_list": "18,46"
+      },
+      "46": {
+        "physical_package_id": "1",
+        "core_id": "4",
+        "thread_siblings_list": "18,46"
+      },
+      "5": {
+        "physical_package_id": "0",
+        "core_id": "5",
+        "thread_siblings_list": "5,33"
+      },
+      "36": {
+        "physical_package_id": "0",
+        "core_id": "9",
+        "thread_siblings_list": "8,36"
+      },
+      "26": {
+        "physical_package_id": "1",
+        "core_id": "13",
+        "thread_siblings_list": "26,54"
+      },
+      "54": {
+        "physical_package_id": "1",
+        "core_id": "13",
+        "thread_siblings_list": "26,54"
+      },
+      "16": {
+        "physical_package_id": "1",
+        "core_id": "2",
+        "thread_siblings_list": "16,44"
+      },
+      "44": {
+        "physical_package_id": "1",
+        "core_id": "2",
+        "thread_siblings_list": "16,44"
+      },
+      "3": {
+        "physical_package_id": "0",
+        "core_id": "3",
+        "thread_siblings_list": "3,31"
+      },
+      "34": {
+        "physical_package_id": "0",
+        "core_id": "6",
+        "thread_siblings_list": "6,34"
+      },
+      "24": {
+        "physical_package_id": "1",
+        "core_id": "11",
+        "thread_siblings_list": "24,52"
+      },
+      "52": {
+        "physical_package_id": "1",
+        "core_id": "11",
+        "thread_siblings_list": "24,52"
+      },
+      "14": {
+        "physical_package_id": "1",
+        "core_id": "0",
+        "thread_siblings_list": "14,42"
+      },
+      "42": {
+        "physical_package_id": "1",
+        "core_id": "0",
+        "thread_siblings_list": "14,42"
+      },
+      "1": {
+        "physical_package_id": "0",
+        "core_id": "1",
+        "thread_siblings_list": "1,29"
+      },
+      "32": {
+        "physical_package_id": "0",
+        "core_id": "4",
+        "thread_siblings_list": "4,32"
+      },
+      "22": {
+        "physical_package_id": "1",
+        "core_id": "9",
+        "thread_siblings_list": "22,50"
+      },
+      "50": {
+        "physical_package_id": "1",
+        "core_id": "9",
+        "thread_siblings_list": "22,50"
+      },
+      "12": {
+        "physical_package_id": "0",
+        "core_id": "13",
+        "thread_siblings_list": "12,40"
+      },
+      "40": {
+        "physical_package_id": "0",
+        "core_id": "13",
+        "thread_siblings_list": "12,40"
+      },
+      "30": {
+        "physical_package_id": "0",
+        "core_id": "2",
+        "thread_siblings_list": "2,30"
+      },
+      "20": {
+        "physical_package_id": "1",
+        "core_id": "6",
+        "thread_siblings_list": "20,48"
+      },
+      "49": {
+        "physical_package_id": "1",
+        "core_id": "8",
+        "thread_siblings_list": "21,49"
+      },
+      "10": {
+        "physical_package_id": "0",
+        "core_id": "11",
+        "thread_siblings_list": "10,38"
+      },
+      "8": {
+        "physical_package_id": "0",
+        "core_id": "9",
+        "thread_siblings_list": "8,36"
+      },
+      "39": {
+        "physical_package_id": "0",
+        "core_id": "12",
+        "thread_siblings_list": "11,39"
+      },
+      "29": {
+        "physical_package_id": "0",
+        "core_id": "1",
+        "thread_siblings_list": "1,29"
+      },
+      "19": {
+        "physical_package_id": "1",
+        "core_id": "5",
+        "thread_siblings_list": "19,47"
+      },
+      "47": {
+        "physical_package_id": "1",
+        "core_id": "5",
+        "thread_siblings_list": "19,47"
+      },
+      "6": {
+        "physical_package_id": "0",
+        "core_id": "6",
+        "thread_siblings_list": "6,34"
+      },
+      "37": {
+        "physical_package_id": "0",
+        "core_id": "10",
+        "thread_siblings_list": "9,37"
+      },
+      "27": {
+        "physical_package_id": "1",
+        "core_id": "14",
+        "thread_siblings_list": "27,55"
+      },
+      "55": {
+        "physical_package_id": "1",
+        "core_id": "14",
+        "thread_siblings_list": "27,55"
+      },
+      "17": {
+        "physical_package_id": "1",
+        "core_id": "3",
+        "thread_siblings_list": "17,45"
+      },
+      "45": {
+        "physical_package_id": "1",
+        "core_id": "3",
+        "thread_siblings_list": "17,45"
+      },
+      "4": {
+        "physical_package_id": "0",
+        "core_id": "4",
+        "thread_siblings_list": "4,32"
+      },
+      "35": {
+        "physical_package_id": "0",
+        "core_id": "8",
+        "thread_siblings_list": "7,35"
+      },
+      "25": {
+        "physical_package_id": "1",
+        "core_id": "12",
+        "thread_siblings_list": "25,53"
+      },
+      "53": {
+        "physical_package_id": "1",
+        "core_id": "12",
+        "thread_siblings_list": "25,53"
+      },
+      "15": {
+        "physical_package_id": "1",
+        "core_id": "1",
+        "thread_siblings_list": "15,43"
+      },
+      "43": {
+        "physical_package_id": "1",
+        "core_id": "1",
+        "thread_siblings_list": "15,43"
+      },
+      "2": {
+        "physical_package_id": "0",
+        "core_id": "2",
+        "thread_siblings_list": "2,30"
+      },
+      "33": {
+        "physical_package_id": "0",
+        "core_id": "5",
+        "thread_siblings_list": "5,33"
+      },
+      "23": {
+        "physical_package_id": "1",
+        "core_id": "10",
+        "thread_siblings_list": "23,51"
+      },
+      "51": {
+        "physical_package_id": "1",
+        "core_id": "10",
+        "thread_siblings_list": "23,51"
+      },
+      "13": {
+        "physical_package_id": "0",
+        "core_id": "14",
+        "thread_siblings_list": "13,41"
+      },
+      "41": {
+        "physical_package_id": "0",
+        "core_id": "14",
+        "thread_siblings_list": "13,41"
+      },
+      "0": {
+        "physical_package_id": "0",
+        "core_id": "0",
+        "thread_siblings_list": "0,28"
+      },
+      "31": {
+        "physical_package_id": "0",
+        "core_id": "3",
+        "thread_siblings_list": "3,31"
+      }
+    }
+  },
+  "node-04.ciircluster": {
+    "host": "node-04.ciircluster",
+    "job": "434828",
+    "cpus": {
+      "21": {
+        "physical_package_id": "1",
+        "core_id": "8",
+        "thread_siblings_list": "21,49"
+      },
+      "11": {
+        "physical_package_id": "0",
+        "core_id": "12",
+        "thread_siblings_list": "11,39"
+      },
+      "9": {
+        "physical_package_id": "0",
+        "core_id": "10",
+        "thread_siblings_list": "9,37"
+      },
+      "48": {
+        "physical_package_id": "1",
+        "core_id": "6",
+        "thread_siblings_list": "20,48"
+      },
+      "7": {
+        "physical_package_id": "0",
+        "core_id": "8",
+        "thread_siblings_list": "7,35"
+      },
+      "38": {
+        "physical_package_id": "0",
+        "core_id": "11",
+        "thread_siblings_list": "10,38"
+      },
+      "28": {
+        "physical_package_id": "0",
+        "core_id": "0",
+        "thread_siblings_list": "0,28"
+      },
+      "18": {
+        "physical_package_id": "1",
+        "core_id": "4",
+        "thread_siblings_list": "18,46"
+      },
+      "46": {
+        "physical_package_id": "1",
+        "core_id": "4",
+        "thread_siblings_list": "18,46"
+      },
+      "5": {
+        "physical_package_id": "0",
+        "core_id": "5",
+        "thread_siblings_list": "5,33"
+      },
+      "36": {
+        "physical_package_id": "0",
+        "core_id": "9",
+        "thread_siblings_list": "8,36"
+      },
+      "26": {
+        "physical_package_id": "1",
+        "core_id": "13",
+        "thread_siblings_list": "26,54"
+      },
+      "54": {
+        "physical_package_id": "1",
+        "core_id": "13",
+        "thread_siblings_list": "26,54"
+      },
+      "16": {
+        "physical_package_id": "1",
+        "core_id": "2",
+        "thread_siblings_list": "16,44"
+      },
+      "44": {
+        "physical_package_id": "1",
+        "core_id": "2",
+        "thread_siblings_list": "16,44"
+      },
+      "3": {
+        "physical_package_id": "0",
+        "core_id": "3",
+        "thread_siblings_list": "3,31"
+      },
+      "34": {
+        "physical_package_id": "0",
+        "core_id": "6",
+        "thread_siblings_list": "6,34"
+      },
+      "24": {
+        "physical_package_id": "1",
+        "core_id": "11",
+        "thread_siblings_list": "24,52"
+      },
+      "52": {
+        "physical_package_id": "1",
+        "core_id": "11",
+        "thread_siblings_list": "24,52"
+      },
+      "14": {
+        "physical_package_id": "1",
+        "core_id": "0",
+        "thread_siblings_list": "14,42"
+      },
+      "42": {
+        "physical_package_id": "1",
+        "core_id": "0",
+        "thread_siblings_list": "14,42"
+      },
+      "1": {
+        "physical_package_id": "0",
+        "core_id": "1",
+        "thread_siblings_list": "1,29"
+      },
+      "32": {
+        "physical_package_id": "0",
+        "core_id": "4",
+        "thread_siblings_list": "4,32"
+      },
+      "22": {
+        "physical_package_id": "1",
+        "core_id": "9",
+        "thread_siblings_list": "22,50"
+      },
+      "50": {
+        "physical_package_id": "1",
+        "core_id": "9",
+        "thread_siblings_list": "22,50"
+      },
+      "12": {
+        "physical_package_id": "0",
+        "core_id": "13",
+        "thread_siblings_list": "12,40"
+      },
+      "40": {
+        "physical_package_id": "0",
+        "core_id": "13",
+        "thread_siblings_list": "12,40"
+      },
+      "30": {
+        "physical_package_id": "0",
+        "core_id": "2",
+        "thread_siblings_list": "2,30"
+      },
+      "20": {
+        "physical_package_id": "1",
+        "core_id": "6",
+        "thread_siblings_list": "20,48"
+      },
+      "49": {
+        "physical_package_id": "1",
+        "core_id": "8",
+        "thread_siblings_list": "21,49"
+      },
+      "10": {
+        "physical_package_id": "0",
+        "core_id": "11",
+        "thread_siblings_list": "10,38"
+      },
+      "8": {
+        "physical_package_id": "0",
+        "core_id": "9",
+        "thread_siblings_list": "8,36"
+      },
+      "39": {
+        "physical_package_id": "0",
+        "core_id": "12",
+        "thread_siblings_list": "11,39"
+      },
+      "29": {
+        "physical_package_id": "0",
+        "core_id": "1",
+        "thread_siblings_list": "1,29"
+      },
+      "19": {
+        "physical_package_id": "1",
+        "core_id": "5",
+        "thread_siblings_list": "19,47"
+      },
+      "47": {
+        "physical_package_id": "1",
+        "core_id": "5",
+        "thread_siblings_list": "19,47"
+      },
+      "6": {
+        "physical_package_id": "0",
+        "core_id": "6",
+        "thread_siblings_list": "6,34"
+      },
+      "37": {
+        "physical_package_id": "0",
+        "core_id": "10",
+        "thread_siblings_list": "9,37"
+      },
+      "27": {
+        "physical_package_id": "1",
+        "core_id": "14",
+        "thread_siblings_list": "27,55"
+      },
+      "55": {
+        "physical_package_id": "1",
+        "core_id": "14",
+        "thread_siblings_list": "27,55"
+      },
+      "17": {
+        "physical_package_id": "1",
+        "core_id": "3",
+        "thread_siblings_list": "17,45"
+      },
+      "45": {
+        "physical_package_id": "1",
+        "core_id": "3",
+        "thread_siblings_list": "17,45"
+      },
+      "4": {
+        "physical_package_id": "0",
+        "core_id": "4",
+        "thread_siblings_list": "4,32"
+      },
+      "35": {
+        "physical_package_id": "0",
+        "core_id": "8",
+        "thread_siblings_list": "7,35"
+      },
+      "25": {
+        "physical_package_id": "1",
+        "core_id": "12",
+        "thread_siblings_list": "25,53"
+      },
+      "53": {
+        "physical_package_id": "1",
+        "core_id": "12",
+        "thread_siblings_list": "25,53"
+      },
+      "15": {
+        "physical_package_id": "1",
+        "core_id": "1",
+        "thread_siblings_list": "15,43"
+      },
+      "43": {
+        "physical_package_id": "1",
+        "core_id": "1",
+        "thread_siblings_list": "15,43"
+      },
+      "2": {
+        "physical_package_id": "0",
+        "core_id": "2",
+        "thread_siblings_list": "2,30"
+      },
+      "33": {
+        "physical_package_id": "0",
+        "core_id": "5",
+        "thread_siblings_list": "5,33"
+      },
+      "23": {
+        "physical_package_id": "1",
+        "core_id": "10",
+        "thread_siblings_list": "23,51"
+      },
+      "51": {
+        "physical_package_id": "1",
+        "core_id": "10",
+        "thread_siblings_list": "23,51"
+      },
+      "13": {
+        "physical_package_id": "0",
+        "core_id": "14",
+        "thread_siblings_list": "13,41"
+      },
+      "41": {
+        "physical_package_id": "0",
+        "core_id": "14",
+        "thread_siblings_list": "13,41"
+      },
+      "0": {
+        "physical_package_id": "0",
+        "core_id": "0",
+        "thread_siblings_list": "0,28"
+      },
+      "31": {
+        "physical_package_id": "0",
+        "core_id": "3",
+        "thread_siblings_list": "3,31"
+      }
+    }
+  }
+}

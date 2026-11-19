@@ -1,0 +1,189 @@
+{
+  "git": "b3218ec9",
+  "sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1",
+  "solver": "/home/janotmik/primo-qflia-defaults-20261119-v2/build-slurm-rel/primo",
+  "roots": {
+    "QF_UF": "/home/janotmik/primo-arithmetic-combinations-20261115/tmp/symmetry-mutation-root",
+    "QF_UFLIA": "/home/janotmik/primo-model-fix/tmp/QF_UFLIA",
+    "QF_LIA": "/home/janotmik/primo-cadical-profile/sandbox/non-incremental/QF_LIA",
+    "QF_LRA": "/home/janotmik/primo-cadical-profile/tmp/QF_LRA",
+    "QF_UFLRA": "/home/janotmik/primo-cadical-profile/tmp/QF_UFLRA"
+  },
+  "configs": "/home/janotmik/primo-qflia-defaults-20261119-v2/tmp/configs",
+  "results": "/home/janotmik/primo-qflia-defaults-20261119-v2/results/qualification",
+  "protocol": {
+    "scope": "QF_LIA M124 uniform cubes + hybrid default promotion; 3000 actual-default generated inputs plus explicit controls and unchanged UFLIA; independent all-SAT Dolmen",
+    "candidate_source": "b3218ec919336110d79ab2dea9f52a0868ca263a",
+    "profiles": {
+      "DEFAULT-A": [
+        "--quiet",
+        "--stats"
+      ],
+      "DEFAULT-B": [
+        "--quiet",
+        "--stats"
+      ],
+      "DEFAULT-C": [
+        "--quiet",
+        "--stats"
+      ],
+      "OLD": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=private",
+        "--lia-cube=off",
+        "--lia-integer-slacks"
+      ],
+      "HYBRID": [
+        "--quiet",
+        "--stats",
+        "--lia-cube=off"
+      ],
+      "CUBE": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=private"
+      ],
+      "UFLIA": [
+        "--quiet",
+        "--stats"
+      ]
+    },
+    "tasks": [
+      {
+        "logic": "QF_LIA",
+        "label": "DEFAULT-A",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      {
+        "logic": "QF_LIA",
+        "label": "DEFAULT-B",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      {
+        "logic": "QF_LIA",
+        "label": "DEFAULT-C",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      },
+      {
+        "logic": "QF_LIA",
+        "label": "OLD",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=private",
+          "--lia-cube=off",
+          "--lia-integer-slacks"
+        ]
+      },
+      {
+        "logic": "QF_LIA",
+        "label": "HYBRID",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-cube=off"
+        ]
+      },
+      {
+        "logic": "QF_LIA",
+        "label": "CUBE",
+        "args": [
+          "--quiet",
+          "--stats",
+          "--lia-branching=private"
+        ]
+      },
+      {
+        "logic": "QF_UFLIA",
+        "label": "UFLIA",
+        "args": [
+          "--quiet",
+          "--stats"
+        ]
+      }
+    ],
+    "generated_count_per_task": 1000,
+    "generated_seed_base": 20261119500,
+    "mutation_seed_base": 20261119600,
+    "gate_model_limits_seconds": [
+      30,
+      30
+    ],
+    "timing_note": "Qualification only. Frozen paired timing cards are separate."
+  },
+  "tasks": [
+    {
+      "logic": "QF_LIA",
+      "label": "DEFAULT-A",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "DEFAULT-B",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "DEFAULT-C",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "OLD",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=private",
+        "--lia-cube=off",
+        "--lia-integer-slacks"
+      ]
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "HYBRID",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lia-cube=off"
+      ]
+    },
+    {
+      "logic": "QF_LIA",
+      "label": "CUBE",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=private"
+      ]
+    },
+    {
+      "logic": "QF_UFLIA",
+      "label": "UFLIA",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    }
+  ],
+  "regression_seeds": "/home/janotmik/primo-qflia-defaults-20261119-v2/tmp/configs/regression-seeds.json",
+  "mutation_candidates": "/home/janotmik/primo-qflia-defaults-20261119-v2/tmp/configs/mutation-candidates.json"
+}

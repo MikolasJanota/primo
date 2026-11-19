@@ -3,6 +3,717 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-19-qflia-defaults",
+      "date": "2026-11-19",
+      "branch": "lia-integrality",
+      "kind": "Requested QF_LIA-only M124 uniform-cube hybrid default promotion",
+      "evidence_status": "Complete; requested QF_LIA-only default accepted with independent documentation/evidence review and explicit measured regressions. Other logic defaults unchanged.",
+      "source": "b3218ec919336110d79ab2dea9f52a0868ca263a",
+      "scope": "QF_LIA policy only. Other logics and explicit overrides unchanged.",
+      "execution": "SLURM helper builds; check/ASan; fresh3000actual-defaultLIA + three LIA controls and unchanged UFLIA1000each; real-seed mutations/scoped models; all successful SAT models directDolmen. Frozen200LIA four-arm120s single rotated pass planned after audited correctness, model stage separate.",
+      "first_attempt": {
+        "source": "38240353",
+        "native_sha256": "8962ee74f4495c2ebc73a51341e98256068511cf883d14d0146b33adf212c59a",
+        "jobs": {
+          "build": "434371",
+          "verify": "434372",
+          "static": "434374",
+          "canceled_before_execution": [
+            "434375",
+            "434376",
+            "434377"
+          ],
+          "docs_examples": "434378",
+          "fixture_attempt": "434379",
+          "corrected_fixture": "434380"
+        },
+        "outcome": "48/49native andASan groups passed. New cube-counter test fixture had integral initial model and correctly skipped cubes. First attempted threshold-only correction also skipped; final7<=3x+5y<=17 fixture exercisescube and full QFLIA suite passes in434380. No wrong solver answer; no first-attempt fuzz/timing evidence reused. Production code identical in next snapshot. Obsolete first-attempt static job434374 canceled after its initial tidy report; current snapshot has its own full141-unit scan434384."
+      },
+      "artifacts": "benchmarks/qflia-defaults-20261119/{qualification.json,protocol.json,timing.json,followup-1.json,followup-2.json,configs/}; raw results/qflia-defaults-20261119/v2",
+      "remaining": "None for this requested default update. Global tuning and main integration remain separate future work.",
+      "native": {
+        "git": "b3218ec919336110d79ab2dea9f52a0868ca263a",
+        "sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1",
+        "work": "/home/janotmik/primo-qflia-defaults-20261119-v2",
+        "snapshot": "/tmp/primo-qflia-defaults-20261119/source-v2"
+      },
+      "jobs": {
+        "verify": "434382",
+        "static": "434384",
+        "seeds": "434385",
+        "generated": "434386",
+        "mutations": "434387",
+        "timing": "434409",
+        "followup-1": "434612",
+        "followup-2": "434616",
+        "timing-models": "434620",
+        "followup-1-models": "434723",
+        "followup-2-models": "434824",
+        "helper_build": "434381",
+        "docs_examples": "434388",
+        "include_hygiene_final": "434542",
+        "topology": "434828",
+        "reference_initial": "434829",
+        "reference_cvc5": "434831",
+        "reference_z3_solver2": "434832"
+      },
+      "protocol": "benchmarks/qflia-defaults-20261119/configs/campaign.json",
+      "verification_so_far": "Correctness and static complete:49native/400Python/49ASan/12doc examples;7000generated,2520real-seedmutants,65regressions,7452Dolmenmodel/querychecks. Both full141-unit scans cover all source;882tidy/409includeadvisories, two new missingdirectincludes fixed by object-identical policy/test supplements.",
+      "hygiene": {
+        "job": "434542",
+        "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1",
+        "records": [
+          {
+            "source": "src/smt/lia_settings_policy.cpp",
+            "command": [
+              "/usr/bin/c++",
+              "-DPRIMO_CADICAL_EXTERNAL_NOTIFY_SCALAR=0",
+              "-DPRIMO_CADICAL_EXTERNAL_NOTIFY_VECTOR=1",
+              "-DPRIMO_CADICAL_HAS_DECLARE_MORE_VARIABLES=1",
+              "-DPRIMO_CADICAL_HAS_RESERVE=0",
+              "-DPRIMO_CADICAL_HAS_RESIZE=1",
+              "-DPRIMO_HAVE_IPASIR=1",
+              "-I/home/janotmik/primo-qflia-defaults-20261119-v2/src",
+              "-isystem",
+              "/home/janotmik/primo-qflia-defaults-20261119-v2/contrib/local/include",
+              "-isystem",
+              "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/0",
+              "-isystem",
+              "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/1",
+              "-isystem",
+              "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/2",
+              "-isystem",
+              "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/3",
+              "-isystem",
+              "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/4",
+              "-isystem",
+              "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/5",
+              "-O3",
+              "-DNDEBUG",
+              "-std=c++20",
+              "-Wall",
+              "-Wextra",
+              "-Wpedantic",
+              "-Wconversion",
+              "-Wsign-conversion",
+              "-Wshadow",
+              "-Wold-style-cast",
+              "-Wcast-align",
+              "-Wunused",
+              "-Woverloaded-virtual",
+              "-Wnull-dereference",
+              "-Wdouble-promotion",
+              "-Wformat=2",
+              "-Wimplicit-fallthrough",
+              "-Werror",
+              "-c",
+              "/home/janotmik/primo-qflia-defaults-20261119-v2/tmp/hygiene/lia_settings_policy.cpp",
+              "-o",
+              "results/include-hygiene-final-3/lia_settings_policy.o"
+            ],
+            "source_sha256": "ce1544ef60aa9bb78889704c8c59af49f7b680cf8d67557a11b6ed322ed8e7c7",
+            "object_sha256": "abd138bbb6a6eb53ad35dcbbbbd0f8a207a92af135759270d50f0f9086120e91",
+            "rebuilt_object_identical": true,
+            "clang_tidy_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "existing_advisory_signatures": []
+          },
+          {
+            "source": "tests/unit/tactic_tests.cpp",
+            "command": [
+              "/usr/bin/c++",
+              "-DPRIMO_CADICAL_EXTERNAL_NOTIFY_SCALAR=0",
+              "-DPRIMO_CADICAL_EXTERNAL_NOTIFY_VECTOR=1",
+              "-DPRIMO_CADICAL_HAS_DECLARE_MORE_VARIABLES=1",
+              "-DPRIMO_CADICAL_HAS_RESERVE=0",
+              "-DPRIMO_CADICAL_HAS_RESIZE=1",
+              "-DPRIMO_HAVE_IPASIR=1",
+              "-I/home/janotmik/primo-qflia-defaults-20261119-v2/src",
+              "-isystem",
+              "/home/janotmik/primo-qflia-defaults-20261119-v2/contrib/local/include",
+              "-isystem",
+              "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/0",
+              "-isystem",
+              "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/1",
+              "-isystem",
+              "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/2",
+              "-isystem",
+              "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/3",
+              "-isystem",
+              "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/4",
+              "-isystem",
+              "/home/janotmik/primo-cadical-profile/contrib/local/clang-tools-env/cxx-headers/5",
+              "-O3",
+              "-DNDEBUG",
+              "-std=c++20",
+              "-Wall",
+              "-Wextra",
+              "-Wpedantic",
+              "-Wconversion",
+              "-Wsign-conversion",
+              "-Wshadow",
+              "-Wold-style-cast",
+              "-Wcast-align",
+              "-Wunused",
+              "-Woverloaded-virtual",
+              "-Wnull-dereference",
+              "-Wdouble-promotion",
+              "-Wformat=2",
+              "-Wimplicit-fallthrough",
+              "-Werror",
+              "-c",
+              "/home/janotmik/primo-qflia-defaults-20261119-v2/tmp/hygiene/tactic_tests.cpp",
+              "-o",
+              "results/include-hygiene-final-3/tactic_tests.o"
+            ],
+            "source_sha256": "aecdb672bfe1fd3a5e059a74529cff299b7769ea5d78c680f6281580c66c7f66",
+            "object_sha256": "bb28133e3c6698597a9095fc84a8030d81fd4acede0c7f9612f99cbabef4f003",
+            "rebuilt_object_identical": true,
+            "clang_tidy_sha256": "b48ec9edbed1e23ebf5e733384e97a6604adeac745a5b2e082831ae1c9f8db2d",
+            "existing_advisory_signatures": [
+              [
+                "src/smt/check_sat.hpp",
+                "Excessive padding in 'struct primo::smt::CheckSatOptions' (65 padding bytes, where 1 is optimal). Optimal fields order: experimental_split_bools, euf_conflict_ackermann_atom_limit, extended_simplification_rounds, qf_uflia_model_decision_budget, preprocess_bound_work_limit, euf_propagation_interval, euf_propagation_assign_threshold, euf_diseq_ackermann_max_width, euf_diseq_ackermann_queue_budget, euf_diseq_ackermann_per_symbol, nelson_oppen_model_equality_branch_budget, boolean_flatten_threshold, boolean_flatten_post_threshold, preprocessing_passes, preprocessing_adaptive_extra_passes, preprocessing_adaptive_shrink_percent, finite_domain_eqdefs_auto_domain_limit, finite_domain_eqdefs_auto_clause_limit, finite_domain_eqdefs_auto_term_limit, quantifier_instances_per_round, quantifier_stall_tuples, quantifier_max_instances, quantifier_deepening_increment, quantifier_random_seed, qf_uf_portfolio_conflicts, euf_propagation_budget, euf_propagation_delivery, nelson_oppen_arrangement_probe_limit, max_theory_conflicts, cadical_options, lra_row_propagation_limits, lra_tuning, quantifier_export_pools, cancelled, auto_preprocess_tuning, lia, incremental_mode, preprocessing_mode, euf_engine, euf_propagation, pure_theory_filter, theory_phase, euf_explain_search, nelson_oppen_model_equality_mutation_scope, nelson_oppen_model_equality_branch_policy, nelson_oppen_propagation, lra_pivoting_rule, mixed_dispatch, qf_uflra_lra_equality_producer, qf_uflia_equality_policy, qf_uflia_lia_equality_producer, auto_preprocess_selector, boolean_implies_rewrite, qf_uf_portfolio, quantifier_tuple_order, euf_proof_forest_diagnostics, euf_diseq_propagation_diagnostics, euf_ackermann_diagnostics, nelson_oppen_diagnostics, nelson_oppen_model_equality_branching, nelson_oppen_model_equality_mutation, euf_dynamic_ackermann_shadow, euf_diseq_ackermann, euf_conflict_ackermann, euf_conflict_ackermann_diagnostics, euf_conflict_ackermann_demand_atoms, lra_propagation, lra_equality_propagation, lra_row_propagation, lra_bidirectional_row_propagation, lra_theory_decisions, lra_sparse_leaving, lra_least_violated_leaving, lra_fixed_elimination, qf_uflra_fixed_elimination, uf_symmetry_breaking, finite_domain_value_precedence, finite_domain_equality_definitions, finite_domain_post_amo, auto_finite_domain_equality_definitions, eq_bridge, ground_congruence, ground_unit_substitution, guarded_ground_unit_substitution, guarded_real_equality_lowering, arithmetic_atom_canonicalization, extended_simplification, ite_equality_distribution, cite_simplification, solved_constant_substitution, gaussian_elimination, qf_uflra_candidate_final_scan, qf_uflra_model_reconciliation, experimental_generic_model_combination, qf_uflia_model_combination, qf_uflia_online_components, qf_uflia_tableau_equalities, qf_uflra_online_euf, top_level_or_tseitin, auto_top_level_or_tseitin, auto_basic_single_preprocessing, auto_basic_single_predicate_polarity, auto_basic_multi_preprocessing, auto_basic_multi_polarity, preprocess_only, arithmetic_bound_diagnostics, preprocess_bound_tightening, quantifier_instance_simplification, produce_model, check_model, lra_model_phase, monotone_elimination, consider reordering the fields or adding explicit padding members",
+                "clang-analyzer-optin.performance.Padding"
+              ]
+            ]
+          }
+        ],
+        "provenance_sha256": "82adb989fe7d72116c95a6ed11aac6e58ea3ce3a3004b6c68cc86d1d8c52d87f",
+        "source_difference": "Only direct cube-mode includes in policy and tactic test after b3218ec9. Both Release objects recompile byte-identically; native unchanged. Focused analyzer/include-cleaner has no new signatures; one existing CheckSatOptions padding advisory is retained."
+      },
+      "generated_so_far": {
+        "cases": 7000,
+        "outcomes": {
+          "PASS": 6912,
+          "TIMEOUT": 87,
+          "REFERENCE_UNUSABLE": 1
+        },
+        "SAT_Dolmen_pass": 5772,
+        "actual_default_QF_LIA_cases": 3000,
+        "actual_default_QF_LIA_PASS": 2952,
+        "actual_default_QF_LIA_TIMEOUT": 48,
+        "reference_unusable": "One reference-only5s timeout in hybrid control; selected native SAT model independently validates withDolmen. No wrong-answer or unexplained disagreement."
+      },
+      "gate": {
+        "source": "b3218ec9",
+        "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1",
+        "counts": {
+          "generated_inputs": 7000,
+          "generated_PASS": 6912,
+          "generated_TIMEOUT": 87,
+          "generated_REFERENCE_UNUSABLE": 1,
+          "tracked_regression_measurements": 65,
+          "mutations_inputs": 2520,
+          "mutations_PASS": 2520
+        },
+        "SAT_Dolmen_pass": 7452,
+        "receipt_inventory": [
+          {
+            "phase": "generated",
+            "slot": 0,
+            "logic": "QF_LIA",
+            "profile": "DEFAULT-A",
+            "receipt_sha256": "d3b18ad3c5bd04b3c29a81d78a3fcb4bc858a72396702231be658e0731ce4dac",
+            "cases": 1000,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "generated",
+            "slot": 1,
+            "logic": "QF_LIA",
+            "profile": "DEFAULT-B",
+            "receipt_sha256": "c2d6c039994e2b30e4d17de1dcbf1f3a75600800c75a705ce510eb327ff445d3",
+            "cases": 1000,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "generated",
+            "slot": 2,
+            "logic": "QF_LIA",
+            "profile": "DEFAULT-C",
+            "receipt_sha256": "875775ec9ee674d934b8af3e00beb8f456b751a87b91924a9e32f6731fe8df4a",
+            "cases": 1000,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "generated",
+            "slot": 3,
+            "logic": "QF_LIA",
+            "profile": "OLD",
+            "receipt_sha256": "7bb2fa6e5523d0027ac7f822d806e0de90069fa0d849c16498ce65c371817eab",
+            "cases": 1000,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "generated",
+            "slot": 4,
+            "logic": "QF_LIA",
+            "profile": "HYBRID",
+            "receipt_sha256": "26f1d0d90c0466e9a57b9ed0f33ce595a38e4960c906e84402cb1fc97d0a71c2",
+            "cases": 1000,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "generated",
+            "slot": 5,
+            "logic": "QF_LIA",
+            "profile": "CUBE",
+            "receipt_sha256": "7d39e31920b77a2ff873eca42f044fc21707ba914acf198bd1ba525128cab501",
+            "cases": 1000,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "generated",
+            "slot": 6,
+            "logic": "QF_UFLIA",
+            "profile": "UFLIA",
+            "receipt_sha256": "df6c9fad07aa41f2850ddfbe50ae1201ce74b3d48fbc3ec563a3f8956bdf8337",
+            "cases": 1000,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "seeds",
+            "slot": 0,
+            "logic": "QF_LIA",
+            "profile": "DEFAULT-A",
+            "receipt_sha256": "ac1a7fb8d6a476b157a66d09c26debe42f52ac0c1db892cc5b7ab0af70cb82d7",
+            "cases": 9,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "seeds",
+            "slot": 1,
+            "logic": "QF_LIA",
+            "profile": "DEFAULT-B",
+            "receipt_sha256": "9cdff9ed75b7dc096dedec41424d3f6263867fd5a366d832fd91cfb4cf1e848d",
+            "cases": 9,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "seeds",
+            "slot": 2,
+            "logic": "QF_LIA",
+            "profile": "DEFAULT-C",
+            "receipt_sha256": "8d19b5c8780be61c8de0b75ac2cafbe4c914243976fbad5af61cbb77668bca92",
+            "cases": 9,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "seeds",
+            "slot": 3,
+            "logic": "QF_LIA",
+            "profile": "OLD",
+            "receipt_sha256": "ce826e5efd6f9debc21dc6e253a92be80a7a824fb81d8d0e5a23a718181b2be0",
+            "cases": 9,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "seeds",
+            "slot": 4,
+            "logic": "QF_LIA",
+            "profile": "HYBRID",
+            "receipt_sha256": "54c794eefdd49398a35760bdd521232bc6cd6d00cff92130b7fd15da16802403",
+            "cases": 9,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "seeds",
+            "slot": 5,
+            "logic": "QF_LIA",
+            "profile": "CUBE",
+            "receipt_sha256": "656be3b4dac3c4cbc6663e73f3dd7cb2cd84032226a15a77db77c70252b869aa",
+            "cases": 9,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "seeds",
+            "slot": 6,
+            "logic": "QF_UFLIA",
+            "profile": "UFLIA",
+            "receipt_sha256": "e7baed1921757b6ab54d51c27746e2b4d9b1415c3c08257bf795060c2f0341eb",
+            "cases": 11,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "mutations",
+            "slot": 0,
+            "logic": "QF_LIA",
+            "profile": "DEFAULT-A",
+            "receipt_sha256": "59c821c16a700efe8d56a42235364a2529c809f5685e2bd253bb9976274ad0e8",
+            "cases": 360,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "mutations",
+            "slot": 1,
+            "logic": "QF_LIA",
+            "profile": "DEFAULT-B",
+            "receipt_sha256": "7d561c3cbdb0f5e0ffebe54f9f58ee6ffb7acd48a17aba04ef472a574bad4935",
+            "cases": 360,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "mutations",
+            "slot": 2,
+            "logic": "QF_LIA",
+            "profile": "DEFAULT-C",
+            "receipt_sha256": "d87589d73d9169e1224a620f585760e153708566c7ab8f3befe5fa15b83d19db",
+            "cases": 360,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "mutations",
+            "slot": 3,
+            "logic": "QF_LIA",
+            "profile": "OLD",
+            "receipt_sha256": "4b21851f6e09620836387732ea304af3547f8d716e77703535a57e1297de217b",
+            "cases": 360,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "mutations",
+            "slot": 4,
+            "logic": "QF_LIA",
+            "profile": "HYBRID",
+            "receipt_sha256": "4051ea0b6ae5ff7e5d614bcd44ee0e55666ca76248ac413c38d137077896ac7a",
+            "cases": 360,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "mutations",
+            "slot": 5,
+            "logic": "QF_LIA",
+            "profile": "CUBE",
+            "receipt_sha256": "c9fccb4116be4e1a9548ce2fdb8a84ac603133bbc98e922fab9d18ece8ece194",
+            "cases": 360,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          },
+          {
+            "phase": "mutations",
+            "slot": 6,
+            "logic": "QF_UFLIA",
+            "profile": "UFLIA",
+            "receipt_sha256": "5b7f536b89e6cd29554ed55cfb4b5387d56d4116339ddc2fe6d5940dd78bd01b",
+            "cases": 360,
+            "source": "b3218ec9",
+            "native_sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1"
+          }
+        ],
+        "mutation_unknown_replays_needed": []
+      },
+      "timing_status": "All832native rows audited; all332selectedSATtimingrows pass separate directDolmen. One primary200-inputpass; two additionalfour-inputloss repetitions kept separate.",
+      "focused_metadata_tests": {
+        "count": 11,
+        "command": "python3 -m unittest tests.python.test_qflia_default_audit -v",
+        "scope": "Outcome/PAR2, decimal-string timing input and nonfinite rejection, physical core/sibling validation, content-hashed declared-status fallback."
+      },
+      "verification": {
+        "native_groups": 49,
+        "Python_tests": 400,
+        "ASan_groups": 49,
+        "docs_examples": 12,
+        "logs_sha256": {
+          "check.log": "20bc956a58f2d5d0903f41e545b353088d010d871892d5ab5d62ac7aeea4e9ab",
+          "asan.log": "59374b8002e6a897c5f94876af72280f0a2c89ca27b6b15f4d41b2f999af2949",
+          "asan-version.txt": "984dc696eba0487cf538aa3811aed6e8d8deb149907dec0a3a0605a155270e4f",
+          "asan.sha256": "8ef9e493881b6e8a60179bb80a269d56b14e1d1ef02e54c6728106cb2b0aa258"
+        }
+      },
+      "static": {
+        "tidy": {
+          "status": "complete-with-findings",
+          "expected_translation_units": 141,
+          "analyzed_translation_units": 141,
+          "missing": [],
+          "changed_inputs": [],
+          "tool_exit_code": 0,
+          "diagnostic_occurrences": 4033,
+          "unique_diagnostics": 882,
+          "counts": {
+            "portability-avoid-pragma-once": 109,
+            "performance-enum-size": 88,
+            "clang-analyzer-optin.performance.Padding": 1,
+            "misc-include-cleaner": 409,
+            "bugprone-branch-clone": 5,
+            "bugprone-unchecked-optional-access": 116,
+            "bugprone-use-after-move": 1,
+            "bugprone-exception-escape": 11,
+            "bugprone-easily-swappable-parameters": 42,
+            "performance-unnecessary-value-param": 15,
+            "performance-move-const-arg": 23,
+            "performance-inefficient-vector-operation": 8,
+            "performance-unnecessary-copy-initialization": 3,
+            "clang-analyzer-cplusplus.NewDeleteLeaks": 2,
+            "clang-analyzer-optin.core.EnumCastOutOfRange": 20,
+            "performance-faster-string-find": 3,
+            "performance-inefficient-string-concatenation": 14,
+            "performance-no-automatic-move": 1,
+            "bugprone-implicit-widening-of-multiplication-result": 4,
+            "bugprone-optional-value-conversion": 1,
+            "bugprone-assert-side-effect": 6
+          },
+          "scope": "Diagnostic inventory; completed analysis is not a claim that findings are benign.",
+          "unused_include_gate": {
+            "status": "passed",
+            "blocking": [],
+            "paired_self_includes": [],
+            "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+          },
+          "summary_sha256": "f4b115b7b125b5cf4fbc808fcc548e200587b85b5733689587cee55fada5842a",
+          "new_signatures_fixed": [
+            [
+              "src/smt/lia_settings_policy.cpp",
+              "no header providing \"primo::theory::arithmetic::LiaCubeMode\" is directly included",
+              "misc-include-cleaner"
+            ],
+            [
+              "tests/unit/tactic_tests.cpp",
+              "no header providing \"primo::theory::arithmetic::LiaCubeMode\" is directly included",
+              "misc-include-cleaner"
+            ]
+          ],
+          "baseline": "2d6daadc full scan; prior missing cstddef signature absent in current source.",
+          "located_diagnostic_records": 882,
+          "normalized_file_message_check_signatures": 744
+        },
+        "includes": {
+          "status": "complete-with-findings",
+          "expected_translation_units": 141,
+          "analyzed_translation_units": 141,
+          "missing": [],
+          "changed_inputs": [],
+          "tool_exit_code": 0,
+          "diagnostic_occurrences": 409,
+          "unique_diagnostics": 409,
+          "counts": {
+            "misc-include-cleaner": 409
+          },
+          "scope": "Diagnostic inventory; completed analysis is not a claim that findings are benign.",
+          "unused_include_gate": {
+            "status": "passed",
+            "blocking": [],
+            "paired_self_includes": [],
+            "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+          },
+          "summary_sha256": "e14577f6eeab21907064cfbb2d2a6871452eac239bebde82c7f18562ed20f326",
+          "new_signatures_fixed": [
+            [
+              "src/smt/lia_settings_policy.cpp",
+              "no header providing \"primo::theory::arithmetic::LiaCubeMode\" is directly included",
+              "misc-include-cleaner"
+            ],
+            [
+              "tests/unit/tactic_tests.cpp",
+              "no header providing \"primo::theory::arithmetic::LiaCubeMode\" is directly included",
+              "misc-include-cleaner"
+            ]
+          ],
+          "baseline": "2d6daadc full scan; prior missing cstddef signature absent in current source.",
+          "located_diagnostic_records": 409,
+          "normalized_file_message_check_signatures": 401
+        }
+      },
+      "timing": {
+        "primary_rows": 800,
+        "followup_rows": 32,
+        "SAT_Dolmen_pass": 332,
+        "summary_sha256": "28e104605322da45a4dc57d3f0c49f35c368d6d90b397b856223288a8045a8d9",
+        "primary_profile_results": {
+          "OLD": {
+            "solved": 104,
+            "outcomes": {
+              "unknown": 63,
+              "sat": 55,
+              "timeout": 31,
+              "memory-out": 2,
+              "unsat": 49
+            },
+            "mean_PAR2_seconds": 120.622718805,
+            "median_RSS_KiB": 19840.0,
+            "max_RSS_KiB": 7770256
+          },
+          "NEW": {
+            "solved": 159,
+            "outcomes": {
+              "sat": 98,
+              "timeout": 40,
+              "memory-out": 1,
+              "unsat": 61
+            },
+            "mean_PAR2_seconds": 54.588966955,
+            "median_RSS_KiB": 16248.0,
+            "max_RSS_KiB": 7734744
+          },
+          "HYBRID": {
+            "solved": 150,
+            "outcomes": {
+              "sat": 89,
+              "timeout": 49,
+              "memory-out": 1,
+              "unsat": 61
+            },
+            "mean_PAR2_seconds": 65.468771655,
+            "median_RSS_KiB": 16260.0,
+            "max_RSS_KiB": 7746612
+          },
+          "CUBE": {
+            "solved": 158,
+            "outcomes": {
+              "sat": 90,
+              "timeout": 20,
+              "memory-out": 2,
+              "unknown": 20,
+              "unsat": 68
+            },
+            "mean_PAR2_seconds": 55.40434005,
+            "median_RSS_KiB": 16248.0,
+            "max_RSS_KiB": 7745792
+          }
+        }
+      },
+      "SAT_Dolmen_pass_total": 7784,
+      "topology": {
+        "job": "434828",
+        "sha256": "9f19a24c2531e9bc445126a3d81bea37aefb14bf18483da7676ae869695f5ba3",
+        "hosts": [
+          "node-02.ciircluster",
+          "node-03.ciircluster",
+          "node-04.ciircluster"
+        ],
+        "contract": "Every timing affinity mask contains the two SMT siblings of exactly one physical core, keyed by package/core. Four profiles run sequentially inside that allocation."
+      },
+      "declared_status_fallback": {
+        "cut_lemmas/20-vars/cut_lemma_01_001.smt2": {
+          "input_sha256": "493da16a258df4f4a63210937f7dccae99598f70495fb3cc1f4f6d76082f9c44",
+          "declared_status": "unsat"
+        }
+      },
+      "supplemental_reference_checks": {
+        "rows": [
+          {
+            "status": "timeout",
+            "answer": "error",
+            "seconds": "120.050127",
+            "timeout": "true",
+            "exit_code": -15,
+            "stats": {},
+            "stderr_head": "",
+            "file": "cut_lemmas/20-vars/cut_lemma_01_001.smt2",
+            "input_sha256": "493da16a258df4f4a63210937f7dccae99598f70495fb3cc1f4f6d76082f9c44",
+            "command": [
+              "/home/janotmik/primo-lra-bound-structure-fixed-20261026/contrib/local/bin/z3",
+              "smt.arith.solver=2"
+            ],
+            "solver_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+            "job": "434832",
+            "host": "node-02.ciircluster"
+          },
+          {
+            "status": "timeout",
+            "answer": "error",
+            "seconds": "120.103055",
+            "timeout": "true",
+            "exit_code": -15,
+            "stats": {},
+            "stderr_head": "cvc5 interrupted by SIGTERM.",
+            "file": "cut_lemmas/20-vars/cut_lemma_01_001.smt2",
+            "input_sha256": "493da16a258df4f4a63210937f7dccae99598f70495fb3cc1f4f6d76082f9c44",
+            "command": [
+              "/home/janotmik/primo-cadical-profile/contrib/local/bin/cvc5",
+              "--lang=smt2"
+            ],
+            "solver_sha256": "4a93548398445cf1a774655583f5465b156c26f63f2cdfb94f4728fdf7adde46",
+            "job": "434831",
+            "host": "node-02.ciircluster"
+          },
+          {
+            "status": "timeout",
+            "answer": "error",
+            "seconds": "120.104672",
+            "timeout": "true",
+            "exit_code": -15,
+            "stats": {},
+            "stderr_head": "",
+            "file": "cut_lemmas/20-vars/cut_lemma_01_001.smt2",
+            "input_sha256": "493da16a258df4f4a63210937f7dccae99598f70495fb3cc1f4f6d76082f9c44",
+            "command": [
+              "/home/janotmik/primo-lra-bound-structure-fixed-20261026/contrib/local/bin/z3"
+            ],
+            "solver_sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0",
+            "job": "434830",
+            "host": "node-02.ciircluster"
+          }
+        ],
+        "use": "Correctness diagnostics only; all timed out at120s with no contrary answer. Initial cvc5 path was missing; available existing reference used. Native runner already resolves frozen unknown labels against hash-matched SMT-LIB declared status. Retained input reproduces case123 declared UNSAT. These reference timings are not performance baselines."
+      },
+      "performance_summary": "OLD104/200,NEW159/200,HYBRID150/200,CUBE158/200. NEWvsOLD56gains/1loss, meanPAR2-54.7%; NEWvsCUBE11gains/10losses(-1.47%meanPAR2), a near tie with substantial churn. Four selected private-UNSAT losses reproduce twice; six other CUBE-relative losses remain single-pass observations. No global/full-corpus joint-profile tuning claim.",
+      "diagnostic_helper_attempts": [
+        {
+          "job": "434401",
+          "outcome": "Policy object identical; overstrict additive analyzer selection rejected existing header advisories."
+        },
+        {
+          "job": "434402",
+          "outcome": "Policy include object identical; focused analyzer/include-cleaner clear."
+        },
+        {
+          "job": "434504",
+          "outcome": "Helper used build-relative object path from source root; corrected directory handling."
+        },
+        {
+          "job": "434511",
+          "outcome": "Both objects identical; overstrict zero-warning assertion rejected existing CheckSatOptions padding advisory."
+        },
+        {
+          "job": "434542",
+          "outcome": "Final both-object equality and analyzer comparison against whole-tree baseline pass."
+        }
+      ],
+      "documentation_review": {
+        "reviewer": "qflia_defaults_docs_review, independent read-only",
+        "baseline": "9b7d3bec",
+        "qualified_source": "b3218ec919336110d79ab2dea9f52a0868ca263a",
+        "source_include_hygiene": "c1abfeee",
+        "verdict": "Ready; no required findings remain.",
+        "accepted_unit_sha256": "dc3d903a54834101000fbceca7e312799a2c41c412e3d1eddb40b963ba6ee062",
+        "evidence_page_sha256": "a7833c75d0b0d897a8019c215846a207170aae4e8deaa8e6eb0b4b139ebf1d48",
+        "qualification_sha256": "383ee1fa14e1284da9f138bdfc192bc1665934cf8eefabfa77939e83981dbd36",
+        "findings": {
+          "D1": "Historical four-switch claim qualified",
+          "D2": "Current-contract source references match qualified source",
+          "D3": "Captured per-route help refreshed and12examples verified",
+          "D4": "Hybrid heading no longer opt-in for QF_LIA",
+          "D5": "Ledger synchronized with completed static/include evidence",
+          "S1": "Historical cube default claims qualified",
+          "S2": "Loss interpretation attributes whole profile rather than isolated SAT handoff"
+        },
+        "independent_checks": "832rows,332timingSATmodels,7784totalchecks; profile/paired/family/resource/counter facts; all model-parent dependencies; physical-core sibling masks; hash-matched declared status and resource-limited reference probes; source/include equivalence. No solver execution or source editing.",
+        "writer_checks": "make lint;49native/400Python/49ASan/12docs examples onSLURM;11focused puremetadata tests; full141-unit static scans and include supplement; make docs-check-links0failures; Chrome rendered result/resource tables inspected.",
+        "unchecked_scope": "No full-corpus joint-profile evaluation, global parameter tuning, independent mathematical proof or whole-manual reader acceptance."
+      },
+      "checks": "make lint; fullSLURMcheck49native/400Python; ASan49; docs examples12; 11focusedreporttests; 141/141tidy andinclude scans; byte-identical include supplements; strictdocs/local-Gitlinks0failures; renderedprimary/resource tables inspected; code/efficiency self-review no blocking issue."
+    },
+    {
       "id": "2026-11-19-euf-smtcomp2026-repaired",
       "date": "2026-11-19",
       "branch": "lia-integrality",

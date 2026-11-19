@@ -1,0 +1,35 @@
+{
+  "DEFAULT-A": [
+    "--quiet",
+    "--stats"
+  ],
+  "DEFAULT-B": [
+    "--quiet",
+    "--stats"
+  ],
+  "DEFAULT-C": [
+    "--quiet",
+    "--stats"
+  ],
+  "OLD": [
+    "--quiet",
+    "--stats",
+    "--lia-branching=private",
+    "--lia-cube=off",
+    "--lia-integer-slacks"
+  ],
+  "HYBRID": [
+    "--quiet",
+    "--stats",
+    "--lia-cube=off"
+  ],
+  "CUBE": [
+    "--quiet",
+    "--stats",
+    "--lia-branching=private"
+  ],
+  "UFLIA": [
+    "--quiet",
+    "--stats"
+  ]
+}

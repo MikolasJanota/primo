@@ -14,6 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT))
+from scripts.bench_qf_uf_full import parse_smtlib_status  # noqa: E402
 from scripts.qualification.arithmetic_combinations.analyze import (  # noqa: E402
     describe,
     expected_resource_diagnostic,
@@ -26,6 +27,39 @@ from scripts.qualification.bound_propagation.analyze import (  # noqa: E402
     solved,
 )
 from scripts.qualification.lia_hybrid.run import measurement_order  # noqa: E402
+
+
+def expected_answer(case, status_inputs):
+    """Use the runner's declared-status fallback when the frozen oracle is unknown."""
+    expected = case.get("expected", "unknown")
+    if expected in ("sat", "unsat") or status_inputs is None:
+        return expected
+    source = status_inputs / case["logic"] / case["file"]
+    assert sha(source) == case["sha256"]
+    return parse_smtlib_status(source)
+
+
+def assert_single_core(affinity, host, topology):
+    """SLURM core binding may expose both SMT siblings to a single task."""
+    assert affinity and len(set(affinity)) == len(affinity)
+    if topology is None:
+        assert len(affinity) == 1
+        return
+    cpus = topology[host]["cpus"]
+    cores = {
+        (cpus[str(cpu)]["physical_package_id"], cpus[str(cpu)]["core_id"])
+        for cpu in affinity
+    }
+    assert len(cores) == 1
+
+
+def read_rows(path):
+    """Normalize the timing harness's decimal-string wire format at input."""
+    rows = [json.loads(line) for line in path.read_text().splitlines()]
+    for row in rows:
+        row["seconds"] = float(row["seconds"])
+        assert math.isfinite(row["seconds"]) and row["seconds"] > 0
+    return rows
 
 
 def comparison(rows, before, after, limit):
@@ -71,12 +105,52 @@ def main():
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--rows", type=Path, required=True)
     parser.add_argument("--out", type=Path, required=True)
+    parser.add_argument(
+        "--followup-of", type=Path, help="Pinned parent card for a scoped repeat"
+    )
+    parser.add_argument(
+        "--topology", type=Path, help="Recorded per-host CPU sibling identities"
+    )
+    parser.add_argument(
+        "--status-inputs",
+        type=Path,
+        help="Content-pinned inputs for declared-status fallback",
+    )
     args = parser.parse_args()
+    topology = json.loads(args.topology.read_text()) if args.topology else None
     config = json.loads(args.config.read_text())
-    assert len(config["cases"]) == 200
-    assert list(config["profiles"]) == ["OLD", "NEW", "HYBRID", "CUBE"]
+    if args.followup_of:
+        parent = json.loads(args.followup_of.read_text())
+        assert len(parent["cases"]) == 200
+        assert list(parent["profiles"]) == ["OLD", "NEW", "HYBRID", "CUBE"]
+        assert config["parent_sha256"] == sha(args.followup_of)
+        assert config["profiles"] == parent["profiles"]
+        for field in ("roots", "timeout", "address_space_bytes"):
+            assert config[field] == parent[field]
+        assert config["cases"] and len(
+            {c["original_slot"] for c in config["cases"]}
+        ) == len(config["cases"])
+        for case in config["cases"]:
+            assert 0 <= case["original_slot"] < len(parent["cases"])
+            assert case["repetition"] in (1, 2)
+            assert case == dict(
+                parent["cases"][case["original_slot"]],
+                original_slot=case["original_slot"],
+                repetition=case["repetition"],
+            )
+    else:
+        assert len(config["cases"]) == 200
+        assert list(config["profiles"]) == ["OLD", "NEW", "HYBRID", "CUBE"]
     records, receipts, coverage = [], [], []
+    status_fallbacks = {}
     for slot, case in enumerate(config["cases"]):
+        expected = expected_answer(case, args.status_inputs)
+        assert expected in ("sat", "unsat")
+        if case.get("expected") not in ("sat", "unsat"):
+            status_fallbacks[case["file"]] = {
+                "input_sha256": case["sha256"],
+                "declared_status": expected,
+            }
         directory = args.rows / f"slot-{slot}"
         assert (directory / "timing-complete").is_file()
         provenance_path = directory / "provenance.json"
@@ -88,11 +162,11 @@ def main():
         assert (
             provenance["case"] == case and provenance["profiles"] == config["profiles"]
         )
-        assert len(provenance["affinity"]) == 1
+        assert_single_core(provenance["affinity"], provenance["host"], topology)
         order = measurement_order(config, slot)
         assert provenance["order"] == order
         path = directory / "rows.jsonl"
-        rows = [json.loads(line) for line in path.read_text().splitlines()]
+        rows = read_rows(path)
         assert [row["profile"] for row in rows] == order
         by_profile = {}
         for row in rows:
@@ -107,7 +181,7 @@ def main():
             assert math.isfinite(row["seconds"]) and row["seconds"] > 0
             audit_row(row)
             if solved(row):
-                assert row["answer"] == case["expected"]
+                assert row["answer"] == expected
             reason = expected_resource_diagnostic(row)
             if reason:
                 text = (directory / f"{label}.stderr").read_text()
@@ -133,18 +207,48 @@ def main():
     limit = config["timeout"]
 
     def summarize(rows):
-        return {
-            label: describe([r[label] for r in rows], limit)
-            for label in config["profiles"]
-        }
+        profiles = {}
+        for label in config["profiles"]:
+            selected = [r[label] for r in rows]
+            profiles[label] = describe(selected, limit)
+            # Missing statistics on interrupted rows remain unavailable. These
+            # totals describe only completed successful measurements.
+            complete = [r for r in selected if solved(r) and r["stats"]]
+            profiles[label]["successful_cube_counter_totals"] = {
+                key: (
+                    sum(int(r["stats"].get(key, 0)) for r in complete)
+                    if complete
+                    else None
+                )
+                for key in (":lia.cube-calls", ":lia.cube-models", ":lia.cube-pivots")
+            }
+        return profiles
 
     families = collections.defaultdict(list)
     for row in records:
         families[row["NEW"]["file"].split("/")[0]].append(row)
+    profile_summary = summarize(records)
+    mechanism_gate = {}
+    for label, summary in profile_summary.items():
+        cubes = summary["successful_cube_counter_totals"]
+        splits = summary["cases_with_activity"][":lia.branching.split-requests"]
+        if not args.followup_of:
+            assert (cubes[":lia.cube-calls"] > 0) == (label in ("NEW", "CUBE"))
+            assert (cubes[":lia.cube-models"] > 0) == (label in ("NEW", "CUBE"))
+            assert (splits > 0) == (label in ("NEW", "HYBRID"))
+        mechanism_gate[label] = {
+            "cube_models": cubes[":lia.cube-models"],
+            "successful_cases_requesting_splits": splits,
+        }
     report = {
         "status": "complete, including every selected native SAT model",
         "config_sha256": sha(args.config),
-        "profiles": summarize(records),
+        "case_measurements": len(config["cases"]),
+        "declared_status_fallbacks": status_fallbacks,
+        "topology_sha256": sha(args.topology) if args.topology else None,
+        "followup_of_sha256": sha(args.followup_of) if args.followup_of else None,
+        "profiles": profile_summary,
+        "mechanism_gate": mechanism_gate,
         "comparisons": {
             f"{a}->NEW": comparison(records, a, "NEW", limit)
             for a in ("OLD", "HYBRID", "CUBE")

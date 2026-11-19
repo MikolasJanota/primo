@@ -1,0 +1,17 @@
+slot,file,logic,profile,status,answer,exit_code,seconds,peak_rss_kib
+0,cut_lemmas/15-vars/cut_lemma_01_001.smt2,QF_LIA,HYBRID,timeout,unknown,0,121.1039,26844
+0,cut_lemmas/15-vars/cut_lemma_01_001.smt2,QF_LIA,CUBE,ok,unsat,0,0.025742,16044
+0,cut_lemmas/15-vars/cut_lemma_01_001.smt2,QF_LIA,OLD,timeout,unknown,0,121.10697,80060
+0,cut_lemmas/15-vars/cut_lemma_01_001.smt2,QF_LIA,NEW,timeout,unknown,0,121.103403,25436
+1,prime-cone/prime_cone_unsat_10.smt2,QF_LIA,CUBE,ok,unsat,0,0.012543,16052
+1,prime-cone/prime_cone_unsat_10.smt2,QF_LIA,OLD,ok,unknown,0,1.734972,16068
+1,prime-cone/prime_cone_unsat_10.smt2,QF_LIA,NEW,timeout,unknown,0,121.105514,68324
+1,prime-cone/prime_cone_unsat_10.smt2,QF_LIA,HYBRID,timeout,unknown,0,121.106181,68316
+2,prime-cone/prime_cone_unsat_11.smt2,QF_LIA,OLD,ok,unknown,0,1.80045,16052
+2,prime-cone/prime_cone_unsat_11.smt2,QF_LIA,NEW,timeout,unknown,0,121.103455,36736
+2,prime-cone/prime_cone_unsat_11.smt2,QF_LIA,HYBRID,timeout,unknown,0,121.104315,36736
+2,prime-cone/prime_cone_unsat_11.smt2,QF_LIA,CUBE,ok,unsat,0,0.013614,16068
+3,cut_lemmas/15-vars/cut_lemma_01_005.smt2,QF_LIA,NEW,timeout,unknown,0,121.102739,22848
+3,cut_lemmas/15-vars/cut_lemma_01_005.smt2,QF_LIA,HYBRID,timeout,unknown,0,121.103635,22832
+3,cut_lemmas/15-vars/cut_lemma_01_005.smt2,QF_LIA,CUBE,ok,unsat,0,0.262032,16152
+3,cut_lemmas/15-vars/cut_lemma_01_005.smt2,QF_LIA,OLD,ok,unsat,0,9.61524,16168

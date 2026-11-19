@@ -1,0 +1,94 @@
+{
+  "cases": [
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_001.smt2",
+      "sha256": "04bb343528d9323814322e6be954d9a959e1529e84fbb8173b91b76f0e156158",
+      "expected": "unsat",
+      "repetition": 2,
+      "original_slot": 59
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "prime-cone/prime_cone_unsat_10.smt2",
+      "sha256": "e80e4090518dd1bdcb86cdc8c6ee95aa1475c4232942baad811e3ffc981fc5de",
+      "expected": "unsat",
+      "repetition": 2,
+      "original_slot": 62
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "prime-cone/prime_cone_unsat_11.smt2",
+      "sha256": "34fc2e2dd13aacba5838e905bc898e2c9866a0b25edd760931c318fe8d1f3756",
+      "expected": "unsat",
+      "repetition": 2,
+      "original_slot": 76
+    },
+    {
+      "group": "lia",
+      "logic": "QF_LIA",
+      "file": "cut_lemmas/15-vars/cut_lemma_01_005.smt2",
+      "sha256": "06195c12bc59be27657308ce6211a76928fcc3f5b7a5ab5cbc7d43396e9a0208",
+      "expected": "unsat",
+      "repetition": 2,
+      "original_slot": 85
+    }
+  ],
+  "roots": {
+    "QF_UF": "/home/janotmik/primo-arithmetic-combinations-20261115/tmp/symmetry-mutation-root",
+    "QF_UFLIA": "/home/janotmik/primo-model-fix/tmp/QF_UFLIA",
+    "QF_LIA": "/home/janotmik/primo-cadical-profile/sandbox/non-incremental/QF_LIA",
+    "QF_LRA": "/home/janotmik/primo-cadical-profile/tmp/QF_LRA",
+    "QF_UFLRA": "/home/janotmik/primo-cadical-profile/tmp/QF_UFLRA"
+  },
+  "profiles": {
+    "HYBRID": {
+      "solver": "/home/janotmik/primo-qflia-defaults-20261119-v2/build-slurm-rel/primo",
+      "sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1",
+      "git": "b3218ec919336110d79ab2dea9f52a0868ca263a",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lia-cube=off"
+      ]
+    },
+    "CUBE": {
+      "solver": "/home/janotmik/primo-qflia-defaults-20261119-v2/build-slurm-rel/primo",
+      "sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1",
+      "git": "b3218ec919336110d79ab2dea9f52a0868ca263a",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=private"
+      ]
+    },
+    "OLD": {
+      "solver": "/home/janotmik/primo-qflia-defaults-20261119-v2/build-slurm-rel/primo",
+      "sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1",
+      "git": "b3218ec919336110d79ab2dea9f52a0868ca263a",
+      "args": [
+        "--quiet",
+        "--stats",
+        "--lia-branching=private",
+        "--lia-cube=off",
+        "--lia-integer-slacks"
+      ]
+    },
+    "NEW": {
+      "solver": "/home/janotmik/primo-qflia-defaults-20261119-v2/build-slurm-rel/primo",
+      "sha256": "b7fdf6ad1df4f64a7b84fa1dffd1e18f11edf8868913952c036dc780a2183ae1",
+      "git": "b3218ec919336110d79ab2dea9f52a0868ca263a",
+      "args": [
+        "--quiet",
+        "--stats"
+      ]
+    }
+  },
+  "timeout": 120,
+  "address_space_bytes": 8589934592,
+  "out": "/home/janotmik/primo-qflia-defaults-20261119-v2/results/followups/repetition-2",
+  "parent_sha256": "b44dca819546b36c75f467ee9cbada039e25e92102d521263a09cd4e227b148d"
+}

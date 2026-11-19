@@ -465,3 +465,33 @@ limits remain separate. Counts and raw card hashes are unchanged. Final local
 process inspection finds no native/fuzz/batch experiment processes, and the
 remote queue is empty. The documented initial static metadata preparation
 failure is separate from the 26 successful qualification allocations.
+
+## 2026-11-19 QF_LIA default update
+
+Independent read-only reviewer `qflia_defaults_docs_review` accepts the QF_LIA
+policy/reference/history sync and completed correctness/protocol/results unit.
+The {download}`review record <../benchmarks/qflia-defaults-20261119/documentation-review.json>`
+retains scope, identities, findings and limitations. D1–D5 repair the historical
+four-switch claim, current source references, captured help, hybrid heading and
+stale qualification-ledger status. The final wording attributes repeated losses
+to the compared profiles without isolating history, budget or SAT handoff.
+
+The reviewer independently checks 21 correctness receipts, 7,000 generated cases,
+2,520 mutants, 84 original-seed checks, 65 tracked measurements and 7,452 gate
+model/query passes. It also checks all 832 timing rows and 332 timing SAT-model
+passes: 7,784 Dolmen checks in total. Tables, PAR2, conditional ratios, memory,
+mechanism counters, all model-parent dependencies, physical-core topology and
+the hash-matched declared-status fallback agree with raw artifacts. The four
+selected losses reproduce twice; other losses retain their single-pass scope.
+
+No required finding remains. Accepted final unit SHA-256 begins `dc3d903a5483`;
+evidence page `a7833c75d0b0`, qualification `383ee1fa14e1`. Subsequent ledger edits
+record acceptance and writer-check bookkeeping only. The qualified source is
+`b3218ec9`; direct-include milestone `c1abfeee` reproduces both affected Release
+objects byte-identically. This acceptance does not establish a mathematical
+termination result, a full-corpus combined-profile win or global tuning.
+
+The writer passes lint, eleven focused report tests, strict books/local-Git
+links and rendered result/resource-table inspection. Native49/Python400/ASan49
+and twelve CLI/example checks run in SLURM; static scans cover all141 C++ units.
+Existing static advisories and all incomplete outcomes remain recorded.
