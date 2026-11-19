@@ -104,6 +104,28 @@ resumes, choice conflicts, fresh-budget exits and peak generated atoms; measure
 resumed SAT search separately. Add an optional fresh-atom cap, default zero
 (unlimited); exhaustion returns `unknown` and never a conflict.
 
+## Complete-fallback resource ownership checklist
+
+The 2026-11-19 merge review reproduced a resource-accounting defect on a
+bounded QF_UFLIA input: a one-atom cap admitted two generated atoms when the
+model-guided route restarted with a complete arrangement. This is a Primo
+resource-policy repair, not a new Griggio algorithm.
+
+- The public `solve_component_recipe` invocation owns the cumulative number of
+  fresh integer-bound SAT atoms. An internal complete fallback shares that
+  counter; a new public invocation starts at zero.
+- Each backend retains its own semantic-bound-to-literal map. A term reused in
+  another backend still needs a new SAT variable and consumes another unit.
+  SAT literals must never cross backend boundaries.
+- Check the cap only before creating an atom. Reaching the cap alone must not
+  reject a fallback that can finish without another atom.
+- The generated-atom peak covers both live backends during recursive fallback.
+  The cumulative count is monotone until the public call returns; map lookup
+  and cap checking retain their existing complexity.
+- Test one- and two-atom caps, unlimited completion, online/offline operation,
+  complete arrangement, and a new solve after a resource exit. Check the
+  bounded SAT witness independently and retain the pre-fix measurements.
+
 ## Acceptance checklist
 
 - Arithmetic: integer success after handoff repair; zero/exact/overflowing budgets; score updates and deterministic
