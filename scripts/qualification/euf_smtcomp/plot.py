@@ -121,6 +121,8 @@ def main():
     fig.tight_layout(rect=(0, 0.04, 1, 0.86))
     args.out.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(args.out.with_suffix(".svg"), metadata={"Date": None})
+    svg = args.out.with_suffix(".svg")
+    svg.write_text("\n".join(line.rstrip() for line in svg.read_text().splitlines()) + "\n")
     fig.savefig(args.out.with_suffix(".png"), dpi=180)
     plt.close(fig)
     metadata = {
