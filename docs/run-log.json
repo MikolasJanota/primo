@@ -3,6 +3,149 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-20-gcc13-statistics-variant-portability",
+      "date": "2026-11-20",
+      "recorded_utc": "2026-11-20T20:51:58.738810+00:00",
+      "branch": "lia-integrality",
+      "kind": "Compiler portability repair; no solver profile or performance promotion",
+      "evidence_status": "GCC13 failing translation unit repaired; GCC11 Release/ASan suites pass. Hosted GCC13 whole-project CI remains pending a push.",
+      "baseline": "81664d2755e76cc468a4e21989d4368771349e50",
+      "qualification_snapshot": "3a32f4a6c117b2186db3f6c7404ede77339afe7a",
+      "scope": "Construct existing StatKey/string ordering-vector alternatives directly. Counter values, print order, representation, solver options and algorithms unchanged. CI additionally prints its compiler version.",
+      "source_identity": {
+        "native_change_only": "src/util/statistics.cpp",
+        "candidate_sha256": "c9d8b5413484ea7e34ef526aa5faf2f0849c84a3e39080071821c1e7095aa326",
+        "baseline_sha256": "e668aa8f31c7872d927242c4c2866a5b6d5e82cf60671cf7dd76309cc84cd1bd",
+        "qualification_equivalence": "The snapshot differs from the baseline in one native file, matching the accepted candidate SHA256. Its Git banner is a local qualification label; reproduction uses the committed source contents, not availability of that temporary commit on GitHub."
+      },
+      "compiler_comparison": {
+        "reported_CI": "GCC13/libstdc++13 diagnostic in owner-supplied log; exact hosted minor version not available. Future CI explicitly prints c++ --version.",
+        "previous_and_current_SLURM": "GCC 11.4.1 20231218 (Red Hat 11.4.1-3)",
+        "local_reproduction": "g++-13 (Ubuntu 13.4.0-10ubuntu1) 13.4.0"
+      },
+      "bounded_translation_unit_probe": {
+        "compiler": "g++-13",
+        "flags": [
+          "-std=c++20",
+          "-O3",
+          "-DNDEBUG",
+          "-Wall",
+          "-Wextra",
+          "-Wpedantic",
+          "-Wconversion",
+          "-Wsign-conversion",
+          "-Wshadow",
+          "-Wold-style-cast",
+          "-Wcast-align",
+          "-Wunused",
+          "-Woverloaded-virtual",
+          "-Wnull-dereference",
+          "-Wdouble-promotion",
+          "-Wformat=2",
+          "-Wimplicit-fallthrough",
+          "-Werror",
+          "-I",
+          "src"
+        ],
+        "source": "src/util/statistics.cpp",
+        "compile_only": true,
+        "timeout_seconds": 120,
+        "baseline_exit_code": 1,
+        "candidate_exit_code": 0,
+        "diagnostic": "-Werror=maybe-uninitialized in std::variant temporary move through extra_order_.push_back(key)",
+        "candidate_diagnostics": 0,
+        "baseline_log_sha256": "88b9dfd61318a6c701bbd7bb2a058b4ef7c78d1f5250df3db4347861de106a99",
+        "candidate_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "layout_probe": {
+        "method": "GCC13 compile-time sizeof assertions on this 64-bit ABI; not runtime performance measurements",
+        "StatKey_bytes": 8,
+        "string_bytes": 32,
+        "variant_bytes": 40,
+        "source_sha256": "4174b60b4d6f8fc2fa27a7caacfaa272c21754f89c865a1d51fa7c5bc50fc608"
+      },
+      "preparation": {
+        "command_template": "python3 scripts/slurm_prepare_benchmark_workspace.py --ssh-config \"$PRIMO_SSH_CONFIG\" --remote \"$PRIMO_REMOTE\" --remote-dir \"$PRIMO_WORKDIR\" --local-dir \"$PRIMO_QUALIFICATION_SOURCE\" --cmake \"$PRIMO_CMAKE\" --cxx-header-manifest \"$PRIMO_HEADER_MANIFEST\" --reuse-dependencies --build-via-slurm --jobs 4",
+        "build_job": "437619",
+        "build_state": "COMPLETED 0:0",
+        "build_log_sha256": "f8de5158549e8245e319e3dc76bc132b600d7b93c966b1f7c6029f1b9c272aaf",
+        "native_sha256": "8b23fcb3d33dd5e619af26740becd8aad7072f978164e42541bab947de9c2771",
+        "preflight": "The helper build completed, but immediate login-node preflight did not see the new executable. A separate helper --check-only --no-sync retry passed before verification submission.",
+        "preflight_log_sha256": "beb3296a6ca9f357d0618f8cf7c742230d4983c8df986791e033e5c041d92df1",
+        "earlier_attempts": [
+          {
+            "job": "437617",
+            "state": "CANCELLED",
+            "reason": "Wrong pre-provisioned CMake path; canceled before qualifying a build."
+          },
+          {
+            "job": "437618",
+            "state": "FAILED 2:0",
+            "reason": "Compute-node C++ standard headers unavailable without matching header manifest; corrected using the helper manifest option."
+          }
+        ]
+      },
+      "verification": {
+        "script": "scripts/qualification/euf_performance/verify.sbatch",
+        "array": "0-1",
+        "job": "437620",
+        "states": {
+          "0": "COMPLETED 0:0",
+          "1": "COMPLETED 0:0"
+        },
+        "scope": "Reuse the existing generic Release/check and ASan verification branches; no EUF options enabled by this driver.",
+        "make_check": {
+          "native_groups": 49,
+          "Python_tests": 408,
+          "failures": 0
+        },
+        "make_asan_test": {
+          "native_groups": 49,
+          "failures": 0
+        },
+        "check_log_sha256": "00db1e08b94787ac7c05846d8689de5f2909c282e55aac00a39b1a2b7646a487",
+        "asan_log_sha256": "f75e58b97335aa9c098aa15af594d3d2535b029c863053d78fc0f1b7ede458ce",
+        "asan_binary_sha256": "e6ee115d8406eb529a0da7e0c0731670ccff1ff8c8725f9e3a2f1032f414452b",
+        "runtime_warnings": "Python unittest ResourceWarning output is retained in check.log; tests pass."
+      },
+      "static": {
+        "job": "437684",
+        "state": "COMPLETED 0:0",
+        "scope": "src/util/statistics.cpp only, using prepared compile database",
+        "checks": "clang-analyzer-*,misc-include-cleaner",
+        "diagnostics": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "whole_tree_scan": "Not repeated for this mechanical construction-only change; the preceding whole-tree qualification remains separately documented."
+      },
+      "documentation": {
+        "make_lint": "pass",
+        "strict_both_books_and_local_Git_links": "pass",
+        "make_docs_check_external_exit_code": 2,
+        "external_failures": [
+          {
+            "book": "docs",
+            "filename": "papers/cuts-from-proofs.md",
+            "lineno": 12,
+            "status": "broken",
+            "code": 0,
+            "uri": "https://www.cs.utexas.edu/~isil/fmsd.pdf",
+            "info": "HTTPSConnectionPool(host='www.cs.utexas.edu', port=443): Max retries exceeded with url: /~isil/fmsd.pdf (Caused by NewConnectionError(\"HTTPSConnection(host='www.cs.utexas.edu', port=443): Failed to establish a new connection: [Errno 111] Connection refused\"))"
+          }
+        ],
+        "ignore_patterns_changed": false,
+        "rendered_changed_statistics_paragraph": "inspected"
+      },
+      "differential_and_performance_scope": "No new fuzz or timing campaign. This repair preserves the selected statistics alternatives, values and output order; it changes no solver algorithm, option or model behavior. Existing tests cover mixed typed/dynamic ordering. No fresh solver-profile qualification or runtime improvement is claimed.",
+      "review": {
+        "reviewer": "external_links_docs_review",
+        "verdict": "ready; no required findings",
+        "three_file_identity": "af1a19316260a283acfb3d482f1beb5ca171c8925989de0ff9e03f660381ea09",
+        "native_ownership": "Owning string copies and independent map/vector storage preserved; no borrowed reference crosses mutation of its owner."
+      },
+      "artifacts": "results/gcc13-statistics-20261120/; remote verification directory for this qualification retained separately",
+      "remaining": "Push the final source commit and inspect hosted GCC13 CI. DCO PR-list retrieval and contributor certification remain independent PR issues."
+    },
+    {
       "id": "2026-11-19-qflia-defaults",
       "date": "2026-11-19",
       "branch": "lia-integrality",

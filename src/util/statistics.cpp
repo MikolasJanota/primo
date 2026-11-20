@@ -7,6 +7,8 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
+#include <utility>
+#include <variant>
 #include <vector>
 
 namespace primo::util {
@@ -916,7 +918,7 @@ void Statistics::remember_key(StatKey key) {
     if (slot <= static_cast<std::size_t>(StatKey::CiteBranchesCollapsed))
       order_.push_back(key);
     else
-      extra_order_.push_back(key);
+      extra_order_.emplace_back(std::in_place_type<StatKey>, key);
   }
 }
 
@@ -936,7 +938,7 @@ void Statistics::set_dynamic(std::string_view name, Value value) {
   }
   const auto [inserted, is_new] = extra_values_.try_emplace(std::string{name}, value);
   if (is_new) {
-    extra_order_.push_back(inserted->first);
+    extra_order_.emplace_back(std::in_place_type<std::string>, inserted->first);
   }
 }
 
@@ -956,7 +958,7 @@ void Statistics::increment_dynamic(std::string_view name, Value delta) {
   }
   const auto [inserted, is_new] = extra_values_.try_emplace(std::string{name}, delta);
   if (is_new) {
-    extra_order_.push_back(inserted->first);
+    extra_order_.emplace_back(std::in_place_type<std::string>, inserted->first);
   }
 }
 

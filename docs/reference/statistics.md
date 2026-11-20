@@ -1354,6 +1354,9 @@ name lookup. Fixed scoped timers and interface-propagation groups also use typed
 keys. Output names and pre-migration print ordering remain compatible: newly
 promoted keys occupy an enum-or-string extra-order vector at first use.
 String construction happens when reporting those typed entries.
+Entries construct the selected variant alternative directly in that vector.
+This avoids a GCC 13 optimized-build diagnostic about an uninitialized string
+when moving a temporary variant; counter values and output order are unchanged.
 
 Cold summaries explicitly call `set_dynamic` or `increment_dynamic`.
 The compatible implicit string mutation overloads are deprecated, so owned

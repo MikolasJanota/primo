@@ -23,6 +23,8 @@ jobs:
         with:
           python-version: '3.12'
       - run: sudo apt-get update && sudo apt-get install -y build-essential cmake clang-format clang-format-18 ripgrep
+      - name: Compiler version
+        run: c++ --version
       - run: python3 -m venv .venv && .venv/bin/pip install ruff==0.16.1
       - name: Build, lint and tests
         run: make check
