@@ -87,8 +87,12 @@ Use standard mathematical and solver terminology, with these conventions:
 
 ## Sources and review
 
-Use the shared bibliography in `docs/references.bib`, with DOI or stable publisher/
-author links. Ignored local PDF names are not bibliographic identifiers. Read
+Use the shared bibliography in `docs/references.bib`. Prefer the DOI URL as a
+paper's primary citation link whenever a DOI exists. A publisher or author PDF
+may be offered separately as a reading copy; it should not replace the DOI just
+because the automated checker cannot access the publisher. For works without a
+DOI, prefer a stable publisher or institutional-repository URL before a personal
+webpage. Ignored local PDF names are not bibliographic identifiers. Read
 relevant primary sections before claiming a mechanism is implemented, and state
 the subset/deviations. Keep implementation links in the centrally configured
 `source` role and historical snapshots in `record`; see the
@@ -146,6 +150,24 @@ both books strictly, including the frozen historical book. The external checker 
 separate Sphinx linkcheck reports; distinguish genuinely broken targets from
 transient timeout, rate-limit or authorization failures. Do not silently suppress
 a new failure. Inspect rendered equations, tables, navigation and source links.
+
+Run `make docs-check-external` before committing documentation changes. It is
+the same command used by the
+{actionsworkflow}`GitHub external-link workflow <.github/workflows/external-links.yml>`.
+It checks both books and includes the strict builds and local/Git checks above.
+Read each book's `_build/linkcheck/output.json` for per-URL statuses and errors.
+
+Network results can differ between this workspace, a browser and GitHub's
+runner. A timeout does not establish that a paper moved; HTTP 403/429 and TLS
+certificate errors also need separate triage. Recheck the affected request when
+feasible, repair confirmed bad links, and record unresolved access failures
+with the command, date and execution environment. Preserve a working paper URL
+unless there is evidence for a better destination. Do not bypass certificate
+verification or add broad ignores to make the check pass.
+The pinned Sphinx version returns nonzero for timeouts as well as broken links:
+`linkcheck_report_timeouts_as_broken: false` distinguishes the reported statuses;
+it does not make timeouts pass. Keep these failures visible when reporting
+verification, even if local builds and source links pass.
 
 The {project}`local checker <scripts/check_doc_links.py>` also flags unlinked concrete `src/` file paths in the main
 book's prose. It excludes code blocks and the historical book from this style

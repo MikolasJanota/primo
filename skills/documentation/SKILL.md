@@ -127,6 +127,19 @@ or publishing changes.
 
 Use `python3 scripts/check_doc_links.py docs/_build/site` after an incremental
 build; use `make docs-check-links` for a full strict build and link check.
+Before committing a change that touches documentation, run
+`make docs-check-external`. This is the same target used by
+`.github/workflows/external-links.yml`; it includes both strict books, assembled
+local/Git links and Sphinx's external-link check for each book. An incremental
+HTML build or local/Git-only check does not replace it. Inspect the two
+`_build/linkcheck/output.json` reports. Classify failed requests by their actual
+status and diagnostics; a timeout, HTTP 403/429 or certificate failure alone
+does not prove that a paper URL is obsolete. Recheck the affected request when
+feasible and record unresolved access failures explicitly. Do not disable TLS
+verification, add blanket ignore patterns or silently make the check advisory
+to obtain a green result. Local success does not guarantee access from GitHub's
+runner, and a browser download need not behave like the automated checker.
+
 Missing reviewer tools or primary evidence must be reported explicitly. Continue
 authorized, useful work, but do not label an incomplete review as passed.
 
@@ -167,6 +180,12 @@ For term documentation specifically, cover:
 - how applications, equalities, and Boolean connectives are represented
 
 ## Paper Traceability
+
+Prefer DOI URLs as primary paper citation links whenever a DOI exists. Keep
+publisher/author PDFs as optional reading copies. A bot's HTTP 403, rate limit
+or timeout does not justify replacing a DOI with a personal webpage. For a work
+without a DOI, prefer a stable publisher or institutional repository before a
+personal page.
 
 Every page that mentions a paper-backed component must include a "Paper Traceability" or "Sources and Implementation Status" section:
 
