@@ -1,5 +1,6 @@
 #include "util/statistics.hpp"
 
+#include <algorithm>
 #include <array>
 #include <cstddef>
 #include <optional>
@@ -7,8 +8,6 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
-#include <utility>
-#include <variant>
 #include <vector>
 
 namespace primo::util {
@@ -910,23 +909,6 @@ std::size_t Statistics::TransparentStringHash::operator()(std::string_view value
   return std::hash<std::string_view>{}(value);
 }
 
-void Statistics::remember_key(StatKey key) {
-  const std::size_t slot = index(key);
-  if (!seen_[slot]) {
-    seen_[slot] = true;
-    // Promoted keys retain the legacy extra-key ordering at the output boundary.
-    if (slot <= static_cast<std::size_t>(StatKey::CiteBranchesCollapsed))
-      order_.push_back(key);
-    else
-      extra_order_.emplace_back(std::in_place_type<StatKey>, key);
-  }
-}
-
-void Statistics::set(StatKey key, Value value) {
-  remember_key(key);
-  values_[index(key)] = value;
-}
-
 void Statistics::set_dynamic(std::string_view name, Value value) {
   if (const auto extra = extra_values_.find(name); extra != extra_values_.end()) {
     extra->second = value;
@@ -936,15 +918,7 @@ void Statistics::set_dynamic(std::string_view name, Value value) {
     set(key.value(), value);
     return;
   }
-  const auto [inserted, is_new] = extra_values_.try_emplace(std::string{name}, value);
-  if (is_new) {
-    extra_order_.emplace_back(std::in_place_type<std::string>, inserted->first);
-  }
-}
-
-void Statistics::increment(StatKey key, Value delta) {
-  remember_key(key);
-  values_[index(key)] += delta;
+  extra_values_.try_emplace(std::string{name}, value);
 }
 
 void Statistics::increment_dynamic(std::string_view name, Value delta) {
@@ -956,10 +930,7 @@ void Statistics::increment_dynamic(std::string_view name, Value delta) {
     increment(key.value(), delta);
     return;
   }
-  const auto [inserted, is_new] = extra_values_.try_emplace(std::string{name}, delta);
-  if (is_new) {
-    extra_order_.emplace_back(std::in_place_type<std::string>, inserted->first);
-  }
+  extra_values_.try_emplace(std::string{name}, delta);
 }
 
 Statistics::Value Statistics::get(StatKey key) const { return values_[index(key)]; }
@@ -986,18 +957,22 @@ bool Statistics::contains(std::string_view name) const {
   return false;
 }
 
+bool Statistics::empty() const {
+  return extra_values_.empty() &&
+         std::none_of(seen_.begin(), seen_.end(), [](bool seen) { return seen; });
+}
+
 std::vector<std::string> Statistics::keys() const {
   std::vector<std::string> result;
-  result.reserve(order_.size() + extra_order_.size());
-  for (const StatKey key : order_) {
-    result.emplace_back(stat_name(key));
+  const auto fixed_count = static_cast<std::size_t>(std::count(seen_.begin(), seen_.end(), true));
+  result.reserve(fixed_count + extra_values_.size());
+  for (std::size_t slot = 0; slot < kStatCount; ++slot) {
+    if (seen_[slot]) result.emplace_back(kStatNames[slot]);
   }
-  for (const auto& extra : extra_order_) {
-    if (const auto* key = std::get_if<StatKey>(&extra))
-      result.emplace_back(stat_name(*key));
-    else
-      result.push_back(std::get<std::string>(extra));
+  for (const auto& entry : extra_values_) {
+    result.push_back(entry.first);
   }
+  std::sort(result.begin() + static_cast<std::ptrdiff_t>(fixed_count), result.end());
   return result;
 }
 

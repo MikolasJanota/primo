@@ -85,10 +85,11 @@ move into `flat_vector_trail_`; queued congruence work cannot grow that payload
 arena until iteration returns. Trace resets and checkpoint restoration preserve
 live capacity, and semantic extraction reuses an owning scratch vector. Native semantic/rollback/capacity regressions pass on SLURM, including ASan. The fresh nine-profile gate audited 9000 generated and 2855 mutated inputs: 8980 and 2843 pass, respectively, with 20 timeouts and 12 incomplete mutations. No wrong answer or crash was observed; 8617 successful SAT models passed separate Dolmen validation. Source `66ebec78`, build 414784, check/ASan 414785, gates 414787/414796/414797.
 
-The first statistics migration registers fixed names in runtime implementation
-files. `Statistics` routes newly promoted typed keys through an enum-or-string
-extra-order vector, preserving their prior public display position without
-constructing strings on typed updates. The fixed arrays grow with the key
+The first statistics migration registered fixed names in runtime implementation
+files. It used an enum-or-string extra-order vector to preserve their prior
+public display position without constructing strings on typed updates. The
+current [simplified representation](../reference/statistics.md#typed-instrumentation-policy)
+uses registry order and sorted dynamic names. The fixed arrays grow with the key
 registry; closure checkpoints contain `IncrementalCongruenceClosureStats`, not
 `Statistics`, so that change does not multiply the array growth by SAT depth.
 The integrated migration uses explicit cold mutation APIs and typed timer/group keys; its qualification on `6e53a710` is separate from this mechanical snapshot.
@@ -98,7 +99,7 @@ Current mechanical owners are the
 and {download}`assignment-state scratch <../../src/smt/solver_engines.cpp>`.
 The {download}`Statistics representation <../../src/util/statistics.hpp>` and
 {download}`implementation <../../src/util/statistics.cpp>` own typed storage
-and compatible print ordering. The
+and deterministic print ordering. The
 {download}`inventory checker <../../scripts/check_statistics_policy.py>` checks
 call expressions and counts against its manifest; manual helper/coldness review
 remains necessary. Cold summaries carry phase-specific manifest rationales. These downloads describe current source, not the older

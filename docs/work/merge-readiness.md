@@ -35,7 +35,13 @@ native binary SHA-256
 The two subsequent direct-include repairs at `c1abfeee` produced byte-identical
 Release objects. The evidence was committed at the review baseline `6e4f0cfd`.
 
-That qualification includes release and ASan suites, generated and real-seed
+The later [statistics simplification](../reference/statistics.md#typed-instrumentation-policy)
+has its own source and correctness record in the [run ledger](../run-log.json).
+It deliberately changes reporting order while retaining counter names and values.
+The earlier arithmetic binary hash and timing results do not identify or measure
+this later source revision; no new performance comparison is claimed.
+
+The earlier arithmetic qualification includes release and ASan suites, generated and real-seed
 mutation gates, separate Dolmen model validation, whole-tree static scans and
 SLURM timing comparisons. Exact counts, commands, jobs and artifact identities
 belong to the linked records and ledger, rather than a second checklist here.

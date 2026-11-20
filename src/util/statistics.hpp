@@ -9,7 +9,6 @@
 #include <string>
 #include <string_view>
 #include <unordered_map>
-#include <variant>
 #include <vector>
 
 namespace primo::util {
@@ -887,13 +886,21 @@ class Statistics {
  public:
   using Value = std::uint64_t;
 
-  void set(StatKey key, Value value);
+  void set(StatKey key, Value value) {
+    const std::size_t slot = index(key);
+    seen_[slot] = true;
+    values_[slot] = value;
+  }
   void set_dynamic(std::string_view name, Value value);
   [[deprecated("use StatKey in solver work or explicit cold set_dynamic")]]
   void set(std::string_view name, Value value) {
     set_dynamic(name, value);
   }
-  void increment(StatKey key, Value delta = 1);
+  void increment(StatKey key, Value delta = 1) {
+    const std::size_t slot = index(key);
+    seen_[slot] = true;
+    values_[slot] += delta;
+  }
   void increment_dynamic(std::string_view name, Value delta = 1);
   [[deprecated("use StatKey in solver work or explicit cold increment_dynamic")]]
   void increment(std::string_view name, Value delta = 1) {
@@ -904,7 +911,7 @@ class Statistics {
   Value get(std::string_view name) const;
   bool contains(StatKey key) const;
   bool contains(std::string_view name) const;
-  bool empty() const { return order_.empty() && extra_order_.empty(); }
+  bool empty() const;
 
   std::vector<std::string> keys() const;
 
@@ -923,12 +930,8 @@ class Statistics {
   static std::optional<StatKey> lookup_key(std::string_view name);
   static std::size_t index(StatKey key) { return static_cast<std::size_t>(key); }
 
-  void remember_key(StatKey key);
-
   std::array<Value, kStatCount> values_{};
   std::array<bool, kStatCount> seen_{};
-  std::vector<StatKey> order_;
-  std::vector<std::variant<StatKey, std::string>> extra_order_;
   std::unordered_map<std::string, Value, TransparentStringHash, std::equal_to<>> extra_values_;
 };
 

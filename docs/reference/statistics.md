@@ -1239,8 +1239,8 @@ documented; add a new key instead of changing the meaning of an old one.
 
 ## Collection and interpretation
 
-{source}`Statistics <src/util/statistics.hpp>` owns registered counters and
-additional string-keyed entries; {source}`the registry <src/util/statistics.cpp>`
+{download}`Statistics <../../src/util/statistics.hpp>` owns registered counters and
+additional string-keyed entries; {download}`the registry <../../src/util/statistics.cpp>`
 maps registered names to `StatKey`. Dynamic tactic/session keys are also
 part of the output. A missing key is not necessarily a measured zero.
 
@@ -1351,12 +1351,20 @@ The agent guide and code-review checklist require typed or numeric recurring
 instrumentation, including helper calls. `Statistics::set(StatKey, ...)` and
 `increment(StatKey, ...)` update indexed arrays without string construction or
 name lookup. Fixed scoped timers and interface-propagation groups also use typed
-keys. Output names and pre-migration print ordering remain compatible: newly
-promoted keys occupy an enum-or-string extra-order vector at first use.
-String construction happens when reporting those typed entries.
-Entries construct the selected variant alternative directly in that vector.
-This avoids a GCC 13 optimized-build diagnostic about an uninitialized string
-when moving a temporary variant; counter values and output order are unchanged.
+keys. Each `Statistics` object owns a fixed value array, presence flags and a
+map that owns the names and values of dynamic counters. Typed updates are
+inline array writes: they mark the counter present and update its value without
+allocation or first-use bookkeeping. Local counters inside very frequent solver
+operations may publish an accumulated delta through the same API.
+
+`keys()` and `print_statistics` list present fixed counters in registry order,
+then dynamic counters in lexicographic name order. This replaces the historical
+first-use ordering; consumers must identify counters by name, not line position.
+An untouched fixed counter is omitted, while a counter explicitly set to zero
+remains present. Copies own independent arrays and dynamic names; assigning a
+fresh `Statistics{}` clears both kinds. Presence scans and dynamic-name sorting
+occur when listing counters; `empty()` also scans presence flags when there are
+no dynamic entries. No ordering vectors or variants are retained.
 
 Cold summaries explicitly call `set_dynamic` or `increment_dynamic`.
 The compatible implicit string mutation overloads are deprecated, so owned

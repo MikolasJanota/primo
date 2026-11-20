@@ -3,6 +3,509 @@
   "description": "Canonical lightweight ledger for Primo benchmark, fuzzing, profiling, tuning, and reference-comparison runs.",
   "entries": [
     {
+      "id": "2026-11-20-statistics-storage-simplification",
+      "date": "2026-11-20",
+      "recorded_utc": "2026-11-20T22:48:48.105946+00:00",
+      "branch": "lia-integrality",
+      "kind": "Statistics storage and reporting simplification; no solver-profile promotion or runtime-performance claim",
+      "evidence_status": "Release/ASan, five-logic generated merge gate, separate SAT model replay and full static coverage completed. Sixteen LIA generated cases timed out. Hosted GCC13 whole-project CI remains pending a push; external documentation access failures remain recorded.",
+      "baseline": "ff53ed3c5289da3fabd3583c56853f37653b49d1",
+      "qualification_snapshot": "9dbef4aa83b8b6349b368b688b5b4d9242c728a4",
+      "scope": "Remove both first-use ordering vectors and std::variant. Typed mutations directly update value/presence arrays; dynamic names remain owned by a map. Output deliberately changes to registry order for present fixed counters, then lexicographic dynamic names. Names, values, absent-versus-zero semantics, operational limits and solver options are retained.",
+      "source_identity": {
+        "native_files_sha256": {
+          "src/util/statistics.hpp": "db3d76fa06b040abfca7995cc189e362114061dff8272a30759e3013ea75ac9d",
+          "src/util/statistics.cpp": "3c3a72a724a906202265b62d2cbf859620040e5254ba5c9097733dcdb9f1da7c",
+          "tests/unit/core_tests.cpp": "b012013346bc742cd7f990811ec5d667d035465249365c7c696c3e570fe3ea19"
+        },
+        "qualification_equivalence": "The three native files exactly match the frozen snapshot and the static manifest. Later changes are documentation/evidence only. The temporary snapshot identifies a local Git banner, not a required public Git object. Reproduce from committed source contents and these hashes."
+      },
+      "consumer_and_contract_review": {
+        "native_consumers": [
+          "src/util/statistics.cpp: print_statistics",
+          "src/smt/smt_session.cpp: copy preprocessing statistics by name after solving"
+        ],
+        "script_consumers": "Benchmark, comparison, tactic-composition and fuzz parsers use name-keyed dictionaries. Incremental query offsets are not statistics-row positions. No repository consumer requires mixed first-use order; external consumers were not audited.",
+        "unit_contracts": [
+          "empty/unseen state",
+          "explicit fixed and dynamic zeros remain present",
+          "fixed registry order followed by sorted dynamic names",
+          "identical output for opposite insertion orders",
+          "string names canonicalize to registered counters",
+          "independent copies and reset"
+        ],
+        "registry_names": 861,
+        "review_scope": "Whole tracked-file policy/lint/static inventories, affected consumers and ownership paths; no new blocking issues found. Existing static advisories remain separately recorded."
+      },
+      "compiler_and_layout_probes": {
+        "local_compiler": "g++-13 (Ubuntu 13.4.0-10ubuntu1) 13.4.0",
+        "SLURM_compiler": "GCC 11.4.1 20231218 (Red Hat 11.4.1-3)",
+        "compile_only": "src/util/statistics.cpp and tests/unit/core_tests.cpp compiled with C++20, -O3 -DNDEBUG and the project strict warning flags including -Werror; bounded individual probes, no local solver batch.",
+        "compile_exit_codes": [
+          0,
+          0
+        ],
+        "diagnostic_log_sha256": [
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "object_bytes_before": 7856,
+        "object_bytes_after": 7808,
+        "scope": "GCC13 x86_64 ABI only. Heap savings from removed vectors were not measured. No whole-solver runtime or RSS improvement inferred.",
+        "increment_wrapper": "One integer addition and one presence-byte store, then return (plus CET endbr64); no counter-call or conditional branch. Very frequent local solver counters may still publish accumulated deltas.",
+        "probe_source_sha256": "e2a20dd3936f1ac4cdbe6c45b28c90821e17f649f62f5c7683153e208a0cd116",
+        "disassembly_sha256": "3862a029a7853c3a752c7dc15a65bdb2566dbf13eb8807f2176979ee470d64e1"
+      },
+      "preparation": {
+        "command_template": "python3 scripts/slurm_prepare_benchmark_workspace.py --ssh-config \"$PRIMO_SSH_CONFIG\" --remote \"$PRIMO_REMOTE\" --remote-dir \"$PRIMO_WORKDIR\" --local-dir \"$PRIMO_QUALIFICATION_SOURCE\" --cmake \"$PRIMO_CMAKE\" --cxx-header-manifest \"$PRIMO_HEADER_MANIFEST\" --reuse-dependencies --build-via-slurm --jobs 4",
+        "build_job": "437760",
+        "state": "COMPLETED 0:0",
+        "build_log_sha256": "2d5356da6efb710e28b55ad860baf2f5b0a08258ecda01b643edb6dbe9031db8",
+        "preflight": "Helper check-only/no-sync preflights passed before verification and generated/static jobs. CMake dependencies were reused; all native batches ran on SLURM compute nodes.",
+        "native_sha256": "91c66f6d1df2e69bb79e4ea18f86bdec9543a00c1077e2571f856bb604a6b78d",
+        "baseline_native_sha256": "8b23fcb3d33dd5e619af26740becd8aad7072f978164e42541bab947de9c2771",
+        "baseline_binary_source": "Previous portability qualification snapshot 3a32f4a6, whose native source contents match baseline ff53ed3c.",
+        "dependency": "CaDiCaL cadical-3.0.0-7b99c07"
+      },
+      "verification": {
+        "driver": "scripts/qualification/euf_performance/verify.sbatch; expected Git banner 9dbef4aa",
+        "release": {
+          "job": "437761_0",
+          "state": "COMPLETED 0:0",
+          "command_template": "make -o contrib-required check BUILD_DIR=build-slurm-rel PYTHON=python3.11 RUFF=\"$PRIMO_VERIFY_BIN/ruff\"",
+          "native_groups": 49,
+          "python_tests": 408,
+          "log_sha256": "591d93fe3de49ebc65650476de0d15d4266a4aa6af274240f6f5e493c6bf1e9c"
+        },
+        "asan": {
+          "job": "437761_1",
+          "state": "COMPLETED 0:0",
+          "command_template": "make -o contrib-required asan-test ASAN_BUILD_DIR=\"$PRIMO_PINNED_ASAN_BUILD\"",
+          "native_groups": 49,
+          "log_sha256": "2aaede6254ea20b1c635d69cce7a148a034a91c956f0eca5e46dcec76a6811b8"
+        },
+        "python_notes": "Existing ResourceWarning output is retained in the passing check log."
+      },
+      "generated_merge_gate": {
+        "driver": "scripts/qualification/conflict_ackermann/qualify.sbatch, phase generated only; no Ackermann flags added",
+        "driver_sha256": "01c297f5eb99432fc2312c41f70e6655ef5258d9539a05c5344ec2e418d02e8f",
+        "campaign_sha256": "4d29164482ba70bc76b4bfbb3d63a6931d5caa8a4136c9d3db4372077292cfa7",
+        "cases": 5000,
+        "PASS": 4984,
+        "TIMEOUT": 16,
+        "wrong_answer": 0,
+        "crash": 0,
+        "parser_type_errors": 0,
+        "reference_disagreement": 0,
+        "unsupported": 0,
+        "native_and_reference_timeout_seconds": 5,
+        "profile": [
+          "--quiet",
+          "--stats",
+          "--check-model"
+        ],
+        "reference": {
+          "command": "z3",
+          "version": "5.1.0",
+          "sha256": "54bae839dd54e262edac6f755fc99659ce2a121301faff20a3e3b94478dcead0"
+        },
+        "generators": {
+          "QF_UF_and_QF_LIA": "FuzzSMT jar; exact per-logic flags are recorded in task commands",
+          "fuzzsmt_jar_sha256": "89f887283d409842ebb19af6fce7a33a1b4a6c006746801b98ca8d716a3b0552",
+          "script_sha256": {
+            "scripts/fuzz_external.py": "c8a791f72cd143f0767e4a5f0949e3bfb2a9dcdda3acb0ed9e0c2eaca9eae38a",
+            "scripts/qf_uflia_fuzz.py": "01adc7350d15a701acb930e9a3ca565312b8e2e5b8bea703d9dfc6b1bbcd676c",
+            "scripts/qf_lra_boolean_arithmetic_fuzz.py": "efeab57038e2ec3503fc5f308a4ea89e854463956ca35871f3c3528a4ac40bf8",
+            "scripts/qf_uflra_smoke_fuzz.py": "808766f877cc216116d112c682693f454350c9935e5db52e29c0d8f818ac398c",
+            "scripts/qualification/arithmetic_combinations/qualify.py": "eac46531ab5878064eb15a2c44088240556e82ac669c3ed377bb76aa8013552e"
+          }
+        },
+        "tasks": [
+          {
+            "logic": "QF_UF",
+            "slurm_array_task": "437764_0",
+            "slurm_job": "437765",
+            "seed": 2026112050,
+            "cases": 1000,
+            "outcomes": {
+              "PASS": 1000
+            },
+            "SAT_Dolmen_pass": 915,
+            "command_template": [
+              "$PRIMO_PYTHON",
+              "scripts/fuzz_external.py",
+              "--fuzzer",
+              "fuzzsmt",
+              "--logic",
+              "QF_UF",
+              "--solver",
+              "$PRIMO_WORKDIR/tmp/primo-qualified --quiet --stats --check-model",
+              "--refs",
+              "z3",
+              "--fuzzer-args",
+              "-ms 1 -Ms 3 -mv 1 -Mv 5 -mf 1 -mp 1 -ma 1 -Ma 4",
+              "--count",
+              "1000",
+              "--seed",
+              "2026112050",
+              "--timeout",
+              "5",
+              "--out",
+              "$PRIMO_WORKDIR/results/qualification/generated/task-0"
+            ],
+            "summary_sha256": "98b02970cd54f97522136227d7f3ce09d7dc97f3ad5e2393b41693583095ab37",
+            "model_summary_sha256": "3ac32de5b157ac94b701a6b9b3be3b99c844f57328e99fe182daf05d72e8d3e5",
+            "receipt_sha256": "40fbee8c135e1805c883dc5b93fa7f7f861a40be2fb6a3a002e9e9a61118c4e2"
+          },
+          {
+            "logic": "QF_LIA",
+            "slurm_array_task": "437764_1",
+            "slurm_job": "437766",
+            "seed": 2026112051,
+            "cases": 1000,
+            "outcomes": {
+              "PASS": 984,
+              "TIMEOUT": 16
+            },
+            "SAT_Dolmen_pass": 891,
+            "command_template": [
+              "$PRIMO_PYTHON",
+              "scripts/fuzz_external.py",
+              "--fuzzer",
+              "fuzzsmt",
+              "--logic",
+              "QF_LIA",
+              "--solver",
+              "$PRIMO_WORKDIR/tmp/primo-qualified --quiet --stats --check-model",
+              "--refs",
+              "z3",
+              "--fuzzer-args",
+              "-ms 1 -Ms 4 -mv 1 -Mv 6 -mf 1 -mp 1 -ma 1 -Ma 4",
+              "--count",
+              "1000",
+              "--seed",
+              "2026112051",
+              "--timeout",
+              "5",
+              "--out",
+              "$PRIMO_WORKDIR/results/qualification/generated/task-1"
+            ],
+            "summary_sha256": "32bacc6799af467335016bab9b84c55b5aa73962245907fc357a3c7544b90478",
+            "model_summary_sha256": "4a1e4c1c97eb2a411529905e83b289de89c416fd1f62de620e76dd363f1b41c3",
+            "receipt_sha256": "bb166030461632e47cc80759716a16263661bbfdeef4812fc2da5771429e8ec3"
+          },
+          {
+            "logic": "QF_UFLIA",
+            "slurm_array_task": "437764_2",
+            "slurm_job": "437767",
+            "seed": 2026112052,
+            "cases": 1000,
+            "outcomes": {
+              "PASS": 1000
+            },
+            "SAT_Dolmen_pass": 515,
+            "command_template": [
+              "$PRIMO_PYTHON",
+              "scripts/qf_uflia_fuzz.py",
+              "--solver",
+              "$PRIMO_WORKDIR/tmp/primo-qualified",
+              "--solver-arg=--quiet",
+              "--solver-arg=--stats",
+              "--solver-arg=--check-model",
+              "--ref",
+              "z3",
+              "--shape",
+              "mixed",
+              "--depth",
+              "3",
+              "--count",
+              "1000",
+              "--seed",
+              "2026112052",
+              "--timeout",
+              "5",
+              "--out",
+              "$PRIMO_WORKDIR/results/qualification/generated/task-2"
+            ],
+            "summary_sha256": "271385740af8638c236d8504f277edfb5bfab839935c1b136c153804aa7e5510",
+            "model_summary_sha256": "f10068af279cacbbbee2193ae81df787abbbbe4cd51848fa4065c3ebbd17fc67",
+            "receipt_sha256": "51c74fc0aaa80db723793b37912a1693c5aee6bcb9d64007de10443078470db0"
+          },
+          {
+            "logic": "QF_LRA",
+            "slurm_array_task": "437764_3",
+            "slurm_job": "437768",
+            "seed": 2026112053,
+            "cases": 1000,
+            "outcomes": {
+              "PASS": 1000
+            },
+            "SAT_Dolmen_pass": 1000,
+            "command_template": [
+              "$PRIMO_PYTHON",
+              "scripts/qf_lra_boolean_arithmetic_fuzz.py",
+              "--solver",
+              "$PRIMO_WORKDIR/tmp/primo-qualified",
+              "--solver-arg=--quiet",
+              "--solver-arg=--stats",
+              "--solver-arg=--check-model",
+              "--z3",
+              "contrib/local/bin/z3",
+              "--dolmen",
+              "contrib/local/bin/dolmen",
+              "--count",
+              "1000",
+              "--seed",
+              "2026112053",
+              "--timeout",
+              "5",
+              "--out",
+              "$PRIMO_WORKDIR/results/qualification/generated/task-3"
+            ],
+            "summary_sha256": "65bc8b3d893b1aeb358f666c254586076489c3347aba9a258997bd7948d43757",
+            "model_summary_sha256": "b5624a01ce697e0e0c8b882ac78fd5ef2d9d93da24cd6118609c5fc7553c94d0",
+            "receipt_sha256": "700ece44e89ed2f7e69f835816a08a25e3d5e7df94237b8899937ae13ed1f0fa"
+          },
+          {
+            "logic": "QF_UFLRA",
+            "slurm_array_task": "437764_4",
+            "slurm_job": "437764",
+            "seed": 2026112054,
+            "cases": 1000,
+            "outcomes": {
+              "PASS": 1000
+            },
+            "SAT_Dolmen_pass": 618,
+            "command_template": [
+              "$PRIMO_PYTHON",
+              "scripts/qf_uflra_smoke_fuzz.py",
+              "--solver",
+              "$PRIMO_WORKDIR/tmp/primo-qualified",
+              "--solver-arg=--quiet",
+              "--solver-arg=--stats",
+              "--solver-arg=--check-model",
+              "--ref",
+              "z3",
+              "--count",
+              "1000",
+              "--seed",
+              "2026112054",
+              "--timeout",
+              "5",
+              "--out",
+              "$PRIMO_WORKDIR/results/qualification/generated/task-4"
+            ],
+            "summary_sha256": "35177834dcb547bdb85c105c4ba24eaffdbd522f8b069f811a6414f0f5b41467",
+            "model_summary_sha256": "346ce4081cbb9624fe16c69398c194799c72a58d941c2ee5e5c990c355eb4ccd",
+            "receipt_sha256": "86f8f039487ff17674b7a53b8b336428426fabb817b33f8d4e8cc12752440f5c"
+          }
+        ],
+        "incomplete_inputs": {
+          "manifest": "results/statistics-simple-20261120/incomplete-inputs.json",
+          "manifest_sha256": "5d91c87b2703c54e05da88499b83b0eee9829a2c31af2cbfb7fb860b3f6fae50",
+          "count": 16,
+          "scope": "All incomplete inputs are LIA timeouts, saved by content hash and distinct from passing cases. No fresh real-seed mutation campaign was run for this mechanical statistics change; no default/profile promotion is claimed."
+        }
+      },
+      "separate_model_validation": {
+        "validator": "Dolmen 0.10",
+        "validator_sha256": "08b5fc3b17fb7eb54cb82141e9cabaf01039c686b2ac2512363344fbf23c052e",
+        "validator_args": [
+          "--strict=false"
+        ],
+        "native_model_and_Dolmen_timeouts_seconds": 30,
+        "generated_expected": 3939,
+        "generated_direct_Dolmen_pass": 3939,
+        "comparison_expected": 12,
+        "comparison_direct_Dolmen_pass": 12,
+        "total_separate_replays": 3951,
+        "invalid_models": 0,
+        "changed_answers": 0,
+        "solver_errors": 0,
+        "validator_timeouts": 0,
+        "unsupported": 0,
+        "missing_rows": 0,
+        "scope": "Generated PASS/SAT rows and every successful SAT comparison row are separately replayed with native model checking and direct Dolmen validation. The LRA generator also performs model checks internally; those are not added to these counts. These checks do not certify UNSAT answers or resolve the 16 incomplete generated cases. No validation duration enters timing evidence.",
+        "comparison_job": "437772",
+        "comparison_receipts": {
+          "baseline": {
+            "SAT_Dolmen_pass": 6,
+            "model_summary_sha256": "3afdf58a120be5bb56a499a8534a5866be19fe59e71e30a13a4765227ee376d9"
+          },
+          "candidate": {
+            "SAT_Dolmen_pass": 6,
+            "model_summary_sha256": "8202f7f90882df52bc55b7a67d48788e9195100a367f738f24b806e9bfefb2d9"
+          }
+        },
+        "earlier_setup_attempt": {
+          "job": "437771",
+          "state": "FAILED 1:0",
+          "cause": "Dolmen absent from PATH; failed before validation. Retry added the existing validator directory, without changing source or profile."
+        }
+      },
+      "counter_value_comparison": {
+        "job": "437769",
+        "state": "COMPLETED 0:0",
+        "command_template": "python3 scripts/compare_local_solver_stats.py --baseline \"$PRIMO_WORKDIR/tmp/primo-baseline\" --candidate \"$PRIMO_WORKDIR/tmp/primo-qualified\" --manifest \"$PRIMO_WORKDIR/tmp/value-manifest.txt\" --timeout 10 --repeats 1 --root \"$PRIMO_WORKDIR\" --output \"$PRIMO_WORKDIR/results/value-comparison\"",
+        "cases": 9,
+        "native_runs": 18,
+        "all_answers_match": true,
+        "all_non_time_stats_match": true,
+        "inputs": [
+          {
+            "file": "benchmarks/smoke/qf_uf/direct_equality_contradiction.smt2",
+            "sha256": "e462cc06f3829d7e262c60d1dc43c4f93310ab5746c8822afe7829525b732f8e"
+          },
+          {
+            "file": "benchmarks/smoke/qf_uf/sat_nested_functions.smt2",
+            "sha256": "30b1e3f890778546e452e68049bb5a808f8e13d412f8cd2b717532420a4902fb"
+          },
+          {
+            "file": "benchmarks/smoke/qf_lia/hybrid_multiple_splits.smt2",
+            "sha256": "4c6590b4411ea804d1b23d933faec3ab4c2e3d651b7c042f3ba5fcf3b3a73e5f"
+          },
+          {
+            "file": "benchmarks/smoke/qf_lia/unsat_integer_gap.smt2",
+            "sha256": "4f8ba538abf166123912675551e20a8eecb61326176428634bbef675d7696b4b"
+          },
+          {
+            "file": "benchmarks/smoke/qf_uflia/sat_integer_uf_model.smt2",
+            "sha256": "4879f33fb90b707df0b136f20bb33239e84a1e690b2de9bb0af337bd8f00020b"
+          },
+          {
+            "file": "benchmarks/smoke/qf_uflia/unsat_nonconvex_arrangement.smt2",
+            "sha256": "4ae2904b03abeb366ce96d0110c2c995797b0c747a9e5a762c127e5b5362cc53"
+          },
+          {
+            "file": "benchmarks/smoke/qf_lra/default_heuristics.smt2",
+            "sha256": "6706edeb2c6e87d6ea72f2e3ca29edb24be51ce8407bb9c6ac974d92c280b8bd"
+          },
+          {
+            "file": "benchmarks/smoke/qf_uflra/sat_symmetry_coefficients.smt2",
+            "sha256": "e230c05a66cf25296fecb6f143cdd20304ef1ec0ab528748f14ea763782cdce5"
+          },
+          {
+            "file": "benchmarks/smoke/qf_uflra/sat_symmetry_numeric_values.smt2",
+            "sha256": "498a9fc4886f919fbdea74bb1bd971ce6263acd551c8025c3be93feb497dbae7"
+          }
+        ],
+        "summary_sha256": "158fdb3b3e097cf860bc8b94b849bd7309a51273ba26b56a1b9357ad41f002e7",
+        "runs_sha256": "8bc5b09798954299ae5481aafaf96436b4703a964a15af39942d8cc01071ff57",
+        "interpretation": "Value/answer compatibility only. Single-pass tiny-case timings are incidental and must not be used as evidence of a runtime gain."
+      },
+      "static_analysis": {
+        "job": "437770",
+        "state": "COMPLETED 0:0",
+        "independent_include_job": "437773",
+        "independent_include_state": "COMPLETED 0:0",
+        "driver": "scripts/qualification/bound_repairs/static.sbatch",
+        "scope": "All 141 tracked non-generated C++ translation units plus headers: 250 content-checked source inputs. The initial inventory wrongly included archived logs omitted by source preparation; corrected inventory contains all tracked C++ inputs under src, tests and docs/examples.",
+        "inventory_sha256": "ecdb38169058aea935a3762b516a021b23a5103cd3058fb29097a014a6ee671f",
+        "manifest_sha256": "3357a72792034a83563f1b1a0f2aa8ce7152f4081ed871e0a04174d31b60c9de",
+        "scans": {
+          "tidy": {
+            "status": "complete-with-findings",
+            "expected_translation_units": 141,
+            "analyzed_translation_units": 141,
+            "missing": [],
+            "changed_inputs": [],
+            "tool_exit_code": 0,
+            "diagnostic_occurrences": 4030,
+            "unique_diagnostics": 879,
+            "unused_include_gate": {
+              "status": "passed",
+              "blocking": [],
+              "paired_self_includes": [],
+              "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+            },
+            "summary_sha256": "97cc2bb584006223b27c663acfdfa0d61abe8e4e9395342aba1b5fd8a9a36e7c"
+          },
+          "includes": {
+            "status": "complete-with-findings",
+            "expected_translation_units": 141,
+            "analyzed_translation_units": 141,
+            "missing": [],
+            "changed_inputs": [],
+            "tool_exit_code": 0,
+            "diagnostic_occurrences": 406,
+            "unique_diagnostics": 406,
+            "unused_include_gate": {
+              "status": "passed",
+              "blocking": [],
+              "paired_self_includes": [],
+              "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+            },
+            "summary_sha256": "12f62484a339643a5c1dc2c75e31ea5e36e0810a84a77d88d7cc9820a975d98f"
+          },
+          "independent_includes": {
+            "status": "complete-with-findings",
+            "expected_translation_units": 141,
+            "analyzed_translation_units": 141,
+            "missing": [],
+            "changed_inputs": [],
+            "tool_exit_code": 0,
+            "diagnostic_occurrences": 406,
+            "unique_diagnostics": 406,
+            "unused_include_gate": {
+              "status": "passed",
+              "blocking": [],
+              "paired_self_includes": [],
+              "policy": "Retain the implementation's own header; other unused includes fail. Missing direct includes remain advisory."
+            },
+            "summary_sha256": "12f62484a339643a5c1dc2c75e31ea5e36e0810a84a77d88d7cc9820a975d98f"
+          }
+        },
+        "comparison": "Against results/qflia-defaults-20261119/v2/collected/static, normalized file/message/check signatures fall from 744 to 741 for tidy and 401 to 398 for includes, with zero added signatures. Removed signatures are std::get_if from statistics.cpp and two LiaCubeMode direct-include repairs already in the baseline.",
+        "findings": "Existing advisory inventory retained: 879 located tidy diagnostics and 406 located include diagnostics. No new changed-file signature. Unused-include gates pass; this is not a warning-free whole-tree claim.",
+        "earlier_attempt": {
+          "job": "437762",
+          "state": "FAILED",
+          "cause": "Inventory setup referenced logs/primo-qfuf-phase-111509-0.err, excluded by the source preparation helper. Failure occurred before source analysis."
+        }
+      },
+      "documentation_and_review": {
+        "initial_independent_review": {
+          "reviewer": "external_links_docs_review",
+          "files": [
+            "src/util/statistics.hpp",
+            "src/util/statistics.cpp",
+            "tests/unit/core_tests.cpp",
+            "docs/reference/statistics.md",
+            "docs/leads/statistics-instrumentation.md",
+            "docs/leads/euf-performance-fixes.md"
+          ],
+          "accepted_identity": "c501cd76c4bdd347efddf4e145317af3f218939660b8551bc87da62f08704249",
+          "verdict": "Ready; no required findings. No repository dependency on old first-use ordering found. Final runtime/evidence and later documentation edits require a final scoped recheck."
+        },
+        "external_check": {
+          "command": "make docs-check-external",
+          "exit_code": 2,
+          "strict_books_and_local_git_links": "passed",
+          "failures": [
+            {
+              "book": "docs",
+              "url": "https://www.cs.utexas.edu/~isil/fmsd.pdf",
+              "result": "connection failure"
+            },
+            {
+              "book": "docs-history",
+              "url": "https://github.com/Gbury/dolmen/blob/5c9161a691872cee9ed0c58fe820a8b0b9e485ab/tests/parsing/smtlib/v2.7/pass/quoted_symbol.smt2",
+              "result": "HTTP 429"
+            }
+          ],
+          "interpretation": "Access failures retained; no ignore patterns added. This check preceded final documentation-only link/status/ledger edits. Local strict build/link checks are repeated after those edits.",
+          "log_sha256": "637621560c697c4c504561cfa49971a441ac4ccdf8fc86ed868ac1c702ed56a4"
+        }
+      },
+      "artifacts": {
+        "local": "results/statistics-simple-20261120/",
+        "contents": "Generated receipts, summaries, model summaries, 16 hashed incomplete inputs, counter comparison, release/ASan logs and complete static reports. Full generated/adapted model inputs and outputs remain in the remote qualification workspace.",
+        "remote_template": "$PRIMO_WORKDIR/results/qualification/generated/task-*",
+        "scratch_log_template": "$PRIMO_SCRATCH/{build.log,gcc13.log,core-tests-gcc13.log,probe-after.asm}",
+        "retention": "The run ledger and native/doc changes are committed. Bulk results are ignored artifacts, as in prior qualification entries; hashes identify collected and retained evidence."
+      }
+    },
+    {
       "id": "2026-11-20-gcc13-statistics-variant-portability",
       "date": "2026-11-20",
       "recorded_utc": "2026-11-20T20:51:58.738810+00:00",

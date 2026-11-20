@@ -5,9 +5,9 @@
 Typed counter IDs and the string-key boundary policy are implemented; see
 [statistics](../reference/statistics.md#typed-instrumentation-policy). This lead concerns the still-unimplemented
 build-time diagnostic switch, separation of control state and diagnostic work,
-and their overhead measurements. The inspection table below predates the typed
-migration; it identifies contracts to recheck, not an outstanding migration of
-all counters to typed IDs.
+and their overhead measurements. The inspection began before the typed migration;
+the statistics row describes current storage. The other rows identify contracts
+to recheck, not an outstanding migration of all counters to typed IDs.
 
 Primo has counters and timing statements throughout solver code. Investigate
 whether making diagnostic instrumentation optional at compile time improves
@@ -17,7 +17,7 @@ readability and performance for release, competition, and library builds.
 
 | Mechanism | Concrete cost or contract to audit |
 | --- | --- |
-| {source}`Statistics <src/util/statistics.hpp#L239-L280>` and its {source}`updates <src/util/statistics.cpp#L265-L313>` | Enum keys update dense arrays and remember first use. String keys also perform hash lookups; new extra keys allocate storage. Not every increment is a map update. |
+| {download}`Statistics <../../src/util/statistics.hpp>` and its {download}`reporting/dynamic updates <../../src/util/statistics.cpp>` | Enum keys directly update value and presence arrays. String keys perform hash lookups; new dynamic keys allocate map storage. Fixed keys print in registry order, followed by sorted dynamic names. |
 | {source}`EUF merge/use-list counters <src/theory/equality/incremental_congruence_closure.cpp#L233-L280>` | Plain field increments occur inside solver operations. These are cheaper than string-key updates, but their total cost and effect on generated code need measurement. |
 | {source}`ScopedStatisticsTimer <src/smt/solver_engines.cpp#L376-L401>` and {source}`CombinationTimer <src/smt/component_solver.cpp#L26-L41>` | Clock reads and publication of elapsed time; removing only the final increment would leave timing work behind. |
 | {source}`Ackermann cost diagnostics <src/smt/solver_engines.cpp#L404-L483>` | A dedicated traversal allocates scratch storage and groups applications to compute counters. A useful disabled mode must omit diagnostic computation, not just its output. |
