@@ -57,11 +57,43 @@ sphinx:
     linkcheck_anchors_ignore_for_url:
       # GitHub implements code-line fragments dynamically; still check the file URL.
       - '^https://github\.com/arminbiere/cadical/blob/rel-3\.0\.0/src/cadical\.hpp$'
+      # Known dynamically rendered GitHub fragments; retain file availability checks.
+      - '^https://github\.com/arminbiere/cadical/blob/7b99c07/src/cadical\.hpp$'
+      - '^https://github\.com/actions/checkout/blob/3d3c42e5aac5ba805825da76410c181273ba90b1/README\.md$'
     linkcheck_ignore:
       # Validated from local Git by make docs-check-links; no GitHub login needed.
       - '^https://github\.com/primo-solver/primo/(?:blob|commit)/'
       # Repository landing page requires access while the repository is private.
       - '^https://github\.com/primo-solver/primo/?$'
+      # Exact access-failure exceptions reviewed 2026-11-20 at the owner's request.
+      # Evidence: docs/coverage/external-links-20261120.json. Ignored is not validated.
+      # Keep DOI citations; do not exempt new targets or HTTP 404 results by category.
+      # Observed HTTP 403 access refusals.
+      - '^https://doi\.org/10\.1145/1017472\.1017477$'
+      - '^https://doi\.org/10\.1145/1670412\.1670413$'
+      - '^https://doi\.org/10\.1145/3453483\.3454088$'
+      - '^https://doi\.org/10\.1145/357073\.357079$'
+      - '^https://doi\.org/10\.1287/educ\.2013\.0112$'
+      - '^https://doi\.org/10\.1287/ijoc\.2018\.0857$'
+      - '^https://doi\.org/10\.1287/moor\.2\.2\.103$'
+      - '^https://doi\.org/10\.1287/opre\.2013\.1231$'
+      - '^https://doi\.org/10\.1287/opre\.50\.1\.3\.17780$'
+      - '^https://doi\.org/10\.15168/11572_368265$'
+      - '^https://doi\.org/10\.3233/SAT190034$'
+      - '^https://doi\.org/10\.3233/SAT190086$'
+      - '^https://eprint\.iacr\.org/2020/972\.pdf$'
+      - '^https://iris\.unitn\.it/handle/11572/368265$'
+      - '^https://publikationen\.sulb\.uni\-saarland\.de/handle/20\.500\.11880/28955$'
+      - '^https://www\.sciencedirect\.com/science/article/pii/0304397580900596$'
+      # Observed HTTP 429 rate limits.
+      - '^https://github\.com/arminbiere/cadical/blob/rel\-3\.0\.0/src/cadical\.hpp\#L1248\-L1367$'
+      - '^https://github\.com/cvc5/cvc5/blob/f9e5d3c312d9476763dc0afa85ac637da5907d99/test/regress/cli/regress0/parser/non\-std\-char\.smt2$'
+      # Observed certificate-chain or hostname verification failures.
+      - '^https://disi\.unitn\.it/rseba/papers/JSAT\-2007\.pdf$'
+      - '^https://users\.soe\.ucsc\.edu/\~avg/Papers/ccmin\-avg\-sat09\.pdf$'
+      - '^https://verit\.loria\.fr/papers/tacas2017\.pdf$'
+      # Observed connection timeout; browser download reported by owner.
+      - '^https://www\.cs\.man\.ac\.uk/\~regerg/papers/arw16\.pdf$'
     html_show_copyright: false
     html_show_sourcelink: false
     html_theme_options:

@@ -453,5 +453,80 @@
     ],
     "scope_note": "The page names match the historical book. This excerpt is not evidence for the current-book portion of that remote run."
   },
-  "initial_workflow_prose_patch_sha256": "0a84e0a6afdcedae1c2fd41a122165eaac2db305725145a77d2e001adfd51d8d"
+  "initial_workflow_prose_patch_sha256": "0a84e0a6afdcedae1c2fd41a122165eaac2db305725145a77d2e001adfd51d8d",
+  "access_exception_followup": {
+    "recorded_utc": "2026-11-20T10:43:50.791961+00:00",
+    "source_commit": "02659e6fabcabab943a731e23ed8c8c1190b1790",
+    "command": "make docs-check-external",
+    "exit_code": 2,
+    "scope": "Owner-requested exact access exceptions in both configs, plus exact-file GitHub fragment exceptions. No citation URL or TLS validation setting changed.",
+    "policy_input_identity": "31de11ce77bb21ca7f2c160568ffab43ce03d6097ceaa944258dfc0f54b91a6c",
+    "policy_input_identity_encoding": "Ordered path, NUL, uint64be byte length, content for docs/_config.yml, docs-history/_config.yml, docs/development/documentation.md, docs/work/evidence.md, skills/documentation/SKILL.md. All five files were frozen during the check.",
+    "config_sha256": {
+      "docs/_config.yml": "ee554e01608d961ba540f3813f288967d68fad62d09f860ff397725ab8542bc0",
+      "docs-history/_config.yml": "68d7251068488873e1d7c890af2b7573e1aceaeb8dc813bd809f3d117264d545"
+    },
+    "known_access_url_count": 22,
+    "ignored_meaning": "Exact listed URLs receive no network request and remain unverified. Unknown/new targets and the DOI 404 are not exempted.",
+    "books": {
+      "docs": {
+        "report": "docs/_build/linkcheck/output.json",
+        "report_sha256": "b1c95a402a1531fc256dbf585f690d3e951e63e067606c37a165721bc72e2b73",
+        "status_counts": {
+          "broken": 1,
+          "ignored": 1392,
+          "redirected": 37,
+          "unchecked": 267,
+          "working": 83
+        },
+        "failures": [
+          {
+            "filename": "index.md",
+            "lineno": 140,
+            "status": "broken",
+            "code": 0,
+            "uri": "https://doi.org/10.29007/rn52",
+            "info": "404 Client Error: Not Found for url: https://doi.org/10.29007/rn52"
+          }
+        ],
+        "external_check_passed": false
+      },
+      "docs-history": {
+        "report": "docs-history/_build/linkcheck/output.json",
+        "report_sha256": "ba061d938e4a8f2d0dbf98f21e2bedf0f7a4d2efd89c65196ff80e3e9c742948",
+        "status_counts": {
+          "ignored": 84,
+          "redirected": 61,
+          "unchecked": 77,
+          "working": 99
+        },
+        "failures": [],
+        "external_check_passed": true
+      }
+    },
+    "covered_urls": [
+      "https://disi.unitn.it/rseba/papers/JSAT-2007.pdf",
+      "https://doi.org/10.1145/1017472.1017477",
+      "https://doi.org/10.1145/1670412.1670413",
+      "https://doi.org/10.1145/3453483.3454088",
+      "https://doi.org/10.1145/357073.357079",
+      "https://doi.org/10.1287/educ.2013.0112",
+      "https://doi.org/10.1287/ijoc.2018.0857",
+      "https://doi.org/10.1287/moor.2.2.103",
+      "https://doi.org/10.1287/opre.2013.1231",
+      "https://doi.org/10.1287/opre.50.1.3.17780",
+      "https://doi.org/10.15168/11572_368265",
+      "https://doi.org/10.3233/SAT190034",
+      "https://doi.org/10.3233/SAT190086",
+      "https://eprint.iacr.org/2020/972.pdf",
+      "https://github.com/arminbiere/cadical/blob/rel-3.0.0/src/cadical.hpp#L1248-L1367",
+      "https://github.com/cvc5/cvc5/blob/f9e5d3c312d9476763dc0afa85ac637da5907d99/test/regress/cli/regress0/parser/non-std-char.smt2",
+      "https://iris.unitn.it/handle/11572/368265",
+      "https://publikationen.sulb.uni-saarland.de/handle/20.500.11880/28955",
+      "https://users.soe.ucsc.edu/~avg/Papers/ccmin-avg-sat09.pdf",
+      "https://verit.loria.fr/papers/tacas2017.pdf",
+      "https://www.cs.man.ac.uk/~regerg/papers/arw16.pdf",
+      "https://www.sciencedirect.com/science/article/pii/0304397580900596"
+    ]
+  }
 }

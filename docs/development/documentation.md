@@ -169,6 +169,17 @@ The pinned Sphinx version returns nonzero for timeouts as well as broken links:
 it does not make timeouts pass. Keep these failures visible when reporting
 verification, even if local builds and source links pass.
 
+Known access failures may be exempted by exact URL when requested by the owner.
+The dated exception blocks in both book configs identify the observed error and
+link to its evidence. Sphinx reports those URLs as `ignored` and makes no request
+to them; a green result does not validate ignored targets. Keep both lists in
+sync, retain DOI citations and TLS verification, and investigate new failures
+before extending the list. Do not exempt an entire publisher or all HTTP errors.
+The 20 November access exceptions leave the unresolved DOI 404 visible. Separate
+exact-file exceptions skip GitHub's dynamically rendered fragment checks while
+still checking file availability.
+
+
 The {project}`local checker <scripts/check_doc_links.py>` also flags unlinked concrete `src/` file paths in the main
 book's prose. It excludes code blocks and the historical book from this style
 check; their links are still validated. This catches filename omissions, not

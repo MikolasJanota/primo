@@ -139,6 +139,12 @@ feasible and record unresolved access failures explicitly. Do not disable TLS
 verification, add blanket ignore patterns or silently make the check advisory
 to obtain a green result. Local success does not guarantee access from GitHub's
 runner, and a browser download need not behave like the automated checker.
+Owner-requested exceptions for confirmed access failures may use exact URL
+patterns in both book configs, with a reason, review date and evidence record.
+Keep the lists synchronized. Sphinx skips listed URLs completely and reports
+`ignored`; do not describe them as verified or suppress new failures by status
+or publisher. Keep genuine missing-target errors outside the access exceptions.
+
 
 Missing reviewer tools or primary evidence must be reported explicitly. Continue
 authorized, useful work, but do not label an incomplete review as passed.
