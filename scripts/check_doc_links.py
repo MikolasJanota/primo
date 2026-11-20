@@ -3,7 +3,8 @@
 
 Sphinx's linkcheck builder handles other HTTP(S) URLs. This check validates
 the generated HTML, including assets, and resolves Primo source links in Git.
-It checks source existence and line bounds, not the meaning of the cited code.
+It checks source existence, reachability from HEAD and line bounds, not the
+meaning of the cited code. Unrelated local history must not hide missing CI inputs.
 In the current book, concrete src/ filenames in article prose must be linked.
 Code blocks and archive/original are exempt from this prose check, not from
 link validation. Symbol names and references without a full path need review.
@@ -79,6 +80,7 @@ class Checker:
         self.pages = 0
         self._pages: dict[Path, Page] = {}
         self._git_results: dict[str, str | None] = {}
+        self._checked_revisions: set[str] = set()
 
     def page(self, path: Path) -> Page:
         if path not in self._pages:
@@ -98,7 +100,15 @@ class Checker:
             return "Primo source links must name a commit hash"
         revision = parts[4]
         try:
-            self.git("rev-parse", "--verify", f"{revision}^{{commit}}")
+            if revision not in self._checked_revisions:
+                self.git("rev-parse", "--verify", f"{revision}^{{commit}}")
+                try:
+                    self.git("merge-base", "--is-ancestor", revision, "HEAD")
+                except subprocess.CalledProcessError as exc:
+                    if exc.returncode != 1:
+                        raise
+                    return f"source commit is not reachable from HEAD history: {revision}"
+                self._checked_revisions.add(revision)
             if kind == "commit":
                 if len(parts) != 5 or url.fragment:
                     return "unsupported commit URL suffix or fragment"

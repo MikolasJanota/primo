@@ -159,19 +159,19 @@ not lift the whole-solver qualification blocker above.
 The active [improvement plan](bound-propagation-improvements.md) evaluated
 running analysis after the existing value/equality simplification stages and
 before finite-domain processing, final arithmetic normalization and purification.
-The trial
-{boundplacementtrialsource}`declared-logic resolution <src/smt/preprocessing_strategy.cpp#L637>`
+The preserved trial patch's
+{boundrepairresults}`declared-logic resolution <benchmarks/bound-repairs-20261114/rejected-placement.patch#L76-L84>`
 sets `PreprocessingProfile::preprocess_bound_tightening`
 from the declared logic, independently of which atoms survive initial
 transformations. That owned Boolean controls the
 single
-{boundplacementtrialsource}`later tactic <src/smt/preprocessing_strategy.cpp#L510>`;
+{boundrepairresults}`later tactic <benchmarks/bound-repairs-20261114/rejected-placement.patch#L51-L59>`;
 it is not a new user option. Disabling the ordinary preprocessing loop leaves
 this tactic scheduled once. Integer solved-constant substitution still precedes
 it; analysis is skipped if earlier stages resolve the goal.
 
 The
-{boundplacementtrialsource}`analysis <src/smt/preprocess_bound_tightening.cpp#L61>`
+{preprocessboundsource}`analysis <src/smt/preprocess_bound_tightening.cpp#L61>`
 still snapshots directly available intervals before its worklist.
 `:preprocessing.bounds.redundant-endpoints` counts finite final endpoints no
 stronger than that snapshot, rather than counting new facts rejected by SAT.

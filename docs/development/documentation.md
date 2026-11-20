@@ -187,6 +187,10 @@ targets. Separate exact-file exceptions skip GitHub's dynamically rendered
 fragment checks while still checking file availability.
 
 
+Pinned Primo source commits must be reachable from the checked-out `HEAD`.
+The local checker rejects commits present only in unrelated local history,
+because a full CI checkout of the candidate would not include those objects.
+
 The {project}`local checker <scripts/check_doc_links.py>` also flags unlinked concrete `src/` file paths in the main
 book's prose. It excludes code blocks and the historical book from this style
 check; their links are still validated. This catches filename omissions, not

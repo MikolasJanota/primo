@@ -29,6 +29,11 @@ class DocLinkTests(unittest.TestCase):
         checker.check_book(self.book)
         return checker
 
+    def git(self, *args):
+        return subprocess.check_output(
+            ["git", "-C", str(self.root), *args], stderr=subprocess.PIPE, text=True
+        ).strip()
+
     def test_local_targets_anchors_and_url_encoding(self):
         (self.book / "a b.html").write_text(
             '<h1 id="déjà">Heading</h1><a name="old"></a>'
@@ -108,11 +113,7 @@ class DocLinkTests(unittest.TestCase):
         self.assertEqual(checker.pages, 1)
 
     def test_git_uses_pinned_content_and_checks_ranges(self):
-        def git(*args):
-            return subprocess.check_output(
-                ["git", "-C", str(self.root), *args], stderr=subprocess.PIPE, text=True
-            ).strip()
-
+        git = self.git
         git("init", "-q")
         (self.root / "source.cpp").write_text("first\nsecond\n")
         git("add", "source.cpp")
@@ -145,6 +146,36 @@ class DocLinkTests(unittest.TestCase):
                 f"https://github.com/primo-solver/primo/commit/{revision}"
             )
         )
+
+    def test_git_rejects_unrelated_history_present_in_local_database(self):
+        git = self.git
+        git("init", "-q")
+        (self.root / "source.cpp").write_text("base\n")
+        git("add", "source.cpp")
+        identity = ("-c", "user.name=Link Test", "-c", "user.email=links@example.invalid",
+                    "-c", "commit.gpgsign=false")
+        git(*identity, "commit", "-qm", "base")
+        ancestor = git("rev-parse", "HEAD")
+        git("checkout", "-qb", "local-only")
+        (self.root / "source.cpp").write_text("side history\n")
+        git(*identity, "commit", "-qam", "local-only snapshot")
+        unrelated = git("rev-parse", "HEAD")
+        git("checkout", "-q", "--detach", ancestor)
+        (self.root / "source.cpp").write_text("candidate\n")
+        git(*identity, "commit", "-qam", "candidate")
+        # The side branch keeps the object locally available, unlike a CI clone
+        # that fetches only this candidate and the upstream repository's refs.
+        self.assertEqual(git("cat-file", "-t", unrelated), "commit")
+        checker = LINKS.Checker(self.root)
+        for suffix in (f"blob/{unrelated}/source.cpp#L1", f"commit/{unrelated}",
+                       f"blob/{unrelated[:8]}/source.cpp#L1"):
+            with self.subTest(suffix=suffix):
+                self.assertIn("not reachable from HEAD", checker.check_git(
+                    "https://github.com/primo-solver/primo/" + suffix))
+        for revision in (ancestor, git("rev-parse", "HEAD")):
+            with self.subTest(revision=revision):
+                self.assertIsNone(checker.check_git(
+                    f"https://github.com/primo-solver/primo/blob/{revision}/source.cpp#L1"))
 
     def test_cli_fails_and_preserves_json_report(self):
         self.index.write_text('''<article><a href="absent.html">broken</a>

@@ -95,9 +95,6 @@ sphinx:
       preprocessboundevidence:
         - "https://github.com/primo-solver/primo/blob/a5a105460fd75d34be53c5181a4deb8f4500a1cf/%s"
         - "%s"
-      boundplacementtrialsource:
-        - "https://github.com/primo-solver/primo/blob/72382fd5a9d4c71b6fede0a723071b6a4996bbc7/%s"
-        - "%s"
       boundrepairevidence:
         - "https://github.com/primo-solver/primo/blob/7e99c017d2e74f878a8ca270ee6b5c7c7c5e5e5c/%s"
         - "%s"
@@ -141,10 +138,10 @@ sphinx:
         - "https://github.com/primo-solver/primo/blob/9fe16357/%s"
         - "%s"
       rowcachetrialsource:
-        - "https://github.com/primo-solver/primo/blob/1d3bee8c587a8e598a7b1b5525ae4a0592d031b6/%s"
+        - "https://github.com/primo-solver/primo/blob/07ec5ce52e1ff93e893441e81c76a258d2aa571b/%s"
         - "%s"
       boundrepairsource:
-        - "https://github.com/primo-solver/primo/blob/2b5288f41f7be4919cac0788466ca081e271a311/%s"
+        - "https://github.com/primo-solver/primo/blob/7e99c017d2e74f878a8ca270ee6b5c7c7c5e5e5c/%s"
         - "%s"
       boundbehaviorsource:
         - "https://github.com/primo-solver/primo/blob/5c8ced982170676b7abda41fdf6f01bb97b931df/%s"
