@@ -1,4 +1,5 @@
 {
+  "latest_outcome_field": "easychair_publication_followup",
   "date": "2026-11-20",
   "recorded_utc": "2026-11-20T10:31:07.754818+00:00",
   "source_commit": "672efa361e4c4faf12937e113ba16833112b152a",
@@ -528,5 +529,175 @@
       "https://www.cs.man.ac.uk/~regerg/papers/arw16.pdf",
       "https://www.sciencedirect.com/science/article/pii/0304397580900596"
     ]
+  },
+  "easychair_publication_followup": {
+    "owner_report": "EasyChair page is still broken and cannot be repaired by this repository at present; owner requests deferral in the context of exact link-check exclusions.",
+    "publisher_url": "https://easychair.org/publications/paper/rPZ9",
+    "related_doi_url": "https://doi.org/10.29007/rn52",
+    "bibliography_key": "janota2026primo",
+    "scope": "Exact publisher/DOI URLs for this paper, plus three newly evidenced exact GitHub HTTP429 URLs from the first two checks. No citation or TLS setting changed.",
+    "additional_rate_limit_exceptions": [
+      "https://github.com/arminbiere/cadical/blob/7b99c07/src/cadical.hpp#L844-L848",
+      "https://github.com/cvc5/cvc5/blob/f9e5d3c312d9476763dc0afa85ac637da5907d99/test/regress/cli/regress0/parser/issue11763-quoted-dt-cons.smt2",
+      "https://github.com/cvc5/cvc5/blob/f9e5d3c312d9476763dc0afa85ac637da5907d99/test/regress/cli/regress0/parser/quoted-define-fun.smt2"
+    ],
+    "policy_input_identity_encoding": "Ordered path, NUL, uint64be length and content for docs/_config.yml, docs-history/_config.yml, docs/development/documentation.md, docs/work/evidence.md, skills/documentation/SKILL.md. Each policy unit was frozen during its check.",
+    "attempts": [
+      {
+        "recorded_utc": "2026-11-20T11:12:05.959060+00:00",
+        "command": "make docs-check-external",
+        "source_commit": "cb53b0b040d1303b3d227cbe63574e677ac4f15f",
+        "policy_input_identity": "78cd2dd52528e6c1cd8ddd994f391e2c312a6c0904c0d77f2c2721358b7ec43d",
+        "exit_code": 2,
+        "books": {
+          "docs": {
+            "report": "docs/_build/linkcheck/output.json",
+            "report_sha256": "10fc3871da451508c1d4990e4f676db9e0a79e130bd59e53f2d098307ff8a074",
+            "status_counts": {
+              "broken": 1,
+              "ignored": 1394,
+              "redirected": 37,
+              "unchecked": 267,
+              "working": 81
+            },
+            "failures": [
+              {
+                "filename": "evidence/lra-regressions.md",
+                "lineno": 79,
+                "status": "broken",
+                "code": 0,
+                "uri": "https://github.com/arminbiere/cadical/blob/7b99c07/src/cadical.hpp#L844-L848",
+                "info": "429 Client Error: Too Many Requests for url: https://github.com/arminbiere/cadical/blob/7b99c07/src/cadical.hpp"
+              }
+            ]
+          },
+          "docs-history": {
+            "report": "docs-history/_build/linkcheck/output.json",
+            "report_sha256": "821bd8200a0497951702bb98c1556373f040838eab98f34d1a59900a35210fb1",
+            "status_counts": {
+              "ignored": 84,
+              "redirected": 61,
+              "unchecked": 77,
+              "working": 99
+            },
+            "failures": []
+          }
+        }
+      },
+      {
+        "recorded_utc": "2026-11-20T11:15:31.993263+00:00",
+        "command": "make docs-check-external",
+        "source_commit": "cb53b0b040d1303b3d227cbe63574e677ac4f15f",
+        "policy_input_identity": "5ca330d0a14be6b878178bef367f2c150fa799c227c8c557f29c9bca3bad21a6",
+        "exit_code": 2,
+        "books": {
+          "docs": {
+            "report": "docs/_build/linkcheck/output.json",
+            "report_sha256": "6fbd5a0d588b95a127b9f8e47e7b4cdb45b7d5c5dbb8fcdd7975e8051d4412c6",
+            "status_counts": {
+              "ignored": 1395,
+              "redirected": 37,
+              "unchecked": 267,
+              "working": 81
+            },
+            "failures": []
+          },
+          "docs-history": {
+            "report": "docs-history/_build/linkcheck/output.json",
+            "report_sha256": "4a2c8a889e87cd5ca3057b4a0761c00235c38ab88a450392a2cb8e64ebcd7430",
+            "status_counts": {
+              "broken": 2,
+              "ignored": 84,
+              "redirected": 61,
+              "unchecked": 77,
+              "working": 97
+            },
+            "failures": [
+              {
+                "filename": "lexical-conformance.md",
+                "lineno": 171,
+                "status": "broken",
+                "code": 0,
+                "uri": "https://github.com/cvc5/cvc5/blob/f9e5d3c312d9476763dc0afa85ac637da5907d99/test/regress/cli/regress0/parser/issue11763-quoted-dt-cons.smt2",
+                "info": "429 Client Error: Too Many Requests for url: https://github.com/cvc5/cvc5/blob/f9e5d3c312d9476763dc0afa85ac637da5907d99/test/regress/cli/regress0/parser/issue11763-quoted-dt-cons.smt2"
+              },
+              {
+                "filename": "lexical-conformance.md",
+                "lineno": 171,
+                "status": "broken",
+                "code": 0,
+                "uri": "https://github.com/cvc5/cvc5/blob/f9e5d3c312d9476763dc0afa85ac637da5907d99/test/regress/cli/regress0/parser/quoted-define-fun.smt2",
+                "info": "429 Client Error: Too Many Requests for url: https://github.com/cvc5/cvc5/blob/f9e5d3c312d9476763dc0afa85ac637da5907d99/test/regress/cli/regress0/parser/quoted-define-fun.smt2"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "recorded_utc": "2026-11-20T11:18:38.402704+00:00",
+        "source_commit": "cb53b0b040d1303b3d227cbe63574e677ac4f15f",
+        "command": "make docs-check-external",
+        "policy_input_identity": "d5f753d4ecf351c76cbaca3e705525d5df50a4a4dbd0c507681b4407cfce5388",
+        "exit_code": 2,
+        "books": {
+          "docs": {
+            "report": "docs/_build/linkcheck/output.json",
+            "report_sha256": "2214a97b6f20766579d62e65e620cea37413b671a51a839bfaab75033fa416af",
+            "status_counts": {
+              "broken": 1,
+              "ignored": 1395,
+              "redirected": 37,
+              "timeout": 1,
+              "unchecked": 267,
+              "working": 79
+            },
+            "failures": [
+              {
+                "filename": "papers/csp-restarts-phase-control.md",
+                "lineno": 8,
+                "status": "broken",
+                "code": 0,
+                "uri": "https://run.unl.pt/entities/publication/c1b32213-bd2b-4759-8d7d-60b692354d5f",
+                "info": "HTTPSConnectionPool(host='run.unl.pt', port=443): Max retries exceeded with url: /entities/publication/c1b32213-bd2b-4759-8d7d-60b692354d5f (Caused by NewConnectionError(\"HTTPSConnection(host='run.unl.pt', port=443): Failed to establish a new connection: [Errno 111] Connection refused\"))"
+              },
+              {
+                "filename": "papers/arithmetic-phase-control.md",
+                "lineno": 78,
+                "status": "timeout",
+                "code": 0,
+                "uri": "https://repositum.tuwien.at/bitstream/20.500.12708/188824/1/Li-2023-Local%20Search%20For%20SMT%20On%20Linear%20and%20Multilinear%20Real%20Arithmetic-vor.pdf",
+                "info": "HTTPSConnectionPool(host='repositum.tuwien.at', port=443): Read timed out. (read timeout=15)"
+              }
+            ],
+            "external_check_passed": false
+          },
+          "docs-history": {
+            "report": "docs-history/_build/linkcheck/output.json",
+            "report_sha256": "601cee4aa47736dec2842e3ab0dfd6c152492121dadd568e2b9a9766deb96553",
+            "status_counts": {
+              "broken": 1,
+              "ignored": 86,
+              "redirected": 61,
+              "unchecked": 77,
+              "working": 96
+            },
+            "failures": [
+              {
+                "filename": "lexical-conformance.md",
+                "lineno": 177,
+                "status": "broken",
+                "code": 0,
+                "uri": "https://github.com/Gbury/dolmen/blob/5c9161a691872cee9ed0c58fe820a8b0b9e485ab/tests/parsing/smtlib/v2.7/pass/quoted_symbol.smt2",
+                "info": "429 Client Error: Too Many Requests for url: https://github.com/Gbury/dolmen/blob/5c9161a691872cee9ed0c58fe820a8b0b9e485ab/tests/parsing/smtlib/v2.7/pass/quoted_symbol.smt2"
+              }
+            ],
+            "external_check_passed": false
+          }
+        }
+      }
+    ],
+    "requested_publisher_and_doi_ignored": true,
+    "overall_external_check_passed": false,
+    "remaining_limit": "The latest run encounters unrelated connection refusal, PDF read timeout and GitHub HTTP429. These are retained as failures, not presented as a green check. Ignored URLs remain unverified."
   }
 }

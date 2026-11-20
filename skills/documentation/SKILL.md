@@ -143,7 +143,14 @@ Owner-requested exceptions for confirmed access failures may use exact URL
 patterns in both book configs, with a reason, review date and evidence record.
 Keep the lists synchronized. Sphinx skips listed URLs completely and reports
 `ignored`; do not describe them as verified or suppress new failures by status
-or publisher. Keep genuine missing-target errors outside the access exceptions.
+or publisher. Keep unlisted missing-target errors active. An owner-requested
+policy permits treating later automated access failures for a previously
+verified DOI as advisory: record when it resolved to the intended paper and
+the destination, then use an exact-URL exception in both configs. Preserve
+that verification as historical evidence, not proof of current availability;
+new or never-verified DOIs still need checking. An owner-requested
+deferral for a known publication issue may cover that paper's exact publisher
+and DOI URLs; record it separately from general access failures.
 
 
 Missing reviewer tools or primary evidence must be reported explicitly. Continue

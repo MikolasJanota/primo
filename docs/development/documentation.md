@@ -175,9 +175,16 @@ link to its evidence. Sphinx reports those URLs as `ignored` and makes no reques
 to them; a green result does not validate ignored targets. Keep both lists in
 sync, retain DOI citations and TLS verification, and investigate new failures
 before extending the list. Do not exempt an entire publisher or all HTTP errors.
-The 20 November access exceptions leave the unresolved DOI 404 visible. Separate
-exact-file exceptions skip GitHub's dynamically rendered fragment checks while
-still checking file availability.
+A DOI verified to resolve to the intended paper may be retained as a durable
+citation. Record the verification date and destination in the evidence record;
+later automated access failures may be made advisory through an exact-URL
+exception. That preserves the earlier verification without claiming current
+availability. New or never-verified DOIs still need checking.
+The owner may also defer a known publisher issue for an identified paper. The
+20 November EasyChair exception covers only that paper's publisher page and
+DOI URL, including its observed resolver 404; it does not exempt other missing
+targets. Separate exact-file exceptions skip GitHub's dynamically rendered
+fragment checks while still checking file availability.
 
 
 The {project}`local checker <scripts/check_doc_links.py>` also flags unlinked concrete `src/` file paths in the main
